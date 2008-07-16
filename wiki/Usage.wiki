@@ -1,0 +1,48 @@
+#summary How to use iListen
+
+= Connecting to a server =
+In order to connect to an IVEF server, simply type:
+
+{{{
+ Gregorius:iListen aqua$ ./iListen --host=ivef.hitt.nl --port=8043 --user=guest --password=jamesbond
+}}}
+which would initiate a connection to host ivef.hitt.nl on port 8043. The application will attempt a user login based on the username and password provided. If all goes well, the server will send an login reply, followed by a stream of track data which will be decoded by iListen, and displayed on standard out.
+
+{{{
+Gregorius:iListen aqua$ ./iListen --host=ivef.hitt.nl --port=8043 
+--user=guest --password=jamesbond
+iListen started
+iListen opening connection to ivef.hitt.nl:8043
+iListen connection established logging in as guest
+iListen data available
+found message: MSG_VesselData
+found message: Header
+    MsgRefId = {3dcc52dd-e6d7-4bcd-b6f2-eb909afe2177}
+    Version = 1.0
+found message: Body
+found message: VesselData
+found message: PosReport
+    UpdateTime = 2007-11-15T23:29:06.996
+    Lost = no
+    Orientation = 217.7
+    SourceId = 1
+    Breadth = 22
+    Length = 134
+    SOG = 9.2
+    COG = 216.1
+    Id = 4290
+found message: Pos
+    Lat = 52.74209
+    Long = 3.70828
+found message: StaticData
+    ShipName = MS PARTNERSHIP
+    Callsign = MKQT7
+    Breadth = 22
+    Length = 134
+    MMSI = 235010050
+    Id = 235010050
+    Source = AIS
+    SourceName = AIS
+    ....
+}}}
+ 
