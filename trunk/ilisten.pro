@@ -14,12 +14,12 @@ OBJECTS_DIR = tmp/objects
 HEADERS += src/cmdlineoption.h \
            src/ilistenapplication.h \
            src/IVEFFileHandler.h \
-           src/IVEFHandler.h \
+           src/ivefhandler.h \
            src/IVEFStreamHandler.h
 SOURCES += src/cmdlineoption.cpp \
            src/ilistenapplication.cpp \
            src/IVEFFileHandler.cpp \
-           src/IVEFHandler.cpp \
+           src/ivefhandler.cpp \
            src/IVEFStreamHandler.cpp \
            src/main.cpp
 

@@ -16,7 +16,7 @@
  *
  */
 
-#include "IVEFHandler.h"
+#include "ivefhandler.h"
 
 QString IVEFHandler::makeReadableValueForKey(QString key, QString value) {
     // change some known fields to better readable values
