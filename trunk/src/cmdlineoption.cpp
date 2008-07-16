@@ -53,7 +53,7 @@ QString CmdLineOption::getHelpText( void ) {
     return m_HelpText;
 }
 
-const CmdLineOption::Types CmdLineOption::getType() const {
+CmdLineOption::Types CmdLineOption::getType() const {
     return m_FieldType;
 }
 

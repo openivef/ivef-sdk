@@ -36,11 +36,11 @@ public:
     }
     CmdLineOption( Types, const char *, const char * );
     QString getHelpText( void );
-    const Types getType() const;
-    const bool isSet() const {
+    Types getType() const;
+    bool isSet() const {
         return m_Set;
     }
-    const QString &getFieldName() const {
+    const QString &getFieldName() {
         return m_FieldName;
     }
     const union dataType &getValue() const {
