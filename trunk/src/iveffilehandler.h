@@ -19,12 +19,14 @@
 #ifndef IVEFFILEHANDLER_H
 #define IVEFFILEHANDLER_H
 
+#include <iostream>
+
 #include <QFile>
-#include "IVEFHandler.h"
 #include <QXmlInputSource>
 #include <QStringList>
 #include <QXmlSimpleReader>
-#include <iostream>
+
+#include "ivefhandler.h"
 
 class IVEFFileHandler : public QObject {
 public:

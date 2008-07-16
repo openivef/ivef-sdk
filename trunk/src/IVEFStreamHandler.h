@@ -19,11 +19,13 @@
 #ifndef IVEFSTREAMHANDLER_H
 #define IVEFSTREAMHANDLER_H
 
+#include <iostream>
+
 #include <QtCore>
 #include <QtXml>
 #include <QtNetwork>
-#include "IVEFHandler.h"
-#include <iostream>
+
+#include "ivefhandler.h"
 
 #define BUFFER_SIZE 1024*4
 

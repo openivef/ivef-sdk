@@ -16,7 +16,7 @@
  *
  */
 
-#include "IVEFFileHandler.h"
+#include "iveffilehandler.h"
 
 IVEFFileHandler::IVEFFileHandler() {
     m_reader = new QXmlSimpleReader();
