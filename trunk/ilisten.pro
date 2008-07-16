@@ -25,3 +25,6 @@ SOURCES += src/cmdlineoption.cpp \
 
 CONFIG += warn_on stl qt release
 QT += network xml
+macx {
+   CONFIG -= app_bundle
+}
