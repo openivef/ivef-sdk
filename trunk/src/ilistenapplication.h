@@ -24,7 +24,7 @@
 #include <QApplication>
 
 #include "cmdlineoption.h"
-#include "IVEFStreamHandler.h"
+#include "ivefstreamhandler.h"
 #include "iveffilehandler.h"
 
 class iListenApplication : public QApplication {

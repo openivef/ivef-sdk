@@ -17,7 +17,8 @@
  */
 
 #include <cstdlib>
-#include "IVEFStreamHandler.h"
+
+#include "ivefstreamhandler.h"
 
 IVEFStreamHandler::IVEFStreamHandler() {
 
