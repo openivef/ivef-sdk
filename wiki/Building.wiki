@@ -1,0 +1,21 @@
+#summary How to build the software.
+
+= Installing =
+
+iListen is a pure Qt application and it's initial release was developed against [http://www.trolltech.com Qt 4.4.0]
+In order to build iListen you will the iListen source code but you will also need to obtain Qt, and install it for your particular platform. You can obtain Qt through TrollTech , see [http://doc.trolltech.com/4.4/installation.html trolltech] for instructions on how to install Qt for your particular platform. After Qt has been installed, follow the instructions below to compile and link an application of the iListen source code.
+
+= Building =
+== OS X ==
+ qmake
+ xcodebuild -configuration Release.
+
+== Linux ==
+ qmake
+ make
+
+== Windows == 
+..
+
+= Licencing =
+In addition to the licence of the IVEF source code, does the TrollTech [http://trolltech.com/downloads licence] of Qt apply to the iListen application. Read carefully which version of licence applies to you.
