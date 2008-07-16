@@ -181,13 +181,10 @@ QString IVEFHandler::makeReadableValueForKey(QString key, QString value) {
     return value;
 }
 
-bool IVEFHandler::startElement (const QString & namespaceURI,
-                                const QString & localName,
+bool IVEFHandler::startElement (const QString & /* namespaceURI */,
+                                const QString & /* localName */,
                                 const QString & qName,
                                 const QXmlAttributes & atts) {
-    // note: the compiler may warn about unused parameters namespaceURI and localName
-    //       we need to match the virtual method definition but have no use for
-    //       these fields. (it's okay to ignore the warning)
 
     std::cout << QString("%1").arg(qName).toLatin1().data() << std::endl;
 
