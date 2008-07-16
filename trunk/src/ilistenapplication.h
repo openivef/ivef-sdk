@@ -19,11 +19,13 @@
 #ifndef __ILISTENAPP_H__
 #define __ILISTENAPP_H__
 
+#include <iostream>
+
 #include <QApplication>
-#include "CmdLineOption.h"
+
+#include "cmdlineoption.h"
 #include "IVEFStreamHandler.h"
 #include "IVEFFileHandler.h"
-#include <iostream>
 
 class iListenApplication : public QApplication {
     Q_OBJECT

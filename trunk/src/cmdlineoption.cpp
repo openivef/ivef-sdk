@@ -22,7 +22,7 @@
 #include <QStringList>
 #include <QStack>
 
-#include "CmdLineOption.h"
+#include "cmdlineoption.h"
 
 
 CmdLineOption::CmdLineOption( Types type, const char *field, const char *help ) {
