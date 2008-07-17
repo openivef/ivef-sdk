@@ -7,12 +7,15 @@ See the [http://code.google.com/p/ivef-sdk/wiki/Usage usage] page for details ho
 
 = Building =
 == OS X ==
+{{{
  qmake
  xcodebuild -configuration Release.
-
+}}}
 == Linux ==
+{{{
  qmake
  make
+}}}
 
 == Windows == 
 ..
