@@ -1,4 +1,5 @@
 #summary How to build the software.
+#labels Phase-Implementation,Phase-Support
 
 = Installing =
 iListen is a pure Qt application and it's initial release was developed against [http://www.trolltech.com Qt 4.4.0]
