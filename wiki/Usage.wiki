@@ -54,10 +54,12 @@ In order to log to a file, simply provide the --outfile with a valid filename on
 
 Gregorius:iListen aqua$ ./iListen --host=ivef.hitt.nl --port=8043 
 --user=guest --password=jamesbond --outfile=/tmp/mylogfile
-Reading from logfiles
+}}}
 
+=Reading from logfiles=
 What good is a logfile if you cannot read it back? simply provide the iListen application with the --infile argument to specify from which file you want to read, and it will parse the contents, just as it would do when it was obtained from an IVEF server.
-
+ 
+{{{
 Gregorius:iListen aqua$ ./iListen --infile=/tmp/mylogfile
 iListen started
 iListen parsing file: /tmp/mylogfile
