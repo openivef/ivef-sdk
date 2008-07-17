@@ -23,7 +23,7 @@ SOURCES += src/cmdlineoption.cpp \
            src/ivefstreamhandler.cpp \
            src/main.cpp
 
-CONFIG += warn_on stl qt release
+CONFIG += warn_on stl qt release console
 QT += network xml
 macx {
    CONFIG -= app_bundle
