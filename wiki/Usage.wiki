@@ -1,4 +1,5 @@
 #summary How to use iListen
+#labels Phase-Deploy
 
 = Connecting to a server =
 In order to connect to an IVEF server, simply type:
