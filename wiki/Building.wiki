@@ -19,7 +19,10 @@ See the [http://code.google.com/p/ivef-sdk/wiki/Usage usage] page for details ho
 }}}
 
 == Windows == 
-..
+{{{
+ qmake
+ mingw-make32
+}}}
 
 = Licencing =
 In addition to the licence of the IVEF source code, does the TrollTech [http://trolltech.com/downloads licence] of Qt apply to the iListen application. Read carefully which version of licence applies to you.
