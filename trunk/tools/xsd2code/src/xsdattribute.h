@@ -32,9 +32,11 @@ public:
 	void setMaxLength(int length);
 	void setType(QString type);
 	void setUnbounded();
+	void setDocumentation(QString doc);
 	void appendEnumeration(QString enum1);
 	QString name();
 	QString type();
+	QString doc();
 	bool required();
 	bool unbounded();
 	bool hasMin();
@@ -46,6 +48,7 @@ private:
 	QVector<QString> m_enums;
 	QString m_name;
 	QString m_type;
+	QString m_doc;
 	bool m_required;
 	bool m_unbounded;
 	int m_min;

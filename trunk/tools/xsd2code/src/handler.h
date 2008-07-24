@@ -35,7 +35,7 @@ public:
                        const QString & qName,
                        const QXmlAttributes & atts);
     
-	bool characters ( const QString /*& ch */ );
+	bool characters ( const QString & ch  );
     bool endElement ( const QString & namespaceURI, 
 					  const QString & localName, 
 					  const QString & qName );
@@ -48,6 +48,7 @@ private:
 	QStack<XSDObject*> m_objStack;
 	QStack<XSDAttribute*>m_attrStack;
 	QVector<XSDObject*> m_objects;
+	QString m_doc;
 };
 
 #endif

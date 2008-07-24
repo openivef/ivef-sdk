@@ -72,8 +72,8 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		// ignore, we will check for multiple attributes anyway
 		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
 	} else if (qName == "xs:documentation") {
-		// ignore
 		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+
 	} else if (qName == "xs:element") {
 		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 
@@ -191,9 +191,10 @@ bool Handler::startElement (const QString & /* namespaceURI */,
     return true;
 }
 
-bool Handler::characters ( const QString /* & ch*/ ) {
+bool Handler::characters ( const QString  & ch ) {
 
-    //std::cout << QString("CH:        %1").arg(ch).toLatin1().data() << std::endl;
+    //std::cout << QString("CH:        [%1]").arg(ch.trimmed()).toLatin1().data() << std::endl;
+	m_doc = ch.trimmed();
 	return true;
 }
 
@@ -205,6 +206,9 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
 	// pop elements previously been pushed
 	if (qName == "xs:attribute") {
 		m_attrStack.pop();
+	} else if (qName == "xs:documentation") {
+		XSDAttribute *attr = m_attrStack.top();
+		attr->setDocumentation(m_doc);
 	} else if (qName == "xs:element") {
 		m_objStack.pop(); // pop the element
 		m_attrStack.pop(); // pop the attribute of the parent

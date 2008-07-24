@@ -81,6 +81,14 @@ bool XSDAttribute::required() {
 	return m_required;
 }
 
+QString XSDAttribute::doc() {
+	return m_doc;
+}
+
+void XSDAttribute::setDocumentation(QString doc) {
+	m_doc = doc;
+}
+
 QString XSDAttribute::name() {
 	return m_name;
 }
