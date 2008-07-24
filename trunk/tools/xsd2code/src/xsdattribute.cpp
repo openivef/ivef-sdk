@@ -51,6 +51,10 @@ void XSDAttribute::setUnbounded() {
 	m_unbounded = true;
 }
 
+QVector<QString> XSDAttribute::enumeration() {
+	return m_enums;
+}
+
 bool XSDAttribute::hasMin() {
 	return m_hasMin;
 }

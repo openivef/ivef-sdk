@@ -222,6 +222,14 @@ void CodeGenQT::go() {
 			} else {
 				// setter
 				classFileOut << "void " << niceName << "::set" << niceAttrName << "(" << type << " val) {\n";
+				QVector<QString> enums = attr->enumeration(); 
+				if (enums.size() > 0) { // there are enumeration constraints for this item
+					classFileOut << "\n    if ( ( val != \"" << enums.at(0) << "\" ) ";
+					for (int h=1; h < enums.size(); h++) {
+						classFileOut << "&&\n         ( val != \"" << enums.at(h) << "\" ) ";
+					}
+					classFileOut <<	")\n        return;";
+				}
 				if (attr->hasMin()) {
 				     classFileOut << "\n    if (val < " << attr->min() << ")\n        return;";
 				}

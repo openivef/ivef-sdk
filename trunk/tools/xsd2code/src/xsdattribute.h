@@ -37,6 +37,7 @@ public:
 	QString name();
 	QString type();
 	QString doc();
+	QVector<QString> enumeration();
 	bool required();
 	bool unbounded();
 	bool hasMin();
