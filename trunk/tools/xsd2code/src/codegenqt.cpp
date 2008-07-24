@@ -130,6 +130,12 @@ void CodeGenQT::go() {
 			QString type = localType(attr->type()); // convert to cpp types
 			QString attrName = attr->name();
 			QString niceAttrName  = attrName.replace(0, 1, attrName.left(1).toUpper());
+			QString doc = attr->doc();
+			if (doc != "") { // there is documentation
+				doc.replace("\n", "\n       ");
+				doc.replace("\r", "");
+				headerFileOut << "\n    /* " << niceAttrName << ":\n       " << doc << " */\n";
+			}
 			if (attr->unbounded()) { // there more then one
 				// setter
 				headerFileOut << "    void add" << niceAttrName << "(" << type << " val);\n";
