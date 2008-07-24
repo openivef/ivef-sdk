@@ -18,8 +18,8 @@ SOURCES += ./src/cmdlineoption.cpp \
            ./src/main.cpp
 
 # include the CPP library
-INCLUDEPATH += ../sdk-cpp/include
-LIBS += -L ../sdk-cpp/lib -livef
+INCLUDEPATH += ../../sdk-cpp/include
+LIBS += -L ../../sdk-cpp/lib -livef
 
 CONFIG += warn_on stl qt release console
 QT += network xml
