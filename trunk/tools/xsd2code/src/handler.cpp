@@ -143,19 +143,19 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 	} else if (qName == "xs:maxInclusive") { 
 		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
-		attr->setMaxOccurs(atts.value(0).toInt()); // maxInclusive has only one attribute "value = xxx"
+		attr->setMaxOccurs(int(atts.value(0).toFloat())); // maxInclusive has only one attribute "value = xxx"
 	} else if (qName == "xs:maxExclusive") { 
 		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
-		attr->setMaxOccurs(atts.value(0).toInt() - 1); 
+		attr->setMaxOccurs(int(atts.value(0).toFloat()) - 1); 
 	} else if (qName == "xs:minInclusive") {
 		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
-		attr->setMinOccurs(atts.value(0).toInt()); // minInclusive has only one attribute "value = xxx"
+		attr->setMinOccurs(int(atts.value(0).toFloat())); // minInclusive has only one attribute "value = xxx"
 	} else if (qName == "xs:minExclusive") {
 		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
-		attr->setMinOccurs(atts.value(0).toInt()); // error in xsd should be +1 here but is float?
+		attr->setMinOccurs(int(atts.value(0).toFloat())); // error in xsd should be +1 here but is float?
 	} else if (qName == "xs:maxLength") {
 		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
