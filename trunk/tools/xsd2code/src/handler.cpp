@@ -43,9 +43,9 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 	*/
 	if (qName == "xs:annotation") {
 		// ignore
-		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
 	} else if (qName == "xs:attribute") {
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		QString name = "unknown", type = "unknown";
 		bool required = true;
 		for (int i=0; i < atts.length(); i++) {
@@ -70,12 +70,12 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		
 	} else if (qName == "xs:complexType") {
 		// ignore, we will check for multiple attributes anyway
-		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
 	} else if (qName == "xs:documentation") {
-		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
 
 	} else if (qName == "xs:element") {
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 
 		XSDObject *parent = m_objStack.top();
 		QString name, max, min;
@@ -141,36 +141,36 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		parent->addAttribute(attr);
 		m_attrStack.push(attr);
 	} else if (qName == "xs:enumeration") {
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
 		attr->appendEnumeration(atts.value(0)); //  has only one attribute "value = xxx"
 	} else if (qName == "xs:maxInclusive") { 
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
 		attr->setMaxOccurs(int(atts.value(0).toFloat())); // maxInclusive has only one attribute "value = xxx"
 	} else if (qName == "xs:maxExclusive") { 
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
 		attr->setMaxOccurs(int(atts.value(0).toFloat()) - 1); 
 	} else if (qName == "xs:minInclusive") {
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
 		attr->setMinOccurs(int(atts.value(0).toFloat())); // minInclusive has only one attribute "value = xxx"
 	} else if (qName == "xs:minExclusive") {
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
 		attr->setMinOccurs(int(atts.value(0).toFloat())); // error in xsd should be +1 here but is float?
 	} else if (qName == "xs:maxLength") {
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
 		attr->setMaxLength(atts.value(0).toInt()); // minInclusive has only one attribute "value = xxx"
 	} else if (qName == "xs:restriction") {
 		// get base class
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
 		attr->setType(atts.value(0)); // minInclusive has only one attribute "value = xxx"
 	} else if (qName == "xs:schema") {
-		std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		// create a schema object
 		// use this as collector object
 		XSDObject *obj = new XSDObject("Schema");
@@ -183,10 +183,10 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		}
 	} else if (qName == "xs:sequence") {
 		// ignore
-		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
 	} else if (qName == "xs:simpleType") {
 		// ignore, we'll check for additional members anyway
-		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
 	} else {
 		std::cerr << QString("SE: %1 unknown").arg(qName).toLatin1().data() << std::endl;
 		return false;
