@@ -42,7 +42,7 @@ QString CodeGenQT::localType(QString type) {
 	else if (type == "xs:integer")
 		return "int";
 	else if (type == "xs:dateTime") 
-		return "QDate";
+		return "QDateTime";
 	else if (type == "unknown") {
 		std::cout << "WARNING unknown type found, defaulting to QString" << std::endl;
 		return "QString";
@@ -123,6 +123,7 @@ void CodeGenQT::go() {
 		headerFileOut << "public:\n";
 		headerFileOut << "    " << niceName << "();\n"; // constructor
 		headerFileOut << "    " << niceName << "(const " << niceName << "&);\n"; // copy constructor
+		headerFileOut << "    " << niceName << " & operator=(const " << niceName << "&val);\n"; // = operator
 
 		// all attributes
 		for(int j=0; j < attributes.size(); j++) {
@@ -179,7 +180,7 @@ void CodeGenQT::go() {
 				headerFileOut << "    " << type << " m_" << niceAttrName << ";\n";
 			}
 			if (!attr->required() || obj->isMerged()) {
-				headerFileOut << "    bool " << niceAttrName << "Present = false;\n";
+				headerFileOut << "    bool m_" << niceAttrName << "Present;\n";
 			}
 		}
 		
@@ -195,16 +196,31 @@ void CodeGenQT::go() {
 	
 		// constructor
 		classFileOut << niceName << "::" << niceName << "() {\n\n"; 
+		for(int j=0; j < attributes.size(); j++) {
+			XSDAttribute *attr = attributes.at(j);
+			QString attrName = attr->name();
+			QString niceVarName  = attrName.replace(0, 1, attrName.left(1).toLower());
+			if (!attr->required() || obj->isMerged()) {
+				classFileOut << "    m_" << niceVarName << "Present = false;\n";
+			}
+		}
 		classFileOut << "}\n\n";
 
 		// copy constructor
 		// TODO
 		classFileOut << niceName << "::" << niceName << "(const " << niceName << "&) : QObject() {\n\n"; 
 		classFileOut << "}\n\n";
+	
+		// = operator
+		// TODO MyClass& MyClass::operator=(const MyClass &rhs) {
+		classFileOut << niceName << " & " << niceName << "::operator=(const " << niceName << "&val) {\n\n"; 
+		classFileOut << "    return *this;\n";
+		classFileOut << "}\n\n";
 
 		// methods for attributes
 		for(int j=0; j < attributes.size(); j++) {
 			XSDAttribute *attr = attributes.at(j);
+			QString attrType = attr->type();
 			QString type = localType(attr->type()); // convert to cpp types
 			QString attrName = attr->name();
 			QString niceAttrName  = attrName.replace(0, 1, attrName.left(1).toUpper());
@@ -224,16 +240,21 @@ void CodeGenQT::go() {
 				classFileOut << "void " << niceName << "::set" << niceAttrName << "(" << type << " val) {\n";
 				QVector<QString> enums = attr->enumeration(); 
 				if (enums.size() > 0) { // there are enumeration constraints for this item
-					classFileOut << "\n    if ( ( val != \"" << enums.at(0) << "\" ) ";
+
+					// strings should be between quotes, numbers not
+					QString quote; 
+					if (type == "QString") {
+						quote = "\"";
+					}
+
+					classFileOut << "\n    if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
 					for (int h=1; h < enums.size(); h++) {
-						classFileOut << "&&\n         ( val != \"" << enums.at(h) << "\" ) ";
+						classFileOut << "&&\n         ( val != " << quote << enums.at(h) << quote << " ) ";
 					}
 					classFileOut <<	")\n        return;";
 				}
-				if (attr->hasMin()) {
+				if (attr->hasMin() && (attr->hasMax())) {
 				     classFileOut << "\n    if (val < " << attr->min() << ")\n        return;";
-				}
-				if (attr->hasMax()) {
 				     classFileOut << "\n    if (val > " << attr->max() << ")\n        return;";
 				}
 				if (!attr->required() || obj->isMerged()) {
@@ -272,17 +293,25 @@ void CodeGenQT::go() {
 			XSDAttribute *attr = attributes.at(j);
 			QString attrName = attr->name();
 			QString attrType = attr->type();
+			QString type = localType(attr->type()); // convert to cpp types
 			QString niceAttrName  = attrName.replace(0, 1, attrName.left(1).toUpper());
-			QString niceVarName  = attrName.replace(0, 1, attrName.left(1).toLower());
+			QString niceVarName  = "m_" + attrName.replace(0, 1, attrName.left(1).toLower());
 			attrName = attr->name();
 
 			if (attrType != attrName) {
+
+				// non-qstring items (ints) may give problems, so convert them
+				if (type == "QDateTime") {
+					niceVarName = niceVarName + ".toString()";
+				} else if (type != "QString") {
+					niceVarName = "QString(" + niceVarName + ", 10)";
+				}
 				// check if the attribute exist 
 				if (!attr->required() || obj->isMerged()) {
 					classFileOut << "    if ( has" << niceAttrName << "() ) {\n";
-					classFileOut << "        xml.append(\" " << attrName << " = \\\"\" << m_" << niceVarName << " << \"\\\"\");\n    }\n";
+					classFileOut << "        xml.append(\" " << attrName << " = \\\"\" + " << niceVarName << " + \"\\\"\");\n    }\n";
 				} else {
-					classFileOut << "    xml.append(\" " << attrName << " = \\\"\" << m_" << niceVarName << " << \"\\\"\");\n";
+					classFileOut << "    xml.append(\" " << attrName << " = \\\"\" + " << niceVarName << " + \"\\\"\");\n";
 				}
 			}
 		}
@@ -301,7 +330,8 @@ void CodeGenQT::go() {
 				// check if the attribute exist 
 				if (attr->unbounded() ) {
 					classFileOut << "    for(int i=0; i < m_" << niceVarName << "s.count(); i++ ) {\n";
-					classFileOut << "        xml.append(" << " m_" << niceVarName << "s.at(i).toXML() );\n    }\n"; 
+					classFileOut << "       " << attrType << " attribute = m_" << niceVarName << "s.at(i);\n";
+					classFileOut << "        xml.append( attribute.toXML() );\n    }\n"; 
 				} else {
 					classFileOut << "    xml.append(" << " m_" << niceVarName << ".toXML() );\n"; 
 				}

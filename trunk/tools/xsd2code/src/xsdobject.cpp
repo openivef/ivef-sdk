@@ -22,17 +22,26 @@
 
 XSDObject::XSDObject() {
 	m_merged = false;
+	m_root = false;
 }
 
 XSDObject::XSDObject(QString name ) {
 	m_merged = false;
 	m_name = name;
-    std::cout << QString("XSDObject created: %1").arg(name).toLatin1().data() << std::endl;
+    //std::cout << QString("XSDObject created: %1").arg(name).toLatin1().data() << std::endl;
 }
 
 void XSDObject::setName(QString name ) {
 	m_name = name;
-    std::cout << QString("XSDObject named: %1").arg(name).toLatin1().data() << std::endl;
+    //std::cout << QString("XSDObject named: %1").arg(name).toLatin1().data() << std::endl;
+}
+
+void XSDObject::setRootObject() {
+	m_root = true;
+}
+
+bool XSDObject::isRootObject() {
+	return m_root;
 }
 
 void XSDObject::setMerged() {
@@ -44,12 +53,12 @@ bool XSDObject::isMerged() {
 }
 
 void XSDObject::addKeyWithValue(QString key, QString value) {
-    std::cout << QString("XSDObject %1: added key: %2 value: %3").arg(m_name, key, value).toLatin1().data() << std::endl;
+    //std::cout << QString("XSDObject %1: added key: %2 value: %3").arg(m_name, key, value).toLatin1().data() << std::endl;
 	m_fixedValues.insert(key, value);
 }
 
 void XSDObject::addAttribute(XSDAttribute *attr) {
-    std::cout << QString("XSDObject %1: added attribute: %2").arg(m_name, attr->name()).toLatin1().data() << std::endl;
+    //std::cout << QString("XSDObject %1: added attribute: %2").arg(m_name, attr->name()).toLatin1().data() << std::endl;
 	m_attributes.append(attr);
 }
 

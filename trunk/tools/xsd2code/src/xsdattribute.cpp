@@ -29,22 +29,22 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required) {
 	m_hasMax = false;
 	m_maxLength = -1; 
 	
-    std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
+    //std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
 }
 
 void XSDAttribute::setType(QString type) {
-    std::cout << QString("XSDAttribute %1: type: %2").arg(m_name, type).toLatin1().data() << std::endl;
+    //std::cout << QString("XSDAttribute %1: type: %2").arg(m_name, type).toLatin1().data() << std::endl;
 	m_type = type;
 }
 
 void XSDAttribute::appendEnumeration(QString enum1) {
-    std::cout << QString("XSDAttribute %1: enum: %2").arg(m_name, enum1).toLatin1().data() << std::endl;
+    //std::cout << QString("XSDAttribute %1: enum: %2").arg(m_name, enum1).toLatin1().data() << std::endl;
 	m_enums.append(enum1);
 }
 
 void XSDAttribute::setMaxLength(int length) {
 	m_maxLength = length;
-	std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
+	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
 }
 
 void XSDAttribute::setUnbounded() {
@@ -78,7 +78,7 @@ bool XSDAttribute::unbounded() {
 void XSDAttribute::setMinOccurs(int min) {
 	m_hasMin = true;
 	m_min = min;
-	std::cout << QString("XSDAttribute %1: min: %2").arg(m_name, ""+min).toLatin1().data() << std::endl;
+	//std::cout << QString("XSDAttribute %1: min: %2").arg(m_name, ""+min).toLatin1().data() << std::endl;
 }
 
 bool XSDAttribute::required() {
@@ -104,5 +104,5 @@ QString XSDAttribute::type() {
 void XSDAttribute::setMaxOccurs(int max) {
 	m_hasMax = true;
 	m_max = max;
-	std::cout << QString("XSDAttribute %1: max: %2").arg(m_name, ""+max).toLatin1().data() << std::endl;
+	//std::cout << QString("XSDAttribute %1: max: %2").arg(m_name, ""+max).toLatin1().data() << std::endl;
 }

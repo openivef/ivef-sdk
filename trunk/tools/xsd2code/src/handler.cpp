@@ -80,6 +80,10 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		XSDObject *parent = m_objStack.top();
 		QString name, max, min;
 		XSDObject *obj = new XSDObject("unknown");
+		if (m_objStack.size() == 1) { // schema is level 0
+			//std::cout << QString("setting root object on %1").arg(qName).toLatin1().data() << std::endl;
+			obj->setRootObject();
+		}
 		m_objStack.push(obj); // mus always push, since we will always pop. if it was a reference we will leak here!
 		bool hasMax = false, hasMin = false;
 		for (int i=0; i < atts.length(); i++) {
