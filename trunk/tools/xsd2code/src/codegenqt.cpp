@@ -368,4 +368,68 @@ void CodeGenQT::go() {
 		classFileOut.flush();
 		classFile.close();
 	}
+
+	// now generate the parser
+
+	// open the header file
+	QString className = "parser";
+
+	QFile headerFile(m_outDir + "/" + className + ".h");
+	if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+		std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" + className + ".h").toLatin1().data() << std::endl;
+		std::exit(-1);
+	}	
+	QTextStream headerFileOut(&headerFile);
+
+	// and the parser file
+	QFile classFile(m_outDir + "/" + className + ".cpp");
+	if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+		std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" + className + ".cpp").toLatin1().data() << std::endl;
+		std::exit(-1);
+	}	
+	QTextStream classFileOut(&classFile);
+	
+	// generate the header
+	headerFileOut << "#ifndef __PARSER_H__\n";
+	headerFileOut << "#define __PARSER_H__\n\n";
+	headerFileOut << "#include <QtCore>\n";  
+	headerFileOut << "#include <QtXML>\n\n";  
+	
+	// include dependend files
+	for(int i=0; i < m_objects.size(); i++) {
+		XSDObject *obj = m_objects.at(i);
+		headerFileOut << "#include \"" << obj->name().toLower() << ".h\"\n";
+	}
+
+	// create a classname
+	QString niceName = className.replace(0, 1, className.left(1).toUpper());
+	
+	// define the class
+	headerFileOut << "\nclass " << niceName << " : QXmlSimpleParser { \n\n";
+	
+	// public section
+	headerFileOut << "public:\n";
+	headerFileOut << "    " << niceName << "();\n"; // constructor
+	headerFileOut << "    bool startElement(const QString &\n"; // the parser routine
+	headerFileOut << "                      const QString &\n";
+	headerFileOut << "                      const QString & qName\n";
+	headerFileOut << "                      const QXmlAttributes & atts);\n";
+	headerFileOut << "    bool parse(QString data, bool continue);\n"; 
+
+	// define the signales
+	headerFileOut << "\nsignals:\n";
+	for(int i=0; i < m_objects.size(); i++) {
+		XSDObject *obj = m_objects.at(i);
+		QString objName = obj->name().replace(0, 1, obj->name().left(1).toUpper());
+		headerFileOut << "    void signal " << objName << "( " << objName << " obj );\n";
+	}
+	// private section
+	headerFileOut << "\nprivate:\n";
+	headerFileOut << "    QString m_dataBuffer\n";
+		
+	// close the header
+	headerFileOut << "\n}; \n\n#endif\n\n";
+	
+	// close and flush
+	headerFileOut.flush();
 }
