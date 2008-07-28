@@ -207,13 +207,31 @@ void CodeGenQT::go() {
 		classFileOut << "}\n\n";
 
 		// copy constructor
-		// TODO
-		classFileOut << niceName << "::" << niceName << "(const " << niceName << "&) : QObject() {\n\n"; 
+		classFileOut << niceName << "::" << niceName << "(const " << niceName << " &val) : QObject() {\n\n"; 
+		for(int j=0; j < attributes.size(); j++) {
+			XSDAttribute *attr = attributes.at(j);
+			QString attrType = attr->type();
+			QString type = localType(attr->type()); // convert to cpp types
+			QString attrName = attr->name();
+			QString niceAttrName  = attrName.replace(0, 1, attrName.left(1).toUpper());
+			QString niceVarName  = attrName.replace(0, 1, attrName.left(1).toLower());
+			if (!attr->required() || obj->isMerged()) {
+				classFileOut << "    m_" << niceVarName << "Present = false;\n";
+			}
+			if (attr->unbounded()) { // there more then one
+				// must cast to non-const....
+				classFileOut << "    for(int i=0; i < ((" << niceName << ")val).countOf" << niceAttrName << "s(); i++) { \n";
+				classFileOut << "        m_" << niceVarName << "s.append( ((" << niceName << ")val).get" << niceAttrName << "At(i) );\n";
+				classFileOut << "    }\n";
+
+			} else {
+				classFileOut << "    m_" << niceVarName << " = ((" << niceName << ")val).get" << niceAttrName << "();\n";
+			}
+		}
 		classFileOut << "}\n\n";
 	
 		// = operator
-		// TODO MyClass& MyClass::operator=(const MyClass &rhs) {
-		classFileOut << niceName << " & " << niceName << "::operator=(const " << niceName << "&val) {\n\n"; 
+		classFileOut << niceName << " & " << niceName << "::operator=(const " << niceName << " &val) {\n\n"; 
 		classFileOut << "    return *this;\n";
 		classFileOut << "}\n\n";
 
