@@ -447,6 +447,9 @@ void CodeGenQT::go() {
 	headerFileOut << "                      const QString &,\n";
 	headerFileOut << "                      const QString & qName,\n";
 	headerFileOut << "                      const QXmlAttributes & atts);\n";
+	headerFileOut << "    bool endElement(const QString &,\n"; // the parser routine
+	headerFileOut << "                      const QString &,\n";
+	headerFileOut << "                      const QString & qName);\n";
 	headerFileOut << "    bool parse(QString data, bool cont);\n"; 
 
 	// define the signales
@@ -458,6 +461,8 @@ void CodeGenQT::go() {
 	// private section
 	headerFileOut << "\nprivate:\n";
 	headerFileOut << "    QString m_dataBuffer;\n";
+	headerFileOut << "    QStack<QObject> m_objStack;\n";
+	headerFileOut << "    QStack<QString> m_typeStack;\n";
 		
 	// close the header
 	headerFileOut << "\n}; \n\n#endif\n\n";
@@ -546,24 +551,70 @@ void CodeGenQT::go() {
 			classFileOut << "        }\n";	
 		}
 		
-		// TODO should store in local object (or stack) and signal on close
+		// store in local object (or stack) and signal on end tag
 		// this way we can set obj in objects
-		classFileOut << "        emit signal" << className(obj->name()) << "( obj );\n";
+		classFileOut << "        m_objStack.push( obj );\n";
+		classFileOut << "        m_typeStack.push( \"" << className(obj->name()) << "\" );\n";
 		classFileOut << "    }\n";		
 	}
 	classFileOut << "    return true;\n";
+	classFileOut << "}\n\n";
 	
 	// TODO check for attributes and messages we do not know and give an alert	
 	
-	// close up
-	classFileOut << "}\n";
+	// the endTag routine
+	classFileOut << "bool " << className(name) << "::endElement(const QString &,\n"; // the parser routine
+	classFileOut << "     const QString &,\n";
+	classFileOut << "     const QString & qName) {\n\n";
+	
+	// run through all objects
+	first = true;
+	classFileOut << "    // check all possible options\n";
+	
+	for(int i=0; i < m_objects.size(); i++) {
+		XSDObject *obj = m_objects.at(i);
+		if (!first) {
+			classFileOut << "    else if";
+	    } else {
+			classFileOut << "    if";
+			first = false;
+		}
+		// if the name matches my object
+		classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n\n";
+		classFileOut << "        m_typeStack.pop(); // will be equal to qName\n";
+		classFileOut << "        " << className(obj->name()) << " obj = m_objStack.pop();\n";
+		classFileOut << "        QString parentType = m_typeStack.top();\n"; // optimalisation possible if next loop is empty
+		classFileOut << "        QObject parent = m_objStack.top();\n"; // optimalisation possible if next loop is empty
+		
+		// for all objects that could accept such an object	
+		for(int i=0; i < m_objects.size(); i++) {
+			XSDObject *parent = m_objects.at(i);
+			
+			for(int j=0; j < parent->attributes().size(); j++) {
+				XSDAttribute *attr = parent->attributes().at(j);
+				QString objType = attr->type();
+				
+				if (objType == className(obj->name()) && parent->isRootObject()) { // this object has an attribute of that type
+					classFileOut << "        if (parentType == \"" << parent->name() << "\") {\n"; // TODO should at first bool and make else if 
+					if (attr->unbounded() ) {
+						classFileOut << "            	(("<< parent->name() << ") parent).add" << className(obj->name()) << "( obj );\n";
+					} else {
+						classFileOut << "            	(("<< parent->name() << ") parent).set" << className(obj->name()) << "( obj );\n";
+					}
+					classFileOut << "        }\n"; // close if
+				}
+			}
+		}
+		classFileOut << "        emit signal" << className(obj->name()) << "( obj ); \n";
+		classFileOut << "    }\n"; // close if
+	}
+	classFileOut << "    return true;\n";
+	classFileOut << "}\n"; // close method
 	
 	// round up
 	classFileOut << "\n"; // make sure there is a newline at the end of the source
 	
 	// close and flush
 	classFileOut.flush();
-	classFile.close();
-	
-	
+	classFile.close();	
 }
