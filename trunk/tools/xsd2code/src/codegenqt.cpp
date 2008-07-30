@@ -461,7 +461,7 @@ void CodeGenQT::go() {
 	}
 
 	// define the class
-	headerFileOut << "\nclass " << className(name) << " : QObject, QXmlDefaultHandler { \n";
+	headerFileOut << "\nclass " << className(name) << " : QObject, QXmlDefaultHandler, QXmlSimpleReader { \n";
 	headerFileOut << "    Q_OBJECT\n\n";
 	
 	// public section
@@ -474,7 +474,7 @@ void CodeGenQT::go() {
 	headerFileOut << "    bool endElement(const QString &,\n"; // the parser routine
 	headerFileOut << "                      const QString &,\n";
 	headerFileOut << "                      const QString & qName);\n";
-	headerFileOut << "    bool parse(QString data, bool cont);\n"; 
+	headerFileOut << "    bool parseXMLString(QString data, bool cont);\n"; 
 
 	// define the signales
 	headerFileOut << "\nsignals:\n";
@@ -501,6 +501,7 @@ void CodeGenQT::go() {
 	
 	// constructor
 	classFileOut << className(name) << "::" << className(name) << "() {\n\n"; 
+	classFileOut << "    setContentHandler(this);\n";
 	classFileOut << "}\n\n";
 	
 	// main parser routine
@@ -646,7 +647,54 @@ void CodeGenQT::go() {
 		classFileOut << "    }\n"; // close if
 	}
 	classFileOut << "    return true;\n";
-	classFileOut << "}\n"; // close method
+	classFileOut << "}\n\n"; // close method
+	
+	// the parseXMLString routine
+	classFileOut << "bool " << className(name) << "::parseXMLString(QString data, bool cont) { \n\n";
+	classFileOut << "     m_dataBuffer.append(data);\n\n";
+	
+	// count the number of messages
+	int numOfMessages = 0;
+	for(int i=0; i < m_objects.size(); i++) {
+		XSDObject *obj = m_objects.at(i);
+		if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
+			numOfMessages++;
+		}
+	}
+	
+	classFileOut << "     int index[" << numOfMessages << "], indexMax = -1;\n\n";
+    classFileOut << "     // note that if a message does not exist the index will be equal to strlen(name\\n) - 1 so indexMax is always > 0\n";
+	
+	int message=0;
+	for(int i=0; i < m_objects.size(); i++) {
+		XSDObject *obj = m_objects.at(i);
+		if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
+			classFileOut << "     index[" << message << "] = m_dataBuffer.lastIndexOf(\"</" << obj->name() << ">\\n\") + strlen(\"</" << obj->name() << ">\\n\");\n";
+			message++;
+		}
+	}
+	classFileOut << "     for (int i=0; i<" << numOfMessages << "; i++) {\n";
+	classFileOut << "         if (index[i] > indexMax) {\n";
+	classFileOut << "             indexMax = index[i];\n";
+	classFileOut << "         }\n";
+	classFileOut << "     }\n\n";
+	
+        classFileOut << "     if (indexMax > 30) {\n";
+	classFileOut << "         QString messages = m_dataBuffer.left(indexMax);\n";
+	classFileOut << "         m_dataBuffer.remove(0, indexMax);\n";
+	classFileOut << "         QXmlInputSource inputForParser;\n";
+	classFileOut << "         inputForParser.setData(messages);\n";
+	classFileOut << "         this->parse(&inputForParser, false);\n";
+	classFileOut << "     } else {\n";
+	classFileOut << "         return false; // not enough data in string\n";
+	classFileOut << "     }\n";
+	
+	classFileOut << "     if (!cont) {\n";
+	classFileOut << "         m_dataBuffer = \"\";\n";
+	classFileOut << "     }\n";
+	classFileOut << "     return true;\n";
+
+	classFileOut << "}\n\n"; // close method
 	
 	// round up
 	classFileOut << "\n"; // make sure there is a newline at the end of the source

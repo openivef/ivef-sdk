@@ -32,7 +32,7 @@
 #include "object.h"
 #include "pos.h"
 
-class Parser : QObject, QXmlDefaultHandler { 
+class Parser : QObject, QXmlDefaultHandler, QXmlSimpleReader { 
     Q_OBJECT
 
 public:
@@ -44,7 +44,7 @@ public:
     bool endElement(const QString &,
                       const QString &,
                       const QString & qName);
-    bool parse(QString data, bool cont);
+    bool parseXMLString(QString data, bool cont);
 
 signals:
     void signalMSG_VesselData( MSG_VesselData obj );

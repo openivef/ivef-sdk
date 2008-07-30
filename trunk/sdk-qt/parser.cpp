@@ -3,6 +3,7 @@
 
 Parser::Parser() {
 
+    setContentHandler(this);
 }
 
 bool Parser::startElement(const QString &,
@@ -703,4 +704,41 @@ bool Parser::endElement(const QString &,
     }
     return true;
 }
+
+bool Parser::parseXMLString(QString data, bool cont) { 
+
+     m_dataBuffer.append(data);
+
+     int index[8], indexMax = -1;
+
+     // note that if a message does not exist the index will be equal to strlen(name\n) - 1 so indexMax is always > 0
+     index[0] = m_dataBuffer.lastIndexOf("</MSG_VesselData>\n") + strlen("</MSG_VesselData>\n");
+     index[1] = m_dataBuffer.lastIndexOf("</MSG_LoginRequest>\n") + strlen("</MSG_LoginRequest>\n");
+     index[2] = m_dataBuffer.lastIndexOf("</MSG_LoginResponse>\n") + strlen("</MSG_LoginResponse>\n");
+     index[3] = m_dataBuffer.lastIndexOf("</MSG_Ping>\n") + strlen("</MSG_Ping>\n");
+     index[4] = m_dataBuffer.lastIndexOf("</MSG_Pong>\n") + strlen("</MSG_Pong>\n");
+     index[5] = m_dataBuffer.lastIndexOf("</MSG_ServerStatus>\n") + strlen("</MSG_ServerStatus>\n");
+     index[6] = m_dataBuffer.lastIndexOf("</MSG_Logout>\n") + strlen("</MSG_Logout>\n");
+     index[7] = m_dataBuffer.lastIndexOf("</MSG_ServiceRequest>\n") + strlen("</MSG_ServiceRequest>\n");
+     for (int i=0; i<8; i++) {
+         if (index[i] > indexMax) {
+             indexMax = index[i];
+         }
+     }
+
+     if (indexMax > 30) {
+         QString messages = m_dataBuffer.left(indexMax);
+         m_dataBuffer.remove(0, indexMax);
+         QXmlInputSource inputForParser;
+         inputForParser.setData(messages);
+         this->parse(&inputForParser, false);
+     } else {
+         return false; // not enough data in string
+     }
+     if (!cont) {
+         m_dataBuffer = "";
+     }
+     return true;
+}
+
 
