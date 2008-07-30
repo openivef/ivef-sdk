@@ -32,9 +32,8 @@ bool Handler::startElement (const QString & /* namespaceURI */,
                                 const QString & qName,
                                 const QXmlAttributes & atts) {
 
-	/*
-    std::cout << QString("SE: %1").arg(qName).toLatin1().data() << std::endl;
-
+    //std::cout << QString("SE: %1").arg(qName).toLatin1().data() << std::endl;
+/*
     for (int i=0; i < atts.length(); i++) {
         QString key = atts.localName(i);
         QString value = atts.value(i);
@@ -77,7 +76,11 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 	} else if (qName == "xs:element") {
 		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 
-		XSDObject *parent = m_objStack.top();
+		XSDObject *parent = NULL;
+
+		if (m_objStack.size() > 0) {
+			parent = m_objStack.top();
+		}
 		QString name, max, min;
 		XSDObject *obj = new XSDObject("unknown");
 		if (m_objStack.size() == 1) { // schema is level 0
@@ -138,7 +141,9 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		if (hasMin) {
 			attr->setMinOccurs(min.toInt());
 		}
-		parent->addAttribute(attr);
+		if (parent != NULL) {
+			parent->addAttribute(attr);
+		}
 		m_attrStack.push(attr);
 	} else if (qName == "xs:enumeration") {
 		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
@@ -175,7 +180,9 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		// use this as collector object
 		XSDObject *obj = new XSDObject("Schema");
 		m_objects.append(obj);
-		m_objStack.push(obj);
+		// though all objects are part of the schema it is better to not include them there
+		// otherwise we have only one root object.
+		//m_objStack.push(obj); 
 		for (int i=0; i < atts.length(); i++) {
 			QString key = atts.localName(i);
 			QString value = atts.value(i);
@@ -217,7 +224,9 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
 		m_objStack.pop(); // pop the element
 		m_attrStack.pop(); // pop the attribute of the parent
 	} else if (qName == "xs:schema") {
-		m_objStack.pop();
+		// though all objects are part of the schema it is better to not include them there
+		// otherwise we have only one root object.
+		//m_objStack.pop();
 	} 
 	
 	return true;					

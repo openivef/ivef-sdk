@@ -35,9 +35,11 @@ public:
 	void addKeyWithValue(QString key, QString value);
 	void setRootObject();	
 	void setMerged();	
+	void setEmbedded();	
 
 	QString name();
         bool isMerged();
+        bool isEmbedded();
         bool isRootObject();
 	QVector<XSDAttribute*>attributes();
 	QMap<QString, QString>fixedValues();
@@ -46,6 +48,7 @@ private:
 	QString m_name;
 	bool m_merged;
 	bool m_root;
+	bool m_isEmbedded;
 	QVector<XSDAttribute*>m_attributes;
 	QMap<QString, QString>m_fixedValues;
 };

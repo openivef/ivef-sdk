@@ -119,6 +119,30 @@ QString methodName(QString name) {
 }
 
 void CodeGenQT::go() {
+
+	// first analyse the objects if they are embedded objects
+	// for all objects that could accept such an object	
+	for(int i=0; i < m_objects.size(); i++) {
+		// for all objects
+		XSDObject *obj1 = m_objects.at(i);
+	
+		// find if there is another object that refers to the obj	
+		for(int h=0; h < m_objects.size(); h++) {
+		
+			XSDObject *obj2 = m_objects.at(h);	
+
+			// refers means obj2 has an attribute of type obj1
+			for(int j=0; j < obj2->attributes().size(); j++) {
+				XSDAttribute *attr = obj2->attributes().at(j);
+				QString objType = attr->type();
+				
+				if (objType == obj1->name()) {
+					obj1->setEmbedded();	// obj1 is embedded in obj2
+				}
+			}
+		}
+	}
+
 	for(int i=0; i < m_objects.size(); i++) {
 		// get a class
 		XSDObject *obj = m_objects.at(i);
@@ -341,7 +365,6 @@ void CodeGenQT::go() {
 		}
 
 		// xml generator
-		// TODO generate attributes
 		// if attribute name and type are the same it means it was data
 		classFileOut << "QString " << className(name) << "::toXML() {\n\n";
 		classFileOut << "    QString xml = \"<" << name << "\";\n"; // append attributes
@@ -456,12 +479,14 @@ void CodeGenQT::go() {
 	headerFileOut << "\nsignals:\n";
 	for(int i=0; i < m_objects.size(); i++) {
 		XSDObject *obj = m_objects.at(i);
-		headerFileOut << "    void signal" << className(obj->name()) << "( " << className(obj->name()) << " obj );\n";
+		if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
+			headerFileOut << "    void signal" << className(obj->name()) << "( " << className(obj->name()) << " obj );\n";
+		}
 	}
 	// private section
 	headerFileOut << "\nprivate:\n";
 	headerFileOut << "    QString m_dataBuffer;\n";
-	headerFileOut << "    QStack<QObject> m_objStack;\n";
+	headerFileOut << "    QStack<QObject *> m_objStack;\n";
 	headerFileOut << "    QStack<QString> m_typeStack;\n";
 		
 	// close the header
@@ -483,12 +508,18 @@ void CodeGenQT::go() {
 	classFileOut << "     const QString & qName,\n";
 	classFileOut << "     const QXmlAttributes & atts) {\n\n";
 	
-    // run through all objects
+        // run through all objects
 	bool first = true;
 	classFileOut << "    // check all possible options\n";
 	
 	for(int i=0; i < m_objects.size(); i++) {
+
 		XSDObject *obj = m_objects.at(i);
+
+		// the scheme object will never be sent 
+		if (obj->name() == "Schema") {
+			continue;
+		}
 		if (!first) {
 			classFileOut << "    else if";
 	    } else {
@@ -498,7 +529,7 @@ void CodeGenQT::go() {
 		// if the name matches my object
 		classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n";
 		// create a temp object
-		classFileOut << "        " << className(obj->name()) << " obj;\n";
+		classFileOut << "        " << className(obj->name()) << " *obj = new (" << className(obj->name()) << ");\n";
 		
 		// check if there are attributes in this class or just data
 		int attrCount = 0;
@@ -544,7 +575,7 @@ void CodeGenQT::go() {
 					else if (type == "float") 
 						classFileOut << "                " << type << " val = value.toFloat();\n";
 					
-					classFileOut << "                obj.set" << methodName(attrName) << "(val);\n";
+					classFileOut << "                obj->set" << methodName(attrName) << "(val);\n";
 					classFileOut << "            }\n";
 				}
 			}
@@ -553,7 +584,7 @@ void CodeGenQT::go() {
 		
 		// store in local object (or stack) and signal on end tag
 		// this way we can set obj in objects
-		classFileOut << "        m_objStack.push( obj );\n";
+		classFileOut << "        m_objStack.push( (QObject *) (obj) );\n";
 		classFileOut << "        m_typeStack.push( \"" << className(obj->name()) << "\" );\n";
 		classFileOut << "    }\n";		
 	}
@@ -573,6 +604,10 @@ void CodeGenQT::go() {
 	
 	for(int i=0; i < m_objects.size(); i++) {
 		XSDObject *obj = m_objects.at(i);
+		// the scheme object will never be sent 
+		if (obj->name() == "Schema") {
+			continue;
+		}
 		if (!first) {
 			classFileOut << "    else if";
 	    } else {
@@ -581,10 +616,8 @@ void CodeGenQT::go() {
 		}
 		// if the name matches my object
 		classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n\n";
-		classFileOut << "        m_typeStack.pop(); // will be equal to qName\n";
-		classFileOut << "        " << className(obj->name()) << " obj = m_objStack.pop();\n";
-		classFileOut << "        QString parentType = m_typeStack.top();\n"; // optimalisation possible if next loop is empty
-		classFileOut << "        QObject parent = m_objStack.top();\n"; // optimalisation possible if next loop is empty
+		classFileOut << "        m_typeStack.pop();\n"; // will be equal to qName so ignore
+		classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) ( m_objStack.pop() );\n";
 		
 		// for all objects that could accept such an object	
 		for(int i=0; i < m_objects.size(); i++) {
@@ -595,17 +628,20 @@ void CodeGenQT::go() {
 				QString objType = attr->type();
 				
 				if (objType == className(obj->name()) && parent->isRootObject()) { // this object has an attribute of that type
-					classFileOut << "        if (parentType == \"" << parent->name() << "\") {\n"; // TODO should at first bool and make else if 
+					classFileOut << "        if ( m_typeStack.top() == \"" << parent->name() << "\") {\n"; 
 					if (attr->unbounded() ) {
-						classFileOut << "            	(("<< parent->name() << ") parent).add" << className(obj->name()) << "( obj );\n";
+						classFileOut << "            	(("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj );\n";
 					} else {
-						classFileOut << "            	(("<< parent->name() << ") parent).set" << className(obj->name()) << "( obj );\n";
+						classFileOut << "            	(("<< parent->name() << "*) ( m_objStack.top() ) )->set" << className(obj->name()) << "( *obj );\n";
 					}
 					classFileOut << "        }\n"; // close if
 				}
 			}
 		}
-		classFileOut << "        emit signal" << className(obj->name()) << "( obj ); \n";
+		if ((!obj->isEmbedded())) { // only if this object is not embedded
+			classFileOut << "        emit signal" << className(obj->name()) << "( *obj ); \n";
+		}
+		classFileOut << "        delete( obj ); \n";
 		classFileOut << "    }\n"; // close if
 	}
 	classFileOut << "    return true;\n";

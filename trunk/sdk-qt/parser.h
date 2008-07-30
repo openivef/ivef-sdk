@@ -41,39 +41,25 @@ public:
                       const QString &,
                       const QString & qName,
                       const QXmlAttributes & atts);
+    bool endElement(const QString &,
+                      const QString &,
+                      const QString & qName);
     bool parse(QString data, bool cont);
 
 signals:
-    void signalSchema( Schema obj );
-    void signalHeader( Header obj );
     void signalMSG_VesselData( MSG_VesselData obj );
-    void signalBody( Body obj );
-    void signalVesselData( VesselData obj );
-    void signalPosReport( PosReport obj );
-    void signalStaticData( StaticData obj );
-    void signalVoyage( Voyage obj );
     void signalMSG_LoginRequest( MSG_LoginRequest obj );
-    void signalLoginRequest( LoginRequest obj );
     void signalMSG_LoginResponse( MSG_LoginResponse obj );
-    void signalLoginResponse( LoginResponse obj );
     void signalMSG_Ping( MSG_Ping obj );
-    void signalPing( Ping obj );
     void signalMSG_Pong( MSG_Pong obj );
-    void signalPong( Pong obj );
     void signalMSG_ServerStatus( MSG_ServerStatus obj );
-    void signalServerStatus( ServerStatus obj );
     void signalMSG_Logout( MSG_Logout obj );
-    void signalLogout( Logout obj );
     void signalMSG_ServiceRequest( MSG_ServiceRequest obj );
-    void signalServiceRequest( ServiceRequest obj );
-    void signalArea( Area obj );
-    void signalTransmission( Transmission obj );
-    void signalItem( Item obj );
-    void signalObject( Object obj );
-    void signalPos( Pos obj );
 
 private:
     QString m_dataBuffer;
+    QStack<QObject *> m_objStack;
+    QStack<QString> m_typeStack;
 
 }; 
 
