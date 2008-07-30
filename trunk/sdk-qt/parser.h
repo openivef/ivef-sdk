@@ -32,7 +32,7 @@
 #include "object.h"
 #include "pos.h"
 
-class Parser : QXmlDefaultHandler { 
+class Parser : QObject, QXmlDefaultHandler { 
     Q_OBJECT
 
 public:

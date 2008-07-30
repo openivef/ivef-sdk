@@ -191,7 +191,8 @@ void CodeGenQT::go() {
 		}
 		
 		// define the class
-		headerFileOut << "\nclass " << className(name) << " : QObject { \n\n";
+		headerFileOut << "\nclass " << className(name) << " : QObject { \n";
+	        headerFileOut << "    Q_OBJECT\n\n";
 		
 		// public section
 		headerFileOut << "public:\n";
@@ -460,7 +461,7 @@ void CodeGenQT::go() {
 	}
 
 	// define the class
-	headerFileOut << "\nclass " << className(name) << " : QXmlDefaultHandler { \n";
+	headerFileOut << "\nclass " << className(name) << " : QObject, QXmlDefaultHandler { \n";
 	headerFileOut << "    Q_OBJECT\n\n";
 	
 	// public section
