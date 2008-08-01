@@ -43,8 +43,11 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
         std::exit(0);
     }
             
+    // setup the parser
     m_streamHandler = new IVEFStreamHandler(&m_IVEFParser);
-
+    // and the printer
+    connect( &m_IVEFParser, SIGNAL( signalMSG_VesselData(MSG_VesselData)), this, SLOT( printVesselData(MSG_VesselData) ));
+            
     // startup timer, to allow the event loop to start
     QTimer *timer = new QTimer( 0 ); // we leak one timer here, is acceptable
     timer->setInterval( 100 );
@@ -83,5 +86,22 @@ void iListenApplication::slotStart( void ) {
             // empty file means no logfile
             m_streamHandler->connectToServer(host, port, user, password, "");
         }
+    }
+}
+            
+void iListenApplication::printVesselData( MSG_VesselData obj ) {
+            
+    int count = obj.getBody().countOfVesselDatas();
+    for (int i=0; i < count; i++) {
+
+        VesselData data = obj.getBody().getVesselDataAt(i);
+    	PosReport pos = data.getPosReport();
+        
+	std::cout << "\n----------------------------------------" << std::endl;
+        
+	std::cout << "\nId                 : " << pos.getId() << std::endl;
+        
+	std::cout << "\n----------------------------------------" << std::endl;
+	
     }
 }

@@ -41,6 +41,8 @@ private:
 
 private slots:
     void slotStart( void );
+    void printVesselData( MSG_VesselData obj );
+
 
 };
 
