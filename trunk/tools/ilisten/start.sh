@@ -1,1 +1,1 @@
-LD_LIBRARY_PATH="../../sdk-qt/lib" ./bin/ilisten
+LD_LIBRARY_PATH="../../sdk-qt" ./bin/ilisten
