@@ -42,6 +42,8 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
         std::cout << "\n iListen 0.0.1\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
         std::exit(0);
     }
+            
+    m_streamHandler = new IVEFStreamHandler(&m_IVEFParser);
 
     // startup timer, to allow the event loop to start
     QTimer *timer = new QTimer( 0 ); // we leak one timer here, is acceptable
@@ -68,7 +70,7 @@ void iListenApplication::slotStart( void ) {
     QString fileName("");
     if (m_options.getText("infile", fileName)) {
         // read from file
-        IVEFFileHandler handler;
+        IVEFFileHandler handler(&m_IVEFParser);
         handler.readFiles(QStringList(fileName));
 
         // we are finished with file parsing
@@ -76,10 +78,10 @@ void iListenApplication::slotStart( void ) {
     } else {
         if (m_options.getText("outfile", fileName)) {
             // connect to server
-            m_handler.connectToServer(host, port, user, password, fileName);
+            m_streamHandler->connectToServer(host, port, user, password, fileName);
         } else {
             // empty file means no logfile
-            m_handler.connectToServer(host, port, user, password, "");
+            m_streamHandler->connectToServer(host, port, user, password, "");
         }
     }
 }

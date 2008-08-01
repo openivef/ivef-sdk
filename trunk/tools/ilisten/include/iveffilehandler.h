@@ -31,13 +31,13 @@
 class IVEFFileHandler : public QObject {
 
 public:
-    IVEFFileHandler();
+    IVEFFileHandler(Parser *parser);
     ~IVEFFileHandler();
 
     void readFiles(QStringList files);
 
 private:
-    Parser ivefParser;
+    Parser *m_IVEFParser;
 
 };
 

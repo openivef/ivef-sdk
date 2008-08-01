@@ -18,7 +18,8 @@
 
 #include "iveffilehandler.h"
 
-IVEFFileHandler::IVEFFileHandler() {
+IVEFFileHandler::IVEFFileHandler(Parser *parser) {
+    m_IVEFParser = parser;
 }
 
 IVEFFileHandler::~IVEFFileHandler() {
@@ -40,7 +41,7 @@ void IVEFFileHandler::readFiles(QStringList files) {
                 
         while (!file->atEnd()) {
             QString line = file->readLine();
-            ivefParser.parseXMLString(line, true);
+            m_IVEFParser->parseXMLString(line, true);
         }    
     }
 }

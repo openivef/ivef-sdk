@@ -20,12 +20,13 @@
 
 #include "ivefstreamhandler.h"
 
-IVEFStreamHandler::IVEFStreamHandler() {
+IVEFStreamHandler::IVEFStreamHandler(Parser *parser) {
 
     // clear user/password
     m_user = "john doe";
     m_password = "very secret";
     m_log = NULL;
+    m_IVEFParser = parser;
     
     // create a new socket
     m_tcpSocket = new QTcpSocket(this);
@@ -137,7 +138,7 @@ void IVEFStreamHandler::slotReadyRead() {
     
     QString data = m_tcpSocket->readAll();
     
-    ivefParser.parseXMLString(data, true);
+    m_IVEFParser->parseXMLString(data, true);
     
     if (m_log != NULL) {   
        // remove xml header from message(s) the file needs it only once

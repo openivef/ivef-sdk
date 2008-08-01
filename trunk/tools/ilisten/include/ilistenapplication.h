@@ -24,6 +24,7 @@
 #include <QApplication>
 
 #include "cmdlineoption.h"
+#include "parser.h"
 #include "ivefstreamhandler.h"
 #include "iveffilehandler.h"
 
@@ -35,7 +36,8 @@ public:
 
 private:
     CmdLineOptions m_options;
-    IVEFStreamHandler m_handler;
+    Parser m_IVEFParser;
+    IVEFStreamHandler *m_streamHandler;
 
 private slots:
     void slotStart( void );
