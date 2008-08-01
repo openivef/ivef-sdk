@@ -26,7 +26,6 @@ IVEFStreamHandler::IVEFStreamHandler() {
     m_user = "john doe";
     m_password = "very secret";
     m_log = NULL;
-    m_handler = NULL;
     
     // create a new socket
     m_tcpSocket = new QTcpSocket(this);
@@ -47,8 +46,6 @@ IVEFStreamHandler::~IVEFStreamHandler() {
         delete(m_tcpSocket);
     if (m_log != NULL)
         delete(m_log);
-    if (m_handler != NULL)
-        delete(m_handler);
 }
 
 void IVEFStreamHandler::displayError(QAbstractSocket::SocketError socketError) {
@@ -113,11 +110,6 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
     } else {
         m_log = NULL;
     }
-    
-    // setup the parser
-    m_handler = new IVEFHandler();
-    m_reader.setContentHandler(m_handler);
-    m_reader.setErrorHandler(m_handler);
 }
 
 void IVEFStreamHandler::slotConnected() {
@@ -143,45 +135,15 @@ void IVEFStreamHandler::slotDisconnected() {
 
 void IVEFStreamHandler::slotReadyRead() {
     
-        // there is new data, add it to the buffer
-    m_dataBuffer.append(m_tcpSocket->readAll());
+    QString data = m_tcpSocket->readAll();
     
-    // extract the complete messages in the buffer
-    int index[4], indexMax = -1;
-    // note that if a message does not exist the index will be equal to strlen(name\n) - 1 so indexMax is always > 0
-    index[0]= m_dataBuffer.lastIndexOf("</MSG_LoginResponse>\n") + strlen("</MSG_LoginResponse>\n");
-    index[1] = m_dataBuffer.lastIndexOf("</MSG_Pong>\n") + strlen("</MSG_Pong>\n");
-    index[2] = m_dataBuffer.lastIndexOf("</MSG_ServerStatus>\n") + strlen("</MSG_ServerStatus>\n");
-    index[3] = m_dataBuffer.lastIndexOf("</MSG_VesselData>\n") + strlen("</MSG_VesselData>\n");
+    ivefParser.parseXMLString(data, true);
     
-    // find the last message in the buffer that we know exists
-    for (int i=0; i<4; i++) {
-        if (index[i] > indexMax) {
-            indexMax = index[i];
-        }
-    }
-
-    // data was read but no complete messages were found, wait for some more
-    if (indexMax < 30) {
-        //std::cout << "iListen data read but no messages found (yet)" << std::endl;
-        return;
-    }
-    
-    // exstract the messages from the buffer
-    QString messages = m_dataBuffer.left(indexMax);
-    m_dataBuffer.remove(0, indexMax);
-    
-    // set the messages as input and feed the parser
-    QXmlInputSource inputForParser;
-    inputForParser.setData(messages);
-    m_reader.parse(&inputForParser, false);
-    
-    // if needed echo to logfile
     if (m_log != NULL) {   
        // remove xml header from message(s) the file needs it only once
-       messages.replace("<?xml version = \"1.0\" encoding=\"UTF-8\"?>\n", ""); 
-       messages.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", ""); 
-       *m_log << messages.toLatin1().data();
+       data.replace("<?xml version = \"1.0\" encoding=\"UTF-8\"?>\n", ""); 
+       data.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", ""); 
+       *m_log << data.toLatin1().data();
     }
 }
 

@@ -19,17 +19,9 @@
 #include "iveffilehandler.h"
 
 IVEFFileHandler::IVEFFileHandler() {
-    m_reader = new QXmlSimpleReader();
-    m_handler = new IVEFHandler();
-
-    // setup the parser
-    m_reader->setContentHandler(m_handler);
-    m_reader->setErrorHandler(m_handler);
 }
 
 IVEFFileHandler::~IVEFFileHandler() {
-    delete(m_reader);
-    delete(m_handler);
 }
 
 void IVEFFileHandler::readFiles(QStringList files) {
@@ -45,10 +37,11 @@ void IVEFFileHandler::readFiles(QStringList files) {
             std::cout << QString("iListen error opening file: %1").arg(files.at(i)).toLatin1().data() << std::endl;
             break;
         }
-
-        // and the input
-        QXmlInputSource inputXML(file);
-        m_reader->parse(inputXML); // presume we can read the whole file at once
+                
+        while (!file->atEnd()) {
+            QString line = file->readLine();
+            ivefParser.parseXMLString(line, true);
+        }    
     }
 }
 

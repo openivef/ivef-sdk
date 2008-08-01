@@ -26,9 +26,10 @@
 #include <QStringList>
 #include <QXmlSimpleReader>
 
-#include "ivefhandler.h"
+#include "parser.h"
 
 class IVEFFileHandler : public QObject {
+
 public:
     IVEFFileHandler();
     ~IVEFFileHandler();
@@ -36,8 +37,8 @@ public:
     void readFiles(QStringList files);
 
 private:
-    QXmlSimpleReader *m_reader;
-    IVEFHandler *m_handler;
+    Parser ivefParser;
+
 };
 
 #endif

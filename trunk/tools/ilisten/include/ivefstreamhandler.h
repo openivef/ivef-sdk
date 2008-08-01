@@ -25,7 +25,7 @@
 #include <QtXml>
 #include <QtNetwork>
 
-#include "ivefhandler.h"
+#include "parser.h"
 
 #define BUFFER_SIZE 1024*4
 
@@ -50,13 +50,11 @@ private:
 
     QTcpSocket  *m_tcpSocket;
     QTextStream *m_log;
-    IVEFHandler *m_handler;
 
     QString m_user;
     QString m_password;
 
-    QXmlSimpleReader m_reader;
-    QString          m_dataBuffer;
+    Parser ivefParser;
 };
 
 #endif
