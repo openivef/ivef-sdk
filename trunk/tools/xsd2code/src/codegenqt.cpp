@@ -214,14 +214,14 @@ void CodeGenQT::go() {
 				// setter
 				headerFileOut << "    void add" << methodName(attr->name()) << "(" << type << " val);\n";
 				// getter
-				headerFileOut << "    " << type << " get" << methodName(attr->name()) << "At(int i);\n";
+				headerFileOut << "    " << type << " get" << methodName(attr->name()) << "At(int i) const;\n";
 				// count
-				headerFileOut << "    int countOf" << methodName(attr->name()) << "s();\n";
+				headerFileOut << "    int countOf" << methodName(attr->name()) << "s() const;\n";
 			} else {
 				// setter
 				headerFileOut << "    void set" << methodName(attr->name()) << "(" << type << " val);\n";
 				// getter
-				headerFileOut << "    " << type << " get" << methodName(attr->name()) << "();\n";
+				headerFileOut << "    " << type << " get" << methodName(attr->name()) << "() const;\n";
 				if (!attr->required() || obj->isMerged()) {
 					headerFileOut << "    bool has" << methodName(attr->name()) << "();\n";
 				}
@@ -232,7 +232,7 @@ void CodeGenQT::go() {
 			QString attrName = fixedValues.keys().at(j);
 			QString type = "QString"; // always a string
 			// getter
-			headerFileOut << "    " << type << " get" << methodName(attrName) << "();\n";
+			headerFileOut << "    " << type << " get" << methodName(attrName) << "() const;\n";
 		}
 		headerFileOut << "    QString toXML();\n";
 		
@@ -287,13 +287,12 @@ void CodeGenQT::go() {
 				classFileOut << "    " << variableName(attr->name()) << "Present = false;\n";
 			}
 			if (attr->unbounded()) { // there more then one
-				// must cast to non-const....
-				classFileOut << "    for(int i=0; i < ((" << className(name) << ")val).countOf" << methodName(attr->name()) << "s(); i++) { \n";
-				classFileOut << "        " << variableName(attr->name()) << "s.append( ((" << className(name) << ")val).get" << methodName(attr->name()) << "At(i) );\n";
+				classFileOut << "    for(int i=0; i < val.countOf" << methodName(attr->name()) << "s(); i++) { \n";
+				classFileOut << "        " << variableName(attr->name()) << "s.append( val.get" << methodName(attr->name()) << "At(i) );\n";
 				classFileOut << "    }\n";
 
 			} else {
-				classFileOut << "    " << variableName(attr->name()) << " = ((" << className(name) << ")val).get" << methodName(attr->name()) << "();\n";
+				classFileOut << "    " << variableName(attr->name()) << " = val.get" << methodName(attr->name()) << "();\n";
 			}
 		}
 		classFileOut << "}\n\n";
@@ -313,10 +312,10 @@ void CodeGenQT::go() {
 				classFileOut << "void " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n";
 				classFileOut << "\n    " << variableName(attr->name()) << "s.append(val);\n}\n\n";
 				// getter
-				classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "At(int i) {\n";
+				classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "At(int i) const {\n";
 				classFileOut << "\n    return " << variableName(attr->name()) << "s.at(i);\n}\n\n";
 				// count
-				classFileOut << "int " << className(name) << "::countOf" << methodName(attr->name()) << "s() {\n";
+				classFileOut << "int " << className(name) << "::countOf" << methodName(attr->name()) << "s() const {\n";
 				classFileOut << "\n    return " << variableName(attr->name()) << "s.count();\n}\n\n";
 			} else {
 				// setter
@@ -345,7 +344,7 @@ void CodeGenQT::go() {
 				}
 				classFileOut << "\n    " << variableName(attr->name()) << " = val;\n}\n\n";
 				// getter
-				classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "() {\n";
+				classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "() const {\n";
 				classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
 				if (!attr->required() || obj->isMerged()) {
 					classFileOut << "bool " << className(name) << "::has" << methodName(attr->name()) << "() {\n";
@@ -361,7 +360,7 @@ void CodeGenQT::go() {
 			QString type = "QString"; // always a string
 
 			// getter
-			classFileOut << type << " " << className(name) << "::get" << methodName(attrName) << "() {\n";
+			classFileOut << type << " " << className(name) << "::get" << methodName(attrName) << "() const {\n";
 			classFileOut << "\n    return \"" << attrValue << "\";\n}\n\n";
 		}
 
