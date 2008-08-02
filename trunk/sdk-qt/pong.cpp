@@ -7,9 +7,9 @@ Pong::Pong() {
 
 Pong::Pong(const Pong &val) : QObject() {
 
-    m_timeStamp = ((Pong)val).getTimeStamp();
-    m_msgId = ((Pong)val).getMsgId();
-    m_sourceId = ((Pong)val).getSourceId();
+    m_timeStamp = val.getTimeStamp();
+    m_msgId = val.getMsgId();
+    m_sourceId = val.getSourceId();
 }
 
 Pong & Pong::operator=(const Pong &/*val*/) {
@@ -22,7 +22,7 @@ void Pong::setTimeStamp(QDateTime val) {
     m_timeStamp = val;
 }
 
-QDateTime Pong::getTimeStamp() {
+QDateTime Pong::getTimeStamp() const {
 
     return m_timeStamp;
 }
@@ -32,7 +32,7 @@ void Pong::setMsgId(QString val) {
     m_msgId = val;
 }
 
-QString Pong::getMsgId() {
+QString Pong::getMsgId() const {
 
     return m_msgId;
 }
@@ -42,7 +42,7 @@ void Pong::setSourceId(int val) {
     m_sourceId = val;
 }
 
-int Pong::getSourceId() {
+int Pong::getSourceId() const {
 
     return m_sourceId;
 }

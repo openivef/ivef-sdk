@@ -7,8 +7,8 @@ MSG_Logout::MSG_Logout() {
 
 MSG_Logout::MSG_Logout(const MSG_Logout &val) : QObject() {
 
-    m_header = ((MSG_Logout)val).getHeader();
-    m_body = ((MSG_Logout)val).getBody();
+    m_header = val.getHeader();
+    m_body = val.getBody();
 }
 
 MSG_Logout & MSG_Logout::operator=(const MSG_Logout &/*val*/) {
@@ -21,7 +21,7 @@ void MSG_Logout::setHeader(Header val) {
     m_header = val;
 }
 
-Header MSG_Logout::getHeader() {
+Header MSG_Logout::getHeader() const {
 
     return m_header;
 }
@@ -31,7 +31,7 @@ void MSG_Logout::setBody(Body val) {
     m_body = val;
 }
 
-Body MSG_Logout::getBody() {
+Body MSG_Logout::getBody() const {
 
     return m_body;
 }

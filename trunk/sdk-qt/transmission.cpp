@@ -8,9 +8,9 @@ Transmission::Transmission() {
 
 Transmission::Transmission(const Transmission &val) : QObject() {
 
-    m_type = ((Transmission)val).getType();
+    m_type = val.getType();
     m_periodPresent = false;
-    m_period = ((Transmission)val).getPeriod();
+    m_period = val.getPeriod();
 }
 
 Transmission & Transmission::operator=(const Transmission &/*val*/) {
@@ -28,7 +28,7 @@ void Transmission::setType(int val) {
     m_type = val;
 }
 
-int Transmission::getType() {
+int Transmission::getType() const {
 
     return m_type;
 }
@@ -39,7 +39,7 @@ void Transmission::setPeriod(float val) {
     m_period = val;
 }
 
-float Transmission::getPeriod() {
+float Transmission::getPeriod() const {
 
     return m_period;
 }

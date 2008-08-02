@@ -7,8 +7,8 @@ Item::Item() {
 
 Item::Item(const Item &val) : QObject() {
 
-    m_element = ((Item)val).getElement();
-    m_field = ((Item)val).getField();
+    m_element = val.getElement();
+    m_field = val.getField();
 }
 
 Item & Item::operator=(const Item &/*val*/) {
@@ -25,7 +25,7 @@ void Item::setElement(int val) {
     m_element = val;
 }
 
-int Item::getElement() {
+int Item::getElement() const {
 
     return m_element;
 }
@@ -35,7 +35,7 @@ void Item::setField(QString val) {
     m_field = val;
 }
 
-QString Item::getField() {
+QString Item::getField() const {
 
     return m_field;
 }

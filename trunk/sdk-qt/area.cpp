@@ -7,8 +7,8 @@ Area::Area() {
 
 Area::Area(const Area &val) : QObject() {
 
-    for(int i=0; i < ((Area)val).countOfPoss(); i++) { 
-        m_poss.append( ((Area)val).getPosAt(i) );
+    for(int i=0; i < val.countOfPoss(); i++) { 
+        m_poss.append( val.getPosAt(i) );
     }
 }
 
@@ -22,12 +22,12 @@ void Area::addPos(Pos val) {
     m_poss.append(val);
 }
 
-Pos Area::getPosAt(int i) {
+Pos Area::getPosAt(int i) const {
 
     return m_poss.at(i);
 }
 
-int Area::countOfPoss() {
+int Area::countOfPoss() const {
 
     return m_poss.count();
 }

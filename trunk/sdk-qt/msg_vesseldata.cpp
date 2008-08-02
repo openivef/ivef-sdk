@@ -7,8 +7,8 @@ MSG_VesselData::MSG_VesselData() {
 
 MSG_VesselData::MSG_VesselData(const MSG_VesselData &val) : QObject() {
 
-    m_header = ((MSG_VesselData)val).getHeader();
-    m_body = ((MSG_VesselData)val).getBody();
+    m_header = val.getHeader();
+    m_body = val.getBody();
 }
 
 MSG_VesselData & MSG_VesselData::operator=(const MSG_VesselData &/*val*/) {
@@ -21,7 +21,7 @@ void MSG_VesselData::setHeader(Header val) {
     m_header = val;
 }
 
-Header MSG_VesselData::getHeader() {
+Header MSG_VesselData::getHeader() const {
 
     return m_header;
 }
@@ -31,7 +31,7 @@ void MSG_VesselData::setBody(Body val) {
     m_body = val;
 }
 
-Body MSG_VesselData::getBody() {
+Body MSG_VesselData::getBody() const {
 
     return m_body;
 }

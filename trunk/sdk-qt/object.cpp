@@ -7,7 +7,7 @@ Object::Object() {
 
 Object::Object(const Object &val) : QObject() {
 
-    m_fileName = ((Object)val).getFileName();
+    m_fileName = val.getFileName();
 }
 
 Object & Object::operator=(const Object &/*val*/) {
@@ -20,7 +20,7 @@ void Object::setFileName(QString val) {
     m_fileName = val;
 }
 
-QString Object::getFileName() {
+QString Object::getFileName() const {
 
     return m_fileName;
 }

@@ -15,29 +15,29 @@ PosReport::PosReport() {
 
 PosReport::PosReport(const PosReport &val) : QObject() {
 
-    m_pos = ((PosReport)val).getPos();
-    m_id = ((PosReport)val).getId();
-    m_sourceId = ((PosReport)val).getSourceId();
-    m_updateTime = ((PosReport)val).getUpdateTime();
-    m_SOG = ((PosReport)val).getSOG();
-    m_COG = ((PosReport)val).getCOG();
-    m_lost = ((PosReport)val).getLost();
+    m_pos = val.getPos();
+    m_id = val.getId();
+    m_sourceId = val.getSourceId();
+    m_updateTime = val.getUpdateTime();
+    m_SOG = val.getSOG();
+    m_COG = val.getCOG();
+    m_lost = val.getLost();
     m_rateOfTurnPresent = false;
-    m_rateOfTurn = ((PosReport)val).getRateOfTurn();
+    m_rateOfTurn = val.getRateOfTurn();
     m_orientationPresent = false;
-    m_orientation = ((PosReport)val).getOrientation();
+    m_orientation = val.getOrientation();
     m_lengthPresent = false;
-    m_length = ((PosReport)val).getLength();
+    m_length = val.getLength();
     m_breadthPresent = false;
-    m_breadth = ((PosReport)val).getBreadth();
+    m_breadth = val.getBreadth();
     m_altitudePresent = false;
-    m_altitude = ((PosReport)val).getAltitude();
+    m_altitude = val.getAltitude();
     m_navStatusPresent = false;
-    m_navStatus = ((PosReport)val).getNavStatus();
+    m_navStatus = val.getNavStatus();
     m_updSensorTypePresent = false;
-    m_updSensorType = ((PosReport)val).getUpdSensorType();
+    m_updSensorType = val.getUpdSensorType();
     m_ATONOffPosPresent = false;
-    m_ATONOffPos = ((PosReport)val).getATONOffPos();
+    m_ATONOffPos = val.getATONOffPos();
 }
 
 PosReport & PosReport::operator=(const PosReport &/*val*/) {
@@ -50,7 +50,7 @@ void PosReport::setPos(Pos val) {
     m_pos = val;
 }
 
-Pos PosReport::getPos() {
+Pos PosReport::getPos() const {
 
     return m_pos;
 }
@@ -60,7 +60,7 @@ void PosReport::setId(int val) {
     m_id = val;
 }
 
-int PosReport::getId() {
+int PosReport::getId() const {
 
     return m_id;
 }
@@ -70,7 +70,7 @@ void PosReport::setSourceId(int val) {
     m_sourceId = val;
 }
 
-int PosReport::getSourceId() {
+int PosReport::getSourceId() const {
 
     return m_sourceId;
 }
@@ -80,7 +80,7 @@ void PosReport::setUpdateTime(QDateTime val) {
     m_updateTime = val;
 }
 
-QDateTime PosReport::getUpdateTime() {
+QDateTime PosReport::getUpdateTime() const {
 
     return m_updateTime;
 }
@@ -90,7 +90,7 @@ void PosReport::setSOG(float val) {
     m_SOG = val;
 }
 
-float PosReport::getSOG() {
+float PosReport::getSOG() const {
 
     return m_SOG;
 }
@@ -104,7 +104,7 @@ void PosReport::setCOG(float val) {
     m_COG = val;
 }
 
-float PosReport::getCOG() {
+float PosReport::getCOG() const {
 
     return m_COG;
 }
@@ -117,7 +117,7 @@ void PosReport::setLost(QString val) {
     m_lost = val;
 }
 
-QString PosReport::getLost() {
+QString PosReport::getLost() const {
 
     return m_lost;
 }
@@ -128,7 +128,7 @@ void PosReport::setRateOfTurn(float val) {
     m_rateOfTurn = val;
 }
 
-float PosReport::getRateOfTurn() {
+float PosReport::getRateOfTurn() const {
 
     return m_rateOfTurn;
 }
@@ -148,7 +148,7 @@ void PosReport::setOrientation(float val) {
     m_orientation = val;
 }
 
-float PosReport::getOrientation() {
+float PosReport::getOrientation() const {
 
     return m_orientation;
 }
@@ -164,7 +164,7 @@ void PosReport::setLength(float val) {
     m_length = val;
 }
 
-float PosReport::getLength() {
+float PosReport::getLength() const {
 
     return m_length;
 }
@@ -180,7 +180,7 @@ void PosReport::setBreadth(float val) {
     m_breadth = val;
 }
 
-float PosReport::getBreadth() {
+float PosReport::getBreadth() const {
 
     return m_breadth;
 }
@@ -196,7 +196,7 @@ void PosReport::setAltitude(float val) {
     m_altitude = val;
 }
 
-float PosReport::getAltitude() {
+float PosReport::getAltitude() const {
 
     return m_altitude;
 }
@@ -229,7 +229,7 @@ void PosReport::setNavStatus(int val) {
     m_navStatus = val;
 }
 
-int PosReport::getNavStatus() {
+int PosReport::getNavStatus() const {
 
     return m_navStatus;
 }
@@ -250,7 +250,7 @@ void PosReport::setUpdSensorType(int val) {
     m_updSensorType = val;
 }
 
-int PosReport::getUpdSensorType() {
+int PosReport::getUpdSensorType() const {
 
     return m_updSensorType;
 }
@@ -266,7 +266,7 @@ void PosReport::setATONOffPos(bool val) {
     m_ATONOffPos = val;
 }
 
-bool PosReport::getATONOffPos() {
+bool PosReport::getATONOffPos() const {
 
     return m_ATONOffPos;
 }

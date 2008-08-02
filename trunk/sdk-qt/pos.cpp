@@ -7,8 +7,8 @@ Pos::Pos() {
 
 Pos::Pos(const Pos &val) : QObject() {
 
-    m_lat = ((Pos)val).getLat();
-    m_long = ((Pos)val).getLong();
+    m_lat = val.getLat();
+    m_long = val.getLong();
 }
 
 Pos & Pos::operator=(const Pos &/*val*/) {
@@ -25,7 +25,7 @@ void Pos::setLat(float val) {
     m_lat = val;
 }
 
-float Pos::getLat() {
+float Pos::getLat() const {
 
     return m_lat;
 }
@@ -39,7 +39,7 @@ void Pos::setLong(float val) {
     m_long = val;
 }
 
-float Pos::getLong() {
+float Pos::getLong() const {
 
     return m_long;
 }

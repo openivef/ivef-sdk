@@ -7,8 +7,8 @@ MSG_ServiceRequest::MSG_ServiceRequest() {
 
 MSG_ServiceRequest::MSG_ServiceRequest(const MSG_ServiceRequest &val) : QObject() {
 
-    m_header = ((MSG_ServiceRequest)val).getHeader();
-    m_body = ((MSG_ServiceRequest)val).getBody();
+    m_header = val.getHeader();
+    m_body = val.getBody();
 }
 
 MSG_ServiceRequest & MSG_ServiceRequest::operator=(const MSG_ServiceRequest &/*val*/) {
@@ -21,7 +21,7 @@ void MSG_ServiceRequest::setHeader(Header val) {
     m_header = val;
 }
 
-Header MSG_ServiceRequest::getHeader() {
+Header MSG_ServiceRequest::getHeader() const {
 
     return m_header;
 }
@@ -31,7 +31,7 @@ void MSG_ServiceRequest::setBody(Body val) {
     m_body = val;
 }
 
-Body MSG_ServiceRequest::getBody() {
+Body MSG_ServiceRequest::getBody() const {
 
     return m_body;
 }

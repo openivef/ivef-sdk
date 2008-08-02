@@ -7,8 +7,8 @@ MSG_Ping::MSG_Ping() {
 
 MSG_Ping::MSG_Ping(const MSG_Ping &val) : QObject() {
 
-    m_header = ((MSG_Ping)val).getHeader();
-    m_body = ((MSG_Ping)val).getBody();
+    m_header = val.getHeader();
+    m_body = val.getBody();
 }
 
 MSG_Ping & MSG_Ping::operator=(const MSG_Ping &/*val*/) {
@@ -21,7 +21,7 @@ void MSG_Ping::setHeader(Header val) {
     m_header = val;
 }
 
-Header MSG_Ping::getHeader() {
+Header MSG_Ping::getHeader() const {
 
     return m_header;
 }
@@ -31,7 +31,7 @@ void MSG_Ping::setBody(Body val) {
     m_body = val;
 }
 
-Body MSG_Ping::getBody() {
+Body MSG_Ping::getBody() const {
 
     return m_body;
 }

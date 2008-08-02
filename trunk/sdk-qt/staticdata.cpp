@@ -25,45 +25,45 @@ StaticData::StaticData() {
 
 StaticData::StaticData(const StaticData &val) : QObject() {
 
-    m_id = ((StaticData)val).getId();
-    m_sourceName = ((StaticData)val).getSourceName();
-    m_source = ((StaticData)val).getSource();
+    m_id = val.getId();
+    m_sourceName = val.getSourceName();
+    m_source = val.getSource();
     m_lengthPresent = false;
-    m_length = ((StaticData)val).getLength();
+    m_length = val.getLength();
     m_breadthPresent = false;
-    m_breadth = ((StaticData)val).getBreadth();
+    m_breadth = val.getBreadth();
     m_callsignPresent = false;
-    m_callsign = ((StaticData)val).getCallsign();
+    m_callsign = val.getCallsign();
     m_shipNamePresent = false;
-    m_shipName = ((StaticData)val).getShipName();
+    m_shipName = val.getShipName();
     m_objectTypePresent = false;
-    m_objectType = ((StaticData)val).getObjectType();
+    m_objectType = val.getObjectType();
     m_shipTypePresent = false;
-    m_shipType = ((StaticData)val).getShipType();
+    m_shipType = val.getShipType();
     m_IMOPresent = false;
-    m_IMO = ((StaticData)val).getIMO();
+    m_IMO = val.getIMO();
     m_MMSIPresent = false;
-    m_MMSI = ((StaticData)val).getMMSI();
+    m_MMSI = val.getMMSI();
     m_ATONTypePresent = false;
-    m_ATONType = ((StaticData)val).getATONType();
+    m_ATONType = val.getATONType();
     m_ATONNamePresent = false;
-    m_ATONName = ((StaticData)val).getATONName();
+    m_ATONName = val.getATONName();
     m_antPosDistFromFrontPresent = false;
-    m_antPosDistFromFront = ((StaticData)val).getAntPosDistFromFront();
+    m_antPosDistFromFront = val.getAntPosDistFromFront();
     m_antPosDistFromLeftPresent = false;
-    m_antPosDistFromLeft = ((StaticData)val).getAntPosDistFromLeft();
+    m_antPosDistFromLeft = val.getAntPosDistFromLeft();
     m_natLangShipNamePresent = false;
-    m_natLangShipName = ((StaticData)val).getNatLangShipName();
+    m_natLangShipName = val.getNatLangShipName();
     m_portOfRegistryPresent = false;
-    m_portOfRegistry = ((StaticData)val).getPortOfRegistry();
+    m_portOfRegistry = val.getPortOfRegistry();
     m_countryFlagPresent = false;
-    m_countryFlag = ((StaticData)val).getCountryFlag();
+    m_countryFlag = val.getCountryFlag();
     m_maxAirDraughtPresent = false;
-    m_maxAirDraught = ((StaticData)val).getMaxAirDraught();
+    m_maxAirDraught = val.getMaxAirDraught();
     m_maxDraughtPresent = false;
-    m_maxDraught = ((StaticData)val).getMaxDraught();
+    m_maxDraught = val.getMaxDraught();
     m_deepWaterVesselindPresent = false;
-    m_deepWaterVesselind = ((StaticData)val).getDeepWaterVesselind();
+    m_deepWaterVesselind = val.getDeepWaterVesselind();
 }
 
 StaticData & StaticData::operator=(const StaticData &/*val*/) {
@@ -76,7 +76,7 @@ void StaticData::setId(int val) {
     m_id = val;
 }
 
-int StaticData::getId() {
+int StaticData::getId() const {
 
     return m_id;
 }
@@ -86,7 +86,7 @@ void StaticData::setSourceName(QString val) {
     m_sourceName = val;
 }
 
-QString StaticData::getSourceName() {
+QString StaticData::getSourceName() const {
 
     return m_sourceName;
 }
@@ -100,7 +100,7 @@ void StaticData::setSource(int val) {
     m_source = val;
 }
 
-int StaticData::getSource() {
+int StaticData::getSource() const {
 
     return m_source;
 }
@@ -111,7 +111,7 @@ void StaticData::setLength(float val) {
     m_length = val;
 }
 
-float StaticData::getLength() {
+float StaticData::getLength() const {
 
     return m_length;
 }
@@ -127,7 +127,7 @@ void StaticData::setBreadth(float val) {
     m_breadth = val;
 }
 
-float StaticData::getBreadth() {
+float StaticData::getBreadth() const {
 
     return m_breadth;
 }
@@ -143,7 +143,7 @@ void StaticData::setCallsign(QString val) {
     m_callsign = val;
 }
 
-QString StaticData::getCallsign() {
+QString StaticData::getCallsign() const {
 
     return m_callsign;
 }
@@ -159,7 +159,7 @@ void StaticData::setShipName(QString val) {
     m_shipName = val;
 }
 
-QString StaticData::getShipName() {
+QString StaticData::getShipName() const {
 
     return m_shipName;
 }
@@ -183,7 +183,7 @@ void StaticData::setObjectType(int val) {
     m_objectType = val;
 }
 
-int StaticData::getObjectType() {
+int StaticData::getObjectType() const {
 
     return m_objectType;
 }
@@ -222,7 +222,7 @@ void StaticData::setShipType(int val) {
     m_shipType = val;
 }
 
-int StaticData::getShipType() {
+int StaticData::getShipType() const {
 
     return m_shipType;
 }
@@ -238,7 +238,7 @@ void StaticData::setIMO(int val) {
     m_IMO = val;
 }
 
-int StaticData::getIMO() {
+int StaticData::getIMO() const {
 
     return m_IMO;
 }
@@ -254,7 +254,7 @@ void StaticData::setMMSI(int val) {
     m_MMSI = val;
 }
 
-int StaticData::getMMSI() {
+int StaticData::getMMSI() const {
 
     return m_MMSI;
 }
@@ -304,7 +304,7 @@ void StaticData::setATONType(int val) {
     m_ATONType = val;
 }
 
-int StaticData::getATONType() {
+int StaticData::getATONType() const {
 
     return m_ATONType;
 }
@@ -320,7 +320,7 @@ void StaticData::setATONName(QString val) {
     m_ATONName = val;
 }
 
-QString StaticData::getATONName() {
+QString StaticData::getATONName() const {
 
     return m_ATONName;
 }
@@ -336,7 +336,7 @@ void StaticData::setAntPosDistFromFront(float val) {
     m_antPosDistFromFront = val;
 }
 
-float StaticData::getAntPosDistFromFront() {
+float StaticData::getAntPosDistFromFront() const {
 
     return m_antPosDistFromFront;
 }
@@ -352,7 +352,7 @@ void StaticData::setAntPosDistFromLeft(float val) {
     m_antPosDistFromLeft = val;
 }
 
-float StaticData::getAntPosDistFromLeft() {
+float StaticData::getAntPosDistFromLeft() const {
 
     return m_antPosDistFromLeft;
 }
@@ -368,7 +368,7 @@ void StaticData::setNatLangShipName(QString val) {
     m_natLangShipName = val;
 }
 
-QString StaticData::getNatLangShipName() {
+QString StaticData::getNatLangShipName() const {
 
     return m_natLangShipName;
 }
@@ -384,7 +384,7 @@ void StaticData::setPortOfRegistry(QString val) {
     m_portOfRegistry = val;
 }
 
-QString StaticData::getPortOfRegistry() {
+QString StaticData::getPortOfRegistry() const {
 
     return m_portOfRegistry;
 }
@@ -400,7 +400,7 @@ void StaticData::setCountryFlag(QString val) {
     m_countryFlag = val;
 }
 
-QString StaticData::getCountryFlag() {
+QString StaticData::getCountryFlag() const {
 
     return m_countryFlag;
 }
@@ -416,7 +416,7 @@ void StaticData::setMaxAirDraught(float val) {
     m_maxAirDraught = val;
 }
 
-float StaticData::getMaxAirDraught() {
+float StaticData::getMaxAirDraught() const {
 
     return m_maxAirDraught;
 }
@@ -432,7 +432,7 @@ void StaticData::setMaxDraught(float val) {
     m_maxDraught = val;
 }
 
-float StaticData::getMaxDraught() {
+float StaticData::getMaxDraught() const {
 
     return m_maxDraught;
 }
@@ -451,7 +451,7 @@ void StaticData::setDeepWaterVesselind(QString val) {
     m_deepWaterVesselind = val;
 }
 
-QString StaticData::getDeepWaterVesselind() {
+QString StaticData::getDeepWaterVesselind() const {
 
     return m_deepWaterVesselind;
 }

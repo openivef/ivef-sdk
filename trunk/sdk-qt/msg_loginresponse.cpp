@@ -7,8 +7,8 @@ MSG_LoginResponse::MSG_LoginResponse() {
 
 MSG_LoginResponse::MSG_LoginResponse(const MSG_LoginResponse &val) : QObject() {
 
-    m_header = ((MSG_LoginResponse)val).getHeader();
-    m_body = ((MSG_LoginResponse)val).getBody();
+    m_header = val.getHeader();
+    m_body = val.getBody();
 }
 
 MSG_LoginResponse & MSG_LoginResponse::operator=(const MSG_LoginResponse &/*val*/) {
@@ -21,7 +21,7 @@ void MSG_LoginResponse::setHeader(Header val) {
     m_header = val;
 }
 
-Header MSG_LoginResponse::getHeader() {
+Header MSG_LoginResponse::getHeader() const {
 
     return m_header;
 }
@@ -31,7 +31,7 @@ void MSG_LoginResponse::setBody(Body val) {
     m_body = val;
 }
 
-Body MSG_LoginResponse::getBody() {
+Body MSG_LoginResponse::getBody() const {
 
     return m_body;
 }

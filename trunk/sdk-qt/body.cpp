@@ -16,23 +16,23 @@ Body::Body() {
 Body::Body(const Body &val) : QObject() {
 
     m_vesselDataPresent = false;
-    for(int i=0; i < ((Body)val).countOfVesselDatas(); i++) { 
-        m_vesselDatas.append( ((Body)val).getVesselDataAt(i) );
+    for(int i=0; i < val.countOfVesselDatas(); i++) { 
+        m_vesselDatas.append( val.getVesselDataAt(i) );
     }
     m_loginRequestPresent = false;
-    m_loginRequest = ((Body)val).getLoginRequest();
+    m_loginRequest = val.getLoginRequest();
     m_loginResponsePresent = false;
-    m_loginResponse = ((Body)val).getLoginResponse();
+    m_loginResponse = val.getLoginResponse();
     m_pingPresent = false;
-    m_ping = ((Body)val).getPing();
+    m_ping = val.getPing();
     m_pongPresent = false;
-    m_pong = ((Body)val).getPong();
+    m_pong = val.getPong();
     m_serverStatusPresent = false;
-    m_serverStatus = ((Body)val).getServerStatus();
+    m_serverStatus = val.getServerStatus();
     m_logoutPresent = false;
-    m_logout = ((Body)val).getLogout();
+    m_logout = val.getLogout();
     m_serviceRequestPresent = false;
-    m_serviceRequest = ((Body)val).getServiceRequest();
+    m_serviceRequest = val.getServiceRequest();
 }
 
 Body & Body::operator=(const Body &/*val*/) {
@@ -45,12 +45,12 @@ void Body::addVesselData(VesselData val) {
     m_vesselDatas.append(val);
 }
 
-VesselData Body::getVesselDataAt(int i) {
+VesselData Body::getVesselDataAt(int i) const {
 
     return m_vesselDatas.at(i);
 }
 
-int Body::countOfVesselDatas() {
+int Body::countOfVesselDatas() const {
 
     return m_vesselDatas.count();
 }
@@ -61,7 +61,7 @@ void Body::setLoginRequest(LoginRequest val) {
     m_loginRequest = val;
 }
 
-LoginRequest Body::getLoginRequest() {
+LoginRequest Body::getLoginRequest() const {
 
     return m_loginRequest;
 }
@@ -77,7 +77,7 @@ void Body::setLoginResponse(LoginResponse val) {
     m_loginResponse = val;
 }
 
-LoginResponse Body::getLoginResponse() {
+LoginResponse Body::getLoginResponse() const {
 
     return m_loginResponse;
 }
@@ -93,7 +93,7 @@ void Body::setPing(Ping val) {
     m_ping = val;
 }
 
-Ping Body::getPing() {
+Ping Body::getPing() const {
 
     return m_ping;
 }
@@ -109,7 +109,7 @@ void Body::setPong(Pong val) {
     m_pong = val;
 }
 
-Pong Body::getPong() {
+Pong Body::getPong() const {
 
     return m_pong;
 }
@@ -125,7 +125,7 @@ void Body::setServerStatus(ServerStatus val) {
     m_serverStatus = val;
 }
 
-ServerStatus Body::getServerStatus() {
+ServerStatus Body::getServerStatus() const {
 
     return m_serverStatus;
 }
@@ -141,7 +141,7 @@ void Body::setLogout(Logout val) {
     m_logout = val;
 }
 
-Logout Body::getLogout() {
+Logout Body::getLogout() const {
 
     return m_logout;
 }
@@ -157,7 +157,7 @@ void Body::setServiceRequest(ServiceRequest val) {
     m_serviceRequest = val;
 }
 
-ServiceRequest Body::getServiceRequest() {
+ServiceRequest Body::getServiceRequest() const {
 
     return m_serviceRequest;
 }

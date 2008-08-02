@@ -7,8 +7,8 @@ Header::Header() {
 
 Header::Header(const Header &val) : QObject() {
 
-    m_version = ((Header)val).getVersion();
-    m_msgRefId = ((Header)val).getMsgRefId();
+    m_version = val.getVersion();
+    m_msgRefId = val.getMsgRefId();
 }
 
 Header & Header::operator=(const Header &/*val*/) {
@@ -21,7 +21,7 @@ void Header::setVersion(QString val) {
     m_version = val;
 }
 
-QString Header::getVersion() {
+QString Header::getVersion() const {
 
     return m_version;
 }
@@ -31,7 +31,7 @@ void Header::setMsgRefId(QString val) {
     m_msgRefId = val;
 }
 
-QString Header::getMsgRefId() {
+QString Header::getMsgRefId() const {
 
     return m_msgRefId;
 }

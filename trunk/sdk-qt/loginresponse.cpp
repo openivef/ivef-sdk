@@ -8,10 +8,10 @@ LoginResponse::LoginResponse() {
 
 LoginResponse::LoginResponse(const LoginResponse &val) : QObject() {
 
-    m_msgId = ((LoginResponse)val).getMsgId();
-    m_result = ((LoginResponse)val).getResult();
+    m_msgId = val.getMsgId();
+    m_result = val.getResult();
     m_reasonPresent = false;
-    m_reason = ((LoginResponse)val).getReason();
+    m_reason = val.getReason();
 }
 
 LoginResponse & LoginResponse::operator=(const LoginResponse &/*val*/) {
@@ -24,7 +24,7 @@ void LoginResponse::setMsgId(QString val) {
     m_msgId = val;
 }
 
-QString LoginResponse::getMsgId() {
+QString LoginResponse::getMsgId() const {
 
     return m_msgId;
 }
@@ -37,7 +37,7 @@ void LoginResponse::setResult(int val) {
     m_result = val;
 }
 
-int LoginResponse::getResult() {
+int LoginResponse::getResult() const {
 
     return m_result;
 }
@@ -48,7 +48,7 @@ void LoginResponse::setReason(QString val) {
     m_reason = val;
 }
 
-QString LoginResponse::getReason() {
+QString LoginResponse::getReason() const {
 
     return m_reason;
 }

@@ -7,7 +7,7 @@ Ping::Ping() {
 
 Ping::Ping(const Ping &val) : QObject() {
 
-    m_timeStamp = ((Ping)val).getTimeStamp();
+    m_timeStamp = val.getTimeStamp();
 }
 
 Ping & Ping::operator=(const Ping &/*val*/) {
@@ -20,7 +20,7 @@ void Ping::setTimeStamp(QDateTime val) {
     m_timeStamp = val;
 }
 
-QDateTime Ping::getTimeStamp() {
+QDateTime Ping::getTimeStamp() const {
 
     return m_timeStamp;
 }

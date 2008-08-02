@@ -8,9 +8,9 @@ ServerStatus::ServerStatus() {
 
 ServerStatus::ServerStatus(const ServerStatus &val) : QObject() {
 
-    m_status = ((ServerStatus)val).getStatus();
+    m_status = val.getStatus();
     m_detailsPresent = false;
-    m_details = ((ServerStatus)val).getDetails();
+    m_details = val.getDetails();
 }
 
 ServerStatus & ServerStatus::operator=(const ServerStatus &/*val*/) {
@@ -26,7 +26,7 @@ void ServerStatus::setStatus(QString val) {
     m_status = val;
 }
 
-QString ServerStatus::getStatus() {
+QString ServerStatus::getStatus() const {
 
     return m_status;
 }
@@ -37,7 +37,7 @@ void ServerStatus::setDetails(QString val) {
     m_details = val;
 }
 
-QString ServerStatus::getDetails() {
+QString ServerStatus::getDetails() const {
 
     return m_details;
 }

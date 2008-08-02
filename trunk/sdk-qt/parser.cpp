@@ -479,6 +479,9 @@ bool Parser::endElement(const QString &,
 
         m_typeStack.pop();
         Header *obj = (Header*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "MSG_VesselData") {
+            	((MSG_VesselData*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
         if ( m_typeStack.top() == "MSG_LoginRequest") {
             	((MSG_LoginRequest*) ( m_objStack.top() ) )->setHeader( *obj );
         }
@@ -493,6 +496,9 @@ bool Parser::endElement(const QString &,
         }
         if ( m_typeStack.top() == "MSG_ServerStatus") {
             	((MSG_ServerStatus*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_Logout") {
+            	((MSG_Logout*) ( m_objStack.top() ) )->setHeader( *obj );
         }
         if ( m_typeStack.top() == "MSG_ServiceRequest") {
             	((MSG_ServiceRequest*) ( m_objStack.top() ) )->setHeader( *obj );
@@ -510,6 +516,9 @@ bool Parser::endElement(const QString &,
 
         m_typeStack.pop();
         Body *obj = (Body*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "MSG_VesselData") {
+            	((MSG_VesselData*) ( m_objStack.top() ) )->setBody( *obj );
+        }
         if ( m_typeStack.top() == "MSG_LoginRequest") {
             	((MSG_LoginRequest*) ( m_objStack.top() ) )->setBody( *obj );
         }
@@ -524,6 +533,9 @@ bool Parser::endElement(const QString &,
         }
         if ( m_typeStack.top() == "MSG_ServerStatus") {
             	((MSG_ServerStatus*) ( m_objStack.top() ) )->setBody( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_Logout") {
+            	((MSG_Logout*) ( m_objStack.top() ) )->setBody( *obj );
         }
         if ( m_typeStack.top() == "MSG_ServiceRequest") {
             	((MSG_ServiceRequest*) ( m_objStack.top() ) )->setBody( *obj );
@@ -543,18 +555,27 @@ bool Parser::endElement(const QString &,
 
         m_typeStack.pop();
         PosReport *obj = (PosReport*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "VesselData") {
+            	((VesselData*) ( m_objStack.top() ) )->setPosReport( *obj );
+        }
         delete( obj ); 
     }
     else if (qName == "StaticData") {
 
         m_typeStack.pop();
         StaticData *obj = (StaticData*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "VesselData") {
+            	((VesselData*) ( m_objStack.top() ) )->addStaticData( *obj );
+        }
         delete( obj ); 
     }
     else if (qName == "Voyage") {
 
         m_typeStack.pop();
         Voyage *obj = (Voyage*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "VesselData") {
+            	((VesselData*) ( m_objStack.top() ) )->addVoyage( *obj );
+        }
         delete( obj ); 
     }
     else if (qName == "MSG_LoginRequest") {
@@ -673,30 +694,45 @@ bool Parser::endElement(const QString &,
 
         m_typeStack.pop();
         Area *obj = (Area*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "ServiceRequest") {
+            	((ServiceRequest*) ( m_objStack.top() ) )->addArea( *obj );
+        }
         delete( obj ); 
     }
     else if (qName == "Transmission") {
 
         m_typeStack.pop();
         Transmission *obj = (Transmission*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "ServiceRequest") {
+            	((ServiceRequest*) ( m_objStack.top() ) )->setTransmission( *obj );
+        }
         delete( obj ); 
     }
     else if (qName == "Item") {
 
         m_typeStack.pop();
         Item *obj = (Item*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "ServiceRequest") {
+            	((ServiceRequest*) ( m_objStack.top() ) )->addItem( *obj );
+        }
         delete( obj ); 
     }
     else if (qName == "Object") {
 
         m_typeStack.pop();
         Object *obj = (Object*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "ServiceRequest") {
+            	((ServiceRequest*) ( m_objStack.top() ) )->addObject( *obj );
+        }
         delete( obj ); 
     }
     else if (qName == "Pos") {
 
         m_typeStack.pop();
         Pos *obj = (Pos*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "PosReport") {
+            	((PosReport*) ( m_objStack.top() ) )->setPos( *obj );
+        }
         if ( m_typeStack.top() == "Area") {
             	((Area*) ( m_objStack.top() ) )->addPos( *obj );
         }

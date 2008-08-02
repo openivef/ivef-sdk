@@ -13,21 +13,21 @@ Voyage::Voyage() {
 
 Voyage::Voyage(const Voyage &val) : QObject() {
 
-    m_id = ((Voyage)val).getId();
-    m_sourceName = ((Voyage)val).getSourceName();
-    m_source = ((Voyage)val).getSource();
+    m_id = val.getId();
+    m_sourceName = val.getSourceName();
+    m_source = val.getSource();
     m_cargoTypePresent = false;
-    m_cargoType = ((Voyage)val).getCargoType();
+    m_cargoType = val.getCargoType();
     m_destinationPresent = false;
-    m_destination = ((Voyage)val).getDestination();
+    m_destination = val.getDestination();
     m_ETAPresent = false;
-    m_ETA = ((Voyage)val).getETA();
+    m_ETA = val.getETA();
     m_ATAPresent = false;
-    m_ATA = ((Voyage)val).getATA();
+    m_ATA = val.getATA();
     m_airDraughtPresent = false;
-    m_airDraught = ((Voyage)val).getAirDraught();
+    m_airDraught = val.getAirDraught();
     m_draughtPresent = false;
-    m_draught = ((Voyage)val).getDraught();
+    m_draught = val.getDraught();
 }
 
 Voyage & Voyage::operator=(const Voyage &/*val*/) {
@@ -40,7 +40,7 @@ void Voyage::setId(QString val) {
     m_id = val;
 }
 
-QString Voyage::getId() {
+QString Voyage::getId() const {
 
     return m_id;
 }
@@ -50,7 +50,7 @@ void Voyage::setSourceName(QString val) {
     m_sourceName = val;
 }
 
-QString Voyage::getSourceName() {
+QString Voyage::getSourceName() const {
 
     return m_sourceName;
 }
@@ -64,7 +64,7 @@ void Voyage::setSource(int val) {
     m_source = val;
 }
 
-int Voyage::getSource() {
+int Voyage::getSource() const {
 
     return m_source;
 }
@@ -82,7 +82,7 @@ void Voyage::setCargoType(int val) {
     m_cargoType = val;
 }
 
-int Voyage::getCargoType() {
+int Voyage::getCargoType() const {
 
     return m_cargoType;
 }
@@ -98,7 +98,7 @@ void Voyage::setDestination(QString val) {
     m_destination = val;
 }
 
-QString Voyage::getDestination() {
+QString Voyage::getDestination() const {
 
     return m_destination;
 }
@@ -114,7 +114,7 @@ void Voyage::setETA(QDateTime val) {
     m_ETA = val;
 }
 
-QDateTime Voyage::getETA() {
+QDateTime Voyage::getETA() const {
 
     return m_ETA;
 }
@@ -130,7 +130,7 @@ void Voyage::setATA(QDateTime val) {
     m_ATA = val;
 }
 
-QDateTime Voyage::getATA() {
+QDateTime Voyage::getATA() const {
 
     return m_ATA;
 }
@@ -146,7 +146,7 @@ void Voyage::setAirDraught(float val) {
     m_airDraught = val;
 }
 
-float Voyage::getAirDraught() {
+float Voyage::getAirDraught() const {
 
     return m_airDraught;
 }
@@ -162,7 +162,7 @@ void Voyage::setDraught(float val) {
     m_draught = val;
 }
 
-float Voyage::getDraught() {
+float Voyage::getDraught() const {
 
     return m_draught;
 }

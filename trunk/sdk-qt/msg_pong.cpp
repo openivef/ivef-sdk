@@ -7,8 +7,8 @@ MSG_Pong::MSG_Pong() {
 
 MSG_Pong::MSG_Pong(const MSG_Pong &val) : QObject() {
 
-    m_header = ((MSG_Pong)val).getHeader();
-    m_body = ((MSG_Pong)val).getBody();
+    m_header = val.getHeader();
+    m_body = val.getBody();
 }
 
 MSG_Pong & MSG_Pong::operator=(const MSG_Pong &/*val*/) {
@@ -21,7 +21,7 @@ void MSG_Pong::setHeader(Header val) {
     m_header = val;
 }
 
-Header MSG_Pong::getHeader() {
+Header MSG_Pong::getHeader() const {
 
     return m_header;
 }
@@ -31,7 +31,7 @@ void MSG_Pong::setBody(Body val) {
     m_body = val;
 }
 
-Body MSG_Pong::getBody() {
+Body MSG_Pong::getBody() const {
 
     return m_body;
 }

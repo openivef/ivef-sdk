@@ -7,15 +7,15 @@ ServiceRequest::ServiceRequest() {
 
 ServiceRequest::ServiceRequest(const ServiceRequest &val) : QObject() {
 
-    for(int i=0; i < ((ServiceRequest)val).countOfAreas(); i++) { 
-        m_areas.append( ((ServiceRequest)val).getAreaAt(i) );
+    for(int i=0; i < val.countOfAreas(); i++) { 
+        m_areas.append( val.getAreaAt(i) );
     }
-    m_transmission = ((ServiceRequest)val).getTransmission();
-    for(int i=0; i < ((ServiceRequest)val).countOfItems(); i++) { 
-        m_items.append( ((ServiceRequest)val).getItemAt(i) );
+    m_transmission = val.getTransmission();
+    for(int i=0; i < val.countOfItems(); i++) { 
+        m_items.append( val.getItemAt(i) );
     }
-    for(int i=0; i < ((ServiceRequest)val).countOfObjects(); i++) { 
-        m_objects.append( ((ServiceRequest)val).getObjectAt(i) );
+    for(int i=0; i < val.countOfObjects(); i++) { 
+        m_objects.append( val.getObjectAt(i) );
     }
 }
 
@@ -29,12 +29,12 @@ void ServiceRequest::addArea(Area val) {
     m_areas.append(val);
 }
 
-Area ServiceRequest::getAreaAt(int i) {
+Area ServiceRequest::getAreaAt(int i) const {
 
     return m_areas.at(i);
 }
 
-int ServiceRequest::countOfAreas() {
+int ServiceRequest::countOfAreas() const {
 
     return m_areas.count();
 }
@@ -44,7 +44,7 @@ void ServiceRequest::setTransmission(Transmission val) {
     m_transmission = val;
 }
 
-Transmission ServiceRequest::getTransmission() {
+Transmission ServiceRequest::getTransmission() const {
 
     return m_transmission;
 }
@@ -54,12 +54,12 @@ void ServiceRequest::addItem(Item val) {
     m_items.append(val);
 }
 
-Item ServiceRequest::getItemAt(int i) {
+Item ServiceRequest::getItemAt(int i) const {
 
     return m_items.at(i);
 }
 
-int ServiceRequest::countOfItems() {
+int ServiceRequest::countOfItems() const {
 
     return m_items.count();
 }
@@ -69,12 +69,12 @@ void ServiceRequest::addObject(Object val) {
     m_objects.append(val);
 }
 
-Object ServiceRequest::getObjectAt(int i) {
+Object ServiceRequest::getObjectAt(int i) const {
 
     return m_objects.at(i);
 }
 
-int ServiceRequest::countOfObjects() {
+int ServiceRequest::countOfObjects() const {
 
     return m_objects.count();
 }

@@ -14,12 +14,12 @@ Schema & Schema::operator=(const Schema &/*val*/) {
     return *this;
 }
 
-QString Schema::getElementFormDefault() {
+QString Schema::getElementFormDefault() const {
 
     return "qualified";
 }
 
-QString Schema::getTargetNamespace() {
+QString Schema::getTargetNamespace() const {
 
     return "urn:http://www.hitt.nl/XMLSchema/ISIS/1.1";
 }
