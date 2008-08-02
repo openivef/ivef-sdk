@@ -197,7 +197,7 @@ void CodeGenQT::go() {
 		// public section
 		headerFileOut << "public:\n";
 		headerFileOut << "    " << className(name) << "();\n"; // constructor
-		headerFileOut << "    " << className(name) << "(const " << className(name) << "&);\n"; // copy constructor
+		headerFileOut << "    " << className(name) << "(" << className(name) << " &val);\n"; // copy constructor
 		headerFileOut << "    " << className(name) << " & operator=(const " << className(name) << "&/*val*/);\n"; // = operator
 
 		// all attributes
@@ -278,7 +278,7 @@ void CodeGenQT::go() {
 		classFileOut << "}\n\n";
 
 		// copy constructor
-		classFileOut << className(name) << "::" << className(name) << "(const " << className(name) << " &val) : QObject() {\n\n"; 
+		classFileOut << className(name) << "::" << className(name) << "(" << className(name) << " &val) : QObject() {\n\n"; 
 		for(int j=0; j < attributes.size(); j++) {
 			XSDAttribute *attr = attributes.at(j);
 			QString attrType = attr->type();
@@ -287,13 +287,12 @@ void CodeGenQT::go() {
 				classFileOut << "    " << variableName(attr->name()) << "Present = false;\n";
 			}
 			if (attr->unbounded()) { // there more then one
-				// must cast to non-const....
 				classFileOut << "    for(int i=0; i < ((" << className(name) << ")val).countOf" << methodName(attr->name()) << "s(); i++) { \n";
-				classFileOut << "        " << variableName(attr->name()) << "s.append( ((" << className(name) << ")val).get" << methodName(attr->name()) << "At(i) );\n";
+				classFileOut << "        " << variableName(attr->name()) << "s.append( val.get" << methodName(attr->name()) << "At(i) );\n";
 				classFileOut << "    }\n";
 
 			} else {
-				classFileOut << "    " << variableName(attr->name()) << " = ((" << className(name) << ")val).get" << methodName(attr->name()) << "();\n";
+				classFileOut << "    " << variableName(attr->name()) << " = val.get" << methodName(attr->name()) << "();\n";
 			}
 		}
 		classFileOut << "}\n\n";
