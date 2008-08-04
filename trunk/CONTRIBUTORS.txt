@@ -7,5 +7,6 @@ initial design & implementation:
 design & implementation @ HITT office:
    Harry ten Berge <htenberge@gmail.com>
    Kees van Dongen <kees.dongen@gmail.com>
+   Richard Jonker
 
 
