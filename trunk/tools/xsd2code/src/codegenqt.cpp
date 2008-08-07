@@ -443,7 +443,7 @@ void CodeGenQT::go() {
     //-----------------------------------------------------------------------------------------------
 
     // open the header file
-    QString name = m_prefix + "parser";
+    QString name = m_prefix + "Parser";
 
     QFile headerFile(m_outDir + "/" + fileBaseName(name) + ".h");
     if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -641,7 +641,7 @@ void CodeGenQT::go() {
                 XSDAttribute *attr = parent->attributes().at(j);
                 QString objType = attr->type();
 
-                if (objType == className(obj->name()) && parent->isRootObject()) { // this object has an attribute of that type
+                if (objType == className(obj->name()) /*&& parent->isRootObject()*/) { // this object has an attribute of that type
                     classFileOut << "        if ( m_typeStack.top() == \"" << parent->name() << "\") {\n";
                     if (attr->unbounded() ) {
                         classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj );\n";
