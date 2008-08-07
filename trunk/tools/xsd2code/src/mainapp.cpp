@@ -29,9 +29,10 @@ MainApp::MainApp( int & argc, char ** argv )
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "file",     "read from XSD file" ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "out",      "target dir (default is file)" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "version",  "show version information and exit." ) );
+    m_options.append( CmdLineOption( CmdLineOption::TEXT,    "prefix",   "a prefix for the classes" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "qt",       "generate qt cpp files (default)." ) );
-    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "cpp",      "generate cpp files" ) );
-    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "cs",       "generate c# files" ) );
+//    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "cpp",      "generate cpp files" ) );
+//    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "cs",       "generate c# files" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "java",     "generate java files" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "objc",     "generate objective-C files" ) );
 
@@ -94,10 +95,14 @@ void MainApp::slotStart( void ) {
             std::exit(-1);
 		}
 		
+    		QString prefix("");
+    		m_options.getText("prefix", prefix); // get an optional prefix
+
 		// set properties and go
 		generator->setObjects(m_handler->objects());
+		generator->setPrefix(prefix);
 		QString outDir(fileName); // probably need to create it first, strip of leading path etc TODO
-        m_options.getText("out", outDir);
+        	m_options.getText("out", outDir);
 		generator->setOutputDir(outDir);
 		generator->go();
 		

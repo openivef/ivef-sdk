@@ -31,6 +31,7 @@ public:
 	CodeGenQT();
 	void setObjects(QVector<XSDObject*>objects);
 	void setOutputDir(QString outDir);
+        void setPrefix(QString prefix) { m_prefix = prefix; };
 	void go();
 
 protected:
@@ -38,6 +39,7 @@ protected:
 	QString localType(QString type);
 	
 private:
+        QString m_prefix;
 	QString m_outDir;
 	QVector<XSDObject*>m_objects;
 };
