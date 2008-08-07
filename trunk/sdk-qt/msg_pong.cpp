@@ -7,12 +7,14 @@ MSG_Pong::MSG_Pong() {
 
 MSG_Pong::MSG_Pong(const MSG_Pong &val) : QObject() {
 
-    m_header = val.getHeader();
-    m_body = val.getBody();
+    m_header = val.m_header;
+    m_body = val.m_body;
 }
 
-MSG_Pong & MSG_Pong::operator=(const MSG_Pong &/*val*/) {
+MSG_Pong & MSG_Pong::operator=(const MSG_Pong &val) {
 
+    m_header = val.m_header;
+    m_body = val.m_body;
     return *this;
 }
 
@@ -42,7 +44,7 @@ QString MSG_Pong::toXML() {
     xml.append(">\n");
     xml.append( m_header.toXML() );
     xml.append( m_body.toXML() );
-    xml.append( "<MSG_Pong />\n");
+    xml.append( "</MSG_Pong>\n");
     return xml;
 }
 

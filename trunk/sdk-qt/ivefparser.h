@@ -1,5 +1,5 @@
-#ifndef __PARSER_H__
-#define __PARSER_H__
+#ifndef __IVEFPARSER_H__
+#define __IVEFPARSER_H__
 
 #include <QtCore>
 #include <QXmlDefaultHandler>
@@ -32,11 +32,11 @@
 #include "object.h"
 #include "pos.h"
 
-class Parser : public QObject, QXmlDefaultHandler, QXmlSimpleReader { 
+class IVEFparser : public QObject, QXmlDefaultHandler, QXmlSimpleReader { 
     Q_OBJECT
 
 public:
-    Parser();
+    IVEFparser();
     bool startElement(const QString &,
                       const QString &,
                       const QString & qName,

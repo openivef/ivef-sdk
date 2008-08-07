@@ -7,13 +7,12 @@ Area::Area() {
 
 Area::Area(const Area &val) : QObject() {
 
-    for(int i=0; i < val.countOfPoss(); i++) { 
-        m_poss.append( val.getPosAt(i) );
-    }
+    m_poss = val.m_poss;
 }
 
-Area & Area::operator=(const Area &/*val*/) {
+Area & Area::operator=(const Area &val) {
 
+    m_poss = val.m_poss;
     return *this;
 }
 
@@ -40,7 +39,7 @@ QString Area::toXML() {
        Pos attribute = m_poss.at(i);
         xml.append( attribute.toXML() );
     }
-    xml.append( "<Area />\n");
+    xml.append( "</Area>\n");
     return xml;
 }
 

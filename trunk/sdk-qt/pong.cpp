@@ -7,13 +7,16 @@ Pong::Pong() {
 
 Pong::Pong(const Pong &val) : QObject() {
 
-    m_timeStamp = val.getTimeStamp();
-    m_msgId = val.getMsgId();
-    m_sourceId = val.getSourceId();
+    m_timeStamp = val.m_timeStamp;
+    m_msgId = val.m_msgId;
+    m_sourceId = val.m_sourceId;
 }
 
-Pong & Pong::operator=(const Pong &/*val*/) {
+Pong & Pong::operator=(const Pong &val) {
 
+    m_timeStamp = val.m_timeStamp;
+    m_msgId = val.m_msgId;
+    m_sourceId = val.m_sourceId;
     return *this;
 }
 
@@ -50,11 +53,11 @@ int Pong::getSourceId() const {
 QString Pong::toXML() {
 
     QString xml = "<Pong";
-    xml.append(" TimeStamp = \"" + m_timeStamp.toString() + "\"");
-    xml.append(" MsgId = \"" + m_msgId + "\"");
-    xml.append(" SourceId = \"" + QString(m_sourceId, 10) + "\"");
+    xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
+    xml.append(" MsgId=\"" + m_msgId + "\"");
+    xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
     xml.append(">\n");
-    xml.append( "<Pong />\n");
+    xml.append( "</Pong>\n");
     return xml;
 }
 

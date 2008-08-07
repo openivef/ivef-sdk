@@ -7,12 +7,14 @@ MSG_VesselData::MSG_VesselData() {
 
 MSG_VesselData::MSG_VesselData(const MSG_VesselData &val) : QObject() {
 
-    m_header = val.getHeader();
-    m_body = val.getBody();
+    m_header = val.m_header;
+    m_body = val.m_body;
 }
 
-MSG_VesselData & MSG_VesselData::operator=(const MSG_VesselData &/*val*/) {
+MSG_VesselData & MSG_VesselData::operator=(const MSG_VesselData &val) {
 
+    m_header = val.m_header;
+    m_body = val.m_body;
     return *this;
 }
 
@@ -42,7 +44,7 @@ QString MSG_VesselData::toXML() {
     xml.append(">\n");
     xml.append( m_header.toXML() );
     xml.append( m_body.toXML() );
-    xml.append( "<MSG_VesselData />\n");
+    xml.append( "</MSG_VesselData>\n");
     return xml;
 }
 

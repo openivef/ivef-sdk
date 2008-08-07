@@ -7,12 +7,14 @@ MSG_Logout::MSG_Logout() {
 
 MSG_Logout::MSG_Logout(const MSG_Logout &val) : QObject() {
 
-    m_header = val.getHeader();
-    m_body = val.getBody();
+    m_header = val.m_header;
+    m_body = val.m_body;
 }
 
-MSG_Logout & MSG_Logout::operator=(const MSG_Logout &/*val*/) {
+MSG_Logout & MSG_Logout::operator=(const MSG_Logout &val) {
 
+    m_header = val.m_header;
+    m_body = val.m_body;
     return *this;
 }
 
@@ -42,7 +44,7 @@ QString MSG_Logout::toXML() {
     xml.append(">\n");
     xml.append( m_header.toXML() );
     xml.append( m_body.toXML() );
-    xml.append( "<MSG_Logout />\n");
+    xml.append( "</MSG_Logout>\n");
     return xml;
 }
 

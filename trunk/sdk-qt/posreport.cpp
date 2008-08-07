@@ -15,33 +15,56 @@ PosReport::PosReport() {
 
 PosReport::PosReport(const PosReport &val) : QObject() {
 
-    m_pos = val.getPos();
-    m_id = val.getId();
-    m_sourceId = val.getSourceId();
-    m_updateTime = val.getUpdateTime();
-    m_SOG = val.getSOG();
-    m_COG = val.getCOG();
-    m_lost = val.getLost();
-    m_rateOfTurnPresent = false;
-    m_rateOfTurn = val.getRateOfTurn();
-    m_orientationPresent = false;
-    m_orientation = val.getOrientation();
-    m_lengthPresent = false;
-    m_length = val.getLength();
-    m_breadthPresent = false;
-    m_breadth = val.getBreadth();
-    m_altitudePresent = false;
-    m_altitude = val.getAltitude();
-    m_navStatusPresent = false;
-    m_navStatus = val.getNavStatus();
-    m_updSensorTypePresent = false;
-    m_updSensorType = val.getUpdSensorType();
-    m_ATONOffPosPresent = false;
-    m_ATONOffPos = val.getATONOffPos();
+    m_pos = val.m_pos;
+    m_id = val.m_id;
+    m_sourceId = val.m_sourceId;
+    m_updateTime = val.m_updateTime;
+    m_SOG = val.m_SOG;
+    m_COG = val.m_COG;
+    m_lost = val.m_lost;
+    m_rateOfTurnPresent = val.m_rateOfTurnPresent;
+    m_rateOfTurn = val.m_rateOfTurn;
+    m_orientationPresent = val.m_orientationPresent;
+    m_orientation = val.m_orientation;
+    m_lengthPresent = val.m_lengthPresent;
+    m_length = val.m_length;
+    m_breadthPresent = val.m_breadthPresent;
+    m_breadth = val.m_breadth;
+    m_altitudePresent = val.m_altitudePresent;
+    m_altitude = val.m_altitude;
+    m_navStatusPresent = val.m_navStatusPresent;
+    m_navStatus = val.m_navStatus;
+    m_updSensorTypePresent = val.m_updSensorTypePresent;
+    m_updSensorType = val.m_updSensorType;
+    m_ATONOffPosPresent = val.m_ATONOffPosPresent;
+    m_ATONOffPos = val.m_ATONOffPos;
 }
 
-PosReport & PosReport::operator=(const PosReport &/*val*/) {
+PosReport & PosReport::operator=(const PosReport &val) {
 
+    m_pos = val.m_pos;
+    m_id = val.m_id;
+    m_sourceId = val.m_sourceId;
+    m_updateTime = val.m_updateTime;
+    m_SOG = val.m_SOG;
+    m_COG = val.m_COG;
+    m_lost = val.m_lost;
+    m_rateOfTurnPresent = val.m_rateOfTurnPresent;
+    m_rateOfTurn = val.m_rateOfTurn;
+    m_orientationPresent = val.m_orientationPresent;
+    m_orientation = val.m_orientation;
+    m_lengthPresent = val.m_lengthPresent;
+    m_length = val.m_length;
+    m_breadthPresent = val.m_breadthPresent;
+    m_breadth = val.m_breadth;
+    m_altitudePresent = val.m_altitudePresent;
+    m_altitude = val.m_altitude;
+    m_navStatusPresent = val.m_navStatusPresent;
+    m_navStatus = val.m_navStatus;
+    m_updSensorTypePresent = val.m_updSensorTypePresent;
+    m_updSensorType = val.m_updSensorType;
+    m_ATONOffPosPresent = val.m_ATONOffPosPresent;
+    m_ATONOffPos = val.m_ATONOffPos;
     return *this;
 }
 
@@ -279,39 +302,39 @@ bool PosReport::hasATONOffPos() {
 QString PosReport::toXML() {
 
     QString xml = "<PosReport";
-    xml.append(" Id = \"" + QString(m_id, 10) + "\"");
-    xml.append(" SourceId = \"" + QString(m_sourceId, 10) + "\"");
-    xml.append(" UpdateTime = \"" + m_updateTime.toString() + "\"");
-    xml.append(" SOG = \"" + QString(m_SOG, 10) + "\"");
-    xml.append(" COG = \"" + QString(m_COG, 10) + "\"");
-    xml.append(" Lost = \"" + m_lost + "\"");
+    xml.append(" Id=\"" + QString::number(m_id) + "\"");
+    xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
+    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
+    xml.append(" SOG=\"" + QString::number(m_SOG) + "\"");
+    xml.append(" COG=\"" + QString::number(m_COG) + "\"");
+    xml.append(" Lost=\"" + m_lost + "\"");
     if ( hasRateOfTurn() ) {
-        xml.append(" RateOfTurn = \"" + QString(m_rateOfTurn, 10) + "\"");
+        xml.append(" RateOfTurn=\"" + QString::number(m_rateOfTurn) + "\"");
     }
     if ( hasOrientation() ) {
-        xml.append(" Orientation = \"" + QString(m_orientation, 10) + "\"");
+        xml.append(" Orientation=\"" + QString::number(m_orientation) + "\"");
     }
     if ( hasLength() ) {
-        xml.append(" Length = \"" + QString(m_length, 10) + "\"");
+        xml.append(" Length=\"" + QString::number(m_length) + "\"");
     }
     if ( hasBreadth() ) {
-        xml.append(" Breadth = \"" + QString(m_breadth, 10) + "\"");
+        xml.append(" Breadth=\"" + QString::number(m_breadth) + "\"");
     }
     if ( hasAltitude() ) {
-        xml.append(" Altitude = \"" + QString(m_altitude, 10) + "\"");
+        xml.append(" Altitude=\"" + QString::number(m_altitude) + "\"");
     }
     if ( hasNavStatus() ) {
-        xml.append(" NavStatus = \"" + QString(m_navStatus, 10) + "\"");
+        xml.append(" NavStatus=\"" + QString::number(m_navStatus) + "\"");
     }
     if ( hasUpdSensorType() ) {
-        xml.append(" UpdSensorType = \"" + QString(m_updSensorType, 10) + "\"");
+        xml.append(" UpdSensorType=\"" + QString::number(m_updSensorType) + "\"");
     }
     if ( hasATONOffPos() ) {
-        xml.append(" ATONOffPos = \"" + QString(m_ATONOffPos, 10) + "\"");
+        xml.append(" ATONOffPos=\"" + QString::number(m_ATONOffPos) + "\"");
     }
     xml.append(">\n");
     xml.append( m_pos.toXML() );
-    xml.append( "<PosReport />\n");
+    xml.append( "</PosReport>\n");
     return xml;
 }
 

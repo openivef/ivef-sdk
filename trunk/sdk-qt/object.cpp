@@ -7,11 +7,12 @@ Object::Object() {
 
 Object::Object(const Object &val) : QObject() {
 
-    m_fileName = val.getFileName();
+    m_fileName = val.m_fileName;
 }
 
-Object & Object::operator=(const Object &/*val*/) {
+Object & Object::operator=(const Object &val) {
 
+    m_fileName = val.m_fileName;
     return *this;
 }
 
@@ -28,9 +29,9 @@ QString Object::getFileName() const {
 QString Object::toXML() {
 
     QString xml = "<Object";
-    xml.append(" FileName = \"" + m_fileName + "\"");
+    xml.append(" FileName=\"" + m_fileName + "\"");
     xml.append(">\n");
-    xml.append( "<Object />\n");
+    xml.append( "</Object>\n");
     return xml;
 }
 

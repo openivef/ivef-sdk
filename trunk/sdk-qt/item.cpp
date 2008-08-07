@@ -7,12 +7,14 @@ Item::Item() {
 
 Item::Item(const Item &val) : QObject() {
 
-    m_element = val.getElement();
-    m_field = val.getField();
+    m_element = val.m_element;
+    m_field = val.m_field;
 }
 
-Item & Item::operator=(const Item &/*val*/) {
+Item & Item::operator=(const Item &val) {
 
+    m_element = val.m_element;
+    m_field = val.m_field;
     return *this;
 }
 
@@ -43,10 +45,10 @@ QString Item::getField() const {
 QString Item::toXML() {
 
     QString xml = "<Item";
-    xml.append(" Element = \"" + QString(m_element, 10) + "\"");
-    xml.append(" Field = \"" + m_field + "\"");
+    xml.append(" Element=\"" + QString::number(m_element) + "\"");
+    xml.append(" Field=\"" + m_field + "\"");
     xml.append(">\n");
-    xml.append( "<Item />\n");
+    xml.append( "</Item>\n");
     return xml;
 }
 

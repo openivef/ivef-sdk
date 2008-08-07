@@ -7,12 +7,14 @@ MSG_LoginResponse::MSG_LoginResponse() {
 
 MSG_LoginResponse::MSG_LoginResponse(const MSG_LoginResponse &val) : QObject() {
 
-    m_header = val.getHeader();
-    m_body = val.getBody();
+    m_header = val.m_header;
+    m_body = val.m_body;
 }
 
-MSG_LoginResponse & MSG_LoginResponse::operator=(const MSG_LoginResponse &/*val*/) {
+MSG_LoginResponse & MSG_LoginResponse::operator=(const MSG_LoginResponse &val) {
 
+    m_header = val.m_header;
+    m_body = val.m_body;
     return *this;
 }
 
@@ -42,7 +44,7 @@ QString MSG_LoginResponse::toXML() {
     xml.append(">\n");
     xml.append( m_header.toXML() );
     xml.append( m_body.toXML() );
-    xml.append( "<MSG_LoginResponse />\n");
+    xml.append( "</MSG_LoginResponse>\n");
     return xml;
 }
 

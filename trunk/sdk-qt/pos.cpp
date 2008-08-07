@@ -7,12 +7,14 @@ Pos::Pos() {
 
 Pos::Pos(const Pos &val) : QObject() {
 
-    m_lat = val.getLat();
-    m_long = val.getLong();
+    m_lat = val.m_lat;
+    m_long = val.m_long;
 }
 
-Pos & Pos::operator=(const Pos &/*val*/) {
+Pos & Pos::operator=(const Pos &val) {
 
+    m_lat = val.m_lat;
+    m_long = val.m_long;
     return *this;
 }
 
@@ -47,10 +49,10 @@ float Pos::getLong() const {
 QString Pos::toXML() {
 
     QString xml = "<Pos";
-    xml.append(" Lat = \"" + QString(m_lat, 10) + "\"");
-    xml.append(" Long = \"" + QString(m_long, 10) + "\"");
+    xml.append(" Lat=\"" + QString::number(m_lat) + "\"");
+    xml.append(" Long=\"" + QString::number(m_long) + "\"");
     xml.append(">\n");
-    xml.append( "<Pos />\n");
+    xml.append( "</Pos>\n");
     return xml;
 }
 

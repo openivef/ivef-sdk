@@ -9,7 +9,7 @@ Schema::Schema(const Schema &val) : QObject() {
 
 }
 
-Schema & Schema::operator=(const Schema &/*val*/) {
+Schema & Schema::operator=(const Schema &val) {
 
     return *this;
 }
@@ -28,7 +28,7 @@ QString Schema::toXML() {
 
     QString xml = "<Schema";
     xml.append(">\n");
-    xml.append( "<Schema />\n");
+    xml.append( "</Schema>\n");
     return xml;
 }
 

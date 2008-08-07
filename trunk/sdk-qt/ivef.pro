@@ -24,7 +24,7 @@ HEADERS += area.h \
            msg_servicerequest.h \
            msg_vesseldata.h \
            object.h \
-           parser.h \
+           ivefparser.h \
            ping.h \
            pong.h \
            pos.h \
@@ -52,7 +52,7 @@ SOURCES += area.cpp \
            msg_servicerequest.cpp \
            msg_vesseldata.cpp \
            object.cpp \
-           parser.cpp \
+           ivefparser.cpp \
            ping.cpp \
            pong.cpp \
            pos.cpp \

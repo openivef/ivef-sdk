@@ -13,25 +13,40 @@ Voyage::Voyage() {
 
 Voyage::Voyage(const Voyage &val) : QObject() {
 
-    m_id = val.getId();
-    m_sourceName = val.getSourceName();
-    m_source = val.getSource();
-    m_cargoTypePresent = false;
-    m_cargoType = val.getCargoType();
-    m_destinationPresent = false;
-    m_destination = val.getDestination();
-    m_ETAPresent = false;
-    m_ETA = val.getETA();
-    m_ATAPresent = false;
-    m_ATA = val.getATA();
-    m_airDraughtPresent = false;
-    m_airDraught = val.getAirDraught();
-    m_draughtPresent = false;
-    m_draught = val.getDraught();
+    m_id = val.m_id;
+    m_sourceName = val.m_sourceName;
+    m_source = val.m_source;
+    m_cargoTypePresent = val.m_cargoTypePresent;
+    m_cargoType = val.m_cargoType;
+    m_destinationPresent = val.m_destinationPresent;
+    m_destination = val.m_destination;
+    m_ETAPresent = val.m_ETAPresent;
+    m_ETA = val.m_ETA;
+    m_ATAPresent = val.m_ATAPresent;
+    m_ATA = val.m_ATA;
+    m_airDraughtPresent = val.m_airDraughtPresent;
+    m_airDraught = val.m_airDraught;
+    m_draughtPresent = val.m_draughtPresent;
+    m_draught = val.m_draught;
 }
 
-Voyage & Voyage::operator=(const Voyage &/*val*/) {
+Voyage & Voyage::operator=(const Voyage &val) {
 
+    m_id = val.m_id;
+    m_sourceName = val.m_sourceName;
+    m_source = val.m_source;
+    m_cargoTypePresent = val.m_cargoTypePresent;
+    m_cargoType = val.m_cargoType;
+    m_destinationPresent = val.m_destinationPresent;
+    m_destination = val.m_destination;
+    m_ETAPresent = val.m_ETAPresent;
+    m_ETA = val.m_ETA;
+    m_ATAPresent = val.m_ATAPresent;
+    m_ATA = val.m_ATA;
+    m_airDraughtPresent = val.m_airDraughtPresent;
+    m_airDraught = val.m_airDraught;
+    m_draughtPresent = val.m_draughtPresent;
+    m_draught = val.m_draught;
     return *this;
 }
 
@@ -175,29 +190,29 @@ bool Voyage::hasDraught() {
 QString Voyage::toXML() {
 
     QString xml = "<Voyage";
-    xml.append(" Id = \"" + m_id + "\"");
-    xml.append(" SourceName = \"" + m_sourceName + "\"");
-    xml.append(" Source = \"" + QString(m_source, 10) + "\"");
+    xml.append(" Id=\"" + m_id + "\"");
+    xml.append(" SourceName=\"" + m_sourceName + "\"");
+    xml.append(" Source=\"" + QString::number(m_source) + "\"");
     if ( hasCargoType() ) {
-        xml.append(" CargoType = \"" + QString(m_cargoType, 10) + "\"");
+        xml.append(" CargoType=\"" + QString::number(m_cargoType) + "\"");
     }
     if ( hasDestination() ) {
-        xml.append(" Destination = \"" + m_destination + "\"");
+        xml.append(" Destination=\"" + m_destination + "\"");
     }
     if ( hasETA() ) {
-        xml.append(" ETA = \"" + m_ETA.toString() + "\"");
+        xml.append(" ETA=\"" + m_ETA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
     }
     if ( hasATA() ) {
-        xml.append(" ATA = \"" + m_ATA.toString() + "\"");
+        xml.append(" ATA=\"" + m_ATA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
     }
     if ( hasAirDraught() ) {
-        xml.append(" AirDraught = \"" + QString(m_airDraught, 10) + "\"");
+        xml.append(" AirDraught=\"" + QString::number(m_airDraught) + "\"");
     }
     if ( hasDraught() ) {
-        xml.append(" Draught = \"" + QString(m_draught, 10) + "\"");
+        xml.append(" Draught=\"" + QString::number(m_draught) + "\"");
     }
     xml.append(">\n");
-    xml.append( "<Voyage />\n");
+    xml.append( "</Voyage>\n");
     return xml;
 }
 

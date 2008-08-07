@@ -8,14 +8,18 @@ LoginResponse::LoginResponse() {
 
 LoginResponse::LoginResponse(const LoginResponse &val) : QObject() {
 
-    m_msgId = val.getMsgId();
-    m_result = val.getResult();
-    m_reasonPresent = false;
-    m_reason = val.getReason();
+    m_msgId = val.m_msgId;
+    m_result = val.m_result;
+    m_reasonPresent = val.m_reasonPresent;
+    m_reason = val.m_reason;
 }
 
-LoginResponse & LoginResponse::operator=(const LoginResponse &/*val*/) {
+LoginResponse & LoginResponse::operator=(const LoginResponse &val) {
 
+    m_msgId = val.m_msgId;
+    m_result = val.m_result;
+    m_reasonPresent = val.m_reasonPresent;
+    m_reason = val.m_reason;
     return *this;
 }
 
@@ -61,13 +65,13 @@ bool LoginResponse::hasReason() {
 QString LoginResponse::toXML() {
 
     QString xml = "<LoginResponse";
-    xml.append(" MsgId = \"" + m_msgId + "\"");
-    xml.append(" Result = \"" + QString(m_result, 10) + "\"");
+    xml.append(" MsgId=\"" + m_msgId + "\"");
+    xml.append(" Result=\"" + QString::number(m_result) + "\"");
     if ( hasReason() ) {
-        xml.append(" Reason = \"" + m_reason + "\"");
+        xml.append(" Reason=\"" + m_reason + "\"");
     }
     xml.append(">\n");
-    xml.append( "<LoginResponse />\n");
+    xml.append( "</LoginResponse>\n");
     return xml;
 }
 

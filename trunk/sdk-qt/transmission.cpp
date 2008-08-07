@@ -8,13 +8,16 @@ Transmission::Transmission() {
 
 Transmission::Transmission(const Transmission &val) : QObject() {
 
-    m_type = val.getType();
-    m_periodPresent = false;
-    m_period = val.getPeriod();
+    m_type = val.m_type;
+    m_periodPresent = val.m_periodPresent;
+    m_period = val.m_period;
 }
 
-Transmission & Transmission::operator=(const Transmission &/*val*/) {
+Transmission & Transmission::operator=(const Transmission &val) {
 
+    m_type = val.m_type;
+    m_periodPresent = val.m_periodPresent;
+    m_period = val.m_period;
     return *this;
 }
 
@@ -52,12 +55,12 @@ bool Transmission::hasPeriod() {
 QString Transmission::toXML() {
 
     QString xml = "<Transmission";
-    xml.append(" Type = \"" + QString(m_type, 10) + "\"");
+    xml.append(" Type=\"" + QString::number(m_type) + "\"");
     if ( hasPeriod() ) {
-        xml.append(" Period = \"" + QString(m_period, 10) + "\"");
+        xml.append(" Period=\"" + QString::number(m_period) + "\"");
     }
     xml.append(">\n");
-    xml.append( "<Transmission />\n");
+    xml.append( "</Transmission>\n");
     return xml;
 }
 

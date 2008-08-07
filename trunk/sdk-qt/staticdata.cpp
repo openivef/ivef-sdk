@@ -25,49 +25,88 @@ StaticData::StaticData() {
 
 StaticData::StaticData(const StaticData &val) : QObject() {
 
-    m_id = val.getId();
-    m_sourceName = val.getSourceName();
-    m_source = val.getSource();
-    m_lengthPresent = false;
-    m_length = val.getLength();
-    m_breadthPresent = false;
-    m_breadth = val.getBreadth();
-    m_callsignPresent = false;
-    m_callsign = val.getCallsign();
-    m_shipNamePresent = false;
-    m_shipName = val.getShipName();
-    m_objectTypePresent = false;
-    m_objectType = val.getObjectType();
-    m_shipTypePresent = false;
-    m_shipType = val.getShipType();
-    m_IMOPresent = false;
-    m_IMO = val.getIMO();
-    m_MMSIPresent = false;
-    m_MMSI = val.getMMSI();
-    m_ATONTypePresent = false;
-    m_ATONType = val.getATONType();
-    m_ATONNamePresent = false;
-    m_ATONName = val.getATONName();
-    m_antPosDistFromFrontPresent = false;
-    m_antPosDistFromFront = val.getAntPosDistFromFront();
-    m_antPosDistFromLeftPresent = false;
-    m_antPosDistFromLeft = val.getAntPosDistFromLeft();
-    m_natLangShipNamePresent = false;
-    m_natLangShipName = val.getNatLangShipName();
-    m_portOfRegistryPresent = false;
-    m_portOfRegistry = val.getPortOfRegistry();
-    m_countryFlagPresent = false;
-    m_countryFlag = val.getCountryFlag();
-    m_maxAirDraughtPresent = false;
-    m_maxAirDraught = val.getMaxAirDraught();
-    m_maxDraughtPresent = false;
-    m_maxDraught = val.getMaxDraught();
-    m_deepWaterVesselindPresent = false;
-    m_deepWaterVesselind = val.getDeepWaterVesselind();
+    m_id = val.m_id;
+    m_sourceName = val.m_sourceName;
+    m_source = val.m_source;
+    m_lengthPresent = val.m_lengthPresent;
+    m_length = val.m_length;
+    m_breadthPresent = val.m_breadthPresent;
+    m_breadth = val.m_breadth;
+    m_callsignPresent = val.m_callsignPresent;
+    m_callsign = val.m_callsign;
+    m_shipNamePresent = val.m_shipNamePresent;
+    m_shipName = val.m_shipName;
+    m_objectTypePresent = val.m_objectTypePresent;
+    m_objectType = val.m_objectType;
+    m_shipTypePresent = val.m_shipTypePresent;
+    m_shipType = val.m_shipType;
+    m_IMOPresent = val.m_IMOPresent;
+    m_IMO = val.m_IMO;
+    m_MMSIPresent = val.m_MMSIPresent;
+    m_MMSI = val.m_MMSI;
+    m_ATONTypePresent = val.m_ATONTypePresent;
+    m_ATONType = val.m_ATONType;
+    m_ATONNamePresent = val.m_ATONNamePresent;
+    m_ATONName = val.m_ATONName;
+    m_antPosDistFromFrontPresent = val.m_antPosDistFromFrontPresent;
+    m_antPosDistFromFront = val.m_antPosDistFromFront;
+    m_antPosDistFromLeftPresent = val.m_antPosDistFromLeftPresent;
+    m_antPosDistFromLeft = val.m_antPosDistFromLeft;
+    m_natLangShipNamePresent = val.m_natLangShipNamePresent;
+    m_natLangShipName = val.m_natLangShipName;
+    m_portOfRegistryPresent = val.m_portOfRegistryPresent;
+    m_portOfRegistry = val.m_portOfRegistry;
+    m_countryFlagPresent = val.m_countryFlagPresent;
+    m_countryFlag = val.m_countryFlag;
+    m_maxAirDraughtPresent = val.m_maxAirDraughtPresent;
+    m_maxAirDraught = val.m_maxAirDraught;
+    m_maxDraughtPresent = val.m_maxDraughtPresent;
+    m_maxDraught = val.m_maxDraught;
+    m_deepWaterVesselindPresent = val.m_deepWaterVesselindPresent;
+    m_deepWaterVesselind = val.m_deepWaterVesselind;
 }
 
-StaticData & StaticData::operator=(const StaticData &/*val*/) {
+StaticData & StaticData::operator=(const StaticData &val) {
 
+    m_id = val.m_id;
+    m_sourceName = val.m_sourceName;
+    m_source = val.m_source;
+    m_lengthPresent = val.m_lengthPresent;
+    m_length = val.m_length;
+    m_breadthPresent = val.m_breadthPresent;
+    m_breadth = val.m_breadth;
+    m_callsignPresent = val.m_callsignPresent;
+    m_callsign = val.m_callsign;
+    m_shipNamePresent = val.m_shipNamePresent;
+    m_shipName = val.m_shipName;
+    m_objectTypePresent = val.m_objectTypePresent;
+    m_objectType = val.m_objectType;
+    m_shipTypePresent = val.m_shipTypePresent;
+    m_shipType = val.m_shipType;
+    m_IMOPresent = val.m_IMOPresent;
+    m_IMO = val.m_IMO;
+    m_MMSIPresent = val.m_MMSIPresent;
+    m_MMSI = val.m_MMSI;
+    m_ATONTypePresent = val.m_ATONTypePresent;
+    m_ATONType = val.m_ATONType;
+    m_ATONNamePresent = val.m_ATONNamePresent;
+    m_ATONName = val.m_ATONName;
+    m_antPosDistFromFrontPresent = val.m_antPosDistFromFrontPresent;
+    m_antPosDistFromFront = val.m_antPosDistFromFront;
+    m_antPosDistFromLeftPresent = val.m_antPosDistFromLeftPresent;
+    m_antPosDistFromLeft = val.m_antPosDistFromLeft;
+    m_natLangShipNamePresent = val.m_natLangShipNamePresent;
+    m_natLangShipName = val.m_natLangShipName;
+    m_portOfRegistryPresent = val.m_portOfRegistryPresent;
+    m_portOfRegistry = val.m_portOfRegistry;
+    m_countryFlagPresent = val.m_countryFlagPresent;
+    m_countryFlag = val.m_countryFlag;
+    m_maxAirDraughtPresent = val.m_maxAirDraughtPresent;
+    m_maxAirDraught = val.m_maxAirDraught;
+    m_maxDraughtPresent = val.m_maxDraughtPresent;
+    m_maxDraught = val.m_maxDraught;
+    m_deepWaterVesselindPresent = val.m_deepWaterVesselindPresent;
+    m_deepWaterVesselind = val.m_deepWaterVesselind;
     return *this;
 }
 
@@ -464,65 +503,65 @@ bool StaticData::hasDeepWaterVesselind() {
 QString StaticData::toXML() {
 
     QString xml = "<StaticData";
-    xml.append(" Id = \"" + QString(m_id, 10) + "\"");
-    xml.append(" SourceName = \"" + m_sourceName + "\"");
-    xml.append(" Source = \"" + QString(m_source, 10) + "\"");
+    xml.append(" Id=\"" + QString::number(m_id) + "\"");
+    xml.append(" SourceName=\"" + m_sourceName + "\"");
+    xml.append(" Source=\"" + QString::number(m_source) + "\"");
     if ( hasLength() ) {
-        xml.append(" Length = \"" + QString(m_length, 10) + "\"");
+        xml.append(" Length=\"" + QString::number(m_length) + "\"");
     }
     if ( hasBreadth() ) {
-        xml.append(" Breadth = \"" + QString(m_breadth, 10) + "\"");
+        xml.append(" Breadth=\"" + QString::number(m_breadth) + "\"");
     }
     if ( hasCallsign() ) {
-        xml.append(" Callsign = \"" + m_callsign + "\"");
+        xml.append(" Callsign=\"" + m_callsign + "\"");
     }
     if ( hasShipName() ) {
-        xml.append(" ShipName = \"" + m_shipName + "\"");
+        xml.append(" ShipName=\"" + m_shipName + "\"");
     }
     if ( hasObjectType() ) {
-        xml.append(" ObjectType = \"" + QString(m_objectType, 10) + "\"");
+        xml.append(" ObjectType=\"" + QString::number(m_objectType) + "\"");
     }
     if ( hasShipType() ) {
-        xml.append(" ShipType = \"" + QString(m_shipType, 10) + "\"");
+        xml.append(" ShipType=\"" + QString::number(m_shipType) + "\"");
     }
     if ( hasIMO() ) {
-        xml.append(" IMO = \"" + QString(m_IMO, 10) + "\"");
+        xml.append(" IMO=\"" + QString::number(m_IMO) + "\"");
     }
     if ( hasMMSI() ) {
-        xml.append(" MMSI = \"" + QString(m_MMSI, 10) + "\"");
+        xml.append(" MMSI=\"" + QString::number(m_MMSI) + "\"");
     }
     if ( hasATONType() ) {
-        xml.append(" ATONType = \"" + QString(m_ATONType, 10) + "\"");
+        xml.append(" ATONType=\"" + QString::number(m_ATONType) + "\"");
     }
     if ( hasATONName() ) {
-        xml.append(" ATONName = \"" + m_ATONName + "\"");
+        xml.append(" ATONName=\"" + m_ATONName + "\"");
     }
     if ( hasAntPosDistFromFront() ) {
-        xml.append(" AntPosDistFromFront = \"" + QString(m_antPosDistFromFront, 10) + "\"");
+        xml.append(" AntPosDistFromFront=\"" + QString::number(m_antPosDistFromFront) + "\"");
     }
     if ( hasAntPosDistFromLeft() ) {
-        xml.append(" AntPosDistFromLeft = \"" + QString(m_antPosDistFromLeft, 10) + "\"");
+        xml.append(" AntPosDistFromLeft=\"" + QString::number(m_antPosDistFromLeft) + "\"");
     }
     if ( hasNatLangShipName() ) {
-        xml.append(" NatLangShipName = \"" + m_natLangShipName + "\"");
+        xml.append(" NatLangShipName=\"" + m_natLangShipName + "\"");
     }
     if ( hasPortOfRegistry() ) {
-        xml.append(" PortOfRegistry = \"" + m_portOfRegistry + "\"");
+        xml.append(" PortOfRegistry=\"" + m_portOfRegistry + "\"");
     }
     if ( hasCountryFlag() ) {
-        xml.append(" CountryFlag = \"" + m_countryFlag + "\"");
+        xml.append(" CountryFlag=\"" + m_countryFlag + "\"");
     }
     if ( hasMaxAirDraught() ) {
-        xml.append(" MaxAirDraught = \"" + QString(m_maxAirDraught, 10) + "\"");
+        xml.append(" MaxAirDraught=\"" + QString::number(m_maxAirDraught) + "\"");
     }
     if ( hasMaxDraught() ) {
-        xml.append(" MaxDraught = \"" + QString(m_maxDraught, 10) + "\"");
+        xml.append(" MaxDraught=\"" + QString::number(m_maxDraught) + "\"");
     }
     if ( hasDeepWaterVesselind() ) {
-        xml.append(" DeepWaterVesselind = \"" + m_deepWaterVesselind + "\"");
+        xml.append(" DeepWaterVesselind=\"" + m_deepWaterVesselind + "\"");
     }
     xml.append(">\n");
-    xml.append( "<StaticData />\n");
+    xml.append( "</StaticData>\n");
     return xml;
 }
 

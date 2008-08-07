@@ -7,20 +7,18 @@ ServiceRequest::ServiceRequest() {
 
 ServiceRequest::ServiceRequest(const ServiceRequest &val) : QObject() {
 
-    for(int i=0; i < val.countOfAreas(); i++) { 
-        m_areas.append( val.getAreaAt(i) );
-    }
-    m_transmission = val.getTransmission();
-    for(int i=0; i < val.countOfItems(); i++) { 
-        m_items.append( val.getItemAt(i) );
-    }
-    for(int i=0; i < val.countOfObjects(); i++) { 
-        m_objects.append( val.getObjectAt(i) );
-    }
+    m_areas = val.m_areas;
+    m_transmission = val.m_transmission;
+    m_items = val.m_items;
+    m_objects = val.m_objects;
 }
 
-ServiceRequest & ServiceRequest::operator=(const ServiceRequest &/*val*/) {
+ServiceRequest & ServiceRequest::operator=(const ServiceRequest &val) {
 
+    m_areas = val.m_areas;
+    m_transmission = val.m_transmission;
+    m_items = val.m_items;
+    m_objects = val.m_objects;
     return *this;
 }
 
@@ -96,7 +94,7 @@ QString ServiceRequest::toXML() {
        Object attribute = m_objects.at(i);
         xml.append( attribute.toXML() );
     }
-    xml.append( "<ServiceRequest />\n");
+    xml.append( "</ServiceRequest>\n");
     return xml;
 }
 

@@ -7,17 +7,16 @@ VesselData::VesselData() {
 
 VesselData::VesselData(const VesselData &val) : QObject() {
 
-    m_posReport = val.getPosReport();
-    for(int i=0; i < val.countOfStaticDatas(); i++) { 
-        m_staticDatas.append( val.getStaticDataAt(i) );
-    }
-    for(int i=0; i < val.countOfVoyages(); i++) { 
-        m_voyages.append( val.getVoyageAt(i) );
-    }
+    m_posReport = val.m_posReport;
+    m_staticDatas = val.m_staticDatas;
+    m_voyages = val.m_voyages;
 }
 
-VesselData & VesselData::operator=(const VesselData &/*val*/) {
+VesselData & VesselData::operator=(const VesselData &val) {
 
+    m_posReport = val.m_posReport;
+    m_staticDatas = val.m_staticDatas;
+    m_voyages = val.m_voyages;
     return *this;
 }
 
@@ -74,7 +73,7 @@ QString VesselData::toXML() {
        Voyage attribute = m_voyages.at(i);
         xml.append( attribute.toXML() );
     }
-    xml.append( "<VesselData />\n");
+    xml.append( "</VesselData>\n");
     return xml;
 }
 

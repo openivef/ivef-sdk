@@ -7,13 +7,16 @@ LoginRequest::LoginRequest() {
 
 LoginRequest::LoginRequest(const LoginRequest &val) : QObject() {
 
-    m_name = val.getName();
-    m_password = val.getPassword();
-    m_encryption = val.getEncryption();
+    m_name = val.m_name;
+    m_password = val.m_password;
+    m_encryption = val.m_encryption;
 }
 
-LoginRequest & LoginRequest::operator=(const LoginRequest &/*val*/) {
+LoginRequest & LoginRequest::operator=(const LoginRequest &val) {
 
+    m_name = val.m_name;
+    m_password = val.m_password;
+    m_encryption = val.m_encryption;
     return *this;
 }
 
@@ -53,11 +56,11 @@ int LoginRequest::getEncryption() const {
 QString LoginRequest::toXML() {
 
     QString xml = "<LoginRequest";
-    xml.append(" Name = \"" + m_name + "\"");
-    xml.append(" Password = \"" + m_password + "\"");
-    xml.append(" Encryption = \"" + QString(m_encryption, 10) + "\"");
+    xml.append(" Name=\"" + m_name + "\"");
+    xml.append(" Password=\"" + m_password + "\"");
+    xml.append(" Encryption=\"" + QString::number(m_encryption) + "\"");
     xml.append(">\n");
-    xml.append( "<LoginRequest />\n");
+    xml.append( "</LoginRequest>\n");
     return xml;
 }
 
