@@ -32,11 +32,11 @@
 #include "object.h"
 #include "pos.h"
 
-class IVEFparser : public QObject, QXmlDefaultHandler, QXmlSimpleReader { 
+class IVEFParser : public QObject, QXmlDefaultHandler, QXmlSimpleReader { 
     Q_OBJECT
 
 public:
-    IVEFparser();
+    IVEFParser();
     bool startElement(const QString &,
                       const QString &,
                       const QString & qName,
