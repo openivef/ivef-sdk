@@ -64,3 +64,12 @@ QString LoginRequest::toXML() {
     return xml;
 }
 
+QString LoginRequest::toString(QString lead) {
+
+    QString str = lead + "LoginRequest\n";
+    str.append( lead + "    Name = " + m_name + "\n");
+    str.append( lead + "    Password = " + m_password + "\n");
+    str.append( lead + "    Encryption = " + QString::number(m_encryption) + "\n");
+    return str;
+}
+

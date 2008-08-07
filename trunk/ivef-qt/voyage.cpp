@@ -216,3 +216,30 @@ QString Voyage::toXML() {
     return xml;
 }
 
+QString Voyage::toString(QString lead) {
+
+    QString str = lead + "Voyage\n";
+    str.append( lead + "    Id = " + m_id + "\n");
+    str.append( lead + "    SourceName = " + m_sourceName + "\n");
+    str.append( lead + "    Source = " + QString::number(m_source) + "\n");
+    if ( hasCargoType() ) {
+        str.append( lead + "    CargoType = " + QString::number(m_cargoType) + "\n");
+    }
+    if ( hasDestination() ) {
+        str.append( lead + "    Destination = " + m_destination + "\n");
+    }
+    if ( hasETA() ) {
+        str.append( lead + "    ETA = " + m_ETA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    }
+    if ( hasATA() ) {
+        str.append( lead + "    ATA = " + m_ATA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    }
+    if ( hasAirDraught() ) {
+        str.append( lead + "    AirDraught = " + QString::number(m_airDraught) + "\n");
+    }
+    if ( hasDraught() ) {
+        str.append( lead + "    Draught = " + QString::number(m_draught) + "\n");
+    }
+    return str;
+}
+

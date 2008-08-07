@@ -75,3 +75,14 @@ QString LoginResponse::toXML() {
     return xml;
 }
 
+QString LoginResponse::toString(QString lead) {
+
+    QString str = lead + "LoginResponse\n";
+    str.append( lead + "    MsgId = " + m_msgId + "\n");
+    str.append( lead + "    Result = " + QString::number(m_result) + "\n");
+    if ( hasReason() ) {
+        str.append( lead + "    Reason = " + m_reason + "\n");
+    }
+    return str;
+}
+

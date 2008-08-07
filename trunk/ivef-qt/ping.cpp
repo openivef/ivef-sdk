@@ -35,3 +35,10 @@ QString Ping::toXML() {
     return xml;
 }
 
+QString Ping::toString(QString lead) {
+
+    QString str = lead + "Ping\n";
+    str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    return str;
+}
+

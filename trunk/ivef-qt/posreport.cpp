@@ -338,3 +338,40 @@ QString PosReport::toXML() {
     return xml;
 }
 
+QString PosReport::toString(QString lead) {
+
+    QString str = lead + "PosReport\n";
+    str.append( lead + "    Id = " + QString::number(m_id) + "\n");
+    str.append( lead + "    SourceId = " + QString::number(m_sourceId) + "\n");
+    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    str.append( lead + "    SOG = " + QString::number(m_SOG) + "\n");
+    str.append( lead + "    COG = " + QString::number(m_COG) + "\n");
+    str.append( lead + "    Lost = " + m_lost + "\n");
+    if ( hasRateOfTurn() ) {
+        str.append( lead + "    RateOfTurn = " + QString::number(m_rateOfTurn) + "\n");
+    }
+    if ( hasOrientation() ) {
+        str.append( lead + "    Orientation = " + QString::number(m_orientation) + "\n");
+    }
+    if ( hasLength() ) {
+        str.append( lead + "    Length = " + QString::number(m_length) + "\n");
+    }
+    if ( hasBreadth() ) {
+        str.append( lead + "    Breadth = " + QString::number(m_breadth) + "\n");
+    }
+    if ( hasAltitude() ) {
+        str.append( lead + "    Altitude = " + QString::number(m_altitude) + "\n");
+    }
+    if ( hasNavStatus() ) {
+        str.append( lead + "    NavStatus = " + QString::number(m_navStatus) + "\n");
+    }
+    if ( hasUpdSensorType() ) {
+        str.append( lead + "    UpdSensorType = " + QString::number(m_updSensorType) + "\n");
+    }
+    if ( hasATONOffPos() ) {
+        str.append( lead + "    ATONOffPos = " + QString::number(m_ATONOffPos) + "\n");
+    }
+    str.append( m_pos.toString(lead + "    ") );
+    return str;
+}
+

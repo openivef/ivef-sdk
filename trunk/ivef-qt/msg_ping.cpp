@@ -48,3 +48,11 @@ QString MSG_Ping::toXML() {
     return xml;
 }
 
+QString MSG_Ping::toString(QString lead) {
+
+    QString str = lead + "MSG_Ping\n";
+    str.append( m_header.toString(lead + "    ") );
+    str.append( m_body.toString(lead + "    ") );
+    return str;
+}
+

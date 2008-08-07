@@ -214,3 +214,34 @@ QString Body::toXML() {
     return xml;
 }
 
+QString Body::toString(QString lead) {
+
+    QString str = lead + "Body\n";
+    for(int i=0; i < m_vesselDatas.count(); i++ ) {
+       VesselData attribute = m_vesselDatas.at(i);
+       str.append( attribute.toString(lead + "    ") );
+    }
+    if ( hasLoginRequest() ) {
+        str.append( m_loginRequest.toString(lead + "    ") );
+    }
+    if ( hasLoginResponse() ) {
+        str.append( m_loginResponse.toString(lead + "    ") );
+    }
+    if ( hasPing() ) {
+        str.append( m_ping.toString(lead + "    ") );
+    }
+    if ( hasPong() ) {
+        str.append( m_pong.toString(lead + "    ") );
+    }
+    if ( hasServerStatus() ) {
+        str.append( m_serverStatus.toString(lead + "    ") );
+    }
+    if ( hasLogout() ) {
+        str.append( m_logout.toString(lead + "    ") );
+    }
+    if ( hasServiceRequest() ) {
+        str.append( m_serviceRequest.toString(lead + "    ") );
+    }
+    return str;
+}
+

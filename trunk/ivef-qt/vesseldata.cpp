@@ -77,3 +77,18 @@ QString VesselData::toXML() {
     return xml;
 }
 
+QString VesselData::toString(QString lead) {
+
+    QString str = lead + "VesselData\n";
+    str.append( m_posReport.toString(lead + "    ") );
+    for(int i=0; i < m_staticDatas.count(); i++ ) {
+       StaticData attribute = m_staticDatas.at(i);
+       str.append( attribute.toString(lead + "    ") );
+    }
+    for(int i=0; i < m_voyages.count(); i++ ) {
+       Voyage attribute = m_voyages.at(i);
+       str.append( attribute.toString(lead + "    ") );
+    }
+    return str;
+}
+

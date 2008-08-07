@@ -64,3 +64,13 @@ QString Transmission::toXML() {
     return xml;
 }
 
+QString Transmission::toString(QString lead) {
+
+    QString str = lead + "Transmission\n";
+    str.append( lead + "    Type = " + QString::number(m_type) + "\n");
+    if ( hasPeriod() ) {
+        str.append( lead + "    Period = " + QString::number(m_period) + "\n");
+    }
+    return str;
+}
+

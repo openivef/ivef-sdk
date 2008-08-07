@@ -32,3 +32,9 @@ QString Schema::toXML() {
     return xml;
 }
 
+QString Schema::toString(QString lead) {
+
+    QString str = lead + "Schema\n";
+    return str;
+}
+

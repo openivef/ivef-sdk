@@ -56,3 +56,11 @@ QString Pos::toXML() {
     return xml;
 }
 
+QString Pos::toString(QString lead) {
+
+    QString str = lead + "Pos\n";
+    str.append( lead + "    Lat = " + QString::number(m_lat) + "\n");
+    str.append( lead + "    Long = " + QString::number(m_long) + "\n");
+    return str;
+}
+

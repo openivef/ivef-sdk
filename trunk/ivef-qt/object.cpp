@@ -35,3 +35,10 @@ QString Object::toXML() {
     return xml;
 }
 
+QString Object::toString(QString lead) {
+
+    QString str = lead + "Object\n";
+    str.append( lead + "    FileName = " + m_fileName + "\n");
+    return str;
+}
+

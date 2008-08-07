@@ -62,3 +62,13 @@ QString ServerStatus::toXML() {
     return xml;
 }
 
+QString ServerStatus::toString(QString lead) {
+
+    QString str = lead + "ServerStatus\n";
+    str.append( lead + "    Status = " + m_status + "\n");
+    if ( hasDetails() ) {
+        str.append( lead + "    Details = " + m_details + "\n");
+    }
+    return str;
+}
+

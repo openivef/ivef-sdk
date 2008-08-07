@@ -48,3 +48,11 @@ QString MSG_Logout::toXML() {
     return xml;
 }
 
+QString MSG_Logout::toString(QString lead) {
+
+    QString str = lead + "MSG_Logout\n";
+    str.append( m_header.toString(lead + "    ") );
+    str.append( m_body.toString(lead + "    ") );
+    return str;
+}
+

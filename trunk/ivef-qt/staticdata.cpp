@@ -565,3 +565,66 @@ QString StaticData::toXML() {
     return xml;
 }
 
+QString StaticData::toString(QString lead) {
+
+    QString str = lead + "StaticData\n";
+    str.append( lead + "    Id = " + QString::number(m_id) + "\n");
+    str.append( lead + "    SourceName = " + m_sourceName + "\n");
+    str.append( lead + "    Source = " + QString::number(m_source) + "\n");
+    if ( hasLength() ) {
+        str.append( lead + "    Length = " + QString::number(m_length) + "\n");
+    }
+    if ( hasBreadth() ) {
+        str.append( lead + "    Breadth = " + QString::number(m_breadth) + "\n");
+    }
+    if ( hasCallsign() ) {
+        str.append( lead + "    Callsign = " + m_callsign + "\n");
+    }
+    if ( hasShipName() ) {
+        str.append( lead + "    ShipName = " + m_shipName + "\n");
+    }
+    if ( hasObjectType() ) {
+        str.append( lead + "    ObjectType = " + QString::number(m_objectType) + "\n");
+    }
+    if ( hasShipType() ) {
+        str.append( lead + "    ShipType = " + QString::number(m_shipType) + "\n");
+    }
+    if ( hasIMO() ) {
+        str.append( lead + "    IMO = " + QString::number(m_IMO) + "\n");
+    }
+    if ( hasMMSI() ) {
+        str.append( lead + "    MMSI = " + QString::number(m_MMSI) + "\n");
+    }
+    if ( hasATONType() ) {
+        str.append( lead + "    ATONType = " + QString::number(m_ATONType) + "\n");
+    }
+    if ( hasATONName() ) {
+        str.append( lead + "    ATONName = " + m_ATONName + "\n");
+    }
+    if ( hasAntPosDistFromFront() ) {
+        str.append( lead + "    AntPosDistFromFront = " + QString::number(m_antPosDistFromFront) + "\n");
+    }
+    if ( hasAntPosDistFromLeft() ) {
+        str.append( lead + "    AntPosDistFromLeft = " + QString::number(m_antPosDistFromLeft) + "\n");
+    }
+    if ( hasNatLangShipName() ) {
+        str.append( lead + "    NatLangShipName = " + m_natLangShipName + "\n");
+    }
+    if ( hasPortOfRegistry() ) {
+        str.append( lead + "    PortOfRegistry = " + m_portOfRegistry + "\n");
+    }
+    if ( hasCountryFlag() ) {
+        str.append( lead + "    CountryFlag = " + m_countryFlag + "\n");
+    }
+    if ( hasMaxAirDraught() ) {
+        str.append( lead + "    MaxAirDraught = " + QString::number(m_maxAirDraught) + "\n");
+    }
+    if ( hasMaxDraught() ) {
+        str.append( lead + "    MaxDraught = " + QString::number(m_maxDraught) + "\n");
+    }
+    if ( hasDeepWaterVesselind() ) {
+        str.append( lead + "    DeepWaterVesselind = " + m_deepWaterVesselind + "\n");
+    }
+    return str;
+}
+

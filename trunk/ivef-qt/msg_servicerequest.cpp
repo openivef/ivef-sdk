@@ -48,3 +48,11 @@ QString MSG_ServiceRequest::toXML() {
     return xml;
 }
 
+QString MSG_ServiceRequest::toString(QString lead) {
+
+    QString str = lead + "MSG_ServiceRequest\n";
+    str.append( m_header.toString(lead + "    ") );
+    str.append( m_body.toString(lead + "    ") );
+    return str;
+}
+

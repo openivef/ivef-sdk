@@ -39,7 +39,7 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n iListen 0.0.1\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
+        std::cout << "\n iListen 0.0.2\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
         std::exit(0);
     }
             
@@ -91,15 +91,6 @@ void iListenApplication::slotStart( void ) {
             
 void iListenApplication::printVesselData( MSG_VesselData obj ) {
             
-    std::cout << "vessel received " << std::endl;
-    int count = obj.getBody().countOfVesselDatas();
-    if ( count > 0 )
-    	std::cout << "----------------------------------------\n";
-    for (int i=0; i < count; i++) {
-        VesselData data = obj.getBody().getVesselDataAt(i);
-    	PosReport pos = data.getPosReport();
-        std::cout << "Id                 : " << pos.getId() << std::endl;
-    }
-
-    //std::cout << obj.toXML().toLatin1().data();
+   std::cout << "----------------------------------------\n";
+   std::cout << obj.toString("").toLatin1().data();
 }

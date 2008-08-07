@@ -454,9 +454,9 @@ void CodeGenQT::go() {
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        str.append( lead + \"     " << attr->name() << "=\" + " << varName << " + \"\\n\");\n    }\n";
+                    classFileOut << "        str.append( lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\");\n    }\n";
                 } else {
-                    classFileOut <<     "    str.append( lead + \"     " << attr->name() << "=\" + " << varName << " + \"\\n\");\n";
+                    classFileOut <<     "    str.append( lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\");\n";
                 }
             }
         }

@@ -22,3 +22,9 @@ QString Logout::toXML() {
     return xml;
 }
 
+QString Logout::toString(QString lead) {
+
+    QString str = lead + "Logout\n";
+    return str;
+}
+

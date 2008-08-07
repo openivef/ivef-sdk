@@ -48,3 +48,11 @@ QString MSG_LoginResponse::toXML() {
     return xml;
 }
 
+QString MSG_LoginResponse::toString(QString lead) {
+
+    QString str = lead + "MSG_LoginResponse\n";
+    str.append( m_header.toString(lead + "    ") );
+    str.append( m_body.toString(lead + "    ") );
+    return str;
+}
+

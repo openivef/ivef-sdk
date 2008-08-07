@@ -48,3 +48,11 @@ QString MSG_VesselData::toXML() {
     return xml;
 }
 
+QString MSG_VesselData::toString(QString lead) {
+
+    QString str = lead + "MSG_VesselData\n";
+    str.append( m_header.toString(lead + "    ") );
+    str.append( m_body.toString(lead + "    ") );
+    return str;
+}
+

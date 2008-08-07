@@ -61,3 +61,12 @@ QString Pong::toXML() {
     return xml;
 }
 
+QString Pong::toString(QString lead) {
+
+    QString str = lead + "Pong\n";
+    str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    str.append( lead + "    MsgId = " + m_msgId + "\n");
+    str.append( lead + "    SourceId = " + QString::number(m_sourceId) + "\n");
+    return str;
+}
+

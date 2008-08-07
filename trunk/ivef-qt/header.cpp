@@ -48,3 +48,11 @@ QString Header::toXML() {
     return xml;
 }
 
+QString Header::toString(QString lead) {
+
+    QString str = lead + "Header\n";
+    str.append( lead + "    Version = " + m_version + "\n");
+    str.append( lead + "    MsgRefId = " + m_msgRefId + "\n");
+    return str;
+}
+

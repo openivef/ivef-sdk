@@ -52,3 +52,11 @@ QString Item::toXML() {
     return xml;
 }
 
+QString Item::toString(QString lead) {
+
+    QString str = lead + "Item\n";
+    str.append( lead + "    Element = " + QString::number(m_element) + "\n");
+    str.append( lead + "    Field = " + m_field + "\n");
+    return str;
+}
+
