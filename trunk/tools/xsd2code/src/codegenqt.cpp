@@ -235,6 +235,7 @@ void CodeGenQT::go() {
             headerFileOut << "    " << type << " get" << methodName(attrName) << "() const;\n";
         }
         headerFileOut << "    QString toXML();\n";
+        headerFileOut << "    QString toString(QString lead);\n";
 
         // private section
         headerFileOut << "\nprivate:\n";
@@ -428,6 +429,60 @@ void CodeGenQT::go() {
         // close up
         classFileOut << "    xml.append( \"</" << name << ">\\n\");\n"; // append attributes
         classFileOut << "    return xml;\n";
+        classFileOut << "}\n\n";
+
+        // string generator
+        // if attribute name and type are the same it means it was data
+        classFileOut << "QString " << className(name) << "::toString(QString lead) {\n\n";
+        classFileOut << "    QString str = lead + \"" << name << "\\n\";\n"; // append attributes
+
+        // for attributes
+        for(int j=0; j < attributes.size(); j++) {
+            XSDAttribute *attr = attributes.at(j);
+            QString attrType = attr->type();
+            QString type = localType(attr->type()); // convert to cpp types
+            QString varName = variableName(attr->name());
+
+            if (attrType != attr->name()) {
+
+                // non-qstring items (ints) may give problems, so convert them
+                if (type == "QDateTime") {
+                    varName = variableName(attr->name()) + ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+                } else if (type != "QString") {
+                    varName = "QString::number(" + variableName(attr->name()) + ")";
+                }
+                // check if the attribute exist
+                if (!attr->required() || obj->isMerged()) {
+                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "        str.append( lead + \"     " << attr->name() << "=\" + " << varName << " + \"\\n\");\n    }\n";
+                } else {
+                    classFileOut <<     "    str.append( lead + \"     " << attr->name() << "=\" + " << varName << " + \"\\n\");\n";
+                }
+            }
+        }
+
+        // for data members
+        for(int j=0; j < attributes.size(); j++) {
+            XSDAttribute *attr = attributes.at(j);
+            QString attrType = attr->type();
+
+            if (attrType == attr->name()) {
+                // check if the attribute exist
+                if (attr->unbounded() ) {
+                    classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
+                    classFileOut << "       " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
+                    classFileOut << "       str.append( attribute.toString(lead + \"    \") );\n    }\n";
+                } else if (!attr->required() || obj->isMerged()) {
+                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "        str.append(" << " " << variableName(attr->name()) << ".toString(lead + \"    \") );\n    }\n";
+                } else {
+                    classFileOut <<     "    str.append(" << " " << variableName(attr->name()) << ".toString(lead + \"    \") );\n";
+                }
+            }
+        }
+
+        // close up
+        classFileOut << "    return str;\n";
         classFileOut << "}\n";
 
         // round up

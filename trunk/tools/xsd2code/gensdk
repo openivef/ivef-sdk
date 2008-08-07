@@ -1,7 +1,7 @@
-rm ../../sdk-qt/*cpp
-rm ../../sdk-qt/*o
-rm ../../sdk-qt/*h
-bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../sdk-qt/ --prefix=IVEF
-cd ../../sdk-qt/
+rm ../../ivef-qt/*.cpp
+rm ../../ivef-qt/*.o
+rm ../../ivef-qt/*.h
+bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../ivef-qt/ --prefix=IVEF
+cd ../../ivef-qt/
 make -j 12
 cd ../tools
