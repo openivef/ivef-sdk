@@ -91,17 +91,15 @@ void iListenApplication::slotStart( void ) {
             
 void iListenApplication::printVesselData( MSG_VesselData obj ) {
             
+    std::cout << "vessel received " << std::endl;
     int count = obj.getBody().countOfVesselDatas();
+    if ( count > 0 )
+    	std::cout << "----------------------------------------\n";
     for (int i=0; i < count; i++) {
-
         VesselData data = obj.getBody().getVesselDataAt(i);
     	PosReport pos = data.getPosReport();
-        
-	std::cout << "\n----------------------------------------" << std::endl;
-        
-	std::cout << "\nId                 : " << pos.getId() << std::endl;
-        
-	std::cout << "\n----------------------------------------" << std::endl;
-	
+        std::cout << "Id                 : " << pos.getId() << std::endl;
     }
+
+    //std::cout << obj.toXML().toLatin1().data();
 }

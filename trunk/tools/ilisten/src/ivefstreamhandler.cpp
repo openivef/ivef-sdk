@@ -20,7 +20,7 @@
 
 #include "ivefstreamhandler.h"
 
-IVEFStreamHandler::IVEFStreamHandler(Parser *parser) {
+IVEFStreamHandler::IVEFStreamHandler(IVEFParser *parser) {
 
     // clear user/password
     m_user = "john doe";

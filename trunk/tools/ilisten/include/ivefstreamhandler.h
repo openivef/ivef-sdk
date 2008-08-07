@@ -25,7 +25,7 @@
 #include <QtXml>
 #include <QtNetwork>
 
-#include "parser.h"
+#include "ivefparser.h"
 
 #define BUFFER_SIZE 1024*4
 
@@ -33,7 +33,7 @@ class IVEFStreamHandler : public QObject {
     Q_OBJECT
 
 public:
-    IVEFStreamHandler(Parser *parser);
+    IVEFStreamHandler(IVEFParser *parser);
     ~IVEFStreamHandler();
 
     void connectToServer(QString host, int port, QString user, QString password, QString logFileName);
@@ -54,7 +54,7 @@ private:
     QString m_user;
     QString m_password;
 
-    Parser *m_IVEFParser;
+    IVEFParser *m_IVEFParser;
 };
 
 #endif
