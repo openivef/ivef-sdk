@@ -38,6 +38,7 @@ private:
     CmdLineOptions m_options;
     IVEFParser m_IVEFParser;
     IVEFStreamHandler *m_streamHandler;
+    QString m_filter;
 
 private slots:
     void slotStart( void );

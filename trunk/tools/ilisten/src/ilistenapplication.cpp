@@ -32,6 +32,8 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "password",    "password (default guest)." ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "infile",      "read from file, presence negates host:port connection" ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "outfile",     "write to file, cannot be used in conjunction with infile" ) );
+    m_options.append( CmdLineOption( CmdLineOption::TEXT,    "filteron",    "vesseldata attribute for filter e.g. --filteron=MMSI" ) );
+    m_options.append( CmdLineOption( CmdLineOption::TEXT,    "filterval",   "vesseldata attribute value for filter e.g. --filterval=2442" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "version",     "show version information and exit." ) );
 
     // parse command line m_options
@@ -70,6 +72,13 @@ void iListenApplication::slotStart( void ) {
     QString password = "guest";
     m_options.getText( "password", password );
 
+    QString attr, val;
+    if (m_options.getText("filteron", attr) && m_options.getText("filterval", val)) {
+        m_filter = attr + " = " + val;
+    } else {
+	m_filter = "";
+    }
+
     QString fileName("");
     if (m_options.getText("infile", fileName)) {
         // read from file
@@ -91,6 +100,14 @@ void iListenApplication::slotStart( void ) {
             
 void iListenApplication::printVesselData( MSG_VesselData obj ) {
             
-   std::cout << "----------------------------------------\n";
-   std::cout << obj.toString("").toLatin1().data();
+   //std::cout << "----------------------------------------\n";
+
+   for (int i=0; i < obj.getBody().countOfVesselDatas();i++) {
+	VesselData vessel = obj.getBody().getVesselDataAt(i);
+	QString str = vessel.toString("");
+
+        if ((m_filter == "") || (str.contains(m_filter))) { 
+             std::cout << str.toLatin1().data();
+	}
+   }
 }
