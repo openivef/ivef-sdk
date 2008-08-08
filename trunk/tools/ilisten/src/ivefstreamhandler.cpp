@@ -116,9 +116,29 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
 void IVEFStreamHandler::slotConnected() {
     std::cout << QString("iListen connection established logging in as %1").arg( m_user ).toLatin1().data() << std::endl;
     // we are connected, send the login first
-    QString loginRequest = QString("<?xml version = \"1.0\" encoding=\"UTF-8\"?>\n<MSG_LoginRequest xmlns=\"urn:http://www.hitt.nl/XMLSchema/ISIS/1.0\" >\n<Header MsgRefId=\"{97b13932-135e-47d7-b29e-25e5f6d7dd2d}\" Version=\"1.0\" />\n<Body>\n  <LoginRequest Name=\"%1\" Password=\"%2\" Encryption=\"plain\"/>\n</Body>\n</MSG_LoginRequest>\n").arg(m_user).arg(m_password);
 
-    QByteArray data = loginRequest.toUtf8().trimmed();
+    // create a message
+    MSG_LoginRequest msg;
+
+    // every message has a header
+    Header header;
+    header.setMsgRefId(QUuid::createUuid());
+    header.setVersion("1.0");
+    msg.setHeader(header);
+
+    // and a body with the request
+    Body body;
+    LoginRequest request;
+    request.setName(m_user);
+    request.setPassword(m_password);
+    request.setEncryption(1); // plain
+    body.setLoginRequest(request);
+    msg.setBody(body);
+
+    // log
+    //std::cout << msg.toXML().toLatin1().data() << std::endl;
+
+    QByteArray data = msg.toXML().toUtf8().trimmed();
     sendRawData(data);
 }
 
