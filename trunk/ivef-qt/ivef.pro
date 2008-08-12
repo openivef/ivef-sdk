@@ -3,6 +3,40 @@
 ######################################################################
 
 TEMPLATE = lib
+macx {
+   CONFIG += lib_bundle 
+   FRAMEWORK_HEADERS.version = VERSION
+   FRAMEWORK_HEADERS.files = area.h \
+           body.h \
+           header.h \
+           item.h \
+           loginrequest.h \
+           loginresponse.h \
+           logout.h \
+           msg_loginrequest.h \
+           msg_loginresponse.h \
+           msg_logout.h \
+           msg_ping.h \
+           msg_pong.h \
+           msg_serverstatus.h \
+           msg_servicerequest.h \
+           msg_vesseldata.h \
+           object.h \
+           ivefparser.h \
+           ping.h \
+           pong.h \
+           pos.h \
+           posreport.h \
+           schema.h \
+           serverstatus.h \
+           servicerequest.h \
+           staticdata.h \
+           transmission.h \
+           vesseldata.h \
+           voyage.h
+   FRAMEWORK_HEADERS.path = .
+   QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
+}
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
