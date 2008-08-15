@@ -345,7 +345,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>52F3A7740E561D76004184EA</string>
+										<string>5216B89C0E56213800CB0C48</string>
 										<key>history</key>
 										<array>
 											<string>52D1F8E20E56053900F50B92</string>
@@ -355,23 +355,10 @@
 											<string>52D1F9320E56075800F50B92</string>
 											<string>52D1F9820E560A1D00F50B92</string>
 											<string>52D1F9DE0E560E6F00F50B92</string>
-											<string>52F3A6920E5610C4004184EA</string>
 											<string>52F3A69B0E561169004184EA</string>
-											<string>52F3A6AE0E561261004184EA</string>
-											<string>52F3A6AF0E561261004184EA</string>
-											<string>52F3A6B00E561261004184EA</string>
-											<string>52F3A6B10E561261004184EA</string>
 											<string>52F3A6C80E56146E004184EA</string>
-											<string>52F3A6C90E56146E004184EA</string>
-											<string>52F3A6FF0E561662004184EA</string>
-											<string>52F3A7000E561662004184EA</string>
-											<string>52F3A7010E561662004184EA</string>
-											<string>52F3A7260E56180D004184EA</string>
 											<string>52F3A7270E56180D004184EA</string>
-											<string>52F3A7540E5619ED004184EA</string>
-											<string>52F3A75E0E561A36004184EA</string>
-											<string>52F3A76A0E561D16004184EA</string>
-											<string>52F3A76B0E561D16004184EA</string>
+											<string>52F3A7740E561D76004184EA</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -384,39 +371,12 @@
 											<string>52D1F9850E560A1D00F50B92</string>
 											<string>52D1F9860E560A1D00F50B92</string>
 											<string>52D1F9E30E560E6F00F50B92</string>
-											<string>52F3A68F0E560FEE004184EA</string>
 											<string>52F3A6900E560FEE004184EA</string>
-											<string>52F3A6930E5610C4004184EA</string>
-											<string>52F3A69E0E561169004184EA</string>
-											<string>52F3A69F0E561169004184EA</string>
-											<string>52F3A6B30E561261004184EA</string>
-											<string>52F3A6B40E561261004184EA</string>
-											<string>52F3A6B50E561261004184EA</string>
-											<string>52F3A6B60E561261004184EA</string>
-											<string>52F3A6CF0E56146E004184EA</string>
 											<string>52F3A6D00E56146E004184EA</string>
 											<string>52F3A6D10E56146E004184EA</string>
-											<string>52F3A6D20E56146E004184EA</string>
 											<string>52F3A6D30E56146E004184EA</string>
 											<string>52F3A6D40E56146E004184EA</string>
-											<string>52F3A6D50E56146E004184EA</string>
-											<string>52F3A6D60E56146E004184EA</string>
-											<string>52F3A6E10E5614CE004184EA</string>
-											<string>52F3A6E20E5614CE004184EA</string>
-											<string>52F3A6EC0E561515004184EA</string>
-											<string>52F3A6ED0E561515004184EA</string>
-											<string>52F3A7040E561662004184EA</string>
-											<string>52F3A7050E561662004184EA</string>
-											<string>52F3A7060E561662004184EA</string>
-											<string>52F3A7070E561662004184EA</string>
-											<string>52F3A7160E56179B004184EA</string>
 											<string>52F3A71F0E5617D3004184EA</string>
-											<string>52F3A7290E56180D004184EA</string>
-											<string>52F3A72A0E56180D004184EA</string>
-											<string>52F3A72B0E56180D004184EA</string>
-											<string>52F3A7560E5619ED004184EA</string>
-											<string>52F3A7600E561A36004184EA</string>
-											<string>52F3A76D0E561D16004184EA</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -474,9 +434,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>52F3A6790E560F8D004184EA</string>
+				<string>5216B8980E56202D00CB0C48</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>52F3A67A0E560F8D004184EA</string>
+				<string>5216B8990E56202D00CB0C48</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -595,7 +555,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>240524662.596044</real>
+	<real>240525624.446073</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -611,7 +571,7 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>52D1F8C50E56044100F50B92</string>
-		<string>/Volumes/ivef-sdk/ivef-objc/IVEF.xcodeproj</string>
+		<string>/Volumes/ivef-sdk/trunk/ivef-objc/IVEF.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>1077 154 1005 1388 0 0 2560 1578 </string>
@@ -635,7 +595,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>IVEFServerStatus.m</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -693,7 +653,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>52D1F8C50E56044100F50B92</string>
-				<string>52F3A68C0E560FB7004184EA</string>
+				<string>5216B89A0E56202D00CB0C48</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
