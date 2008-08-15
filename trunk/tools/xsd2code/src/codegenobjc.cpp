@@ -48,7 +48,7 @@ QString CodeGenObjC::localType(QString type) {
         return "NSString *";
     }
     else if (type == "xs:decimal") // float
-        return "double";
+        return "float";
     else
         return m_prefix + type + " *";
 }
@@ -275,7 +275,7 @@ void CodeGenObjC::go() {
                 classFileOut << "        " << variableName(attr->name()) << "Present = false;\n";
             }
             if (attr->unbounded()) { // there more then one
-                classFileOut << "        " << variableName(attr->name()) << "s = new NSMutableArray();\n";
+                classFileOut << "        " << variableName(attr->name()) << "s = [[NSMutableArray alloc] init];\n";
 	    }
         }
         classFileOut << "    }\n    return self;\n}\n\n";
@@ -523,66 +523,68 @@ void CodeGenObjC::go() {
     QTextStream classFileOut(&classFile);
 
     // generate the header
-    headerFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
-    headerFileOut << "#define __" << name.toUpper() << "_H__\n\n";
-    headerFileOut << "#include <QtCore>\n";
-    headerFileOut << "#include <QXmlDefaultHandler>\n\n";
+    headerFileOut << writeHeader( className(name) );
+    //headerFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
+    //headerFileOut << "#define __" << name.toUpper() << "_H__\n\n";
+    headerFileOut << "#import <Cocoa/Cocoa.h>\n";  
 
     // include dependend files
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
-        headerFileOut << "#include \"" << obj->name().toLower() << ".h\"\n";
+        headerFileOut << "#import \"" << fileBaseName(obj->name()) << ".h\"\n";
     }
 
     // define the class
-    headerFileOut << "\nclass " << className(name) << " : public QObject, QXmlDefaultHandler, QXmlSimpleReader { \n";
-    headerFileOut << "    Q_OBJECT\n\n";
+    headerFileOut << "\n@interface " << className(name) << " : NSXMLParser { \n";
 
-    // public section
-    headerFileOut << "public:\n";
-    headerFileOut << "    " << className(name) << "();\n"; // constructor
-    headerFileOut << "    bool startElement(const QString &,\n"; // the parser routine
-    headerFileOut << "                      const QString &,\n";
-    headerFileOut << "                      const QString & qName,\n";
-    headerFileOut << "                      const QXmlAttributes & atts);\n";
-    headerFileOut << "    bool endElement(const QString &,\n"; // the parser routine
-    headerFileOut << "                      const QString &,\n";
-    headerFileOut << "                      const QString & qName);\n";
-    headerFileOut << "    bool parseXMLString(QString data, bool cont);\n";
+    // vars section
+    headerFileOut << "    NSString *m_dataBuffer;\n";
+    headerFileOut << "    NSMutableArray *m_objStack;\n";
+    headerFileOut << "}\n\n";
+
+    // methods section
+    headerFileOut << "- (void)     parser:(NSXMLParser *)parser \n";
+    headerFileOut << "    didStartElement:(NSString *)elementName\n";
+    headerFileOut << "       namespaceURI:(NSString *)namespaceURI\n";
+    headerFileOut << "      qualifiedName:(NSString *)qualifiedName\n";
+    headerFileOut << "         attributes:(NSDictionary *)attributeDict;\n";
+    headerFileOut << "- (void)     parser:(NSXMLParser *)parser \n";
+    headerFileOut << "      didEndElement:(NSString *)elementName\n";
+    headerFileOut << "       namespaceURI:(NSString *)namespaceURI\n";
+    headerFileOut << "      qualifiedName:(NSString *)qualifiedName;\n";
+    headerFileOut << "- (bool) parseXMLString:(NSString *)data andBuffer: (bool) cont;\n";
 
     // define the signales
-    headerFileOut << "\nsignals:\n";
+    headerFileOut << "\n// published notifications:\n";
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            headerFileOut << "    void signal" << className(obj->name()) << "( " << className(obj->name()) << " obj );\n";
+            headerFileOut << "//    @\"" << "New" << className(obj->name()) << "\" with @\"data\" = " << className(obj->name()) << "\n";
         }
     }
-    // private section
-    headerFileOut << "\nprivate:\n";
-    headerFileOut << "    QString m_dataBuffer;\n";
-    headerFileOut << "    QStack<QObject *> m_objStack;\n";
-    headerFileOut << "    QStack<QString> m_typeStack;\n";
 
     // close the header
-    headerFileOut << "\n}; \n\n#endif\n\n";
+    headerFileOut << "\n}; \n\n";
 
     // close and flush
     headerFileOut.flush();
 
     // The class file
-    classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
+    classFileOut << "\n#import \"" << fileBaseName(name) << ".h\"\n\n";
 
     // constructor
-    classFileOut << className(name) << "::" << className(name) << "() {\n\n";
-    classFileOut << "    setContentHandler(this);\n";
-    classFileOut << "}\n\n";
+    classFileOut << "- (id) init {\n    self = [super init];\n    if (self != nil) {\n";
+    classFileOut << "        m_dataBuffer = [[NString alloc] init];\n";
+    classFileOut << "        m_objStack = [[NSMutableArray alloc] init];\n";
+    classFileOut << "        [self setDelegate: self]; // we are our own delegate\n";
+    classFileOut << "    }\n    return self;\n}\n\n";
 
     // main parser routine
-    classFileOut << "bool " << className(name) << "::startElement(const QString &,\n"; // the parser routine
-    classFileOut << "     const QString &,\n";
-    classFileOut << "     const QString & qName,\n";
-    classFileOut << "     const QXmlAttributes & atts) {\n\n";
+    classFileOut << "- (void)     parser:(NSXMLParser *)parser \n";
+    classFileOut << "    didStartElement:(NSString *)elementName\n";
+    classFileOut << "       namespaceURI:(NSString *)namespaceURI\n";
+    classFileOut << "      qualifiedName:(NSString *)qualifiedName\n";
+    classFileOut << "         attributes:(NSDictionary *)attributeDict {\n";
 
         // run through all objects
     bool first = true;
@@ -603,9 +605,9 @@ void CodeGenObjC::go() {
             first = false;
         }
         // if the name matches my object
-        classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n";
+        classFileOut << " ([qualifiedName isEqualToString: @\"" << className(obj->name()) << "\"]) {\n";
         // create a temp object
-        classFileOut << "        " << className(obj->name()) << " *obj = new " << className(obj->name()) << ";\n";
+        classFileOut << "        " << className(obj->name()) << " *obj = [[" << className(obj->name()) << " alloc] init];\n";
 
         // check if there are attributes in this class or just data
         int attrCount = 0;
@@ -622,9 +624,8 @@ void CodeGenObjC::go() {
         // makes only sense if they are there
         if (attrCount > 0) {
             // run through all the attributes
-            classFileOut << "        for (int i=0; i < atts.length(); i++) {\n";
-            classFileOut << "            QString key = atts.localName(i);\n";
-            classFileOut << "            QString value = atts.value(i);\n\n";
+            classFileOut << "        for (NSString *key in attributeDict) {\n";
+            classFileOut << "            NString *value = [attributeDict objectForKey: key];\n\n";
             // and match them with mine
             bool first = true;
             for(int j=0; j < obj->attributes().size(); j++) {
@@ -634,24 +635,24 @@ void CodeGenObjC::go() {
 
                 if (attrName != type) { // if the same it is data
                     if (!first) {
-                        classFileOut << "            else if (key == \"" << attrName << "\") {\n";
+                        classFileOut << "            else if ([key isEqualToString:\"" << attrName << "\"]) {\n";
                     } else {
-                        classFileOut << "            if (key == \"" << attrName << "\") {\n";
+                        classFileOut << "            if ([key isEqualToString: \"" << attrName << "\"]) {\n";
                         first = false;
                     }
 
-                    if (type == "QString")
+                    if (type == localType("xs:string"))
                         classFileOut << "                " << type << " val = value;\n";
-                    else if (type == "bool")
-                        classFileOut << "                " << type << " val = (value.toUpper() == \"YES\");\n";
-                    else if (type == "int")
-                        classFileOut << "                " << type << " val = value.toInt();\n";
-                    else if (type == "QDateTime")
-                        classFileOut << "                " << type << " val = QDateTime::fromString(value, \"yyyy-MM-ddThh:mm:ss.zzz\");\n";
-                    else if (type == "float")
-                        classFileOut << "                " << type << " val = value.toFloat();\n";
+                    else if (type == localType("xs:boolean"))
+                        classFileOut << "                " << type << " val = [[value upperCase] isEqualToString: @\"YES\"];\n";
+                    else if (type == localType("xs:integer"))
+                        classFileOut << "                " << type << " val = [value intValue];\n";
+                    else if (type == localType("xs:dateTime"))
+                        classFileOut << "                " << type << " val = [NSDate dateWithString: value]; // assume \"yyyy-MM-ddThh:mm:ss.zzz\"\n";
+                    else if (type == localType("xs:decimal"))
+                        classFileOut << "                " << type << " val = [value floatValue];\n";
 
-                    classFileOut << "                obj->set" << methodName(attrName) << "(val);\n";
+                    classFileOut << "                [obj set" << methodName(attrName) << ": val];\n";
                     classFileOut << "            }\n";
                 }
             }
@@ -660,8 +661,7 @@ void CodeGenObjC::go() {
 
         // store in local object (or stack) and signal on end tag
         // this way we can set obj in objects
-        classFileOut << "        m_objStack.push( obj );\n";
-        classFileOut << "        m_typeStack.push( \"" << className(obj->name()) << "\" );\n";
+        classFileOut << "        [m_objStack addObject: obj ];\n";
         classFileOut << "    }\n";
     }
     classFileOut << "    return true;\n";
@@ -691,7 +691,7 @@ void CodeGenObjC::go() {
             first = false;
         }
         // if the name matches my object
-        classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n\n";
+        classFileOut << " ([qualifiedName isEqualToString: @\"" << className(obj->name()) << "\"]) {\n\n";
         classFileOut << "        m_typeStack.pop();\n"; // will be equal to qName so ignore
         classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) ( m_objStack.pop() );\n";
 
