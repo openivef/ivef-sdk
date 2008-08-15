@@ -17,13 +17,15 @@ HEADERS += src/cmdlineoption.h \
 		   src/xsdobject.h \
 		   src/xsdattribute.h \
 		   src/codegen.h \
-		   src/codegenqt.h
+		   src/codegenqt.h \
+		   src/codegenobjc.h
 SOURCES += src/cmdlineoption.cpp \
            src/mainapp.cpp \
            src/handler.cpp \
 		   src/xsdobject.cpp \
 		   src/xsdattribute.cpp \
 		   src/codegenqt.cpp \
+		   src/codegenobjc.cpp \
            src/main.cpp
 
 CONFIG += warn_on stl qt release console

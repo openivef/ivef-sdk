@@ -88,8 +88,7 @@ void MainApp::slotStart( void ) {
 			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
             std::exit(-1);
 		} else if ( m_options.getBoolean( "objc" ) ) {
-			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
-            std::exit(-1);
+		        generator = new CodeGenObjC(); 
 		} else if ( m_options.getBoolean( "cpp" ) ) {
 			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
             std::exit(-1);
