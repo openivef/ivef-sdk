@@ -250,7 +250,7 @@ void CodeGenObjC::go() {
             headerFileOut << "-(" << type << ") get" << methodName(attrName) << ";\n";
         }
         headerFileOut << "-(NSString *) XML;\n";
-        headerFileOut << "-(NSString *) toString(NSString *lead);\n";
+        headerFileOut << "-(NSString *) stringValueWithLead:(NSString) *lead;\n";
 
         // close the header
         headerFileOut << "\n}; \n";
@@ -422,7 +422,7 @@ void CodeGenObjC::go() {
                     classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
                     classFileOut << "        [xml append:" << " [" << variableName(attr->name()) << " XML] ];\n    }\n";
                 } else {
-                    classFileOut << "    [xml append:" << " " << variableName(attr->name()) << " XML] ];\n";
+                    classFileOut << "    [xml append:" << " [" << variableName(attr->name()) << " XML] ];\n";
                 }
             }
         }
@@ -433,9 +433,8 @@ void CodeGenObjC::go() {
         classFileOut << "}\n\n";
 
         // string generator
-        // if attribute name and type are the same it means it was data
-        classFileOut << "QString " << className(name) << "::toString(QString lead) {\n\n";
-        classFileOut << "    QString str = lead + \"" << name << "\\n\";\n"; // append attributes
+        classFileOut << "-(NSString *) stringValueWithLead: (NSString *) lead {\n\n";
+        classFileOut << "    NSString *str = [lead append:@\"" << name << "\\n\"];\n"; // append attributes
 
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -449,15 +448,20 @@ void CodeGenObjC::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
                     varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%F\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
-                } else if (type != localType("xs:string") ) {
+                } else if (type != localType("xs:string")) {
                     varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
                 }
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        str.append( lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\");\n    }\n";
+                    classFileOut << "        [str append: [lead append: @\" \"]];\n";
+                    classFileOut << "        [str append: @\"" << attr->name() << " = \\\"\"];\n";
+                    classFileOut << "        [str append: " << varName << "];\n";
                 } else {
-                    classFileOut <<     "    str.append( lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\");\n";
+                    classFileOut << "    [str append: [lead append: @\" \"]];\n";
+                    classFileOut << "    [str append: @\"" << attr->name() << "=\\\"\"];\n";
+                    classFileOut << "    [str append: " << varName << "];\n";
+                    classFileOut << "    [str append: @\"\\\"\\n\"];\n    }\n";
                 }
             }
         }
@@ -465,26 +469,28 @@ void CodeGenObjC::go() {
         // for data members
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
+            QString attrType = className(attr->type());
 
-            if (attrType == attr->name()) {
+            if (attr->type() == attr->name()) {
                 // check if the attribute exist
                 if (attr->unbounded() ) {
-                    classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
-                    classFileOut << "       " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
-                    classFileOut << "       str.append( attribute.toString(lead + \"    \") );\n    }\n";
+                    classFileOut << "    for(int i=0; i < [" << variableName(attr->name()) << "s count]; i++ ) {\n";
+                    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s at:i];\n";
+                    classFileOut << "        [str append: [attribute stringWithLead: [lead append: @\" \"]] ];\n    }\n";
                 } else if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        str.append(" << " " << variableName(attr->name()) << ".toString(lead + \"    \") );\n    }\n";
+                    classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
+                    classFileOut << "        [str append:" << " [" << variableName(attr->name()) << " stringWithLead: [lead append: @\"    \"]] ];\n    }\n";
                 } else {
-                    classFileOut <<     "    str.append(" << " " << variableName(attr->name()) << ".toString(lead + \"    \") );\n";
+                    classFileOut << "    [str append:" << " " << variableName(attr->name()) << " stringWithLead: [lead append: @\"    \"]] ];\n";
                 }
             }
         }
 
         // close up
         classFileOut << "    return str;\n";
-        classFileOut << "}\n";
+        classFileOut << "}\n\n";
+
+        // string generator
 
         // round up
         classFileOut << "\n"; // make sure there is a newline at the end of the source
@@ -499,7 +505,7 @@ void CodeGenObjC::go() {
     //-----------------------------------------------------------------------------------------------
 
     // open the header file
-    QString name = m_prefix + "Parser";
+    QString name = "Parser";
 
     QFile headerFile(m_outDir + "/" + fileBaseName(name) + ".h");
     if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
