@@ -1,0 +1,7 @@
+bin\Debug\ISIS.example.exe
+bin\Debug\ISIS.example.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\ISIS.example.exe
+obj\Debug\ISIS.example.pdb
+bin\Debug\ISIS.lib.dll
+bin\Debug\ISIS.lib.pdb
