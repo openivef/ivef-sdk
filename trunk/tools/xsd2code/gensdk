@@ -1,7 +1,19 @@
+#make qt
 rm ../../ivef-qt/*.cpp
 rm ../../ivef-qt/*.o
 rm ../../ivef-qt/*.h
 bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../ivef-qt/ --prefix=IVEF
 cd ../../ivef-qt/
+qmake
+make -j 12
+cd ../tools
+
+#make objc
+rm ../../ivef-objc/*.m
+rm ../../ivef-objcqt/*.o
+rm ../../ivef-objcqt/*.h
+bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../ivef-objc/ --prefix=IVEF --objc
+cd ../../ivef-objc/
+qmake
 make -j 12
 cd ../tools
