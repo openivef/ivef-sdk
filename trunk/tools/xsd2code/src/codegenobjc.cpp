@@ -227,14 +227,14 @@ void CodeGenObjC::go() {
             }
             if (attr->unbounded()) { // there more then one
                 // setter
-                headerFileOut << "-(void) add" << methodName(attr->name()) << ":(" << type << " val);\n";
+                headerFileOut << "-(void) add" << methodName(attr->name()) << ":(" << type << ") val;\n";
                 // getter
-                headerFileOut << "-(" << type << ") get" << methodName(attr->name()) << "At:(int i);\n";
+                headerFileOut << "-(" << type << ") get" << methodName(attr->name()) << "At:(int) i;\n";
                 // count
                 headerFileOut << "-(int) countOf" << methodName(attr->name()) << "s;\n";
             } else {
                 // setter
-                headerFileOut << "-(void) set" << methodName(attr->name()) << ":(" << type << " val);\n";
+                headerFileOut << "-(void) set" << methodName(attr->name()) << ":(" << type << ") val;\n";
                 // getter
                 headerFileOut << "-(" << type << ") get" << methodName(attr->name()) << ";\n";
                 if (!attr->required() || obj->isMerged()) {
@@ -247,14 +247,16 @@ void CodeGenObjC::go() {
             QString attrName = fixedValues.keys().at(j);
             QString type = "NSString"; // always a string
             // getter
-            headerFileOut << "-(" << type << ") get" << methodName(attrName) << ";\n";
+            headerFileOut << "-(" << type << "*) get" << methodName(attrName) << ";\n";
         }
+        headerFileOut << "\n-(void) setAttributes:(NSDictionary *)attributeDict;\n";
         headerFileOut << "-(NSString *) XML;\n";
-        headerFileOut << "-(NSString *) stringValueWithLead:(NSString) *lead;\n";
+        headerFileOut << "-(NSString *) stringValueWithLead:(NSString *) lead;\n";
 
         // close the header
-        headerFileOut << "\n}; \n";
-        headerFileOut << "\n#endif\n\n";
+        headerFileOut << "\n@end\n\n";
+        headerFileOut << "\n\n";
+        //headerFileOut << "\n#endif\n\n";
 
         // close and flush
         headerFileOut.flush();
@@ -306,17 +308,17 @@ void CodeGenObjC::go() {
             QString type = localType(attr->type()); // convert to cpp types
             if (attr->unbounded()) { // there more then one
                 // setter
-                classFileOut << "-(void) add" << methodName(attr->name()) << ":(" << type << " val) {\n";
+                classFileOut << "-(void) add" << methodName(attr->name()) << ":(" << type << ") val {\n";
                 classFileOut << "\n    [" << variableName(attr->name()) << "s addObject: val];\n}\n\n";
                 // getter
-                classFileOut << "-(" << type << ") get" << methodName(attr->name()) << "At:(int i) {\n";
+                classFileOut << "-(" << type << ") get" << methodName(attr->name()) << "At:(int) i {\n";
                 classFileOut << "\n    return [" << variableName(attr->name()) << "s objectAtIndex: i];\n}\n\n";
                 // count
                 classFileOut << "-(int) countOf" << methodName(attr->name()) << "s {\n";
                 classFileOut << "\n    return [" << variableName(attr->name()) << "s count];\n}\n\n";
             } else {
                 // setter
-                classFileOut << "-(void) set" << methodName(attr->name()) << ":(" << type << " val) {\n";
+                classFileOut << "-(void) set" << methodName(attr->name()) << ":(" << type << ") val {\n";
                 QVector<QString> enums = attr->enumeration();
                 if (enums.size() > 0) { // there are enumeration constraints for this item
 
@@ -369,13 +371,78 @@ void CodeGenObjC::go() {
 
             // getter
             classFileOut << "-(" << type << ") get" << methodName(attrName) << " {\n";
-            classFileOut << "\n    return \"" << attrValue << "\";\n}\n\n";
+            classFileOut << "\n    return @\"" << attrValue << "\";\n}\n\n";
         }
+
+        // set attributes from a dict
+        classFileOut << "-(void) setAttributes:(NSDictionary *)attributeDict {\n\n";
+
+        // check if there are attributes in this class or just data
+        int attrCount = 0;
+        for(int j=0; j < attributes.size(); j++) {
+            XSDAttribute *attr = attributes.at(j);
+            QString type = localType(attr->type());
+            QString attrName = attr->name();
+
+            if (attrName != type) {
+                attrCount++;
+            }
+        }
+
+        // makes only sense if they are there
+        if (attrCount > 0) {
+            // run through all the attributes
+            classFileOut << "        for (NSString *key in attributeDict) {\n";
+            // and match them with mine
+            bool first = true;
+            for(int j=0; j < attributes.size(); j++) {
+                XSDAttribute *attr = attributes.at(j);
+                QString type = localType(attr->type());
+                QString attrName = attr->name();
+
+                if (attrName != type) { // if the same it is data
+                    if (!first) {
+                        classFileOut << "            else if ([key isEqualToString:@\"" << attrName << "\"]) {\n";
+                    } else {
+                        classFileOut << "            if ([key isEqualToString: @\"" << attrName << "\"]) {\n";
+                        first = false;
+                    }
+
+                    if (type == localType("xs:string")) {
+                        classFileOut << "                 NSString *val = [attributeDict objectForKey: key];\n\n";
+                    } else if (type == localType("xs:boolean")) {
+                        classFileOut << "                 NSString *value = [attributeDict objectForKey: key];\n\n";
+                        classFileOut << "                " << type << " val = [[value uppercaseString] isEqualToString: @\"YES\"];\n";
+                    } else if (type == localType("xs:integer")) {
+                        classFileOut << "                 NSString *value = [attributeDict objectForKey: key];\n\n";
+                        classFileOut << "                " << type << " val = [value intValue];\n";
+                    } else if (type == localType("xs:dateTime")) {
+                        classFileOut << "                 NSString *value = [attributeDict objectForKey: key];\n\n";
+                        classFileOut << "                " << type << " val = [NSDate dateWithString: value]; // assume \"yyyy-MM-ddThh:mm:ss.zzz\"\n";
+                    } else if (type == localType("xs:decimal")) {
+                        classFileOut << "                 NSString *value = [attributeDict objectForKey: key];\n\n";
+                        classFileOut << "                " << type << " val = [value floatValue];\n";
+		    } else {
+                        classFileOut << "                " << type << " val = [attributeDict objectForKey: key];\n";
+		    }
+
+                    if (attr->unbounded() ) {
+                       classFileOut << "                [self add" << methodName(attrName) << ": val];\n";
+ 		    } else {
+                       classFileOut << "                [self set" << methodName(attrName) << ": val];\n";
+		    }
+                    classFileOut << "            }\n";
+                }
+            }
+            classFileOut << "        }\n";
+        }
+
+        classFileOut << "}\n\n";
 
         // xml generator
         // if attribute name and type are the same it means it was data
         classFileOut << "-(NSString *) XML {\n\n";
-        classFileOut << "    NSString *xml = [NSString stringWithString:@\"<" << name << "\"];\n"; // append attributes
+        classFileOut << "    NSMutableString *xml = [NSString stringWithString:@\"<" << name << "\"];\n"; // append attributes
 
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -394,18 +461,18 @@ void CodeGenObjC::go() {
                 }
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        [xml append: @\" " << attr->name() << "=\\\"\"];\n";
-                    classFileOut << "        [xml append: " << varName << "];\n";
-                    classFileOut << "        [xml append: @\"\\\"\"];\n    }\n";
+                    classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
+                    classFileOut << "        [xml appendString: @\" " << attr->name() << "=\\\"\"];\n";
+                    classFileOut << "        [xml appendString: " << varName << "];\n";
+                    classFileOut << "        [xml appendString: @\"\\\"\"];\n    }\n";
                 } else {
-                    classFileOut << "    [xml append: @\" " << attr->name() << "=\\\"\"];\n";
-                    classFileOut << "    [xml append: " << varName << "];\n";
-                    classFileOut << "    [xml append: @\"\\\"\"];\n";
+                    classFileOut << "    [xml appendString: @\" " << attr->name() << "=\\\"\"];\n";
+                    classFileOut << "    [xml appendString: " << varName << "];\n";
+                    classFileOut << "    [xml appendString: @\"\\\"\"];\n";
                 }
             }
         }
-        classFileOut << "    [xml append:\">\\n\"];\n"; // close the statement
+        classFileOut << "    [xml appendString:@\">\\n\"];\n"; // close the statement
 
         // for data members
         for(int j=0; j < attributes.size(); j++) {
@@ -416,25 +483,26 @@ void CodeGenObjC::go() {
                 // check if the attribute exist
                 if (attr->unbounded() ) {
                     classFileOut << "    for(int i=0; i < [" << variableName(attr->name()) << "s count]; i++ ) {\n";
-                    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s at:i];\n";
-                    classFileOut << "        [xml append: [attribute XML] ];\n    }\n";
+                    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s objectAtIndex:i];\n";
+                    classFileOut << "        [xml appendString: [attribute XML] ];\n    }\n";
                 } else if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
-                    classFileOut << "        [xml append:" << " [" << variableName(attr->name()) << " XML] ];\n    }\n";
+                    classFileOut << "        [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n    }\n";
                 } else {
-                    classFileOut << "    [xml append:" << " [" << variableName(attr->name()) << " XML] ];\n";
+                    classFileOut << "    [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n";
                 }
             }
         }
 
         // close up
-        classFileOut << "    [xml append: \"</" << name << ">\\n\"];\n"; // append attributes
+        classFileOut << "    [xml appendString: @\"</" << name << ">\\n\"];\n"; // append attributes
         classFileOut << "    return xml;\n";
         classFileOut << "}\n\n";
 
         // string generator
         classFileOut << "-(NSString *) stringValueWithLead: (NSString *) lead {\n\n";
-        classFileOut << "    NSString *str = [lead append:@\"" << name << "\\n\"];\n"; // append attributes
+        classFileOut << "    NSMutableString *str = [[[NSMutableString alloc] init] autorelease];\n";
+        classFileOut << "    [str setString: [lead stringByAppendingString:@\"" << name << "\\n\"]];\n"; // append attributes
 
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -453,15 +521,16 @@ void CodeGenObjC::go() {
                 }
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        [str append: [lead append: @\" \"]];\n";
-                    classFileOut << "        [str append: @\"" << attr->name() << " = \\\"\"];\n";
-                    classFileOut << "        [str append: " << varName << "];\n";
+                    classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
+                    classFileOut << "        [str appendString: [lead stringByAppendingString: @\" \"]];\n";
+                    classFileOut << "        [str appendString: @\"" << attr->name() << " = \\\"\"];\n";
+                    classFileOut << "        [str appendString: " << varName << "];\n";
+                    classFileOut << "    }\n";
                 } else {
-                    classFileOut << "    [str append: [lead append: @\" \"]];\n";
-                    classFileOut << "    [str append: @\"" << attr->name() << "=\\\"\"];\n";
-                    classFileOut << "    [str append: " << varName << "];\n";
-                    classFileOut << "    [str append: @\"\\\"\\n\"];\n    }\n";
+                    classFileOut << "    [str appendString: [lead stringByAppendingString: @\" \"]];\n";
+                    classFileOut << "    [str appendString: @\"" << attr->name() << "=\\\"\"];\n";
+                    classFileOut << "    [str appendString: " << varName << "];\n";
+                    classFileOut << "    [str appendString: @\"\\\"\\n\"];\n\n";
                 }
             }
         }
@@ -475,13 +544,13 @@ void CodeGenObjC::go() {
                 // check if the attribute exist
                 if (attr->unbounded() ) {
                     classFileOut << "    for(int i=0; i < [" << variableName(attr->name()) << "s count]; i++ ) {\n";
-                    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s at:i];\n";
-                    classFileOut << "        [str append: [attribute stringWithLead: [lead append: @\" \"]] ];\n    }\n";
+                    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s objectAtIndex:i];\n";
+                    classFileOut << "        [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @\" \"]] ];\n    }\n";
                 } else if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
-                    classFileOut << "        [str append:" << " [" << variableName(attr->name()) << " stringWithLead: [lead append: @\"    \"]] ];\n    }\n";
+                    classFileOut << "        [str appendString:" << " [" << variableName(attr->name()) << " stringValueWithLead: [lead stringByAppendingString: @\"    \"]] ];\n    }\n";
                 } else {
-                    classFileOut << "    [str append:" << " " << variableName(attr->name()) << " stringWithLead: [lead append: @\"    \"]] ];\n";
+                    classFileOut << "    [str appendString:" << " [" << variableName(attr->name()) << " stringValueWithLead: [lead stringByAppendingString: @\"    \"]] ];\n";
                 }
             }
         }
@@ -490,7 +559,7 @@ void CodeGenObjC::go() {
         classFileOut << "    return str;\n";
         classFileOut << "}\n\n";
 
-        // string generator
+        classFileOut << "\n@end\n\n";
 
         // round up
         classFileOut << "\n"; // make sure there is a newline at the end of the source
@@ -538,7 +607,7 @@ void CodeGenObjC::go() {
     headerFileOut << "\n@interface " << className(name) << " : NSXMLParser { \n";
 
     // vars section
-    headerFileOut << "    NSString *m_dataBuffer;\n";
+    headerFileOut << "    NSMutableString *m_dataBuffer;\n";
     headerFileOut << "    NSMutableArray *m_objStack;\n";
     headerFileOut << "}\n\n";
 
@@ -559,22 +628,24 @@ void CodeGenObjC::go() {
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            headerFileOut << "//    @\"" << "New" << className(obj->name()) << "\" with @\"data\" = " << className(obj->name()) << "\n";
+            headerFileOut << "//    @\"" << "New" << className(obj->name()) << "\" with @\"Data\" = " << className(obj->name()) << "\n";
         }
     }
 
     // close the header
-    headerFileOut << "\n}; \n\n";
+    headerFileOut << "\n@end\n\n";
+    headerFileOut << "\n\n";
 
     // close and flush
     headerFileOut.flush();
 
     // The class file
     classFileOut << "\n#import \"" << fileBaseName(name) << ".h\"\n\n";
+    classFileOut << "\n@implementation " << className(name) << "\n\n";
 
     // constructor
     classFileOut << "- (id) init {\n    self = [super init];\n    if (self != nil) {\n";
-    classFileOut << "        m_dataBuffer = [[NString alloc] init];\n";
+    classFileOut << "        m_dataBuffer = [[NSString alloc] init];\n";
     classFileOut << "        m_objStack = [[NSMutableArray alloc] init];\n";
     classFileOut << "        [self setDelegate: self]; // we are our own delegate\n";
     classFileOut << "    }\n    return self;\n}\n\n";
@@ -608,71 +679,21 @@ void CodeGenObjC::go() {
         classFileOut << " ([qualifiedName isEqualToString: @\"" << className(obj->name()) << "\"]) {\n";
         // create a temp object
         classFileOut << "        " << className(obj->name()) << " *obj = [[" << className(obj->name()) << " alloc] init];\n";
-
-        // check if there are attributes in this class or just data
-        int attrCount = 0;
-        for(int j=0; j < obj->attributes().size(); j++) {
-            XSDAttribute *attr = obj->attributes().at(j);
-            QString type = localType(attr->type());
-            QString attrName = attr->name();
-
-            if (attrName != type) {
-                attrCount++;
-            }
-        }
-
-        // makes only sense if they are there
-        if (attrCount > 0) {
-            // run through all the attributes
-            classFileOut << "        for (NSString *key in attributeDict) {\n";
-            classFileOut << "            NString *value = [attributeDict objectForKey: key];\n\n";
-            // and match them with mine
-            bool first = true;
-            for(int j=0; j < obj->attributes().size(); j++) {
-                XSDAttribute *attr = obj->attributes().at(j);
-                QString type = localType(attr->type());
-                QString attrName = attr->name();
-
-                if (attrName != type) { // if the same it is data
-                    if (!first) {
-                        classFileOut << "            else if ([key isEqualToString:\"" << attrName << "\"]) {\n";
-                    } else {
-                        classFileOut << "            if ([key isEqualToString: \"" << attrName << "\"]) {\n";
-                        first = false;
-                    }
-
-                    if (type == localType("xs:string"))
-                        classFileOut << "                " << type << " val = value;\n";
-                    else if (type == localType("xs:boolean"))
-                        classFileOut << "                " << type << " val = [[value upperCase] isEqualToString: @\"YES\"];\n";
-                    else if (type == localType("xs:integer"))
-                        classFileOut << "                " << type << " val = [value intValue];\n";
-                    else if (type == localType("xs:dateTime"))
-                        classFileOut << "                " << type << " val = [NSDate dateWithString: value]; // assume \"yyyy-MM-ddThh:mm:ss.zzz\"\n";
-                    else if (type == localType("xs:decimal"))
-                        classFileOut << "                " << type << " val = [value floatValue];\n";
-
-                    classFileOut << "                [obj set" << methodName(attrName) << ": val];\n";
-                    classFileOut << "            }\n";
-                }
-            }
-            classFileOut << "        }\n";
-        }
-
+        classFileOut << "        [obj setAttributes: attributeDict];\n";
         // store in local object (or stack) and signal on end tag
         // this way we can set obj in objects
         classFileOut << "        [m_objStack addObject: obj ];\n";
         classFileOut << "    }\n";
     }
-    classFileOut << "    return true;\n";
     classFileOut << "}\n\n";
 
     // TODO check for attributes and messages we do not know and give an alert
 
     // the endTag routine
-    classFileOut << "bool " << className(name) << "::endElement(const QString &,\n"; // the parser routine
-    classFileOut << "     const QString &,\n";
-    classFileOut << "     const QString & qName) {\n\n";
+    classFileOut << "- (void)     parser:(NSXMLParser *)parser \n";
+    classFileOut << "      didEndElement:(NSString *)elementName\n";
+    classFileOut << "       namespaceURI:(NSString *)namespaceURI\n";
+    classFileOut << "      qualifiedName:(NSString *)qualifiedName {\n";
 
     // run through all objects
     first = true;
@@ -692,8 +713,9 @@ void CodeGenObjC::go() {
         }
         // if the name matches my object
         classFileOut << " ([qualifiedName isEqualToString: @\"" << className(obj->name()) << "\"]) {\n\n";
-        classFileOut << "        m_typeStack.pop();\n"; // will be equal to qName so ignore
-        classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) ( m_objStack.pop() );\n";
+        classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) [m_objStack lastObject];\n";
+        classFileOut << "        [obj retain];\n"; 
+        classFileOut << "        [m_objStack removeLastObject];\n"; 
 
         // for all objects that could accept such an object
         for(int i=0; i < m_objects.size(); i++) {
@@ -702,30 +724,31 @@ void CodeGenObjC::go() {
             for(int j=0; j < parent->attributes().size(); j++) {
                 XSDAttribute *attr = parent->attributes().at(j);
                 QString objType = attr->type();
+                //std::cout << QString("####: %1").arg(objType).toLatin1().data() << std::endl;
+                //std::cout << QString("##: %1").arg(className(obj->name())).toLatin1().data() << std::endl;
 
-                if (objType == className(obj->name()) /*&& parent->isRootObject()*/) { // this object has an attribute of that type
-                    classFileOut << "        if ( m_typeStack.top() == \"" << parent->name() << "\") {\n";
+                if (className(objType) == className(obj->name()) /*&& parent->isRootObject()*/) { // this object has an attribute of that type
+                    classFileOut << "        if ( [[m_objStack lastObject] isKindOfClass: [" << className(parent->name()) << " class]]) {\n";
                     if (attr->unbounded() ) {
-                        classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj );\n";
+                        classFileOut << "                [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) add" << methodName(obj->name()) << ": obj ];\n";
                     } else {
-                        classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->set" << className(obj->name()) << "( *obj );\n";
+                        classFileOut << "                [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) set" << methodName(obj->name()) << ": obj ];\n";
                     }
                     classFileOut << "        }\n"; // close if
                 }
             }
         }
         if ((!obj->isEmbedded())) { // only if this object is not embedded
-            classFileOut << "        emit signal" << className(obj->name()) << "( *obj ); \n";
+            classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"New" << className(obj->name()) << "\" object: self userInfo:[NSDictionary dictionaryWithObject: obj forKey: @\"Data\"]]; \n";
         }
-        classFileOut << "        delete( obj ); \n";
+        classFileOut << "        [obj release]; \n";
         classFileOut << "    }\n"; // close if
     }
-    classFileOut << "    return true;\n";
     classFileOut << "}\n\n"; // close method
 
     // the parseXMLString routine
-    classFileOut << "bool " << className(name) << "::parseXMLString(QString data, bool cont) { \n\n";
-    classFileOut << "     m_dataBuffer.append(data);\n\n";
+    classFileOut << "- (bool) parseXMLString:(NSString *)data andBuffer: (bool) cont {\n\n";
+    classFileOut << "     [m_dataBuffer appendString: data];\n\n";
 
     // count the number of messages
     int numOfMessages = 0;
@@ -743,7 +766,7 @@ void CodeGenObjC::go() {
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            classFileOut << "     index[" << message << "] = m_dataBuffer.lastIndexOf(\"</" << obj->name() << ">\\n\") + strlen(\"</" << obj->name() << ">\\n\");\n";
+            classFileOut << "     index[" << message << "] = [m_dataBuffer rangeOfString:@\"</" << obj->name() << ">\\n\" options: NSBackwardsSearch].location + strlen(\"</" << obj->name() << ">\\n\");\n";
             message++;
         }
     }
@@ -754,23 +777,23 @@ void CodeGenObjC::go() {
     classFileOut << "     }\n\n";
 
         classFileOut << "     if (indexMax > 30) {\n";
-    classFileOut << "         QString messages = m_dataBuffer.left(indexMax);\n";
-    classFileOut << "         m_dataBuffer.remove(0, indexMax);\n";
-    classFileOut << "         QXmlInputSource inputForParser;\n";
-    classFileOut << "         inputForParser.setData(messages);\n";
-    classFileOut << "         this->parse(&inputForParser, false);\n";
+    classFileOut << "         NSString *messages = [m_dataBuffer substringToIndex: indexMax];\n";
+    classFileOut << "         [m_dataBuffer deleteCharactersInRange:NSMakeRange(0, indexMax)];\n";
+    classFileOut << "         [self initWithData: [messages dataUsingEncoding:NSASCIIStringEncoding]]; // should probably not call init more than once\n";
+    classFileOut << "         [self parse];\n";
     classFileOut << "     } else {\n";
     classFileOut << "         return false; // not enough data in string\n";
     classFileOut << "     }\n";
 
     classFileOut << "     if (!cont) {\n";
-    classFileOut << "         m_dataBuffer = \"\";\n";
+    classFileOut << "         [m_dataBuffer setString: @\"\"];\n";
     classFileOut << "     }\n";
     classFileOut << "     return true;\n";
 
     classFileOut << "}\n\n"; // close method
 
     // round up
+    classFileOut << "\n@end\n\n";
     classFileOut << "\n"; // make sure there is a newline at the end of the source
 
     // close and flush

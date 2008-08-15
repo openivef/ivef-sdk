@@ -9,11 +9,6 @@ make -j 12
 cd ../tools
 
 #make objc
-rm ../../ivef-objc/*.m
-rm ../../ivef-objcqt/*.o
-rm ../../ivef-objcqt/*.h
-bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../ivef-objc/ --prefix=IVEF --objc
-cd ../../ivef-objc/
-qmake
-make -j 12
-cd ../tools
+rm ../../ivef-objc/Classes/*.m
+rm ../../ivef-objcqt/Classes/*.h
+bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../ivef-objc/Classes --prefix=IVEF --objc
