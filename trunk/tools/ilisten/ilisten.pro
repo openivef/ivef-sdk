@@ -4,6 +4,7 @@
 
 TEMPLATE = app
 TARGET = ilisten 
+LIBS += -Bstatic
 DEPENDPATH += ./src
 INCLUDEPATH += ./include
 
