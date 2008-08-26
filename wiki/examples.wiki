@@ -1,6 +1,6 @@
 #summary working with the IVEF library
 
-==Reading data from a file==
+==Reading IVEF XML from a file==
 The following example shows how to read from a file and generate IVEF objects from this data:
 
 {{{
@@ -51,4 +51,30 @@ void myApp::printVesselData( MSG_VesselData obj ) {
         std::cout << vessel.toString("").toLatin1().data();
    }
 }
+}}}
+
+==Generating IVEF XML==
+The following example shows the creating of a valid IVEF XML message, which can be sent to a Tcp/Ip socket or to a file.
+
+{{{
+    // create a message
+    MSG_LoginRequest msg;
+
+    // every message has a header
+    Header header;
+    header.setMsgRefId(QUuid::createUuid());
+    header.setVersion("1.0");
+    msg.setHeader(header);
+
+    // and a body with the request
+    Body body;
+    LoginRequest request;
+    request.setName("John Doe");
+    request.setPassword("very very secret");
+    request.setEncryption(1); // plain
+    body.setLoginRequest(request);
+    msg.setBody(body);
+
+    QByteArray data = msg.toXML().toUtf8().trimmed();
+    sendRawData(data); // send over a tcp socket
 }}}
