@@ -3,3 +3,7 @@
 http://code.google.com/p/ivef-sdk/wiki/flowchart.png
 
 http://code.google.com/p/ivef-sdk/wiki/interface.png
+
+http://ivef-sdk.googlecode.com/files/interface.png
+
+http://ivef-sdk.googlecode.com/files/flowchart.png
