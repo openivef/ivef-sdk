@@ -1,0 +1,48 @@
+#summary working with the IVEF library
+
+==Reading data from a file==
+The following example shows how to read from a file and generate IVEF objects from this data:
+
+{{{
+      // create a parser
+      IVEFParser * m_IVEFParser = new IVEFParser();
+
+      // open file
+        QFile *file = new QFile("/tmp/test.xml");
+                     
+        while (!file->atEnd()) {
+            QString line = file->readLine();
+            m_IVEFParser->parseXMLString(line, true);
+        }    
+}}}
+
+This will result in signals to be emitted from the library to the host program. We should "catch" these signals and process them:
+
+{{{
+      // create a parser
+      IVEFParser * m_IVEFParser = new IVEFParser();
+
+      // connect a printer routine to the reception of a MSG_VesselData
+      connect( m_IVEFParser, SIGNAL( signalMSG_VesselData(MSG_VesselData)), this, SLOT(printVesselData(MSG_VesselData) ));
+
+      // open file
+        QFile *file = new QFile("/tmp/test.xml");
+                     
+        while (!file->atEnd()) {
+            QString line = file->readLine();
+            m_IVEFParser->parseXMLString(line, true);
+        }    
+}}}
+
+
+Now we only need to create a printer routine:
+
+{{{
+void myApp::printVesselData( MSG_VesselData obj ) {
+            
+   for (int i=0; i < obj.getBody().countOfVesselDatas();i++) {
+        VesselData vessel = obj.getBody().getVesselDataAt(i);
+        std::cout << vessel.toString("").toLatin1().data();
+   }
+}
+}}}
