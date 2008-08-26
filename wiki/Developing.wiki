@@ -1,9 +1,19 @@
-#summary One-sentence summary of this page.
+#summary How the library is constructed and should be used
 
-http://code.google.com/p/ivef-sdk/wiki/flowchart.png
+The SDK is strongly based on code generation. The actual definition is done in an XML Schema Diagram (XSD) which specifies the objects, attributes, types, bounderies etc.
+This XSD is fed to a code generator that creates an interface library in various languages. The SDK includes examples on how to use the library
 
-http://code.google.com/p/ivef-sdk/wiki/interface.png
+http://ivef-sdk.googlecode.com/files/flowchart.png
+
+The library has a prescribed interface in all languages, which is explained in the following diagram
 
 http://ivef-sdk.googlecode.com/files/interface.png
 
-http://ivef-sdk.googlecode.com/files/flowchart.png
+At the core is an interface that consists of:
+
+  * reading strings with IVEF XML
+  * emiting objects generated from that XML
+  * boundary checking
+  * generating XML from the objects
+
+We have included some [examples]
