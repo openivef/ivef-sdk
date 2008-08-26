@@ -4,6 +4,8 @@
 The following example shows how to read from a file and generate IVEF objects from this data:
 
 {{{
+void myApp::readFile(void) {
+
       // create a parser
       IVEFParser * m_IVEFParser = new IVEFParser();
 
@@ -13,12 +15,15 @@ The following example shows how to read from a file and generate IVEF objects fr
         while (!file->atEnd()) {
             QString line = file->readLine();
             m_IVEFParser->parseXMLString(line, true);
-        }    
+        }   
+} 
 }}}
 
 This will result in signals to be emitted from the library to the host program. We should "catch" these signals and process them:
 
 {{{
+void myApp::readFile(void) {
+
       // create a parser
       IVEFParser * m_IVEFParser = new IVEFParser();
 
@@ -31,7 +36,8 @@ This will result in signals to be emitted from the library to the host program. 
         while (!file->atEnd()) {
             QString line = file->readLine();
             m_IVEFParser->parseXMLString(line, true);
-        }    
+        }  
+}  
 }}}
 
 
