@@ -1,0 +1,10 @@
+#summary What can you use to develop with the IVEF SDK
+
+Supported languages:
+  * C++ with Qt bindings
+  * Objective-C
+
+Under development
+  * Pure C++
+  * Java
+  * C#
