@@ -35,6 +35,7 @@ MainApp::MainApp( int & argc, char ** argv )
 //    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "cs",       "generate c# files" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "java",     "generate java files" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "objc",     "generate objective-C files" ) );
+    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "proto",     "generate google protocol buffer interface" ) );
 
 
     // parse command line m_options
@@ -89,6 +90,8 @@ void MainApp::slotStart( void ) {
             std::exit(-1);
 		} else if ( m_options.getBoolean( "objc" ) ) {
 		        generator = new CodeGenObjC(); 
+		} else if ( m_options.getBoolean( "proto" ) ) {
+		        generator = new CodeGenPB(); 
 		} else if ( m_options.getBoolean( "cpp" ) ) {
 			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
             std::exit(-1);

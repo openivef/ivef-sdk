@@ -44,7 +44,7 @@ QString CodeGenQT::localType(QString type) {
     else if (type == "xs:dateTime")
         return "QDateTime";
     else if (type == "unknown") {
-        std::cout << "WARNING unknown type found, defaulting to QString" << std::endl;
+        std::cout << "WARNING unknown type found:" << type.toLatin1().data() <<  ", defaulting to QString" << std::endl;
         return "QString";
     }
     else if (type == "xs:decimal") // float
