@@ -122,6 +122,8 @@ void CodeGenQT::go() {
 
     // first analyse the objects if they are embedded objects
     // for all objects that could accept such an object
+    QString nameSpace = "none";
+    bool useNameSpace = false;
     for(int i=0; i < m_objects.size(); i++) {
         // for all objects
         XSDObject *obj1 = m_objects.at(i);
@@ -141,6 +143,18 @@ void CodeGenQT::go() {
                 }
             }
         }
+
+        // find out what our namespace is
+        if (obj1->name() == "Schema") {
+	    for(int j=0; j < obj1->fixedValues().size(); j++) {
+	        QString attrName = obj1->fixedValues().keys().at(j);
+                if (attrName == "targetNamespace") {
+                    nameSpace = obj1->fixedValues().values().at(j);
+                    std::cout << "Using namespace: " << nameSpace.toLatin1().data() << std::endl;
+                    useNameSpace = true;
+                }
+	    }
+	}
     }
 
     for(int i=0; i < m_objects.size(); i++) {
@@ -524,7 +538,9 @@ void CodeGenQT::go() {
     // include dependend files
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
-        headerFileOut << "#include \"" << fileBaseName(obj->name()) << ".h\"\n";
+        if (obj->name() != "Schema") {
+           headerFileOut << "#include \"" << fileBaseName(obj->name()) << ".h\"\n";
+        } 
     }
 
     // define the class
