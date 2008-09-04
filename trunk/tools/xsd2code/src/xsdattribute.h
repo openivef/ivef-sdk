@@ -30,6 +30,8 @@ public:
 	void setMinOccurs(int min);
 	void setMaxOccurs(int max);
 	void setMaxLength(int length);
+	void setMinLength(int length);
+        void setDigits(int length);
 	void setType(QString type);
 	void setUnbounded();
 	void setDocumentation(QString doc);
@@ -53,7 +55,9 @@ private:
 	bool m_required;
 	bool m_unbounded;
 	int m_min;
+	int m_digits;
 	int m_maxLength;
+	int m_minLength;
 	int m_max;
 	bool m_hasMin;
 	bool m_hasMax;

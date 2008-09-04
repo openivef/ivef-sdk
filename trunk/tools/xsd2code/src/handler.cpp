@@ -165,6 +165,14 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
 		attr->setMinOccurs(int(atts.value(0).toFloat())); // error in xsd should be +1 here but is float?
+	} else if (qName == "xs:fractionDigits") {
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		XSDAttribute *attr = m_attrStack.top();
+		attr->setDigits(atts.value(0).toInt()); 
+	} else if (qName == "xs:minLength") {
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		XSDAttribute *attr = m_attrStack.top();
+		attr->setMinLength(atts.value(0).toInt()); // minInclusive has only one attribute "value = xxx"
 	} else if (qName == "xs:maxLength") {
 		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();

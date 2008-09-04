@@ -28,6 +28,8 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required) {
 	m_hasMin = false;
 	m_hasMax = false;
 	m_maxLength = -1; 
+	m_minLength = -1; 
+        m_digits = 0;
 	
     //std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
 }
@@ -40,6 +42,16 @@ void XSDAttribute::setType(QString type) {
 void XSDAttribute::appendEnumeration(QString enum1) {
     //std::cout << QString("XSDAttribute %1: enum: %2").arg(m_name, enum1).toLatin1().data() << std::endl;
 	m_enums.append(enum1);
+}
+
+void XSDAttribute::setDigits(int length) {
+	m_digits = length;
+	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
+}
+
+void XSDAttribute::setMinLength(int length) {
+	m_minLength = length;
+	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
 }
 
 void XSDAttribute::setMaxLength(int length) {
