@@ -70,8 +70,8 @@ bool CodeGenQT::knownType(QString type) {
         return false;
 }
 
-QString fileBaseName(QString name) {
-    return name.toLower();
+QString CodeGenQT::fileBaseName(QString name) {
+    return m_prefix + name.toLower();
 }
 
 QString className(QString name) {
@@ -186,7 +186,7 @@ void CodeGenQT::go() {
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             if(!knownType(attr->type())) {
-                headerFileOut << "#include \"" << attr->type().toLower() << ".h\"\n";
+                headerFileOut << "#include \"" << fileBaseName(attr->type()) << ".h\"\n";
             }
         }
 
@@ -524,7 +524,7 @@ void CodeGenQT::go() {
     // include dependend files
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
-        headerFileOut << "#include \"" << obj->name().toLower() << ".h\"\n";
+        headerFileOut << "#include \"" << fileBaseName(obj->name()) << ".h\"\n";
     }
 
     // define the class

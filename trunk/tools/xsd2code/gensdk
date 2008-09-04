@@ -4,9 +4,11 @@ rm ../../ivef-qt/*.o
 rm ../../ivef-qt/*.h
 bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../ivef-qt/ --prefix=IVEF
 cd ../../ivef-qt/
-qmake
+qmake ivef.pro
 make -j 12
-cd ../tools
+qmake ivef-static.pro
+make -j 12
+cd ../tools/xsd2code
 
 #make objc
 rm ../../ivef-objc/Classes/*.m

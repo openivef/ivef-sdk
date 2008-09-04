@@ -37,7 +37,8 @@ public:
 protected:
 	bool knownType(QString type);
 	QString localType(QString type);
-	
+        QString fileBaseName(QString name);	
+
 private:
         QString m_prefix;
 	QString m_outDir;
