@@ -71,7 +71,8 @@ bool CodeGenQT::knownType(QString type) {
 }
 
 QString CodeGenQT::fileBaseName(QString name) {
-    return m_prefix + name.toLower();
+    if (m_prefix != "") { 
+      return m_prefix + name.toLower();
 }
 
 QString className(QString name) {
@@ -512,7 +513,7 @@ void CodeGenQT::go() {
     //-----------------------------------------------------------------------------------------------
 
     // open the header file
-    QString name = m_prefix + "Parser";
+    QString name = "Parser";
 
     QFile headerFile(m_outDir + "/" + fileBaseName(name) + ".h");
     if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
