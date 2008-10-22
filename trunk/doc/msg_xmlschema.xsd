@@ -192,7 +192,7 @@
 	</xs:element>
 	<xs:element name="StaticData">
 		<xs:complexType>
-			<xs:attribute name="Id" type="xs:integer" use="required">
+			<xs:attribute name="Id" type="xs:string" use="required">
 				<xs:annotation>
 					<xs:documentation>The identification of this static data</xs:documentation>
 				</xs:annotation>

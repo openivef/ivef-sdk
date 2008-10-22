@@ -29,12 +29,14 @@
     return self;
 }
 
--(void) setId:(int) val {
+-(void) setId:(NSString *) val {
 
+    [m_id release];
     m_id = val;
+    [m_id retain];
 }
 
-- (int) getId {
+- (NSString *) getId {
 
     return m_id;
 }
@@ -439,9 +441,8 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Id"]) {
-                 NSString *value = [attributeDict objectForKey: key];
+                 NSString *val = [attributeDict objectForKey: key];
 
-                int val = [value intValue];
                 [self setId: val];
             }
             else if ([key isEqualToString:@"SourceName"]) {
@@ -563,7 +564,7 @@
 
     NSMutableString *xml = [NSString stringWithString:@"<StaticData"];
     [xml appendString: @" Id=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_id]];
+    [xml appendString: m_id];
     [xml appendString: @"\""];
     [xml appendString: @" SourceName=\""];
     [xml appendString: m_sourceName];
@@ -672,7 +673,7 @@
     [str setString: [lead stringByAppendingString:@"StaticData\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Id=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_id]];
+    [str appendString: m_id];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];

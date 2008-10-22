@@ -19,7 +19,8 @@ HEADERS += src/cmdlineoption.h \
 		   src/codegen.h \
 		   src/codegenpb.h \
 		   src/codegenqt.h \
-		   src/codegenobjc.h
+		   src/codegenobjc.h\
+		   src/codegenjava.h
 SOURCES += src/cmdlineoption.cpp \
            src/mainapp.cpp \
            src/handler.cpp \
@@ -28,6 +29,7 @@ SOURCES += src/cmdlineoption.cpp \
 		   src/codegenpb.cpp \
 		   src/codegenqt.cpp \
 		   src/codegenobjc.cpp \
+		   src/codegenjava.cpp \
            src/main.cpp
 
 CONFIG += warn_on stl qt release console

@@ -43,7 +43,7 @@ MainApp::MainApp( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n xsd2code 0.0.1\n----------------------------------------\n\nCopyright 2008\n"  << std::endl;
+        std::cout << "\n xsd2code 0.0.2\n----------------------------------------\n\nCopyright 2008\n"  << std::endl;
         std::exit(0);
     }
 
@@ -83,9 +83,8 @@ void MainApp::slotStart( void ) {
 
 		CodeGen *generator = new CodeGenQT(); // default to Qt
 		if ( m_options.getBoolean( "java" ) ) {
-			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
-            std::exit(-1);
-		} else if ( m_options.getBoolean( "java" ) ) {
+			generator = new CodeGenJava();
+		} else if ( m_options.getBoolean( "cs" ) ) {
 			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
             std::exit(-1);
 		} else if ( m_options.getBoolean( "objc" ) ) {

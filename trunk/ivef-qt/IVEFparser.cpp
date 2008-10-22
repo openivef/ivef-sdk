@@ -1,12 +1,12 @@
 
-#include "IVEF1ivef1parser.h"
+#include "IVEFparser.h"
 
-IVEF1Parser::IVEF1Parser() {
+Parser::Parser() {
 
     setContentHandler(this);
 }
 
-bool IVEF1Parser::startElement(const QString &,
+bool Parser::startElement(const QString &,
      const QString &,
      const QString & qName,
      const QXmlAttributes & atts) {
@@ -118,7 +118,7 @@ bool IVEF1Parser::startElement(const QString &,
             QString value = atts.value(i);
 
             if (key == "Id") {
-                int val = value.toInt();
+                QString val = value;
                 obj->setId(val);
             }
             else if (key == "SourceName") {
@@ -470,7 +470,7 @@ bool IVEF1Parser::startElement(const QString &,
     return true;
 }
 
-bool IVEF1Parser::endElement(const QString &,
+bool Parser::endElement(const QString &,
      const QString &,
      const QString & qName) {
 
@@ -741,7 +741,7 @@ bool IVEF1Parser::endElement(const QString &,
     return true;
 }
 
-bool IVEF1Parser::parseXMLString(QString data, bool cont) { 
+bool Parser::parseXMLString(QString data, bool cont) { 
 
      m_dataBuffer.append(data);
 

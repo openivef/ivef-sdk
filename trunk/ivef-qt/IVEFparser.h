@@ -1,42 +1,41 @@
-#ifndef __IVEF1PARSER_H__
-#define __IVEF1PARSER_H__
+#ifndef __PARSER_H__
+#define __PARSER_H__
 
 #include <QtCore>
 #include <QXmlDefaultHandler>
 
-#include "IVEF1schema.h"
-#include "IVEF1header.h"
-#include "IVEF1msg_vesseldata.h"
-#include "IVEF1body.h"
-#include "IVEF1vesseldata.h"
-#include "IVEF1posreport.h"
-#include "IVEF1staticdata.h"
-#include "IVEF1voyage.h"
-#include "IVEF1msg_loginrequest.h"
-#include "IVEF1loginrequest.h"
-#include "IVEF1msg_loginresponse.h"
-#include "IVEF1loginresponse.h"
-#include "IVEF1msg_ping.h"
-#include "IVEF1ping.h"
-#include "IVEF1msg_pong.h"
-#include "IVEF1pong.h"
-#include "IVEF1msg_serverstatus.h"
-#include "IVEF1serverstatus.h"
-#include "IVEF1msg_logout.h"
-#include "IVEF1logout.h"
-#include "IVEF1msg_servicerequest.h"
-#include "IVEF1servicerequest.h"
-#include "IVEF1area.h"
-#include "IVEF1transmission.h"
-#include "IVEF1item.h"
-#include "IVEF1object.h"
-#include "IVEF1pos.h"
+#include "IVEFheader.h"
+#include "IVEFmsg_vesseldata.h"
+#include "IVEFbody.h"
+#include "IVEFvesseldata.h"
+#include "IVEFposreport.h"
+#include "IVEFstaticdata.h"
+#include "IVEFvoyage.h"
+#include "IVEFmsg_loginrequest.h"
+#include "IVEFloginrequest.h"
+#include "IVEFmsg_loginresponse.h"
+#include "IVEFloginresponse.h"
+#include "IVEFmsg_ping.h"
+#include "IVEFping.h"
+#include "IVEFmsg_pong.h"
+#include "IVEFpong.h"
+#include "IVEFmsg_serverstatus.h"
+#include "IVEFserverstatus.h"
+#include "IVEFmsg_logout.h"
+#include "IVEFlogout.h"
+#include "IVEFmsg_servicerequest.h"
+#include "IVEFservicerequest.h"
+#include "IVEFarea.h"
+#include "IVEFtransmission.h"
+#include "IVEFitem.h"
+#include "IVEFobject.h"
+#include "IVEFpos.h"
 
-class IVEF1Parser : public QObject, QXmlDefaultHandler, QXmlSimpleReader { 
+class Parser : public QObject, QXmlDefaultHandler, QXmlSimpleReader { 
     Q_OBJECT
 
 public:
-    IVEF1Parser();
+    Parser();
     bool startElement(const QString &,
                       const QString &,
                       const QString & qName,

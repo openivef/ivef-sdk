@@ -18,34 +18,36 @@
 
 #include <cstdlib>
 
-#include "codegenqt.h"
+#include "codegenjava.h"
 
-CodeGenQT::CodeGenQT()
+CodeGenJava::CodeGenJava()
 : CodeGen()
 {
         m_prefix = "";
 }
 
-void CodeGenQT::setObjects(QVector<XSDObject*>objects) {
+void CodeGenJava::setObjects(QVector<XSDObject*>objects) {
     m_objects = objects;
 }
 
-void CodeGenQT::setOutputDir(QString outDir) {
+void CodeGenJava::setOutputDir(QString outDir) {
     m_outDir = outDir;
 }
 
-QString CodeGenQT::localType(QString type) {
+QString CodeGenJava::localType(QString type) {
     if (type == "xs:string")
-        return "QString";
+        return "String";
     else if (type == "xs:boolean")
-        return "bool";
+        return "boolean";
     else if (type == "xs:integer")
         return "int";
-    else if (type == "xs:dateTime")
-        return "QDateTime";
+    else if (type == "xs:dateTime") 
+        return "Date";
+    else if (type == "xs:hexBinary") 
+        return "String";
     else if (type == "unknown") {
-        std::cout << "WARNING unknown type found:" << type.toLatin1().data() <<  ", defaulting to QString" << std::endl;
-        return "QString";
+        std::cout << "WARNING unknown type found:" << type.toLatin1().data() <<  ", defaulting to String" << std::endl;
+        return "String";
     }
     else if (type == "xs:decimal") // float
         return "float";
@@ -53,7 +55,7 @@ QString CodeGenQT::localType(QString type) {
         return type;
 }
 
-bool CodeGenQT::knownType(QString type) {
+bool CodeGenJava::knownType(QString type) {
     if (type == "xs:string")
         return true;
     else if (type == "xs:boolean")
@@ -62,6 +64,8 @@ bool CodeGenQT::knownType(QString type) {
         return true;
     else if (type == "xs:dateTime")
         return true;
+	else if (type == "xs:hexBinary") 
+		return true;
     else if (type == "unknown")
         return true;
     else if (type == "xs:decimal") // float
@@ -70,17 +74,15 @@ bool CodeGenQT::knownType(QString type) {
         return false;
 }
 
-QString CodeGenQT::fileBaseName(QString name) {
-    //if (m_prefix != "") { 
-      return m_prefix + name.toLower();
-    //}
+QString CodeGenJava::className(QString name) {
+    return /*m_prefix +*/ name.replace(0, 1, name.left(1).toUpper());
 }
 
-QString className(QString name) {
-    return name.replace(0, 1, name.left(1).toUpper());
+QString CodeGenJava::fileBaseName(QString name) {
+      return className(name);
 }
 
-QString variableName(QString name) {
+QString CodeGenJava::variableName(QString name) {
 
     if (name.mid(1,1).toUpper() == name.mid(1,1)) { // if second char is uppercase
         return "m_" + name;
@@ -89,7 +91,7 @@ QString variableName(QString name) {
     }
 }
 
-QString writeHeader(QString fileName) {
+QString CodeGenJava::writeHeader(QString fileName) {
 
     QString header;
     header.append( "/* \n" );
@@ -116,11 +118,11 @@ QString writeHeader(QString fileName) {
     return header;
 }
 
-QString methodName(QString name) {
-    return className(name);
+QString CodeGenJava::methodName(QString name) {
+    return name.replace(0, 1, name.left(1).toUpper());
 }
 
-void CodeGenQT::go() {
+void CodeGenJava::go() {
 
     // first analyse the objects if they are embedded objects
     // for all objects that could accept such an object
@@ -166,216 +168,145 @@ void CodeGenQT::go() {
         // get some vars we frequently use
         QString name = obj->name();
         QString upperName = name.toUpper();
+        QString lowerName = name.toLower();
         QVector<XSDAttribute*>attributes = obj->attributes();
         QMap<QString, QString>fixedValues = obj->fixedValues();
 
         // report
         std::cout << QString("creating class: %1").arg(className(name)).toLatin1().data() << std::endl;
 
-        // open the header file
-        QString baseName = m_outDir + "/" + fileBaseName(name);
-        QFile headerFile(baseName + ".h");
-        if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            std::cerr << QString("cannot create file: %1").arg(baseName + ".h").toLatin1().data() << std::endl;
-            std::exit(-1);
+        QString package = "xsd2code";
+        if (m_prefix != "") { 
+            package =  m_prefix.toLower();
         }
-        QTextStream headerFileOut(&headerFile);
 
         // and the class file
-        QFile classFile(baseName + ".cpp");
+        QString baseName = m_outDir + "/" + package + "/" + fileBaseName(name);
+        QFile classFile(baseName + ".java");
         if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            std::cerr << QString("cannot create file: %1").arg(baseName + ".cpp").toLatin1().data() << std::endl;
+            std::cerr << QString("cannot create file: %1").arg(baseName + ".java").toLatin1().data() << std::endl;
             std::exit(-1);
         }
         QTextStream classFileOut(&classFile);
 
         //-----------------------------------------------------------------------------------------------
-        // generate the header
+        // generate the declaration
         //-----------------------------------------------------------------------------------------------
-        headerFileOut << writeHeader( className(name) );
+        classFileOut << writeHeader( className(name) );
+ 
+        classFileOut << "package " << package << ";\n\n";
 
-        headerFileOut << "#ifndef __" << upperName << "_H__\n";
-        headerFileOut << "#define __" << upperName << "_H__\n\n";
-        headerFileOut << "#include <QtCore>\n";  // we generate for Qt types
+		classFileOut << "import java.util.*;\n";
+        classFileOut << "import java.text.DateFormat;\n\n";
 
         // include dependend files
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             if(!knownType(attr->type())) {
-                headerFileOut << "#include \"" << fileBaseName(attr->type()) << ".h\"\n";
+                classFileOut << "import " << package << "." << fileBaseName(attr->type()) << ";\n";
             }
         }
 
         // define the class
-        headerFileOut << "\nclass " << className(name) << " : public QObject { \n";
-        headerFileOut << "    Q_OBJECT\n\n";
+        classFileOut << "\npublic class " << className(name) << " { \n\n";
 
-        // public section
-        headerFileOut << "public:\n";
-        headerFileOut << "    " << className(name) << "();\n"; // constructor
-        headerFileOut << "    " << className(name) << "(const " << className(name) << "&);\n"; // copy constructor
-        headerFileOut << "    " << className(name) << " & operator=(const " << className(name) << "&/*val*/);\n"; // = operator
-
+        // variables section
         // all attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString type = localType(attr->type()); // convert to cpp types
-            QString doc = attr->doc();
-            if (doc != "") { // there is documentation
-                doc.replace("\n", "\n       ");
-                doc.replace("\r", "");
-                headerFileOut << "\n    /* " << methodName(attr->name()) << ":\n       " << doc << " */\n";
-            }
-            if (attr->unbounded()) { // there more then one
-                // setter
-                headerFileOut << "    void add" << methodName(attr->name()) << "(" << type << " val);\n";
-                // getter
-                headerFileOut << "    " << type << " get" << methodName(attr->name()) << "At(int i) const;\n";
-                // count
-                headerFileOut << "    int countOf" << methodName(attr->name()) << "s() const;\n";
-            } else {
-                // setter
-                headerFileOut << "    void set" << methodName(attr->name()) << "(" << type << " val);\n";
-                // getter
-                headerFileOut << "    " << type << " get" << methodName(attr->name()) << "() const;\n";
-                if (!attr->required() || obj->isMerged()) {
-                    headerFileOut << "    bool has" << methodName(attr->name()) << "();\n";
-                }
-            }
-        }
-        // and fixed values
-        for(int j=0; j < fixedValues.size(); j++) {
-            QString attrName = fixedValues.keys().at(j);
-            QString type = "QString"; // always a string
-            // getter
-            headerFileOut << "    " << type << " get" << methodName(attrName) << "() const;\n";
-        }
-        headerFileOut << "    QString toXML();\n";
-        headerFileOut << "    QString toString(QString lead);\n";
-
-        // private section
-        headerFileOut << "\nprivate:\n";
-
-        // all attributes
-        for(int j=0; j < attributes.size(); j++) {
-            XSDAttribute *attr = attributes.at(j);
-            QString type = localType(attr->type()); // convert to cpp types
+            QString type = localType(attr->type()); // convert to java types
             // definition
             if (attr->unbounded()) { // there more then one
-                headerFileOut << "    QVector<" << type << "> " << variableName(attr->name()) << "s;\n";
+                classFileOut << "    private Vector " << variableName(attr->name()) << "s;\n";
             } else {
-                headerFileOut << "    " << type << " " << variableName(attr->name()) << ";\n";
+                classFileOut << "    private " << type << " " << variableName(attr->name()) << ";\n";
             }
             if (!attr->required() || obj->isMerged()) {
-                headerFileOut << "    bool " << variableName(attr->name()) << "Present;\n";
+                classFileOut << "    private boolean " << variableName(attr->name()) << "Present;\n";
             }
         }
 
-        // close the header
-        headerFileOut << "\n}; \n\n#endif\n\n";
-
-        // close and flush
-        headerFileOut.flush();
-        headerFile.close();
-
         //-----------------------------------------------------------------------------------------------
-        // create the class file
+        // create the implementation 
         //-----------------------------------------------------------------------------------------------
-        classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
 
         // constructor
-        classFileOut << className(name) << "::" << className(name) << "() {\n\n";
+        classFileOut << "\n    public " << className(name) << "() {\n\n";
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
             if (!attr->required() || obj->isMerged()) {
-                classFileOut << "    " << variableName(attr->name()) << "Present = false;\n";
+                classFileOut << "        " << variableName(attr->name()) << "Present = false;\n";
             }
         }
-        classFileOut << "}\n\n";
+        classFileOut << "    }\n\n";
 
         // copy constructor
-        classFileOut << className(name) << "::" << className(name) << "(const " << className(name) << " &val) : QObject() {\n\n";
+        classFileOut << "    public " << className(name) << "(" << className(name) << " val) {\n\n";
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
-            QString type = localType(attr->type()); // convert to cpp types
-            if (!attr->required() || obj->isMerged()) {
-                classFileOut << "    " << variableName(attr->name()) << "Present = val." << variableName(attr->name()) << "Present;\n";
+            QString type = localType(attr->type()); // convert to java types
+            if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
+                classFileOut << "        " << variableName(attr->name()) << "Present = val.has" << methodName(attr->name()) << "();\n";
             }
             if (attr->unbounded()) { // there more then one
-                classFileOut << "    " << variableName(attr->name()) << "s = val." << variableName(attr->name()) << "s;\n";
+                classFileOut << "        for(int i=0; i < val.countOf" << methodName(attr->name()) << "s(); i++ ) {\n";
+                classFileOut << "            " << variableName(attr->name()) << "s.add( val.get" << methodName(attr->name()) << "At(i) );\n";
+                classFileOut << "        }\n";
             } else {
-                classFileOut << "    " << variableName(attr->name()) << " = val." << variableName(attr->name()) << ";\n";
+                classFileOut << "        " << variableName(attr->name()) << " = val.get" << methodName(attr->name()) << "();\n";
             }
         }
-        classFileOut << "}\n\n";
-
-        // = operator
-        classFileOut << className(name) << " & " << className(name) << "::operator=(const " << className(name) << " &val) {\n\n";
-        for(int j=0; j < attributes.size(); j++) {
-            XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
-            QString type = localType(attr->type()); // convert to cpp types
-            if (!attr->required() || obj->isMerged()) {
-                classFileOut << "    " << variableName(attr->name()) << "Present = val." << variableName(attr->name()) << "Present;\n";
-            }
-            if (attr->unbounded()) { // there more then one
-                classFileOut << "    " << variableName(attr->name()) << "s = val." << variableName(attr->name()) << "s;\n";
-            } else {
-                classFileOut << "    " << variableName(attr->name()) << " = val." << variableName(attr->name()) << ";\n";
-            }
-        }
-        classFileOut << "    return *this;\n";
-        classFileOut << "}\n\n";
-
+        classFileOut << "    }\n\n";
+       
         // methods for attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
-            QString type = localType(attr->type()); // convert to cpp types
+            QString type = localType(attr->type()); // convert to java types
             if (attr->unbounded()) { // there more then one
                 // setter
-                classFileOut << "void " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n";
-                classFileOut << "\n    " << variableName(attr->name()) << "s.append(val);\n}\n\n";
+                classFileOut << "    public void " << "add" << methodName(attr->name()) << "(" << type << " val) {\n";
+                classFileOut << "\n        " << variableName(attr->name()) << "s.add(val);\n    }\n\n";
                 // getter
-                classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "At(int i) const {\n";
-                classFileOut << "\n    return " << variableName(attr->name()) << "s.at(i);\n}\n\n";
+                classFileOut << "    public " << type << " " << "get" << methodName(attr->name()) << "At(int i) {\n";
+                classFileOut << "\n        return ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n    }\n\n";
                 // count
-                classFileOut << "int " << className(name) << "::countOf" << methodName(attr->name()) << "s() const {\n";
-                classFileOut << "\n    return " << variableName(attr->name()) << "s.count();\n}\n\n";
+                classFileOut << "    public int countOf" << methodName(attr->name()) << "s() {\n";
+                classFileOut << "\n        return " << variableName(attr->name()) << "s.size();\n    }\n\n";
             } else {
                 // setter
-                classFileOut << "void " << className(name) << "::set" << methodName(attr->name()) << "(" << type << " val) {\n";
+                classFileOut << "    public void set" << methodName(attr->name()) << "(" << type << " val) {\n";
                 QVector<QString> enums = attr->enumeration();
                 if (enums.size() > 0) { // there are enumeration constraints for this item
 
                     // strings should be between quotes, numbers not
                     QString quote;
-                    if (type == "QString") {
+                    if (type == "String") {
                         quote = "\"";
                     }
 
-                    classFileOut << "\n    if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
+                    classFileOut << "\n        if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
                     for (int h=1; h < enums.size(); h++) {
-                        classFileOut << "&&\n         ( val != " << quote << enums.at(h) << quote << " ) ";
+                        classFileOut << "&&\n             ( val != " << quote << enums.at(h) << quote << " ) ";
                     }
-                    classFileOut <<    ")\n        return;";
+                    classFileOut <<    ")\n            return;";
                 }
                 if (attr->hasMin() && (attr->hasMax())) {
-                     classFileOut << "\n    if (val < " << attr->min() << ")\n        return;";
-                     classFileOut << "\n    if (val > " << attr->max() << ")\n        return;";
+                     classFileOut << "\n        if (val < " << attr->min() << ")\n            return;";
+                     classFileOut << "\n        if (val > " << attr->max() << ")\n            return;";
                 }
                 if (!attr->required() || obj->isMerged()) {
-                     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
+                     classFileOut << "\n        " << variableName(attr->name()) << "Present = true;";
                 }
-                classFileOut << "\n    " << variableName(attr->name()) << " = val;\n}\n\n";
+                classFileOut << "\n        " << variableName(attr->name()) << " = val;\n    }\n\n";
                 // getter
-                classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "() const {\n";
-                classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
+                classFileOut << "    public " << type << " get" << methodName(attr->name()) << "() {\n";
+                classFileOut << "\n        return " << variableName(attr->name()) << ";\n    }\n\n";
                 if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "bool " << className(name) << "::has" << methodName(attr->name()) << "() {\n";
-                    classFileOut << "\n    return " << variableName(attr->name()) << "Present;\n}\n\n";
+                    classFileOut << "    public boolean has" << methodName(attr->name()) << "() {\n";
+                    classFileOut << "\n        return " << variableName(attr->name()) << "Present;\n    }\n\n";
                 }
             }
         }
@@ -384,43 +315,44 @@ void CodeGenQT::go() {
         for(int j=0; j < fixedValues.size(); j++) {
             QString attrName = fixedValues.keys().at(j);
             QString attrValue = fixedValues.values().at(j);
-            QString type = "QString"; // always a string
+            QString type = "String"; // always a string
 
             // getter
-            classFileOut << type << " " << className(name) << "::get" << methodName(attrName) << "() const {\n";
-            classFileOut << "\n    return \"" << attrValue << "\";\n}\n\n";
+            classFileOut << "    public " << type << " get" << methodName(attrName) << "() {\n";
+            classFileOut << "\n        return \"" << attrValue << "\";\n    }\n\n";
         }
 
         // xml generator
         // if attribute name and type are the same it means it was data
-        classFileOut << "QString " << className(name) << "::toXML() {\n\n";
-        classFileOut << "    QString xml = \"<" << name << "\";\n"; // append attributes
+        classFileOut << "    public String toXML() {\n\n";
+        classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
 
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
-            QString type = localType(attr->type()); // convert to cpp types
+            QString type = localType(attr->type()); // convert to java types
             QString varName = variableName(attr->name());
 
             if (attrType != attr->name()) {
 
                 // non-qstring items (ints) may give problems, so convert them
-                if (type == "QDateTime") {
-                    varName = variableName(attr->name()) + ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
-                } else if (type != "QString") {
-                    varName = "QString::number(" + variableName(attr->name()) + ")";
-                }
+                if (type == "Date") {
+                    varName = "DateFormat.getDateInstance().format(" + variableName(attr->name()) + ")"; 
+					// ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+                } /*else  if (type != "String") {
+                    varName = "String.number(" + variableName(attr->name()) + ")";
+                } */
                 // check if the attribute exist
-                if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        xml.append(\" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\");\n    }\n";
+                if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
+                    classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "            xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n        }\n";
                 } else {
-                    classFileOut << "    xml.append(\" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\");\n";
+                    classFileOut << "        xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n";
                 }
             }
         }
-        classFileOut << "    xml.append(\">\\n\");\n"; // close the statement
+        classFileOut << "        xml += \">\\n\";\n"; // close the statement
 
         // for data members
         for(int j=0; j < attributes.size(); j++) {
@@ -430,49 +362,50 @@ void CodeGenQT::go() {
             if (attrType == attr->name()) {
                 // check if the attribute exist
                 if (attr->unbounded() ) {
-                    classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
-                    classFileOut << "       " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
-                    classFileOut << "        xml.append( attribute.toXML() );\n    }\n";
+                    classFileOut << "        for(int i=0; i < " << variableName(attr->name()) << "s.size(); i++ ) {\n";
+                    classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
+                    classFileOut << "            xml += attribute.toXML();\n        }\n";
                 } else if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n    }\n";
+                    classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "            xml += " << " " << variableName(attr->name()) << ".toXML() ;\n            }\n";
                 } else {
-                    classFileOut << "    xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n";
+                    classFileOut << "        xml += " << " " << variableName(attr->name()) << ".toXML();\n";
                 }
             }
         }
 
         // close up
-        classFileOut << "    xml.append( \"</" << name << ">\\n\");\n"; // append attributes
-        classFileOut << "    return xml;\n";
-        classFileOut << "}\n\n";
+        classFileOut << "        xml += \"</" << name << ">\\n\";\n"; // append attributes
+        classFileOut << "        return xml;\n";
+        classFileOut << "    }\n\n";
 
         // string generator
         // if attribute name and type are the same it means it was data
-        classFileOut << "QString " << className(name) << "::toString(QString lead) {\n\n";
-        classFileOut << "    QString str = lead + \"" << name << "\\n\";\n"; // append attributes
+        classFileOut << "    public String toString(String lead) {\n\n";
+        classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
 
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
-            QString type = localType(attr->type()); // convert to cpp types
+            QString type = localType(attr->type()); // convert to java types
             QString varName = variableName(attr->name());
 
             if (attrType != attr->name()) {
 
                 // non-qstring items (ints) may give problems, so convert them
-                if (type == "QDateTime") {
-                    varName = variableName(attr->name()) + ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
-                } else if (type != "QString") {
-                    varName = "QString::number(" + variableName(attr->name()) + ")";
-                }
+                if (type == "Date") {
+                    varName = "DateFormat.getDateInstance().format(" + variableName(attr->name()) + ")"; 
+					// ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+                } /*else  if (type != "String") {
+                    varName = "String.number(" + variableName(attr->name()) + ")";
+                } */
                 // check if the attribute exist
-                if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        str.append( lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\");\n    }\n";
+                if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
+                    classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "            str +=  lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\";\n        }\n";
                 } else {
-                    classFileOut <<     "    str.append( lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\");\n";
+                    classFileOut << "        str +=  lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\";\n";
                 }
             }
         }
@@ -485,24 +418,24 @@ void CodeGenQT::go() {
             if (attrType == attr->name()) {
                 // check if the attribute exist
                 if (attr->unbounded() ) {
-                    classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
-                    classFileOut << "       " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
-                    classFileOut << "       str.append( attribute.toString(lead + \"    \") );\n    }\n";
+                    classFileOut << "        for(int i=0; i < " << variableName(attr->name()) << "s.size(); i++ ) {\n";
+                    classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
+                    classFileOut << "           str += attribute.toString(lead + \"    \");\n        }\n";
                 } else if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        str.append(" << " " << variableName(attr->name()) << ".toString(lead + \"    \") );\n    }\n";
+                    classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "            str += " << " " << variableName(attr->name()) << ".toString(lead + \"    \") ;\n        }\n";
                 } else {
-                    classFileOut <<     "    str.append(" << " " << variableName(attr->name()) << ".toString(lead + \"    \") );\n";
+                    classFileOut << "        str += " << " " << variableName(attr->name()) << ".toString(lead + \"    \");\n";
                 }
             }
         }
 
         // close up
-        classFileOut << "    return str;\n";
-        classFileOut << "}\n";
+        classFileOut << "        return str;\n";
+        classFileOut << "    }\n";
 
         // round up
-        classFileOut << "\n"; // make sure there is a newline at the end of the source
+        classFileOut << "\n}\n"; // make sure there is a newline at the end of the source
 
         // close and flush
         classFileOut.flush();
@@ -512,7 +445,7 @@ void CodeGenQT::go() {
     //-----------------------------------------------------------------------------------------------
     // now generate the parser
     //-----------------------------------------------------------------------------------------------
-
+/*
     // open the header file
     QString name = "Parser";
 
@@ -521,65 +454,65 @@ void CodeGenQT::go() {
         std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".h").toLatin1().data() << std::endl;
         std::exit(-1);
     }
-    QTextStream headerFileOut(&headerFile);
+    QTextStream classFileOut(&headerFile);
 
     // and the parser file
-    QFile classFile(m_outDir + "/" +  fileBaseName(name) + ".cpp");
+    QFile classFile(m_outDir + "/" +  fileBaseName(name) + ".java");
     if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".cpp").toLatin1().data() << std::endl;
+        std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".java").toLatin1().data() << std::endl;
         std::exit(-1);
     }
     QTextStream classFileOut(&classFile);
 
     // generate the header
-    headerFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
-    headerFileOut << "#define __" << name.toUpper() << "_H__\n\n";
-    headerFileOut << "#include <QtCore>\n";
-    headerFileOut << "#include <QXmlDefaultHandler>\n\n";
+    classFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
+    classFileOut << "#define __" << name.toUpper() << "_H__\n\n";
+    classFileOut << "#include <QtCore>\n";
+    classFileOut << "#include <QXmlDefaultHandler>\n\n";
 
     // include dependend files
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if (obj->name() != "Schema") {
-           headerFileOut << "#include \"" << fileBaseName(obj->name()) << ".h\"\n";
+           classFileOut << "#include \"" << fileBaseName(obj->name()) << ".h\"\n";
         } 
     }
 
     // define the class
-    headerFileOut << "\nclass " << className(name) << " : public QObject, QXmlDefaultHandler, QXmlSimpleReader { \n";
-    headerFileOut << "    Q_OBJECT\n\n";
+    classFileOut << "\nclass " << className(name) << " : public QObject, QXmlDefaultHandler, QXmlSimpleReader { \n";
+    classFileOut << "    Q_OBJECT\n\n";
 
     // public section
-    headerFileOut << "public:\n";
-    headerFileOut << "    " << className(name) << "();\n"; // constructor
-    headerFileOut << "    bool startElement(const QString &,\n"; // the parser routine
-    headerFileOut << "                      const QString &,\n";
-    headerFileOut << "                      const QString & qName,\n";
-    headerFileOut << "                      const QXmlAttributes & atts);\n";
-    headerFileOut << "    bool endElement(const QString &,\n"; // the parser routine
-    headerFileOut << "                      const QString &,\n";
-    headerFileOut << "                      const QString & qName);\n";
-    headerFileOut << "    bool parseXMLString(QString data, bool cont);\n";
+    classFileOut << "public:\n";
+    classFileOut << "    " << className(name) << "();\n"; // constructor
+    classFileOut << "    bool startElement(const QString &,\n"; // the parser routine
+    classFileOut << "                      const QString &,\n";
+    classFileOut << "                      const QString & qName,\n";
+    classFileOut << "                      const QXmlAttributes & atts);\n";
+    classFileOut << "    bool endElement(const QString &,\n"; // the parser routine
+    classFileOut << "                      const QString &,\n";
+    classFileOut << "                      const QString & qName);\n";
+    classFileOut << "    bool parseXMLString(QString data, bool cont);\n";
 
     // define the signales
-    headerFileOut << "\nsignals:\n";
+    classFileOut << "\nsignals:\n";
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            headerFileOut << "    void signal" << className(obj->name()) << "( " << className(obj->name()) << " obj );\n";
+            classFileOut << "    void signal" << className(obj->name()) << "( " << className(obj->name()) << " obj );\n";
         }
     }
     // private section
-    headerFileOut << "\nprivate:\n";
-    headerFileOut << "    QString m_dataBuffer;\n";
-    headerFileOut << "    QStack<QObject *> m_objStack;\n";
-    headerFileOut << "    QStack<QString> m_typeStack;\n";
+    classFileOut << "\nprivate:\n";
+    classFileOut << "    QString m_dataBuffer;\n";
+    classFileOut << "    QStack<QObject *> m_objStack;\n";
+    classFileOut << "    QStack<QString> m_typeStack;\n";
 
     // close the header
-    headerFileOut << "\n}; \n\n#endif\n\n";
+    classFileOut << "\n}; \n\n#endif\n\n";
 
     // close and flush
-    headerFileOut.flush();
+    classFileOut.flush();
 
     // The class file
     classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
@@ -714,7 +647,7 @@ void CodeGenQT::go() {
                 XSDAttribute *attr = parent->attributes().at(j);
                 QString objType = attr->type();
 
-                if (objType == className(obj->name()) /*&& parent->isRootObject()*/) { // this object has an attribute of that type
+                if (objType == className(obj->name())) { // this object has an attribute of that type
                     classFileOut << "        if ( m_typeStack.top() == \"" << parent->name() << "\") {\n";
                     if (attr->unbounded() ) {
                         classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj );\n";
@@ -781,11 +714,14 @@ void CodeGenQT::go() {
 
     classFileOut << "}\n\n"; // close method
 
+	
     // round up
-    classFileOut << "\n"; // make sure there is a newline at the end of the source
-
+    classFileOut << "\n}\n"; // make sure there is a newline at the end of the source
+	
     // close and flush
     classFileOut.flush();
     classFile.close();
+	
+	*/
 }
 

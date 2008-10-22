@@ -110,12 +110,12 @@ StaticData & StaticData::operator=(const StaticData &val) {
     return *this;
 }
 
-void StaticData::setId(int val) {
+void StaticData::setId(QString val) {
 
     m_id = val;
 }
 
-int StaticData::getId() const {
+QString StaticData::getId() const {
 
     return m_id;
 }
@@ -503,7 +503,7 @@ bool StaticData::hasDeepWaterVesselind() {
 QString StaticData::toXML() {
 
     QString xml = "<StaticData";
-    xml.append(" Id=\"" + QString::number(m_id) + "\"");
+    xml.append(" Id=\"" + m_id + "\"");
     xml.append(" SourceName=\"" + m_sourceName + "\"");
     xml.append(" Source=\"" + QString::number(m_source) + "\"");
     if ( hasLength() ) {
@@ -568,7 +568,7 @@ QString StaticData::toXML() {
 QString StaticData::toString(QString lead) {
 
     QString str = lead + "StaticData\n";
-    str.append( lead + "    Id = " + QString::number(m_id) + "\n");
+    str.append( lead + "    Id = " + m_id + "\n");
     str.append( lead + "    SourceName = " + m_sourceName + "\n");
     str.append( lead + "    Source = " + QString::number(m_source) + "\n");
     if ( hasLength() ) {

@@ -23,7 +23,7 @@ macx {
            IVEFmsg_servicerequest.h \
            IVEFmsg_vesseldata.h \
            IVEFobject.h \
-           IVEFivefparser.h \
+           IVEFparser.h \
            IVEFping.h \
            IVEFpong.h \
            IVEFpos.h \
@@ -59,7 +59,7 @@ HEADERS += IVEFarea.h \
            IVEFmsg_servicerequest.h \
            IVEFmsg_vesseldata.h \
            IVEFobject.h \
-           IVEFivefparser.h \
+           IVEFparser.h \
            IVEFping.h \
            IVEFpong.h \
            IVEFpos.h \
@@ -87,7 +87,7 @@ SOURCES += IVEFarea.cpp \
            IVEFmsg_servicerequest.cpp \
            IVEFmsg_vesseldata.cpp \
            IVEFobject.cpp \
-           IVEFivefparser.cpp \
+           IVEFparser.cpp \
            IVEFping.cpp \
            IVEFpong.cpp \
            IVEFpos.cpp \
