@@ -145,9 +145,22 @@ void IVEFStreamHandler::slotConnected() {
     sendRawData(data);
 }
 
-void IVEFStreamHandler::sendRawData(const QByteArray &data) {
+void IVEFStreamHandler::sendRawData(const QByteArray &dataUnCompressed) {
+
+    if ( m_slipstream ) {
+
+        // compress the data
+        QByteArray dataCompressedPlusLen = qCompress(dataUnCompressed);
+
+        // Qt wants to know the size, but zlib does not
+        QByteArray dataCompressed = QByteArray(dataCompressedPlusLen.data() + 4, dataCompressedPlusLen.size() - 4);
+        
+        m_tcpSocket->write(dataCompressed);
+    } else {
+        m_tcpSocket->write(dataUnCompressed);
+    }
+    
     //qDebug(data.data());
-    m_tcpSocket->write(data);
     m_tcpSocket->flush();
 }
 
@@ -162,7 +175,6 @@ void IVEFStreamHandler::slotReadyRead() {
     // read data 
     QByteArray data = m_tcpSocket->readAll();
     int dataLen = data.size();
-
 
     if ( m_slipstream ) {
         // Qt wants to know the size
