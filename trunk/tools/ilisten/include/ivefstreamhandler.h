@@ -24,6 +24,7 @@
 #include <QtCore>
 #include <QtXml>
 #include <QtNetwork>
+#include "zlib.h"
 
 #include "IVEFParser.h"
 
@@ -55,7 +56,7 @@ private:
     QString m_password;
 
     QByteArray m_buffer;
-
+    z_stream m_strm;
     bool m_slipstream;
 
     Parser *m_parser;

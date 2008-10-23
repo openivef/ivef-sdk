@@ -47,6 +47,11 @@ IVEFStreamHandler::~IVEFStreamHandler() {
         delete(m_tcpSocket);
     if (m_log != NULL)
         delete(m_log);
+
+    // cleanup compression
+    if ( m_slipstream ) {
+        inflateEnd(&m_strm);
+    }
 }
 
 void IVEFStreamHandler::displayError(QAbstractSocket::SocketError socketError) {
@@ -97,6 +102,19 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
     // store some info for the login
     m_user = user;
     m_password = password;
+
+    // setup decompression mechanism
+    // we cannot use Qt for decompression since we do not know where the chunk starts or ends.
+    if ( m_slipstream ) {
+        m_strm.zalloc = Z_NULL;
+        m_strm.zfree = Z_NULL;
+        m_strm.opaque = Z_NULL;
+        m_strm.avail_in = 0;
+        m_strm.next_in = Z_NULL;
+        if (inflateInit(&m_strm) != Z_OK) {
+            std::cout << "iListen error initiating zlib stream" << std::endl;
+        }
+    }
 
     // setup the logstream if needed
     if (logFileName != "") {
@@ -149,7 +167,7 @@ void IVEFStreamHandler::sendRawData(const QByteArray &dataUnCompressed) {
 
     if ( m_slipstream ) {
 
-        // compress the data
+        // compress the data using Qt Compression mechanism
         QByteArray dataCompressedPlusLen = qCompress(dataUnCompressed);
 
         // Qt wants to know the size, but zlib does not
@@ -178,34 +196,72 @@ void IVEFStreamHandler::slotReadyRead() {
 
     if ( m_slipstream ) {
 
-        if (m_buffer.size() < 1670) {
-            // not enough data for decompression
-            return;
-        }
-        // Qt wants to know the size
-        m_buffer.prepend(QByteArray::number(m_buffer.size()));
-        
-        // assume a compression factor 10
-        QByteArray dataUnCompressed;
-        dataUnCompressed.resize(m_buffer.size()*10); 
-        dataUnCompressed = qUncompress(m_buffer);
+          // compress reasonable chunks at the time
+          if ( m_buffer.size() < 1670 ) {
+              return;
+          }
 
-        // debug the efficiency
-        std::cout << "Slipstream " << m_buffer.size() << " bytes inflated to " << dataUnCompressed.size() << std::endl;
-        
-        // parse the chunk
-        m_parser->parseXMLString(dataUnCompressed, true);
-        data = dataUnCompressed;
+          // connect the input to zlib
+          m_strm.avail_in = m_buffer.size();
+          m_strm.next_in = (uchar*) m_buffer.data();
+      
+          // create a buffer for the output
+          int compressedLen = m_buffer.size();
+          int bufferLen = compressedLen * 20;  
+          QByteArray dataUnCompressed = QByteArray(bufferLen, 0x00); 
 
-       // clear the buffer
-       m_buffer.resize(0);
+          // we run inflate on the buffer until it will fit in the dataUnCompressed
+          // (probably 1 run, but in case it doesn't fit, we will reuse the buffer)
+          int ret;
+          do {
+              // connect the output to zlib
+              m_strm.avail_out = bufferLen;
+              m_strm.next_out = (uchar*) dataUnCompressed.data();
+
+              // inflate the data
+              ret = inflate(&m_strm, Z_SYNC_FLUSH);
+              if (( ret != Z_OK ) && (ret != Z_STREAM_END)){
+                 std::cout << "Slipstream decompresion error " << ret << std::endl;
+                 ret = Z_STREAM_END; // close and try again
+              }
+
+              // how much data did we recover
+              int uncompressedLen = bufferLen - m_strm.avail_out;
+              dataUnCompressed.resize(uncompressedLen);
+
+              // debug the efficiency
+              std::cout << "Slipstream of " << compressedLen << " bytes, inflated to " << uncompressedLen << std::endl;
+        
+             // parse the chunk
+             //std::cout << "\n\n" << QString(dataUnCompressed).toLatin1().data() << "\n\n";
+             m_parser->parseXMLString(dataUnCompressed, true);
+
+             // append the uncompressed data to the logging string
+             data.append( dataUnCompressed );
+
+          } while (m_strm.avail_out == 0); // we used the entire output buffer, so there may be some input left
+
+          // in case compression is complete, we must close the decompressor
+          // and re-initialize it for the next transfer
+          if ( ret == Z_STREAM_END ) {
+              inflateEnd(&m_strm);
+              m_strm.zalloc = Z_NULL;
+              m_strm.zfree = Z_NULL;
+              m_strm.opaque = Z_NULL;
+              m_strm.avail_in = 0;
+              m_strm.next_in = Z_NULL;
+              if (inflateInit(&m_strm) != Z_OK) {
+                  std::cout << "iListen error initiating zlib stream" << std::endl;
+              }
+          }
+
     } else {
        m_parser->parseXMLString(m_buffer, true);
        data = m_buffer;
-
-       // clear the buffer
-       m_buffer.resize(0);
     }
+
+    // clear the buffer
+    m_buffer.resize(0);
 
     if (m_log != NULL) {   
        // remove xml header from message(s) the file needs it only once
