@@ -7,34 +7,34 @@ CONFIG += staticlib lib
 macx {
    CONFIG += lib_bundle 
    FRAMEWORK_HEADERS.version = VERSION
-   FRAMEWORK_HEADERS.files = IVEFarea.h \
-           IVEFbody.h \
-           IVEFheader.h \
-           IVEFitem.h \
-           IVEFloginrequest.h \
-           IVEFloginresponse.h \
-           IVEFlogout.h \
-           IVEFmsg_loginrequest.h \
-           IVEFmsg_loginresponse.h \
-           IVEFmsg_logout.h \
-           IVEFmsg_ping.h \
-           IVEFmsg_pong.h \
-           IVEFmsg_serverstatus.h \
-           IVEFmsg_servicerequest.h \
-           IVEFmsg_vesseldata.h \
-           IVEFobject.h \
-           IVEFparser.h \
-           IVEFping.h \
-           IVEFpong.h \
-           IVEFpos.h \
-           IVEFposreport.h \
-           IVEFschema.h \
-           IVEFserverstatus.h \
-           IVEFservicerequest.h \
-           IVEFstaticdata.h \
-           IVEFtransmission.h \
-           IVEFvesseldata.h \
-           IVEFvoyage.h
+   FRAMEWORK_HEADERS.files = IVEFArea.h \
+           IVEFBody.h \
+           IVEFHeader.h \
+           IVEFItem.h \
+           IVEFLoginrequest.h \
+           IVEFLoginresponse.h \
+           IVEFLogout.h \
+           IVEFMsg_loginrequest.h \
+           IVEFMsg_loginresponse.h \
+           IVEFMsg_logout.h \
+           IVEFMsg_ping.h \
+           IVEFMsg_pong.h \
+           IVEFMsg_serverstatus.h \
+           IVEFMsg_servicerequest.h \
+           IVEFMsg_vesseldata.h \
+           IVEFObject.h \
+           IVEFParser.h \
+           IVEFPing.h \
+           IVEFPong.h \
+           IVEFPos.h \
+           IVEFPosreport.h \
+           IVEFSchema.h \
+           IVEFServerstatus.h \
+           IVEFServicerequest.h \
+           IVEFStaticdata.h \
+           IVEFTransmission.h \
+           IVEFVesseldata.h \
+           IVEFVoyage.h
    FRAMEWORK_HEADERS.path = .
    QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 }
@@ -43,61 +43,61 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += IVEFarea.h \
-           IVEFbody.h \
-           IVEFheader.h \
-           IVEFitem.h \
-           IVEFloginrequest.h \
-           IVEFloginresponse.h \
-           IVEFlogout.h \
-           IVEFmsg_loginrequest.h \
-           IVEFmsg_loginresponse.h \
-           IVEFmsg_logout.h \
-           IVEFmsg_ping.h \
-           IVEFmsg_pong.h \
-           IVEFmsg_serverstatus.h \
-           IVEFmsg_servicerequest.h \
-           IVEFmsg_vesseldata.h \
-           IVEFobject.h \
-           IVEFparser.h \
-           IVEFping.h \
-           IVEFpong.h \
-           IVEFpos.h \
-           IVEFposreport.h \
-           IVEFschema.h \
-           IVEFserverstatus.h \
-           IVEFservicerequest.h \
-           IVEFstaticdata.h \
-           IVEFtransmission.h \
-           IVEFvesseldata.h \
-           IVEFvoyage.h
-SOURCES += IVEFarea.cpp \
-           IVEFbody.cpp \
-           IVEFheader.cpp \
-           IVEFitem.cpp \
-           IVEFloginrequest.cpp \
-           IVEFloginresponse.cpp \
-           IVEFlogout.cpp \
-           IVEFmsg_loginrequest.cpp \
-           IVEFmsg_loginresponse.cpp \
-           IVEFmsg_logout.cpp \
-           IVEFmsg_ping.cpp \
-           IVEFmsg_pong.cpp \
-           IVEFmsg_serverstatus.cpp \
-           IVEFmsg_servicerequest.cpp \
-           IVEFmsg_vesseldata.cpp \
-           IVEFobject.cpp \
-           IVEFparser.cpp \
-           IVEFping.cpp \
-           IVEFpong.cpp \
-           IVEFpos.cpp \
-           IVEFposreport.cpp \
-           IVEFschema.cpp \
-           IVEFserverstatus.cpp \
-           IVEFservicerequest.cpp \
-           IVEFstaticdata.cpp \
-           IVEFtransmission.cpp \
-           IVEFvesseldata.cpp \
-           IVEFvoyage.cpp
+HEADERS += IVEFArea.h \
+           IVEFBody.h \
+           IVEFHeader.h \
+           IVEFItem.h \
+           IVEFLoginrequest.h \
+           IVEFLoginresponse.h \
+           IVEFLogout.h \
+           IVEFMsg_loginrequest.h \
+           IVEFMsg_loginresponse.h \
+           IVEFMsg_logout.h \
+           IVEFMsg_ping.h \
+           IVEFMsg_pong.h \
+           IVEFMsg_serverstatus.h \
+           IVEFMsg_servicerequest.h \
+           IVEFMsg_vesseldata.h \
+           IVEFObject.h \
+           IVEFParser.h \
+           IVEFPing.h \
+           IVEFPong.h \
+           IVEFPos.h \
+           IVEFPosreport.h \
+           IVEFSchema.h \
+           IVEFServerstatus.h \
+           IVEFServicerequest.h \
+           IVEFStaticdata.h \
+           IVEFTransmission.h \
+           IVEFVesseldata.h \
+           IVEFVoyage.h
+SOURCES += IVEFArea.cpp \
+           IVEFBody.cpp \
+           IVEFHeader.cpp \
+           IVEFItem.cpp \
+           IVEFLoginrequest.cpp \
+           IVEFLoginresponse.cpp \
+           IVEFLogout.cpp \
+           IVEFMsg_loginrequest.cpp \
+           IVEFMsg_loginresponse.cpp \
+           IVEFMsg_logout.cpp \
+           IVEFMsg_ping.cpp \
+           IVEFMsg_pong.cpp \
+           IVEFMsg_serverstatus.cpp \
+           IVEFMsg_servicerequest.cpp \
+           IVEFMsg_vesseldata.cpp \
+           IVEFObject.cpp \
+           IVEFParser.cpp \
+           IVEFPing.cpp \
+           IVEFPong.cpp \
+           IVEFPos.cpp \
+           IVEFPosreport.cpp \
+           IVEFSchema.cpp \
+           IVEFServerstatus.cpp \
+           IVEFServicerequest.cpp \
+           IVEFStaticdata.cpp \
+           IVEFTransmission.cpp \
+           IVEFVesseldata.cpp \
+           IVEFVoyage.cpp
 
 QT += xml
