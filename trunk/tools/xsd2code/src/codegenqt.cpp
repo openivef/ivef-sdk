@@ -50,7 +50,7 @@ QString CodeGenQT::localType(QString type) {
     else if (type == "xs:decimal") // float
         return "float";
     else
-        return type;
+        return className(type);
 }
 
 bool CodeGenQT::knownType(QString type) {
@@ -72,15 +72,20 @@ bool CodeGenQT::knownType(QString type) {
 
 QString CodeGenQT::fileBaseName(QString name) {
     //if (m_prefix != "") { 
-      return m_prefix + name.toLower();
+      return m_prefix + name.replace(0, 1, name.left(1).toUpper());
     //}
 }
 
-QString className(QString name) {
+QString CodeGenQT::className(QString name) {
+    //return name.replace(0, 1, name.left(1).toUpper());
     return name.replace(0, 1, name.left(1).toUpper());
 }
 
-QString variableName(QString name) {
+QString CodeGenQT::methodName(QString name) {
+    return className(name);
+}
+
+QString CodeGenQT::variableName(QString name) {
 
     if (name.mid(1,1).toUpper() == name.mid(1,1)) { // if second char is uppercase
         return "m_" + name;
@@ -89,7 +94,7 @@ QString variableName(QString name) {
     }
 }
 
-QString writeHeader(QString fileName) {
+QString CodeGenQT::writeHeader(QString fileName) {
 
     QString header;
     header.append( "/* \n" );
@@ -116,9 +121,6 @@ QString writeHeader(QString fileName) {
     return header;
 }
 
-QString methodName(QString name) {
-    return className(name);
-}
 
 void CodeGenQT::go() {
 
@@ -425,13 +427,13 @@ void CodeGenQT::go() {
         // for data members
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
+            QString attrType = localType (attr->type());
 
             if (attrType == attr->name()) {
                 // check if the attribute exist
                 if (attr->unbounded() ) {
                     classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
-                    classFileOut << "       " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
+                    classFileOut << "        " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
                     classFileOut << "        xml.append( attribute.toXML() );\n    }\n";
                 } else if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
@@ -480,7 +482,7 @@ void CodeGenQT::go() {
         // for data members
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
+            QString attrType = localType (attr->type());
 
             if (attrType == attr->name()) {
                 // check if the attribute exist
@@ -661,6 +663,8 @@ void CodeGenQT::go() {
                         classFileOut << "                " << type << " val = QDateTime::fromString(value, \"yyyy-MM-ddThh:mm:ss.zzz\");\n";
                     else if (type == "float")
                         classFileOut << "                " << type << " val = value.toFloat();\n";
+                    else 
+                        classFileOut << "                " << type << " val = value;\n";
 
                     classFileOut << "                obj->set" << methodName(attrName) << "(val);\n";
                     classFileOut << "            }\n";

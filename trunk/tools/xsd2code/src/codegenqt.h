@@ -37,7 +37,11 @@ public:
 protected:
 	bool knownType(QString type);
 	QString localType(QString type);
-        QString fileBaseName(QString name);	
+	QString fileBaseName(QString name);
+	QString className(QString name);
+	QString variableName(QString name);
+	QString writeHeader(QString fileName);
+	QString methodName(QString name);
 
 private:
         QString m_prefix;

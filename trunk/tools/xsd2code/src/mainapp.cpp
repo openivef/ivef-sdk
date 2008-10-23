@@ -83,18 +83,31 @@ void MainApp::slotStart( void ) {
 
 		CodeGen *generator = new CodeGenQT(); // default to Qt
 		if ( m_options.getBoolean( "java" ) ) {
+                        std::cout << "\n---------------------------------------------------------------------\n"  << std::endl;
+                        std::cout <<   "Generating JAVA sources \n"  << std::endl;
+                        std::cout <<   "---------------------------------------------------------------------\n"  << std::endl;
 			generator = new CodeGenJava();
 		} else if ( m_options.getBoolean( "cs" ) ) {
 			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
-            std::exit(-1);
+                        std::exit(-1);
 		} else if ( m_options.getBoolean( "objc" ) ) {
+                        std::cout << "\n---------------------------------------------------------------------\n"  << std::endl;
+                        std::cout <<   "Generating Objective-C sources \n"  << std::endl;
+                        std::cout <<   "---------------------------------------------------------------------\n"  << std::endl;
 		        generator = new CodeGenObjC(); 
 		} else if ( m_options.getBoolean( "proto" ) ) {
+                        std::cout << "\n---------------------------------------------------------------------\n"  << std::endl;
+                        std::cout <<   "Generating Protocol Buffer file \n"  << std::endl;
+                        std::cout <<   "---------------------------------------------------------------------\n"  << std::endl;
 		        generator = new CodeGenPB(); 
 		} else if ( m_options.getBoolean( "cpp" ) ) {
 			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
-            std::exit(-1);
-		}
+                        std::exit(-1);
+		} else {
+                        std::cout << "\n---------------------------------------------------------------------\n"  << std::endl;
+                        std::cout <<   "Generating Qt sources \n"  << std::endl;
+                        std::cout <<   "---------------------------------------------------------------------\n"  << std::endl;
+                } 
 		
     		QString prefix("");
     		m_options.getText("prefix", prefix); // get an optional prefix
