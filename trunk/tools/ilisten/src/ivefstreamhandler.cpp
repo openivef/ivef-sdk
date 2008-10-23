@@ -244,13 +244,7 @@ void IVEFStreamHandler::slotReadyRead() {
           // in case compression is complete, we must close the decompressor
           // and re-initialize it for the next transfer
           if ( ret == Z_STREAM_END ) {
-              inflateEnd(&m_strm);
-              m_strm.zalloc = Z_NULL;
-              m_strm.zfree = Z_NULL;
-              m_strm.opaque = Z_NULL;
-              m_strm.avail_in = 0;
-              m_strm.next_in = Z_NULL;
-              if (inflateInit(&m_strm) != Z_OK) {
+              if (inflateReset(&m_strm) != Z_OK) {
                   std::cout << "iListen error initiating zlib stream" << std::endl;
               }
           }
