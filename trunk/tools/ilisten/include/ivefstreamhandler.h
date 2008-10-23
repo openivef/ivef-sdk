@@ -54,6 +54,8 @@ private:
     QString m_user;
     QString m_password;
 
+    QByteArray m_buffer;
+
     bool m_slipstream;
 
     Parser *m_parser;

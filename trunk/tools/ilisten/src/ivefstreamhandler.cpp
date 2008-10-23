@@ -173,23 +173,38 @@ void IVEFStreamHandler::slotDisconnected() {
 void IVEFStreamHandler::slotReadyRead() {
   
     // read data 
-    QByteArray data = m_tcpSocket->readAll();
-    int dataLen = data.size();
+    m_buffer.append(  m_tcpSocket->readAll() );
+    int dataLen = m_buffer.size();
+    QString data;
 
     if ( m_slipstream ) {
+
+        if (dataLen < 1670) {
+            // not enough data for decompression
+            return;
+        }
+
         // Qt wants to know the size
-        data.prepend(QByteArray::number(dataLen));
+        m_buffer.prepend(QByteArray::number(dataLen));
         
-        // assume a compression factor 2
+        // assume a compression factor 10
         QByteArray dataUnCompressed;
-        dataUnCompressed.resize(dataLen*2); 
-        dataUnCompressed = qUncompress(data);
+        dataUnCompressed.resize(dataLen*10); 
+        dataUnCompressed = qUncompress(m_buffer);
+
+        // debug the efficiency
+        std::cout << "Slipstream " << dataLen << " bytes inflated to " << dataUnCompressed.size() << std::endl;
         
         // parse the chunk
         m_parser->parseXMLString(dataUnCompressed, true);
+        data = dataUnCompressed;
     } else {
-       m_parser->parseXMLString(data, true);
+       m_parser->parseXMLString(m_buffer, true);
+       data = m_buffer;
     }
+
+    // clear the buffer
+    m_buffer.resize(0);
     
     if (m_log != NULL) {   
        // remove xml header from message(s) the file needs it only once

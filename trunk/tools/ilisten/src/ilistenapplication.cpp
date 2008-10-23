@@ -36,6 +36,7 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "filterval",   "vesseldata attribute value for filter e.g. --filterval=2442" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "version",     "show version information and exit." ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "slipstream",  "use compression for the transmission." ) );
+    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "silent",      "don't dump the received data." ) );
 
     // parse command line m_options
     m_options.parse( argc, argv );
@@ -105,12 +106,15 @@ void iListenApplication::printVesselData( MSG_VesselData obj ) {
             
    //std::cout << "----------------------------------------\n";
 
-   for (int i=0; i < obj.getBody().countOfVesselDatas();i++) {
-	VesselData vessel = obj.getBody().getVesselDataAt(i);
-	QString str = vessel.toString("");
+   if ( ! m_options.getBoolean( "silent" ) ) {
 
-        if ((m_filter == "") || (str.contains(m_filter))) { 
-             std::cout << str.toLatin1().data();
-	}
+       for (int i=0; i < obj.getBody().countOfVesselDatas();i++) {
+           VesselData vessel = obj.getBody().getVesselDataAt(i);
+           QString str = vessel.toString("");
+   
+           if ((m_filter == "") || (str.contains(m_filter))) { 
+                std::cout << str.toLatin1().data();
+           }
+       }
    }
 }
