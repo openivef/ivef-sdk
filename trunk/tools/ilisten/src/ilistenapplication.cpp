@@ -35,20 +35,21 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "filteron",    "vesseldata attribute for filter e.g. --filteron=MMSI" ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "filterval",   "vesseldata attribute value for filter e.g. --filterval=2442" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "version",     "show version information and exit." ) );
+    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "slipstream",  "use compression for the transmission." ) );
 
     // parse command line m_options
     m_options.parse( argc, argv );
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n iListen 0.0.2\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
+        std::cout << "\n iListen 0.0.3\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
         std::exit(0);
     }
             
     // setup the parser
-    m_streamHandler = new IVEFStreamHandler(&m_IVEFParser);
+    m_streamHandler = new IVEFStreamHandler(&m_parser);
     // and the printer
-    connect( &m_IVEFParser, SIGNAL( signalMSG_VesselData(MSG_VesselData)), this, SLOT( printVesselData(MSG_VesselData) ));
+    connect( &m_parser, SIGNAL( signalMSG_VesselData(MSG_VesselData)), this, SLOT( printVesselData(MSG_VesselData) ));
             
     // startup timer, to allow the event loop to start
     QTimer *timer = new QTimer( 0 ); // we leak one timer here, is acceptable
@@ -66,6 +67,8 @@ void iListenApplication::slotStart( void ) {
     int port = 8043;
     m_options.getInteger( "port", port );
 
+    bool slipstream = m_options.getBoolean( "slipstream" );
+
     QString user = "guest";
     m_options.getText( "user", user );
 
@@ -82,7 +85,7 @@ void iListenApplication::slotStart( void ) {
     QString fileName("");
     if (m_options.getText("infile", fileName)) {
         // read from file
-        IVEFFileHandler handler(&m_IVEFParser);
+        IVEFFileHandler handler(&m_parser);
         handler.readFiles(QStringList(fileName));
 
         // we are finished with file parsing
@@ -90,10 +93,10 @@ void iListenApplication::slotStart( void ) {
     } else {
         if (m_options.getText("outfile", fileName)) {
             // connect to server
-            m_streamHandler->connectToServer(host, port, user, password, fileName);
+            m_streamHandler->connectToServer(host, port, user, password, fileName, slipstream);
         } else {
             // empty file means no logfile
-            m_streamHandler->connectToServer(host, port, user, password, "");
+            m_streamHandler->connectToServer(host, port, user, password, "", slipstream);
         }
     }
 }

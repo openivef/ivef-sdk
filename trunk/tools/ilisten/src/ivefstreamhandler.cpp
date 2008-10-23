@@ -20,13 +20,13 @@
 
 #include "ivefstreamhandler.h"
 
-IVEFStreamHandler::IVEFStreamHandler(IVEFParser *parser) {
+IVEFStreamHandler::IVEFStreamHandler(Parser *parser) {
 
     // clear user/password
     m_user = "john doe";
     m_password = "very secret";
     m_log = NULL;
-    m_IVEFParser = parser;
+    m_parser = parser;
     
     // create a new socket
     m_tcpSocket = new QTcpSocket(this);
@@ -82,11 +82,14 @@ void IVEFStreamHandler::displayError(QAbstractSocket::SocketError socketError) {
     }
 }
 
-void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QString password, QString logFileName) {
+void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QString password, QString logFileName, bool slipstream) {
 
     QString portString;
     portString.setNum(port);
     std::cout << QString("iListen opening connection to %1:%2").arg(host, portString).toLatin1().data() << std::endl;
+
+    // should we use compression
+    m_slipstream = slipstream;
 
     // setup the socket
     m_tcpSocket->connectToHost(host, port);
@@ -98,7 +101,7 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
     // setup the logstream if needed
     if (logFileName != "") {
         QFile* file = new QFile(logFileName);
-    file->setParent(this); // make sure it gets cleaned up
+        file->setParent(this); // make sure it gets cleaned up
 
         if (!file->open(QIODevice::WriteOnly | QIODevice::Text)) {
             std::cerr << QString("iListen error opening file: %1 for writing").arg(logFileName).toLatin1().data() << std::endl;
@@ -155,16 +158,32 @@ void IVEFStreamHandler::slotDisconnected() {
 }
 
 void IVEFStreamHandler::slotReadyRead() {
-    
-    QString data = m_tcpSocket->readAll();
-    
-    m_IVEFParser->parseXMLString(data, true);
+  
+    // read data 
+    QByteArray data = m_tcpSocket->readAll();
+    int dataLen = data.size();
+
+
+    if ( m_slipstream ) {
+        // Qt wants to know the size
+        data.prepend(QByteArray::number(dataLen));
+        
+        // assume a compression factor 2
+        QByteArray dataUnCompressed;
+        dataUnCompressed.resize(dataLen*2); 
+        dataUnCompressed = qUncompress(data);
+        
+        // parse the chunk
+        m_parser->parseXMLString(dataUnCompressed, true);
+    } else {
+       m_parser->parseXMLString(data, true);
+    }
     
     if (m_log != NULL) {   
        // remove xml header from message(s) the file needs it only once
        data.replace("<?xml version = \"1.0\" encoding=\"UTF-8\"?>\n", ""); 
        data.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", ""); 
-       *m_log << data.toLatin1().data();
+       *m_log << QString(data).toLatin1().data();
     }
 }
 
