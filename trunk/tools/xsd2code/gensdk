@@ -19,5 +19,9 @@ bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../ivef-objc/Classes --
 rm ../../ivef-java/ivef/*
 bin/xsd2code --file=../../doc/msg_xmlschema.xsd --out=../../ivef-java/ --prefix=IVEF --java
 cd ../../ivef-java/ivef/
-javac *java
-cd ../../tools/xsd2code
+mkdir -p classes
+rm -Rf classes/*
+javac -d classes *java
+cd classes
+jar cf ../ivef.jar ivef/*
+cd ../../../tools/xsd2code
