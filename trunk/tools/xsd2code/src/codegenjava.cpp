@@ -219,9 +219,9 @@ void CodeGenJava::go() {
             QString type = localType(attr->type()); // convert to java types
             // definition
             if (attr->unbounded()) { // there more then one
-                classFileOut << "    private Vector " << variableName(attr->name()) << "s;\n";
+                classFileOut << "    private Vector<" << className(attr->name()) << "> " << variableName(attr->name()) << "s = new Vector<" << className(attr->name()) << ">();\n";
             } else {
-                classFileOut << "    private " << type << " " << variableName(attr->name()) << ";\n";
+                classFileOut << "    private " << type << " " << variableName(attr->name()) << "; // default value is uninitialized\n";
             }
             if (!attr->required() || obj->isMerged()) {
                 classFileOut << "    private boolean " << variableName(attr->name()) << "Present;\n";
@@ -498,9 +498,9 @@ void CodeGenJava::go() {
     }
 	
 	// variables
-    classFileOut << "    private String m_dataBuffer;\n";
-    classFileOut << "    private Stack m_objStack;\n";
-	classFileOut << "    private SAXParser parser;\n";
+    classFileOut << "    private String m_dataBuffer = new String();\n";
+    classFileOut << "    private Stack m_objStack = new Stack(); // cannot use a template since it stores different Objects\n";
+	classFileOut << "    private SAXParser parser; // init in constructor\n";
 
     // constructor
     classFileOut << "\n    public " << className(name) << "() {\n\n";
