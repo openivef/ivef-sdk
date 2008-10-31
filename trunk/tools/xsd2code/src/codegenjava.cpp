@@ -49,8 +49,8 @@ QString CodeGenJava::localType(QString type) {
         std::cout << "WARNING unknown type found:" << type.toLatin1().data() <<  ", defaulting to String" << std::endl;
         return "String";
     }
-    else if (type == "xs:decimal") // float
-        return "float";
+    else if (type == "xs:decimal") // double
+        return "double";
     else
         return type;
 }
@@ -68,7 +68,7 @@ bool CodeGenJava::knownType(QString type) {
 		return true;
     else if (type == "unknown")
         return true;
-    else if (type == "xs:decimal") // float
+    else if (type == "xs:decimal") // double
         return true;
     else
         return false;
@@ -161,6 +161,11 @@ void CodeGenJava::go() {
 	}
     }
 
+	QString package = "xsd2code";
+    if (m_prefix != "") { 
+        package =  m_prefix.toLower();
+    }
+
     for(int i=0; i < m_objects.size(); i++) {
         // get a class
         XSDObject *obj = m_objects.at(i);
@@ -174,11 +179,6 @@ void CodeGenJava::go() {
 
         // report
         std::cout << QString("creating class: %1").arg(className(name)).toLatin1().data() << std::endl;
-
-        QString package = "xsd2code";
-        if (m_prefix != "") { 
-            package =  m_prefix.toLower();
-        }
 
         // and the class file
         QString baseName = m_outDir + "/" + package + "/" + fileBaseName(name);
@@ -197,7 +197,9 @@ void CodeGenJava::go() {
         classFileOut << "package " << package << ";\n\n";
 
 		classFileOut << "import java.util.*;\n";
-        classFileOut << "import java.text.DateFormat;\n\n";
+        classFileOut << "import java.text.DateFormat;\n";
+		classFileOut << "import java.text.SimpleDateFormat;\n\n";
+
 
         // include dependend files
         for(int j=0; j < attributes.size(); j++) {
@@ -326,6 +328,8 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toXML() {\n\n";
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
+        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddThh:mm:ss.zzz\");\n";
+		classFileOut << "\n";
 
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -338,7 +342,7 @@ void CodeGenJava::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
-                    varName = "DateFormat.getDateInstance().format(" + variableName(attr->name()) + ")"; 
+				    varName = "df.format(" + variableName(attr->name()) + ")"; 
 					// ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
                 } /*else  if (type != "String") {
                     varName = "String.number(" + variableName(attr->name()) + ")";
@@ -383,7 +387,9 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toString(String lead) {\n\n";
         classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
-
+        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddThh:mm:ss.zzz\");\n";
+		classFileOut << "\n";
+                    
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -395,7 +401,7 @@ void CodeGenJava::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
-                    varName = "DateFormat.getDateInstance().format(" + variableName(attr->name()) + ")"; 
+				    varName = "df.format(" + variableName(attr->name()) + ")"; 
 					// ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
                 } /*else  if (type != "String") {
                     varName = "String.number(" + variableName(attr->name()) + ")";
@@ -445,88 +451,86 @@ void CodeGenJava::go() {
     //-----------------------------------------------------------------------------------------------
     // now generate the parser
     //-----------------------------------------------------------------------------------------------
-/*
-    // open the header file
+
+    // generate the parser file
     QString name = "Parser";
-
-    QFile headerFile(m_outDir + "/" + fileBaseName(name) + ".h");
-    if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".h").toLatin1().data() << std::endl;
-        std::exit(-1);
-    }
-    QTextStream classFileOut(&headerFile);
-
-    // and the parser file
-    QFile classFile(m_outDir + "/" +  fileBaseName(name) + ".java");
+    QString fileName = m_outDir + "/" +  package + "/" + fileBaseName(name) + ".java";
+    QFile classFile(fileName);
     if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".java").toLatin1().data() << std::endl;
+        std::cerr << QString("cannot create file: %1").arg(fileName).toLatin1().data() << std::endl;
         std::exit(-1);
     }
     QTextStream classFileOut(&classFile);
+    std::cout << QString("creating class: %1, %2").arg(className(name), fileName).toLatin1().data() << std::endl;
 
-    // generate the header
-    classFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
-    classFileOut << "#define __" << name.toUpper() << "_H__\n\n";
-    classFileOut << "#include <QtCore>\n";
-    classFileOut << "#include <QXmlDefaultHandler>\n\n";
+    //-----------------------------------------------------------------------------------------------
+    // generate the declaration
+    //-----------------------------------------------------------------------------------------------
+    classFileOut << writeHeader( className(name) );
+
+    classFileOut << "package " << package << ";\n\n";
+
+    classFileOut << "import java.util.*;\n";
+    classFileOut << "import java.text.DateFormat;\n\n";
+	classFileOut << "import java.text.SimpleDateFormat;\n";
+    classFileOut << "import javax.xml.parsers.*;\n";
+    classFileOut << "import org.xml.sax.*;\n";
+    classFileOut << "import org.xml.sax.helpers.*;\n";
 
     // include dependend files
-    for(int i=0; i < m_objects.size(); i++) {
+	 for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if (obj->name() != "Schema") {
-           classFileOut << "#include \"" << fileBaseName(obj->name()) << ".h\"\n";
-        } 
+           classFileOut << "import " << package << "." << fileBaseName(obj->name()) << ";\n";
+        }
     }
 
     // define the class
-    classFileOut << "\nclass " << className(name) << " : public QObject, QXmlDefaultHandler, QXmlSimpleReader { \n";
-    classFileOut << "    Q_OBJECT\n\n";
+    classFileOut << "\npublic abstract class " << className(name) << " extends DefaultHandler { \n\n";
 
-    // public section
-    classFileOut << "public:\n";
-    classFileOut << "    " << className(name) << "();\n"; // constructor
-    classFileOut << "    bool startElement(const QString &,\n"; // the parser routine
-    classFileOut << "                      const QString &,\n";
-    classFileOut << "                      const QString & qName,\n";
-    classFileOut << "                      const QXmlAttributes & atts);\n";
-    classFileOut << "    bool endElement(const QString &,\n"; // the parser routine
-    classFileOut << "                      const QString &,\n";
-    classFileOut << "                      const QString & qName);\n";
-    classFileOut << "    bool parseXMLString(QString data, bool cont);\n";
-
-    // define the signales
-    classFileOut << "\nsignals:\n";
-    for(int i=0; i < m_objects.size(); i++) {
+	// public overrides
+	classFileOut << "    // subclass these methods to receive events \n";
+	for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
-        if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            classFileOut << "    void signal" << className(obj->name()) << "( " << className(obj->name()) << " obj );\n";
+        if (obj->name() != "Schema") {
+           classFileOut << "    public abstract void signal" << className(obj->name()) << "(" << className(obj->name()) << " obj);\n";
         }
     }
-    // private section
-    classFileOut << "\nprivate:\n";
-    classFileOut << "    QString m_dataBuffer;\n";
-    classFileOut << "    QStack<QObject *> m_objStack;\n";
-    classFileOut << "    QStack<QString> m_typeStack;\n";
-
-    // close the header
-    classFileOut << "\n}; \n\n#endif\n\n";
-
-    // close and flush
-    classFileOut.flush();
-
-    // The class file
-    classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
+	
+	// variables
+    classFileOut << "    private String m_dataBuffer;\n";
+    classFileOut << "    private Stack m_objStack;\n";
+	classFileOut << "    private SAXParser parser;\n";
 
     // constructor
-    classFileOut << className(name) << "::" << className(name) << "() {\n\n";
-    classFileOut << "    setContentHandler(this);\n";
+    classFileOut << "\n    public " << className(name) << "() {\n\n";
+	classFileOut << "        String jaxpPropertyName =\n";
+    classFileOut << "          \"javax.xml.parsers.SAXParserFactory\";\n";
+    classFileOut << "        // Pass the parser factory in on the command line with\n";
+    classFileOut << "        // -D to override the use of the Apache parser.\n";
+    classFileOut << "        if (System.getProperty(jaxpPropertyName) == null) {\n";
+    classFileOut << "          String apacheXercesPropertyValue =\n";
+    classFileOut << "            \"org.apache.xerces.jaxp.SAXParserFactoryImpl\";\n";
+    classFileOut << "          System.setProperty(jaxpPropertyName,\n";
+    classFileOut << "                             apacheXercesPropertyValue);\n";
+    classFileOut << "        }\n";
+	classFileOut << "        // set the parser\n";
+    classFileOut << "        SAXParserFactory factory = SAXParserFactory.newInstance();\n";
+	
+    classFileOut << "         try { \n";
+    classFileOut << "             parser = factory.newSAXParser();\n";
+    classFileOut << "         } catch(Exception e) {\n";
+    classFileOut << "             e.printStackTrace();\n";
+    classFileOut << "         }\n";
+
+	
     classFileOut << "}\n\n";
 
-    // main parser routine
-    classFileOut << "bool " << className(name) << "::startElement(const QString &,\n"; // the parser routine
-    classFileOut << "     const QString &,\n";
-    classFileOut << "     const QString & qName,\n";
-    classFileOut << "     const QXmlAttributes & atts) {\n\n";
+    // main handler routine
+    classFileOut << "\n    public void startElement(String namespaceUri,\n"; // the parser routine
+    classFileOut << "                             String localName,\n";
+    classFileOut << "                             String qName,\n";
+    classFileOut << "                             Attributes atts) {\n\n";
 
         // run through all objects
     bool first = true;
@@ -549,7 +553,7 @@ void CodeGenJava::go() {
         // if the name matches my object
         classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n";
         // create a temp object
-        classFileOut << "        " << className(obj->name()) << " *obj = new " << className(obj->name()) << ";\n";
+        classFileOut << "        " << className(obj->name()) << " obj = new " << className(obj->name()) << "();\n";
 
         // check if there are attributes in this class or just data
         int attrCount = 0;
@@ -566,9 +570,9 @@ void CodeGenJava::go() {
         // makes only sense if they are there
         if (attrCount > 0) {
             // run through all the attributes
-            classFileOut << "        for (int i=0; i < atts.length(); i++) {\n";
-            classFileOut << "            QString key = atts.localName(i);\n";
-            classFileOut << "            QString value = atts.value(i);\n\n";
+            classFileOut << "        for (int i=0; i < atts.getLength(); i++) {\n";
+            classFileOut << "            String key = atts.getLocalName(i);\n";
+            classFileOut << "            String value = atts.getValue(i);\n\n";
             // and match them with mine
             bool first = true;
             for(int j=0; j < obj->attributes().size(); j++) {
@@ -583,19 +587,25 @@ void CodeGenJava::go() {
                         classFileOut << "            if (key == \"" << attrName << "\") {\n";
                         first = false;
                     }
-
-                    if (type == "QString")
+                    if (type == "String")
                         classFileOut << "                " << type << " val = value;\n";
-                    else if (type == "bool")
-                        classFileOut << "                " << type << " val = (value.toUpper() == \"YES\");\n";
+                    else if (type == "boolean")
+                        classFileOut << "                " << type << " val = (value.toUpperCase() == \"YES\");\n";
                     else if (type == "int")
-                        classFileOut << "                " << type << " val = value.toInt();\n";
-                    else if (type == "QDateTime")
-                        classFileOut << "                " << type << " val = QDateTime::fromString(value, \"yyyy-MM-ddThh:mm:ss.zzz\");\n";
-                    else if (type == "float")
-                        classFileOut << "                " << type << " val = value.toFloat();\n";
+                        classFileOut << "                " << type << " val = Integer.parseInt(value);\n";
+                    else if (type == "Date") {
+				        classFileOut << "                DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddThh:mm:ss.zzz\");\n";	
+                        classFileOut << "                Date val = new Date(); // starts since the epoch\n";						
+						classFileOut << "                try { \n";
+                        classFileOut << "                    val = df.parse( value );\n";
+                        classFileOut << "                } catch(Exception e) {\n";
+                        classFileOut << "                    e.printStackTrace();\n";
+                        classFileOut << "                }\n";
+					}
+					else if (type == "double")
+                        classFileOut << "                " << type << " val = Double.parseDouble(value);\n";
 
-                    classFileOut << "                obj->set" << methodName(attrName) << "(val);\n";
+                    classFileOut << "                obj.set" << methodName(attrName) << "(val);\n";
                     classFileOut << "            }\n";
                 }
             }
@@ -605,18 +615,17 @@ void CodeGenJava::go() {
         // store in local object (or stack) and signal on end tag
         // this way we can set obj in objects
         classFileOut << "        m_objStack.push( obj );\n";
-        classFileOut << "        m_typeStack.push( \"" << className(obj->name()) << "\" );\n";
         classFileOut << "    }\n";
     }
-    classFileOut << "    return true;\n";
+    //classFileOut << "    return true;\n";
     classFileOut << "}\n\n";
 
     // TODO check for attributes and messages we do not know and give an alert
 
     // the endTag routine
-    classFileOut << "bool " << className(name) << "::endElement(const QString &,\n"; // the parser routine
-    classFileOut << "     const QString &,\n";
-    classFileOut << "     const QString & qName) {\n\n";
+    classFileOut << "    public void endElement(String namespaceUri,\n"; // the parser routine
+    classFileOut << "                           String localName,\n";
+    classFileOut << "                           String qName) {\n\n";
 
     // run through all objects
     first = true;
@@ -636,8 +645,8 @@ void CodeGenJava::go() {
         }
         // if the name matches my object
         classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n\n";
-        classFileOut << "        m_typeStack.pop();\n"; // will be equal to qName so ignore
-        classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) ( m_objStack.pop() );\n";
+        //classFileOut << "        m_typeStack.pop();\n"; // will be equal to qName so ignore
+        classFileOut << "        " << className(obj->name()) << " obj = (" << className(obj->name()) << ") ( m_objStack.pop() );\n";
 
         // for all objects that could accept such an object
         for(int i=0; i < m_objects.size(); i++) {
@@ -648,28 +657,28 @@ void CodeGenJava::go() {
                 QString objType = attr->type();
 
                 if (objType == className(obj->name())) { // this object has an attribute of that type
-                    classFileOut << "        if ( m_typeStack.top() == \"" << parent->name() << "\") {\n";
+                    classFileOut << "        if ( m_objStack.peek().getClass() == " << parent->name() << ".class.getClass() ) {\n";
                     if (attr->unbounded() ) {
-                        classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj );\n";
+                        classFileOut << "                (("<< parent->name() << ") ( m_objStack.peek() ) ).add" << className(obj->name()) << "( obj );\n";
                     } else {
-                        classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->set" << className(obj->name()) << "( *obj );\n";
+                        classFileOut << "                (("<< parent->name() << ") ( m_objStack.peek() ) ).set" << className(obj->name()) << "( obj );\n";
                     }
                     classFileOut << "        }\n"; // close if
                 }
             }
         }
         if ((!obj->isEmbedded())) { // only if this object is not embedded
-            classFileOut << "        emit signal" << className(obj->name()) << "( *obj ); \n";
+           classFileOut << "        signal" << className(obj->name()) << "( obj ); \n";
         }
-        classFileOut << "        delete( obj ); \n";
+        //classFileOut << "        delete( obj ); \n";
         classFileOut << "    }\n"; // close if
     }
-    classFileOut << "    return true;\n";
+    //classFileOut << "    return true;\n";
     classFileOut << "}\n\n"; // close method
 
     // the parseXMLString routine
-    classFileOut << "bool " << className(name) << "::parseXMLString(QString data, bool cont) { \n\n";
-    classFileOut << "     m_dataBuffer.append(data);\n\n";
+    classFileOut << "    public boolean parseXMLString(String data, boolean cont) { \n\n";
+    classFileOut << "     m_dataBuffer += data;\n\n";
 
     // count the number of messages
     int numOfMessages = 0;
@@ -680,14 +689,14 @@ void CodeGenJava::go() {
         }
     }
 
-    classFileOut << "     int index[" << numOfMessages << "], indexMax = -1;\n\n";
+    classFileOut << "     int index[] = new int[" << numOfMessages << "], indexMax = -1;\n\n";
     classFileOut << "     // note that if a message does not exist the index will be equal to strlen(name\\n) - 1 so indexMax is always > 0\n";
 
     int message=0;
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            classFileOut << "     index[" << message << "] = m_dataBuffer.lastIndexOf(\"</" << obj->name() << ">\\n\") + strlen(\"</" << obj->name() << ">\\n\");\n";
+            classFileOut << "     index[" << message << "] = m_dataBuffer.lastIndexOf(\"</" << obj->name() << ">\\n\") + (\"</" << obj->name() << ">\\n\").length();\n";
             message++;
         }
     }
@@ -697,12 +706,18 @@ void CodeGenJava::go() {
     classFileOut << "         }\n";
     classFileOut << "     }\n\n";
 
-        classFileOut << "     if (indexMax > 30) {\n";
-    classFileOut << "         QString messages = m_dataBuffer.left(indexMax);\n";
-    classFileOut << "         m_dataBuffer.remove(0, indexMax);\n";
-    classFileOut << "         QXmlInputSource inputForParser;\n";
-    classFileOut << "         inputForParser.setData(messages);\n";
-    classFileOut << "         this->parse(&inputForParser, false);\n";
+    classFileOut << "     if (indexMax > 30) {\n";
+    classFileOut << "         String messages = m_dataBuffer.substring(0, indexMax);\n";
+    classFileOut << "         m_dataBuffer = m_dataBuffer.substring(indexMax); // remove up to indexMax\n";
+    classFileOut << "         try { \n";
+    classFileOut << "             parser.parse(messages, this);\n";
+    classFileOut << "         } catch(Exception e) {\n";
+    classFileOut << "             String errorMessage =\n";
+    classFileOut << "                 \"Error parsing \" + messages + \": \" + e;\n";
+    classFileOut << "             System.err.println(errorMessage);\n";
+    classFileOut << "             e.printStackTrace();\n";
+    classFileOut << "         }\n";
+
     classFileOut << "     } else {\n";
     classFileOut << "         return false; // not enough data in string\n";
     classFileOut << "     }\n";
@@ -721,7 +736,8 @@ void CodeGenJava::go() {
     // close and flush
     classFileOut.flush();
     classFile.close();
+    std::cout << "done.\n" << std::endl;
 	
-	*/
+	
 }
 
