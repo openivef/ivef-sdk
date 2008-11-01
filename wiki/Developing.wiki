@@ -17,3 +17,5 @@ At the core is an interface that consists of:
   * generating XML from the objects
 
 We have included some [examples]
+
+Note: that the current Java implementation does not "emit" events yet. It requires the user to subclass the Parser class an overwrite the handle methods as apposed to listening to a particular event. This will change in the future
