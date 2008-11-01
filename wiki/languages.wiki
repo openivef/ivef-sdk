@@ -3,8 +3,8 @@
 Supported languages:
   * C++ with Qt bindings
   * Objective-C
+  * Java
 
 Under development
   * Pure C++
-  * Java
   * C#
