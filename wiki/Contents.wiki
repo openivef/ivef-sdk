@@ -6,9 +6,9 @@ The IVEF SDK consists of various modules and example programs.
 Available in various programming [languages] and for various platforms
 
 || OS / Language || Qt || Obj-C || C# || Java ||
-|| Linux 64 bits    ||  verified  ||  no  || ? || ? ||
-|| Mac OS X 10.5  || verified  || verified || no || ? ||
-|| Windows XP || verified || no || ? || ? ||
+|| Linux 64 bits    ||  verified  ||  no  || ? || verified ||
+|| Mac OS X 10.5  || verified  || verified || no || not tested yet ||
+|| Windows XP || verified || no || ? || not tested yet ||
 
 
 See the [Developing] page on how the library works and how you should interface with it.
