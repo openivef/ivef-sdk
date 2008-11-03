@@ -328,7 +328,7 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toXML() {\n\n";
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
-        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddThh:mm:ss.zzz\");\n";
+        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddhh:mm:ss.zzz\");\n";
 		classFileOut << "\n";
 
         // for attributes
@@ -343,7 +343,7 @@ void CodeGenJava::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
 				    varName = "df.format(" + variableName(attr->name()) + ")"; 
-					// ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+					// ".toString(\"yyyy-MM-ddhh:mm:ss.zzz\")";
                 } /*else  if (type != "String") {
                     varName = "String.number(" + variableName(attr->name()) + ")";
                 } */
@@ -387,7 +387,7 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toString(String lead) {\n\n";
         classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
-        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddThh:mm:ss.zzz\");\n";
+        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddhh:mm:ss.zzz\");\n";
 		classFileOut << "\n";
                     
         // for attributes
@@ -402,7 +402,7 @@ void CodeGenJava::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
 				    varName = "df.format(" + variableName(attr->name()) + ")"; 
-					// ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+					// ".toString(\"yyyy-MM-ddhh:mm:ss.zzz\")";
                 } /*else  if (type != "String") {
                     varName = "String.number(" + variableName(attr->name()) + ")";
                 } */
@@ -504,24 +504,14 @@ void CodeGenJava::go() {
 
     // constructor
     classFileOut << "\n    public " << className(name) << "() {\n\n";
-	classFileOut << "        String jaxpPropertyName =\n";
-    classFileOut << "          \"javax.xml.parsers.SAXParserFactory\";\n";
-    classFileOut << "        // Pass the parser factory in on the command line with\n";
-    classFileOut << "        // -D to override the use of the Apache parser.\n";
-    classFileOut << "        if (System.getProperty(jaxpPropertyName) == null) {\n";
-    classFileOut << "          String apacheXercesPropertyValue =\n";
-    classFileOut << "            \"org.apache.xerces.jaxp.SAXParserFactoryImpl\";\n";
-    classFileOut << "          System.setProperty(jaxpPropertyName,\n";
-    classFileOut << "                             apacheXercesPropertyValue);\n";
-    classFileOut << "        }\n";
-	classFileOut << "        // set the parser\n";
+    classFileOut << "        // set the parser\n";
     classFileOut << "        SAXParserFactory factory = SAXParserFactory.newInstance();\n";
 	
-    classFileOut << "         try { \n";
-    classFileOut << "             parser = factory.newSAXParser();\n";
-    classFileOut << "         } catch(Exception e) {\n";
-    classFileOut << "             e.printStackTrace();\n";
-    classFileOut << "         }\n";
+    classFileOut << "        try { \n";
+    classFileOut << "            parser = factory.newSAXParser();\n";
+    classFileOut << "        } catch(Exception e) {\n";
+    classFileOut << "            e.printStackTrace();\n";
+    classFileOut << "        }\n";
 
 	
     classFileOut << "}\n\n";
@@ -594,7 +584,7 @@ void CodeGenJava::go() {
                     else if (type == "int")
                         classFileOut << "                " << type << " val = Integer.parseInt(value);\n";
                     else if (type == "Date") {
-				        classFileOut << "                DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddThh:mm:ss.zzz\");\n";	
+				        classFileOut << "                DateFormat df = new SimpleDateFormat(\"yyyy-MM-ddhh:mm:ss.zzz\");\n";	
                         classFileOut << "                Date val = new Date(); // starts since the epoch\n";						
 						classFileOut << "                try { \n";
                         classFileOut << "                    val = df.parse( value );\n";
