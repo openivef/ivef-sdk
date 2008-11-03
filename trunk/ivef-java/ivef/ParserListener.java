@@ -1,7 +1,7 @@
 /* 
- *  Logout
+ *  ParserListener
  *
- *  Logout is free software: you can redistribute it and/or modify
+ *  ParserListener is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -21,38 +21,17 @@
 
 package ivef;
 
-import java.util.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
+interface ParserListener { 
 
-public class Logout { 
-
-
-    public Logout() {
-
-    }
-
-    public Logout(Logout val) {
-
-    }
-
-    public String toXML() {
-
-        String xml = "<Logout";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
-
-        xml += ">\n";
-        xml += "</Logout>\n";
-        return xml;
-    }
-
-    public String toString(String lead) {
-
-        String str = lead + "Logout\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
-
-        return str;
-    }
+    // subclass these methods to receive events 
+    public void handleMSG_VesselData(MSG_VesselData obj);
+    public void handleMSG_LoginRequest(MSG_LoginRequest obj);
+    public void handleMSG_LoginResponse(MSG_LoginResponse obj);
+    public void handleMSG_Ping(MSG_Ping obj);
+    public void handleMSG_Pong(MSG_Pong obj);
+    public void handleMSG_ServerStatus(MSG_ServerStatus obj);
+    public void handleMSG_Logout(MSG_Logout obj);
+    public void handleMSG_ServiceRequest(MSG_ServiceRequest obj);
 
 }
