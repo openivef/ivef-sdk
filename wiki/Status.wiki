@@ -1,6 +1,6 @@
 #summary status of the various elements of the SDK
 
-==Release candidate 2==
+==Version 0.1.0 Release candidate 1==
 ===IVEF Library===
   * Qt bindings (C++)   
   * Cocoa bindings (Objective-C) 
@@ -10,7 +10,6 @@ Released and compiles on Windows, Linux and Mac OS X.  Click on Source and follo
 
 ===Tools===
 To demonstrate the capability of the library, iListen 0.0.2 has been released which demonstrates the core capabilities. This is also available for download as a static compiled  executable for windows. 
-
 
 ==Not yet released==
 The SDK with C# bindings is currently in alpha.
