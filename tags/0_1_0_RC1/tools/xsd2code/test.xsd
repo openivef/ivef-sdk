@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by A.J. Heres (HITT Traffic) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.hitt.nl/XMLSchema/ISIS/1.1" targetNamespace="urn:http://www.hitt.nl/XMLSchema/ISIS/1.1" elementFormDefault="qualified">
+	<xs:element name="Header">
+		<xs:complexType>
+			<xs:attribute name="Version" type="xs:string" use="required"/>
+			<xs:attribute name="MsgRefId" use="required">
+				<xs:annotation>
+					<xs:documentation>Must be an Universally Unique Identifier</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MSG_VesselData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="VesselData" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VesselData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="PosReport" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PosReport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Pos"/>
+			</xs:sequence>
+			<xs:attribute name="Id" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The identification of this track</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SourceId" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The identification of the node who initially created this message</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="UpdateTime" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss)  this position was measured.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SOG" use="required">
+				<xs:annotation>
+					<xs:documentation>Speed over ground in meters per second</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="COG" use="required">
+				<xs:annotation>
+					<xs:documentation>Course over ground  in degrees. (0-360) </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="360"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Lost" use="required">
+				<xs:annotation>
+					<xs:documentation>'yes' or 'no'</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="no"/>
+						<xs:enumeration value="yes"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RateOfTurn" type="xs:decimal" use="optional">
+				<xs:annotation>
+					<xs:documentation>Rate of turn in degrees per minute</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Orientation" use="optional">
+				<xs:annotation>
+					<xs:documentation>Orientation of the target in degrees</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="0.0"/>
+						<xs:maxInclusive value="360.0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Length" use="optional">
+				<xs:annotation>
+					<xs:documentation>Length of the target in meter</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Breadth" use="optional">
+				<xs:annotation>
+					<xs:documentation>Breadth of the target in  meter</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Altitude" type="xs:decimal" use="optional">
+				<xs:annotation>
+					<xs:documentation>The altitude of the target above the WGS-84 ellipsoid in meters</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="NavStatus" use="optional">
+				<xs:annotation>
+					<xs:documentation>Navigation status of the target
+0 = under way using engine
+1 = at anchor
+2 = not under command
+3 = restricted manoeuvrability
+4 = constrained by her draught
+5 = moored
+6 = aground
+7 = engaged in fishing
+8 = under way sailing
+9 - 14 = reserved for future use
+15 = undefined default</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="0"/>
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+						<xs:enumeration value="5"/>
+						<xs:enumeration value="6"/>
+						<xs:enumeration value="7"/>
+						<xs:enumeration value="8"/>
+						<xs:enumeration value="9"/>
+						<xs:enumeration value="10"/>
+						<xs:enumeration value="11"/>
+						<xs:enumeration value="12"/>
+						<xs:enumeration value="13"/>
+						<xs:enumeration value="14"/>
+						<xs:enumeration value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="UpdSensorType" use="optional">
+				<xs:annotation>
+					<xs:documentation>Type of detection or track type:
+1 = radar
+2 = ais
+3 = ais+radar
+4 = deadreckoning</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ATONOffPos" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>"1" or "0". Indicates whether or not the ATON is on position or not</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Pos">
+		<xs:complexType>
+			<xs:attribute name="Lat" use="required">
+				<xs:annotation>
+					<xs:documentation>Latitude (WGS84) in degrees. (+/- 90 degrees;
+North = positive; South = negative) Examples:
+
+-90deg (south) =   -90.0000000
+0deg0min1sec (north) =    0.0000016
+50deg50min (north)  = 50.8333333</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="-90.00000"/>
+						<xs:maxInclusive value="+90.00000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Long" use="required">
+				<xs:annotation>
+					<xs:documentation>Longitude (WGS84) in degrees. (+/- 180 degrees; East = positive; West = negative). Examples:
+
+-180deg (west) =   -180.0000000
+0deg0min1sec (east) =       0.0000016</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:maxInclusive value="+180.00000"/>
+						<xs:minExclusive value="-180.00000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
