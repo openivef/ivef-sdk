@@ -161,7 +161,7 @@ void CodeGenJava::go() {
 	}
     }
 
-	QString package = "xsd2code";
+    QString package = "xsd2code";
     if (m_prefix != "") { 
         package =  m_prefix.toLower();
     }
@@ -471,7 +471,7 @@ void CodeGenJava::go() {
     classFileOut2 << "package " << package << ";\n\n";
 	
 	// define the interface
-    classFileOut2 << "\ninterface " << className(name) << " { \n\n";
+    classFileOut2 << "\npublic interface " << className(name) << " { \n\n";
 	
 	// public overrides
 	classFileOut2 << "    // subclass these methods to receive events \n";
