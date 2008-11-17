@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.hitt.nl/XMLSchema/ISIS/1.1" targetNamespace="urn:http://www.hitt.nl/XMLSchema/ISIS/1.1" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" targetNamespace="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" elementFormDefault="qualified">
 	<xs:element name="Header">
 		<xs:complexType>
 			<xs:attribute name="Version" type="xs:string" use="required"/>
