@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -43,14 +45,12 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Lat"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setLat: val];
             }
             else if ([key isEqualToString:@"Long"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setLong: val];
             }
@@ -59,7 +59,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<Pos"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<Pos"];
     [xml appendString: @" Lat=\""];
     [xml appendString: [NSString stringWithFormat:@"%f", m_lat]];
     [xml appendString: @"\""];

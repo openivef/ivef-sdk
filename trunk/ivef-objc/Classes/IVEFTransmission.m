@@ -8,6 +8,8 @@
     self = [super init];
     if (self != nil) {
         m_periodPresent = false;
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -47,14 +49,12 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Type"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setType: val];
             }
             else if ([key isEqualToString:@"Period"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setPeriod: val];
             }
@@ -63,9 +63,9 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<Transmission"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<Transmission"];
     [xml appendString: @" Type=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_type]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_type]];
     [xml appendString: @"\""];
     if ( [self hasPeriod] ) {
         [xml appendString: @" Period=\""];
@@ -83,7 +83,7 @@
     [str setString: [lead stringByAppendingString:@"Transmission\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Type=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_type]];
+    [str appendString: [NSString stringWithFormat:@"%d", m_type]];
     [str appendString: @"\"\n"];
 
     if ( [self hasPeriod] ) {

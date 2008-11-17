@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -27,9 +29,8 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"TimeStamp"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
-                NSDate * val = [NSDate dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [m_dateFormatter dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
                 [self setTimeStamp: val];
             }
         }
@@ -37,7 +38,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<Ping"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<Ping"];
     [xml appendString: @" TimeStamp=\""];
     [xml appendString: [m_timeStamp descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%F" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
     [xml appendString: @"\""];

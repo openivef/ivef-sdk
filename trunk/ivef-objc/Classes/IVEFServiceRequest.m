@@ -10,6 +10,8 @@
         m_areas = [[NSMutableArray alloc] init];
         m_items = [[NSMutableArray alloc] init];
         m_objects = [[NSMutableArray alloc] init];
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -95,7 +97,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<ServiceRequest"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<ServiceRequest"];
     [xml appendString:@">\n"];
     for(int i=0; i < [m_areas count]; i++ ) {
         IVEFArea *attribute = [m_areas objectAtIndex:i];

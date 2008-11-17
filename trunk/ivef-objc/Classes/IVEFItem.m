@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -41,14 +43,12 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Element"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setElement: val];
             }
             else if ([key isEqualToString:@"Field"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setField: val];
             }
         }
@@ -56,9 +56,9 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<Item"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<Item"];
     [xml appendString: @" Element=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_element]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_element]];
     [xml appendString: @"\""];
     [xml appendString: @" Field=\""];
     [xml appendString: m_field];
@@ -74,7 +74,7 @@
     [str setString: [lead stringByAppendingString:@"Item\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Element=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_element]];
+    [str appendString: [NSString stringWithFormat:@"%d", m_element]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];

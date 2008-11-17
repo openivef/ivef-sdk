@@ -15,6 +15,8 @@
         m_navStatusPresent = false;
         m_updSensorTypePresent = false;
         m_ATONOffPosPresent = false;
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -264,85 +266,71 @@
                 [self setPos: val];
             }
             else if ([key isEqualToString:@"Id"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setId: val];
             }
             else if ([key isEqualToString:@"SourceId"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setSourceId: val];
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
-                NSDate * val = [NSDate dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [m_dateFormatter dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
                 [self setUpdateTime: val];
             }
             else if ([key isEqualToString:@"SOG"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setSOG: val];
             }
             else if ([key isEqualToString:@"COG"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setCOG: val];
             }
             else if ([key isEqualToString:@"Lost"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setLost: val];
             }
             else if ([key isEqualToString:@"RateOfTurn"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setRateOfTurn: val];
             }
             else if ([key isEqualToString:@"Orientation"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setOrientation: val];
             }
             else if ([key isEqualToString:@"Length"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setLength: val];
             }
             else if ([key isEqualToString:@"Breadth"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setBreadth: val];
             }
             else if ([key isEqualToString:@"Altitude"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setAltitude: val];
             }
             else if ([key isEqualToString:@"NavStatus"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setNavStatus: val];
             }
             else if ([key isEqualToString:@"UpdSensorType"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setUpdSensorType: val];
             }
             else if ([key isEqualToString:@"ATONOffPos"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 bool val = [[value uppercaseString] isEqualToString: @"YES"];
                 [self setATONOffPos: val];
             }
@@ -351,12 +339,12 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<PosReport"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<PosReport"];
     [xml appendString: @" Id=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_id]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
     [xml appendString: @"\""];
     [xml appendString: @" SourceId=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_sourceId]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
     [xml appendString: @"\""];
     [xml appendString: @" UpdateTime=\""];
     [xml appendString: [m_updateTime descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%F" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
@@ -397,12 +385,12 @@
     }
     if ( [self hasNavStatus] ) {
         [xml appendString: @" NavStatus=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_navStatus]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_navStatus]];
         [xml appendString: @"\""];
     }
     if ( [self hasUpdSensorType] ) {
         [xml appendString: @" UpdSensorType=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_updSensorType]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_updSensorType]];
         [xml appendString: @"\""];
     }
     if ( [self hasATONOffPos] ) {
@@ -422,12 +410,12 @@
     [str setString: [lead stringByAppendingString:@"PosReport\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Id=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_id]];
+    [str appendString: [NSString stringWithFormat:@"%d", m_id]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"SourceId=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_sourceId]];
+    [str appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
@@ -478,12 +466,12 @@
     if ( [self hasNavStatus] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"NavStatus = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_navStatus]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_navStatus]];
     }
     if ( [self hasUpdSensorType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"UpdSensorType = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_updSensorType]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_updSensorType]];
     }
     if ( [self hasATONOffPos] ) {
         [str appendString: [lead stringByAppendingString: @" "]];

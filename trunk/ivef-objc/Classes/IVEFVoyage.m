@@ -13,6 +13,8 @@
         m_ATAPresent = false;
         m_airDraughtPresent = false;
         m_draughtPresent = false;
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -168,53 +170,44 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Id"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setId: val];
             }
             else if ([key isEqualToString:@"SourceName"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setSourceName: val];
             }
             else if ([key isEqualToString:@"Source"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setSource: val];
             }
             else if ([key isEqualToString:@"CargoType"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setCargoType: val];
             }
             else if ([key isEqualToString:@"Destination"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setDestination: val];
             }
             else if ([key isEqualToString:@"ETA"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
-                NSDate * val = [NSDate dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [m_dateFormatter dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
                 [self setETA: val];
             }
             else if ([key isEqualToString:@"ATA"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
-                NSDate * val = [NSDate dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [m_dateFormatter dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
                 [self setATA: val];
             }
             else if ([key isEqualToString:@"AirDraught"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setAirDraught: val];
             }
             else if ([key isEqualToString:@"Draught"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setDraught: val];
             }
@@ -223,7 +216,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<Voyage"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<Voyage"];
     [xml appendString: @" Id=\""];
     [xml appendString: m_id];
     [xml appendString: @"\""];
@@ -231,11 +224,11 @@
     [xml appendString: m_sourceName];
     [xml appendString: @"\""];
     [xml appendString: @" Source=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_source]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_source]];
     [xml appendString: @"\""];
     if ( [self hasCargoType] ) {
         [xml appendString: @" CargoType=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_cargoType]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_cargoType]];
         [xml appendString: @"\""];
     }
     if ( [self hasDestination] ) {
@@ -284,13 +277,13 @@
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Source=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_source]];
+    [str appendString: [NSString stringWithFormat:@"%d", m_source]];
     [str appendString: @"\"\n"];
 
     if ( [self hasCargoType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"CargoType = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_cargoType]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_cargoType]];
     }
     if ( [self hasDestination] ) {
         [str appendString: [lead stringByAppendingString: @" "]];

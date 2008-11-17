@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -39,13 +41,11 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Version"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setVersion: val];
             }
             else if ([key isEqualToString:@"MsgRefId"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setMsgRefId: val];
             }
         }
@@ -53,7 +53,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<Header"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<Header"];
     [xml appendString: @" Version=\""];
     [xml appendString: m_version];
     [xml appendString: @"\""];

@@ -25,6 +25,8 @@
         m_maxAirDraughtPresent = false;
         m_maxDraughtPresent = false;
         m_deepWaterVesselindPresent = false;
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -441,120 +443,99 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Id"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setId: val];
             }
             else if ([key isEqualToString:@"SourceName"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setSourceName: val];
             }
             else if ([key isEqualToString:@"Source"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setSource: val];
             }
             else if ([key isEqualToString:@"Length"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setLength: val];
             }
             else if ([key isEqualToString:@"Breadth"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setBreadth: val];
             }
             else if ([key isEqualToString:@"Callsign"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setCallsign: val];
             }
             else if ([key isEqualToString:@"ShipName"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setShipName: val];
             }
             else if ([key isEqualToString:@"ObjectType"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setObjectType: val];
             }
             else if ([key isEqualToString:@"ShipType"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setShipType: val];
             }
             else if ([key isEqualToString:@"IMO"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setIMO: val];
             }
             else if ([key isEqualToString:@"MMSI"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setMMSI: val];
             }
             else if ([key isEqualToString:@"ATONType"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setATONType: val];
             }
             else if ([key isEqualToString:@"ATONName"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setATONName: val];
             }
             else if ([key isEqualToString:@"AntPosDistFromFront"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setAntPosDistFromFront: val];
             }
             else if ([key isEqualToString:@"AntPosDistFromLeft"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setAntPosDistFromLeft: val];
             }
             else if ([key isEqualToString:@"NatLangShipName"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setNatLangShipName: val];
             }
             else if ([key isEqualToString:@"PortOfRegistry"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setPortOfRegistry: val];
             }
             else if ([key isEqualToString:@"CountryFlag"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setCountryFlag: val];
             }
             else if ([key isEqualToString:@"MaxAirDraught"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setMaxAirDraught: val];
             }
             else if ([key isEqualToString:@"MaxDraught"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 [self setMaxDraught: val];
             }
             else if ([key isEqualToString:@"DeepWaterVesselind"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setDeepWaterVesselind: val];
             }
         }
@@ -562,7 +543,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<StaticData"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<StaticData"];
     [xml appendString: @" Id=\""];
     [xml appendString: m_id];
     [xml appendString: @"\""];
@@ -570,7 +551,7 @@
     [xml appendString: m_sourceName];
     [xml appendString: @"\""];
     [xml appendString: @" Source=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_source]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_source]];
     [xml appendString: @"\""];
     if ( [self hasLength] ) {
         [xml appendString: @" Length=\""];
@@ -594,27 +575,27 @@
     }
     if ( [self hasObjectType] ) {
         [xml appendString: @" ObjectType=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_objectType]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_objectType]];
         [xml appendString: @"\""];
     }
     if ( [self hasShipType] ) {
         [xml appendString: @" ShipType=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_shipType]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_shipType]];
         [xml appendString: @"\""];
     }
     if ( [self hasIMO] ) {
         [xml appendString: @" IMO=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_IMO]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_IMO]];
         [xml appendString: @"\""];
     }
     if ( [self hasMMSI] ) {
         [xml appendString: @" MMSI=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_MMSI]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_MMSI]];
         [xml appendString: @"\""];
     }
     if ( [self hasATONType] ) {
         [xml appendString: @" ATONType=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_ATONType]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_ATONType]];
         [xml appendString: @"\""];
     }
     if ( [self hasATONName] ) {
@@ -683,7 +664,7 @@
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Source=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_source]];
+    [str appendString: [NSString stringWithFormat:@"%d", m_source]];
     [str appendString: @"\"\n"];
 
     if ( [self hasLength] ) {
@@ -709,27 +690,27 @@
     if ( [self hasObjectType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ObjectType = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_objectType]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_objectType]];
     }
     if ( [self hasShipType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ShipType = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_shipType]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_shipType]];
     }
     if ( [self hasIMO] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"IMO = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_IMO]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_IMO]];
     }
     if ( [self hasMMSI] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"MMSI = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_MMSI]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_MMSI]];
     }
     if ( [self hasATONType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ATONType = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_ATONType]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_ATONType]];
     }
     if ( [self hasATONName] ) {
         [str appendString: [lead stringByAppendingString: @" "]];

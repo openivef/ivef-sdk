@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -52,18 +54,15 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Name"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setName: val];
             }
             else if ([key isEqualToString:@"Password"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setPassword: val];
             }
             else if ([key isEqualToString:@"Encryption"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setEncryption: val];
             }
@@ -72,7 +71,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<LoginRequest"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<LoginRequest"];
     [xml appendString: @" Name=\""];
     [xml appendString: m_name];
     [xml appendString: @"\""];
@@ -80,7 +79,7 @@
     [xml appendString: m_password];
     [xml appendString: @"\""];
     [xml appendString: @" Encryption=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_encryption]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_encryption]];
     [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: @"</LoginRequest>\n"];
@@ -103,7 +102,7 @@
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Encryption=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_encryption]];
+    [str appendString: [NSString stringWithFormat:@"%d", m_encryption]];
     [str appendString: @"\"\n"];
 
     return str;

@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -51,7 +53,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<MSG_LoginRequest"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<MSG_LoginRequest"];
     [xml appendString:@">\n"];
     [xml appendString: [m_header XML] ];
     [xml appendString: [m_body XML] ];

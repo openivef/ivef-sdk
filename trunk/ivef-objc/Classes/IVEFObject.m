@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -27,8 +29,7 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"FileName"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setFileName: val];
             }
         }
@@ -36,7 +37,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<Object"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<Object"];
     [xml appendString: @" FileName=\""];
     [xml appendString: m_fileName];
     [xml appendString: @"\""];

@@ -8,6 +8,8 @@
     self = [super init];
     if (self != nil) {
         m_reasonPresent = false;
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -59,19 +61,16 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"MsgId"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setMsgId: val];
             }
             else if ([key isEqualToString:@"Result"]) {
-                 NSString *value = [attributeDict objectForKey: key];
-
+                NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 [self setResult: val];
             }
             else if ([key isEqualToString:@"Reason"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setReason: val];
             }
         }
@@ -79,12 +78,12 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<LoginResponse"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<LoginResponse"];
     [xml appendString: @" MsgId=\""];
     [xml appendString: m_msgId];
     [xml appendString: @"\""];
     [xml appendString: @" Result=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_result]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_result]];
     [xml appendString: @"\""];
     if ( [self hasReason] ) {
         [xml appendString: @" Reason=\""];
@@ -107,7 +106,7 @@
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Result=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_result]];
+    [str appendString: [NSString stringWithFormat:@"%d", m_result]];
     [str appendString: @"\"\n"];
 
     if ( [self hasReason] ) {

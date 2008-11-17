@@ -8,6 +8,8 @@
     self = [super init];
     if (self != nil) {
         m_poss = [[NSMutableArray alloc] init];
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -39,7 +41,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<Area"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<Area"];
     [xml appendString:@">\n"];
     for(int i=0; i < [m_poss count]; i++ ) {
         IVEFPos *attribute = [m_poss objectAtIndex:i];

@@ -8,6 +8,8 @@
     self = [super init];
     if (self != nil) {
         m_detailsPresent = false;
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -49,13 +51,11 @@
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Status"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setStatus: val];
             }
             else if ([key isEqualToString:@"Details"]) {
-                 NSString *val = [attributeDict objectForKey: key];
-
+                NSString *val = [attributeDict objectForKey: key];
                 [self setDetails: val];
             }
         }
@@ -63,7 +63,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<ServerStatus"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<ServerStatus"];
     [xml appendString: @" Status=\""];
     [xml appendString: m_status];
     [xml appendString: @"\""];

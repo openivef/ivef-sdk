@@ -9,6 +9,8 @@
     if (self != nil) {
         m_staticDatas = [[NSMutableArray alloc] init];
         m_voyages = [[NSMutableArray alloc] init];
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
     }
     return self;
 }
@@ -75,7 +77,7 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSString stringWithString:@"<VesselData"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
     [xml appendString:@">\n"];
     [xml appendString: [m_posReport XML] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
