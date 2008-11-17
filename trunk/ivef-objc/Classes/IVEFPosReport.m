@@ -277,7 +277,7 @@
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                NSDate *val = [m_dateFormatter dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
+                NSDate *val = [m_dateFormatter dateFromString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
                 [self setUpdateTime: val];
             }
             else if ([key isEqualToString:@"SOG"]) {

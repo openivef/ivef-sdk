@@ -24,7 +24,7 @@ SOURCES += ./src/cmdlineoption.cpp \
 
 # include the CPP library
 INCLUDEPATH += ../../ivef-qt
-LIBS += -L ../../ivef-qt -livef
+LIBS += -L../../ivef-qt -livef
 
 CONFIG += warn_on stl qt release console
 QT += network xml
