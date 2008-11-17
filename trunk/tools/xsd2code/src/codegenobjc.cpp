@@ -180,7 +180,7 @@ void CodeGenObjC::go() {
 
         //headerFileOut << "#ifndef __" << upperName << "_H__\n";
         //headerFileOut << "#define __" << upperName << "_H__\n\n";
-        headerFileOut << "#import <Cocoa/Cocoa.h>\n";  
+        headerFileOut << "#import <Foundation/Foundation.h>\n";  
 
         // include dependend files
         for(int j=0; j < attributes.size(); j++) {
@@ -209,6 +209,7 @@ void CodeGenObjC::go() {
                 headerFileOut << "    bool " << variableName(attr->name()) << "Present;\n";
             }
         }
+        headerFileOut << "    NSDateFormatter *m_dateFormatter;\n";
         headerFileOut << "}\n\n";
 
         // methods section
@@ -280,6 +281,8 @@ void CodeGenObjC::go() {
                 classFileOut << "        " << variableName(attr->name()) << "s = [[NSMutableArray alloc] init];\n";
 	    }
         }
+        classFileOut << "        m_dateFormatter = [[NSDateFormatter alloc] init];\n";
+        classFileOut << "        [m_dateFormatter setDateFormat:@\"yyyy-MM-dd'T'HH:mm:ss.SSS\"];\n";
         classFileOut << "    }\n    return self;\n}\n\n";
 
         // copy constructor
@@ -409,18 +412,18 @@ void CodeGenObjC::go() {
                     }
 
                     if (type == localType("xs:string")) {
-                        classFileOut << "                 NSString *val = [attributeDict objectForKey: key];\n\n";
+                        classFileOut << "                NSString *val = [attributeDict objectForKey: key];\n";
                     } else if (type == localType("xs:boolean")) {
-                        classFileOut << "                 NSString *value = [attributeDict objectForKey: key];\n\n";
+                        classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
                         classFileOut << "                " << type << " val = [[value uppercaseString] isEqualToString: @\"YES\"];\n";
                     } else if (type == localType("xs:integer")) {
-                        classFileOut << "                 NSString *value = [attributeDict objectForKey: key];\n\n";
+                        classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
                         classFileOut << "                " << type << " val = [value intValue];\n";
                     } else if (type == localType("xs:dateTime")) {
-                        classFileOut << "                 NSString *value = [attributeDict objectForKey: key];\n\n";
-                        classFileOut << "                " << type << " val = [NSDate dateWithString: value]; // assume \"yyyy-MM-ddThh:mm:ss.zzz\"\n";
+                        classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
+                        classFileOut << "                NSDate *val = [m_dateFormatter dateWithString: value]; // assume \"yyyy-MM-ddThh:mm:ss.zzz\"\n";
                     } else if (type == localType("xs:decimal")) {
-                        classFileOut << "                 NSString *value = [attributeDict objectForKey: key];\n\n";
+                        classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
                         classFileOut << "                " << type << " val = [value floatValue];\n";
 		    } else {
                         classFileOut << "                " << type << " val = [attributeDict objectForKey: key];\n";
@@ -442,7 +445,7 @@ void CodeGenObjC::go() {
         // xml generator
         // if attribute name and type are the same it means it was data
         classFileOut << "-(NSString *) XML {\n\n";
-        classFileOut << "    NSMutableString *xml = [NSString stringWithString:@\"<" << name << "\"];\n"; // append attributes
+        classFileOut << "    NSMutableString *xml = [NSMutableString stringWithString:@\"<" << name << "\"];\n"; // append attributes
 
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -456,6 +459,8 @@ void CodeGenObjC::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
                     varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%F\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                } else if (type == localType("xs:integer")) {
+                    varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type != localType("xs:string")) {
                     varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
                 }
@@ -516,6 +521,8 @@ void CodeGenObjC::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
                     varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%F\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                } else if (type == localType("xs:integer")) {
+                    varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type != localType("xs:string")) {
                     varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
                 }
@@ -595,7 +602,7 @@ void CodeGenObjC::go() {
     headerFileOut << writeHeader( className(name) );
     //headerFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
     //headerFileOut << "#define __" << name.toUpper() << "_H__\n\n";
-    headerFileOut << "#import <Cocoa/Cocoa.h>\n";  
+    headerFileOut << "#import <Foundation/Foundation.h>\n";  
 
     // include dependend files
     for(int i=0; i < m_objects.size(); i++) {
@@ -645,7 +652,7 @@ void CodeGenObjC::go() {
 
     // constructor
     classFileOut << "- (id) init {\n    self = [super init];\n    if (self != nil) {\n";
-    classFileOut << "        m_dataBuffer = [[NSString alloc] init];\n";
+    classFileOut << "        m_dataBuffer = [[NSMutableString alloc] init];\n";
     classFileOut << "        m_objStack = [[NSMutableArray alloc] init];\n";
     classFileOut << "        [self setDelegate: self]; // we are our own delegate\n";
     classFileOut << "    }\n    return self;\n}\n\n";
@@ -676,7 +683,7 @@ void CodeGenObjC::go() {
             first = false;
         }
         // if the name matches my object
-        classFileOut << " ([qualifiedName isEqualToString: @\"" << className(obj->name()) << "\"]) {\n";
+        classFileOut << " ([elementName isEqualToString: @\"" << obj->name() << "\"]) {\n";
         // create a temp object
         classFileOut << "        " << className(obj->name()) << " *obj = [[" << className(obj->name()) << " alloc] init];\n";
         classFileOut << "        [obj setAttributes: attributeDict];\n";
@@ -712,7 +719,7 @@ void CodeGenObjC::go() {
             first = false;
         }
         // if the name matches my object
-        classFileOut << " ([qualifiedName isEqualToString: @\"" << className(obj->name()) << "\"]) {\n\n";
+        classFileOut << " ([elementName isEqualToString: @\"" << obj->name() << "\"]) {\n\n";
         classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) [m_objStack lastObject];\n";
         classFileOut << "        [obj retain];\n"; 
         classFileOut << "        [m_objStack removeLastObject];\n"; 
@@ -766,7 +773,7 @@ void CodeGenObjC::go() {
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            classFileOut << "     index[" << message << "] = [m_dataBuffer rangeOfString:@\"</" << obj->name() << ">\\n\" options: NSBackwardsSearch].location + strlen(\"</" << obj->name() << ">\\n\");\n";
+            classFileOut << "     index[" << message << "] = [m_dataBuffer rangeOfString:@\"</" << obj->name() << ">\" options: NSBackwardsSearch].location + strlen(\"</" << obj->name() << ">\");\n";
             message++;
         }
     }

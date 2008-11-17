@@ -758,7 +758,7 @@ void CodeGenQT::go() {
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            classFileOut << "     index[" << message << "] = m_dataBuffer.lastIndexOf(\"</" << obj->name() << ">\\n\") + strlen(\"</" << obj->name() << ">\\n\");\n";
+            classFileOut << "     index[" << message << "] = m_dataBuffer.lastIndexOf(\"</" << obj->name() << ">\") + strlen(\"</" << obj->name() << ">\");\n";
             message++;
         }
     }
