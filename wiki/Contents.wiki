@@ -3,8 +3,7 @@
 The IVEF SDK consists of various modules and example programs. 
 
 ==Documentation==
-In the documentation section you can find the XSD schemes that define the interface. Click [[Schema here]] for a html representation of the schema.
-
+In the documentation section you can find the XSD schemes that define the interface. 
 
 ==IVEF Library==
 Available in various programming [languages] and for various platforms
