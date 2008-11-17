@@ -421,7 +421,7 @@ void CodeGenObjC::go() {
                         classFileOut << "                " << type << " val = [value intValue];\n";
                     } else if (type == localType("xs:dateTime")) {
                         classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
-                        classFileOut << "                NSDate *val = [m_dateFormatter dateWithString: value]; // assume \"yyyy-MM-ddThh:mm:ss.zzz\"\n";
+                        classFileOut << "                NSDate *val = [m_dateFormatter dateFromString: value]; // assume \"yyyy-MM-ddThh:mm:ss.zzz\"\n";
                     } else if (type == localType("xs:decimal")) {
                         classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
                         classFileOut << "                " << type << " val = [value floatValue];\n";
