@@ -37,9 +37,10 @@ public:
     IVEFStreamHandler(Parser *parser);
     ~IVEFStreamHandler();
 
-    void connectToServer(QString host, int port, QString user, QString password, QString logFileName, bool slipstream);
+    void connectToServer(QString host, int port, QString user, QString password, QString logFileName, bool slipstream, bool statistics);
 
 public slots:
+    void slotStatisticsTimerFired();
     void slotDisconnected();
     void slotReadyRead();
     void slotConnected();
@@ -58,6 +59,10 @@ private:
     QByteArray m_buffer;
     z_stream m_strm;
     bool m_slipstream;
+    bool m_statistics;
+    long m_bytesIn;
+    long m_bytesOut;
+    
 
     Parser *m_parser;
 };

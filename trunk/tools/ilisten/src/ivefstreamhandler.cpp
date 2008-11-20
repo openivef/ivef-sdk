@@ -20,6 +20,8 @@
 
 #include "ivefstreamhandler.h"
 
+#define TIMER_INTERVAL 10
+
 IVEFStreamHandler::IVEFStreamHandler(Parser *parser) {
 
     // clear user/password
@@ -27,6 +29,10 @@ IVEFStreamHandler::IVEFStreamHandler(Parser *parser) {
     m_password = "very secret";
     m_log = NULL;
     m_parser = parser;
+    m_slipstream = false;
+    m_statistics = false;
+    m_bytesIn = 0;
+    m_bytesOut = 0;
     
     // create a new socket
     m_tcpSocket = new QTcpSocket(this);
@@ -87,11 +93,15 @@ void IVEFStreamHandler::displayError(QAbstractSocket::SocketError socketError) {
     }
 }
 
-void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QString password, QString logFileName, bool slipstream) {
+void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QString password, QString logFileName, bool slipstream, bool statistics) {
+
 
     QString portString;
     portString.setNum(port);
     std::cout << QString("iListen opening connection to %1:%2").arg(host, portString).toLatin1().data() << std::endl;
+
+    // should we use keep track of line load
+    m_statistics = statistics;;
 
     // should we use compression
     m_slipstream = slipstream;
@@ -114,6 +124,13 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
         if (inflateInit(&m_strm) != Z_OK) {
             std::cout << "iListen error initiating zlib stream" << std::endl;
         }
+    }
+
+    // set a timer to check the bytes in/out every minte
+    if ( m_statistics ) {
+        QTimer *timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(slotStatisticsTimerFired()));
+        timer->start(TIMER_INTERVAL*1000);
     }
 
     // setup the logstream if needed
@@ -173,9 +190,9 @@ void IVEFStreamHandler::sendRawData(const QByteArray &dataUnCompressed) {
         // Qt wants to know the size, but zlib does not
         QByteArray dataCompressed = QByteArray(dataCompressedPlusLen.data() + 4, dataCompressedPlusLen.size() - 4);
         
-        m_tcpSocket->write(dataCompressed);
+        m_bytesOut += m_tcpSocket->write(dataCompressed);
     } else {
-        m_tcpSocket->write(dataUnCompressed);
+        m_bytesOut += m_tcpSocket->write(dataUnCompressed);
     }
     
     //qDebug(data.data());
@@ -191,7 +208,9 @@ void IVEFStreamHandler::slotDisconnected() {
 void IVEFStreamHandler::slotReadyRead() {
   
     // read data 
-    m_buffer.append(  m_tcpSocket->readAll() );
+    QByteArray newData = m_tcpSocket->readAll();
+    m_bytesIn += newData.size();
+    m_buffer.append( newData );
     QString data;
 
     if ( m_slipstream ) {
@@ -221,7 +240,7 @@ void IVEFStreamHandler::slotReadyRead() {
               // inflate the data
               ret = inflate(&m_strm, Z_SYNC_FLUSH);
               if (( ret != Z_OK ) && (ret != Z_STREAM_END)){
-                 std::cout << "Slipstream decompresion error " << ret << std::endl;
+                 std::cerr << "Slipstream decompresion error " << ret << std::endl;
                  ret = Z_STREAM_END; // close and try again
               }
 
@@ -230,7 +249,7 @@ void IVEFStreamHandler::slotReadyRead() {
               dataUnCompressed.resize(uncompressedLen);
 
               // debug the efficiency
-              std::cout << "Slipstream of " << compressedLen << " bytes, inflated to " << uncompressedLen << std::endl;
+              //std::cout << "Slipstream of " << compressedLen << " bytes, inflated to " << uncompressedLen << std::endl;
         
              // parse the chunk
              //std::cout << "\n\n" << QString(dataUnCompressed).toLatin1().data() << "\n\n";
@@ -245,7 +264,7 @@ void IVEFStreamHandler::slotReadyRead() {
           // and re-initialize it for the next transfer
           if ( ret == Z_STREAM_END ) {
               if (inflateReset(&m_strm) != Z_OK) {
-                  std::cout << "iListen error initiating zlib stream" << std::endl;
+                  std::cerr << "iListen error initiating zlib stream" << std::endl;
               }
           }
 
@@ -265,3 +284,14 @@ void IVEFStreamHandler::slotReadyRead() {
     }
 }
 
+void IVEFStreamHandler::slotStatisticsTimerFired() {
+
+    long bitsPerSecIn  = ((m_bytesIn * 8) / (TIMER_INTERVAL));
+    long bitsPerSecOut = ((m_bytesOut * 8) / (TIMER_INTERVAL));
+    long kBitsPerSecIn = bitsPerSecIn / 1024;
+    long kBitsPerSecOut = bitsPerSecOut / 1024;
+
+    std::cout << "iListen in = " << bitsPerSecIn << " bit/sec (" << kBitsPerSecIn << " kbits/sec) out = " << bitsPerSecOut << " bit/sec (" << kBitsPerSecOut << " kbits/sec)" << std::endl;
+    m_bytesIn = 0;
+    m_bytesOut = 0;
+}

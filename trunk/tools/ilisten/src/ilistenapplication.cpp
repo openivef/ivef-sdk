@@ -36,6 +36,7 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "filterval",   "vesseldata attribute value for filter e.g. --filterval=2442" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "version",     "show version information and exit." ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "slipstream",  "use compression for the transmission." ) );
+    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "statistics",  "print load statistics (only from tcp stream)." ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "silent",      "don't dump the received data." ) );
 
     // parse command line m_options
@@ -43,7 +44,7 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n iListen 0.0.3\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
+        std::cout << "\n iListen 0.0.4\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
         std::exit(0);
     }
             
@@ -69,6 +70,7 @@ void iListenApplication::slotStart( void ) {
     m_options.getInteger( "port", port );
 
     bool slipstream = m_options.getBoolean( "slipstream" );
+    bool statistics = m_options.getBoolean( "statistics" );
 
     QString user = "guest";
     m_options.getText( "user", user );
@@ -92,13 +94,10 @@ void iListenApplication::slotStart( void ) {
         // we are finished with file parsing
         std::exit(0);
     } else {
-        if (m_options.getText("outfile", fileName)) {
-            // connect to server
-            m_streamHandler->connectToServer(host, port, user, password, fileName, slipstream);
-        } else {
-            // empty file means no logfile
-            m_streamHandler->connectToServer(host, port, user, password, "", slipstream);
+        if (!m_options.getText("outfile", fileName)) {
+            fileName = ""; // empty file means no logfile
         }
+        m_streamHandler->connectToServer(host, port, user, password, fileName, slipstream, statistics);
     }
 }
             
