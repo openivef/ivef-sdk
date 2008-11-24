@@ -146,6 +146,7 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
         m_log = new QTextStream(file);
         m_log->setCodec("UTF-8");
         *m_log << "<xml>\n"; // create a start tag
+        m_log->flush();
     } else {
         m_log = NULL;
     }
@@ -281,6 +282,7 @@ void IVEFStreamHandler::slotReadyRead() {
        data.replace("<?xml version = \"1.0\" encoding=\"UTF-8\"?>\n", ""); 
        data.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", ""); 
        *m_log << QString(data).toLatin1().data();
+       m_log->flush();
     }
 }
 
