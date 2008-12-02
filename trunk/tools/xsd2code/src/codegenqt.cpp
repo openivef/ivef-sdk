@@ -37,6 +37,8 @@ void CodeGenQT::setOutputDir(QString outDir) {
 QString CodeGenQT::localType(QString type) {
     if (type == "xs:string")
         return "QString";
+    else if (type == "xs:hexBinary") // or should it by a QByteArray?
+        return "QString";
     else if (type == "xs:boolean")
         return "bool";
     else if (type == "xs:integer")
@@ -55,6 +57,8 @@ QString CodeGenQT::localType(QString type) {
 
 bool CodeGenQT::knownType(QString type) {
     if (type == "xs:string")
+        return true;
+    else if (type == "xs:hexBinary") 
         return true;
     else if (type == "xs:boolean")
         return true;

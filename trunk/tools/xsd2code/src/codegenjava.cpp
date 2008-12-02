@@ -64,8 +64,8 @@ bool CodeGenJava::knownType(QString type) {
         return true;
     else if (type == "xs:dateTime")
         return true;
-	else if (type == "xs:hexBinary") 
-		return true;
+    else if (type == "xs:hexBinary") 
+	return true;
     else if (type == "unknown")
         return true;
     else if (type == "xs:decimal") // double

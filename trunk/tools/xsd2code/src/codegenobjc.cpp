@@ -41,6 +41,8 @@ QString CodeGenObjC::localType(QString type) {
         return "bool";
     else if (type == "xs:integer")
         return "int";
+    else if (type == "xs:hexBinary") 
+        return "NSString *";
     else if (type == "xs:dateTime")
         return "NSDate *";
     else if (type == "unknown") {
@@ -59,6 +61,8 @@ bool CodeGenObjC::knownType(QString type) {
     else if (type == "xs:boolean")
         return true;
     else if (type == "xs:integer")
+        return true;
+    else if (type == "xs:hexBinary") 
         return true;
     else if (type == "xs:dateTime")
         return true;

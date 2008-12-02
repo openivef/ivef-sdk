@@ -41,6 +41,8 @@ QString CodeGenPB::localType(QString type) {
         return "bool  ";
     else if (type == "xs:integer")
         return "int32 ";
+    else if (type == "xs:hexBinary") 
+        return "string";
     else if (type == "xs:dateTime")
         return "string";
     else if (type == "unknown") {
@@ -57,6 +59,8 @@ bool CodeGenPB::knownType(QString type) {
     if (type == "xs:string")
         return true;
     else if (type == "xs:boolean")
+        return true;
+    else if (type == "xs:hexBinary") 
         return true;
     else if (type == "xs:integer")
         return true;
