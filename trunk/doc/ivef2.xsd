@@ -85,14 +85,6 @@
 						<xs:sequence>
 							<xs:element ref="Chart" minOccurs="0" maxOccurs="unbounded"/>
 							<xs:element ref="HyMe" minOccurs="0" maxOccurs="unbounded"/>
-							<xs:element name="Forcast" minOccurs="0" maxOccurs="unbounded">
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:minLength value="1"/>
-										<xs:maxLength value="1024"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
 							<xs:element ref="Message" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
@@ -168,6 +160,186 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Alert">
+		<xs:annotation>
+			<xs:documentation>DATA regarding an alert in relation to a position report</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="OffPos" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Object is off designated position</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="PositionError" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Source for measured position reports defects</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Area">
+		<xs:annotation>
+			<xs:documentation>Geographical location based on one or more polygons</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Pos" minOccurs="3" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Name" use="optional">
+				<xs:annotation>
+					<xs:documentation>Name of the area</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Color" use="optional">
+				<xs:annotation>
+					<xs:documentation>Color of the area in RGB</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="6"/>
+						<xs:maxLength value="6"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Fill" use="optional">
+				<xs:annotation>
+					<xs:documentation>Fill pattern of the area</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="dots"/>
+						<xs:enumeration value="plain"/>
+						<xs:enumeration value="horizontal"/>
+						<xs:enumeration value="vertical"/>
+						<xs:enumeration value="diagonal"/>
+						<xs:enumeration value="mesh"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Chart">
+		<xs:annotation>
+			<xs:documentation>DATA chart information</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="S57Chart" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>S57 Chart either base or update</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="Name" use="required">
+							<xs:annotation>
+								<xs:documentation>Name of the chart</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="BaseChart" type="xs:boolean" use="required">
+							<xs:annotation>
+								<xs:documentation>Indication whether it is a base chart or an update</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Data" type="xs:hexBinary" use="required">
+							<xs:annotation>
+								<xs:documentation>The actual chart</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="XMLChart" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>XML based chart</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Area" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+						<xs:attribute name="Name" use="required">
+							<xs:annotation>
+								<xs:documentation>Name of the chart</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ForeignId">
+		<xs:annotation>
+			<xs:documentation>Other Id's for the vessel than the international standard Identifiers</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Id" use="required">
+				<xs:annotation>
+					<xs:documentation>Name of the Identifier</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Value" use="required">
+				<xs:annotation>
+					<xs:documentation>Value of the identifier</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ForeignName">
+		<xs:annotation>
+			<xs:documentation>Other names for the vessel than the English name</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Lang" use="required">
+				<xs:annotation>
+					<xs:documentation>Languange</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Name" use="required">
+				<xs:annotation>
+					<xs:documentation>Name in the foreign language</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Header">
 		<xs:annotation>
 			<xs:documentation>HEADER part of every message with version and uniqueness information</xs:documentation>
@@ -191,6 +363,231 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="HyMe">
+		<xs:annotation>
+			<xs:documentation>DATA Hydro or Meteo information</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Station" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A station wih one or more hydrological or meteological sensors</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Reading" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Reading from a hydrological or meteological sensor</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="Id" type="xs:integer" use="optional">
+										<xs:annotation>
+											<xs:documentation>Identifier of the sensor</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="Type" type="xs:integer" use="required">
+										<xs:annotation>
+											<xs:documentation>Type of sensor
+
+1 =   Wind Speed, [0..100] knots
+2 =   Wind Direction [0..360] degrees
+3	=	Wind Gust [0..12] beaufort
+4	=	Air Temperature [-10..40] celsius
+5 	=	Water Temperature [-10..40] celsius
+6 	=	Wave Height [0..150] meter
+7 	=	Wave Direction [0..360] degrees
+8	=	Wave Period [0..30] sec
+9 	=	Water Level [-20..20] meter
+10 = Current Speed [0..150] kmph
+11 =	Current Direction [0..360] degrees
+12 =	Humidity [0..100] percentage	
+13 =	Air Pressure [800..1100] mbar
+14 =	Visibility [0..10000] meter
+15 =	Precipitation [0..100] mmph</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="Value" type="xs:decimal" use="required">
+										<xs:annotation>
+											<xs:documentation>Value of the reading</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Id" type="xs:integer" use="optional">
+							<xs:annotation>
+								<xs:documentation>Identifier of the station</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Name" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name of the station</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Forecast" type="xs:boolean" use="required">
+							<xs:annotation>
+								<xs:documentation>indicates if this is a true measurement or a predicted forecast</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+							<xs:annotation>
+								<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Location" use="optional">
+							<xs:annotation>
+								<xs:documentation>Location of the station</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LoginRequest">
+		<xs:annotation>
+			<xs:documentation>DATA login message with details of the user</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Name" use="required">
+				<xs:annotation>
+					<xs:documentation>Login name</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Password" use="required">
+				<xs:annotation>
+					<xs:documentation>Password value</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Encryption" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = plain 2 = md5 (BASE64)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LoginResponse">
+		<xs:annotation>
+			<xs:documentation>DATA login response with acceptance or deny with optional reason</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="MsgId" use="required">
+				<xs:annotation>
+					<xs:documentation>Corresponds to the original MsgRefId from the Login.xml message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="36"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Result" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = Accepted 2 = Declined</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Reason" use="optional">
+				<xs:annotation>
+					<xs:documentation>String describing reason for declining, only used when result is "Declined"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Logout">
+		<xs:annotation>
+			<xs:documentation>DATA logout message, the server will drop the connection if logout is successfull</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="Message">
+		<xs:annotation>
+			<xs:documentation>DATA message sent from or to a user</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset  of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Priority" type="xs:integer" use="optional">
+				<xs:annotation>
+					<xs:documentation>The priority of this message, 1 beeing the most urgent</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Origin" use="required">
+				<xs:annotation>
+					<xs:documentation>Name of the sender</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Destination" use="optional">
+				<xs:annotation>
+					<xs:documentation>Name of the destination, not available when broadcasting </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Text" use="required">
+				<xs:annotation>
+					<xs:documentation>Actual text</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="ObjectData">
 		<xs:annotation>
 			<xs:documentation>DATA regarding an object in the supliers domain</xs:documentation>
@@ -204,6 +601,46 @@
 			<xs:attribute name="Id" type="xs:integer" use="required">
 				<xs:annotation>
 					<xs:documentation>The unique identification of this object</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Ping">
+		<xs:annotation>
+			<xs:documentation>DATA alive message</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Pong">
+		<xs:annotation>
+			<xs:documentation>DATA alive response</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="MsgId" use="required">
+				<xs:annotation>
+					<xs:documentation>Corresponds to the original MsgRefId from the Ping.xml message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="36"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceId" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The identification of the node who created this message</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
@@ -477,6 +914,168 @@ expressed in m</xs:documentation>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ServerStatus">
+		<xs:annotation>
+			<xs:documentation>DATA describing the status of the server (full/available)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Status" use="required">
+				<xs:annotation>
+					<xs:documentation>Status of the server</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="queuefull"/>
+						<xs:enumeration value="ok"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Details" use="optional">
+				<xs:annotation>
+					<xs:documentation>Details of status</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ServiceRequest">
+		<xs:annotation>
+			<xs:documentation>DATA describing the service a user requests</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Area" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Transmission">
+					<xs:complexType>
+						<xs:attribute name="Type" use="required">
+							<xs:annotation>
+								<xs:documentation>Type of transmission, possible values are:
+1 = single occurrence
+2 = periodic (predicted) 
+3 = down sampled (not predicted)
+4 = synchronic
+5 = on change</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+									<xs:enumeration value="3"/>
+									<xs:enumeration value="4"/>
+									<xs:enumeration value="5"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Period" type="xs:decimal" use="optional">
+							<xs:annotation>
+								<xs:documentation> Specifies he time between two periodic updates in seconds</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Item" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="Element" use="required">
+							<xs:annotation>
+								<xs:documentation>Describes requested Object data element, possible values:
+1 = position
+2 = static data
+3 = voyage</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+									<xs:enumeration value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Field" use="required">
+							<xs:annotation>
+								<xs:documentation>Selected field. Can be 'all' or one of the items of object data PosReport, StaticData  or Voyage</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Object" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="FilterName" use="required">
+							<xs:annotation>
+								<xs:documentation>Name of the filter. The filter can be a predefined selector of the supplier. One of the predefined selectors will be 'all', others can defined here in the future</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Notification">
+					<xs:complexType>
+						<xs:annotation>
+							<xs:documentation>Request transmission of notifications in this domain</xs:documentation>
+						</xs:annotation>
+						<xs:attribute name="S57Base" type="xs:boolean" use="optional"/>
+						<xs:attribute name="S57Update" type="xs:boolean" use="optional"/>
+						<xs:attribute name="XMLChart" type="xs:boolean" use="optional"/>
+						<xs:attribute name="HyMe" type="xs:boolean" use="optional"/>
+						<xs:attribute name="Messages" type="xs:boolean" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ServiceRequestResponse">
+		<xs:annotation>
+			<xs:documentation>DATA detailing the supliers response to the users service request</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="MsgId" use="required">
+				<xs:annotation>
+					<xs:documentation>Corresponds to the original MsgRefId from the ServiceRequest message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="36"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Result" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = Accepted 2 = Declined</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Reason" use="optional">
+				<xs:annotation>
+					<xs:documentation>String describing reason for declining, only used when result is "Declined"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="StaticData">
 		<xs:annotation>
 			<xs:documentation>DATA regarding static elements of an object</xs:documentation>
@@ -489,64 +1088,8 @@ expressed in m</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="foreignName" minOccurs="0" maxOccurs="unbounded">
-								<xs:annotation>
-									<xs:documentation>Other names for the vessel than the English name</xs:documentation>
-								</xs:annotation>
-								<xs:complexType>
-									<xs:attribute name="Lang" use="required">
-										<xs:annotation>
-											<xs:documentation>Languange</xs:documentation>
-										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:minLength value="2"/>
-												<xs:maxLength value="2"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-									<xs:attribute name="Name" use="required">
-										<xs:annotation>
-											<xs:documentation>Name in the foreign language</xs:documentation>
-										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:minLength value="1"/>
-												<xs:maxLength value="36"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="foreignId" minOccurs="0" maxOccurs="unbounded">
-								<xs:annotation>
-									<xs:documentation>Other Id's for the vessel than the international standard Identifiers</xs:documentation>
-								</xs:annotation>
-								<xs:complexType>
-									<xs:attribute name="Id" use="required">
-										<xs:annotation>
-											<xs:documentation>Name of the Identifier</xs:documentation>
-										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:minLength value="1"/>
-												<xs:maxLength value="36"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-									<xs:attribute name="Value" use="required">
-										<xs:annotation>
-											<xs:documentation>Value of the identifier</xs:documentation>
-										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:minLength value="1"/>
-												<xs:maxLength value="36"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-								</xs:complexType>
-							</xs:element>
+							<xs:element ref="ForeignName" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="ForeignId" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 						<xs:attribute name="Callsign" use="optional">
 							<xs:annotation>
@@ -598,35 +1141,7 @@ expressed in m</xs:documentation>
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="TaggedItems" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Generic key/value pairs, can be used to pass information that is not (yet) in the standard, provided server and user agree upon interface</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:attribute name="Key" use="required">
-							<xs:annotation>
-								<xs:documentation>Key for the tagged item</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="Value" use="required">
-							<xs:annotation>
-								<xs:documentation>Value of the tagged item</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
+				<xs:element ref="TaggedItems" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="Construction" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>attributes of the object regarding the physical construction</xs:documentation>
@@ -1071,41 +1586,42 @@ In case Object Class = vessel (2):
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="TaggedItems">
+		<xs:annotation>
+			<xs:documentation>Generic key/value pairs, can be used to pass information that is not (yet) in the standard, provided server and user agree upon interface</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Key" use="required">
+				<xs:annotation>
+					<xs:documentation>Key for the tagged item</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Value" use="required">
+				<xs:annotation>
+					<xs:documentation>Value of the tagged item</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Voyage">
 		<xs:annotation>
 			<xs:documentation>DATA regarding a movement of a vessel suppliers domain</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="TaggedItems" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Generic key/value pairs, can be used to pass information that is not (yet) in the standard, provided server and user agree upon interface</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:attribute name="Key" use="required">
-							<xs:annotation>
-								<xs:documentation>Key for the tagged item</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="Value" use="required">
-							<xs:annotation>
-								<xs:documentation>Value of the tagged item</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
+				<xs:element ref="TaggedItems" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="Waypoints" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Waypoints belonging to the route of this voyage</xs:documentation>
@@ -1334,558 +1850,6 @@ In case Object Class = vessel (2):
 				<xs:simpleType>
 					<xs:restriction base="xs:decimal">
 						<xs:minExclusive value="0"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Alert">
-		<xs:annotation>
-			<xs:documentation>DATA regarding an alert in relation to a position report</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="OffPos" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Object is off designated position</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="PositionError" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Source for measured position reports defects</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="LoginRequest">
-		<xs:annotation>
-			<xs:documentation>DATA login message with details of the user</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="Name" use="required">
-				<xs:annotation>
-					<xs:documentation>Login name</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="256"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Password" use="required">
-				<xs:annotation>
-					<xs:documentation>Password value</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="256"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Encryption" use="required">
-				<xs:annotation>
-					<xs:documentation>1 = plain 2 = md5 (BASE64)</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:enumeration value="1"/>
-						<xs:enumeration value="2"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="LoginResponse">
-		<xs:annotation>
-			<xs:documentation>DATA login response with acceptance or deny with optional reason</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="MsgId" use="required">
-				<xs:annotation>
-					<xs:documentation>Corresponds to the original MsgRefId from the Login.xml message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="36"/>
-						<xs:maxLength value="36"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Result" use="required">
-				<xs:annotation>
-					<xs:documentation>1 = Accepted 2 = Declined</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:enumeration value="1"/>
-						<xs:enumeration value="2"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Reason" use="optional">
-				<xs:annotation>
-					<xs:documentation>String describing reason for declining, only used when result is "Declined"</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="256"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Logout">
-		<xs:annotation>
-			<xs:documentation>DATA logout message, the server will drop the connection if logout is successfull</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="Ping">
-		<xs:annotation>
-			<xs:documentation>DATA alive message</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
-				<xs:annotation>
-					<xs:documentation>Date and time in (subset ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Pong">
-		<xs:annotation>
-			<xs:documentation>DATA alive response</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
-				<xs:annotation>
-					<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="MsgId" use="required">
-				<xs:annotation>
-					<xs:documentation>Corresponds to the original MsgRefId from the Ping.xml message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="36"/>
-						<xs:maxLength value="36"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="SourceId" type="xs:integer" use="required">
-				<xs:annotation>
-					<xs:documentation>The identification of the node who created this message</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ServerStatus">
-		<xs:annotation>
-			<xs:documentation>DATA describing the status of the server (full/available)</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="Status" use="required">
-				<xs:annotation>
-					<xs:documentation>Status of the server</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="queuefull"/>
-						<xs:enumeration value="ok"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Details" use="optional">
-				<xs:annotation>
-					<xs:documentation>Details of status</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="50"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ServiceRequest">
-		<xs:annotation>
-			<xs:documentation>DATA describing the service a user requests</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="Area" minOccurs="0" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Pos" minOccurs="3" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="Transmission">
-					<xs:complexType>
-						<xs:attribute name="Type" use="required">
-							<xs:annotation>
-								<xs:documentation>Type of transmission, possible values are:
-1 = single occurrence
-2 = periodic (predicted) 
-3 = down sampled (not predicted)
-4 = synchronic
-5 = on change</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:integer">
-									<xs:enumeration value="1"/>
-									<xs:enumeration value="2"/>
-									<xs:enumeration value="3"/>
-									<xs:enumeration value="4"/>
-									<xs:enumeration value="5"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="Period" type="xs:decimal" use="optional">
-							<xs:annotation>
-								<xs:documentation> Specifies he time between two periodic updates in seconds</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="Item" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:attribute name="Element" use="required">
-							<xs:annotation>
-								<xs:documentation>Describes requested Object data element, possible values:
-1 = position
-2 = static data
-3 = voyage</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:integer">
-									<xs:enumeration value="1"/>
-									<xs:enumeration value="2"/>
-									<xs:enumeration value="3"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="Field" use="required">
-							<xs:annotation>
-								<xs:documentation>Selected field. Can be 'all' or one of the items of object data PosReport, StaticData  or Voyage</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="Object" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:attribute name="FilterName" use="required">
-							<xs:annotation>
-								<xs:documentation>Name of the filter. The filter can be a predefined selector of the supplier. One of the predefined selectors will be 'all', others can defined here in the future</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="Notification">
-					<xs:complexType>
-						<xs:annotation>
-							<xs:documentation>Request transmission of notifications in this domain</xs:documentation>
-						</xs:annotation>
-						<xs:attribute name="S57Base" type="xs:boolean" use="optional"/>
-						<xs:attribute name="S57Update" type="xs:boolean" use="optional"/>
-						<xs:attribute name="XMLChart" type="xs:boolean" use="optional"/>
-						<xs:attribute name="HyMe" type="xs:boolean" use="optional"/>
-						<xs:attribute name="Messages" type="xs:boolean" use="optional"/>
-						<xs:attribute name="Forecast" type="xs:boolean" use="optional"/>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ServiceRequestResponse">
-		<xs:annotation>
-			<xs:documentation>DATA detailing the supliers response to the users service request</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="MsgId" use="required">
-				<xs:annotation>
-					<xs:documentation>Corresponds to the original MsgRefId from the ServiceRequest message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="36"/>
-						<xs:maxLength value="36"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Result" use="required">
-				<xs:annotation>
-					<xs:documentation>1 = Accepted 2 = Declined</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:enumeration value="1"/>
-						<xs:enumeration value="2"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Reason" use="optional">
-				<xs:annotation>
-					<xs:documentation>String describing reason for declining, only used when result is "Declined"</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="256"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Chart">
-		<xs:annotation>
-			<xs:documentation>DATA chart information</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="S57Chart" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>S57 Chart either base or update</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:attribute name="Name" use="required">
-							<xs:annotation>
-								<xs:documentation>Name of the chart</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="BaseChart" type="xs:boolean" use="required">
-							<xs:annotation>
-								<xs:documentation>Indication whether it is a base chart or an update</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-						<xs:attribute name="Data" type="xs:hexBinary" use="required">
-							<xs:annotation>
-								<xs:documentation>The actual chart</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="XMLChart" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>XML based chart</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Area" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element ref="Pos" minOccurs="3" maxOccurs="unbounded"/>
-									</xs:sequence>
-									<xs:attribute name="Name" use="optional">
-										<xs:annotation>
-											<xs:documentation>Name of the area</xs:documentation>
-										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:minLength value="1"/>
-												<xs:maxLength value="36"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-									<xs:attribute name="Color" use="optional">
-										<xs:annotation>
-											<xs:documentation>Color of the area in RGB</xs:documentation>
-										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:minLength value="6"/>
-												<xs:maxLength value="6"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-									<xs:attribute name="Fill" use="optional">
-										<xs:annotation>
-											<xs:documentation>Fill pattern of the area</xs:documentation>
-										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="xs:string">
-												<xs:enumeration value="dots"/>
-												<xs:enumeration value="plain"/>
-												<xs:enumeration value="horizontal"/>
-												<xs:enumeration value="vertical"/>
-												<xs:enumeration value="diagonal"/>
-												<xs:enumeration value="mesh"/>
-											</xs:restriction>
-										</xs:simpleType>
-									</xs:attribute>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-						<xs:attribute name="Name" use="required">
-							<xs:annotation>
-								<xs:documentation>Name of the chart</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="HyMe">
-		<xs:annotation>
-			<xs:documentation>DATA Hydro or Meteo information</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="Station" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>A station wih one or more hydrological or meteological sensors</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Reading" minOccurs="0" maxOccurs="unbounded">
-								<xs:annotation>
-									<xs:documentation>Reading from a hydrological or meteological sensor</xs:documentation>
-								</xs:annotation>
-								<xs:complexType>
-									<xs:attribute name="Id" type="xs:integer" use="optional">
-										<xs:annotation>
-											<xs:documentation>Identifier of the sensor</xs:documentation>
-										</xs:annotation>
-									</xs:attribute>
-									<xs:attribute name="Type" type="xs:integer" use="required">
-										<xs:annotation>
-											<xs:documentation>Type of sensor
-
-1 =   Wind Speed, [0..100] knots
-2 =   Wind Direction [0..360] degrees
-3	=	Wind Gust [0..12] beaufort
-4	=	Air Temperature [-10..40] celsius
-5 	=	Water Temperature [-10..40] celsius
-6 	=	Wave Height [0..150] meter
-7 	=	Wave Direction [0..360] degrees
-8	=	Wave Period [0..30] sec
-9 	=	Water Level [-20..20] meter
-10 = Current Speed [0..150] kmph
-11 =	Current Direction [0..360] degrees
-12 =	Humidity [0..100] percentage	
-13 =	Air Pressure [800..1100] mbar
-14 =	Visibility [0..10000] meter
-15 =	Precipitation [0..100] mmph</xs:documentation>
-										</xs:annotation>
-									</xs:attribute>
-									<xs:attribute name="Value" type="xs:decimal" use="required">
-										<xs:annotation>
-											<xs:documentation>Value of the reading</xs:documentation>
-										</xs:annotation>
-									</xs:attribute>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-						<xs:attribute name="Id" type="xs:integer" use="optional">
-							<xs:annotation>
-								<xs:documentation>Identifier of the station</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-						<xs:attribute name="Name" use="optional">
-							<xs:annotation>
-								<xs:documentation>Name of the station</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="Forecast" type="xs:boolean" use="required">
-							<xs:annotation>
-								<xs:documentation>indicates if this is a true measurement or a predicted forecast</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-						<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
-							<xs:annotation>
-								<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-						<xs:attribute name="Location" use="optional">
-							<xs:annotation>
-								<xs:documentation>Location of the station</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Message">
-		<xs:annotation>
-			<xs:documentation>DATA message sent from or to a user</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
-				<xs:annotation>
-					<xs:documentation>Date and time in (subset  of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="Priority" type="xs:integer" use="optional">
-				<xs:annotation>
-					<xs:documentation>The priority of this message, 1 beeing the most urgent</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="Origin" use="required">
-				<xs:annotation>
-					<xs:documentation>Name of the sender</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Destination" use="optional">
-				<xs:annotation>
-					<xs:documentation>Name of the destination, not available when broadcasting </xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Text" use="required">
-				<xs:annotation>
-					<xs:documentation>Actual text</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
