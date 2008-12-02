@@ -580,10 +580,16 @@ expressed in m</xs:documentation>
 								<xs:documentation>IMO number of the target</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
-						<xs:attribute name="Telephone" type="xs:integer" use="optional">
+						<xs:attribute name="Telephone" use="optional">
 							<xs:annotation>
 								<xs:documentation>Telephone number under which the target can be reached</xs:documentation>
 							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
 						</xs:attribute>
 						<xs:attribute name="SatCom" type="xs:integer" use="optional">
 							<xs:annotation>
