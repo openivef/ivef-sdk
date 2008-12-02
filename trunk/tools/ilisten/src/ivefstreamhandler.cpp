@@ -54,10 +54,12 @@ IVEFStreamHandler::~IVEFStreamHandler() {
     if (m_log != NULL)
         delete(m_log);
 
+#ifdef HAVE_ZLIB
     // cleanup compression
     if ( m_slipstream ) {
         inflateEnd(&m_strm);
     }
+#endif
 }
 
 void IVEFStreamHandler::displayError(QAbstractSocket::SocketError socketError) {
@@ -113,6 +115,7 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
     m_user = user;
     m_password = password;
 
+#ifdef HAVE_ZLIB
     // setup decompression mechanism
     // we cannot use Qt for decompression since we do not know where the chunk starts or ends.
     if ( m_slipstream ) {
@@ -125,6 +128,7 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
             std::cout << "iListen error initiating zlib stream" << std::endl;
         }
     }
+#endif
 
     // set a timer to check the bytes in/out every minte
     if ( m_statistics ) {
@@ -214,6 +218,7 @@ void IVEFStreamHandler::slotReadyRead() {
     m_buffer.append( newData );
     QString data;
 
+#ifdef HAVE_ZLIB
     if ( m_slipstream ) {
 
           // compress reasonable chunks at the time
@@ -269,7 +274,10 @@ void IVEFStreamHandler::slotReadyRead() {
               }
           }
 
-    } else {
+    }
+    else
+#endif // HAVE_ZLIB
+    {
        m_parser->parseXMLString(m_buffer, true);
        data = m_buffer;
     }

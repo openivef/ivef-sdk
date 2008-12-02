@@ -19,12 +19,17 @@
 #ifndef IVEFSTREAMHANDLER_H
 #define IVEFSTREAMHANDLER_H
 
+//#define HAVE_ZLIB
+
 #include <iostream>
 
 #include <QtCore>
 #include <QtXml>
 #include <QtNetwork>
+
+#ifdef HAVE_ZLIB
 #include "zlib.h"
+#endif
 
 #include "IVEFParser.h"
 
@@ -57,7 +62,9 @@ private:
     QString m_password;
 
     QByteArray m_buffer;
+#ifdef HAVE_ZLIB
     z_stream m_strm;
+#endif
     bool m_slipstream;
     bool m_statistics;
     long m_bytesIn;
