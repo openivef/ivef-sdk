@@ -196,6 +196,9 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 			QString value = atts.value(i);
 			obj->addKeyWithValue(key, value);
 		}
+	} else if (qName == "xs:choice") {
+		// ignore
+		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
 	} else if (qName == "xs:sequence") {
 		// ignore
 		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;

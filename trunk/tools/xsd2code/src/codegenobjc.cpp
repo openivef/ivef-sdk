@@ -344,7 +344,7 @@ void CodeGenObjC::go() {
 		    }
                     classFileOut <<    ")\n        return;";
                 }
-                if (attr->hasMin() && (attr->hasMax())) {
+                if (attr->hasMin() && (attr->hasMax()) && knownType(attr->type()) ) {
                      classFileOut << "\n    if (val < " << attr->min() << ")\n        return;";
                      classFileOut << "\n    if (val > " << attr->max() << ")\n        return;";
                 }
