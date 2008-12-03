@@ -198,7 +198,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 		}
 	} else if (qName == "xs:choice") {
 		// ignore
-		std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
 	} else if (qName == "xs:sequence") {
 		// ignore
 		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
@@ -228,6 +228,18 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
 	// pop elements previously been pushed
 	if (qName == "xs:attribute") {
 		m_attrStack.pop();
+	} else if (qName == "xs:choice") {
+                // this was a choice element which means all attributes are optional
+                XSDObject *obj = m_objStack.top();
+                //std::cout << QString("Choice for %1").arg(obj->name()).toLatin1().data() << std::endl;
+
+		for(int j=0; j < obj->attributes().size(); j++) {
+		    XSDAttribute *attr = obj->attributes().at(j);
+
+		    // it would be better to set a choice paramater and generate precicely one
+                    // but 0-x is a reasonable alternative
+                    attr->setRequired(false);
+		}
 	} else if (qName == "xs:documentation") {
 		XSDAttribute *attr = m_attrStack.top();
 		attr->setDocumentation(m_doc);

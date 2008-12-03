@@ -34,6 +34,10 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required) {
     //std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
 }
 
+void XSDAttribute::setRequired(bool req) {
+	m_required = req;
+}
+
 void XSDAttribute::setType(QString type) {
     //std::cout << QString("XSDAttribute %1: type: %2").arg(m_name, type).toLatin1().data() << std::endl;
 	m_type = type;

@@ -34,6 +34,7 @@ public:
         void setDigits(int length);
 	void setType(QString type);
 	void setUnbounded();
+	void setRequired(bool req);
 	void setDocumentation(QString doc);
 	void appendEnumeration(QString enum1);
 	QString name();
