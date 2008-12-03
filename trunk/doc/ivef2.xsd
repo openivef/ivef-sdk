@@ -1202,7 +1202,7 @@ expressed in m</xs:documentation>
 (UNECE CEFACT Trade Facilitation Recommendation No. 28 edition 2007)				</xs:documentation>
 								</xs:annotation>
 								<xs:complexType>
-									<xs:attribute name="Code-A" use="required">
+									<xs:attribute name="CodeA" use="required">
 										<xs:simpleType>
 											<xs:restriction base="xs:integer">
 												<xs:minInclusive value="0"/>
@@ -1210,7 +1210,7 @@ expressed in m</xs:documentation>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:attribute>
-									<xs:attribute name="Code-B" use="required">
+									<xs:attribute name="CodeB" use="required">
 										<xs:simpleType>
 											<xs:restriction base="xs:integer">
 												<xs:minInclusive value="0"/>
@@ -1822,12 +1822,12 @@ In case Object Class = vessel (2):
 						</xs:attribute>
 						<xs:attribute name="LoCode" use="optional">
 							<xs:annotation>
-								<xs:documentation>Waypoint name in UN/LOCODE</xs:documentation>
+								<xs:documentation>Waypoint name in UN/LOCODE optionally addended with local location code (e.g. BEANR0170100497 = Antwerp, HANSADOK 497)</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="5"/>
-									<xs:maxLength value="5"/>
+									<xs:maxLength value="15"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
