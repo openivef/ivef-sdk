@@ -112,7 +112,7 @@ void iListenApplication::printVesselData( MSG_VesselData obj ) {
            QString str = vessel.toString("");
    
            if ((m_filter == "") || (str.contains(m_filter))) { 
-                std::cout << str.toLatin1().data();
+                std::cout << str.toLatin1().data() << std::endl;
            }
        }
    }

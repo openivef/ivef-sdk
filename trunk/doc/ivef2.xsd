@@ -304,7 +304,7 @@
 				<xs:element name="Circle">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="Pos" minOccurs="1" maxOccurs="1"/>
+							<xs:element ref="Pos"/>
 						</xs:sequence>
 						<xs:attribute name="Range" type="xs:integer" use="required">
 							<xs:annotation>
@@ -1946,12 +1946,12 @@ In case Object Class = vessel (2):
 			</xs:attribute>
 			<xs:attribute name="DestCode" use="optional">
 				<xs:annotation>
-					<xs:documentation>Destination of the target (UN/LOCODE)</xs:documentation>
+					<xs:documentation>Destination of the target (UN/LOCODE)  optionally addended with local location code (e.g. BEANR0170100497 = Antwerp, HANSADOK 497)</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="5"/>
-						<xs:maxLength value="5"/>
+						<xs:maxLength value="15"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
