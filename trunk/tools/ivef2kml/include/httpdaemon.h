@@ -38,5 +38,8 @@ private slots:
     void discardClient();
 
 private:
+    void writeHeader(QTextStream &os);
+    void writeDescription(QTextStream &os, VesselData vessel);
+    void writeIcon(QTextStream &os, VesselData vessel);
     QMap<int, VesselData> *m_trackStore;
 };

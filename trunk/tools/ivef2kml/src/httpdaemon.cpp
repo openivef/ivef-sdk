@@ -26,29 +26,29 @@ void HttpDaemon::newConnection()
     emit newConnect();
 }
 
-void HttpDaemon::readClient()
-{
-    // This slot is called when the client sent data to the server. The
-    // server looks if it was a get request and sends a very simple HTML
-    // document back.
-    QTcpSocket* socket = (QTcpSocket*)sender();
-    if ( socket->canReadLine() ) {
-        QStringList tokens = QString(socket->readLine()).split( QRegExp("[ \r\n][ \r\n]*" ) );
-        if ( tokens[0] == "GET" ) {
-           QTextStream os( socket );
-           os.setCodec( QTextCodec::codecForName("UTF-8") );
-
-           // write the header
-           os << "HTTP/1.0 200 Ok\r\n"
+void HttpDaemon::writeHeader(QTextStream &os) {
+       // write the header
+       os << "HTTP/1.0 200 Ok\r\n"
                 "Content-Type: text/html; charset=\"utf-8\"\r\n"
                 "\r\n";
-           // write the content
-           os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
+       // write the content
+       os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
                   "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\r\n"
                   "<Document>\r\n";
+  
+       // add styles for all rotations
+       for (int i=0; i < 360; i+=10) {
+	   os <<  "<Style id=\"track_" << i << "\">\r\n<IconStyle>\r\n<Icon>\r\n"
+	          "  <href>http://ivef-sdk.googlecode.com/svn/trunk/tools/ivef2kml/image/track_" << i << ".png</href>\r\n"
+	          "</Icon>\r\n</IconStyle>\r\n</Style>\r\n";
+       }
+/*
+ 	   // a simple icon
 	   os <<  "<Style id=\"ivefDefault\">\r\n<IconStyle>\r\n<Icon>\r\n"
 	          "  <href>http://maps.google.com/mapfiles/kml/shapes/ferry.png</href>\r\n"
 	          "</Icon>\r\n</IconStyle>\r\n</Style>\r\n";
+
+           // icons based on sensor type
 	   os <<  "<Style id=\"ivefRadar\">\r\n<IconStyle>\r\n<Icon>\r\n"
 	          "  <href>http://maps.google.com/mapfiles/ms/micons/blue-dot.png</href>\r\n"
 	          "</Icon>\r\n</IconStyle>\r\n</Style>\r\n";
@@ -61,33 +61,13 @@ void HttpDaemon::readClient()
 	   os <<  "<Style id=\"ivefUnknown\">\r\n<IconStyle>\r\n<Icon>\r\n"
 	          "  <href>http://maps.google.com/mapfiles/ms/micons/red-dot.png</href>\r\n"
 	          "</Icon>\r\n</IconStyle>\r\n</Style>\r\n";
+
+*/
 	   os <<  "<Folder>\r\n"
 		  "  <name>IVEF Tracks</name>\r\n";
+}
 
-           std::cout << "Serving tracks: " << m_trackStore->count() << std::endl;
-           QMapIterator<int, VesselData> i(*m_trackStore);
-           while (i.hasNext()) {
-                i.next();
-                VesselData vessel = i.value();
-   
-                //QString str = vessel.toString("");
-                //std::cout << str.toLatin1().data() << std::endl;
-
-                os << "  <Placemark>\r\n"
-             	      "      <name>\r\n";
-            
-                if ( vessel.countOfStaticDatas() > 0) {
-                   StaticData plan = vessel.getStaticDataAt(0);
-                   if (plan.hasShipName()) {
-                      os << plan.getShipName();
-                   } else {
-                      os << plan.getId();
-                   }
-                } else {
-                      os << vessel.getPosReport().getId();
-                }
-                os << "</name>\r\n";
-
+void HttpDaemon::writeDescription(QTextStream &os, VesselData vessel) {
                 os << "<ExtendedData>\r\n";
                 os << "<Data name=\"PosReport.Id\"><value>" << vessel.getPosReport().getId() << "</value></Data>\r\n";
                 os << "<Data name=\"PosReport.SourceId\"><value>" << vessel.getPosReport().getSourceId() << "</value></Data>\r\n";
@@ -129,11 +109,72 @@ void HttpDaemon::readClient()
                    if (plan.hasDraught()) os << "<Data name=\"Voyage.Draught\"><value>" << plan.getDraught() << "</value></Data>\r\n";
 		}
                 os << "</ExtendedData>\r\n"; 
+}
 
+void HttpDaemon::writeIcon(QTextStream &os, VesselData vessel) {
+/*
+        // based on sensor type
+           QString style = "#ivefUnknown"; 
+		if (vessel.getPosReport().hasUpdSensorType()) {
+			switch(vessel.getPosReport().getUpdSensorType()) {
+			  case 1: style = "#ivefRadar"; break;
+			  case 2: style = "#ivefAIS"; break;
+			  case 3: style = "#ivefCombi"; break;
+			  default : style = "#ivefUnknown"; break;
+            }
+         }
+*/
+        QString style = "#track_"; // assume head up
+        if (vessel.getPosReport().hasOrientation()) {
+           style.append( QString::number( (((int)(vessel.getPosReport().getOrientation() / 10) )* 10) ) ); 
+        } else {
+           style.append("0");
+        }
 
-#define DRAW_AS_POINTS
-#ifdef DRAW_AS_POINTS
-		// display a s point 
+        os << "      <styleUrl>" << style << "</styleUrl>\r\n"; // should base icon on shiptype
+        
+}
+void HttpDaemon::readClient()
+{
+    // This slot is called when the client sent data to the server. The
+    // server looks if it was a get request and sends a very simple HTML
+    // document back.
+    QTcpSocket* socket = (QTcpSocket*)sender();
+    if ( socket->canReadLine() ) {
+        QStringList tokens = QString(socket->readLine()).split( QRegExp("[ \r\n][ \r\n]*" ) );
+        if ( tokens[0] == "GET" ) {
+           QTextStream os( socket );
+           os.setCodec( QTextCodec::codecForName("UTF-8") );
+
+           writeHeader(os);
+
+           std::cout << "Serving tracks: " << m_trackStore->count() << std::endl;
+           QMapIterator<int, VesselData> i(*m_trackStore);
+           while (i.hasNext()) {
+                i.next();
+                VesselData vessel = i.value();
+   
+                //QString str = vessel.toString("");
+                //std::cout << str.toLatin1().data() << std::endl;
+
+                os << "  <Placemark>\r\n"
+             	      "      <name>\r\n";
+            
+                if ( vessel.countOfStaticDatas() > 0) {
+                   StaticData plan = vessel.getStaticDataAt(0);
+                   if (plan.hasShipName()) {
+                      os << plan.getShipName();
+                   } else {
+                      os << plan.getId();
+                   }
+                } else {
+                      os << vessel.getPosReport().getId();
+                }
+                os << "</name>\r\n";
+
+                writeDescription(os, vessel);
+         
+		        // display a s point 
              	os << "      <Point>\r\n"
              	      "	        <coordinates>";
                 os << vessel.getPosReport().getPos().getLong();
@@ -141,66 +182,10 @@ void HttpDaemon::readClient()
                 os << vessel.getPosReport().getPos().getLat();
                 os << ",0</coordinates>\r\n" // should check for altitude
              	      "	     </Point>\r\n";
-#else
-		// display as polygon 
-                float lat = vessel.getPosReport().getPos().getLat();
-                float lon = vessel.getPosReport().getPos().getLong();
 
-		float HALF_WIDTH = 0.000353;
-                float HALF_HEIGHT = 0.000249;
-                float THIRD_HEIGTH = 0.000124; 
-                
-                if (vessel.getPosReport().hasLength() ) {
-                    float length = vessel.getPosReport().getLength();
-                    if (length < 10) 
-                      length = 10;
-
-                    HALF_HEIGHT *= length / 100; // is based on 100 meters
-                    THIRD_HEIGTH *= length / 100; // is based on 100 meters
-                }
-                if (vessel.getPosReport().hasBreadth() ) {
-                    float width = vessel.getPosReport().getBreadth();
-                    if (width < 10) 
-                      width = 10;
-
-                    HALF_WIDTH *= width / 100; // is based on 100 meters
-                }
-
-
-                os << "<Polygon> <tessellate>1</tessellate> <outerBoundaryIs> <LinearRing> <coordinates>";
-		if (vessel.getPosReport().hasOrientation() ) {
-                // add rotation
-                // x' = x cos f - y sin f
-		// y' = y cos f + x sin f
-
-		   float orient = vessel.getPosReport().getOrientation();
-		   os << (lon - HALF_WIDTH) << ", " << (lat - HALF_HEIGHT) << ", 0, "; // bottom left
-		   os << (lon + HALF_WIDTH) << ", " << (lat - HALF_HEIGHT) << ", 0, "; // bottom right
-		   os << (lon + HALF_WIDTH) << ", " << (lat + THIRD_HEIGTH) << ", 0, "; // mid right
-		   os << (lon) / sin(orient)<< ", " << (lat + HALF_HEIGHT) << ", 0, "; // mid top
-		   os << (lon - HALF_WIDTH) << ", " << (lat + THIRD_HEIGTH) << ", 0, "; // mid left
-                } else {
-		   os << (lon - HALF_WIDTH) << ", " << (lat - HALF_HEIGHT) << ", 0, "; // bottom left
-		   os << (lon + HALF_WIDTH) << ", " << (lat - HALF_HEIGHT) << ", 0, "; // bottom right
-		   os << (lon + HALF_WIDTH) << ", " << (lat + THIRD_HEIGTH) << ", 0, "; // mid right
-		   os << (lon) << ", " << (lat + HALF_HEIGHT) << ", 0, "; // mid top
-		   os << (lon - HALF_WIDTH) << ", " << (lat + THIRD_HEIGTH) << ", 0, "; // mid left
-                }
-
-                os << "</coordinates> </LinearRing> </outerBoundaryIs> </Polygon> ";
-#endif
-                QString style = "#ivefUnknown"; 
-		if (vessel.getPosReport().hasUpdSensorType()) {
-			switch(vessel.getPosReport().getUpdSensorType()) {
-			  case 1: style = "#ivefRadar"; break;
-			  case 2: style = "#ivefAIS"; break;
-			  case 3: style = "#ivefCombi"; break;
-			  default : style = "#ivefUnknown"; break;
-                        }
-                }
-                os << "      <styleUrl>" << style << "</styleUrl>\r\n" // should base icon on shiptype
-             	      "   </Placemark>\r\n";
-            }
+                writeIcon(os, vessel);
+                os << "   </Placemark>\r\n";
+        }
 	    os << " </Folder>\r\n"
                   "</Document>\r\n"
                   "</kml>\r\n";
