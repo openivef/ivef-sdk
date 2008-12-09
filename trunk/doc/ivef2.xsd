@@ -241,10 +241,16 @@
 								<xs:documentation>Indication whether it is a base chart or an update</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
-						<xs:attribute name="Data" type="xs:hexBinary" use="required">
+						<xs:attribute name="Url" use="required">
 							<xs:annotation>
-								<xs:documentation>The actual chart</xs:documentation>
+								<xs:documentation>The location of chart as url (RFC1738)</xs:documentation>
 							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="36"/>
+								</xs:restriction>
+							</xs:simpleType>
 						</xs:attribute>
 						<xs:attribute name="Name" use="required">
 							<xs:annotation>
