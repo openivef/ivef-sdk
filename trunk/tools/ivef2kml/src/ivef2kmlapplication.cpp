@@ -32,6 +32,7 @@ ivef2kmlApplication::ivef2kmlApplication( int & argc, char ** argv )
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "user",        "user name (default guest)." ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "password",    "password (default guest)." ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "version",     "show version information and exit." ) );
+    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "restamp",     "set the update time to the time received." ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "slipstream",  "use compression for the transmission." ) );
 
     // parse command line m_options
@@ -83,10 +84,50 @@ void ivef2kmlApplication::slotStart( void ) {
     port = 8080;
     m_options.getInteger( "httpport", port );
     m_server = new HttpDaemon(this, port, m_trackStore);
+
+    // make sure old tracks get cleaned up
+    QTimer *timer = new QTimer( 0 ); 
+    timer->setInterval( 10*1000 ); // check every x seconds
+    connect( timer, SIGNAL( timeout() ), this, SLOT( slotCleanUp() ) );
+    timer->start();
+
+}
+
+void ivef2kmlApplication::slotCleanUp( void ) {
+
+    QMapIterator<int, VesselData> i(*m_trackStore);
+    while (i.hasNext()) {
+         i.next();
+         VesselData vessel = i.value();
+
+         int timeOut = 60;
+         /*
+	 if (vessel.getPosReport().hasUpdSensorType()) {
+		switch(vessel.getPosReport().getUpdSensorType()) {
+		  case 1: timeOut = 6; break; // radar updates every 3 sec
+		  case 2: timeOut = 5*60; break; // AIS every 5 minutes
+		  case 3: timeOut = 6; break; // take radar
+		  default : timeOut = 6; break; // take radar
+		}
+         }
+         */
+         QDateTime updateTime = vessel.getPosReport().getUpdateTime();
+         QDateTime now = QDateTime::currentDateTime();
+         int age = updateTime.secsTo( now );
+         
+         if (age > timeOut ) {
+              m_trackStore->remove(vessel.getPosReport().getId());
+              std::cout << "Track: " << vessel.getPosReport().getId() << " has expired by secs: " << age;
+              std::cout << " time: " <<  vessel.getPosReport().getUpdateTime().toString("yyyy-MM-ddThh:mm:ss.zzz").toLatin1().data() << std::endl;
+         }
+    }
+
 }
             
 void ivef2kmlApplication::printVesselData( MSG_VesselData obj ) {
             
+    bool restamp = m_options.getBoolean( "restamp" );
+    QDateTime now = QDateTime::currentDateTime();
 
     for (int i=0; i < obj.getBody().countOfVesselDatas();i++) {
         VesselData vessel = obj.getBody().getVesselDataAt(i);
@@ -94,6 +135,11 @@ void ivef2kmlApplication::printVesselData( MSG_VesselData obj ) {
         if ( vessel.getPosReport().getLost() == "yes" ) {
         	m_trackStore->remove(vessel.getPosReport().getId());
         } else {
+                if (restamp) {
+                       PosReport pos = vessel.getPosReport();
+                       pos.setUpdateTime(now);
+                       vessel.setPosReport(pos);
+                }
         	m_trackStore->insert(vessel.getPosReport().getId(), vessel);
         }
     }
