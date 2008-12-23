@@ -19,7 +19,7 @@
 #ifndef IVEFSTREAMHANDLER_H
 #define IVEFSTREAMHANDLER_H
 
-//#define HAVE_ZLIB
+#define HAVE_ZLIB
 
 #include <iostream>
 

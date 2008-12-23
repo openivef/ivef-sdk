@@ -115,21 +115,6 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
     m_user = user;
     m_password = password;
 
-#ifdef HAVE_ZLIB
-    // setup decompression mechanism
-    // we cannot use Qt for decompression since we do not know where the chunk starts or ends.
-    if ( m_slipstream ) {
-        m_strm.zalloc = Z_NULL;
-        m_strm.zfree = Z_NULL;
-        m_strm.opaque = Z_NULL;
-        m_strm.avail_in = 0;
-        m_strm.next_in = Z_NULL;
-        if (inflateInit(&m_strm) != Z_OK) {
-            std::cout << "iListen error initiating zlib stream" << std::endl;
-        }
-    }
-#endif
-
     // set a timer to check the bytes in/out every minte
     if ( m_statistics ) {
         QTimer *timer = new QTimer(this);
@@ -220,9 +205,21 @@ void IVEFStreamHandler::slotReadyRead() {
 
 #ifdef HAVE_ZLIB
     if ( m_slipstream ) {
+        // setup decompression mechanism
+        // we cannot use Qt for decompression since we do not know where the chunk starts or ends.
+        if ( m_slipstream ) {
+            m_strm.zalloc = Z_NULL;
+            m_strm.zfree = Z_NULL;
+            m_strm.opaque = Z_NULL;
+            m_strm.avail_in = 0;
+            m_strm.next_in = Z_NULL;
+            if (inflateInit(&m_strm) != Z_OK) {
+                std::cout << "iListen error initiating zlib stream" << std::endl;
+            }
+        }
 
         // compress reasonable chunks at the time
-        if ( m_buffer.size() < 1670 ) {
+        if ( m_buffer.size() < 16382 ) {
             return;
         }
 
@@ -255,7 +252,7 @@ void IVEFStreamHandler::slotReadyRead() {
             dataUnCompressed.resize(uncompressedLen);
 
             // debug the efficiency
-            //std::cout << "Slipstream of " << compressedLen << " bytes, inflated to " << uncompressedLen << std::endl;
+            std::cout << "Slipstream of " << compressedLen << " bytes, inflated to " << uncompressedLen << std::endl;
 
             // parse the chunk
             //std::cout << "\n\n" << QString(dataUnCompressed).toLatin1().data() << "\n\n";
@@ -263,8 +260,10 @@ void IVEFStreamHandler::slotReadyRead() {
 
             // append the uncompressed data to the logging string
             data.append( dataUnCompressed );
-
-        } while (m_strm.avail_out == 0); // we used the entire output buffer, so there may be some input left
+          
+            // check if we used the entire output buffer, so there may be some input left
+            // which we can process in a second run
+        } while (ret == Z_OK && m_strm.avail_out == 0); 
 
         // in case compression is complete, we must close the decompressor
         // and re-initialize it for the next transfer
