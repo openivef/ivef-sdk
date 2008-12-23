@@ -1,4 +1,4 @@
-#Join the IVEF development
+==Join the IVEF development==
 
 We are always looking for new people to help us with the development of the IVEF standard. You can participate on various levels:
 
