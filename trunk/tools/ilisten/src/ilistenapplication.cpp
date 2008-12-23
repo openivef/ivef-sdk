@@ -27,7 +27,7 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
     // add default command line m_options
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "help",        "show this information and exit." ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "host",        "server ip nummer or hostname (default localhost)." ) );
-    m_options.append( CmdLineOption( CmdLineOption::INTEGER, "port",        "port for IVEF XML connection (default 8043)." ) );
+    m_options.append( CmdLineOption( CmdLineOption::INTEGER, "port",        "port for IVEF XML connection (default 8043 or 8044 for slipstream)." ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "user",        "user name (default guest)." ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "password",    "password (default guest)." ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "infile",      "read from file, presence negates host:port connection" ) );
@@ -67,9 +67,11 @@ void iListenApplication::slotStart( void ) {
     m_options.getText( "host", host );
 
     int port = 8043;
-    m_options.getInteger( "port", port );
-
     bool slipstream = m_options.getBoolean( "slipstream" );
+    if (slipstream) {
+        port = 8044;
+    }
+    m_options.getInteger( "port", port );
     bool statistics = m_options.getBoolean( "statistics" );
 
     QString user = "guest";
