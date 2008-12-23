@@ -2,8 +2,8 @@
 
 We are always looking for new people to help us with the development of the IVEF standard. You can participate on various levels:
 
-  * [http://code.google.com/p/ivef-sdk/issues/entry Tell] us your needs, so we know what to put in the interface for our common [goal]
-  * Develop documentation or code
+  * [http://code.google.com/p/ivef-sdk/issues/entry Tell] us your needs, so we know what to put in the interface for our common [Goal]
+  * Develop [Developing documentation] or [http://code.google.com/p/ivef-sdk/source/checkout code]
   * Test the [http://code.google.com/p/ivef-sdk/downloads/list SDK] on various platforms 
   * ....
 
