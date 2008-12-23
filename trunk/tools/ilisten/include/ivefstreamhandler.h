@@ -69,7 +69,7 @@ private:
     bool m_statistics;
     long m_bytesIn;
     long m_bytesOut;
-    
+
 
     Parser *m_parser;
 };

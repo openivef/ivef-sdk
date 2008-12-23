@@ -38,11 +38,11 @@ void IVEFFileHandler::readFiles(QStringList files) {
             std::cout << QString("iListen error opening file: %1").arg(files.at(i)).toLatin1().data() << std::endl;
             break;
         }
-                
+
         while (!file->atEnd()) {
             QString line = file->readLine();
             m_parser->parseXMLString(line, true);
-        }    
+        }
     }
 }
 

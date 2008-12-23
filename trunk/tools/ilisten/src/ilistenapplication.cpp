@@ -15,7 +15,7 @@
  *  Copyright 2008
  *
  */
- 
+
 #include <cstdlib>
 
 #include "ilistenapplication.h"
@@ -47,12 +47,12 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
         std::cout << "\n iListen 0.0.4\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
         std::exit(0);
     }
-            
+
     // setup the parser
     m_streamHandler = new IVEFStreamHandler(&m_parser);
     // and the printer
     connect( &m_parser, SIGNAL( signalMSG_VesselData(MSG_VesselData)), this, SLOT( printVesselData(MSG_VesselData) ));
-            
+
     // startup timer, to allow the event loop to start
     QTimer *timer = new QTimer( 0 ); // we leak one timer here, is acceptable
     timer->setInterval( 100 );
@@ -82,7 +82,7 @@ void iListenApplication::slotStart( void ) {
     if (m_options.getText("filteron", attr) && m_options.getText("filterval", val)) {
         m_filter = attr + " = " + val;
     } else {
-	m_filter = "";
+        m_filter = "";
     }
 
     QString fileName("");
@@ -100,20 +100,20 @@ void iListenApplication::slotStart( void ) {
         m_streamHandler->connectToServer(host, port, user, password, fileName, slipstream, statistics);
     }
 }
-            
+
 void iListenApplication::printVesselData( MSG_VesselData obj ) {
-            
-   //std::cout << "----------------------------------------\n";
 
-   if ( ! m_options.getBoolean( "silent" ) ) {
+    //std::cout << "----------------------------------------\n";
 
-       for (int i=0; i < obj.getBody().countOfVesselDatas();i++) {
-           VesselData vessel = obj.getBody().getVesselDataAt(i);
-           QString str = vessel.toString("");
-   
-           if ((m_filter == "") || (str.contains(m_filter))) { 
+    if ( ! m_options.getBoolean( "silent" ) ) {
+
+        for (int i=0; i < obj.getBody().countOfVesselDatas();i++) {
+            VesselData vessel = obj.getBody().getVesselDataAt(i);
+            QString str = vessel.toString("");
+
+            if ((m_filter == "") || (str.contains(m_filter))) {
                 std::cout << str.toLatin1().data() << std::endl;
-           }
-       }
-   }
+            }
+        }
+    }
 }
