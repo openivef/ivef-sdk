@@ -637,6 +637,71 @@ A area entering / leaving event is defined as the instant the geometrical centre
 			<xs:documentation>DATA message sent from or to a user</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Plain text message or a coded message, which uses a code to identify the message and optional arguments to pass along variable</xs:documentation>
+				</xs:annotation>
+				<xs:element name="CodedMessage">
+					<xs:annotation>
+						<xs:documentation>Message identified by a code and arguments, usefull for internationalization</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Argument" minOccurs="0" maxOccurs="10">
+								<xs:annotation>
+									<xs:documentation>Short description of the text</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="1024"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Code" use="required">
+							<xs:annotation>
+								<xs:documentation>Code of the message, meaning of the code and the need for additional parameters is  left free to the end user.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="32"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PlainMessage">
+					<xs:annotation>
+						<xs:documentation>Free format text message</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="Subject" use="optional">
+							<xs:annotation>
+								<xs:documentation>Short description of the text</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="1024"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Text" use="required">
+							<xs:annotation>
+								<xs:documentation>Actual text</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="1024"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
 			<xs:attribute name="Destination" use="optional">
 				<xs:annotation>
 					<xs:documentation>Name of the destination, not available when broadcasting </xs:documentation>
@@ -663,17 +728,6 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:annotation>
 					<xs:documentation>The priority of this message, 1 beeing the most urgent</xs:documentation>
 				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="Text" use="required">
-				<xs:annotation>
-					<xs:documentation>Actual text</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
 				<xs:annotation>
@@ -2080,13 +2134,14 @@ In case Object Class = vessel (2):
 			</xs:attribute>
 			<xs:attribute name="SourceType" use="required">
 				<xs:annotation>
-					<xs:documentation>Source/originator type: 1 = transponder 2 = database 3 = manual</xs:documentation>
+					<xs:documentation>Source/originator type: 1 = transponder, 2 = database, 3 = manual, 4 = other</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
 						<xs:enumeration value="1"/>
 						<xs:enumeration value="2"/>
 						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
