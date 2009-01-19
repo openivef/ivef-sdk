@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.iala.org/XMLSchema/IVEF/2.0" targetNamespace="urn:http://www.iala.org/XMLSchema/IVEF/2.0" elementFormDefault="qualified">
+<!--Edited with XMLSpy v2006 sp2 by Chris Lukassen-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ivef.org/XMLSchema/IVEF/2.0" targetNamespace="http://www.ivef.org/XMLSchema/IVEF/2.0" elementFormDefault="qualified">
 	<xs:element name="MSG_LoginRequest">
 		<xs:annotation>
 			<xs:documentation>MESSAGE sent by the user to identify oneselfs and request the default service</xs:documentation>
@@ -1625,6 +1625,16 @@ In case Object Class = vessel (2):
 						<xs:attribute name="MMSI" type="xs:integer" use="optional">
 							<xs:annotation>
 								<xs:documentation>MMSI number of the target</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Mode-3A" type="xs:integer" use="optional">
+							<xs:annotation>
+								<xs:documentation>Mode 3/A SSR Code, encoded as integer value (not octal)</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Mode-S" type="xs:integer" use="optional">
+							<xs:annotation>
+								<xs:documentation>Mode S 24 bit ICAO Code, encoded as integer value</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 						<xs:attribute name="SatCom" type="xs:integer" use="optional">
