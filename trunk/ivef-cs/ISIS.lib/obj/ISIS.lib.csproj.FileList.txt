@@ -1,5 +1,0 @@
-obj\Debug\ResolveAssemblyReference.cache
-bin\Debug\ISIS.lib.dll
-bin\Debug\ISIS.lib.pdb
-obj\Debug\ISIS.lib.dll
-obj\Debug\ISIS.lib.pdb
