@@ -34,17 +34,20 @@ testqt::testqt( int & argc, char ** argv )
     connect( &m_parser, SIGNAL( signalMSG_ServiceRequest(MSG_ServiceRequest)), this, SLOT( slotMSG_ServiceRequest(MSG_ServiceRequest)));
 
     // and keep reading from standard in
+    std::cout << "TestQt ready for input" << std::endl;
     std::string input_line;
-    while(std::cin) {
+    while(!std::cin.fail()) {
         getline(std::cin, input_line);
+        input_line += "\n"; // getline eats the new line
         //std::cout << input_line << std::endl;
         m_parser.parseXMLString(QString(input_line.c_str()), true);
     };
-
+    std::cout << "TestQt shutting down" << std::endl;
+    std::exit(0);
 }
 
 void testqt::slotMSG_VesselData( MSG_VesselData obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; } 
-void testqt::slotMSG_LoginRequest( MSG_LoginRequest obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_LoginRequest( MSG_LoginRequest obj ) { std::cout <<obj.toXML().toLatin1().data() << std::endl; }
 void testqt::slotMSG_LoginResponse( MSG_LoginResponse obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
 void testqt::slotMSG_Ping( MSG_Ping obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
 void testqt::slotMSG_Pong( MSG_Pong obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
