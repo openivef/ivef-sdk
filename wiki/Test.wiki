@@ -1,4 +1,4 @@
-= Framework =
+== Framework ==
 The test frame work is based on the following items:
 
   * An application linked to the library that:
@@ -15,6 +15,7 @@ The test frame work is based on the following items:
   ** With valid data for all possible paths *to be done*
   ** With invalid data for all possible paths *to be done*
 
+== Test Execution ==
 To execute the tests, build the test software and run the script in the tests directory. Below is the output of the tests of IVEF_0_1_0_RC2:
 
 {{{
