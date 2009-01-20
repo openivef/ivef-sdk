@@ -78,3 +78,6 @@ The following example shows the creating of a valid IVEF XML message, which can 
     QByteArray data = msg.toXML().toUtf8().trimmed();
     sendRawData(data); // send over a tcp socket
 }}}
+
+----
+[http://code.google.com/p/ivef-sdk/ Home]
