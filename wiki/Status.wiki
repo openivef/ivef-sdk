@@ -1,6 +1,6 @@
 #summary status of the various elements of the SDK
 
-==Version 0.1.0 Release candidate 1==
+==Version 0.1.0 Release candidate 2==
 ===IVEF Library===
   * Qt bindings (C++)   
   * Cocoa bindings (Objective-C) 
