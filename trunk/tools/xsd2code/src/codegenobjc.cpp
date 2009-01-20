@@ -465,6 +465,8 @@ void CodeGenObjC::go() {
                     varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%F\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
+                } else if (type == localType("xs:boolean")) {
+                    varName = "(" + variableName(attr->name()) + "?@\"yes\":@\"no\")";
                 } else if (type != localType("xs:string")) {
                     varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
                 }

@@ -414,6 +414,8 @@ void CodeGenQT::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "QDateTime") {
                     varName = variableName(attr->name()) + ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+                } else if (type == "bool" ) {
+                    varName = "QString(" + variableName(attr->name()) + " ? \"yes\" : \"no\" )";
                 } else if (type != "QString") {
                     varName = "QString::number(" + variableName(attr->name()) + ")";
                 }

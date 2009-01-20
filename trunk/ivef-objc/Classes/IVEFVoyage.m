@@ -193,12 +193,12 @@
             }
             else if ([key isEqualToString:@"ETA"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                NSDate *val = [m_dateFormatter dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
+                NSDate *val = [m_dateFormatter dateFromString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
                 [self setETA: val];
             }
             else if ([key isEqualToString:@"ATA"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                NSDate *val = [m_dateFormatter dateWithString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
+                NSDate *val = [m_dateFormatter dateFromString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
                 [self setATA: val];
             }
             else if ([key isEqualToString:@"AirDraught"]) {

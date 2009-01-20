@@ -748,14 +748,14 @@ bool Parser::parseXMLString(QString data, bool cont) {
      int index[8], indexMax = -1;
 
      // note that if a message does not exist the index will be equal to strlen(name\n) - 1 so indexMax is always > 0
-     index[0] = m_dataBuffer.lastIndexOf("</MSG_VesselData>\n") + strlen("</MSG_VesselData>\n");
-     index[1] = m_dataBuffer.lastIndexOf("</MSG_LoginRequest>\n") + strlen("</MSG_LoginRequest>\n");
-     index[2] = m_dataBuffer.lastIndexOf("</MSG_LoginResponse>\n") + strlen("</MSG_LoginResponse>\n");
-     index[3] = m_dataBuffer.lastIndexOf("</MSG_Ping>\n") + strlen("</MSG_Ping>\n");
-     index[4] = m_dataBuffer.lastIndexOf("</MSG_Pong>\n") + strlen("</MSG_Pong>\n");
-     index[5] = m_dataBuffer.lastIndexOf("</MSG_ServerStatus>\n") + strlen("</MSG_ServerStatus>\n");
-     index[6] = m_dataBuffer.lastIndexOf("</MSG_Logout>\n") + strlen("</MSG_Logout>\n");
-     index[7] = m_dataBuffer.lastIndexOf("</MSG_ServiceRequest>\n") + strlen("</MSG_ServiceRequest>\n");
+     index[0] = m_dataBuffer.lastIndexOf("</MSG_VesselData>") + strlen("</MSG_VesselData>");
+     index[1] = m_dataBuffer.lastIndexOf("</MSG_LoginRequest>") + strlen("</MSG_LoginRequest>");
+     index[2] = m_dataBuffer.lastIndexOf("</MSG_LoginResponse>") + strlen("</MSG_LoginResponse>");
+     index[3] = m_dataBuffer.lastIndexOf("</MSG_Ping>") + strlen("</MSG_Ping>");
+     index[4] = m_dataBuffer.lastIndexOf("</MSG_Pong>") + strlen("</MSG_Pong>");
+     index[5] = m_dataBuffer.lastIndexOf("</MSG_ServerStatus>") + strlen("</MSG_ServerStatus>");
+     index[6] = m_dataBuffer.lastIndexOf("</MSG_Logout>") + strlen("</MSG_Logout>");
+     index[7] = m_dataBuffer.lastIndexOf("</MSG_ServiceRequest>") + strlen("</MSG_ServiceRequest>");
      for (int i=0; i<8; i++) {
          if (index[i] > indexMax) {
              indexMax = index[i];

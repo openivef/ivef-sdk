@@ -21,7 +21,7 @@ QString Schema::getElementFormDefault() const {
 
 QString Schema::getTargetNamespace() const {
 
-    return "urn:http://www.hitt.nl/XMLSchema/ISIS/1.1";
+    return "urn:http://www.ivef.org/XMLSchema/IVEF/1.1";
 }
 
 QString Schema::toXML() {

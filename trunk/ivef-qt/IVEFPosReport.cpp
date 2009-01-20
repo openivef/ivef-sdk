@@ -330,7 +330,7 @@ QString PosReport::toXML() {
         xml.append(" UpdSensorType=\"" + QString::number(m_updSensorType) + "\"");
     }
     if ( hasATONOffPos() ) {
-        xml.append(" ATONOffPos=\"" + QString::number(m_ATONOffPos) + "\"");
+        xml.append(" ATONOffPos=\"" + QString(m_ATONOffPos ? "yes" : "no" ) + "\"");
     }
     xml.append(">\n");
     xml.append( m_pos.toXML() );

@@ -395,7 +395,7 @@
     }
     if ( [self hasATONOffPos] ) {
         [xml appendString: @" ATONOffPos=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_ATONOffPos]];
+        [xml appendString: (m_ATONOffPos?@"yes":@"no")];
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];
