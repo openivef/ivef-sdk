@@ -55,3 +55,7 @@ lukassen@andromeda:~/develop/ivef-sdk/trunk/tools/testqt/tests>
 }}}
 
 Note that for RC3 an additional test was created to test both paths of the boolean setting, this is the policy for every bug. First create a test that fails, fix the bug, and use the test to verify your work.
+
+
+----
+[http://code.google.com/p/ivef-sdk/ Home] [Contents]
