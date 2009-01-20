@@ -36,5 +36,11 @@ iListen is short for "IVEF Listener". This is a simple example of a user program
 
 You can check out the [http://code.google.com/p/ivef-sdk/wiki/Developer Developer] page on how to [http://code.google.com/p/ivef-sdk/wiki/Building Build] the software or its [http://code.google.com/p/ivef-sdk/wiki/Usage Usage] or [http://code.google.com/p/ivef-sdk/downloads/list download] a pre-compiled executable. Current status is beta.
 
+===ivef2kml===
+An example that can connect to an IVEF source, similar as iListen, and convert incomming data to Google's KML format. The format is offered as a webservice, which allows applications as Google Earth and Google Maps to connect directy to a IVEF source.
+
 === iSim===
 A ship simulator that generates objects (randomly) and outputs them in the IVEF format. This is designed as a coding example of the server side, but also serves as an excellent test tool. (Currently in alpha)
+
+----
+[http://code.google.com/p/ivef-sdk/ Home]
