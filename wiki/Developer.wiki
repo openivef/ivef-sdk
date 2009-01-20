@@ -22,3 +22,7 @@ Kernighan & Ritchie style formatting/indenting is used, and ensured by running *
 
 =Building=
 There's an entire page devoted to [http://code.google.com/p/ivef-sdk/wiki/Building building] the software
+
+
+----
+[http://code.google.com/p/ivef-sdk/ Home] [Contents]
