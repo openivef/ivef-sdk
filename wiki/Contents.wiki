@@ -5,6 +5,8 @@ The IVEF SDK consists of various modules and example programs.
 ==Documentation==
 In the documentation section you can find the XSD schemes that define the interface. The XSD is also available as a pdf [http://ivef-sdk.googlecode.com/files/ivef1.pdf document]
 
+We use a version number based on *major.minor.path* patch releases fix only bugs, minor releases are compatible with minor effort, major releases contain complete overhauls. We have created a page with [Usefull SVN Commands]
+
 ==IVEF Library==
 Available in various programming [languages] and for various platforms
 
@@ -24,6 +26,9 @@ The generated classes are half of the story. You will still need to obey the seq
 
 ===tests===
 The library comes with a simple automated [Test] enviroment which is used to test if the library performs as it should. The [Test] framework is available for the Qt version of the library, but can easily be ported to the other libaries as well.
+
+=== astyle===
+Coding style is enforced with the help of *astyle --style=kr*
 
 ==Examples==
 ===iListen===
