@@ -1,0 +1,10 @@
+This file contains a list of people who contributed code 
+to ivef-sdk.
+
+design & implementation:
+   Chris Lukassen <chris.lukassen@gmail.com>
+
+design & implementation @ HITT office:
+   Harry ten Berge <htenberge@gmail.com>
+   Kees van Dongen <kees.dongen@gmail.com>
+   Richard Jonker

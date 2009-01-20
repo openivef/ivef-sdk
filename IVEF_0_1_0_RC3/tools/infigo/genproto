@@ -1,0 +1,3 @@
+../xsd2code/bin/xsd2code --file=../../doc/msg_xmlschema.xsd --proto --prefix=IVEF --out=.
+../protobuf-2.0.0beta/src/protoc IVEF.proto --cpp_out=.
+
