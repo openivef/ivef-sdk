@@ -1,12 +1,12 @@
   * SDK [Goal] [join] [Contents] [Status] [languages]
-  ** Bindings [Developing]
-  *** Qt [TrollTech]
-  ** [examples]
-  *** iListen [Building] [CmdLineOption] [Developer] [Usage]
-  ** Tools
-  *** [Test]
-  ** House rules
-  *** [Usefull]
+    * Bindings [Developing]
+       * Qt [TrollTech]
+    * [examples]
+      * iListen [Building] [CmdLineOption] [Developer] [Usage]
+    * Tools
+      * [Test]
+    * House rules
+      * [Usefull]
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
