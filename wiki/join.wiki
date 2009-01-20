@@ -8,3 +8,5 @@ We are always looking for new people to help us with the development of the IVEF
   * ....
 
 See [http://code.google.com/p/support/wiki/HowToJoinAProject] for more information
+
+[http://code.google.com/p/ivef-sdk/ Home]
