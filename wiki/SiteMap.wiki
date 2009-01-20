@@ -1,4 +1,3 @@
-
   * SDK [Goal] [join] [Contents] [Status] [languages]
   ** Bindings [Developing]
   *** Qt [TrollTech]
@@ -8,4 +7,6 @@
   *** [Test]
   ** House rules
   *** [Usefull]
-[Schema]
+
+----
+[http://code.google.com/p/ivef-sdk/ Home]
