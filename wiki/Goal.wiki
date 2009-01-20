@@ -3,4 +3,5 @@ The purpose of the project is to provide potential users of the IVEF format with
 
 IVEF stands for "Inter VTS Exchange Format". This is an ongoing standardization effort for the exchange of information between VTS centres. This information consists of real-time tracking positions, static vessel information and voyage related information. The final version of the standard is likely to incorporate hydrological and meteological data as well as e.g. chart updates.
 
+----
 [http://code.google.com/p/ivef-sdk/ Home]
