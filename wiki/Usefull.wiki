@@ -26,3 +26,6 @@ Note that major and minor tagging als requires the making of a branch
 or (for a patch in the 0_1 branch)
 
   svn copy https://ivef-sdk.googlecode.com/svn/branches/IVEF_0_1_RELEASE https://ivef-sdk.googlecode.com/svn/tags/IVEF_0_1_3
+
+----
+[http://code.google.com/p/ivef-sdk/ Home] [Contents]
