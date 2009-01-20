@@ -3,7 +3,7 @@ TestQt ready for input
 <Header Version="String" MsgRefId="String">
 </Header>
 <Body>
-<LoginRequest Name="String" Password="String" Encryption="48">
+<LoginRequest Name="String" Password="String" Encryption="2">
 </LoginRequest>
 </Body>
 </MSG_LoginRequest>

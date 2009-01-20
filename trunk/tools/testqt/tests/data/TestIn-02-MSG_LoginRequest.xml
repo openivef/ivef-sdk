@@ -2,6 +2,6 @@
 \\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
 	<Header MsgRefId="String" Version="String"/>
 	<Body>
-		<LoginRequest Encryption="0" Name="String" Password="String"/>
+		<LoginRequest Encryption="2" Name="String" Password="String"/>
 	</Body>
 </MSG_LoginRequest>
