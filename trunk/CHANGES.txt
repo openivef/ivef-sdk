@@ -1,3 +1,0 @@
-2008-11-08 version 0.1.0RC1:
-
-   * first release candidate.
