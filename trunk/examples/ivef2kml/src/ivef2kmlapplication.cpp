@@ -40,7 +40,7 @@ ivef2kmlApplication::ivef2kmlApplication( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n ivef2kml 0.0.1\n----------------------------------------\n\n an example implementation for an IVEF bridge to KML.\n\n Copyright 2008\n"  << std::endl;
+        std::cout << "\n ivef2kml 0.1.0\n----------------------------------------\n\n an example implementation for an IVEF bridge to KML.\n\n Copyright 2009\n"  << std::endl;
         std::exit(0);
     }
             

@@ -44,7 +44,7 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n iListen 0.0.4\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2008\n"  << std::endl;
+        std::cout << "\n iListen 0.1.0\n----------------------------------------\n\n an example implementation for an IVEF Listener (hence iListen).\n\n Copyright 2009\n"  << std::endl;
         std::exit(0);
     }
 

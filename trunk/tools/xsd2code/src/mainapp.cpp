@@ -43,7 +43,7 @@ MainApp::MainApp( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n xsd2code 0.0.2\n----------------------------------------\n\nCopyright 2008\n"  << std::endl;
+        std::cout << "\n xsd2code 0.1.0\n----------------------------------------\n\nCopyright 2009\n"  << std::endl;
         std::exit(0);
     }
 
