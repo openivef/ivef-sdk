@@ -1,18 +1,15 @@
 #summary status of the various elements of the SDK
 
-==Version 0.1.0 Release candidate 3==
+==Version 0.1.0==
 ===IVEF Library===
   * Qt bindings (C++)   
   * Cocoa bindings (Objective-C) 
   * Java bindings
 
-Released and compiles on Windows, Linux and Mac OS X.  Click on Source and follow the instructions to use SVN and obtain the source. The Objective-C bindings are also available as installable framework in the download section.
+Released and compiles on Windows, Linux and Mac OS X.  Click on Source and follow the instructions to use SVN and obtain the source. 
 
 ===Examples===
-To demonstrate the capability of the library, iListen has been released which demonstrates the core capabilities. This is also available for download as a static compiled  executable for windows. 
-
-==Not yet released==
-The SDK with C# bindings is currently in alpha.
+To demonstrate the capability of the library, several examples has been released which demonstrates the core capabilities.  
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
