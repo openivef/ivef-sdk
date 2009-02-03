@@ -6,7 +6,7 @@
     * Tools
       * [Test]
     * House rules
-      * [Usefull]
+      * [Usefull] SVN commands
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
