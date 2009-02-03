@@ -1,0 +1,7 @@
+This file contains a list of people who contributed code 
+to ivef-sdk.
+
+initial design & implementation:
+   Chris Lukassen <chris.lukassen@gmail.com>
+
+
