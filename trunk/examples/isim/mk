@@ -19,10 +19,10 @@ mv /tmp/xxxxVersion.java src/isim/Version.java
 # compile the code
 #
 
-echo Building library
-#javac  -source 1.4 -classpath classes -d classes src/luky/*java src/luky/*/*java
+echo Building Support library
+javac  -source 1.4 -classpath classes -d classes src/luky/*java src/luky/*/*java
 echo Building ZLIB
-#javac  -source 1.4 -classpath classes -d classes src/com/jcraft/jzlib/*java
+javac  -source 1.4 -classpath classes -d classes src/com/jcraft/jzlib/*java
 echo Building Applications
 javac -Xlint -source 1.4 -classpath classes:../../ivef-java/ivef/ivef.jar -d classes src/isim/*java src/isim/*/*java
 echo Building ZIP Examples

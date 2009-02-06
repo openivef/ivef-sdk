@@ -80,6 +80,7 @@ public class Handler extends Thread implements ivef.ParserListener {
         this.out = out;
         this.parent = parent;
         this.propsMan = propsMan;
+        this.parser = new Parser(this);
         // only local users are rootUsers
         if (caller.substring(0, 7).equals("192.168")
                 || caller.substring(0, 9).equals("127.0.0.1")) {
@@ -168,13 +169,99 @@ public class Handler extends Thread implements ivef.ParserListener {
         return OK;
     }
 
-    public void handleMSG_VesselData(MSG_VesselData obj) {};
-    public void handleMSG_LoginRequest(MSG_LoginRequest obj){};
-    public void handleMSG_LoginResponse(MSG_LoginResponse obj){};
-    public void handleMSG_Ping(MSG_Ping obj){};
-    public void handleMSG_Pong(MSG_Pong obj){};
-    public void handleMSG_ServerStatus(MSG_ServerStatus obj){};
-    public void handleMSG_Logout(MSG_Logout obj){};
-    public void handleMSG_ServiceRequest(MSG_ServiceRequest obj){};
+    /**************************************************************************/
+    public void handleMSG_VesselData(MSG_VesselData obj) {
+        Log.print(Log.DEBUG, "Handler.handleMSG_VesselData Received vesseldata, did not expect that..");
+    };
+
+    /**************************************************************************/
+    public void handleMSG_LoginRequest(MSG_LoginRequest obj){
+        Log.print(Log.DEBUG, "Handler.handleMSG_LoginRequest Received LoginRequest, Sending Reply..");
+        sendLoginResponse(obj);
+    };
+
+    /**************************************************************************/
+    public void handleMSG_LoginResponse(MSG_LoginResponse obj){
+        Log.print(Log.DEBUG, "Handler.handleMSG_LoginResponse Received Login Response, did not expect that..");
+    };
+
+    /**************************************************************************/
+    public void handleMSG_Ping(MSG_Ping obj){
+        Log.print(Log.DEBUG, "Handler.handleMSG_Ping Received Ping, did not expect that..");
+    };
+
+    /**************************************************************************/
+    public void handleMSG_Pong(MSG_Pong obj){
+        Log.print(Log.DEBUG, "Handler.handleMSG_Pong Received Pong..");
+        // could check if it matches the pings we send out
+    };
+
+    /**************************************************************************/
+    public void handleMSG_ServerStatus(MSG_ServerStatus obj){
+        Log.print(Log.DEBUG, "Handler.handleMSG_ServerStatus Received Server Status, did not expect that..");
+    };
+
+    /**************************************************************************/
+    public void handleMSG_Logout(MSG_Logout obj){
+        Log.print(Log.DEBUG, "Handler.handleMSG_Logout Received Logout, disconnecting..");
+        destroy(in, out);
+    };
+
+    /**************************************************************************/
+    public void handleMSG_ServiceRequest(MSG_ServiceRequest obj){
+        Log.print(Log.DEBUG, "Handler.handleMSG_ServiceRequest Received Service Request..");
+        sendSeverStatus(obj);
+    };
     
+    /**************************************************************************/
+    public Header newHeader() {
+         // every message has a header
+        Header header = new Header();
+        header.setMsgRefId("{"+UUID.randomUUID().toString()+"}");
+        header.setVersion("1.0");
+        return header;
+    }
+    
+    /**************************************************************************/
+    public void sendLoginResponse(MSG_LoginRequest obj) {
+    
+        // create a message
+        MSG_LoginResponse msg = new MSG_LoginResponse();
+        msg.setHeader(newHeader());
+
+        // and a body with the request
+        Body body = new Body();
+        LoginResponse data = new LoginResponse();
+        data.setMsgId(obj.getHeader().getMsgRefId());
+        data.setResult(1); // allways succesfull login
+        data.setReason("Because we love you"); 
+        body.setLoginResponse(data);
+        msg.setBody(body);
+
+        // output the message 
+        Log.print(Log.DEBUG, "Handler.sendLoginResponse Sending: "+msg.toXML());
+        out.println(msg.toXML());
+        out.flush();
+    };
+    
+    /**************************************************************************/
+    public void sendSeverStatus(MSG_ServiceRequest obj) {
+    
+        // create a message
+        MSG_ServerStatus msg = new MSG_ServerStatus();
+        msg.setHeader(newHeader());
+
+        // and a body with the request
+        Body body = new Body();
+        ServerStatus data = new ServerStatus();
+        data.setStatus("Operational");
+        data.setDetails("We are really enjoying ourselfs here");
+        body.setServerStatus(data);
+        msg.setBody(body);
+
+        // output the message 
+        Log.print(Log.DEBUG, "Handler.sendSeverStatus Sending: "+msg.toXML());
+        out.println(msg.toXML());
+        out.flush();
+    };
 }

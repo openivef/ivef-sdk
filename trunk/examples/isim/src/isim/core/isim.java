@@ -28,7 +28,7 @@ import isim.core.*;
  * <br>
  * [-p] <port>         - port number <br>
  * [-l] <loglevel>     - debug logging level<br>
- * -c   <sim file>  - simulation file
+ * -s   <sim file>  - simulation file
  * [-q] 	       - quiet mode
  * <br><br>
  * The sim file has the syntax as specified in ivef, intermediates will be prediced lineairly<br> <br>
@@ -54,7 +54,7 @@ public class isim {
      ***************************************************************************/
     private static int PORT = 0;
     private static int LOGLEVEL = 1;
-    private static int CONFIGFILE = 2;
+    private static int SIMFILE = 2;
     private static int QUIET = 3;
     private static int LAST_OPTION = 4;
 
@@ -78,12 +78,12 @@ public class isim {
         // Take care of getting options
         // ------------------------------
 
-        String usage = "isim [-p port] [-q]  [-l loglevel] -c simfile ";
-        String options[] = { "-p", "-l", "-c", "-q" };
+        String usage = "isim [-p port] [-q]  [-l loglevel] [-s simfile] ";
+        String options[] = { "-p", "-l", "-s", "-q" };
         String values[] = { null, null, null, "None" };
 
-        String config = "";
-        int port = 60003;
+        String simfile = "";
+        int port = 60000;
         boolean log = false;
         boolean quiet = false;
         int logLevel = 0;
@@ -126,24 +126,19 @@ public class isim {
                 quiet = true; // server is always quiet, -q now used for screenlog
                 Log.setOutput(Log.SCREEN, true);
                 props.setProperty("LogToScreen", "true");
-
             }
 
-            if (values[CONFIGFILE] != null) {
-                config = values[CONFIGFILE];
-                Log.print(Log.DEBUG, "isim.main using config file " + config);
-                props.readFile(config);
-            } else {
-                System.out.println("No config file");
-                System.err.println(usage);
-                System.exit(1);
-            }
+            if (values[SIMFILE] != null) {
+                simfile = values[SIMFILE];
+                Log.print(Log.DEBUG, "isim.main using simfile " + simfile);
+                // do something  with it
+            } 
 
             if (values[PORT] != null) { 
                 port = (Integer.parseInt(values[PORT]));
             }
 
-            Log.print(Log.DEBUG, "isim.main using SNMP port " + port);
+            Log.print(Log.DEBUG, "isim.main using port " + port);
 
         } catch (NumberFormatException ex) {
             System.err.println("Invalid Integer Arg");
@@ -165,11 +160,9 @@ public class isim {
         if (logBackupFileName != null) { // is there a filename ?
             logBackupFileName = logFileName + ".bak";
         }
-        int maxSize = props.getIntProperty("LogMaxFileSize");
-
-        if (maxSize < 1) {
-            maxSize = 100000;
-        }
+        
+        int maxSize = 100000;
+ 
         if (logFileName != null) { // is there a filename ?
             Log.print(Log.DEBUG, "isim.main logging to " + logFileName);
             if (Log.setFile(logFileName, true, logBackupFileName, maxSize)
