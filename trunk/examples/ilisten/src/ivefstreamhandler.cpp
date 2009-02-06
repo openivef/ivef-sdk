@@ -166,7 +166,7 @@ void IVEFStreamHandler::slotConnected() {
     // log
     //std::cout << msg.toXML().toLatin1().data() << std::endl;
 
-    QByteArray data = msg.toXML().toUtf8().trimmed();
+    QByteArray data = msg.toXML().toUtf8();
     sendRawData(data);
 }
 
