@@ -16,11 +16,13 @@
  *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  ******************************************************************************/
 
-package isim.core; 
+package isim.core;
 
-
+import java.io.*;
+import java.util.*;
 import luky.util.*;
 import isim.core.*;
+import ivef.*;
 
 
 /***************************************************************************
@@ -45,7 +47,7 @@ public class isim {
     /***************************************************************************
      variables
      ***************************************************************************/
-    
+
     /** the holder of all settings of the Server */
     protected PropertyManager propsMan = null;
 
@@ -66,6 +68,7 @@ public class isim {
         // prepare logging
         Log.setOutput(Log.SCREEN, false);
         Log.setLogFallBack(false);
+
     }
 
     /**************************************************************************
@@ -87,6 +90,7 @@ public class isim {
         boolean log = false;
         boolean quiet = false;
         int logLevel = 0;
+        ScenarioReader scenarioReader = new ScenarioReader();
         PropertyManager props = new PropertyManager();
 
         props.setProperty("LogToScreen", "false");
@@ -95,7 +99,7 @@ public class isim {
 
         if (opt.remArgs.length != 0) {
             System.out.println(
-                    "isim.main error parsing args " + opt.remArgs.length);
+                "isim.main error parsing args " + opt.remArgs.length);
             opt.usage_error();
         }
 
@@ -104,8 +108,8 @@ public class isim {
         // System.out.println(options[i]+" = "+values[i]);
         // }
 
-        try { 
-        
+        try {
+
             if (values[LOGLEVEL] != null) {
                 Log.setModuleName("isim");
                 log = true;
@@ -119,7 +123,7 @@ public class isim {
             }
 
             if ((values[QUIET] != null) && (!(values[QUIET].equals("None")))) {
-                quiet = true;	
+                quiet = true;
                 Log.setOutput(Log.SCREEN, false);
                 props.setProperty("LogToScreen", "false");
             } else {
@@ -131,10 +135,33 @@ public class isim {
             if (values[SIMFILE] != null) {
                 simfile = values[SIMFILE];
                 Log.print(Log.DEBUG, "isim.main using simfile " + simfile);
-                // do something  with it
-            } 
+                // try to read the file and create an array of updates
+                try {
+                    // Open the file
+                    FileInputStream fstream = new FileInputStream(simfile);
+                    DataInputStream in = new DataInputStream(fstream);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
-            if (values[PORT] != null) { 
+                    String strLine;
+                    ivef.Parser parser = new ivef.Parser(scenarioReader);
+
+                    //Read File Line By Line
+                    while ((strLine = br.readLine()) != null)   {
+                        //System.out.println (strLine);
+                        if (!strLine.equals("<xml>\n")) {   // ilisten makes logfiles that start with <xml> but do not end with it
+                            parser.parseXMLString(strLine, true);
+                        }
+                    }
+
+                    //Close the input stream
+                    in.close();
+                } catch (Exception e) {//Catch exception if any
+                    Log.print(Log.FATAL, "isim.main Error: " + e.getMessage());
+                }
+                Log.print(Log.DEBUG, "isim.main read " + scenarioReader.getMovements().size() + " movements");
+            }
+
+            if (values[PORT] != null) {
                 port = (Integer.parseInt(values[PORT]));
             }
 
@@ -150,19 +177,20 @@ public class isim {
 
         // don't use the servers logging
         props.setProperty("LogToFile", "false");
+        props.setProperty("LogToDatabase", "false");
         props.setProperty("LogToScreen", "false");
         props.setProperty("Port", "" + port);
 
-        // activate the logging 
+        // activate the logging
         String logFileName = props.getProperty("LogFileName");
         String logBackupFileName = props.getProperty("LogBackupFileName");
 
         if (logBackupFileName != null) { // is there a filename ?
             logBackupFileName = logFileName + ".bak";
         }
-        
+
         int maxSize = 100000;
- 
+
         if (logFileName != null) { // is there a filename ?
             Log.print(Log.DEBUG, "isim.main logging to " + logFileName);
             if (Log.setFile(logFileName, true, logBackupFileName, maxSize)
@@ -171,14 +199,14 @@ public class isim {
             }
             Log.setOutput(Log.FILE, true); // log to file
         }
-  
+
         // ------------------------------
-        // the isim server 
+        // the isim server
         // ------------------------------
         // we need to instantiate a server for the client handling
 
-        Server server = new Server(log, logLevel, props, quiet);
- 
+        Server server = new Server(log, logLevel, props, quiet, scenarioReader.getMovements());
+
         Log.print(Log.DEBUG, "isim.main starting at port " + port);
         server.start();
     }
@@ -195,7 +223,7 @@ public class isim {
             temp = (byte) Integer.parseInt(str, 16);
             Key[i / 2] = temp;
         }
-        return Key;    
+        return Key;
     }
 
 }

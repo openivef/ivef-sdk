@@ -55,16 +55,18 @@ public class Server extends Thread implements MyEventListener {
      ***************************************************************************/
     private int OK = Constants.OK;
     private int NOK = Constants.NOK;
- 
+
     /**************************************************************************
      * constructor, pass the arguments of the server here,
      **************************************************************************/
-    public Server(boolean log, int logLevel,  PropertyManager props, boolean _quiet) {
+    public Server(boolean log, int logLevel,  PropertyManager props, boolean _quiet, Vector movements) {
         int i = 0;
         String level = null;
 
         // use the parameters
         quiet = _quiet;
+        userData = new Hashtable();
+        userData.put("Movements", movements);
 
         // show them who we are
         println("\n" + version);
@@ -114,11 +116,11 @@ public class Server extends Thread implements MyEventListener {
         quit = status;
     }
 
-     /**************************************************************************
-     * getPropsMan() will return the property manager of this server. It is the
-     * same object that is also passed to the handlers.
-     * @return propsMan
-     **************************************************************************/
+    /**************************************************************************
+    * getPropsMan() will return the property manager of this server. It is the
+    * same object that is also passed to the handlers.
+    * @return propsMan
+    **************************************************************************/
     public PropertyManager getPropsMan() {
         return propsMan;
     }
@@ -151,17 +153,17 @@ public class Server extends Thread implements MyEventListener {
         myHandlers.remove(handler);
     }
 
-     /**************************************************************************/
+    /**************************************************************************/
     private int startLogging() {
         // set module name
-        Log.setModuleName(version + ",");
+        Log.setModuleName("Server");
 
         // is there any output device ?
         String screenLog = propsMan.getProperty("LogToScreen");
 
         if (screenLog == null) {
             Log.print(Log.WARNING,
-                    "Server.startLogging " + "LogToScreen should be set");
+                      "Server.startLogging " + "LogToScreen should be set");
             screenLog = "FALSE";
         }
 
@@ -170,8 +172,8 @@ public class Server extends Thread implements MyEventListener {
         // is the parameter valid ?
         if (!screenLog.equals("FALSE") && !screenLog.equals("TRUE")) {
             Log.print(Log.FATAL,
-                    "Server.startLogging "
-                    + "LogToScreen can only be true/false " + screenLog);
+                      "Server.startLogging "
+                      + "LogToScreen can only be true/false " + screenLog);
             return NOK;
         }
 
@@ -179,7 +181,7 @@ public class Server extends Thread implements MyEventListener {
 
         if (fileLog == null) {
             Log.print(Log.WARNING,
-                    "Server.startLogging " + "LogToFile should be set");
+                      "Server.startLogging " + "LogToFile should be set");
             fileLog = "FALSE";
         }
 
@@ -188,8 +190,8 @@ public class Server extends Thread implements MyEventListener {
         // is the parameter valid ?
         if (!fileLog.equals("FALSE") && !fileLog.equals("TRUE")) {
             Log.print(Log.FATAL,
-                    "Server.startLogging " + "LogToFile can only be true/false "
-                    + fileLog);
+                      "Server.startLogging " + "LogToFile can only be true/false "
+                      + fileLog);
             return NOK;
         }
 
@@ -197,7 +199,7 @@ public class Server extends Thread implements MyEventListener {
 
         if (dbLog == null) {
             Log.print(Log.WARNING,
-                    "Server.startLogging " + "LogToDatabase should be set");
+                      "Server.startLogging " + "LogToDatabase should be set");
             dbLog = "FALSE";
         }
 
@@ -206,8 +208,8 @@ public class Server extends Thread implements MyEventListener {
         // is the parameter valid ?
         if (!dbLog.equals("FALSE") && !dbLog.equals("TRUE")) {
             Log.print(Log.FATAL,
-                    "Server.startLogging "
-                    + "LogToDatabase can only be true/false " + dbLog);
+                      "Server.startLogging "
+                      + "LogToDatabase can only be true/false " + dbLog);
             return NOK;
         }
 
@@ -230,7 +232,7 @@ public class Server extends Thread implements MyEventListener {
                 size = propsMan.getIntProperty("LogMaxFileSize");
             } catch (Exception e) {
                 Log.print(Log.DEBUG,
-                        "Server.startLogging " + "size not set, or not int");
+                          "Server.startLogging " + "size not set, or not int");
                 size = 0;
             }
 
@@ -238,19 +240,19 @@ public class Server extends Thread implements MyEventListener {
 
             if (logFileName == null) { // is there a filename ?
                 Log.print(Log.FATAL,
-                        "Server.startLogging " + "LogFileName not set");
+                          "Server.startLogging " + "LogFileName not set");
                 fileLog = "FALSE";
             } // is there a append to log option
             else if (appendToLog == null) {
                 Log.print(Log.FATAL,
-                        "Server.startLogging " + "AppendToLogFile not set");
+                          "Server.startLogging " + "AppendToLogFile not set");
                 fileLog = "FALSE";
             } // are the options correct ?
             else if (!appendToLog.equals("TRUE") && !appendToLog.equals("FALSE")) {
                 Log.print(Log.FATAL,
-                        "Server.startLogging "
-                        + "AppendToLogFile can only be true/false "
-                        + appendToLog);
+                          "Server.startLogging "
+                          + "AppendToLogFile can only be true/false "
+                          + appendToLog);
                 fileLog = "FALSE";
             } // try to set the file
             else if (appendToLog.equals("TRUE")) {
@@ -258,31 +260,31 @@ public class Server extends Thread implements MyEventListener {
                     if (Log.setFile(logFileName, true, backupLogFileName, size)
                             == NOK) {
                         Log.print(Log.FATAL,
-                                "Server.startLogging " + "setFile failed");
+                                  "Server.startLogging " + "setFile failed");
                         fileLog = "FALSE";
                     }
                 } else {
                     if (Log.setFile(logFileName, true) == NOK) {
                         Log.print(Log.FATAL,
-                                "Server.startLogging " + "setFile failed");
+                                  "Server.startLogging " + "setFile failed");
                         fileLog = "FALSE";
                     }
                 }
             } else {
 
                 if ((backupLogFileName != null) && (size > 0)) {
-	
+
                     if (Log.setFile(logFileName, false, backupLogFileName, size)
                             == NOK) {
                         Log.print(Log.FATAL,
-                                "Server.startLogging " + "setFile failed");
+                                  "Server.startLogging " + "setFile failed");
                         fileLog = "FALSE";
                     }
-                } else {	
+                } else {
 
                     if (Log.setFile(logFileName, false) == NOK) {
                         Log.print(Log.FATAL,
-                                "Server.startLogging " + "setFile failed");
+                                  "Server.startLogging " + "setFile failed");
                         fileLog = "FALSE";
                     }
                 }
@@ -291,7 +293,7 @@ public class Server extends Thread implements MyEventListener {
             if (fileLog.equals("TRUE")) {
                 if (Log.setOutput(Log.FILE, true) == NOK) {
                     Log.print(Log.FATAL,
-                            "Server.startLogging " + "setOutput failed");
+                              "Server.startLogging " + "setOutput failed");
                     fileLog = "FALSE";
                 }
             }
@@ -307,7 +309,7 @@ public class Server extends Thread implements MyEventListener {
         return OK;
     }
 
-     /**************************************************************************/
+    /**************************************************************************/
     private int spawnHandler(BufferedReader in, PrintWriter out, String caller) {
         // create a new handler
         Handler handler = makeNewHandler(userData, in, out, propsMan, caller);
@@ -315,7 +317,7 @@ public class Server extends Thread implements MyEventListener {
         // start it
         handler.start();
 
-        // add it 
+        // add it
         if (handler != null) {
             myHandlers.add(handler);
         }
@@ -327,19 +329,19 @@ public class Server extends Thread implements MyEventListener {
         return OK;
     }
 
-     /**************************************************************************
-     * make a new handler class, must be overridden to add the custom handler class
-     * @return new Handler
-     **************************************************************************/
+    /**************************************************************************
+    * make a new handler class, must be overridden to add the custom handler class
+    * @return new Handler
+    **************************************************************************/
     protected Handler makeNewHandler(Hashtable userData,
-            BufferedReader in, PrintWriter out, PropertyManager propsMan,
-            String caller) {
+                                     BufferedReader in, PrintWriter out, PropertyManager propsMan,
+                                     String caller) {
         return new Handler(userData, this, in, out, propsMan, caller);
     }
 
     /**************************************************************************
      * The server can listen to generic events, this can be overwritten
-     * to interact with 
+     * to interact with
      **************************************************************************/
     public void	myEventOccurred(MyEvent evt) {
         String event = (String) evt.getEventData();
@@ -353,14 +355,14 @@ public class Server extends Thread implements MyEventListener {
     public void addMyEventListener(MyEventListener listener) {
         listenerList.add(MyEventListener.class, listener);
     }
-    
+
     /**************************************************************************
      * This methods allows classes to unregister for MyEvents
      **************************************************************************/
     public void removeMyEventListener(MyEventListener listener) {
         listenerList.remove(MyEventListener.class, listener);
     }
-    
+
     /**************************************************************************
      * This methods fires my events to registered listeners
      **************************************************************************/

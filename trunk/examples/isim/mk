@@ -23,6 +23,8 @@ echo Building Support library
 javac  -source 1.4 -classpath classes -d classes src/luky/*java src/luky/*/*java
 echo Building ZLIB
 javac  -source 1.4 -classpath classes -d classes src/com/jcraft/jzlib/*java
+echo Beautifing source 
+../../tools/astyle/bin/astyle --style=kr -n src/isim/*/* >/dev/null
 echo Building Applications
 javac -Xlint -source 1.4 -classpath classes:../../ivef-java/ivef/ivef.jar -d classes src/isim/*java src/isim/*/*java
 echo Building ZIP Examples

@@ -57,11 +57,11 @@ public class Version implements MouseListener {
      * This string will be automatically expanded upon "ant commit".
      * Do not edit it by hand!
      */
-    private static final String BUILD_TIME_STRING = "20090206-1256";
-    
+    private static final String BUILD_TIME_STRING = "20090206-2035";
+
     /** A {@link Date} version of the build time. */
     private final Date BUILD_TIME = _getBuildDate();
-    
+
     /**************************************************************************
      * default constructor
      **************************************************************************/
@@ -69,9 +69,9 @@ public class Version implements MouseListener {
 
     /**************************************************************************
      * alternative constructor
-     * @param name name name of the application using the library 
-     * @param version version of the application using the library 
-     * @param buildTime build time of the application using the library 
+     * @param name name name of the application using the library
+     * @param version version of the application using the library
+     * @param buildTime build time of the application using the library
      **************************************************************************/
     public Version(String name, String version, String buildTime) {
         appName = name;
@@ -84,7 +84,7 @@ public class Version implements MouseListener {
      * @return the version as a string
      **************************************************************************/
     public String getAppVersion() {
-        if ((appName != null) && (appVersion != null)) {	
+        if ((appName != null) && (appVersion != null)) {
             return appName + " - " + appVersion;
         } else {
             return null;
@@ -105,14 +105,14 @@ public class Version implements MouseListener {
     public static void main(String[] args) {
 
         Version ver = new Version();
-	
+
         if (ver.getAppVersion() != null) {
             System.out.println(
-                    ver.getAppVersion() + " (" + ver.getAppBuildTimeString()
-                    + ")");
-        }	
+                ver.getAppVersion() + " (" + ver.getAppBuildTimeString()
+                + ")");
+        }
         System.out.println(
-                ver.getLibVersion() + " (" + ver.getLibBuildTimeString() + ")");
+            ver.getLibVersion() + " (" + ver.getLibBuildTimeString() + ")");
     }
 
     /**************************************************************************
@@ -122,7 +122,7 @@ public class Version implements MouseListener {
     public String getAppBuildTimeString() {
         return appBuildTime;
     }
-    
+
     /**************************************************************************
      * returns the build time as a string of the library
      * @return the build time as a string
@@ -130,10 +130,10 @@ public class Version implements MouseListener {
     public String getLibBuildTimeString() {
         return BUILD_TIME_STRING;
     }
-    
+
     /**************************************************************************
      * set application buildtime shown in about box
-     * @param time buildTime of the application using the library 
+     * @param time buildTime of the application using the library
      **************************************************************************/
     public void setAppBuildTime(String time) {
 
@@ -142,7 +142,7 @@ public class Version implements MouseListener {
 
     /**************************************************************************
      * set application name shown in about box
-     * @param name name name of the application using the library 
+     * @param name name name of the application using the library
      **************************************************************************/
     public void setAppName(String name) {
 
@@ -151,7 +151,7 @@ public class Version implements MouseListener {
 
     /**************************************************************************
      * set application version shown in about box
-     * @param version version of the application using the library 
+     * @param version version of the application using the library
      **************************************************************************/
     public void setAppVersion(String version) {
 
@@ -160,12 +160,12 @@ public class Version implements MouseListener {
 
     /**************************************************************************
      * aboutBox shows a about box
-     * @param name name name of the application using the library 
-     * @param version version of the application using the library 
+     * @param name name name of the application using the library
+     * @param version version of the application using the library
      **************************************************************************/
     public void about(String name, String version) {
 
-        if ((name != null) && (version != null)) {	
+        if ((name != null) && (version != null)) {
             setAppName(name);
             setAppVersion(version);
         }
@@ -179,15 +179,15 @@ public class Version implements MouseListener {
 
         JOptionPane optionPane = null;
 
-        if ((appName != null) && (appVersion != null)) {	
+        if ((appName != null) && (appVersion != null)) {
             optionPane = new JOptionPane(
-                    getAppVersion() + " (" + getAppBuildTimeString() + ")\n"
-                    + getLibVersion() + " (" + getLibBuildTimeString() + ")",  
-                    JOptionPane.INFORMATION_MESSAGE);
+                getAppVersion() + " (" + getAppBuildTimeString() + ")\n"
+                + getLibVersion() + " (" + getLibBuildTimeString() + ")",
+                JOptionPane.INFORMATION_MESSAGE);
         } else {
             optionPane = new JOptionPane(
-                    getLibVersion() + " (" + getLibBuildTimeString() + ")", 
-                    JOptionPane.INFORMATION_MESSAGE);
+                getLibVersion() + " (" + getLibBuildTimeString() + ")",
+                JOptionPane.INFORMATION_MESSAGE);
         }
         JDialog dialog = optionPane.createDialog(null, "About");
 
@@ -237,7 +237,7 @@ public class Version implements MouseListener {
     private Date _getBuildDate() {
         try {
             return new SimpleDateFormat("yyyyMMdd-HHmm z").parse(
-                    BUILD_TIME_STRING + " GMT");
+                       BUILD_TIME_STRING + " GMT");
         } catch (Exception e) { // parse format or whatever problem
             return null;
         }

@@ -53,9 +53,13 @@ public class Handler extends Thread implements ivef.ParserListener {
     /** parent access can be overloaded for convieniance **/
     protected Server parent = null;
     private boolean rootUser = false;
-    
+    protected boolean exit = false;
+
     /** ivef parser **/
     private ivef.Parser parser = null;
+
+    /** ivef movements holder **/
+    private Vector movements = null;
 
     /***************************************************************************
      constants
@@ -73,8 +77,8 @@ public class Handler extends Thread implements ivef.ParserListener {
      * (So don't sweat over it)
      **************************************************************************/
     public Handler(Hashtable userData, Server parent,
-            BufferedReader in, PrintWriter out, PropertyManager propsMan,
-            String caller) {
+                   BufferedReader in, PrintWriter out, PropertyManager propsMan,
+                   String caller) {
         this.userData = userData;
         this.in = in;
         this.out = out;
@@ -97,10 +101,9 @@ public class Handler extends Thread implements ivef.ParserListener {
         handleInput();
     }
 
-     /**************************************************************************/
+    /**************************************************************************/
     private void handleInput() {
-       
-        boolean exit = false;
+
         String rawInput = null;
         String input = null;
 
@@ -114,7 +117,7 @@ public class Handler extends Thread implements ivef.ParserListener {
                 parent.println("    Reading input............failed, read error.");
             }
 
-            // decrypt the input to 
+            // decrypt the input to
             input = decrypt(rawInput);
             Log.print(Log.DEBUG, "Handler.handleInput read " + input);
             //parent.println("    Reading input............done.");
@@ -122,13 +125,12 @@ public class Handler extends Thread implements ivef.ParserListener {
             if (input == null) {
                 parent.print("    Garbage in input, quiting..");
                 Log.print(Log.DEBUG,
-                        "Handler.handleInput garbage input, quiting ");
+                          "Handler.handleInput garbage input, quiting ");
                 parent.println("done.");
                 exit = true; // auto close connection to avoid hog
-            } else  // all other inputs
-            {
+            } else { // all other inputs
                 //parent.print("    Handling input...........");
-                 
+
                 // handle the actual input, the parser will call us back if there is interesting data
                 parser.parseXMLString(input, true);
             }
@@ -136,14 +138,14 @@ public class Handler extends Thread implements ivef.ParserListener {
         destroy(in, out);
     }
 
-     /**************************************************************************
-     * decrypt is fed with every input string before it is passed to the
-     * internal input handler. Implement a decryption function here if you
-     * need to parse all incomming lines.<BR> the standard function simply
-     * returns the input string.
-     * @param in the input string
-     * @return the decrypted string
-     **************************************************************************/
+    /**************************************************************************
+    * decrypt is fed with every input string before it is passed to the
+    * internal input handler. Implement a decryption function here if you
+    * need to parse all incomming lines.<BR> the standard function simply
+    * returns the input string.
+    * @param in the input string
+    * @return the decrypted string
+    **************************************************************************/
     protected String decrypt(String in) {
         return in;
     }
@@ -163,7 +165,7 @@ public class Handler extends Thread implements ivef.ParserListener {
         } catch (Exception e) {
             Log.print(Log.WARNING, "Handler.destroy i/o error");
         }
-	
+
         parent.removeHandler(this);
 
         return OK;
@@ -175,56 +177,56 @@ public class Handler extends Thread implements ivef.ParserListener {
     };
 
     /**************************************************************************/
-    public void handleMSG_LoginRequest(MSG_LoginRequest obj){
+    public void handleMSG_LoginRequest(MSG_LoginRequest obj) {
         Log.print(Log.DEBUG, "Handler.handleMSG_LoginRequest Received LoginRequest, Sending Reply..");
         sendLoginResponse(obj);
     };
 
     /**************************************************************************/
-    public void handleMSG_LoginResponse(MSG_LoginResponse obj){
+    public void handleMSG_LoginResponse(MSG_LoginResponse obj) {
         Log.print(Log.DEBUG, "Handler.handleMSG_LoginResponse Received Login Response, did not expect that..");
     };
 
     /**************************************************************************/
-    public void handleMSG_Ping(MSG_Ping obj){
+    public void handleMSG_Ping(MSG_Ping obj) {
         Log.print(Log.DEBUG, "Handler.handleMSG_Ping Received Ping, did not expect that..");
     };
 
     /**************************************************************************/
-    public void handleMSG_Pong(MSG_Pong obj){
+    public void handleMSG_Pong(MSG_Pong obj) {
         Log.print(Log.DEBUG, "Handler.handleMSG_Pong Received Pong..");
         // could check if it matches the pings we send out
     };
 
     /**************************************************************************/
-    public void handleMSG_ServerStatus(MSG_ServerStatus obj){
+    public void handleMSG_ServerStatus(MSG_ServerStatus obj) {
         Log.print(Log.DEBUG, "Handler.handleMSG_ServerStatus Received Server Status, did not expect that..");
     };
 
     /**************************************************************************/
-    public void handleMSG_Logout(MSG_Logout obj){
+    public void handleMSG_Logout(MSG_Logout obj) {
         Log.print(Log.DEBUG, "Handler.handleMSG_Logout Received Logout, disconnecting..");
         destroy(in, out);
     };
 
     /**************************************************************************/
-    public void handleMSG_ServiceRequest(MSG_ServiceRequest obj){
+    public void handleMSG_ServiceRequest(MSG_ServiceRequest obj) {
         Log.print(Log.DEBUG, "Handler.handleMSG_ServiceRequest Received Service Request..");
         sendSeverStatus(obj);
     };
-    
+
     /**************************************************************************/
     public Header newHeader() {
-         // every message has a header
+        // every message has a header
         Header header = new Header();
         header.setMsgRefId("{"+UUID.randomUUID().toString()+"}");
         header.setVersion("1.0");
         return header;
     }
-    
+
     /**************************************************************************/
     public void sendLoginResponse(MSG_LoginRequest obj) {
-    
+
         // create a message
         MSG_LoginResponse msg = new MSG_LoginResponse();
         msg.setHeader(newHeader());
@@ -234,19 +236,22 @@ public class Handler extends Thread implements ivef.ParserListener {
         LoginResponse data = new LoginResponse();
         data.setMsgId(obj.getHeader().getMsgRefId());
         data.setResult(1); // allways succesfull login
-        data.setReason("Because we love you"); 
+        data.setReason("Because we love you");
         body.setLoginResponse(data);
         msg.setBody(body);
 
-        // output the message 
-        Log.print(Log.DEBUG, "Handler.sendLoginResponse Sending: "+msg.toXML());
+        // output the message
+        Log.print(Log.STACK, "Handler.sendLoginResponse Sending: "+msg.toXML());
         out.println(msg.toXML());
         out.flush();
+
+        // login is completed we can start sending movements
+        startSendingMovements();
     };
-    
+
     /**************************************************************************/
     public void sendSeverStatus(MSG_ServiceRequest obj) {
-    
+
         // create a message
         MSG_ServerStatus msg = new MSG_ServerStatus();
         msg.setHeader(newHeader());
@@ -259,9 +264,70 @@ public class Handler extends Thread implements ivef.ParserListener {
         body.setServerStatus(data);
         msg.setBody(body);
 
-        // output the message 
-        Log.print(Log.DEBUG, "Handler.sendSeverStatus Sending: "+msg.toXML());
+        // output the message
+        Log.print(Log.STACK, "Handler.sendSeverStatus Sending: "+msg.toXML());
         out.println(msg.toXML());
         out.flush();
+    };
+
+    /**************************************************************************/
+    public void sendMSGVesselData(VesselData obj) {
+
+        // create a message
+        MSG_VesselData msg = new MSG_VesselData();
+        msg.setHeader(newHeader());
+
+        // and a body with the request
+        Body body = new Body();
+        body.addVesselData(obj);
+        msg.setBody(body);
+
+        // output the message
+        Log.print(Log.STACK, "Handler.sendMSGVesselData Sending: "+msg.toXML());
+        out.println(msg.toXML());
+        out.flush();
+    };
+
+    /**************************************************************************/
+    public void startSendingMovements() {
+
+        Log.print(Log.DEBUG, "Handler.startSendingMovements");
+
+        while (!exit) {  // keep repeating until the other side disconnects
+
+            Vector movements = (Vector)userData.get("Movements");
+            if ((movements == null) || (movements.size() == 0)) {
+                Log.print(Log.DEBUG, "Handler.startSendingMovements NO movements available");
+                return;
+            }
+
+            // send first movement, store update time
+            VesselData vessel = (VesselData) movements.remove(0);
+            long updateTime = vessel.getPosReport().getUpdateTime().getTime();
+            sendMSGVesselData(vessel);
+
+            // get next movement, wait for this update time - previous update time
+            while ((movements.size() > 0) && (!exit)) {
+                vessel = (VesselData) movements.remove(0);
+
+                long nextUpdateTime = vessel.getPosReport().getUpdateTime().getTime();
+                long delta = nextUpdateTime - updateTime;
+
+                if (delta > 0) {
+                    Log.print(Log.DEBUG, "Handler.startSendingMovements sleeping for " + delta + " ms");
+                    try {
+                        Thread.sleep(delta);
+                    } catch (Exception e) {
+                        Log.print(Log.WARNING, "Handler.startSendingMovements sleep interrupted" +  e);
+                    }
+                }
+
+                // send movement
+                sendMSGVesselData(vessel);
+                updateTime = nextUpdateTime;
+            }
+            // we are done, repeat the scenario
+            Log.print(Log.DEBUG, "Handler.startSendingMovements repeating scenario");
+        }
     };
 }
