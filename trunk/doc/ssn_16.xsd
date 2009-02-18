@@ -1,0 +1,1571 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Bleader (XXX) -->
+<xsd:schema targetNamespace="urn:eu.emsa.ssn" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:ssn="urn:eu.emsa.ssn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">SafeSeaNet XML Schema. Copyright(c) European Commission, DG Energy and Transport, Maritime Safety Unit</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="MS2SSN_Port_Req" type="ssn:MS2SSN_Port_ReqType"/>
+	<xsd:element name="SSN2MS_Port_Res" type="ssn:SSN2MS_Port_ResType"/>
+	<xsd:element name="MS2SSN_Ship_Req" type="ssn:MS2SSN_Ship_ReqType"/>
+	<xsd:element name="SSN2MS_Ship_Req" type="ssn:SSN2MS_Ship_ReqType"/>
+	<xsd:element name="MS2SSN_Ship_Res" type="ssn:MS2SSN_Ship_ResType"/>
+	<xsd:element name="SSN2MS_Ship_Res" type="ssn:SSN2MS_Ship_ResType"/>
+	<xsd:element name="MS2SSN_Hazmat_Req" type="ssn:MS2SSN_Hazmat_ReqType"/>
+	<xsd:element name="SSN2MS_Hazmat_Req" type="ssn:SSN2MS_Hazmat_ReqType"/>
+	<xsd:element name="MS2SSN_Hazmat_Res" type="ssn:MS2SSN_Hazmat_ResType"/>
+	<xsd:element name="SSN2MS_Hazmat_Res" type="ssn:SSN2MS_Hazmat_ResType"/>
+	<xsd:element name="MS2SSN_Security_Req" type="ssn:MS2SSN_Security_ReqType"/>
+	<xsd:element name="SSN2MS_Security_Req" type="ssn:SSN2MS_Security_ReqType"/>
+	<xsd:element name="MS2SSN_Security_Res" type="ssn:MS2SSN_Security_ResType"/>
+	<xsd:element name="SSN2MS_Security_Res" type="ssn:SSN2MS_Security_ResType"/>
+	<xsd:element name="MS2SSN_Alert_Req" type="ssn:MS2SSN_Alert_ReqType"/>
+	<xsd:element name="SSN2MS_Alert_Req" type="ssn:SSN2MS_Alert_ReqType"/>
+	<xsd:element name="MS2SSN_Alert_Res" type="ssn:MS2SSN_Alert_ResType"/>
+	<xsd:element name="SSN2MS_Alert_Res" type="ssn:SSN2MS_Alert_ResType"/>
+	<xsd:element name="MS2SSN_Port_Not" type="ssn:MS2SSN_Port_NotType"/>
+	<xsd:element name="MS2SSN_Ship_Not" type="ssn:MS2SSN_Ship_NotType"/>
+	<xsd:element name="MS2SSN_Hazmat_Not" type="ssn:MS2SSN_Hazmat_NotType"/>
+	<xsd:element name="MS2SSN_Security_Not" type="ssn:MS2SSN_Security_NotType"/>
+	<xsd:element name="MS2SSN_Alert_Not" type="ssn:MS2SSN_Alert_NotType"/>
+	<xsd:element name="SSN_Receipt" type="ssn:SSN_ReceiptType"/>
+	<xsd:complexType name="HeaderType" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Version" type="xsd:string" use="required" fixed="1.6"/>
+		<xsd:attribute name="TestId" type="xsd:string"/>
+		<xsd:attribute name="SentAt" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="From" type="xsd:string" use="required"/>
+		<xsd:attribute name="To" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="Header1Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:HeaderType">
+				<xsd:sequence/>
+				<xsd:attribute name="MSRefId" type="xsd:string" use="required"/>
+				<xsd:attribute name="SSNRefId" type="xsd:string" use="required"/>
+				<xsd:attribute name="StatusCode" type="ssn:StatusCodeEnumType" use="required"/>
+				<xsd:attribute name="StatusMessage" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Header2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:HeaderType">
+				<xsd:sequence/>
+				<xsd:attribute name="SSNRefId" type="xsd:string" use="required"/>
+				<xsd:attribute name="TimeoutValue" type="xsd:integer" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Header3Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:HeaderType">
+				<xsd:sequence/>
+				<xsd:attribute name="MSRefId" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Header4Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:Header3Type">
+				<xsd:sequence/>
+				<xsd:attribute name="TimeoutValue" type="xsd:integer" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="StatusCodeEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="InvalidFormat"/>
+			<xsd:enumeration value="Timeout"/>
+			<xsd:enumeration value="ServerError"/>
+			<xsd:enumeration value="OK"/>
+			<xsd:enumeration value="NotFound"/>
+			<xsd:enumeration value="NotAvailable"/>
+			<xsd:enumeration value="AccessDenied"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DocTypeEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="HTML"/>
+			<xsd:enumeration value="PDF"/>
+			<xsd:enumeration value="DOC"/>
+			<xsd:enumeration value="TXT"/>
+			<xsd:enumeration value="XML"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="IncidentTypeEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="SITREP"/>
+			<xsd:enumeration value="POLREP"/>
+			<xsd:enumeration value="Waste"/>
+			<xsd:enumeration value="LostFoundContainers"/>
+			<xsd:enumeration value="Others"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NavigationalStatusEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="3"/>
+			<xsd:enumeration value="4"/>
+			<xsd:enumeration value="5"/>
+			<xsd:enumeration value="6"/>
+			<xsd:enumeration value="7"/>
+			<xsd:enumeration value="8"/>
+			<xsd:enumeration value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="YesNoEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Y"/>
+			<xsd:enumeration value="N"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="HazardousCargoTypeEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="DG"/>
+			<xsd:enumeration value="HS"/>
+			<xsd:enumeration value="MP"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MessageTypeEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Distress"/>
+			<xsd:enumeration value="Urgency"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NatureEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Fire"/>
+			<xsd:enumeration value="Collision"/>
+			<xsd:enumeration value="Medico"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ReportTypeEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Loss"/>
+			<xsd:enumeration value="Observation"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnitOfMeasureTypeType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="KGM"/>
+			<xsd:enumeration value="TNE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="INFShipClassEnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="INF1"/>
+			<xsd:enumeration value="INF2"/>
+			<xsd:enumeration value="INF3"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="VesselIdentificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:SearchCriteriaType">
+				<xsd:sequence/>
+				<xsd:attribute name="CallSign" type="xsd:string"/>
+				<xsd:attribute name="ShipName" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VesselInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LengthAndBeam" type="xsd:string" use="required"/>
+		<xsd:attribute name="ShipDraught" type="xsd:integer" use="required"/>
+		<xsd:attribute name="ShipType" type="xsd:nonNegativeInteger" use="required"/>
+		<xsd:attribute name="AntennaLocation" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="SearchCriteriaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMONumber" type="xsd:string"/>
+		<xsd:attribute name="MMSINumber" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="VesselIdentification2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:VesselIdentificationType">
+				<xsd:sequence/>
+				<xsd:attribute name="Flag" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformation2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:VoyageInformation1Type">
+				<xsd:sequence/>
+				<xsd:attribute name="ETD" type="xsd:dateTime"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformation1Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:VoyageInformationType">
+				<xsd:sequence/>
+				<xsd:attribute name="TotalPersonsOnBoard" type="xsd:integer" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="NextPortOfCall" type="xsd:string" use="required"/>
+		<xsd:attribute name="ETA" type="xsd:dateTime"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISDynamicInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:attribute name="RoutePlan" type="xsd:string" use="required"/>
+		<xsd:attribute name="ROT" type="xsd:integer" use="required"/>
+		<xsd:attribute name="COG" type="xsd:integer" use="required"/>
+		<xsd:attribute name="SOG" type="xsd:integer" use="required"/>
+		<xsd:attribute name="NavigationalStatus" type="ssn:NavigationalStatusEnumType" use="required"/>
+		<xsd:attribute name="Heading" type="xsd:integer" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MRSDynamicInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Bunker" type="ssn:BunkerType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="ReportingDateAndTime" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="COG" type="xsd:integer" use="required"/>
+		<xsd:attribute name="SOG" type="xsd:integer" use="required"/>
+		<xsd:attribute name="NavigationalStatus" type="ssn:NavigationalStatusEnumType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISVoyageInformation3Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:MRSVoyageInformation3Type">
+				<xsd:sequence/>
+				<xsd:attribute name="Timestamp" type="xsd:dateTime" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MRSVoyageInformation3Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:VoyageInformation1Type">
+				<xsd:sequence/>
+				<xsd:attribute name="Longitude" type="xsd:integer" use="required"/>
+				<xsd:attribute name="Latitude" type="xsd:integer" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MRSVoyageInformation2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:MRSVoyageInformationType">
+				<xsd:sequence/>
+				<xsd:attribute name="ReportingDateAndTime" type="xsd:dateTime" use="required"/>
+				<xsd:attribute name="COG" type="xsd:integer" use="required"/>
+				<xsd:attribute name="SOG" type="xsd:integer" use="required"/>
+				<xsd:attribute name="NavigationalStatus" type="ssn:NavigationalStatusEnumType" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MRSVoyageInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:VoyageInformation1Type">
+				<xsd:sequence>
+					<xsd:element name="ShipPosition" type="ssn:PositionType"/>
+					<xsd:element name="Bunker" type="ssn:BunkerType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AISVoyageInformation2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:AISVoyageInformationType">
+				<xsd:sequence/>
+				<xsd:attribute name="RoutePlan" type="xsd:string" use="required"/>
+				<xsd:attribute name="ROT" type="xsd:integer" use="required"/>
+				<xsd:attribute name="COG" type="xsd:integer" use="required"/>
+				<xsd:attribute name="SOG" type="xsd:integer" use="required"/>
+				<xsd:attribute name="NavigationalStatus" type="ssn:NavigationalStatusEnumType" use="required"/>
+				<xsd:attribute name="Heading" type="xsd:integer" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AISVoyageInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:VoyageInformationType">
+				<xsd:sequence>
+					<xsd:element name="ShipPosition" type="ssn:ShipPosition1Type"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformation3Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:VoyageInformation2Type">
+				<xsd:sequence/>
+				<xsd:attribute name="INFShipClass" type="ssn:INFShipClassEnumType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VoyageInformation4Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ShipPosition" type="ssn:PositionType"/>
+		</xsd:sequence>
+		<xsd:attribute name="PortOfDeparture" type="xsd:string" use="required"/>
+		<xsd:attribute name="PortOfDestination" type="xsd:string" use="required"/>
+		<xsd:attribute name="TotalPersonsOnBoard" type="xsd:integer" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="BunkerType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Chars" type="xsd:string" use="required"/>
+		<xsd:attribute name="Quantity" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="PositionType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Longitude" type="xsd:integer" use="required"/>
+		<xsd:attribute name="Latitude" type="xsd:integer" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShipPosition1Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:PositionType">
+				<xsd:sequence/>
+				<xsd:attribute name="Timestamp" type="xsd:dateTime" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ContactDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:ContactType">
+				<xsd:sequence/>
+				<xsd:attribute name="LastName" type="xsd:string"/>
+				<xsd:attribute name="FirstName" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ContactIdentificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:ContactType">
+				<xsd:sequence/>
+				<xsd:attribute name="MaritimeAuthority" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ContactType" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LoCode" type="xsd:string" use="required"/>
+		<xsd:attribute name="Phone" type="xsd:string" use="required"/>
+		<xsd:attribute name="Fax" type="xsd:string" use="required"/>
+		<xsd:attribute name="EMail" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="UrlDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Url" type="xsd:anyURI" use="required"/>
+		<xsd:attribute name="DocType" type="ssn:DocTypeEnumType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="DGType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DGDetails" type="ssn:DGDetailsType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="AnyDG" type="ssn:YesNoEnumType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="DGDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IMOClass" type="xsd:string" use="required"/>
+		<xsd:attribute name="Quantity" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:group name="anon6">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="UrlDetails" type="ssn:UrlDetailsType"/>
+			<xsd:element name="ContactDetails" type="ssn:ContactDetailsType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="NotificationDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="ssn:anon6"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HazmatNotificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="VoyageInformation" type="ssn:VoyageInformation2Type"/>
+			<xsd:element name="NotificationDetails" type="ssn:NotificationDetailsType" minOccurs="0"/>
+			<xsd:element name="CargoManifest" type="ssn:NotificationDetailsType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MRSNotificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="VoyageInformation" type="ssn:MRSVoyageInformationType"/>
+			<xsd:element name="NotificationDetails" type="ssn:NotificationDetailsType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AISNotificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="VoyageInformation" type="ssn:AISVoyageInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PortNotificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="VoyageInformation" type="ssn:VoyageInformation2Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SecurityNotificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="NotificationDetails" type="ssn:NotificationDetailsType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IncidentNotificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="ssn:anon7"/>
+			<xsd:element name="IncidentDetails" type="ssn:NotificationDetailsType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Type" type="ssn:IncidentTypeEnumType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="PortNotificationDetails2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:PortNotificationType">
+				<xsd:sequence/>
+				<xsd:attribute name="SentAt" type="xsd:dateTime" use="required"/>
+				<xsd:attribute name="From" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Port_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:Req1Type">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Port_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:SSN2MS_Port_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Port_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:SearchCriteriaType"/>
+			<xsd:element name="PortNotificationDetails" type="ssn:PortNotificationDetails2Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Ship_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:Req1Type">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Ship_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:Req2Type">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Ship_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Ship_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Ship_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:SearchCriteriaType"/>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:group ref="ssn:anon9"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="anon9">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="MRSNotificationDetails" type="ssn:MRSNotificationDetailsType"/>
+			<xsd:element name="AISNotificationDetails" type="ssn:AISNotificationDetailsType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="SSN2MS_Ship_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:SSN2MS_Ship_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Ship_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:SearchCriteriaType"/>
+			<xsd:element name="ShipNotificationDetails" type="ssn:ShipNotificationDetailsType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ShipNotificationDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:group ref="ssn:anon11"/>
+		</xsd:sequence>
+		<xsd:attribute name="SentAt" type="xsd:dateTime"/>
+		<xsd:attribute name="From" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:group name="anon11">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="VoyageInformation" type="ssn:PositionType"/>
+			<xsd:element name="AISNotificationDetails" type="ssn:AISNotificationDetailsType"/>
+			<xsd:element name="MRSNotificationDetails" type="ssn:MRSNotificationDetailsType"/>
+			<xsd:element name="Base64Details" type="ssn:Base64DetailsType"/>
+			<xsd:element name="ContactDetails" type="ssn:ContactDetailsType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="AISNotificationDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselInformation" type="ssn:VesselInformationType"/>
+			<xsd:element name="AISVoyageInformation" type="ssn:AISVoyageInformation3Type"/>
+			<xsd:element name="AISDynamicInformation" type="ssn:AISDynamicInformationType"/>
+			<xsd:element name="AISCargoInformation" type="ssn:AISCargoInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MRSNotificationDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="MRSVoyageInformation" type="ssn:MRSVoyageInformation3Type"/>
+			<xsd:element name="MRSDynamicInformation" type="ssn:MRSDynamicInformationType"/>
+			<xsd:element name="MRSCargoInformation" type="ssn:MRSCargoInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Hazmat_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:Req1Type">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Hazmat_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:Req2Type">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Hazmat_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Hazmat_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Hazmat_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:SearchCriteriaType"/>
+			<xsd:element name="NotificationDetails" type="ssn:HazmatNotificationDetailsType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HazmatNotificationDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="ssn:VoyageInformation3Type"/>
+			<xsd:element name="CargoInformation" type="ssn:CargoInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Hazmat_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:SSN2MS_Hazmat_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Hazmat_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:SearchCriteriaType"/>
+			<xsd:element name="NotificationDetails" type="ssn:HazmatNotificationDetails2Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HazmatNotificationDetails2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="VoyageInformation" type="ssn:VoyageInformation3Type"/>
+			<xsd:group ref="ssn:anon12"/>
+		</xsd:sequence>
+		<xsd:attribute name="SentAt" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="From" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:group name="anon12">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="CargoInformation" type="ssn:CargoInformationType"/>
+			<xsd:element name="ContactDetails" type="ssn:ContactDetailsType"/>
+			<xsd:element name="Base64Details" type="ssn:Base64DetailsType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="MS2SSN_Security_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:Req1Type">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Security_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:Req2Type">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Security_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Security_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Security_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:SearchCriteriaType"/>
+			<xsd:element name="NotificationsDetails" type="ssn:MS2SSN_Security_ResNotificationType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Security_ResNotificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="SecurityInformation" type="ssn:SecurityInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Security_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:SSN2MS_Security_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Security_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:SearchCriteriaType"/>
+			<xsd:element name="NotificationsDetails" type="ssn:SSN2MS_Security_ResNotificationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Security_ResNotificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:group ref="ssn:anon13"/>
+		</xsd:sequence>
+		<xsd:attribute name="SentAt" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="From" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:group name="anon13">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="SecurityInformation" type="ssn:SecurityInformationType"/>
+			<xsd:element name="ContactDetails" type="ssn:ContactDetailsType"/>
+			<xsd:element name="Base64Details" type="ssn:Base64DetailsType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="MS2SSN_Alert_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header4Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Alert_ReqBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Alert_ReqBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:AlertSearchCriteria2Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AlertSearchCriteriaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="IncidentType" type="ssn:IncidentTypeEnumType" use="required"/>
+		<xsd:attribute name="SentAt" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="IMONumber" type="xsd:string"/>
+		<xsd:attribute name="MMSINumber" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Alert_ReqType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header2Type"/>
+			<xsd:element name="Body" type="ssn:SSN2MS_Alert_ReqBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Alert_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Alert_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Alert_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:AlertSearchCriteriaType"/>
+			<xsd:element name="IncidentDetails" type="ssn:IncidentDetailsType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Alert_ResType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+			<xsd:element name="Body" type="ssn:SSN2MS_Alert_ResBodyType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SSN2MS_Alert_ResBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:AlertSearchCriteria2Type"/>
+			<xsd:group ref="ssn:anon17"/>
+			<xsd:element name="IncidentDetails" type="ssn:IncidentDetails2Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="anon17">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="Contactidentification" type="ssn:ContactDetailsType"/>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentification2Type"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="SSN2MS_Alert_ReqBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:AlertSearchCriteriaType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AlertSearchCriteria2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ssn:AlertSearchCriteriaType">
+				<xsd:sequence/>
+				<xsd:attribute name="From" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Req1Type" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header4Type"/>
+			<xsd:element name="Body" type="ssn:ReqBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ReqBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SearchCriteria" type="ssn:SearchCriteriaType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Req2Type" abstract="true">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header2Type"/>
+			<xsd:element name="Body" type="ssn:ReqBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Port_NotType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header3Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Port_NotBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Port_NotBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Notification" type="ssn:PortNotificationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Ship_NotBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="ssn:anon5"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="anon5">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="AISNotification" type="ssn:AISNotificationType"/>
+			<xsd:element name="MRSNotification" type="ssn:MRSNotificationType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="MS2SSN_Ship_NotType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header3Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Ship_NotBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Hazmat_NotType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header3Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Hazmat_NotBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Hazmat_NotBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Notification" type="ssn:HazmatNotificationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Security_NotType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header3Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Security_NotBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Security_NotBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Notification" type="ssn:SecurityNotificationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Alert_NotType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header3Type"/>
+			<xsd:element name="Body" type="ssn:MS2SSN_Alert_NotBodyType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MS2SSN_Alert_NotBodyType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Incident" type="ssn:IncidentNotificationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="anon7">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="ContactIdentification" type="ssn:ContactIdentificationType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="SSN_ReceiptType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Header" type="ssn:Header1Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SecurityInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="ValidCertificate" type="ssn:YesNoEnumType" use="required"/>
+		<xsd:attribute name="IssuingAuthority" type="xsd:string" use="required"/>
+		<xsd:attribute name="CurrentSecLevel" type="xsd:string" use="required"/>
+		<xsd:attribute name="PreviousPortSecLevel" type="xsd:string" use="required"/>
+		<xsd:attribute name="SecurityMeasures" type="xsd:string" use="required"/>
+		<xsd:attribute name="Maintenance" type="xsd:string" use="required"/>
+		<xsd:attribute name="Others" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="Base64DetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="DocType" type="ssn:DocTypeEnumType" use="required"/>
+		<xsd:attribute name="Base64Content" type="xsd:base64Binary" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="IncidentDetailsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="ssn:anon14"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="anon14">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="WasteAlertInformation" type="ssn:WasteAlertInformationType"/>
+			<xsd:element name="SITREPAlertInformation" type="ssn:SITREPAlertInformationType"/>
+			<xsd:element name="POLREPAlertInformation" type="ssn:POLREPAlertInformationType"/>
+			<xsd:element name="LostFoundContainersAlertInformation" type="ssn:LostFoundContainersAlertInformationType"/>
+			<xsd:element name="OtherAlertInformation" type="ssn:OtherAlertInformationType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="WasteAlertInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentification2Type"/>
+			<xsd:element name="NonComplianceInformation" type="ssn:NonComplianceInformationType"/>
+			<xsd:element name="InspectionInformation" type="ssn:InspectionInformationType" minOccurs="0"/>
+			<xsd:element name="AuthoritiesNotified" type="ssn:AuthoritiesNotifiedType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SITREPAlertInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="ssn:VoyageInformation4Type"/>
+			<xsd:element name="CargoManifest" type="ssn:CargoManifest2Type"/>
+			<xsd:element name="SITREPInformation" type="ssn:SITREPInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="POLREPAlertInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="ssn:VoyageInformation4Type"/>
+			<xsd:element name="CargoManifest" type="ssn:CargoManifest2Type" minOccurs="0"/>
+			<xsd:element name="POLREPInformation" type="ssn:POLREPInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LostFoundContainersAlertInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType" minOccurs="0"/>
+			<xsd:element name="VoyageInformation" type="ssn:VoyageInformation4Type" minOccurs="0"/>
+			<xsd:element name="CargoManifest" type="ssn:CargoManifest2Type" minOccurs="0"/>
+			<xsd:element name="LostFoundContainersInformation" type="ssn:LostFoundContainersInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OtherAlertInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VesselIdentification" type="ssn:VesselIdentificationType" minOccurs="0"/>
+			<xsd:element name="CargoManifest" type="ssn:CargoManifestType" minOccurs="0"/>
+			<xsd:element name="OtherInformation" type="ssn:OtherInformationType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NonComplianceInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="WasteDeliveryDuePort" type="xsd:string" use="required"/>
+		<xsd:attribute name="ETD" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="InspectionReason" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="InspectionInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="InspectionAuthority" type="ssn:InspectionAuthorityType"/>
+		</xsd:sequence>
+		<xsd:attribute name="Deficiencies" type="xsd:string" use="required"/>
+		<xsd:attribute name="ActionTaken" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="InspectionAuthorityType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="Coordinates" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AuthoritiesNotifiedType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="NextPortOfCall" type="xsd:string"/>
+		<xsd:attribute name="OtherAuthorities" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="SITREPInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="A_CasualtyIdentification" type="ssn:A_CasualtyIdentificationType"/>
+			<xsd:element name="B_Position" type="ssn:PositionType"/>
+			<xsd:element name="C_Situation" type="ssn:C_SituationType"/>
+		</xsd:sequence>
+		<xsd:attribute name="SITREPId" type="xsd:string" use="required"/>
+		<xsd:attribute name="D_NumberOfPersons" type="xsd:string" use="required"/>
+		<xsd:attribute name="E_AssistanceRequired" type="xsd:string" use="required"/>
+		<xsd:attribute name="F_CoordinatingRCC" type="xsd:string" use="required"/>
+		<xsd:attribute name="G_CasualtyDescription" type="xsd:string" use="required"/>
+		<xsd:attribute name="H_WeatherOnScene" type="xsd:string" use="required"/>
+		<xsd:attribute name="J_InitialActionsTaken" type="xsd:string" use="required"/>
+		<xsd:attribute name="K_SearchArea" type="xsd:string" use="required"/>
+		<xsd:attribute name="L_CoordinatingInstructions" type="xsd:string" use="required"/>
+		<xsd:attribute name="M_FuturePlans" type="xsd:string" use="required"/>
+		<xsd:attribute name="N_AdditionalInformation" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="A_CasualtyIdentificationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="CallSign" type="xsd:string" use="required"/>
+		<xsd:attribute name="Flag" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="C_SituationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="MessageType" type="ssn:MessageTypeEnumType" use="required"/>
+		<xsd:attribute name="NotifiedAt" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="Nature" type="ssn:NatureEnumType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="POLREPInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="POLWARN" type="ssn:POLWARNType"/>
+			<xsd:element name="POLINF" type="ssn:POLINFType"/>
+			<xsd:element name="POLFAC" type="ssn:POLFACType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="POLWARNType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="P2_Position" type="ssn:PositionType"/>
+		</xsd:sequence>
+		<xsd:attribute name="P1_DateTime" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="P3_Incident" type="xsd:string" use="required"/>
+		<xsd:attribute name="P4_Outflow" type="xsd:string" use="required"/>
+		<xsd:attribute name="P5_Acknowledge" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="POLINFType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="P44_Wind" type="ssn:SpeedDirectionType"/>
+			<xsd:element name="P45_Tide" type="ssn:SpeedDirectionType"/>
+			<xsd:element name="P46_SeaState" type="ssn:SeaStateType"/>
+			<xsd:element name="P47_PollutionDrift" type="ssn:DriftType"/>
+			<xsd:element name="P49_ObserverIdentity" type="ssn:P49_ObserverIdentityType" maxOccurs="unbounded"/>
+			<xsd:element name="P52_InformedStateOrg" type="ssn:P52_InformedStateOrgType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="P40_DateTime" type="xsd:string"/>
+		<xsd:attribute name="P41_PollutionPosition" type="xsd:string" use="required"/>
+		<xsd:attribute name="P42_PollutionChars" type="xsd:string" use="required"/>
+		<xsd:attribute name="P43_PollutionSource" type="xsd:string" use="required"/>
+		<xsd:attribute name="P48_PollutionEffectForecast" type="xsd:string" use="required"/>
+		<xsd:attribute name="P50_ActionTaken" type="xsd:string" use="required"/>
+		<xsd:attribute name="P51_Photographs" type="xsd:string" use="required"/>
+		<xsd:attribute name="P53_OtherInformation" type="xsd:string"/>
+		<xsd:attribute name="P60_Acknowledge" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="POLFACType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Assistance" type="ssn:AssistanceType"/>
+			<xsd:element name="P85_InformedStateOrg" type="ssn:P85_InformedStateOrgType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="P80_DateTime" type="xsd:string"/>
+		<xsd:attribute name="P81_RequestForAssistance" type="xsd:string" use="required"/>
+		<xsd:attribute name="P86_ChangeOfCommand" type="xsd:string" use="required"/>
+		<xsd:attribute name="P87_ExchangeOfInformation" type="xsd:string" use="required"/>
+		<xsd:attribute name="P88_OtherInformation" type="xsd:string"/>
+		<xsd:attribute name="P99_Acknowledge" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="SpeedDirectionType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Speed" type="xsd:string" use="required"/>
+		<xsd:attribute name="Direction" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="SeaStateType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="WaveHeight" type="xsd:string" use="required"/>
+		<xsd:attribute name="Visibility" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="P49_ObserverIdentityType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="HomePort" type="xsd:string" use="required"/>
+		<xsd:attribute name="Flag" type="xsd:string" use="required"/>
+		<xsd:attribute name="CallSign" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="P52_InformedStateOrgType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AssistanceType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="P82_Cost" type="xsd:string" use="required"/>
+		<xsd:attribute name="P83_PreArrangements" type="xsd:string" use="required"/>
+		<xsd:attribute name="P84_Delivery" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="P85_InformedStateOrgType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="LostFoundContainersInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="P2_ShipIdentification" type="ssn:VesselIdentificationType"/>
+			<xsd:element name="ContainerInformation" type="ssn:ContainerInformationType"/>
+		</xsd:sequence>
+		<xsd:attribute name="P1_ReportType" type="ssn:ReportTypeEnumType" use="required"/>
+		<xsd:attribute name="CargoLeaking" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ContainerInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="P3_ContainerPosition" type="ssn:PositionType"/>
+			<xsd:element name="Container" type="ssn:ContainerType" maxOccurs="unbounded"/>
+			<xsd:element name="Wind" type="ssn:SpeedDirectionType"/>
+			<xsd:element name="Tide" type="ssn:SpeedDirectionType"/>
+			<xsd:element name="SeaState" type="ssn:SeaStateType"/>
+			<xsd:element name="ContainerDrift" type="ssn:DriftType"/>
+		</xsd:sequence>
+		<xsd:attribute name="P4_NumberOfContainers" type="xsd:integer" use="required"/>
+		<xsd:attribute name="P5_TypeOfGoods" type="xsd:string" use="required"/>
+		<xsd:attribute name="CargoLeaking" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ContainerType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Description" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="OtherInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="Details" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="IncidentDetails2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="ssn:anon18"/>
+		</xsd:sequence>
+		<xsd:attribute name="SentAt" type="xsd:dateTime" use="required"/>
+		<xsd:attribute name="From" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:group name="anon18">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="Base64Details" type="ssn:Base64DetailsType"/>
+			<xsd:element name="WasteAlertInformation" type="ssn:WasteAlertInformationType"/>
+			<xsd:element name="SITREPAlertInformation" type="ssn:SITREPAlertInformationType"/>
+			<xsd:element name="POLREPAlertInformation" type="ssn:POLREPAlertInformationType"/>
+			<xsd:element name="LostFoundContainersAlertInformation" type="ssn:LostFoundContainersAlertInformationType"/>
+			<xsd:element name="OtherAlertInformation" type="ssn:OtherAlertInformationType"/>
+			<xsd:element name="ContactDetails" type="ssn:ContactDetailsType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="DriftType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="DriftSpeed" type="xsd:string" use="required"/>
+		<xsd:attribute name="DriftCourse" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MRSCargoInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DG" type="ssn:DGType"/>
+			<xsd:element name="CargoManifest" type="ssn:CargoManifestType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="CargoType" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="AISCargoInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="HazardousCargoType" type="ssn:HazardousCargoTypeEnumType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="CargoManifest2Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="UrlDetails" type="ssn:UrlDetailsType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CargoManifestType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="ssn:anon6"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CargoInformationType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DPG" type="ssn:DPGType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DPGType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:group ref="ssn:anon19"/>
+			<xsd:element name="PlacementOfGoods" type="ssn:PlacementOfGoodsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="PlacementOfGoodsInContainer" type="ssn:PlacementOfGoodsInContainerType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="TechnicalName" type="xsd:string" use="required"/>
+		<xsd:attribute name="UNNumber" type="xsd:string" use="required"/>
+		<xsd:attribute name="IMOHazardClass" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="WeightGrossType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="UnitOfMeasurementGross" type="ssn:UnitOfMeasureTypeType" use="required"/>
+		<xsd:attribute name="GrossQuantity" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="WeightNetType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="UnitOfMeasurementNet" type="ssn:UnitOfMeasureTypeType" use="required"/>
+		<xsd:attribute name="NetQuantity" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="PlacementOfGoodsType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="LocationOnBoardGoods" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="PlacementOfGoodsInContainerType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:sequence/>
+		<xsd:attribute name="TransUnitId" type="xsd:string" use="required"/>
+		<xsd:attribute name="LocationOnBoardContainer" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:group name="anon19">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en"/>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="WeightGross" type="ssn:WeightGrossType"/>
+			<xsd:element name="WeightNet" type="ssn:WeightNetType"/>
+		</xsd:choice>
+	</xsd:group>
+</xsd:schema>
