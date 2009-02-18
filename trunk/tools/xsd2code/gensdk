@@ -25,3 +25,9 @@ javac -d classes *java
 cd classes
 jar cf ../ivef.jar ivef/*
 cd ../../../tools/xsd2code
+
+#make qt
+rm ../../ssn-qt/*.cpp
+rm ../../ssn-qt/*.o
+rm ../../ssn-qt/*.h
+bin/xsd2code --file=../../doc/ssn_16.xsd --out=../../ssn-qt/ 

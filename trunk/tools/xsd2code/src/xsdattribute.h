@@ -26,13 +26,14 @@ class XSDAttribute : public QObject {
     Q_OBJECT
 
 public:
-    	XSDAttribute(QString name, QString type, bool required);
+    	XSDAttribute(QString name, QString type, bool required, QString fixed);
 	void setMinOccurs(int min);
 	void setMaxOccurs(int max);
 	void setMaxLength(int length);
 	void setMinLength(int length);
         void setDigits(int length);
 	void setType(QString type);
+	void setFixed(QString val);
 	void setUnbounded();
 	void setRequired(bool req);
 	void setDocumentation(QString doc);
@@ -42,6 +43,7 @@ public:
 	QString doc();
 	QVector<QString> enumeration();
 	bool required();
+	bool isFixed();
 	bool unbounded();
 	bool hasMin();
 	bool hasMax();
@@ -52,6 +54,7 @@ private:
 	QVector<QString> m_enums;
 	QString m_name;
 	QString m_type;
+	QString m_fixed;
 	QString m_doc;
 	bool m_required;
 	bool m_unbounded;
@@ -60,6 +63,7 @@ private:
 	int m_maxLength;
 	int m_minLength;
 	int m_max;
+	bool m_isFixed;
 	bool m_hasMin;
 	bool m_hasMax;
 };

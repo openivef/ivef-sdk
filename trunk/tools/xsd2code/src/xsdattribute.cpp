@@ -20,9 +20,10 @@
 
 #include "xsdattribute.h"
 
-XSDAttribute::XSDAttribute(QString name, QString type, bool required) {
+XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fixed) {
 	m_name = name;
 	m_type = type;
+        m_fixed = fixed;
 	m_required = required;
 	m_unbounded = false;
 	m_hasMin = false;
@@ -30,7 +31,13 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required) {
 	m_maxLength = -1; 
 	m_minLength = -1; 
         m_digits = 0;
-	
+        m_fixed = true;
+        if (fixed == "") {
+          m_isFixed = false;
+        }
+        else {
+          m_isFixed = true;
+	}
     //std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
 }
 
