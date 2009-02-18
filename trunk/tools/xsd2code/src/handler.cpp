@@ -27,67 +27,8 @@ QVector<XSDObject*> Handler::objects() {
 	return m_objects;
 }
 
-bool Handler::startElement (const QString & /* namespaceURI */,
-                                const QString & /* localName */,
-                                const QString & qualifiedName,
-                                const QXmlAttributes & atts) {
+void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts) {
 
-        // some xsd use the xsd:<token> style
-        QString qName = qualifiedName;        
-        qName.replace(QString("xsd:"), QString("xs:"));
-
-    std::cout << QString("SE: %1").arg(qName).toLatin1().data() << std::endl;
-
-    for (int i=0; i < atts.length(); i++) {
-        QString key = atts.localName(i);
-        QString value = atts.value(i);
-        std::cout << QString("AT:    %1 = %2").arg(key, value).toLatin1().data() << std::endl;
-    }
-	
-
-	if (qName == "xs:annotation") {
-		// ignore
-		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
-	} else if (qName == "xs:attribute") {
-		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
-		QString name = "unknown", type = "unknown", fixed = "";
-		bool required = true;
-		for (int i=0; i < atts.length(); i++) {
-			QString key = atts.localName(i);
-			QString value = atts.value(i);
-			if (key == "name") { 
-				name = value;
-			} else if (key == "type") {
-                                value.replace(QString("xsd:"), QString("xs:"));
-				type = value;			
-			} else if (key == "fixed") {
-				fixed = value;			
-			} else if (key == "use") {
-				if (value == "optional") {
-					required = false;
-				}
-			} else {
-				std::cerr << QString("unexpected %1, %2 in tag %3").arg(key, value, qName).toLatin1().data() << std::endl;
-			}
-		}
-		XSDAttribute *attr = new XSDAttribute(name, type, required, fixed);
-		m_attrStack.push(attr);
-                
-                if (m_objStack.size() > 0) { // there can be attributes to the schema
-		    XSDObject *parent = m_objStack.top();
-		    parent->addAttribute(attr);
-                } else { 
-		    XSDObject *parent = m_objects.first();
-		    parent->addAttribute(attr);
-                }
-		
-	} else if (qName == "xs:complexType") {
-		// ignore, we will check for multiple attributes anyway
-		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
-	} else if (qName == "xs:documentation") {
-		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
-
-	} else if (qName == "xs:element") {
 		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 
 		XSDObject *parent = NULL;
@@ -162,6 +103,85 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 			parent->addAttribute(attr);
 		}
 		m_attrStack.push(attr);
+
+}
+
+bool Handler::startElement (const QString & /* namespaceURI */,
+                                const QString & /* localName */,
+                                const QString & qualifiedName,
+                                const QXmlAttributes & atts) {
+
+        // some xsd use the xsd:<token> style
+        QString qName = qualifiedName;        
+        qName.replace(QString("xsd:"), QString("xs:"));
+
+    std::cout << QString("SE: %1").arg(qName).toLatin1().data() << std::endl;
+
+    for (int i=0; i < atts.length(); i++) {
+        QString key = atts.localName(i);
+        QString value = atts.value(i);
+        std::cout << QString("AT:    %1 = %2").arg(key, value).toLatin1().data() << std::endl;
+    }
+	
+
+	if (qName == "xs:annotation") {
+		// ignore
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+	} else if (qName == "xs:attribute") {
+		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+		QString name = "unknown", type = "unknown", fixed = "";
+		bool required = true;
+		for (int i=0; i < atts.length(); i++) {
+			QString key = atts.localName(i);
+			QString value = atts.value(i);
+			if (key == "name") { 
+				name = value;
+			} else if (key == "type") {
+                                value.replace(QString("xsd:"), QString("xs:"));
+				type = value;			
+			} else if (key == "fixed") {
+				fixed = value;			
+			} else if (key == "use") {
+				if (value == "optional") {
+					required = false;
+				}
+			} else {
+				std::cerr << QString("unexpected %1, %2 in tag %3").arg(key, value, qName).toLatin1().data() << std::endl;
+			}
+		}
+		XSDAttribute *attr = new XSDAttribute(name, type, required, fixed);
+		m_attrStack.push(attr);
+                
+                if (m_objStack.size() > 0) { // there can be attributes to the schema
+		    XSDObject *parent = m_objStack.top();
+		    parent->addAttribute(attr);
+                } else { 
+		    XSDObject *parent = m_objects.first();
+		    parent->addAttribute(attr);
+                }
+		
+	} else if (qName == "xs:complexType") {
+		// ignore, we will check for multiple attributes anyway
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+                if (m_objStack.size() == 0) { //  complex types on schema level are other objects used as referal data
+		    std::cout << QString("creating referal type for %1").arg(qName).toLatin1().data() << std::endl;
+		    QString name = "unknown";
+		    for (int i=0; i < atts.length(); i++) {
+			QString key = atts.localName(i);
+			QString value = atts.value(i);
+			if (key == "name") { 
+				name = value;
+			} 
+                    }
+                    handleStartOfElement(name, atts);
+                } 
+	} else if (qName == "xs:documentation") {
+		//std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+
+	} else if (qName == "xs:element") {
+
+                 handleStartOfElement(qName, atts);
+
 	} else if (qName == "xs:enumeration") {
 		//std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 		XSDAttribute *attr = m_attrStack.top();
@@ -274,6 +294,12 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
 	} else if (qName == "xs:element") {
 		m_objStack.pop(); // pop the element
 		m_attrStack.pop(); // pop the attribute of the parent
+	} else if (qName == "xs:complexType") {
+                if (m_objStack.size() == 1) { //  complex types on schema level are other objects used as referal data
+		    std::cout << QString("closing referal type for %1").arg(qName).toLatin1().data() << std::endl;
+		    m_objStack.pop(); // pop the element
+		    m_attrStack.pop(); // pop the attribute of the parent
+                }
 	} else if (qName == "xs:schema") {
 		// though all objects are part of the schema it is better to not include them there
 		// otherwise we have only one root object.

@@ -30,19 +30,20 @@ public:
     Handler() { };
 
 	bool startDocument ();
-    bool startElement (const QString & namespaceURI,
+        bool startElement (const QString & namespaceURI,
                        const QString & localName,
                        const QString & qName,
                        const QXmlAttributes & atts);
     
 	bool characters ( const QString & ch  );
-    bool endElement ( const QString & namespaceURI, 
+        bool endElement ( const QString & namespaceURI, 
 					  const QString & localName, 
 					  const QString & qName );
   	bool endDocument ();
 	bool error ( const QXmlParseException & exception );
 	
 	QVector<XSDObject*> objects();
+        void handleStartOfElement ( QString qName, QXmlAttributes atts);
 	
 private:
 	QStack<XSDObject*> m_objStack;
