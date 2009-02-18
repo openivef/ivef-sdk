@@ -131,7 +131,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
     QString qName = qualifiedName;
     qName.replace(QString("xsd:"), QString("xs:"));
 
-#if 0
+#if 1
     std::cout << QString("SE: %1").arg(qName).toLatin1().data() << std::endl;
 
     for (int i=0; i < atts.length(); i++) {
@@ -346,7 +346,9 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
     QString qName = qualifiedName;
     qName.replace(QString("xsd:"), QString("xs:"));
 
-    //std::cout << QString("EE: %1").arg(qName).toLatin1().data() << std::endl;
+#if 1
+    std::cout << QString("EE: %1").arg(qName).toLatin1().data() << std::endl;
+#endif
 
     // pop elements previously been pushed
     if (qName == "xs:attribute") {
@@ -377,7 +379,7 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
         m_attrStack.pop(); // pop the attribute of the parent
     } else if ((qName == "xs:complexType") ||(qName == "xs:simpleType") ||(qName == "xs:group")) {
         if (m_objStack.size() == 1) { //  complex types on schema level are other objects used as referal data
-            //std::cout << QString("closing referal type for %1").arg(qName).toLatin1().data() << std::endl;
+            std::cout << QString("closing referal type for %1").arg(qName).toLatin1().data() << std::endl;
             m_objStack.pop(); // pop the element
             m_attrStack.pop(); // pop the attribute of the parent
         }
