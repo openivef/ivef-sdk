@@ -44,6 +44,7 @@ public:
 	
 	QVector<XSDObject*> objects();
         void handleStartOfElement ( QString qName, QXmlAttributes atts);
+        QString stripNameSpace(QString tag);
 	
 private:
 	QStack<XSDObject*> m_objStack;
