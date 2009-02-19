@@ -44,7 +44,7 @@ QString Handler::stripNameSpace(QString tag) {
     return tag;
 }
 
-void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts) {
+void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool isTypeDef) {
     //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 
     XSDObject *parent = NULL;
@@ -54,6 +54,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts) {
     }
     QString name, max, min;
     XSDObject *obj = new XSDObject("unknown");
+    obj->setTypeDefinition(isTypeDef);
     if (m_objStack.size() == 1) { // schema is level 0
         //std::cout << QString("setting root object on %1").arg(qName).toLatin1().data() << std::endl;
         obj->setRootObject();
@@ -83,6 +84,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts) {
                 m_objStack.pop();
                 m_objStack.push(existingObj);
                 existingObj->setMerged();
+                existingObj->setTypeDefinition(isTypeDef);  // is this really needed???? we may demote an object
             }
             name = value;
         } else if (key == "maxOccurs") {
@@ -190,7 +192,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
                     name = value;
                 }
             }
-            handleStartOfElement(name, atts);
+            handleStartOfElement(name, atts, true);
         }
     } else if (qName == "xs:complexContent") {
         // ignore, we will check for multiple attributes anyway
@@ -234,7 +236,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 
     } else if (qName == "xs:element") {
 
-        handleStartOfElement(qName, atts);
+        handleStartOfElement(qName, atts, false);
 
     } else if (qName == "xs:enumeration") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
@@ -306,7 +308,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
                     name = value;
                 }
             }
-            handleStartOfElement(name, atts);
+            handleStartOfElement(name, atts, true);
         }
     } else if (qName == "xs:group") {
 
@@ -321,7 +323,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
                     name = value;
                 }
             }
-            handleStartOfElement(name, atts);
+            handleStartOfElement(name, atts, true);
         }
     } else {
         std::cerr << QString("SE: %1 unknown, breaking off parsing routine").arg(qName).toLatin1().data() << std::endl;
@@ -378,7 +380,8 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
         m_objStack.pop(); // pop the element
         m_attrStack.pop(); // pop the attribute of the parent
     } else if ((qName == "xs:complexType") ||(qName == "xs:simpleType") ||(qName == "xs:group")) {
-        if (m_objStack.size() == 1) { //  complex types on schema level are other objects used as referal data
+        XSDObject *obj = m_objStack.top();
+        if (obj->isTypeDefinition()) { //  complex types on schema level are other objects used as referal data
             std::cout << QString("closing referal type for %1").arg(qName).toLatin1().data() << std::endl;
             m_objStack.pop(); // pop the element
             m_attrStack.pop(); // pop the attribute of the parent

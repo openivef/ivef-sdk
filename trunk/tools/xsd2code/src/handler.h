@@ -43,7 +43,7 @@ public:
 	bool error ( const QXmlParseException & exception );
 	
 	QVector<XSDObject*> objects();
-        void handleStartOfElement ( QString qName, QXmlAttributes atts);
+        void handleStartOfElement ( QString qName, QXmlAttributes atts, bool isTypeDef);
         QString stripNameSpace(QString tag);
 	
 private:

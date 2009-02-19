@@ -36,9 +36,11 @@ public:
 	void setRootObject();	
 	void setMerged();	
 	void setEmbedded();	
+	void setTypeDefinition(bool val);	
 
 	QString name();
         bool isMerged();
+        bool isTypeDefinition();
         bool isEmbedded();
         bool isRootObject();
 	QVector<XSDAttribute*>attributes();
@@ -47,6 +49,7 @@ public:
 private:
 	QString m_name;
 	bool m_merged;
+	bool m_type;
 	bool m_root;
 	bool m_isEmbedded;
 	QVector<XSDAttribute*>m_attributes;

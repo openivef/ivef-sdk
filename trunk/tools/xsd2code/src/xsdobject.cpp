@@ -23,6 +23,7 @@
 XSDObject::XSDObject() {
 	m_merged = false;
 	m_root = false;
+	m_type = false;
 	m_isEmbedded = false;
 }
 
@@ -36,6 +37,14 @@ XSDObject::XSDObject(QString name ) {
 void XSDObject::setName(QString name ) {
 	m_name = name;
     //std::cout << QString("XSDObject named: %1").arg(name).toLatin1().data() << std::endl;
+}
+
+bool XSDObject::isTypeDefinition() {
+	return m_type;
+}
+
+void XSDObject::setTypeDefinition(bool val) {
+	m_type = val;
 }
 
 void XSDObject::setRootObject() {
