@@ -2,6 +2,8 @@
 
 The IVEF SDK consists of various modules and example programs. 
 
+http://ivef-sdk.googlecode.com/files/layers.png
+
 ==Documentation==
 In the documentation section you can find the XSD schemes that define the interface. The XSD is also available as a pdf [http://ivef-sdk.googlecode.com/files/ivef1.pdf document]
 
