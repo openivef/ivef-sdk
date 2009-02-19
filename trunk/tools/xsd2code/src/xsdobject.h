@@ -37,8 +37,11 @@ public:
 	void setMerged();	
 	void setEmbedded();	
 	void setTypeDefinition(bool val);	
+	void setBaseClass(QString base);	
 
 	QString name();
+	QString baseClass();
+        bool hasBaseClass();
         bool isMerged();
         bool isTypeDefinition();
         bool isEmbedded();
@@ -48,7 +51,9 @@ public:
 
 private:
 	QString m_name;
+	QString m_baseClass;
 	bool m_merged;
+	bool m_hasBaseClass;
 	bool m_type;
 	bool m_root;
 	bool m_isEmbedded;

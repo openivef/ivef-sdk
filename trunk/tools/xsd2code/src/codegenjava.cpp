@@ -196,9 +196,9 @@ void CodeGenJava::go() {
  
         classFileOut << "package " << package << ";\n\n";
 
-		classFileOut << "import java.util.*;\n";
+	classFileOut << "import java.util.*;\n";
         classFileOut << "import java.text.DateFormat;\n";
-	    classFileOut << "import java.text.SimpleDateFormat;\n\n";
+	classFileOut << "import java.text.SimpleDateFormat;\n\n";
 
 
         // include dependend files
@@ -210,7 +210,11 @@ void CodeGenJava::go() {
         }
 
         // define the class
-        classFileOut << "\npublic class " << className(name) << " { \n\n";
+        QString baseClass = "";
+        if (obj->hasBaseClass()) {
+           baseClass = " extends " + obj->baseClass();
+        }
+        classFileOut << "\npublic class " << className(name) << baseClass << " { \n\n";
 
         // variables section
         // all attributes

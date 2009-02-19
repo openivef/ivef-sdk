@@ -213,7 +213,11 @@ void CodeGenQT::go() {
         }
 
         // define the class
-        headerFileOut << "\nclass " << className(name) << " : public QObject { \n";
+        QString baseClass = "QObject";
+        if (obj->hasBaseClass()) {
+           baseClass = obj->baseClass();
+        }
+        headerFileOut << "\nclass " << className(name) << " : public " << baseClass << " { \n";
         headerFileOut << "    Q_OBJECT\n\n";
 
         // public section

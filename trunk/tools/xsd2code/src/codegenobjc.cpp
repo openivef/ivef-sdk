@@ -195,7 +195,11 @@ void CodeGenObjC::go() {
         }
 
         // define the class
-        headerFileOut << "\n@interface " << className(name) << " : NSObject { \n";
+        QString baseClass = "NSObject";
+        if (obj->hasBaseClass()) {
+           baseClass = obj->baseClass();
+        }
+        headerFileOut << "\n@interface " << className(name) << " : " << baseClass << " { \n";
 
         // variables  section
         for(int j=0; j < attributes.size(); j++) {

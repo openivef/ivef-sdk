@@ -179,11 +179,12 @@ bool Handler::startElement (const QString & /* namespaceURI */,
             parent->addAttribute(attr);
         }
 
-    } else if (qName == "xs:complexType") {
-        // ignore, we will check for multiple attributes anyway
-        //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
-        if (m_objStack.size() == 0) { //  complex types on schema level are other objects used as referal data
-            //std::cout << QString("creating referal type for %1").arg(qName).toLatin1().data() << std::endl;
+    } else if ((qName == "xs:simpleType") || (qName == "xs:group") || (qName == "xs:complexType")) {
+        
+        XSDObject *parent = m_objStack.top();
+
+        if ((m_objStack.size() == 0) || (parent->isTypeDefinition())) { //  simple types on schema level are other objects used as referal data (or part of a referal)
+            std::cout << QString("creating referal type for %1").arg(qName).toLatin1().data() << std::endl;
             QString name = "unknown";
             for (int i=0; i < atts.length(); i++) {
                 QString key = atts.localName(i);
@@ -210,26 +211,9 @@ bool Handler::startElement (const QString & /* namespaceURI */,
         }
         std::cout << QString("extending class with base class %1").arg(base).toLatin1().data() << std::endl;
 
-
-            XSDObject *existingObj = NULL;
-            for(int i=0; i < m_objects.size(); i++) {
-                if (m_objects.at(i)->name() == base) {
-                    existingObj = m_objects.at(i);
-                    break;
-                }
-            }
-
-            if (existingObj == NULL) {
-                std::cout << QString("ERROR cannot extend class base class %1 not found").arg(base).toLatin1().data() << std::endl;
-            } else {
-                // get object from stack and add all baseclass attributes also to it
-                XSDObject *obj = m_objStack.top();
-                QVector<XSDAttribute*> baseAttr = existingObj->attributes();
-                for(int j=0; j < baseAttr.size(); j++) {
-                    XSDAttribute *attr = baseAttr.at(j);
-                    obj->addAttribute(attr);
-                }
-            }
+        // get object from stack and add all baseclass attributes also to it
+        XSDObject *obj = m_objStack.top();
+        obj->setBaseClass(base);
 
     } else if (qName == "xs:documentation") {
         //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
@@ -295,36 +279,6 @@ bool Handler::startElement (const QString & /* namespaceURI */,
     } else if (qName == "xs:sequence") {
         // ignore
         //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
-    } else if (qName == "xs:simpleType") {
-
-        //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
-        if (m_objStack.size() == 0) { //  simple types on schema level are other objects used as referal data
-            //std::cout << QString("creating referal type for %1").arg(qName).toLatin1().data() << std::endl;
-            QString name = "unknown";
-            for (int i=0; i < atts.length(); i++) {
-                QString key = atts.localName(i);
-                QString value = atts.value(i);
-                if (key == "name") {
-                    name = value;
-                }
-            }
-            handleStartOfElement(name, atts, true);
-        }
-    } else if (qName == "xs:group") {
-
-        //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
-        if (m_objStack.size() == 0) { //  group types on schema level are other objects used as referal data
-            //std::cout << QString("creating referal type for %1").arg(qName).toLatin1().data() << std::endl;
-            QString name = "unknown";
-            for (int i=0; i < atts.length(); i++) {
-                QString key = atts.localName(i);
-                QString value = atts.value(i);
-                if (key == "name") {
-                    name = value;
-                }
-            }
-            handleStartOfElement(name, atts, true);
-        }
     } else {
         std::cerr << QString("SE: %1 unknown, breaking off parsing routine").arg(qName).toLatin1().data() << std::endl;
         return false;
