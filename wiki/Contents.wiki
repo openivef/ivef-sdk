@@ -6,7 +6,9 @@ The IVEF SDK consists of various modules and example programs.
 http://ivef-sdk.googlecode.com/files/layers.png
 
 The SDK consists of 4 layers, each having there own release cycle. Updates in the data definition will trigger a release of the library which complies with the new version of the definition. 
+
 The tools layer has their own release cycle which can also trigger a new release of the library, which is compatible with the previous version (wire format) but may yield more functionality or performance.
+
 Any update in the library will lead to an update of the examples since they demonstrate the workings of the library. Updates in the protocol description may also trigger new examples.
 
 ==Documentation==
