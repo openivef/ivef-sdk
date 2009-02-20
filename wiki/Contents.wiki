@@ -3,25 +3,20 @@
 The IVEF SDK consists of various modules and example programs. 
 
 ==Layering==
-
-
 http://ivef-sdk.googlecode.com/files/layers.png
 
+The SDK consists of 4 layers, each having there own release cycle. Updates in the data definition will trigger a release of the library which complies with the new version of the definition. 
+The tools layer has their own release cycle which can also trigger a new release of the library, which is compatible with the previous version (wire format) but may yield more functionality or performance.
+Any update in the library will lead to an update of the examples since they demonstrate the workings of the library. Updates in the protocol description may also trigger new examples.
+
 ==Documentation==
+===Protocol Description===
+The protocol description is in development and the current draft can be found in the [http://code.google.com/p/ivef-sdk/downloads/list download] section.
+
+===Data Definition===
 In the documentation section you can find the XSD schemes that define the interface. The XSD is also available as a pdf [http://ivef-sdk.googlecode.com/files/ivef1.pdf document]
 
 We use a version number based on *major.minor.path* patch releases fix only bugs, minor releases are compatible with minor effort, major releases contain complete overhauls. We have created a page with [Usefull SVN Commands]
-
-==IVEF Library==
-Available in various programming [languages] and for various platforms
-
-|| OS / Language || Qt || Obj-C || C# || Java ||
-|| Linux 64 bits    ||  verified  ||  no  || ? || verified ||
-|| Mac OS X 10.5  || verified  || verified || no || not tested yet ||
-|| Windows XP || verified || no || ? || not tested yet ||
-
-
-See the [Developing] page on how the library works and how you should interface with it.
 
 ==Tools ==
 ===xsd2code===
@@ -34,6 +29,17 @@ The library comes with a simple automated [Test] enviroment which is used to tes
 
 === astyle===
 Coding style is enforced with the help of *astyle --style=kr*
+
+==IVEF Library==
+Available in various programming [languages] and for various platforms
+
+|| OS / Language || Qt || Obj-C || C# || Java ||
+|| Linux 64 bits    ||  verified  ||  no  || ? || verified ||
+|| Mac OS X 10.5  || verified  || verified || no || not tested yet ||
+|| Windows XP || verified || no || ? || not tested yet ||
+
+
+See the [Developing] page on how the library works and how you should interface with it.
 
 ==Examples==
 ===iListen===
