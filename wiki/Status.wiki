@@ -1,15 +1,17 @@
 #summary status of the various elements of the SDK
 
-==Version 0.1.0==
-===IVEF Library===
-  * Qt bindings (C++)   
-  * Cocoa bindings (Objective-C) 
-  * Java bindings
+==Versions==
+
+The table below shows the versions of separate components and the version of the entire SDK as encapsulating item. Note that the diversification of the components was introduced by creating a copy of the 0.1.0 version of the SDK to the 1.0.0 version of the SDK 
+
+|| *IVEF_SDK* || 0.1.0 || 1.0.0 ||
+|| *Component / Version* || - || - ||
+|| IVEF_DEF || || 1.1.0 ||
+|| IVEF_LIB || || 1.0.0 ||
+|| IVEF_TOOLS|| || 1.0.0 ||
+|| IVEF_EXAMPLES || || 1.0.0 ||
 
 Released and compiles on Windows, Linux and Mac OS X.  Click on Source and follow the instructions to use SVN and obtain the source. 
-
-===Examples===
-To demonstrate the capability of the library, several examples has been released which demonstrates the core capabilities.  
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
