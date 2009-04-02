@@ -450,7 +450,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="Version" type="xs:string" use="required">
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="2.0.0">
 				<xs:annotation>
 					<xs:documentation>Defines the version of the protocol used. Syntax is major.minor.patch patch releases fix only bugs, minor releases may add functionality but are compatible, major releases are not compatible</xs:documentation>
 				</xs:annotation>
