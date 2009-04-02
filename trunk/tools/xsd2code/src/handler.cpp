@@ -101,7 +101,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
             name = stripNameSpace( value );
         } else if (key == "type") {
             // not a new object but an reference to an existing one (as type)
-            name = value;
+            name = stripNameSpace( value );
         } else {
             std::cerr << QString("unexpected %1, %2 in tag %3").arg(key, value, qName).toLatin1().data() << std::endl;
         }

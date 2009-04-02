@@ -1,17 +1,127 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" targetNamespace="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" elementFormDefault="qualified">
-	<xs:element name="Header">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.2" targetNamespace="urn:http://www.ivef.org/XMLSchema/IVEF/1.2" elementFormDefault="qualified">
+	<xs:element name="MSG_LoginRequest">
+		<xs:annotation>
+			<xs:documentation>MESSAGE sent by the user to identify oneselfs and request the default service</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
-			<xs:attribute name="Version" type="xs:string" use="required"/>
-			<xs:attribute name="MsgRefId" use="required">
-				<xs:annotation>
-					<xs:documentation>Must be an Universally Unique Identifier</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string"/>
-				</xs:simpleType>
-			</xs:attribute>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="LoginRequest"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MSG_LoginResponse">
+		<xs:annotation>
+			<xs:documentation>MESSAGE sent by the supplier indicating wether the user login was accepted or not</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="LoginResponse"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MSG_Logout">
+		<xs:annotation>
+			<xs:documentation>MESSAGE sent by the user to announce it will close it's connection</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Logout">
+								<xs:annotation>
+									<xs:documentation>Logout element node</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MSG_Ping">
+		<xs:annotation>
+			<xs:documentation>MESSAGE sent by either the user or the supplier to verify the aliveness of the connection, failure to respond within the timeout will lead to disconnect (default = 3 seconds)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Ping"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MSG_Pong">
+		<xs:annotation>
+			<xs:documentation>MESSAGE sent as reply to a MSG_Ping to confirm the aliveness of the connection.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Pong"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MSG_ServerStatus">
+		<xs:annotation>
+			<xs:documentation>MESSAGE sent by the supplier in case the server is experienceing / recovering from load problems</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ServerStatus"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MSG_ServiceRequest">
+		<xs:annotation>
+			<xs:documentation>MESSAGE sent by the user to request a different service than the current service, to stop all services request data from 0 areas or logout</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ServiceRequest"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="MSG_VesselData">
@@ -28,19 +138,205 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="VesselData">
+	<xs:element name="Header">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="PosReport" minOccurs="0"/>
-				<xs:element ref="StaticData" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="Voyage" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="1.2"/>
+			<xs:attribute name="MsgRefId" use="required">
+				<xs:annotation>
+					<xs:documentation>Must be an Universally Unique Identifier</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LoginRequest">
+		<xs:annotation>
+			<xs:documentation>DATA login message with details of the user</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Name" use="required">
+				<xs:annotation>
+					<xs:documentation>Login name</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Password" use="required">
+				<xs:annotation>
+					<xs:documentation>Password value</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Encryption" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = plain 2 = md5</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LoginResponse">
+		<xs:complexType>
+			<xs:attribute name="MsgId" use="required">
+				<xs:annotation>
+					<xs:documentation>Corresponds to the original MsgRefId from the Login.xml message</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Result" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = Accepted 2 = Declined</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Reason" use="optional">
+				<xs:annotation>
+					<xs:documentation>String describing reason for declining, only used when result is "Declined"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Logout">
+		<xs:annotation>
+			<xs:documentation>DATA logout message, the server will drop the connection if logout is successfull</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="Ping">
+		<xs:complexType>
+			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Pong">
+		<xs:complexType>
+			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="MsgId" use="required">
+				<xs:annotation>
+					<xs:documentation>Corresponds to the original MsgRefId from the Ping.xml message</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceId" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The identification of the node who created this message</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Pos">
+		<xs:complexType>
+			<xs:attribute name="Lat" use="required">
+				<xs:annotation>
+					<xs:documentation>Latitude (WGS84) in degrees. (+/- 90 degrees;
+North = positive; South = negative) Examples:
+
+-90deg (south) =   -90.0000000
+0deg0min1sec (north) =    0.0000016
+50deg50min (north)  = 50.8333333</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="-90.00000"/>
+						<xs:maxInclusive value="+90.00000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Long" use="required">
+				<xs:annotation>
+					<xs:documentation>Longitude (WGS84) in degrees. (+/- 180 degrees; East = positive; West = negative). Examples:
+
+-180deg (west) =   -180.0000000
+0deg0min1sec (east) =       0.0000016</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:maxInclusive value="+180.00000"/>
+						<xs:minExclusive value="-180.00000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="PosReport">
+		<xs:annotation>
+			<xs:documentation>DATA describing a position report of an object</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="Pos"/>
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="Sensor">
+					<xs:annotation>
+						<xs:documentation>Sensors contributing to this postion report (for the purpose of analysis)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="SenId" use="required">
+							<xs:annotation>
+								<xs:documentation>Identifier of local sensor contributing to position report</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:maxInclusive value="65536"/>
+									<xs:minInclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="TrkId" use="required">
+							<xs:annotation>
+								<xs:documentation>local Identifier of track from sensor contributing to position report</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:maxInclusive value="65536"/>
+									<xs:minInclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="UpdateTime" type="xs:dateTime" use="required">
+							<xs:annotation>
+								<xs:documentation>Date and time in UTC format (YYYY-MM-DDThh:mm:ss.sssZ) (subset of ISO 8601)  this position was measured.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="Id" type="xs:integer" use="required">
 				<xs:annotation>
@@ -73,6 +369,7 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="1"/>
 						<xs:minInclusive value="0"/>
 						<xs:maxInclusive value="360"/>
 					</xs:restriction>
@@ -172,7 +469,8 @@
 1 = radar
 2 = ais
 3 = ais+radar
-4 = deadreckoning</xs:documentation>
+4 = deadreckoning
+5 = other</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -180,6 +478,7 @@
 						<xs:enumeration value="2"/>
 						<xs:enumeration value="3"/>
 						<xs:enumeration value="4"/>
+						<xs:enumeration value="5"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -473,6 +772,120 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ServerStatus">
+		<xs:complexType>
+			<xs:attribute name="Status" use="required">
+				<xs:annotation>
+					<xs:documentation>Status of the server</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="queuefull"/>
+						<xs:enumeration value="ok"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Details" use="optional">
+				<xs:annotation>
+					<xs:documentation>Details of status</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ServiceRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Area" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Pos" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Transmission">
+					<xs:complexType>
+						<xs:attribute name="Type" use="required">
+							<xs:annotation>
+								<xs:documentation>Type of transmission, possible values are:
+1 = single occurrence
+2 = periodic
+3 = synchronic
+4 = on change</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+									<xs:enumeration value="3"/>
+									<xs:enumeration value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Period" type="xs:decimal" use="optional">
+							<xs:annotation>
+								<xs:documentation> Specifies he time between two periodic updates in seconds</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Item" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="Element" use="required">
+							<xs:annotation>
+								<xs:documentation>Describes requested Vessel data element, possible values:
+1 = position
+2 = static data
+3 = voyage</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+									<xs:enumeration value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Field" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>Selected field. Can be 'all' or one of the items of vessel data PositionReport, Static Data  or Voyage</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Object" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="FileName" use="required">
+							<xs:annotation>
+								<xs:documentation>Name of the filter. The filter can be a predefined selector or can be defined here in the future. One of the predefined selectors will be 'all'</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VesselData">
+		<xs:annotation>
+			<xs:documentation>DATA regarding an object in the supliers domain, contains at least 1 one of the sub elements (PosReport, StaticData, Voyage)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="PosReport" minOccurs="0"/>
+				<xs:element ref="StaticData" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Voyage" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Id" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identification of this object, typically identical to Id in the PosReport, but not required</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Voyage">
 		<xs:complexType>
 			<xs:attribute name="Id" use="required">
@@ -554,348 +967,6 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:decimal">
 						<xs:minExclusive value="0"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="MSG_LoginRequest">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Header"/>
-				<xs:element name="Body">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="LoginRequest"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="LoginRequest">
-		<xs:complexType>
-			<xs:attribute name="Name" use="required">
-				<xs:annotation>
-					<xs:documentation>Login name</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="256"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Password" use="required">
-				<xs:annotation>
-					<xs:documentation>Password value</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="256"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Encryption" use="required">
-				<xs:annotation>
-					<xs:documentation>1 = plain 2 = md5</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:enumeration value="1"/>
-						<xs:enumeration value="2"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="MSG_LoginResponse">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Header"/>
-				<xs:element name="Body">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="LoginResponse"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="LoginResponse">
-		<xs:complexType>
-			<xs:attribute name="MsgId" use="required">
-				<xs:annotation>
-					<xs:documentation>Corresponds to the original MsgRefId from the Login.xml message</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="36"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Result" use="required">
-				<xs:annotation>
-					<xs:documentation>1 = Accepted 2 = Declined</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:enumeration value="1"/>
-						<xs:enumeration value="2"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Reason" use="optional">
-				<xs:annotation>
-					<xs:documentation>String describing reason for declining, only used when result is "Declined"</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="256"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="MSG_Ping">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Header"/>
-				<xs:element name="Body">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Ping"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Ping">
-		<xs:complexType>
-			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
-				<xs:annotation>
-					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="MSG_Pong">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Header"/>
-				<xs:element name="Body">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Pong"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Pong">
-		<xs:complexType>
-			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
-				<xs:annotation>
-					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="MsgId" use="required">
-				<xs:annotation>
-					<xs:documentation>Corresponds to the original MsgRefId from the Ping.xml message</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="36"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="SourceId" type="xs:integer" use="required">
-				<xs:annotation>
-					<xs:documentation>The identification of the node who created this message</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="MSG_ServerStatus">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Header"/>
-				<xs:element name="Body">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="ServerStatus"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ServerStatus">
-		<xs:complexType>
-			<xs:attribute name="Status" use="required">
-				<xs:annotation>
-					<xs:documentation>Status of the server</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="queuefull"/>
-						<xs:enumeration value="ok"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Details" use="optional">
-				<xs:annotation>
-					<xs:documentation>Details of status</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="50"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="MSG_Logout">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Header"/>
-				<xs:element name="Body">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Logout">
-								<xs:annotation>
-									<xs:documentation>Logout element node</xs:documentation>
-								</xs:annotation>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Logout">
-		<xs:annotation>
-			<xs:documentation>Logout element node</xs:documentation>
-		</xs:annotation>
-		<xs:complexType/>
-	</xs:element>
-	<xs:element name="MSG_ServiceRequest">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Header"/>
-				<xs:element name="Body">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="ServiceRequest"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ServiceRequest">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="Area" minOccurs="0" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Pos" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="Transmission">
-					<xs:complexType>
-						<xs:attribute name="Type" use="required">
-							<xs:annotation>
-								<xs:documentation>Type of transmission, possible values are:
-1 = single occurrence
-2 = periodic
-3 = synchronic
-4 = on change</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:integer">
-									<xs:enumeration value="1"/>
-									<xs:enumeration value="2"/>
-									<xs:enumeration value="3"/>
-									<xs:enumeration value="4"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="Period" type="xs:decimal" use="optional">
-							<xs:annotation>
-								<xs:documentation> Specifies he time between two periodic updates in seconds</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="Item" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:attribute name="Element" use="required">
-							<xs:annotation>
-								<xs:documentation>Describes requested Vessel data element, possible values:
-1 = position
-2 = static data
-3 = voyage</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:integer">
-									<xs:enumeration value="1"/>
-									<xs:enumeration value="2"/>
-									<xs:enumeration value="3"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="Field" type="xs:string" use="required">
-							<xs:annotation>
-								<xs:documentation>Selected field. Can be 'all' or one of the items of vessel data PositionReport, Static Data  or Voyage</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="Object" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:attribute name="FileName" use="required">
-							<xs:annotation>
-								<xs:documentation>Name of the filter. The filter can be a predefined selector or can be defined here in the future. One of the predefined selectors will be 'all'</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Pos">
-		<xs:complexType>
-			<xs:attribute name="Lat" use="required">
-				<xs:annotation>
-					<xs:documentation>Latitude (WGS84) in degrees. (+/- 90 degrees;
-North = positive; South = negative) Examples:
-
--90deg (south) =   -90.0000000
-0deg0min1sec (north) =    0.0000016
-50deg50min (north)  = 50.8333333</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:decimal">
-						<xs:minInclusive value="-90.00000"/>
-						<xs:maxInclusive value="+90.00000"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Long" use="required">
-				<xs:annotation>
-					<xs:documentation>Longitude (WGS84) in degrees. (+/- 180 degrees; East = positive; West = negative). Examples:
-
--180deg (west) =   -180.0000000
-0deg0min1sec (east) =       0.0000016</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:decimal">
-						<xs:maxInclusive value="+180.00000"/>
-						<xs:minExclusive value="-180.00000"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
