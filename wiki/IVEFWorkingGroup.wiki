@@ -1,7 +1,7 @@
 = IVEF Working Group =
 An international group of industrial partners as agreed to work on further specifying the IVEF protocol and labour to create an official standard from it. 
 
-As of 01/03/2009 the IVEF-SDK will follow the definition as defined by this group. 
+As of 01/03/2009 the IVEF-SDK will follow the definition as defined by this [http://groups.google.com/group/ivef-ccb group]. The SDK will use a separate [http://groups.google.com/group/ivef-sdk ccb] (but could hold the same people)
 
 = Members =
 IVEF is developed by a collaborative effort of:
