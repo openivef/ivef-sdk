@@ -28,7 +28,7 @@
 							</xs:element>
 							<xs:element ref="Notification">
 								<xs:annotation>
-									<xs:documentation>MESSAGE sent by the supplier containing notification data</xs:documentation>
+									<xs:documentation>Message sent by the server regarding an area penetration, line crossing or text message</xs:documentation>
 								</xs:annotation>
 							</xs:element>
 							<xs:element ref="ObjectData">
@@ -48,7 +48,7 @@
 							</xs:element>
 							<xs:element ref="ServerStatus">
 								<xs:annotation>
-									<xs:documentation>MESSAGE sent by the supplier in case the server is experienceing / recovering from load problems</xs:documentation>
+									<xs:documentation>MESSAGE sent by the server in case the server is experienceing / recovering from load problems</xs:documentation>
 								</xs:annotation>
 							</xs:element>
 							<xs:element ref="ServiceRequest">
@@ -94,32 +94,6 @@
 			<xs:sequence>
 				<xs:element ref="Pos" minOccurs="3" maxOccurs="unbounded"/>
 			</xs:sequence>
-			<xs:attribute name="Color" use="optional">
-				<xs:annotation>
-					<xs:documentation>Color of the area in RGB</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="6"/>
-						<xs:maxLength value="6"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="Fill" use="optional">
-				<xs:annotation>
-					<xs:documentation>Fill pattern of the area</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="dots"/>
-						<xs:enumeration value="plain"/>
-						<xs:enumeration value="horizontal"/>
-						<xs:enumeration value="vertical"/>
-						<xs:enumeration value="diagonal"/>
-						<xs:enumeration value="mesh"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
 			<xs:attribute name="Name" use="optional">
 				<xs:annotation>
 					<xs:documentation>Name of the area</xs:documentation>
@@ -127,47 +101,21 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Event">
+	<xs:element name="Crossing">
 		<xs:annotation>
-			<xs:documentation>DATA event sent to a user</xs:documentation>
+			<xs:documentation>DATA line crossing event sent to a user</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
 				<xs:annotation>
-					<xs:documentation>Description of the line or area regarding the event</xs:documentation>
+					<xs:documentation>Description of the line regarding the event</xs:documentation>
 				</xs:annotation>
-				<xs:element ref="Area"/>
-				<xs:element name="AreaName">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:minLength value="1"/>
-							<xs:maxLength value="36"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:element>
-				<xs:element name="Circle">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Pos"/>
-						</xs:sequence>
-						<xs:attribute name="Range" use="required">
-							<xs:annotation>
-								<xs:documentation>Range of the circle in meter</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:integer">
-									<xs:minExclusive value="0"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="Line">
 					<xs:complexType>
 						<xs:sequence>
@@ -179,7 +127,7 @@
 					<xs:simpleType>
 						<xs:restriction base="xs:string">
 							<xs:minLength value="1"/>
-							<xs:maxLength value="36"/>
+							<xs:maxLength value="42"/>
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
@@ -191,7 +139,7 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -205,28 +153,11 @@
 					<xs:documentation>Date and time in (subset  of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the time this message is sent.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="Type" use="required">
-				<xs:annotation>
-					<xs:documentation>Type of event:
-1 = line crossing
-2 = area entering
-3 = area leaving
-
-A area entering / leaving event is defined as the instant the geometrical centre of the object enters or leaves the area or circle</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:enumeration value="1"/>
-						<xs:enumeration value="2"/>
-						<xs:enumeration value="3"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ForeignId">
 		<xs:annotation>
-			<xs:documentation>Other Id's for the vessel than the international standard Identifiers</xs:documentation>
+			<xs:documentation>Other Id's for the track than the international standard Identifiers</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:attribute name="Id" use="required">
@@ -236,7 +167,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -247,7 +178,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -255,7 +186,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 	</xs:element>
 	<xs:element name="ForeignName">
 		<xs:annotation>
-			<xs:documentation>Other names for the vessel than the English name</xs:documentation>
+			<xs:documentation>Other names for the track than the English name</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:attribute name="Lang" use="required">
@@ -276,7 +207,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -295,7 +226,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="36"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -313,7 +244,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 		<xs:complexType>
 			<xs:attribute name="Encryption" use="required">
 				<xs:annotation>
-					<xs:documentation>1 = plain 2 = md5 (BASE64)</xs:documentation>
+					<xs:documentation>1 = plain 2 = SHA-512</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -366,7 +297,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="36"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -390,11 +321,12 @@ A area entering / leaving event is defined as the instant the geometrical centre
 	</xs:element>
 	<xs:element name="Notification">
 		<xs:annotation>
-			<xs:documentation>DATA sent by the supplier containing notification data</xs:documentation>
+			<xs:documentation>DATA sent by the server regarding an area penetration, line crossing or text message</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="Event" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Penetration" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Crossing" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="Message" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
@@ -476,7 +408,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -487,7 +419,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -532,6 +464,65 @@ A area entering / leaving event is defined as the instant the geometrical centre
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Penetration">
+		<xs:annotation>
+			<xs:documentation>DATA area penetration event sent to a user</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>Description of area regarding the event</xs:documentation>
+				</xs:annotation>
+				<xs:element ref="Area"/>
+				<xs:element name="AreaName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:minLength value="1"/>
+							<xs:maxLength value="42"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Circle">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Pos"/>
+						</xs:sequence>
+						<xs:attribute name="Range" use="required">
+							<xs:annotation>
+								<xs:documentation>Range of the circle in meter</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="Name" use="required">
+				<xs:annotation>
+					<xs:documentation>Name of the event</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceId" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identification of the node who initially created this message</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset  of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the time this message is sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Pong">
 		<xs:annotation>
 			<xs:documentation>DATA alive response</xs:documentation>
@@ -544,7 +535,7 @@ A area entering / leaving event is defined as the instant the geometrical centre
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="36"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -625,63 +616,6 @@ North = positive; South = negative) Examples:
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Sensor">
-		<xs:annotation>
-			<xs:documentation>Sensors contributing to this postion report (for the purpose of analysis)</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:attribute name="SenId" use="required">
-				<xs:annotation>
-					<xs:documentation>Identifier of local sensor contributing to position report</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:decimal">
-						<xs:minInclusive value="0"/>
-						<xs:maxInclusive value="65536"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="TrkId" use="optional">
-				<xs:annotation>
-					<xs:documentation>local Identifier of track from sensor contributing to position report</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:decimal">
-						<xs:minInclusive value="0"/>
-						<xs:maxInclusive value="65536"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="UpdateTime" type="xs:dateTime" use="optional">
-				<xs:annotation>
-					<xs:documentation>Date and time in UTC format (YYYY-MM-DDThh:mm:ss.sssZ) (subset of ISO 8601)  this position was measured.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="Type" use="required">
-				<xs:annotation>
-					<xs:documentation>Type of updating sensors for track:
-1 = radar
-2 = ais
-3 = ais+radar
-4 = deadreckoning
-5 = lrit
-6 = df
-7 = other</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:enumeration value="1"/>
-						<xs:enumeration value="2"/>
-						<xs:enumeration value="3"/>
-						<xs:enumeration value="4"/>
-						<xs:enumeration value="5"/>
-						<xs:enumeration value="6"/>
-						<xs:enumeration value="7"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="ServerStatus">
 		<xs:annotation>
 			<xs:documentation>DATA describing the status of the server (full/available)</xs:documentation>
@@ -697,16 +631,10 @@ North = positive; South = negative) Examples:
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="Status" use="required">
+			<xs:attribute name="Status" type="xs:boolean" use="required">
 				<xs:annotation>
 					<xs:documentation>Status of the server</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="queuefull"/>
-						<xs:enumeration value="ok"/>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
@@ -728,11 +656,10 @@ North = positive; South = negative) Examples:
 							<xs:annotation>
 								<xs:documentation>Type of transmission, possible values are:
 1 = single occurrence
-2 = periodic (predicted) 
-3 = down sampled (not predicted)
+2 = periodic (predicted, seconds domain) 
+3 = down sampled (not predicted, minute domain)
 4 = synchronous
-5 = on change
-6 = speed dependend (fast moving objects are updated faster then slow moving updates based on ITU-1371)</xs:documentation>
+5 = on change</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:integer">
@@ -741,7 +668,6 @@ North = positive; South = negative) Examples:
 									<xs:enumeration value="3"/>
 									<xs:enumeration value="4"/>
 									<xs:enumeration value="5"/>
-									<xs:enumeration value="6"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -771,7 +697,7 @@ North = positive; South = negative) Examples:
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -790,12 +716,12 @@ North = positive; South = negative) Examples:
 					<xs:complexType>
 						<xs:attribute name="FilterName" use="required">
 							<xs:annotation>
-								<xs:documentation>Name of the filter. The filter can be a predefined selector of the supplier. One of the predefined selectors will be 'all', others can defined here in the future</xs:documentation>
+								<xs:documentation>Name of the filter. The filter can be a predefined selector of the server. One of the predefined selectors will be 'all', others can defined here in the future</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -826,7 +752,7 @@ North = positive; South = negative) Examples:
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="36"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -855,7 +781,7 @@ North = positive; South = negative) Examples:
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -866,7 +792,7 @@ North = positive; South = negative) Examples:
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -878,8 +804,7 @@ North = positive; South = negative) Examples:
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="Pos" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="Sensor" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Pos" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="COG" use="required">
 				<xs:annotation>
@@ -998,7 +923,7 @@ expressed in m</xs:documentation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -1038,7 +963,7 @@ expressed in m</xs:documentation>
 			<xs:documentation>DATA regarding static elements of an object</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-			<xs:sequence minOccurs="0" maxOccurs="0">
+			<xs:sequence minOccurs="0">
 				<xs:element name="Construction" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>attributes of the object regarding the physical construction</xs:documentation>
@@ -1082,140 +1007,6 @@ expressed in m</xs:documentation>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute name="AisAtoNType" use="optional">
-							<xs:annotation>
-								<xs:documentation>In case Object Class = (Virtual) Aids To Navigation (5/6): 
-Mutual exclusive with AisVesselType
-0 = Unknown
-1 = Unknown fixed
-2 = Unknown floating
-3 = Fixed off shore structure
-5 = Light, without sectors
-6 = Light, with sectors
-7 = Leading Light Front
-8 = Leading Light Rear
-9 = Beacon, Cardinal N
-10 = Beacon, Cardinal E
-11 = Beacon, Cardinal S
-12 = Beacon, Cardinal W
-13 = Beacon, Port hand
-14 = Beacon, Starboard hand
-15 = Beacon, Preferred Channel port hand
-16 = Beacon, Preferred Channel starboard hand
-17 = Beacon, Isolated danger
-18 = Beacon, Safe water
-19 = Beacon, Special mark
-20 = Cardinal Mark N
-21 = Cardinal Mark E
-22 = Cardinal Mark S
-23 = Cardinal Mark W
-24 = Port hand Mark
-25 = Starboard hand Mark
-26 = Preferred Channel Port hand
-27 = Preferred Channel Starboard hand
-28 = Isolated danger
-29 = Safe Water
-30 = Special Mark
-31 = Light Vessel / LANBY/Rigs
-32 = Reference point
-33 = RACON
-</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:integer">
-									<xs:enumeration value="0"/>
-									<xs:enumeration value="1"/>
-									<xs:enumeration value="2"/>
-									<xs:enumeration value="3"/>
-									<xs:enumeration value="5"/>
-									<xs:enumeration value="6"/>
-									<xs:enumeration value="7"/>
-									<xs:enumeration value="8"/>
-									<xs:enumeration value="9"/>
-									<xs:enumeration value="10"/>
-									<xs:enumeration value="11"/>
-									<xs:enumeration value="12"/>
-									<xs:enumeration value="13"/>
-									<xs:enumeration value="14"/>
-									<xs:enumeration value="15"/>
-									<xs:enumeration value="16"/>
-									<xs:enumeration value="17"/>
-									<xs:enumeration value="18"/>
-									<xs:enumeration value="19"/>
-									<xs:enumeration value="20"/>
-									<xs:enumeration value="21"/>
-									<xs:enumeration value="22"/>
-									<xs:enumeration value="23"/>
-									<xs:enumeration value="24"/>
-									<xs:enumeration value="25"/>
-									<xs:enumeration value="26"/>
-									<xs:enumeration value="27"/>
-									<xs:enumeration value="28"/>
-									<xs:enumeration value="29"/>
-									<xs:enumeration value="30"/>
-									<xs:enumeration value="31"/>
-									<xs:enumeration value="32"/>
-									<xs:enumeration value="33"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="AisVesselType" use="optional">
-							<xs:annotation>
-								<xs:documentation>In case Object Class = vessel (2): 
-Mutual exclusive with AisAtoNType
-120 = WIG
-130 = fishing vessel
-131 = towing vessel
-132 = big towing vessel
-133 = dredging vessel
-134 = diving vessel
-135 = military vessel
-136 = sailing vessel
-137 = pleasure craft
-140 = HSC
-150 = pilot vessel
-151 = SAR
-152 = tug
-153 = port tender
-154 = anti pollution vessel
-155 = law enforcement vessel
-158 = medical vessel
-159 = mob83 vessel
-160 = passenger ship
-170 = cargo ship
-180 = tanker
-190 = other types of ship
-191 = convoy
-</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:integer">
-									<xs:enumeration value="120"/>
-									<xs:enumeration value="130"/>
-									<xs:enumeration value="131"/>
-									<xs:enumeration value="132"/>
-									<xs:enumeration value="133"/>
-									<xs:enumeration value="134"/>
-									<xs:enumeration value="135"/>
-									<xs:enumeration value="136"/>
-									<xs:enumeration value="137"/>
-									<xs:enumeration value="140"/>
-									<xs:enumeration value="150"/>
-									<xs:enumeration value="151"/>
-									<xs:enumeration value="152"/>
-									<xs:enumeration value="153"/>
-									<xs:enumeration value="154"/>
-									<xs:enumeration value="155"/>
-									<xs:enumeration value="158"/>
-									<xs:enumeration value="159"/>
-									<xs:enumeration value="160"/>
-									<xs:enumeration value="170"/>
-									<xs:enumeration value="180"/>
-									<xs:enumeration value="190"/>
-									<xs:enumeration value="191"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
 						<xs:attribute name="Constructor" use="optional">
 							<xs:annotation>
 								<xs:documentation>Identification of the constructing shipyard</xs:documentation>
@@ -1223,7 +1014,7 @@ Mutual exclusive with AisAtoNType
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -1236,11 +1027,6 @@ Mutual exclusive with AisAtoNType
 									<xs:minExclusive value="0"/>
 								</xs:restriction>
 							</xs:simpleType>
-						</xs:attribute>
-						<xs:attribute name="DeepWater" type="xs:boolean" use="optional">
-							<xs:annotation>
-								<xs:documentation>Object requires deep water (deep water vessel indicator)</xs:documentation>
-							</xs:annotation>
 						</xs:attribute>
 						<xs:attribute name="GrossWeight" use="optional">
 							<xs:annotation>
@@ -1270,7 +1056,7 @@ Mutual exclusive with AisAtoNType
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -1312,16 +1098,6 @@ Mutual exclusive with AisAtoNType
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
-						<xs:attribute name="MaxCrew" use="optional">
-							<xs:annotation>
-								<xs:documentation>The maximum number of crew on board of the object</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:decimal">
-									<xs:minExclusive value="0"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
 						<xs:attribute name="MaxDraught" use="optional">
 							<xs:annotation>
 								<xs:documentation>Maximum draught of the object in meters</xs:documentation>
@@ -1333,9 +1109,9 @@ Mutual exclusive with AisAtoNType
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
-						<xs:attribute name="MaxPassenger" use="optional">
+						<xs:attribute name="MaxPersonsOnBoard" use="optional">
 							<xs:annotation>
-								<xs:documentation>The maximum number of passengers on board of the object</xs:documentation>
+								<xs:documentation>The maximum number of persons on board of the object (crew, support, passengers, pilots)</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:decimal">
@@ -1353,16 +1129,6 @@ Mutual exclusive with AisAtoNType
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
-						<xs:attribute name="MaxSupport" use="optional">
-							<xs:annotation>
-								<xs:documentation>The max number of support personel on board of the object</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:decimal">
-									<xs:minExclusive value="0"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
 						<xs:attribute name="NetWeight" use="optional">
 							<xs:annotation>
 								<xs:documentation>Net weight in tons</xs:documentation>
@@ -1372,6 +1138,11 @@ Mutual exclusive with AisAtoNType
 									<xs:minExclusive value="0"/>
 								</xs:restriction>
 							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="TideBound" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation>Object is tide bound for current destination (deep water vessel indicator)</xs:documentation>
+							</xs:annotation>
 						</xs:attribute>
 						<xs:attribute name="Width" use="optional">
 							<xs:annotation>
@@ -1417,23 +1188,13 @@ Mutual exclusive with AisAtoNType
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
 						<xs:attribute name="MMSI" type="xs:integer" use="optional">
 							<xs:annotation>
 								<xs:documentation>MMSI number of the target</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-						<xs:attribute name="Mode-3A" type="xs:integer" use="optional">
-							<xs:annotation>
-								<xs:documentation>Mode 3/A SSR Code, encoded as integer value (not octal)</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-						<xs:attribute name="Mode-S" type="xs:integer" use="optional">
-							<xs:annotation>
-								<xs:documentation>Mode S 24 bit ICAO Code, encoded as integer value</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 						<xs:attribute name="SatCom" type="xs:integer" use="optional">
@@ -1448,7 +1209,7 @@ Mutual exclusive with AisAtoNType
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -1466,7 +1227,7 @@ Mutual exclusive with AisAtoNType
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -1510,7 +1271,7 @@ Mutual exclusive with AisAtoNType
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -1554,24 +1315,16 @@ Mutual exclusive with AisAtoNType
 			<xs:attribute name="Class" use="optional">
 				<xs:annotation>
 					<xs:documentation>0 = Unknown
-1 = Aircraft
-2 = Vessel
-3 = Vehicle (not an aircraft or vessel)
-4 = BaseStation
-5 = Aids to Navigate
-6 = Virtual Aids to Navigate
-7 = Field Transponder</xs:documentation>
+1 = Vessel
+2 = Aids to Navigate
+
+</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
 						<xs:enumeration value="0"/>
 						<xs:enumeration value="1"/>
 						<xs:enumeration value="2"/>
-						<xs:enumeration value="3"/>
-						<xs:enumeration value="4"/>
-						<xs:enumeration value="5"/>
-						<xs:enumeration value="6"/>
-						<xs:enumeration value="7"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -1612,13 +1365,13 @@ Mutual exclusive with AisAtoNType
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="SourceType" use="required">
 				<xs:annotation>
-					<xs:documentation>Source/originator type: 1 = AIS transponder 2 = VTS Database 3 = Operator</xs:documentation>
+					<xs:documentation>Source/originator type: 1 = AIS transponder 2 = VTS Plan Server 3 = Operator</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -1637,7 +1390,7 @@ Mutual exclusive with AisAtoNType
 	</xs:element>
 	<xs:element name="VoyageData">
 		<xs:annotation>
-			<xs:documentation>DATA regarding a movement of a vessel suppliers domain</xs:documentation>
+			<xs:documentation>DATA regarding a movement of a vessel servers domain</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence minOccurs="0" maxOccurs="0">
@@ -1678,7 +1431,7 @@ Mutual exclusive with AisAtoNType
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="36"/>
+									<xs:maxLength value="42"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -1703,7 +1456,7 @@ Mutual exclusive with AisAtoNType
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -1729,7 +1482,7 @@ Mutual exclusive with AisAtoNType
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -1765,7 +1518,7 @@ Mutual exclusive with AisAtoNType
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -1802,7 +1555,7 @@ Mutual exclusive with AisAtoNType
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -1908,7 +1661,7 @@ Mutual exclusive with AisAtoNType
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:minLength value="1"/>
-						<xs:maxLength value="36"/>
+						<xs:maxLength value="42"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
