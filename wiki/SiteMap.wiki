@@ -1,12 +1,19 @@
   * SDK 
     * About
-       * [Goal] [join] 
-       * [Contents] [languages] 
+       * [Goal]
+       * [IVEFWorkingGroup] 
+       * [join] 
+       * [Contents] 
+       * [languages] 
        * [Status] 
     * Bindings [Developing]
        * Qt [TrollTech]
     * [examples]
-      * iListen [Building] [CmdLineOption] [Developer] [Usage]
+      * iListen 
+          * [Building] 
+          * [CmdLineOption] 
+          * [Developer] 
+          * [Usage]
     * Tools
       * [Test]
     * House rules
