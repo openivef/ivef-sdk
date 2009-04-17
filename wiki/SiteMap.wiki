@@ -1,4 +1,8 @@
-  * SDK [Goal] [join] [Contents] [Status] [languages]
+  * SDK 
+    * About
+       * [Goal] [join] 
+       * [Contents] [languages] 
+       * [Status] 
     * Bindings [Developing]
        * Qt [TrollTech]
     * [examples]
