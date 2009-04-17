@@ -1,13 +1,18 @@
-#summary One-sentence summary of this page.
+= IVEF Working Group =
+An international group of industrial partners as agreed to work on further specifying the IVEF protocol and labour to create an official standard from it. 
 
-= Introduction =
+As of 01/03/2009 the IVEF-SDK will follow the definition as defined by this group. 
 
-Add your content here.
+= Members =
+IVEF is developed by a collaborative effort of:
 
+   * [http://www.hitttraffic.nl/ HITT Traffic]
+   * [http://www.kongsberg.com/  Kongsberg Norcontrol IT]
+   * [http://www.stn-atlas.de/   ATLAS Elektronik]
+   * [http://www.transas.com/    TRANSAS]
+   * [http://www.jrc.co.jp/      Japan Radio Co.]
+   * [http://www.oki.com/        Oki Consulting Solutions]
+   * [http://www.rijkswaterstaat.nl/ Rijkswaterstaat Zuid-Holland]
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+----
+[http://code.google.com/p/ivef-sdk/ Home]
