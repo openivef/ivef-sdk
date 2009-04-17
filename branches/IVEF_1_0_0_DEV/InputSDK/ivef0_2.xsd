@@ -703,13 +703,14 @@ North = positive; South = negative) Examples:
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="Notification">
+				<xs:element name="Notifications">
 					<xs:complexType>
 						<xs:annotation>
 							<xs:documentation>Request transmission of notifications in this domain</xs:documentation>
 						</xs:annotation>
-						<xs:attribute name="Event" type="xs:boolean" use="optional"/>
+						<xs:attribute name="Crossing" type="xs:boolean" use="optional"/>
 						<xs:attribute name="Messages" type="xs:boolean" use="optional"/>
+						<xs:attribute name="Penetration" type="xs:boolean" use="optional"/>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="Object" minOccurs="0" maxOccurs="unbounded">
