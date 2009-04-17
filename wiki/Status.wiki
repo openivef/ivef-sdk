@@ -2,7 +2,7 @@
 
 ==Versions==
 
-The table below shows the versions of separate components and the version of the entire SDK as encapsulating item. Note that the diversification of the components will be introduced by creating a copy of the 0.1.0 version of the SDK to the 1.0.0 version of the SDK 
+The table below shows the versions of separate components and the version of the entire SDK as encapsulating item. Note that the diversification of the components will be introduced by creating a copy of the newest version of the SDK to the 1.0.0 version of the SDK 
 
 || *IVEF_SDK* || 0.1.0 || 1.0.0 ||
 || *Component / Version* || - || - ||
