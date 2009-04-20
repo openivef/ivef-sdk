@@ -1,0 +1,9 @@
+#make qt
+rm ../../ivef-qt/*.cpp
+rm ../../ivef-qt/*.o
+rm ../../ivef-qt/*.h
+bin/xsd2code --file=../../doc/ivef0_2.xsd --out=../../ivef-qt/ --prefix=IVEF
+cd ../../ivef-qt/
+qmake ivef.pro
+make
+cd -

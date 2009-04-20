@@ -34,6 +34,15 @@ void CodeGenJava::setOutputDir(QString outDir) {
     m_outDir = outDir;
 }
 
+QString CodeGenJava::sizeEvaluatorForType (QString type, QString varName) {
+    if (type == "xs:string")
+        return varName + ".length()";
+    else if (type == "xs:hexBinary") // or should it by a QByteArray?
+        return varName + ".size()";
+    else 
+        return varName; 
+}
+
 QString CodeGenJava::localType(QString type) {
     if (type == "xs:string")
         return "String";
@@ -300,8 +309,11 @@ void CodeGenJava::go() {
                     classFileOut <<    ")\n            return;";
                 }
                 if (attr->hasMin() && (attr->hasMax()) && knownType(attr->type()) ) {
-                     classFileOut << "\n        if (val < " << attr->min() << ")\n            return;";
-                     classFileOut << "\n        if (val > " << attr->max() << ")\n            return;";
+
+                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+
+                     classFileOut << "\n        if (" << evaluator << " < " << attr->min() << ")\n          return;";
+                     classFileOut << "\n        if (" << evaluator << " > " << attr->max() << ")\n          return;";
                 }
                 if (!attr->required() || obj->isMerged()) {
                      classFileOut << "\n        " << variableName(attr->name()) << "Present = true;";
