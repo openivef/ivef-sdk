@@ -60,7 +60,10 @@ bool Parser::startElement(const QString &,
                 obj->setSourceId(val);
             }
             else if (key == "UpdateTime") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
                 obj->setUpdateTime(val);
             }
             else if (key == "SOG") {
@@ -232,11 +235,17 @@ bool Parser::startElement(const QString &,
                 obj->setDestination(val);
             }
             else if (key == "ETA") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
                 obj->setETA(val);
             }
             else if (key == "ATA") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
                 obj->setATA(val);
             }
             else if (key == "AirDraught") {
@@ -317,7 +326,10 @@ bool Parser::startElement(const QString &,
             QString value = atts.value(i);
 
             if (key == "TimeStamp") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
                 obj->setTimeStamp(val);
             }
         }
@@ -336,7 +348,10 @@ bool Parser::startElement(const QString &,
             QString value = atts.value(i);
 
             if (key == "TimeStamp") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
                 obj->setTimeStamp(val);
             }
             else if (key == "MsgId") {
