@@ -23,6 +23,8 @@
 XSDObject::XSDObject() {
 	m_merged = false;
 	m_root = false;
+	m_hasBaseClass = false;
+	m_type = false;
 	m_isEmbedded = false;
 }
 
@@ -30,12 +32,37 @@ XSDObject::XSDObject(QString name ) {
 	m_merged = false;
 	m_isEmbedded = false;
 	m_name = name;
-    //std::cout << QString("XSDObject created: %1").arg(name).toLatin1().data() << std::endl;
+}
+
+void XSDObject::setBaseClass(QString name ) {
+	m_hasBaseClass = true;
+	m_baseClass = name;
+}
+
+QString XSDObject::baseClass() {
+	return m_baseClass;
+}
+
+bool XSDObject::hasBaseClass() {
+        if ((m_hasBaseClass) && (m_baseClass != "")) 
+	   return true;
+	return false;
+}
+
+QString XSDObject::name() {
+	return m_name;
 }
 
 void XSDObject::setName(QString name ) {
 	m_name = name;
-    //std::cout << QString("XSDObject named: %1").arg(name).toLatin1().data() << std::endl;
+}
+
+bool XSDObject::isTypeDefinition() {
+	return m_type;
+}
+
+void XSDObject::setTypeDefinition(bool val) {
+	m_type = val;
 }
 
 void XSDObject::setRootObject() {
@@ -63,17 +90,11 @@ bool XSDObject::isMerged() {
 }
 
 void XSDObject::addKeyWithValue(QString key, QString value) {
-    //std::cout << QString("XSDObject %1: added key: %2 value: %3").arg(m_name, key, value).toLatin1().data() << std::endl;
 	m_fixedValues.insert(key, value);
 }
 
 void XSDObject::addAttribute(XSDAttribute *attr) {
-    //std::cout << QString("XSDObject %1: added attribute: %2").arg(m_name, attr->name()).toLatin1().data() << std::endl;
 	m_attributes.append(attr);
-}
-
-QString XSDObject::name() {
-	return m_name;
 }
 
 QVector<XSDAttribute*> XSDObject::attributes() {

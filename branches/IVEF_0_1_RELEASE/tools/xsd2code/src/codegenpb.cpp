@@ -185,6 +185,9 @@ void CodeGenPB::go() {
 
         // define the class
         protoFileOut << "\nmessage " << className(name) << " { \n";
+        if (obj->hasBaseClass()) {
+           protoFileOut << "\nextend " << className(obj->baseClass()) << " { \n";
+        }
         
         // the tag counter
 	int tag = 1;
@@ -209,6 +212,9 @@ void CodeGenPB::go() {
             protoFileOut << "    required string " << variableName(attrName) << " = " << tag++ << ";\n";
         }
         protoFileOut << "}\n";
+        if (obj->hasBaseClass()) {
+           protoFileOut << "}\n";
+        }
     }
 
     // close and flush
