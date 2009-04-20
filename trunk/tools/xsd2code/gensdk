@@ -1,8 +1,10 @@
+XSDFILE=../../doc/ivef0_1.xsd
+
 #make qt
 rm ../../ivef-qt/*.cpp
 rm ../../ivef-qt/*.o
 rm ../../ivef-qt/*.h
-bin/xsd2code --file=../../doc/ivef0_2.xsd --out=../../ivef-qt/ --prefix=IVEF
+bin/xsd2code --file=$XSDFILE --out=../../ivef-qt/ --prefix=IVEF
 cd ../../ivef-qt/
 qmake ivef.pro
 make -j 12
@@ -13,11 +15,11 @@ cd ../tools/xsd2code
 #make objc
 rm ../../ivef-objc/Classes/*.m
 rm ../../ivef-objcqt/Classes/*.h
-bin/xsd2code --file=../../doc/ivef0_2.xsd --out=../../ivef-objc/Classes --prefix=IVEF --objc
+bin/xsd2code --file=$XSDFILE --out=../../ivef-objc/Classes --prefix=IVEF --objc
 
 #make java
 rm ../../ivef-java/ivef/*
-bin/xsd2code --file=../../doc/ivef0_2.xsd --out=../../ivef-java/ --prefix=IVEF --java
+bin/xsd2code --file=$XSDFILE --out=../../ivef-java/ --prefix=IVEF --java
 cd ../../ivef-java/ivef/
 mkdir -p classes
 rm -Rf classes/*

@@ -34,6 +34,18 @@ void CodeGenQT::setOutputDir(QString outDir) {
     m_outDir = outDir;
 }
 
+QString dateToString(QString varName) {
+    return varName + ".toString(\"yyyy-MM-ddThh:mm:ss.z\")";
+}
+
+QString dateFromString(QString varName, bool withMillies) {
+  
+    if (withMillies) 
+        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-ddThh:mm:ss.z\")";
+    else
+        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-ddThh:mm:ss\")";
+}
+
 QString CodeGenQT::sizeEvaluatorForType (QString type, QString varName) {
     if (type == "xs:string")
         return varName + ".length()";
@@ -429,7 +441,7 @@ void CodeGenQT::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "QDateTime") {
-                    varName = variableName(attr->name()) + ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+                    varName = dateToString(variableName(attr->name()) );
                 } else if (type == "bool" ) {
                     varName = "QString(" + variableName(attr->name()) + " ? \"yes\" : \"no\" )";
                 } else if (type != "QString") {
@@ -487,7 +499,7 @@ void CodeGenQT::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "QDateTime") {
-                    varName = variableName(attr->name()) + ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+                    varName = dateToString(variableName(attr->name()) );
                 } else if (type != "QString") {
                     varName = "QString::number(" + variableName(attr->name()) + ")";
                 }
@@ -676,15 +688,20 @@ void CodeGenQT::go() {
                     }
 
                     if (type == "QString")
-                        classFileOut << "                " << type << " val = value;\n";
+                        classFileOut << "                QString val = value;\n";
                     else if (type == "bool")
-                        classFileOut << "                " << type << " val = (value.toUpper() == \"YES\");\n";
+                        classFileOut << "                bool val = (value.toUpper() == \"YES\");\n";
                     else if (type == "int")
-                        classFileOut << "                " << type << " val = value.toInt();\n";
-                    else if (type == "QDateTime")
-                        classFileOut << "                " << type << " val = QDateTime::fromString(value, \"yyyy-MM-ddThh:mm:ss.zzz\");\n";
+                        classFileOut << "                int val = value.toInt();\n";
+                    else if (type == "QDateTime") {
+                        // dates may have milies or not according to xs:dateTime
+                        classFileOut << "                QDateTime val = " << dateFromString("value", true) << ";\n";
+                        classFileOut << "                if (!val.isValid()) { \n";
+                        classFileOut << "                     val = " << dateFromString("value", false) << ";\n";
+                        classFileOut << "                }\n";
+                    }
                     else if (type == "float")
-                        classFileOut << "                " << type << " val = value.toFloat();\n";
+                        classFileOut << "                float val = value.toFloat();\n";
                     else 
                         classFileOut << "                " << type << " val = value;\n";
 
