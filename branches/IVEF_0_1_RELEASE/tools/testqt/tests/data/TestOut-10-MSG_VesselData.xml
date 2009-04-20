@@ -16,7 +16,7 @@ TestQt ready for input
 </StaticData>
 <Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.123" ATA="2001-12-17T09:30:47.123" AirDraught="3.14159" Draught="3.14159">
 </Voyage>
-<Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.123" ATA="2001-12-17T09:30:47.123" AirDraught="3.14159" Draught="3.14159">
+<Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.000" ATA="2001-12-17T09:30:47.000" AirDraught="3.14159" Draught="3.14159">
 </Voyage>
 <Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.123" ATA="2001-12-17T09:30:47.123" AirDraught="3.14159" Draught="3.14159">
 </Voyage>
