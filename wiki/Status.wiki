@@ -6,7 +6,7 @@ The table below shows the versions of separate components and the version of the
 
 || *IVEF_SDK* || 0.1.0 || 1.0.0 ||
 || *Component / Version* || - || - ||
-|| IVEF_DEF || || 1.1.0 ||
+|| IVEF_DEF || || 0.1.0 ||
 || IVEF_LIB || || 1.0.0 ||
 || IVEF_TOOLS|| || 1.0.0 ||
 || IVEF_EXAMPLES || || 1.0.0 ||
