@@ -5,5 +5,5 @@ rm ../../ivef-qt/*.h
 bin/xsd2code --file=../../doc/ivef0_2.xsd --out=../../ivef-qt/ --prefix=IVEF
 cd ../../ivef-qt/
 qmake ivef.pro
-make
+make -j 12
 cd -

@@ -41,7 +41,7 @@ QString dateToString(QString varName) {
 QString dateFromString(QString varName, bool withMillies) {
   
     if (withMillies) 
-        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-ddThh:mm:ss.z\")";
+        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-ddThh:mm:ss.zzz\")";
     else
         return "QDateTime::fromString(" + varName + ", \"yyyy-MM-ddThh:mm:ss\")";
 }

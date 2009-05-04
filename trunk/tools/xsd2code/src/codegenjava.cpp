@@ -83,6 +83,15 @@ bool CodeGenJava::knownType(QString type) {
         return false;
 }
 
+QString CodeGenJava::methodName(QString name) {
+
+    // handle special methods
+    if (name == "Class")
+      name = m_prefix + name;
+    
+    return name.replace(0, 1, name.left(1).toUpper());
+}
+
 QString CodeGenJava::className(QString name) {
     return /*m_prefix +*/ name.replace(0, 1, name.left(1).toUpper());
 }
@@ -127,10 +136,6 @@ QString CodeGenJava::writeHeader(QString fileName) {
     return header;
 }
 
-QString CodeGenJava::methodName(QString name) {
-    return name.replace(0, 1, name.left(1).toUpper());
-}
-
 void CodeGenJava::go() {
 
     // first analyse the objects if they are embedded objects
@@ -173,6 +178,8 @@ void CodeGenJava::go() {
     QString package = "xsd2code";
     if (m_prefix != "") { 
         package =  m_prefix.toLower();
+    } else {
+        m_prefix = "XSD";
     }
 
     for(int i=0; i < m_objects.size(); i++) {

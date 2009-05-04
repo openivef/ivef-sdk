@@ -1,4 +1,4 @@
-XSDFILE=../../doc/ivef0_1.xsd
+XSDFILE=../../doc/ivef0_2.xsd
 
 #make qt
 rm ../../ivef-qt/*.cpp
