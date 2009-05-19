@@ -283,6 +283,7 @@ void CodeGenQT::go() {
         }
         headerFileOut << "    QString toXML();\n";
         headerFileOut << "    QString toString(QString lead);\n";
+        headerFileOut << "    QString encode(QString str);\n"; // issue 19
 
         // private section
         headerFileOut << "\nprivate:\n";
@@ -360,6 +361,17 @@ void CodeGenQT::go() {
         classFileOut << "    return *this;\n";
         classFileOut << "}\n\n";
 
+        // string encoder, issue 19
+        classFileOut << "QString " << className(name) << "::encode( QString str) {\n";
+        classFileOut << "\n";
+        classFileOut << "    str.replace('&', \"&amp;\");\n";
+        classFileOut << "    str.replace('<', \"&lt;\");\n";
+        classFileOut << "    str.replace('>', \"&gt;\");\n";
+        classFileOut << "    str.replace('\"', \"&quot;\");\n";
+        classFileOut << "    return str;\n";
+        classFileOut << "}\n\n";
+       // end issue 19
+
         // methods for attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -435,7 +447,7 @@ void CodeGenQT::go() {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to cpp types
-            QString varName = variableName(attr->name());
+            QString varName = "encode (" + variableName(attr->name()) + ")"; // default to string, issue 19
 
             if (attrType != attr->name()) {
 
