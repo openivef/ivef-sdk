@@ -46,12 +46,12 @@ testqt::testqt( int & argc, char ** argv )
     std::exit(0);
 }
 
-void testqt::slotMSG_VesselData( MSG_VesselData obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; } 
-void testqt::slotMSG_LoginRequest( MSG_LoginRequest obj ) { std::cout <<obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_LoginResponse( MSG_LoginResponse obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Ping( MSG_Ping obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Pong( MSG_Pong obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_ServerStatus( MSG_ServerStatus obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Logout( MSG_Logout obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_ServiceRequest( MSG_ServiceRequest obj ) { std::cout << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_VesselData( MSG_VesselData obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; } 
+void testqt::slotMSG_LoginRequest( MSG_LoginRequest obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_LoginResponse( MSG_LoginResponse obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_Ping( MSG_Ping obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_Pong( MSG_Pong obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_ServerStatus( MSG_ServerStatus obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_Logout( MSG_Logout obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_ServiceRequest( MSG_ServiceRequest obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
 
