@@ -367,9 +367,9 @@ void CodeGenJava::go() {
                 if (type == "Date") {
 				    varName = "df.format(" + variableName(attr->name()) + ")"; 
 					// ".toString(\"yyyy-MM-dd'T'hh:mm:ss.SSS\")";
-                } /*else  if (type != "String") {
-                    varName = "String.number(" + variableName(attr->name()) + ")";
-                } */
+                } else  if (type == "String") {
+                    varName = "encode( " + variableName(attr->name()) + ")";
+                } 
                 // check if the attribute exist
                 if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
                     classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
@@ -462,6 +462,17 @@ void CodeGenJava::go() {
         // close up
         classFileOut << "        return str;\n";
         classFileOut << "    }\n";
+
+        // string encoder, issue 19
+        classFileOut << "    public String encode( String str) {\n";
+        classFileOut << "\n";
+        classFileOut << "        str = str.replaceAll(\"&\", \"&amp;\");\n";
+        classFileOut << "        str = str.replaceAll(\"<\", \"&lt;\");\n";
+        classFileOut << "        str = str.replaceAll(\">\", \"&gt;\");\n";
+        classFileOut << "        str = str.replaceAll(\"\\\"\", \"&quot;\");\n";
+        classFileOut << "        return str;\n";
+        classFileOut << "    }\n\n";
+       // end issue 19
 
         // round up
         classFileOut << "\n}\n"; // make sure there is a newline at the end of the source

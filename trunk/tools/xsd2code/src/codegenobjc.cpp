@@ -270,6 +270,7 @@ void CodeGenObjC::go() {
         headerFileOut << "\n-(void) setAttributes:(NSDictionary *)attributeDict;\n";
         headerFileOut << "-(NSString *) XML;\n";
         headerFileOut << "-(NSString *) stringValueWithLead:(NSString *) lead;\n";
+        headerFileOut << "-(NSString *) encode;\n"; // issue 19
 
         // close the header
         headerFileOut << "\n@end\n\n";
@@ -484,7 +485,10 @@ void CodeGenObjC::go() {
                     varName = "(" + variableName(attr->name()) + "?@\"yes\":@\"no\")";
                 } else if (type != localType("xs:string")) {
                     varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
+                } else { // String, issue 19
+                    varName = "[" + variableName(attr->name()) + " encode]"; 
                 }
+
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
@@ -524,6 +528,17 @@ void CodeGenObjC::go() {
         classFileOut << "    [xml appendString: @\"</" << name << ">\\n\"];\n"; // append attributes
         classFileOut << "    return xml;\n";
         classFileOut << "}\n\n";
+
+        // string encoder, issue 19
+        classFileOut << "-(NSString *) encode: (NSString *) input {\n\n";
+        classFileOut << "    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];\n\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\"&\" withString: \"&amp;\") options: nil searchRange: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\"<\" withString: \"&lt;\") options: nil searchRange: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\">\" withString: \"&gt;\") options: nil searchRange: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\"\\\"\" withString: \"&quot;\") options: nil searchRange: NSMakeRange(0, [str length])];\n\n";
+        classFileOut << "    return str;\n";
+        classFileOut << "}\n\n";
+       // end issue 19
 
         // string generator
         classFileOut << "-(NSString *) stringValueWithLead: (NSString *) lead {\n\n";
