@@ -1,7 +1,7 @@
 http://ivef-sdk.googlecode.com/svn/trunk/doc/ivef-logo.png
 
 ==IVEF 0.1.0 Released==
-3 February 2000 - IVEF 0.1.0 is now available to the open source community. IVEF 0.1.0  is a cross-platform message exchange framework for VTS data exchange. IVEF 0.1.0 is available for customer use, evaluation and open source download.
+3 February 2009 - IVEF 0.1.0 is now available to the open source community. IVEF 0.1.0  is a cross-platform message exchange framework for VTS data exchange. IVEF 0.1.0 is available for customer use, evaluation and open source download.
 
 IVEF 0.1.0 includes full interface capabilities in C++, JAVA and OBJECTIVE-C and has thoroughly  been tested on Linux (OpenSuSE 10.3 both 32 and 64 bit), Apple Mac OS X 10.5 and MS Windows XP SP2 
 
