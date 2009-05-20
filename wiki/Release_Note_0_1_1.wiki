@@ -11,7 +11,7 @@ For detailed information on fixes and optimizations included in this releases, p
 Open Source Edition of IVEF 0.1.1 is available.  The Open Source Editions are released under the GPL for open source development. 
 
 ===Fixes===
-  * [http://code.google.com/p/ivef-sdk/issues/detail?id=18 Issue-18] DateTime values are not parsed correctly when not specified with miliseconds
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=18 Issue-18] Date time values are not parsed correctly when not specified with milliseconds
   * [http://code.google.com/p/ivef-sdk/issues/detail?id=19 Issue-19] It is possible to generate illegal XML
 
 ----
