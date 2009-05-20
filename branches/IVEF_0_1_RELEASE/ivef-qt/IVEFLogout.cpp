@@ -14,6 +14,15 @@ Logout & Logout::operator=(const Logout &val) {
     return *this;
 }
 
+QString Logout::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 QString Logout::toXML() {
 
     QString xml = "<Logout";

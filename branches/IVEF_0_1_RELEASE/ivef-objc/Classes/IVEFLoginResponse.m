@@ -80,19 +80,31 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<LoginResponse"];
     [xml appendString: @" MsgId=\""];
-    [xml appendString: m_msgId];
+    [xml appendString: [m_msgId encode]];
     [xml appendString: @"\""];
     [xml appendString: @" Result=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_result]];
     [xml appendString: @"\""];
     if ( [self hasReason] ) {
         [xml appendString: @" Reason=\""];
-        [xml appendString: m_reason];
+        [xml appendString: [m_reason encode]];
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];
     [xml appendString: @"</LoginResponse>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {

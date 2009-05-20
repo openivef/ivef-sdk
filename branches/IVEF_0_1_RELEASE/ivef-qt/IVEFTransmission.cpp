@@ -21,6 +21,15 @@ Transmission & Transmission::operator=(const Transmission &val) {
     return *this;
 }
 
+QString Transmission::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Transmission::setType(int val) {
 
     if ( ( val != 1 ) &&

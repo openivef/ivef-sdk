@@ -50,6 +50,15 @@ Voyage & Voyage::operator=(const Voyage &val) {
     return *this;
 }
 
+QString Voyage::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Voyage::setId(QString val) {
 
     m_id = val;
@@ -190,14 +199,14 @@ bool Voyage::hasDraught() {
 QString Voyage::toXML() {
 
     QString xml = "<Voyage";
-    xml.append(" Id=\"" + m_id + "\"");
-    xml.append(" SourceName=\"" + m_sourceName + "\"");
+    xml.append(" Id=\"" + encode (m_id) + "\"");
+    xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
     xml.append(" Source=\"" + QString::number(m_source) + "\"");
     if ( hasCargoType() ) {
         xml.append(" CargoType=\"" + QString::number(m_cargoType) + "\"");
     }
     if ( hasDestination() ) {
-        xml.append(" Destination=\"" + m_destination + "\"");
+        xml.append(" Destination=\"" + encode (m_destination) + "\"");
     }
     if ( hasETA() ) {
         xml.append(" ETA=\"" + m_ETA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");

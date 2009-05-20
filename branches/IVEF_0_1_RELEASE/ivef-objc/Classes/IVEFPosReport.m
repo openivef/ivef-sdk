@@ -356,7 +356,7 @@
     [xml appendString: [NSString stringWithFormat:@"%f", m_COG]];
     [xml appendString: @"\""];
     [xml appendString: @" Lost=\""];
-    [xml appendString: m_lost];
+    [xml appendString: [m_lost encode]];
     [xml appendString: @"\""];
     if ( [self hasRateOfTurn] ) {
         [xml appendString: @" RateOfTurn=\""];
@@ -402,6 +402,18 @@
     [xml appendString: [m_pos XML] ];
     [xml appendString: @"</PosReport>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {

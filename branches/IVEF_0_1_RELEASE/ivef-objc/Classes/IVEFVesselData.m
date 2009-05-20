@@ -92,6 +92,18 @@
     return xml;
 }
 
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
+}
+
 -(NSString *) stringValueWithLead: (NSString *) lead {
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];

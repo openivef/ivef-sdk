@@ -16,6 +16,15 @@ Ping & Ping::operator=(const Ping &val) {
     return *this;
 }
 
+QString Ping::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Ping::setTimeStamp(QDateTime val) {
 
     m_timeStamp = val;

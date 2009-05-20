@@ -65,16 +65,28 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ServerStatus"];
     [xml appendString: @" Status=\""];
-    [xml appendString: m_status];
+    [xml appendString: [m_status encode]];
     [xml appendString: @"\""];
     if ( [self hasDetails] ) {
         [xml appendString: @" Details=\""];
-        [xml appendString: m_details];
+        [xml appendString: [m_details encode]];
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];
     [xml appendString: @"</ServerStatus>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {

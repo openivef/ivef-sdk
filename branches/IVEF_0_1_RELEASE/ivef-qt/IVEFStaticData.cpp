@@ -110,6 +110,15 @@ StaticData & StaticData::operator=(const StaticData &val) {
     return *this;
 }
 
+QString StaticData::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void StaticData::setId(QString val) {
 
     m_id = val;
@@ -503,8 +512,8 @@ bool StaticData::hasDeepWaterVesselind() {
 QString StaticData::toXML() {
 
     QString xml = "<StaticData";
-    xml.append(" Id=\"" + m_id + "\"");
-    xml.append(" SourceName=\"" + m_sourceName + "\"");
+    xml.append(" Id=\"" + encode (m_id) + "\"");
+    xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
     xml.append(" Source=\"" + QString::number(m_source) + "\"");
     if ( hasLength() ) {
         xml.append(" Length=\"" + QString::number(m_length) + "\"");
@@ -513,10 +522,10 @@ QString StaticData::toXML() {
         xml.append(" Breadth=\"" + QString::number(m_breadth) + "\"");
     }
     if ( hasCallsign() ) {
-        xml.append(" Callsign=\"" + m_callsign + "\"");
+        xml.append(" Callsign=\"" + encode (m_callsign) + "\"");
     }
     if ( hasShipName() ) {
-        xml.append(" ShipName=\"" + m_shipName + "\"");
+        xml.append(" ShipName=\"" + encode (m_shipName) + "\"");
     }
     if ( hasObjectType() ) {
         xml.append(" ObjectType=\"" + QString::number(m_objectType) + "\"");
@@ -534,7 +543,7 @@ QString StaticData::toXML() {
         xml.append(" ATONType=\"" + QString::number(m_ATONType) + "\"");
     }
     if ( hasATONName() ) {
-        xml.append(" ATONName=\"" + m_ATONName + "\"");
+        xml.append(" ATONName=\"" + encode (m_ATONName) + "\"");
     }
     if ( hasAntPosDistFromFront() ) {
         xml.append(" AntPosDistFromFront=\"" + QString::number(m_antPosDistFromFront) + "\"");
@@ -543,13 +552,13 @@ QString StaticData::toXML() {
         xml.append(" AntPosDistFromLeft=\"" + QString::number(m_antPosDistFromLeft) + "\"");
     }
     if ( hasNatLangShipName() ) {
-        xml.append(" NatLangShipName=\"" + m_natLangShipName + "\"");
+        xml.append(" NatLangShipName=\"" + encode (m_natLangShipName) + "\"");
     }
     if ( hasPortOfRegistry() ) {
-        xml.append(" PortOfRegistry=\"" + m_portOfRegistry + "\"");
+        xml.append(" PortOfRegistry=\"" + encode (m_portOfRegistry) + "\"");
     }
     if ( hasCountryFlag() ) {
-        xml.append(" CountryFlag=\"" + m_countryFlag + "\"");
+        xml.append(" CountryFlag=\"" + encode (m_countryFlag) + "\"");
     }
     if ( hasMaxAirDraught() ) {
         xml.append(" MaxAirDraught=\"" + QString::number(m_maxAirDraught) + "\"");
@@ -558,7 +567,7 @@ QString StaticData::toXML() {
         xml.append(" MaxDraught=\"" + QString::number(m_maxDraught) + "\"");
     }
     if ( hasDeepWaterVesselind() ) {
-        xml.append(" DeepWaterVesselind=\"" + m_deepWaterVesselind + "\"");
+        xml.append(" DeepWaterVesselind=\"" + encode (m_deepWaterVesselind) + "\"");
     }
     xml.append(">\n");
     xml.append( "</StaticData>\n");

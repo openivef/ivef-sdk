@@ -545,10 +545,10 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<StaticData"];
     [xml appendString: @" Id=\""];
-    [xml appendString: m_id];
+    [xml appendString: [m_id encode]];
     [xml appendString: @"\""];
     [xml appendString: @" SourceName=\""];
-    [xml appendString: m_sourceName];
+    [xml appendString: [m_sourceName encode]];
     [xml appendString: @"\""];
     [xml appendString: @" Source=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_source]];
@@ -565,12 +565,12 @@
     }
     if ( [self hasCallsign] ) {
         [xml appendString: @" Callsign=\""];
-        [xml appendString: m_callsign];
+        [xml appendString: [m_callsign encode]];
         [xml appendString: @"\""];
     }
     if ( [self hasShipName] ) {
         [xml appendString: @" ShipName=\""];
-        [xml appendString: m_shipName];
+        [xml appendString: [m_shipName encode]];
         [xml appendString: @"\""];
     }
     if ( [self hasObjectType] ) {
@@ -600,7 +600,7 @@
     }
     if ( [self hasATONName] ) {
         [xml appendString: @" ATONName=\""];
-        [xml appendString: m_ATONName];
+        [xml appendString: [m_ATONName encode]];
         [xml appendString: @"\""];
     }
     if ( [self hasAntPosDistFromFront] ) {
@@ -615,17 +615,17 @@
     }
     if ( [self hasNatLangShipName] ) {
         [xml appendString: @" NatLangShipName=\""];
-        [xml appendString: m_natLangShipName];
+        [xml appendString: [m_natLangShipName encode]];
         [xml appendString: @"\""];
     }
     if ( [self hasPortOfRegistry] ) {
         [xml appendString: @" PortOfRegistry=\""];
-        [xml appendString: m_portOfRegistry];
+        [xml appendString: [m_portOfRegistry encode]];
         [xml appendString: @"\""];
     }
     if ( [self hasCountryFlag] ) {
         [xml appendString: @" CountryFlag=\""];
-        [xml appendString: m_countryFlag];
+        [xml appendString: [m_countryFlag encode]];
         [xml appendString: @"\""];
     }
     if ( [self hasMaxAirDraught] ) {
@@ -640,12 +640,24 @@
     }
     if ( [self hasDeepWaterVesselind] ) {
         [xml appendString: @" DeepWaterVesselind=\""];
-        [xml appendString: m_deepWaterVesselind];
+        [xml appendString: [m_deepWaterVesselind encode]];
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];
     [xml appendString: @"</StaticData>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {

@@ -18,6 +18,15 @@ MSG_ServiceRequest & MSG_ServiceRequest::operator=(const MSG_ServiceRequest &val
     return *this;
 }
 
+QString MSG_ServiceRequest::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void MSG_ServiceRequest::setHeader(Header val) {
 
     m_header = val;

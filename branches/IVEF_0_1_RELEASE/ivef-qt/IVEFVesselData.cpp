@@ -20,6 +20,15 @@ VesselData & VesselData::operator=(const VesselData &val) {
     return *this;
 }
 
+QString VesselData::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void VesselData::setPosReport(PosReport val) {
 
     m_posReport = val;

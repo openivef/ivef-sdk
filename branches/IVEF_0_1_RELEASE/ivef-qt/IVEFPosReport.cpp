@@ -68,6 +68,15 @@ PosReport & PosReport::operator=(const PosReport &val) {
     return *this;
 }
 
+QString PosReport::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void PosReport::setPos(Pos val) {
 
     m_pos = val;
@@ -307,7 +316,7 @@ QString PosReport::toXML() {
     xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
     xml.append(" SOG=\"" + QString::number(m_SOG) + "\"");
     xml.append(" COG=\"" + QString::number(m_COG) + "\"");
-    xml.append(" Lost=\"" + m_lost + "\"");
+    xml.append(" Lost=\"" + encode (m_lost) + "\"");
     if ( hasRateOfTurn() ) {
         xml.append(" RateOfTurn=\"" + QString::number(m_rateOfTurn) + "\"");
     }

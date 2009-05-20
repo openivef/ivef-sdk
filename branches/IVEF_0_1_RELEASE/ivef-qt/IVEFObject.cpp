@@ -16,6 +16,15 @@ Object & Object::operator=(const Object &val) {
     return *this;
 }
 
+QString Object::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Object::setFileName(QString val) {
 
     m_fileName = val;
@@ -29,7 +38,7 @@ QString Object::getFileName() const {
 QString Object::toXML() {
 
     QString xml = "<Object";
-    xml.append(" FileName=\"" + m_fileName + "\"");
+    xml.append(" FileName=\"" + encode (m_fileName) + "\"");
     xml.append(">\n");
     xml.append( "</Object>\n");
     return xml;

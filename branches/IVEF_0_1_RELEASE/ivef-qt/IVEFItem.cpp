@@ -18,6 +18,15 @@ Item & Item::operator=(const Item &val) {
     return *this;
 }
 
+QString Item::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Item::setElement(int val) {
 
     if ( ( val != 1 ) &&
@@ -46,7 +55,7 @@ QString Item::toXML() {
 
     QString xml = "<Item";
     xml.append(" Element=\"" + QString::number(m_element) + "\"");
-    xml.append(" Field=\"" + m_field + "\"");
+    xml.append(" Field=\"" + encode (m_field) + "\"");
     xml.append(">\n");
     xml.append( "</Item>\n");
     return xml;

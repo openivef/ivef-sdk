@@ -14,6 +14,15 @@ Schema & Schema::operator=(const Schema &val) {
     return *this;
 }
 
+QString Schema::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 QString Schema::getElementFormDefault() const {
 
     return "qualified";

@@ -18,6 +18,15 @@ Pos & Pos::operator=(const Pos &val) {
     return *this;
 }
 
+QString Pos::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Pos::setLat(float val) {
 
     if (val < -90)

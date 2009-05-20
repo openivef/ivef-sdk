@@ -18,6 +18,15 @@ Header & Header::operator=(const Header &val) {
     return *this;
 }
 
+QString Header::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Header::setVersion(QString val) {
 
     m_version = val;
@@ -41,8 +50,8 @@ QString Header::getMsgRefId() const {
 QString Header::toXML() {
 
     QString xml = "<Header";
-    xml.append(" Version=\"" + m_version + "\"");
-    xml.append(" MsgRefId=\"" + m_msgRefId + "\"");
+    xml.append(" Version=\"" + encode (m_version) + "\"");
+    xml.append(" MsgRefId=\"" + encode (m_msgRefId) + "\"");
     xml.append(">\n");
     xml.append( "</Header>\n");
     return xml;

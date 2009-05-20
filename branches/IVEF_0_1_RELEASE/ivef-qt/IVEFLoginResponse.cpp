@@ -23,6 +23,15 @@ LoginResponse & LoginResponse::operator=(const LoginResponse &val) {
     return *this;
 }
 
+QString LoginResponse::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void LoginResponse::setMsgId(QString val) {
 
     m_msgId = val;
@@ -65,10 +74,10 @@ bool LoginResponse::hasReason() {
 QString LoginResponse::toXML() {
 
     QString xml = "<LoginResponse";
-    xml.append(" MsgId=\"" + m_msgId + "\"");
+    xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
     xml.append(" Result=\"" + QString::number(m_result) + "\"");
     if ( hasReason() ) {
-        xml.append(" Reason=\"" + m_reason + "\"");
+        xml.append(" Reason=\"" + encode (m_reason) + "\"");
     }
     xml.append(">\n");
     xml.append( "</LoginResponse>\n");

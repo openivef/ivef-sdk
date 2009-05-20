@@ -20,6 +20,15 @@ LoginRequest & LoginRequest::operator=(const LoginRequest &val) {
     return *this;
 }
 
+QString LoginRequest::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void LoginRequest::setName(QString val) {
 
     m_name = val;
@@ -56,8 +65,8 @@ int LoginRequest::getEncryption() const {
 QString LoginRequest::toXML() {
 
     QString xml = "<LoginRequest";
-    xml.append(" Name=\"" + m_name + "\"");
-    xml.append(" Password=\"" + m_password + "\"");
+    xml.append(" Name=\"" + encode (m_name) + "\"");
+    xml.append(" Password=\"" + encode (m_password) + "\"");
     xml.append(" Encryption=\"" + QString::number(m_encryption) + "\"");
     xml.append(">\n");
     xml.append( "</LoginRequest>\n");

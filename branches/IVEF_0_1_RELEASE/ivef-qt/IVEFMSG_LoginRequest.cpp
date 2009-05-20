@@ -18,6 +18,15 @@ MSG_LoginRequest & MSG_LoginRequest::operator=(const MSG_LoginRequest &val) {
     return *this;
 }
 
+QString MSG_LoginRequest::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void MSG_LoginRequest::setHeader(Header val) {
 
     m_header = val;

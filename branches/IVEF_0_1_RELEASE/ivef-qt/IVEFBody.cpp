@@ -54,6 +54,15 @@ Body & Body::operator=(const Body &val) {
     return *this;
 }
 
+QString Body::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Body::addVesselData(VesselData val) {
 
     m_vesselDatas.append(val);
