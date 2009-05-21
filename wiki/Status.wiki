@@ -2,14 +2,14 @@
 
 ==Versions==
 
-The table below shows the versions of separate components and the version of the entire SDK as encapsulating item. Note that the diversification of the components will be introduced by creating a copy of the newest version of the SDK to the 1.0.0 version of the SDK 
+The table below shows the versions of separate components and the version of the entire SDK as encapsulating item. Note that the definition was recoded from 1.1 to 0.1.1 for consistency reasons (three digit coding) so IVEF_DEF 1.1 is equal to 0.1.1
 
-|| *IVEF_SDK* || 0.1.0 || 1.0.0 ||
-|| *Component / Version* || - || - ||
-|| IVEF_DEF || || 0.1.0 ||
-|| IVEF_LIB || || 1.0.0 ||
-|| IVEF_TOOLS|| || 1.0.0 ||
-|| IVEF_EXAMPLES || || 1.0.0 ||
+|| *IVEF_SDK*                       || 0.1.0 || 0.1.1 ||
+|| *Component / Version* || -        || -        ||
+|| IVEF_DEF                           ||  1.1   || 0.1.1 ||
+|| IVEF_LIB                            || 0.1.0 || 0.1.1 ||
+|| IVEF_TOOLS                      || 0.1.0|| 0.1.1 ||
+|| IVEF_EXAMPLES                ||  0.1.0 || 0.1.1 ||
 
 Released and compiles on Windows, Linux and Mac OS X.  Click on Source and follow the instructions to use SVN and obtain the source. 
 
