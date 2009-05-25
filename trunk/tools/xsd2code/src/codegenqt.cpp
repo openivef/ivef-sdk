@@ -583,6 +583,7 @@ void CodeGenQT::go() {
     headerFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
     headerFileOut << "#define __" << name.toUpper() << "_H__\n\n";
     headerFileOut << "#include <QtCore>\n";
+    headerFileOut << "#include <QXmlInputSource>\n";
     headerFileOut << "#include <QXmlDefaultHandler>\n\n";
 
     // include dependend files
@@ -617,9 +618,22 @@ void CodeGenQT::go() {
             headerFileOut << "    void signal" << className(obj->name()) << "( " << className(obj->name()) << " obj );\n";
         }
     }
+    // issue 24
+    headerFileOut << "    void signalError(QString errorStr);\n";
+    headerFileOut << "    void signalWarning(QString errorStr);\n";
+
+    // protected section (Issue 24)
+    headerFileOut << "protected:\n";
+    headerFileOut << "    virtual QString composeMessage( const QXmlParseException& exception );\n";
+    headerFileOut << "    virtual bool    error( const QXmlParseException& exception );\n";
+    headerFileOut << "    virtual bool    fatalError( const QXmlParseException& exception );\n";
+    headerFileOut << "    virtual bool    warning( const QXmlParseException& exception );\n";
+    // end of Issue 24
+
     // private section
     headerFileOut << "\nprivate:\n";
     headerFileOut << "    QString m_dataBuffer;\n";
+    headerFileOut << "    QXmlInputSource m_inputForParser;\n";
     headerFileOut << "    QStack<QObject *> m_objStack;\n";
     headerFileOut << "    QStack<QString> m_typeStack;\n";
 
@@ -635,6 +649,7 @@ void CodeGenQT::go() {
     // constructor
     classFileOut << className(name) << "::" << className(name) << "() {\n\n";
     classFileOut << "    setContentHandler(this);\n";
+    classFileOut << "    setErrorHandler(this);\n"; // Issue 24
     classFileOut << "}\n\n";
 
     // main parser routine
@@ -822,9 +837,8 @@ void CodeGenQT::go() {
         classFileOut << "     if (indexMax > 30) {\n";
     classFileOut << "         QString messages = m_dataBuffer.left(indexMax);\n";
     classFileOut << "         m_dataBuffer.remove(0, indexMax);\n";
-    classFileOut << "         QXmlInputSource inputForParser;\n";
-    classFileOut << "         inputForParser.setData(messages);\n";
-    classFileOut << "         this->parse(&inputForParser, false);\n";
+    classFileOut << "         m_inputForParser.setData(messages);\n";
+    classFileOut << "         this->parse(&m_inputForParser, false);\n";
     classFileOut << "     } else {\n";
     classFileOut << "         return false; // not enough data in string\n";
     classFileOut << "     }\n";
@@ -835,6 +849,28 @@ void CodeGenQT::go() {
     classFileOut << "     return true;\n";
 
     classFileOut << "}\n\n"; // close method
+
+    // add error handling routines (Issue 24)
+    classFileOut << "QString Parser::composeMessage( const QXmlParseException& exception ) {\n";
+    classFileOut << "    QString errorstr( exception.message() );\n";
+    classFileOut << "    errorstr += \" at line \" + QString::number(exception.lineNumber());\n";
+    classFileOut << "    errorstr += \" (column \" + QString::number(exception.columnNumber());\n";
+    classFileOut << "    errorstr += \"): \" + m_inputForParser.data().section('\\n', exception.lineNumber()-1, exception.lineNumber()-1);\n";
+    classFileOut << "    return errorstr;\n";
+    classFileOut << "}\n\n";
+    classFileOut << "bool Parser::error( const QXmlParseException& exception ) {\n";
+    classFileOut << "    emit signalError( composeMessage( exception ) );\n";
+    classFileOut << "    return QXmlDefaultHandler::error( exception );\n";
+    classFileOut << "}\n\n";
+    classFileOut << "bool Parser::fatalError( const QXmlParseException& exception ) {\n";
+    classFileOut << "    emit signalError( composeMessage( exception ) );\n";
+    classFileOut << "    return QXmlDefaultHandler::fatalError( exception );\n";
+    classFileOut << "}\n\n";
+    classFileOut << "bool Parser::warning( const QXmlParseException& exception ) {\n";
+    classFileOut << "    emit signalWarning( composeMessage( exception ) );\n";
+    classFileOut << "    return QXmlDefaultHandler::warning( exception );\n";
+    classFileOut << "}\n";
+    // end of Issue 24
 
     // round up
     classFileOut << "\n"; // make sure there is a newline at the end of the source

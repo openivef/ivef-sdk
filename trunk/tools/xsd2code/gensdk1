@@ -1,0 +1,11 @@
+XSDFILE=../../doc/ivef0_1.xsd
+
+#make qt
+rm ../../ivef-qt/*.cpp
+rm ../../ivef-qt/*.o
+rm ../../ivef-qt/*.h
+bin/xsd2code --file=$XSDFILE --out=../../ivef-qt/ --prefix=IVEF
+cd ../../ivef-qt/
+qmake ivef-0_1.pro
+make -j 12
+cd ../tools/xsd2code

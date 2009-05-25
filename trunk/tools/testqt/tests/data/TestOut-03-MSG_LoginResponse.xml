@@ -1,4 +1,13 @@
 TestQt ready for input
+MSG_LoginResponse
+    Header
+        Version = String
+        MsgRefId = String
+    Body
+        LoginResponse
+            MsgId = String
+            Result = 1
+            Reason = String
 <MSG_LoginResponse>
 <Header Version="String" MsgRefId="String">
 </Header>
