@@ -53,6 +53,8 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
     // and the printers
     connect( &m_parser, SIGNAL( signalMSG_VesselData(MSG_VesselData)), this, SLOT( printVesselData(MSG_VesselData) ));
     connect( &m_parser, SIGNAL( signalMSG_LoginResponse(MSG_LoginResponse)), this, SLOT( printLoginResponse(MSG_LoginResponse) ));
+    connect( &m_parser, SIGNAL( signalError(QString)), this, SLOT( printError(QString) ));
+    connect( &m_parser, SIGNAL( signalWarning(QString)), this, SLOT( printError(QString) ));
 
     // startup timer, to allow the event loop to start
     QTimer *timer = new QTimer( 0 ); // we leak one timer here, is acceptable
@@ -119,6 +121,10 @@ void iListenApplication::printVesselData( MSG_VesselData obj ) {
             }
         }
     }
+}
+
+void iListenApplication::printError( QString errorStr ) {
+    std::cerr << errorStr.toUtf8().data() << std::endl;
 }
 
 void iListenApplication::printLoginResponse( MSG_LoginResponse obj ) {

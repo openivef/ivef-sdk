@@ -44,6 +44,7 @@ private slots:
     void slotStart( void );
     void printVesselData( MSG_VesselData obj );
     void printLoginResponse( MSG_LoginResponse obj );
+    void printError( QString errorStr );
 
 
 };
