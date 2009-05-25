@@ -1,6 +1,9 @@
 DATADIR=data
 TMPDIR=tmp
 
+export DYLD_LIBRARY_PATH="../../../ivef-qt/bin" 
+export LD_LIBRARY_PATH="../../../ivef-qt/bin" 
+
 mkdir -p $TMPDIR
 rm -Rf $TMPDIR/*
 

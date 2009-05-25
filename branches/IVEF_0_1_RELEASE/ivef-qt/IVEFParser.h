@@ -2,6 +2,7 @@
 #define __PARSER_H__
 
 #include <QtCore>
+#include <QXmlInputSource>
 #include <QXmlDefaultHandler>
 
 #include "IVEFHeader.h"
@@ -54,9 +55,17 @@ signals:
     void signalMSG_ServerStatus( MSG_ServerStatus obj );
     void signalMSG_Logout( MSG_Logout obj );
     void signalMSG_ServiceRequest( MSG_ServiceRequest obj );
+    void signalError(QString errorStr);
+    void signalWarning(QString errorStr);
+protected:
+    virtual QString composeMessage( const QXmlParseException& exception );
+    virtual bool    error( const QXmlParseException& exception );
+    virtual bool    fatalError( const QXmlParseException& exception );
+    virtual bool    warning( const QXmlParseException& exception );
 
 private:
     QString m_dataBuffer;
+    QXmlInputSource m_inputForParser;
     QStack<QObject *> m_objStack;
     QStack<QString> m_typeStack;
 

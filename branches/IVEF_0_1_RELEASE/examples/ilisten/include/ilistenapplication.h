@@ -42,7 +42,10 @@ private:
 
 private slots:
     void slotStart( void );
+    // Issue 24
     void printVesselData( MSG_VesselData obj );
+    void printError( QString errorStr );
+    // End Issue 24
 
 
 };

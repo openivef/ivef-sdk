@@ -52,6 +52,10 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
     m_streamHandler = new IVEFStreamHandler(&m_parser);
     // and the printer
     connect( &m_parser, SIGNAL( signalMSG_VesselData(MSG_VesselData)), this, SLOT( printVesselData(MSG_VesselData) ));
+    // Issue 24
+    connect( &m_parser, SIGNAL( signalError(QString)), this, SLOT( printError(QString) ));
+    connect( &m_parser, SIGNAL( signalWarning(QString)), this, SLOT( printError(QString) ));
+    // End Issue 24
 
     // startup timer, to allow the event loop to start
     QTimer *timer = new QTimer( 0 ); // we leak one timer here, is acceptable
@@ -119,3 +123,9 @@ void iListenApplication::printVesselData( MSG_VesselData obj ) {
         }
     }
 }
+
+// Issue 24
+void iListenApplication::printError( QString errorStr ) {
+    std::cerr << errorStr.toUtf8().data() << std::endl;
+}
+// End Issue 24

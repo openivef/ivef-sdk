@@ -4,6 +4,7 @@
 Parser::Parser() {
 
     setContentHandler(this);
+    setErrorHandler(this);
 }
 
 bool Parser::startElement(const QString &,
@@ -780,9 +781,8 @@ bool Parser::parseXMLString(QString data, bool cont) {
      if (indexMax > 30) {
          QString messages = m_dataBuffer.left(indexMax);
          m_dataBuffer.remove(0, indexMax);
-         QXmlInputSource inputForParser;
-         inputForParser.setData(messages);
-         this->parse(&inputForParser, false);
+         m_inputForParser.setData(messages);
+         this->parse(&m_inputForParser, false);
      } else {
          return false; // not enough data in string
      }
@@ -792,4 +792,26 @@ bool Parser::parseXMLString(QString data, bool cont) {
      return true;
 }
 
+QString Parser::composeMessage( const QXmlParseException& exception ) {
+    QString errorstr( exception.message() );
+    errorstr += " at line " + QString::number(exception.lineNumber());
+    errorstr += " (column " + QString::number(exception.columnNumber());
+    errorstr += "): " + m_inputForParser.data().section('\n', exception.lineNumber()-1, exception.lineNumber()-1);
+    return errorstr;
+}
+
+bool Parser::error( const QXmlParseException& exception ) {
+    emit signalError( composeMessage( exception ) );
+    return QXmlDefaultHandler::error( exception );
+}
+
+bool Parser::fatalError( const QXmlParseException& exception ) {
+    emit signalError( composeMessage( exception ) );
+    return QXmlDefaultHandler::fatalError( exception );
+}
+
+bool Parser::warning( const QXmlParseException& exception ) {
+    emit signalWarning( composeMessage( exception ) );
+    return QXmlDefaultHandler::warning( exception );
+}
 

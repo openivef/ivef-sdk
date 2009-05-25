@@ -43,6 +43,7 @@ private slots:
     void slotMSG_ServerStatus( MSG_ServerStatus obj );
     void slotMSG_Logout( MSG_Logout obj );
     void slotMSG_ServiceRequest( MSG_ServiceRequest obj );
+    void slotPrintError( QString errorStr );
 
 private:
 
