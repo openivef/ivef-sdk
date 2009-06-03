@@ -243,8 +243,8 @@ void CodeGenQT::go() {
 
         // public section
         headerFileOut << "public:\n";
-        headerFileOut << "    " << className(name) << "();\n"; // constructor
-        headerFileOut << "    " << className(name) << "(const " << className(name) << "&);\n"; // copy constructor
+        headerFileOut << "    " << className(name) << "();\n";
+        headerFileOut << "    " << className(name) << "(const " << className(name) << "&);\n";
         headerFileOut << "    " << className(name) << " & operator=(const " << className(name) << "&/*val*/);\n"; // = operator
 
         // all attributes
@@ -252,25 +252,29 @@ void CodeGenQT::go() {
             XSDAttribute *attr = attributes.at(j);
             QString type = localType(attr->type()); // convert to cpp types
             QString doc = attr->doc();
+
             if (doc != "") { // there is documentation
-                doc.replace("\n", "\n       ");
+                doc.replace("\n", "\n    ");
                 doc.replace("\r", "");
                 headerFileOut << "\n    /* " << methodName(attr->name()) << ":\n       " << doc << " */\n";
+
             }
+
             if (attr->unbounded()) { // there more then one
                 // setter
-                headerFileOut << "    void add" << methodName(attr->name()) << "(" << type << " val);\n";
+                headerFileOut << "    void add" << methodName(attr->name()) << "(" << type << " val);\n\n";
                 // getter
-                headerFileOut << "    " << type << " get" << methodName(attr->name()) << "At(int i) const;\n";
+                headerFileOut << "    " << type << " get" << methodName(attr->name()) << "At(int i) const;\n\n";
                 // count
-                headerFileOut << "    int countOf" << methodName(attr->name()) << "s() const;\n";
+                headerFileOut << "    int countOf" << methodName(attr->name()) << "s() const;\n\n";
             } else {
                 // setter
-                headerFileOut << "    void set" << methodName(attr->name()) << "(" << type << " val);\n";
+                headerFileOut << "    void set" << methodName(attr->name()) << "(" << type << " val);\n\n";
                 // getter
-                headerFileOut << "    " << type << " get" << methodName(attr->name()) << "() const;\n";
-                if (!attr->required() || obj->isMerged()) {
-                    headerFileOut << "    bool has" << methodName(attr->name()) << "();\n";
+                headerFileOut << "    " << type << " get" << methodName(attr->name()) << "() const;\n\n";
+                if (!attr->required() || obj->isMerged()) 
+                {
+                    headerFileOut << "    bool has" << methodName(attr->name()) << "();\n\n";
                 }
             }
         }
@@ -319,7 +323,23 @@ void CodeGenQT::go() {
         classFileOut << className(name) << "::" << className(name) << "() {\n\n";
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
+
+            QString type = localType(attr->type()); // convert to cpp types
+
+            if (! attr->unbounded()) {
+                if (type=="QString")
+                    classFileOut << "    " << variableName(attr->name()) << " = \"\";\n";
+                else if (type=="bool")
+                    classFileOut << "    " << variableName(attr->name()) << " = false;\n";
+                else if (type=="int")
+                    classFileOut << "    " << variableName(attr->name()) << " = 0;\n";
+                else if (type=="QDateTime")
+                    classFileOut << "    " << variableName(attr->name()) << " = QDateTime();\n";
+                else if (type=="float")
+                    classFileOut << "    " << variableName(attr->name()) << " = 0.0;\n";
+            }
+
+            // ev: is not used     QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
             if (!attr->required() || obj->isMerged()) {
                 classFileOut << "    " << variableName(attr->name()) << "Present = false;\n";
             }
