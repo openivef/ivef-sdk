@@ -38,6 +38,7 @@ public:
 	void setEmbedded();	
 	void setTypeDefinition(bool val);	
 	void setBaseClass(QString base);	
+    void setDocu(const QString& docu);
 
 	QString name();
 	QString baseClass();
@@ -48,6 +49,7 @@ public:
         bool isRootObject();
 	QVector<XSDAttribute*>attributes();
 	QMap<QString, QString>fixedValues();
+    QString docu();
 
 private:
 	QString m_name;
@@ -59,6 +61,7 @@ private:
 	bool m_isEmbedded;
 	QVector<XSDAttribute*>m_attributes;
 	QMap<QString, QString>m_fixedValues;
+    QString m_docu;
 };
 
 #endif

@@ -145,7 +145,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
 
     if (qName == "xs:annotation") {
         // ignore
-        //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
+        // std::cout << QString("ANNOTATION ignoring %1").arg(qName).toLatin1().data() << std::endl;
     } else if (qName == "xs:attribute") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         QString name = "unknown", type = "unknown", fixed = "";
@@ -326,7 +326,12 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
         if (m_attrStack.size() > 0) {
             XSDAttribute *attr = m_attrStack.top();
             attr->setDocumentation(m_doc);
-        } else {
+
+            XSDObject *obj = m_objStack.top();
+            if (attr->name() == obj->name())
+                obj->setDocu(m_doc);
+        } 
+        else {
             XSDObject *obj = m_objects.first(); // schema is the first object
             obj->addKeyWithValue(qName, m_doc);
         }

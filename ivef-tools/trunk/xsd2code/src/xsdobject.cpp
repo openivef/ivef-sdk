@@ -104,3 +104,13 @@ QVector<XSDAttribute*> XSDObject::attributes() {
 QMap<QString, QString> XSDObject::fixedValues() {
 	return m_fixedValues;
 }
+
+QString XSDObject::docu()
+{
+    return m_docu;
+}
+
+void XSDObject::setDocu(const QString& docu)
+{
+    m_docu = docu;
+}

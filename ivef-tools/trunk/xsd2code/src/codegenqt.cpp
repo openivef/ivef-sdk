@@ -233,6 +233,12 @@ void CodeGenQT::go() {
             }
         }
 
+        headerFileOut << "\n//-----------------------------------------------------------\n";
+        headerFileOut << "//! \\brief       Class definition of " << className(name) << "\n";
+        headerFileOut << "//!\n";
+        headerFileOut << "//! " << obj->docu() << "\n";
+        headerFileOut << "//!\n";
+
         // define the class
         QString baseClass = "QObject";
         if (obj->hasBaseClass()) {
@@ -243,8 +249,16 @@ void CodeGenQT::go() {
 
         // public section
         headerFileOut << "public:\n";
+        headerFileOut << "    //!constructor\n";
+        headerFileOut << "    //!\n";
         headerFileOut << "    " << className(name) << "();\n";
+
+        headerFileOut << "    //!copy constructor\n";
+        headerFileOut << "    //!\n";
         headerFileOut << "    " << className(name) << "(const " << className(name) << "&);\n";
+
+        headerFileOut << "    //!= operator\n";
+        headerFileOut << "    //!\n";
         headerFileOut << "    " << className(name) << " & operator=(const " << className(name) << "&/*val*/);\n"; // = operator
 
         // all attributes
@@ -254,26 +268,46 @@ void CodeGenQT::go() {
             QString doc = attr->doc();
 
             if (doc != "") { // there is documentation
-                doc.replace("\n", "\n    ");
+                doc.replace("\n", "\\n\n    //!              ");
                 doc.replace("\r", "");
-                headerFileOut << "\n    /* " << methodName(attr->name()) << ":\n       " << doc << " */\n";
-
             }
 
             if (attr->unbounded()) { // there more then one
                 // setter
+                headerFileOut << "    //!              adds a " << methodName(attr->name()) << ".\n";
+                headerFileOut << "    //!\n";
                 headerFileOut << "    void add" << methodName(attr->name()) << "(" << type << " val);\n\n";
                 // getter
+                headerFileOut << "    //!              gets the i-th " << methodName(attr->name()) << ".\n";
+                headerFileOut << "    //!\n";
                 headerFileOut << "    " << type << " get" << methodName(attr->name()) << "At(int i) const;\n\n";
                 // count
+                headerFileOut << "    //!              return the number of " << methodName(attr->name()) << " objects.\n";
+                headerFileOut << "    //!\n";
+                headerFileOut << "    //! \\return     int\n";
                 headerFileOut << "    int countOf" << methodName(attr->name()) << "s() const;\n\n";
             } else {
                 // setter
+                if (doc != "")
+                    headerFileOut << "    //!              sets the " << methodName(attr->name()) << ": " << doc << "\n";
+                else
+                    headerFileOut << "    //!              sets the " << methodName(attr->name()) << "\n";
+                headerFileOut << "    //!\n";
                 headerFileOut << "    void set" << methodName(attr->name()) << "(" << type << " val);\n\n";
                 // getter
+                if (doc != "")
+                    headerFileOut << "    //!              gets the " << methodName(attr->name()) << ": " << doc << "\n";
+                else
+                    headerFileOut << "    //!              gets the " << methodName(attr->name()) << "\n";
+                headerFileOut << "    //!\n";
+                headerFileOut << "    //! \\return     " << type << "\n";
+                headerFileOut << "    //!\n";
                 headerFileOut << "    " << type << " get" << methodName(attr->name()) << "() const;\n\n";
                 if (!attr->required() || obj->isMerged()) 
                 {
+                    headerFileOut << "    //!              returns true if " << methodName(attr->name()) << "is used (optional field).\n";
+                    headerFileOut << "    //!\n";
+                    headerFileOut << "    //! \\return     bool\n";
                     headerFileOut << "    bool has" << methodName(attr->name()) << "();\n\n";
                 }
             }
@@ -282,12 +316,31 @@ void CodeGenQT::go() {
         for(int j=0; j < fixedValues.size(); j++) {
             QString attrName = fixedValues.keys().at(j);
             QString type = "QString"; // always a string
+
+            
+
             // getter
+            headerFileOut << "    //!              gets the " << methodName(attrName) << "\n";
+            headerFileOut << "    //!\n";
+            headerFileOut << "    //! \\return     " << type << "\n";
+            headerFileOut << "    //!\n";
             headerFileOut << "    " << type << " get" << methodName(attrName) << "() const;\n";
         }
-        headerFileOut << "    QString toXML();\n";
-        headerFileOut << "    QString toString(QString lead);\n";
-        headerFileOut << "    QString encode(QString str);\n"; // issue 19
+        
+        headerFileOut << "    //!              generates XML of this object including attributes and child elements\n";
+        headerFileOut << "    //!\n";
+        headerFileOut << "    //! \\return     QString\n";
+        headerFileOut << "    QString toXML();\n\n";
+
+        headerFileOut << "    //!              generates output of this object including attributes and child elements\n";
+        headerFileOut << "    //!\n";
+        headerFileOut << "    //! \\return     QString\n";
+        headerFileOut << "    QString toString(QString lead);\n\n";
+
+        headerFileOut << "    //!              encodes a string returning the encoded string\n";
+        headerFileOut << "    //!\n";
+        headerFileOut << "    //! \\return     QString\n";
+        headerFileOut << "    QString encode(QString str);\n\n"; // issue 19
 
         // private section
         headerFileOut << "\nprivate:\n";
