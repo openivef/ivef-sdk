@@ -4,6 +4,7 @@
 Parser::Parser() {
 
     setContentHandler(this);
+    setErrorHandler(this);
 }
 
 bool Parser::startElement(const QString &,
@@ -12,7 +13,57 @@ bool Parser::startElement(const QString &,
      const QXmlAttributes & atts) {
 
     // check all possible options
-    if (qName == "Header") {
+    if (qName == "MSG_LoginRequest") {
+        MSG_LoginRequest *obj = new MSG_LoginRequest;
+        m_objStack.push( obj );
+        m_typeStack.push( "MSG_LoginRequest" );
+    }
+    else if (qName == "Body") {
+        Body *obj = new Body;
+        m_objStack.push( obj );
+        m_typeStack.push( "Body" );
+    }
+    else if (qName == "MSG_LoginResponse") {
+        MSG_LoginResponse *obj = new MSG_LoginResponse;
+        m_objStack.push( obj );
+        m_typeStack.push( "MSG_LoginResponse" );
+    }
+    else if (qName == "MSG_Logout") {
+        MSG_Logout *obj = new MSG_Logout;
+        m_objStack.push( obj );
+        m_typeStack.push( "MSG_Logout" );
+    }
+    else if (qName == "Logout") {
+        Logout *obj = new Logout;
+        m_objStack.push( obj );
+        m_typeStack.push( "Logout" );
+    }
+    else if (qName == "MSG_Ping") {
+        MSG_Ping *obj = new MSG_Ping;
+        m_objStack.push( obj );
+        m_typeStack.push( "MSG_Ping" );
+    }
+    else if (qName == "MSG_Pong") {
+        MSG_Pong *obj = new MSG_Pong;
+        m_objStack.push( obj );
+        m_typeStack.push( "MSG_Pong" );
+    }
+    else if (qName == "MSG_ServerStatus") {
+        MSG_ServerStatus *obj = new MSG_ServerStatus;
+        m_objStack.push( obj );
+        m_typeStack.push( "MSG_ServerStatus" );
+    }
+    else if (qName == "MSG_ServiceRequest") {
+        MSG_ServiceRequest *obj = new MSG_ServiceRequest;
+        m_objStack.push( obj );
+        m_typeStack.push( "MSG_ServiceRequest" );
+    }
+    else if (qName == "MSG_VesselData") {
+        MSG_VesselData *obj = new MSG_VesselData;
+        m_objStack.push( obj );
+        m_typeStack.push( "MSG_VesselData" );
+    }
+    else if (qName == "Header") {
         Header *obj = new Header;
         for (int i=0; i < atts.length(); i++) {
             QString key = atts.localName(i);
@@ -30,20 +81,109 @@ bool Parser::startElement(const QString &,
         m_objStack.push( obj );
         m_typeStack.push( "Header" );
     }
-    else if (qName == "MSG_VesselData") {
-        MSG_VesselData *obj = new MSG_VesselData;
+    else if (qName == "LoginRequest") {
+        LoginRequest *obj = new LoginRequest;
+        for (int i=0; i < atts.length(); i++) {
+            QString key = atts.localName(i);
+            QString value = atts.value(i);
+
+            if (key == "Name") {
+                QString val = value;
+                obj->setName(val);
+            }
+            else if (key == "Password") {
+                QString val = value;
+                obj->setPassword(val);
+            }
+            else if (key == "Encryption") {
+                int val = value.toInt();
+                obj->setEncryption(val);
+            }
+        }
         m_objStack.push( obj );
-        m_typeStack.push( "MSG_VesselData" );
+        m_typeStack.push( "LoginRequest" );
     }
-    else if (qName == "Body") {
-        Body *obj = new Body;
+    else if (qName == "LoginResponse") {
+        LoginResponse *obj = new LoginResponse;
+        for (int i=0; i < atts.length(); i++) {
+            QString key = atts.localName(i);
+            QString value = atts.value(i);
+
+            if (key == "MsgId") {
+                QString val = value;
+                obj->setMsgId(val);
+            }
+            else if (key == "Result") {
+                int val = value.toInt();
+                obj->setResult(val);
+            }
+            else if (key == "Reason") {
+                QString val = value;
+                obj->setReason(val);
+            }
+        }
         m_objStack.push( obj );
-        m_typeStack.push( "Body" );
+        m_typeStack.push( "LoginResponse" );
     }
-    else if (qName == "VesselData") {
-        VesselData *obj = new VesselData;
+    else if (qName == "Ping") {
+        Ping *obj = new Ping;
+        for (int i=0; i < atts.length(); i++) {
+            QString key = atts.localName(i);
+            QString value = atts.value(i);
+
+            if (key == "TimeStamp") {
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
+                obj->setTimeStamp(val);
+            }
+        }
         m_objStack.push( obj );
-        m_typeStack.push( "VesselData" );
+        m_typeStack.push( "Ping" );
+    }
+    else if (qName == "Pong") {
+        Pong *obj = new Pong;
+        for (int i=0; i < atts.length(); i++) {
+            QString key = atts.localName(i);
+            QString value = atts.value(i);
+
+            if (key == "TimeStamp") {
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
+                obj->setTimeStamp(val);
+            }
+            else if (key == "MsgId") {
+                QString val = value;
+                obj->setMsgId(val);
+            }
+            else if (key == "SourceId") {
+                int val = value.toInt();
+                obj->setSourceId(val);
+            }
+        }
+        m_objStack.push( obj );
+        m_typeStack.push( "Pong" );
+    }
+    else if (qName == "Pos") {
+        Pos *obj = new Pos;
+        for (int i=0; i < atts.length(); i++) {
+            QString key = atts.localName(i);
+            QString value = atts.value(i);
+
+            if (key == "Lat") {
+                float val = value.toFloat();
+                obj->setLat(val);
+            }
+            else if (key == "Long") {
+                float val = value.toFloat();
+                obj->setLong(val);
+            }
+        }
+        m_objStack.push( obj );
+        m_typeStack.push( "Pos" );
     }
     else if (qName == "PosReport") {
         PosReport *obj = new PosReport;
@@ -60,7 +200,10 @@ bool Parser::startElement(const QString &,
                 obj->setSourceId(val);
             }
             else if (key == "UpdateTime") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
                 obj->setUpdateTime(val);
             }
             else if (key == "SOG") {
@@ -110,6 +253,31 @@ bool Parser::startElement(const QString &,
         }
         m_objStack.push( obj );
         m_typeStack.push( "PosReport" );
+    }
+    else if (qName == "Sensor") {
+        Sensor *obj = new Sensor;
+        for (int i=0; i < atts.length(); i++) {
+            QString key = atts.localName(i);
+            QString value = atts.value(i);
+
+            if (key == "SenId") {
+                float val = value.toFloat();
+                obj->setSenId(val);
+            }
+            else if (key == "TrkId") {
+                float val = value.toFloat();
+                obj->setTrkId(val);
+            }
+            else if (key == "UpdateTime") {
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
+                obj->setUpdateTime(val);
+            }
+        }
+        m_objStack.push( obj );
+        m_typeStack.push( "Sensor" );
     }
     else if (qName == "StaticData") {
         StaticData *obj = new StaticData;
@@ -205,157 +373,6 @@ bool Parser::startElement(const QString &,
         m_objStack.push( obj );
         m_typeStack.push( "StaticData" );
     }
-    else if (qName == "Voyage") {
-        Voyage *obj = new Voyage;
-        for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
-
-            if (key == "Id") {
-                QString val = value;
-                obj->setId(val);
-            }
-            else if (key == "SourceName") {
-                QString val = value;
-                obj->setSourceName(val);
-            }
-            else if (key == "Source") {
-                int val = value.toInt();
-                obj->setSource(val);
-            }
-            else if (key == "CargoType") {
-                int val = value.toInt();
-                obj->setCargoType(val);
-            }
-            else if (key == "Destination") {
-                QString val = value;
-                obj->setDestination(val);
-            }
-            else if (key == "ETA") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
-                obj->setETA(val);
-            }
-            else if (key == "ATA") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
-                obj->setATA(val);
-            }
-            else if (key == "AirDraught") {
-                float val = value.toFloat();
-                obj->setAirDraught(val);
-            }
-            else if (key == "Draught") {
-                float val = value.toFloat();
-                obj->setDraught(val);
-            }
-        }
-        m_objStack.push( obj );
-        m_typeStack.push( "Voyage" );
-    }
-    else if (qName == "MSG_LoginRequest") {
-        MSG_LoginRequest *obj = new MSG_LoginRequest;
-        m_objStack.push( obj );
-        m_typeStack.push( "MSG_LoginRequest" );
-    }
-    else if (qName == "LoginRequest") {
-        LoginRequest *obj = new LoginRequest;
-        for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
-
-            if (key == "Name") {
-                QString val = value;
-                obj->setName(val);
-            }
-            else if (key == "Password") {
-                QString val = value;
-                obj->setPassword(val);
-            }
-            else if (key == "Encryption") {
-                int val = value.toInt();
-                obj->setEncryption(val);
-            }
-        }
-        m_objStack.push( obj );
-        m_typeStack.push( "LoginRequest" );
-    }
-    else if (qName == "MSG_LoginResponse") {
-        MSG_LoginResponse *obj = new MSG_LoginResponse;
-        m_objStack.push( obj );
-        m_typeStack.push( "MSG_LoginResponse" );
-    }
-    else if (qName == "LoginResponse") {
-        LoginResponse *obj = new LoginResponse;
-        for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
-
-            if (key == "MsgId") {
-                QString val = value;
-                obj->setMsgId(val);
-            }
-            else if (key == "Result") {
-                int val = value.toInt();
-                obj->setResult(val);
-            }
-            else if (key == "Reason") {
-                QString val = value;
-                obj->setReason(val);
-            }
-        }
-        m_objStack.push( obj );
-        m_typeStack.push( "LoginResponse" );
-    }
-    else if (qName == "MSG_Ping") {
-        MSG_Ping *obj = new MSG_Ping;
-        m_objStack.push( obj );
-        m_typeStack.push( "MSG_Ping" );
-    }
-    else if (qName == "Ping") {
-        Ping *obj = new Ping;
-        for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
-
-            if (key == "TimeStamp") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
-                obj->setTimeStamp(val);
-            }
-        }
-        m_objStack.push( obj );
-        m_typeStack.push( "Ping" );
-    }
-    else if (qName == "MSG_Pong") {
-        MSG_Pong *obj = new MSG_Pong;
-        m_objStack.push( obj );
-        m_typeStack.push( "MSG_Pong" );
-    }
-    else if (qName == "Pong") {
-        Pong *obj = new Pong;
-        for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
-
-            if (key == "TimeStamp") {
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.zzz");
-                obj->setTimeStamp(val);
-            }
-            else if (key == "MsgId") {
-                QString val = value;
-                obj->setMsgId(val);
-            }
-            else if (key == "SourceId") {
-                int val = value.toInt();
-                obj->setSourceId(val);
-            }
-        }
-        m_objStack.push( obj );
-        m_typeStack.push( "Pong" );
-    }
-    else if (qName == "MSG_ServerStatus") {
-        MSG_ServerStatus *obj = new MSG_ServerStatus;
-        m_objStack.push( obj );
-        m_typeStack.push( "MSG_ServerStatus" );
-    }
     else if (qName == "ServerStatus") {
         ServerStatus *obj = new ServerStatus;
         for (int i=0; i < atts.length(); i++) {
@@ -373,21 +390,6 @@ bool Parser::startElement(const QString &,
         }
         m_objStack.push( obj );
         m_typeStack.push( "ServerStatus" );
-    }
-    else if (qName == "MSG_Logout") {
-        MSG_Logout *obj = new MSG_Logout;
-        m_objStack.push( obj );
-        m_typeStack.push( "MSG_Logout" );
-    }
-    else if (qName == "Logout") {
-        Logout *obj = new Logout;
-        m_objStack.push( obj );
-        m_typeStack.push( "Logout" );
-    }
-    else if (qName == "MSG_ServiceRequest") {
-        MSG_ServiceRequest *obj = new MSG_ServiceRequest;
-        m_objStack.push( obj );
-        m_typeStack.push( "MSG_ServiceRequest" );
     }
     else if (qName == "ServiceRequest") {
         ServiceRequest *obj = new ServiceRequest;
@@ -449,23 +451,75 @@ bool Parser::startElement(const QString &,
         m_objStack.push( obj );
         m_typeStack.push( "Object" );
     }
-    else if (qName == "Pos") {
-        Pos *obj = new Pos;
+    else if (qName == "VesselData") {
+        VesselData *obj = new VesselData;
         for (int i=0; i < atts.length(); i++) {
             QString key = atts.localName(i);
             QString value = atts.value(i);
 
-            if (key == "Lat") {
-                float val = value.toFloat();
-                obj->setLat(val);
-            }
-            else if (key == "Long") {
-                float val = value.toFloat();
-                obj->setLong(val);
+            if (key == "Id") {
+                int val = value.toInt();
+                obj->setId(val);
             }
         }
         m_objStack.push( obj );
-        m_typeStack.push( "Pos" );
+        m_typeStack.push( "VesselData" );
+    }
+    else if (qName == "Voyage") {
+        Voyage *obj = new Voyage;
+        for (int i=0; i < atts.length(); i++) {
+            QString key = atts.localName(i);
+            QString value = atts.value(i);
+
+            if (key == "Id") {
+                QString val = value;
+                obj->setId(val);
+            }
+            else if (key == "SourceName") {
+                QString val = value;
+                obj->setSourceName(val);
+            }
+            else if (key == "Source") {
+                int val = value.toInt();
+                obj->setSource(val);
+            }
+            else if (key == "CargoType") {
+                int val = value.toInt();
+                obj->setCargoType(val);
+            }
+            else if (key == "Destination") {
+                QString val = value;
+                obj->setDestination(val);
+            }
+            else if (key == "ETA") {
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
+                obj->setETA(val);
+            }
+            else if (key == "ATA") {
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                }
+                obj->setATA(val);
+            }
+            else if (key == "PersonsOnBoard") {
+                float val = value.toFloat();
+                obj->setPersonsOnBoard(val);
+            }
+            else if (key == "AirDraught") {
+                float val = value.toFloat();
+                obj->setAirDraught(val);
+            }
+            else if (key == "Draught") {
+                float val = value.toFloat();
+                obj->setDraught(val);
+            }
+        }
+        m_objStack.push( obj );
+        m_typeStack.push( "Voyage" );
     }
     return true;
 }
@@ -475,55 +529,25 @@ bool Parser::endElement(const QString &,
      const QString & qName) {
 
     // check all possible options
-    if (qName == "Header") {
+    if (qName == "MSG_LoginRequest") {
 
         m_typeStack.pop();
-        Header *obj = (Header*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "MSG_VesselData") {
-                ((MSG_VesselData*) ( m_objStack.top() ) )->setHeader( *obj );
-        }
-        if ( m_typeStack.top() == "MSG_LoginRequest") {
-                ((MSG_LoginRequest*) ( m_objStack.top() ) )->setHeader( *obj );
-        }
-        if ( m_typeStack.top() == "MSG_LoginResponse") {
-                ((MSG_LoginResponse*) ( m_objStack.top() ) )->setHeader( *obj );
-        }
-        if ( m_typeStack.top() == "MSG_Ping") {
-                ((MSG_Ping*) ( m_objStack.top() ) )->setHeader( *obj );
-        }
-        if ( m_typeStack.top() == "MSG_Pong") {
-                ((MSG_Pong*) ( m_objStack.top() ) )->setHeader( *obj );
-        }
-        if ( m_typeStack.top() == "MSG_ServerStatus") {
-                ((MSG_ServerStatus*) ( m_objStack.top() ) )->setHeader( *obj );
-        }
-        if ( m_typeStack.top() == "MSG_Logout") {
-                ((MSG_Logout*) ( m_objStack.top() ) )->setHeader( *obj );
-        }
-        if ( m_typeStack.top() == "MSG_ServiceRequest") {
-                ((MSG_ServiceRequest*) ( m_objStack.top() ) )->setHeader( *obj );
-        }
-        delete( obj ); 
-    }
-    else if (qName == "MSG_VesselData") {
-
-        m_typeStack.pop();
-        MSG_VesselData *obj = (MSG_VesselData*) ( m_objStack.pop() );
-        emit signalMSG_VesselData( *obj ); 
+        MSG_LoginRequest *obj = (MSG_LoginRequest*) ( m_objStack.pop() );
+        emit signalMSG_LoginRequest( *obj ); 
         delete( obj ); 
     }
     else if (qName == "Body") {
 
         m_typeStack.pop();
         Body *obj = (Body*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "MSG_VesselData") {
-                ((MSG_VesselData*) ( m_objStack.top() ) )->setBody( *obj );
-        }
         if ( m_typeStack.top() == "MSG_LoginRequest") {
                 ((MSG_LoginRequest*) ( m_objStack.top() ) )->setBody( *obj );
         }
         if ( m_typeStack.top() == "MSG_LoginResponse") {
                 ((MSG_LoginResponse*) ( m_objStack.top() ) )->setBody( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_Logout") {
+                ((MSG_Logout*) ( m_objStack.top() ) )->setBody( *obj );
         }
         if ( m_typeStack.top() == "MSG_Ping") {
                 ((MSG_Ping*) ( m_objStack.top() ) )->setBody( *obj );
@@ -534,63 +558,11 @@ bool Parser::endElement(const QString &,
         if ( m_typeStack.top() == "MSG_ServerStatus") {
                 ((MSG_ServerStatus*) ( m_objStack.top() ) )->setBody( *obj );
         }
-        if ( m_typeStack.top() == "MSG_Logout") {
-                ((MSG_Logout*) ( m_objStack.top() ) )->setBody( *obj );
-        }
         if ( m_typeStack.top() == "MSG_ServiceRequest") {
                 ((MSG_ServiceRequest*) ( m_objStack.top() ) )->setBody( *obj );
         }
-        delete( obj ); 
-    }
-    else if (qName == "VesselData") {
-
-        m_typeStack.pop();
-        VesselData *obj = (VesselData*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->addVesselData( *obj );
-        }
-        delete( obj ); 
-    }
-    else if (qName == "PosReport") {
-
-        m_typeStack.pop();
-        PosReport *obj = (PosReport*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "VesselData") {
-                ((VesselData*) ( m_objStack.top() ) )->setPosReport( *obj );
-        }
-        delete( obj ); 
-    }
-    else if (qName == "StaticData") {
-
-        m_typeStack.pop();
-        StaticData *obj = (StaticData*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "VesselData") {
-                ((VesselData*) ( m_objStack.top() ) )->addStaticData( *obj );
-        }
-        delete( obj ); 
-    }
-    else if (qName == "Voyage") {
-
-        m_typeStack.pop();
-        Voyage *obj = (Voyage*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "VesselData") {
-                ((VesselData*) ( m_objStack.top() ) )->addVoyage( *obj );
-        }
-        delete( obj ); 
-    }
-    else if (qName == "MSG_LoginRequest") {
-
-        m_typeStack.pop();
-        MSG_LoginRequest *obj = (MSG_LoginRequest*) ( m_objStack.pop() );
-        emit signalMSG_LoginRequest( *obj ); 
-        delete( obj ); 
-    }
-    else if (qName == "LoginRequest") {
-
-        m_typeStack.pop();
-        LoginRequest *obj = (LoginRequest*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setLoginRequest( *obj );
+        if ( m_typeStack.top() == "MSG_VesselData") {
+                ((MSG_VesselData*) ( m_objStack.top() ) )->setBody( *obj );
         }
         delete( obj ); 
     }
@@ -599,63 +571,6 @@ bool Parser::endElement(const QString &,
         m_typeStack.pop();
         MSG_LoginResponse *obj = (MSG_LoginResponse*) ( m_objStack.pop() );
         emit signalMSG_LoginResponse( *obj ); 
-        delete( obj ); 
-    }
-    else if (qName == "LoginResponse") {
-
-        m_typeStack.pop();
-        LoginResponse *obj = (LoginResponse*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setLoginResponse( *obj );
-        }
-        delete( obj ); 
-    }
-    else if (qName == "MSG_Ping") {
-
-        m_typeStack.pop();
-        MSG_Ping *obj = (MSG_Ping*) ( m_objStack.pop() );
-        emit signalMSG_Ping( *obj ); 
-        delete( obj ); 
-    }
-    else if (qName == "Ping") {
-
-        m_typeStack.pop();
-        Ping *obj = (Ping*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setPing( *obj );
-        }
-        delete( obj ); 
-    }
-    else if (qName == "MSG_Pong") {
-
-        m_typeStack.pop();
-        MSG_Pong *obj = (MSG_Pong*) ( m_objStack.pop() );
-        emit signalMSG_Pong( *obj ); 
-        delete( obj ); 
-    }
-    else if (qName == "Pong") {
-
-        m_typeStack.pop();
-        Pong *obj = (Pong*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setPong( *obj );
-        }
-        delete( obj ); 
-    }
-    else if (qName == "MSG_ServerStatus") {
-
-        m_typeStack.pop();
-        MSG_ServerStatus *obj = (MSG_ServerStatus*) ( m_objStack.pop() );
-        emit signalMSG_ServerStatus( *obj ); 
-        delete( obj ); 
-    }
-    else if (qName == "ServerStatus") {
-
-        m_typeStack.pop();
-        ServerStatus *obj = (ServerStatus*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setServerStatus( *obj );
-        }
         delete( obj ); 
     }
     else if (qName == "MSG_Logout") {
@@ -674,11 +589,153 @@ bool Parser::endElement(const QString &,
         }
         delete( obj ); 
     }
+    else if (qName == "MSG_Ping") {
+
+        m_typeStack.pop();
+        MSG_Ping *obj = (MSG_Ping*) ( m_objStack.pop() );
+        emit signalMSG_Ping( *obj ); 
+        delete( obj ); 
+    }
+    else if (qName == "MSG_Pong") {
+
+        m_typeStack.pop();
+        MSG_Pong *obj = (MSG_Pong*) ( m_objStack.pop() );
+        emit signalMSG_Pong( *obj ); 
+        delete( obj ); 
+    }
+    else if (qName == "MSG_ServerStatus") {
+
+        m_typeStack.pop();
+        MSG_ServerStatus *obj = (MSG_ServerStatus*) ( m_objStack.pop() );
+        emit signalMSG_ServerStatus( *obj ); 
+        delete( obj ); 
+    }
     else if (qName == "MSG_ServiceRequest") {
 
         m_typeStack.pop();
         MSG_ServiceRequest *obj = (MSG_ServiceRequest*) ( m_objStack.pop() );
         emit signalMSG_ServiceRequest( *obj ); 
+        delete( obj ); 
+    }
+    else if (qName == "MSG_VesselData") {
+
+        m_typeStack.pop();
+        MSG_VesselData *obj = (MSG_VesselData*) ( m_objStack.pop() );
+        emit signalMSG_VesselData( *obj ); 
+        delete( obj ); 
+    }
+    else if (qName == "Header") {
+
+        m_typeStack.pop();
+        Header *obj = (Header*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "MSG_LoginRequest") {
+                ((MSG_LoginRequest*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_LoginResponse") {
+                ((MSG_LoginResponse*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_Logout") {
+                ((MSG_Logout*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_Ping") {
+                ((MSG_Ping*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_Pong") {
+                ((MSG_Pong*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_ServerStatus") {
+                ((MSG_ServerStatus*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_ServiceRequest") {
+                ((MSG_ServiceRequest*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        if ( m_typeStack.top() == "MSG_VesselData") {
+                ((MSG_VesselData*) ( m_objStack.top() ) )->setHeader( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "LoginRequest") {
+
+        m_typeStack.pop();
+        LoginRequest *obj = (LoginRequest*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "Body") {
+                ((Body*) ( m_objStack.top() ) )->setLoginRequest( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "LoginResponse") {
+
+        m_typeStack.pop();
+        LoginResponse *obj = (LoginResponse*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "Body") {
+                ((Body*) ( m_objStack.top() ) )->setLoginResponse( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "Ping") {
+
+        m_typeStack.pop();
+        Ping *obj = (Ping*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "Body") {
+                ((Body*) ( m_objStack.top() ) )->setPing( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "Pong") {
+
+        m_typeStack.pop();
+        Pong *obj = (Pong*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "Body") {
+                ((Body*) ( m_objStack.top() ) )->setPong( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "Pos") {
+
+        m_typeStack.pop();
+        Pos *obj = (Pos*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "PosReport") {
+                ((PosReport*) ( m_objStack.top() ) )->setPos( *obj );
+        }
+        if ( m_typeStack.top() == "Area") {
+                ((Area*) ( m_objStack.top() ) )->addPos( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "PosReport") {
+
+        m_typeStack.pop();
+        PosReport *obj = (PosReport*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "VesselData") {
+                ((VesselData*) ( m_objStack.top() ) )->setPosReport( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "Sensor") {
+
+        m_typeStack.pop();
+        Sensor *obj = (Sensor*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "PosReport") {
+                ((PosReport*) ( m_objStack.top() ) )->addSensor( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "StaticData") {
+
+        m_typeStack.pop();
+        StaticData *obj = (StaticData*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "VesselData") {
+                ((VesselData*) ( m_objStack.top() ) )->addStaticData( *obj );
+        }
+        delete( obj ); 
+    }
+    else if (qName == "ServerStatus") {
+
+        m_typeStack.pop();
+        ServerStatus *obj = (ServerStatus*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "Body") {
+                ((Body*) ( m_objStack.top() ) )->setServerStatus( *obj );
+        }
         delete( obj ); 
     }
     else if (qName == "ServiceRequest") {
@@ -726,15 +783,21 @@ bool Parser::endElement(const QString &,
         }
         delete( obj ); 
     }
-    else if (qName == "Pos") {
+    else if (qName == "VesselData") {
 
         m_typeStack.pop();
-        Pos *obj = (Pos*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "PosReport") {
-                ((PosReport*) ( m_objStack.top() ) )->setPos( *obj );
+        VesselData *obj = (VesselData*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "Body") {
+                ((Body*) ( m_objStack.top() ) )->addVesselData( *obj );
         }
-        if ( m_typeStack.top() == "Area") {
-                ((Area*) ( m_objStack.top() ) )->addPos( *obj );
+        delete( obj ); 
+    }
+    else if (qName == "Voyage") {
+
+        m_typeStack.pop();
+        Voyage *obj = (Voyage*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "VesselData") {
+                ((VesselData*) ( m_objStack.top() ) )->addVoyage( *obj );
         }
         delete( obj ); 
     }
@@ -748,14 +811,14 @@ bool Parser::parseXMLString(QString data, bool cont) {
      int index[8], indexMax = -1;
 
      // note that if a message does not exist the index will be equal to strlen(name\n) - 1 so indexMax is always > 0
-     index[0] = m_dataBuffer.lastIndexOf("</MSG_VesselData>") + strlen("</MSG_VesselData>");
-     index[1] = m_dataBuffer.lastIndexOf("</MSG_LoginRequest>") + strlen("</MSG_LoginRequest>");
-     index[2] = m_dataBuffer.lastIndexOf("</MSG_LoginResponse>") + strlen("</MSG_LoginResponse>");
+     index[0] = m_dataBuffer.lastIndexOf("</MSG_LoginRequest>") + strlen("</MSG_LoginRequest>");
+     index[1] = m_dataBuffer.lastIndexOf("</MSG_LoginResponse>") + strlen("</MSG_LoginResponse>");
+     index[2] = m_dataBuffer.lastIndexOf("</MSG_Logout>") + strlen("</MSG_Logout>");
      index[3] = m_dataBuffer.lastIndexOf("</MSG_Ping>") + strlen("</MSG_Ping>");
      index[4] = m_dataBuffer.lastIndexOf("</MSG_Pong>") + strlen("</MSG_Pong>");
      index[5] = m_dataBuffer.lastIndexOf("</MSG_ServerStatus>") + strlen("</MSG_ServerStatus>");
-     index[6] = m_dataBuffer.lastIndexOf("</MSG_Logout>") + strlen("</MSG_Logout>");
-     index[7] = m_dataBuffer.lastIndexOf("</MSG_ServiceRequest>") + strlen("</MSG_ServiceRequest>");
+     index[6] = m_dataBuffer.lastIndexOf("</MSG_ServiceRequest>") + strlen("</MSG_ServiceRequest>");
+     index[7] = m_dataBuffer.lastIndexOf("</MSG_VesselData>") + strlen("</MSG_VesselData>");
      for (int i=0; i<8; i++) {
          if (index[i] > indexMax) {
              indexMax = index[i];
@@ -765,9 +828,8 @@ bool Parser::parseXMLString(QString data, bool cont) {
      if (indexMax > 30) {
          QString messages = m_dataBuffer.left(indexMax);
          m_dataBuffer.remove(0, indexMax);
-         QXmlInputSource inputForParser;
-         inputForParser.setData(messages);
-         this->parse(&inputForParser, false);
+         m_inputForParser.setData(messages);
+         this->parse(&m_inputForParser, false);
      } else {
          return false; // not enough data in string
      }
@@ -777,4 +839,26 @@ bool Parser::parseXMLString(QString data, bool cont) {
      return true;
 }
 
+QString Parser::composeMessage( const QXmlParseException& exception ) {
+    QString errorstr( exception.message() );
+    errorstr += " at line " + QString::number(exception.lineNumber());
+    errorstr += " (column " + QString::number(exception.columnNumber());
+    errorstr += "): " + m_inputForParser.data().section('\n', exception.lineNumber()-1, exception.lineNumber()-1);
+    return errorstr;
+}
+
+bool Parser::error( const QXmlParseException& exception ) {
+    emit signalError( composeMessage( exception ) );
+    return QXmlDefaultHandler::error( exception );
+}
+
+bool Parser::fatalError( const QXmlParseException& exception ) {
+    emit signalError( composeMessage( exception ) );
+    return QXmlDefaultHandler::fatalError( exception );
+}
+
+bool Parser::warning( const QXmlParseException& exception ) {
+    emit signalWarning( composeMessage( exception ) );
+    return QXmlDefaultHandler::warning( exception );
+}
 

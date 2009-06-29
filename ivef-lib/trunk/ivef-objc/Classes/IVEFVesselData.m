@@ -57,6 +57,16 @@
     return [m_voyages count];
 }
 
+-(void) setId:(int) val {
+
+    m_id = val;
+}
+
+- (int) getId {
+
+    return m_id;
+}
+
 -(void) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
@@ -72,12 +82,20 @@
                 IVEFVoyage * val = [attributeDict objectForKey: key];
                 [self addVoyage: val];
             }
+            else if ([key isEqualToString:@"Id"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                int val = [value intValue];
+                [self setId: val];
+            }
         }
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
+    [xml appendString: @" Id=\""];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
+    [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: [m_posReport XML] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
@@ -92,10 +110,27 @@
     return xml;
 }
 
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
+}
+
 -(NSString *) stringValueWithLead: (NSString *) lead {
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"VesselData\n"]];
+    [str appendString: [lead stringByAppendingString: @" "]];
+    [str appendString: @"Id=\""];
+    [str appendString: [NSString stringWithFormat:@"%d", m_id]];
+    [str appendString: @"\"\n"];
+
     [str appendString: [m_posReport stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
         IVEFStaticData *attribute = [m_staticDatas objectAtIndex:i];

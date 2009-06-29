@@ -16,6 +16,15 @@ Area & Area::operator=(const Area &val) {
     return *this;
 }
 
+QString Area::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void Area::addPos(Pos val) {
 
     m_poss.append(val);

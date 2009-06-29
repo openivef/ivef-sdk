@@ -22,6 +22,15 @@ ServiceRequest & ServiceRequest::operator=(const ServiceRequest &val) {
     return *this;
 }
 
+QString ServiceRequest::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void ServiceRequest::addArea(Area val) {
 
     m_areas.append(val);

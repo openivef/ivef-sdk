@@ -18,6 +18,15 @@ MSG_ServerStatus & MSG_ServerStatus::operator=(const MSG_ServerStatus &val) {
     return *this;
 }
 
+QString MSG_ServerStatus::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void MSG_ServerStatus::setHeader(Header val) {
 
     m_header = val;

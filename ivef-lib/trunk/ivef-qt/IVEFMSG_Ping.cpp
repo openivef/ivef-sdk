@@ -18,6 +18,15 @@ MSG_Ping & MSG_Ping::operator=(const MSG_Ping &val) {
     return *this;
 }
 
+QString MSG_Ping::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void MSG_Ping::setHeader(Header val) {
 
     m_header = val;

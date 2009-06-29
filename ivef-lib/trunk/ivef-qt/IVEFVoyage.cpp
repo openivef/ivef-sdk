@@ -3,11 +3,22 @@
 
 Voyage::Voyage() {
 
+    m_id = "";
+    m_sourceName = "";
+    m_source = 0;
+    m_cargoType = 0;
     m_cargoTypePresent = false;
+    m_destination = "";
     m_destinationPresent = false;
+    m_ETA = QDateTime();
     m_ETAPresent = false;
+    m_ATA = QDateTime();
     m_ATAPresent = false;
+    m_personsOnBoard = 0.0;
+    m_personsOnBoardPresent = false;
+    m_airDraught = 0.0;
     m_airDraughtPresent = false;
+    m_draught = 0.0;
     m_draughtPresent = false;
 }
 
@@ -24,6 +35,8 @@ Voyage::Voyage(const Voyage &val) : QObject() {
     m_ETA = val.m_ETA;
     m_ATAPresent = val.m_ATAPresent;
     m_ATA = val.m_ATA;
+    m_personsOnBoardPresent = val.m_personsOnBoardPresent;
+    m_personsOnBoard = val.m_personsOnBoard;
     m_airDraughtPresent = val.m_airDraughtPresent;
     m_airDraught = val.m_airDraught;
     m_draughtPresent = val.m_draughtPresent;
@@ -43,11 +56,22 @@ Voyage & Voyage::operator=(const Voyage &val) {
     m_ETA = val.m_ETA;
     m_ATAPresent = val.m_ATAPresent;
     m_ATA = val.m_ATA;
+    m_personsOnBoardPresent = val.m_personsOnBoardPresent;
+    m_personsOnBoard = val.m_personsOnBoard;
     m_airDraughtPresent = val.m_airDraughtPresent;
     m_airDraught = val.m_airDraught;
     m_draughtPresent = val.m_draughtPresent;
     m_draught = val.m_draught;
     return *this;
+}
+
+QString Voyage::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void Voyage::setId(QString val) {
@@ -155,6 +179,22 @@ bool Voyage::hasATA() {
     return m_ATAPresent;
 }
 
+void Voyage::setPersonsOnBoard(float val) {
+
+    m_personsOnBoardPresent = true;
+    m_personsOnBoard = val;
+}
+
+float Voyage::getPersonsOnBoard() const {
+
+    return m_personsOnBoard;
+}
+
+bool Voyage::hasPersonsOnBoard() {
+
+    return m_personsOnBoardPresent;
+}
+
 void Voyage::setAirDraught(float val) {
 
     m_airDraughtPresent = true;
@@ -190,20 +230,23 @@ bool Voyage::hasDraught() {
 QString Voyage::toXML() {
 
     QString xml = "<Voyage";
-    xml.append(" Id=\"" + m_id + "\"");
-    xml.append(" SourceName=\"" + m_sourceName + "\"");
+    xml.append(" Id=\"" + encode (m_id) + "\"");
+    xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
     xml.append(" Source=\"" + QString::number(m_source) + "\"");
     if ( hasCargoType() ) {
         xml.append(" CargoType=\"" + QString::number(m_cargoType) + "\"");
     }
     if ( hasDestination() ) {
-        xml.append(" Destination=\"" + m_destination + "\"");
+        xml.append(" Destination=\"" + encode (m_destination) + "\"");
     }
     if ( hasETA() ) {
         xml.append(" ETA=\"" + m_ETA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
     }
     if ( hasATA() ) {
         xml.append(" ATA=\"" + m_ATA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
+    }
+    if ( hasPersonsOnBoard() ) {
+        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard) + "\"");
     }
     if ( hasAirDraught() ) {
         xml.append(" AirDraught=\"" + QString::number(m_airDraught) + "\"");
@@ -233,6 +276,9 @@ QString Voyage::toString(QString lead) {
     }
     if ( hasATA() ) {
         str.append( lead + "    ATA = " + m_ATA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    }
+    if ( hasPersonsOnBoard() ) {
+        str.append( lead + "    PersonsOnBoard = " + QString::number(m_personsOnBoard) + "\n");
     }
     if ( hasAirDraught() ) {
         str.append( lead + "    AirDraught = " + QString::number(m_airDraught) + "\n");

@@ -1,7 +1,7 @@
 /* 
- *  IVEFObject
+ *  IVEFSensor
  *
- *  IVEFObject is free software: you can redistribute it and/or modify
+ *  IVEFSensor is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -21,16 +21,28 @@
 
 #import <Foundation/Foundation.h>
 
-@interface IVEFObject : NSObject { 
-    NSString *m_fileName;
+@interface IVEFSensor : NSObject { 
+    float m_senId;
+    float m_trkId;
+    NSDate *m_updateTime;
     NSDateFormatter *m_dateFormatter;
 }
 
 
-/* FileName:
-   Name of the filter. The filter can be a predefined selector or can be defined here in the future. One of the predefined selectors will be 'all' */
--(void) setFileName:(NSString *) val;
--(NSString *) getFileName;
+/* SenId:
+   Identifier of local sensor contributing to position report */
+-(void) setSenId:(float) val;
+-(float) getSenId;
+
+/* TrkId:
+   local Identifier of track from sensor contributing to position report */
+-(void) setTrkId:(float) val;
+-(float) getTrkId;
+
+/* UpdateTime:
+   Date and time in UTC format (YYYY-MM-DDThh:mm:ss.sssZ) (subset of ISO 8601)  this position was measured. */
+-(void) setUpdateTime:(NSDate *) val;
+-(NSDate *) getUpdateTime;
 
 -(void) setAttributes:(NSDictionary *)attributeDict;
 -(NSString *) XML;

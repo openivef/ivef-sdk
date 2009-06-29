@@ -3,6 +3,9 @@
 
 Pong::Pong() {
 
+    m_timeStamp = QDateTime();
+    m_msgId = "";
+    m_sourceId = 0;
 }
 
 Pong::Pong(const Pong &val) : QObject() {
@@ -18,6 +21,15 @@ Pong & Pong::operator=(const Pong &val) {
     m_msgId = val.m_msgId;
     m_sourceId = val.m_sourceId;
     return *this;
+}
+
+QString Pong::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void Pong::setTimeStamp(QDateTime val) {
@@ -54,7 +66,7 @@ QString Pong::toXML() {
 
     QString xml = "<Pong";
     xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
-    xml.append(" MsgId=\"" + m_msgId + "\"");
+    xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
     xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
     xml.append(">\n");
     xml.append( "</Pong>\n");

@@ -1,7 +1,7 @@
 /* 
- *  Area
+ *  Sensor
  *
- *  Area is free software: you can redistribute it and/or modify
+ *  Sensor is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -19,43 +19,59 @@
  *
  */
 
-#ifndef __AREA_H__
-#define __AREA_H__
+#ifndef __SENSOR_H__
+#define __SENSOR_H__
 
 #include <QtCore>
-#include "IVEFPos.h"
 
 //-----------------------------------------------------------
-//! \brief       Class definition of Area
+//! \brief       Class definition of Sensor
 //!
-//! 
+//! Sensors contributing to this postion report (for the purpose of analysis)
 //!
 
-class Area : public QObject { 
+class Sensor : public QObject { 
     Q_OBJECT
 
 public:
     //!constructor
     //!
-    Area();
+    Sensor();
     //!copy constructor
     //!
-    Area(const Area&);
+    Sensor(const Sensor&);
     //!= operator
     //!
-    Area & operator=(const Area&/*val*/);
-    //!              adds a Pos.
+    Sensor & operator=(const Sensor&/*val*/);
+    //!              sets the SenId: Identifier of local sensor contributing to position report
     //!
-    void addPos(Pos val);
+    void setSenId(float val);
 
-    //!              gets the i-th Pos.
+    //!              gets the SenId: Identifier of local sensor contributing to position report
     //!
-    Pos getPosAt(int i) const;
+    //! \return     float
+    //!
+    float getSenId() const;
 
-    //!              return the number of Pos objects.
+    //!              sets the TrkId: local Identifier of track from sensor contributing to position report
     //!
-    //! \return     int
-    int countOfPoss() const;
+    void setTrkId(float val);
+
+    //!              gets the TrkId: local Identifier of track from sensor contributing to position report
+    //!
+    //! \return     float
+    //!
+    float getTrkId() const;
+
+    //!              sets the UpdateTime: Date and time in UTC format (YYYY-MM-DDThh:mm:ss.sssZ) (subset of ISO 8601)  this position was measured.
+    //!
+    void setUpdateTime(QDateTime val);
+
+    //!              gets the UpdateTime: Date and time in UTC format (YYYY-MM-DDThh:mm:ss.sssZ) (subset of ISO 8601)  this position was measured.
+    //!
+    //! \return     QDateTime
+    //!
+    QDateTime getUpdateTime() const;
 
     //!              generates XML of this object including attributes and child elements
     //!
@@ -74,7 +90,9 @@ public:
 
 
 private:
-    QVector<Pos> m_poss;
+    float m_senId;
+    float m_trkId;
+    QDateTime m_updateTime;
 
 }; 
 

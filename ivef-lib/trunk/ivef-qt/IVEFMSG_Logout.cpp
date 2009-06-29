@@ -18,6 +18,15 @@ MSG_Logout & MSG_Logout::operator=(const MSG_Logout &val) {
     return *this;
 }
 
+QString MSG_Logout::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void MSG_Logout::setHeader(Header val) {
 
     m_header = val;

@@ -3,6 +3,8 @@
 
 Transmission::Transmission() {
 
+    m_type = 0;
+    m_period = 0.0;
     m_periodPresent = false;
 }
 
@@ -19,6 +21,15 @@ Transmission & Transmission::operator=(const Transmission &val) {
     m_periodPresent = val.m_periodPresent;
     m_period = val.m_period;
     return *this;
+}
+
+QString Transmission::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void Transmission::setType(int val) {

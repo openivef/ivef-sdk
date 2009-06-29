@@ -7,6 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_sensors = [[NSMutableArray alloc] init];
         m_rateOfTurnPresent = false;
         m_orientationPresent = false;
         m_lengthPresent = false;
@@ -31,6 +32,21 @@
 - (IVEFPos *) getPos {
 
     return m_pos;
+}
+
+-(void) addSensor:(IVEFSensor *) val {
+
+    [m_sensors addObject: val];
+}
+
+-(IVEFSensor *) getSensorAt:(int) i {
+
+    return [m_sensors objectAtIndex: i];
+}
+
+-(int) countOfSensors {
+
+    return [m_sensors count];
 }
 
 -(void) setId:(int) val {
@@ -226,7 +242,8 @@
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) &&
-         ( val != 4 ) )
+         ( val != 4 ) &&
+         ( val != 5 ) )
         return;
     m_updSensorTypePresent = true;
     m_updSensorType = val;
@@ -264,6 +281,10 @@
             if ([key isEqualToString: @"Pos"]) {
                 IVEFPos * val = [attributeDict objectForKey: key];
                 [self setPos: val];
+            }
+            else if ([key isEqualToString:@"Sensor"]) {
+                IVEFSensor * val = [attributeDict objectForKey: key];
+                [self addSensor: val];
             }
             else if ([key isEqualToString:@"Id"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -356,7 +377,7 @@
     [xml appendString: [NSString stringWithFormat:@"%f", m_COG]];
     [xml appendString: @"\""];
     [xml appendString: @" Lost=\""];
-    [xml appendString: m_lost];
+    [xml appendString: [m_lost encode]];
     [xml appendString: @"\""];
     if ( [self hasRateOfTurn] ) {
         [xml appendString: @" RateOfTurn=\""];
@@ -400,8 +421,24 @@
     }
     [xml appendString:@">\n"];
     [xml appendString: [m_pos XML] ];
+    for(int i=0; i < [m_sensors count]; i++ ) {
+        IVEFSensor *attribute = [m_sensors objectAtIndex:i];
+        [xml appendString: [attribute XML] ];
+    }
     [xml appendString: @"</PosReport>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {
@@ -479,6 +516,10 @@
         [str appendString: [NSString stringWithFormat:@"%f", m_ATONOffPos]];
     }
     [str appendString: [m_pos stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    for(int i=0; i < [m_sensors count]; i++ ) {
+        IVEFSensor *attribute = [m_sensors objectAtIndex:i];
+        [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @" "]] ];
+    }
     return str;
 }
 

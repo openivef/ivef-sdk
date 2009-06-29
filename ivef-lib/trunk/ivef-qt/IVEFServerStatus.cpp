@@ -3,6 +3,8 @@
 
 ServerStatus::ServerStatus() {
 
+    m_status = "";
+    m_details = "";
     m_detailsPresent = false;
 }
 
@@ -19,6 +21,15 @@ ServerStatus & ServerStatus::operator=(const ServerStatus &val) {
     m_detailsPresent = val.m_detailsPresent;
     m_details = val.m_details;
     return *this;
+}
+
+QString ServerStatus::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void ServerStatus::setStatus(QString val) {
@@ -53,9 +64,9 @@ bool ServerStatus::hasDetails() {
 QString ServerStatus::toXML() {
 
     QString xml = "<ServerStatus";
-    xml.append(" Status=\"" + m_status + "\"");
+    xml.append(" Status=\"" + encode (m_status) + "\"");
     if ( hasDetails() ) {
-        xml.append(" Details=\"" + m_details + "\"");
+        xml.append(" Details=\"" + encode (m_details) + "\"");
     }
     xml.append(">\n");
     xml.append( "</ServerStatus>\n");

@@ -73,10 +73,10 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<LoginRequest"];
     [xml appendString: @" Name=\""];
-    [xml appendString: m_name];
+    [xml appendString: [m_name encode]];
     [xml appendString: @"\""];
     [xml appendString: @" Password=\""];
-    [xml appendString: m_password];
+    [xml appendString: [m_password encode]];
     [xml appendString: @"\""];
     [xml appendString: @" Encryption=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_encryption]];
@@ -84,6 +84,18 @@
     [xml appendString:@">\n"];
     [xml appendString: @"</LoginRequest>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {

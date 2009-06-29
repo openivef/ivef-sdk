@@ -3,6 +3,7 @@
 
 Ping::Ping() {
 
+    m_timeStamp = QDateTime();
 }
 
 Ping::Ping(const Ping &val) : QObject() {
@@ -14,6 +15,15 @@ Ping & Ping::operator=(const Ping &val) {
 
     m_timeStamp = val.m_timeStamp;
     return *this;
+}
+
+QString Ping::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void Ping::setTimeStamp(QDateTime val) {

@@ -11,6 +11,7 @@
         m_destinationPresent = false;
         m_ETAPresent = false;
         m_ATAPresent = false;
+        m_personsOnBoardPresent = false;
         m_airDraughtPresent = false;
         m_draughtPresent = false;
         m_dateFormatter = [[NSDateFormatter alloc] init];
@@ -134,6 +135,22 @@
     return m_ATAPresent;
 }
 
+-(void) setPersonsOnBoard:(float) val {
+
+    m_personsOnBoardPresent = true;
+    m_personsOnBoard = val;
+}
+
+- (float) getPersonsOnBoard {
+
+    return m_personsOnBoard;
+}
+
+-(bool) hasPersonsOnBoard {
+
+    return m_personsOnBoardPresent;
+}
+
 -(void) setAirDraught:(float) val {
 
     m_airDraughtPresent = true;
@@ -201,6 +218,11 @@
                 NSDate *val = [m_dateFormatter dateFromString: value]; // assume "yyyy-MM-ddThh:mm:ss.zzz"
                 [self setATA: val];
             }
+            else if ([key isEqualToString:@"PersonsOnBoard"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                float val = [value floatValue];
+                [self setPersonsOnBoard: val];
+            }
             else if ([key isEqualToString:@"AirDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
@@ -218,10 +240,10 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Voyage"];
     [xml appendString: @" Id=\""];
-    [xml appendString: m_id];
+    [xml appendString: [m_id encode]];
     [xml appendString: @"\""];
     [xml appendString: @" SourceName=\""];
-    [xml appendString: m_sourceName];
+    [xml appendString: [m_sourceName encode]];
     [xml appendString: @"\""];
     [xml appendString: @" Source=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_source]];
@@ -233,7 +255,7 @@
     }
     if ( [self hasDestination] ) {
         [xml appendString: @" Destination=\""];
-        [xml appendString: m_destination];
+        [xml appendString: [m_destination encode]];
         [xml appendString: @"\""];
     }
     if ( [self hasETA] ) {
@@ -244,6 +266,11 @@
     if ( [self hasATA] ) {
         [xml appendString: @" ATA=\""];
         [xml appendString: [m_ATA descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%F" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasPersonsOnBoard] ) {
+        [xml appendString: @" PersonsOnBoard=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_personsOnBoard]];
         [xml appendString: @"\""];
     }
     if ( [self hasAirDraught] ) {
@@ -259,6 +286,18 @@
     [xml appendString:@">\n"];
     [xml appendString: @"</Voyage>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {
@@ -299,6 +338,11 @@
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ATA = \""];
         [str appendString: [m_ATA descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%F" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
+    }
+    if ( [self hasPersonsOnBoard] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"PersonsOnBoard = \""];
+        [str appendString: [NSString stringWithFormat:@"%f", m_personsOnBoard]];
     }
     if ( [self hasAirDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];

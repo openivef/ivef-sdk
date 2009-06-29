@@ -3,70 +3,64 @@
 
 Body::Body() {
 
-    m_vesselDataPresent = false;
     m_loginRequestPresent = false;
     m_loginResponsePresent = false;
+    m_logoutPresent = false;
     m_pingPresent = false;
     m_pongPresent = false;
     m_serverStatusPresent = false;
-    m_logoutPresent = false;
     m_serviceRequestPresent = false;
+    m_vesselDataPresent = false;
 }
 
 Body::Body(const Body &val) : QObject() {
 
-    m_vesselDataPresent = val.m_vesselDataPresent;
-    m_vesselDatas = val.m_vesselDatas;
     m_loginRequestPresent = val.m_loginRequestPresent;
     m_loginRequest = val.m_loginRequest;
     m_loginResponsePresent = val.m_loginResponsePresent;
     m_loginResponse = val.m_loginResponse;
+    m_logoutPresent = val.m_logoutPresent;
+    m_logout = val.m_logout;
     m_pingPresent = val.m_pingPresent;
     m_ping = val.m_ping;
     m_pongPresent = val.m_pongPresent;
     m_pong = val.m_pong;
     m_serverStatusPresent = val.m_serverStatusPresent;
     m_serverStatus = val.m_serverStatus;
-    m_logoutPresent = val.m_logoutPresent;
-    m_logout = val.m_logout;
     m_serviceRequestPresent = val.m_serviceRequestPresent;
     m_serviceRequest = val.m_serviceRequest;
+    m_vesselDataPresent = val.m_vesselDataPresent;
+    m_vesselDatas = val.m_vesselDatas;
 }
 
 Body & Body::operator=(const Body &val) {
 
-    m_vesselDataPresent = val.m_vesselDataPresent;
-    m_vesselDatas = val.m_vesselDatas;
     m_loginRequestPresent = val.m_loginRequestPresent;
     m_loginRequest = val.m_loginRequest;
     m_loginResponsePresent = val.m_loginResponsePresent;
     m_loginResponse = val.m_loginResponse;
+    m_logoutPresent = val.m_logoutPresent;
+    m_logout = val.m_logout;
     m_pingPresent = val.m_pingPresent;
     m_ping = val.m_ping;
     m_pongPresent = val.m_pongPresent;
     m_pong = val.m_pong;
     m_serverStatusPresent = val.m_serverStatusPresent;
     m_serverStatus = val.m_serverStatus;
-    m_logoutPresent = val.m_logoutPresent;
-    m_logout = val.m_logout;
     m_serviceRequestPresent = val.m_serviceRequestPresent;
     m_serviceRequest = val.m_serviceRequest;
+    m_vesselDataPresent = val.m_vesselDataPresent;
+    m_vesselDatas = val.m_vesselDatas;
     return *this;
 }
 
-void Body::addVesselData(VesselData val) {
+QString Body::encode( QString str) {
 
-    m_vesselDatas.append(val);
-}
-
-VesselData Body::getVesselDataAt(int i) const {
-
-    return m_vesselDatas.at(i);
-}
-
-int Body::countOfVesselDatas() const {
-
-    return m_vesselDatas.count();
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void Body::setLoginRequest(LoginRequest val) {
@@ -99,6 +93,22 @@ LoginResponse Body::getLoginResponse() const {
 bool Body::hasLoginResponse() {
 
     return m_loginResponsePresent;
+}
+
+void Body::setLogout(Logout val) {
+
+    m_logoutPresent = true;
+    m_logout = val;
+}
+
+Logout Body::getLogout() const {
+
+    return m_logout;
+}
+
+bool Body::hasLogout() {
+
+    return m_logoutPresent;
 }
 
 void Body::setPing(Ping val) {
@@ -149,22 +159,6 @@ bool Body::hasServerStatus() {
     return m_serverStatusPresent;
 }
 
-void Body::setLogout(Logout val) {
-
-    m_logoutPresent = true;
-    m_logout = val;
-}
-
-Logout Body::getLogout() const {
-
-    return m_logout;
-}
-
-bool Body::hasLogout() {
-
-    return m_logoutPresent;
-}
-
 void Body::setServiceRequest(ServiceRequest val) {
 
     m_serviceRequestPresent = true;
@@ -181,19 +175,33 @@ bool Body::hasServiceRequest() {
     return m_serviceRequestPresent;
 }
 
+void Body::addVesselData(VesselData val) {
+
+    m_vesselDatas.append(val);
+}
+
+VesselData Body::getVesselDataAt(int i) const {
+
+    return m_vesselDatas.at(i);
+}
+
+int Body::countOfVesselDatas() const {
+
+    return m_vesselDatas.count();
+}
+
 QString Body::toXML() {
 
     QString xml = "<Body";
     xml.append(">\n");
-    for(int i=0; i < m_vesselDatas.count(); i++ ) {
-        VesselData attribute = m_vesselDatas.at(i);
-        xml.append( attribute.toXML() );
-    }
     if ( hasLoginRequest() ) {
         xml.append( m_loginRequest.toXML() );
     }
     if ( hasLoginResponse() ) {
         xml.append( m_loginResponse.toXML() );
+    }
+    if ( hasLogout() ) {
+        xml.append( m_logout.toXML() );
     }
     if ( hasPing() ) {
         xml.append( m_ping.toXML() );
@@ -204,11 +212,12 @@ QString Body::toXML() {
     if ( hasServerStatus() ) {
         xml.append( m_serverStatus.toXML() );
     }
-    if ( hasLogout() ) {
-        xml.append( m_logout.toXML() );
-    }
     if ( hasServiceRequest() ) {
         xml.append( m_serviceRequest.toXML() );
+    }
+    for(int i=0; i < m_vesselDatas.count(); i++ ) {
+        VesselData attribute = m_vesselDatas.at(i);
+        xml.append( attribute.toXML() );
     }
     xml.append( "</Body>\n");
     return xml;
@@ -217,15 +226,14 @@ QString Body::toXML() {
 QString Body::toString(QString lead) {
 
     QString str = lead + "Body\n";
-    for(int i=0; i < m_vesselDatas.count(); i++ ) {
-       VesselData attribute = m_vesselDatas.at(i);
-       str.append( attribute.toString(lead + "    ") );
-    }
     if ( hasLoginRequest() ) {
         str.append( m_loginRequest.toString(lead + "    ") );
     }
     if ( hasLoginResponse() ) {
         str.append( m_loginResponse.toString(lead + "    ") );
+    }
+    if ( hasLogout() ) {
+        str.append( m_logout.toString(lead + "    ") );
     }
     if ( hasPing() ) {
         str.append( m_ping.toString(lead + "    ") );
@@ -236,11 +244,12 @@ QString Body::toString(QString lead) {
     if ( hasServerStatus() ) {
         str.append( m_serverStatus.toString(lead + "    ") );
     }
-    if ( hasLogout() ) {
-        str.append( m_logout.toString(lead + "    ") );
-    }
     if ( hasServiceRequest() ) {
         str.append( m_serviceRequest.toString(lead + "    ") );
+    }
+    for(int i=0; i < m_vesselDatas.count(); i++ ) {
+       VesselData attribute = m_vesselDatas.at(i);
+       str.append( attribute.toString(lead + "    ") );
     }
     return str;
 }

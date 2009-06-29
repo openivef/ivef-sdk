@@ -3,6 +3,8 @@
 
 Item::Item() {
 
+    m_element = 0;
+    m_field = "";
 }
 
 Item::Item(const Item &val) : QObject() {
@@ -16,6 +18,15 @@ Item & Item::operator=(const Item &val) {
     m_element = val.m_element;
     m_field = val.m_field;
     return *this;
+}
+
+QString Item::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void Item::setElement(int val) {
@@ -46,7 +57,7 @@ QString Item::toXML() {
 
     QString xml = "<Item";
     xml.append(" Element=\"" + QString::number(m_element) + "\"");
-    xml.append(" Field=\"" + m_field + "\"");
+    xml.append(" Field=\"" + encode (m_field) + "\"");
     xml.append(">\n");
     xml.append( "</Item>\n");
     return xml;

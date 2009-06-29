@@ -3,19 +3,34 @@
 
 PosReport::PosReport() {
 
+    m_id = 0;
+    m_sourceId = 0;
+    m_updateTime = QDateTime();
+    m_SOG = 0.0;
+    m_COG = 0.0;
+    m_lost = "";
+    m_rateOfTurn = 0.0;
     m_rateOfTurnPresent = false;
+    m_orientation = 0.0;
     m_orientationPresent = false;
+    m_length = 0.0;
     m_lengthPresent = false;
+    m_breadth = 0.0;
     m_breadthPresent = false;
+    m_altitude = 0.0;
     m_altitudePresent = false;
+    m_navStatus = 0;
     m_navStatusPresent = false;
+    m_updSensorType = 0;
     m_updSensorTypePresent = false;
+    m_ATONOffPos = false;
     m_ATONOffPosPresent = false;
 }
 
 PosReport::PosReport(const PosReport &val) : QObject() {
 
     m_pos = val.m_pos;
+    m_sensors = val.m_sensors;
     m_id = val.m_id;
     m_sourceId = val.m_sourceId;
     m_updateTime = val.m_updateTime;
@@ -43,6 +58,7 @@ PosReport::PosReport(const PosReport &val) : QObject() {
 PosReport & PosReport::operator=(const PosReport &val) {
 
     m_pos = val.m_pos;
+    m_sensors = val.m_sensors;
     m_id = val.m_id;
     m_sourceId = val.m_sourceId;
     m_updateTime = val.m_updateTime;
@@ -68,6 +84,15 @@ PosReport & PosReport::operator=(const PosReport &val) {
     return *this;
 }
 
+QString PosReport::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void PosReport::setPos(Pos val) {
 
     m_pos = val;
@@ -76,6 +101,21 @@ void PosReport::setPos(Pos val) {
 Pos PosReport::getPos() const {
 
     return m_pos;
+}
+
+void PosReport::addSensor(Sensor val) {
+
+    m_sensors.append(val);
+}
+
+Sensor PosReport::getSensorAt(int i) const {
+
+    return m_sensors.at(i);
+}
+
+int PosReport::countOfSensors() const {
+
+    return m_sensors.count();
 }
 
 void PosReport::setId(int val) {
@@ -267,7 +307,8 @@ void PosReport::setUpdSensorType(int val) {
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) &&
-         ( val != 4 ) )
+         ( val != 4 ) &&
+         ( val != 5 ) )
         return;
     m_updSensorTypePresent = true;
     m_updSensorType = val;
@@ -307,7 +348,7 @@ QString PosReport::toXML() {
     xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
     xml.append(" SOG=\"" + QString::number(m_SOG) + "\"");
     xml.append(" COG=\"" + QString::number(m_COG) + "\"");
-    xml.append(" Lost=\"" + m_lost + "\"");
+    xml.append(" Lost=\"" + encode (m_lost) + "\"");
     if ( hasRateOfTurn() ) {
         xml.append(" RateOfTurn=\"" + QString::number(m_rateOfTurn) + "\"");
     }
@@ -334,6 +375,10 @@ QString PosReport::toXML() {
     }
     xml.append(">\n");
     xml.append( m_pos.toXML() );
+    for(int i=0; i < m_sensors.count(); i++ ) {
+        Sensor attribute = m_sensors.at(i);
+        xml.append( attribute.toXML() );
+    }
     xml.append( "</PosReport>\n");
     return xml;
 }
@@ -372,6 +417,10 @@ QString PosReport::toString(QString lead) {
         str.append( lead + "    ATONOffPos = " + QString::number(m_ATONOffPos) + "\n");
     }
     str.append( m_pos.toString(lead + "    ") );
+    for(int i=0; i < m_sensors.count(); i++ ) {
+       Sensor attribute = m_sensors.at(i);
+       str.append( attribute.toString(lead + "    ") );
+    }
     return str;
 }
 

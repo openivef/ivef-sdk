@@ -3,6 +3,8 @@
 
 Pos::Pos() {
 
+    m_lat = 0.0;
+    m_long = 0.0;
 }
 
 Pos::Pos(const Pos &val) : QObject() {
@@ -16,6 +18,15 @@ Pos & Pos::operator=(const Pos &val) {
     m_lat = val.m_lat;
     m_long = val.m_long;
     return *this;
+}
+
+QString Pos::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void Pos::setLat(float val) {

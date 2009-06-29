@@ -18,6 +18,15 @@ MSG_VesselData & MSG_VesselData::operator=(const MSG_VesselData &val) {
     return *this;
 }
 
+QString MSG_VesselData::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 void MSG_VesselData::setHeader(Header val) {
 
     m_header = val;

@@ -74,7 +74,7 @@
     [xml appendString: [m_timeStamp descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%F" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
     [xml appendString: @"\""];
     [xml appendString: @" MsgId=\""];
-    [xml appendString: m_msgId];
+    [xml appendString: [m_msgId encode]];
     [xml appendString: @"\""];
     [xml appendString: @" SourceId=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
@@ -82,6 +82,18 @@
     [xml appendString:@">\n"];
     [xml appendString: @"</Pong>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {

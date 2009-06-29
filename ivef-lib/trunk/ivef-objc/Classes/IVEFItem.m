@@ -61,11 +61,23 @@
     [xml appendString: [NSString stringWithFormat:@"%d", m_element]];
     [xml appendString: @"\""];
     [xml appendString: @" Field=\""];
-    [xml appendString: m_field];
+    [xml appendString: [m_field encode]];
     [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: @"</Item>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {

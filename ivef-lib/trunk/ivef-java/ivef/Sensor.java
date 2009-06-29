@@ -1,7 +1,7 @@
 /* 
- *  Item
+ *  Sensor
  *
- *  Item is free software: you can redistribute it and/or modify
+ *  Sensor is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -26,64 +26,82 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 
-public class Item { 
+public class Sensor { 
 
-    private int m_element; // default value is uninitialized
-    private String m_field; // default value is uninitialized
+    private double m_senId; // default value is uninitialized
+    private double m_trkId; // default value is uninitialized
+    private Date m_updateTime; // default value is uninitialized
 
-    public Item() {
+    public Sensor() {
 
     }
 
-    public Item(Item val) {
+    public Sensor(Sensor val) {
 
-        m_element = val.getElement();
-        m_field = val.getField();
+        m_senId = val.getSenId();
+        m_trkId = val.getTrkId();
+        m_updateTime = val.getUpdateTime();
     }
 
-    public void setElement(int val) {
+    public void setSenId(double val) {
 
-        if ( ( val != 1 ) &&
-             ( val != 2 ) &&
-             ( val != 3 ) )
-            return;
-        m_element = val;
+        if (val < 0)
+          return;
+        if (val > 65536)
+          return;
+        m_senId = val;
     }
 
-    public int getElement() {
+    public double getSenId() {
 
-        return m_element;
+        return m_senId;
     }
 
-    public void setField(String val) {
+    public void setTrkId(double val) {
 
-        m_field = val;
+        if (val < 0)
+          return;
+        if (val > 65536)
+          return;
+        m_trkId = val;
     }
 
-    public String getField() {
+    public double getTrkId() {
 
-        return m_field;
+        return m_trkId;
+    }
+
+    public void setUpdateTime(Date val) {
+
+        m_updateTime = val;
+    }
+
+    public Date getUpdateTime() {
+
+        return m_updateTime;
     }
 
     public String toXML() {
 
-        String xml = "<Item";
+        String xml = "<Sensor";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
 
-        xml += " Element=\"" + m_element + "\"";
-        xml += " Field=\"" + encode( m_field) + "\"";
+        xml += " SenId=\"" + m_senId + "\"";
+        xml += " TrkId=\"" + m_trkId + "\"";
+        xml += " UpdateTime=\"" + df.format(m_updateTime) + "\"";
         xml += ">\n";
-        xml += "</Item>\n";
+        xml += "</Sensor>\n";
         return xml;
     }
 
     public String toString(String lead) {
 
-        String str = lead + "Item\n";
+        String str = lead + "Sensor\n";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
 
-        str +=  lead + "    Element = " + m_element + "\n";
-        str +=  lead + "    Field = " + m_field + "\n";
+        str +=  lead + "    SenId = " + m_senId + "\n";
+        str +=  lead + "    TrkId = " + m_trkId + "\n";
+        str +=  lead + "    UpdateTime = " + df.format(m_updateTime) + "\n";
         return str;
     }
     public String encode( String str) {

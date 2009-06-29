@@ -20,7 +20,7 @@
 
 -(NSString *) getTargetNamespace {
 
-    return @"urn:http://www.ivef.org/XMLSchema/IVEF/1.1";
+    return @"urn:http://www.ivef.org/XMLSchema/IVEF/0.1.1";
 }
 
 -(void) setAttributes:(NSDictionary *)attributeDict {
@@ -33,6 +33,18 @@
     [xml appendString:@">\n"];
     [xml appendString: @"</Schema>\n"];
     return xml;
+}
+
+-(NSString *) encode: (NSString *) input {
+
+    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
+
+    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+
+    return str;
 }
 
 -(NSString *) stringValueWithLead: (NSString *) lead {

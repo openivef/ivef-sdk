@@ -3,23 +3,44 @@
 
 StaticData::StaticData() {
 
+    m_id = "";
+    m_sourceName = "";
+    m_source = 0;
+    m_length = 0.0;
     m_lengthPresent = false;
+    m_breadth = 0.0;
     m_breadthPresent = false;
+    m_callsign = "";
     m_callsignPresent = false;
+    m_shipName = "";
     m_shipNamePresent = false;
+    m_objectType = 0;
     m_objectTypePresent = false;
+    m_shipType = 0;
     m_shipTypePresent = false;
+    m_IMO = 0;
     m_IMOPresent = false;
+    m_MMSI = 0;
     m_MMSIPresent = false;
+    m_ATONType = 0;
     m_ATONTypePresent = false;
+    m_ATONName = "";
     m_ATONNamePresent = false;
+    m_antPosDistFromFront = 0.0;
     m_antPosDistFromFrontPresent = false;
+    m_antPosDistFromLeft = 0.0;
     m_antPosDistFromLeftPresent = false;
+    m_natLangShipName = "";
     m_natLangShipNamePresent = false;
+    m_portOfRegistry = "";
     m_portOfRegistryPresent = false;
+    m_countryFlag = "";
     m_countryFlagPresent = false;
+    m_maxAirDraught = 0.0;
     m_maxAirDraughtPresent = false;
+    m_maxDraught = 0.0;
     m_maxDraughtPresent = false;
+    m_deepWaterVesselind = "";
     m_deepWaterVesselindPresent = false;
 }
 
@@ -108,6 +129,15 @@ StaticData & StaticData::operator=(const StaticData &val) {
     m_deepWaterVesselindPresent = val.m_deepWaterVesselindPresent;
     m_deepWaterVesselind = val.m_deepWaterVesselind;
     return *this;
+}
+
+QString StaticData::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void StaticData::setId(QString val) {
@@ -503,8 +533,8 @@ bool StaticData::hasDeepWaterVesselind() {
 QString StaticData::toXML() {
 
     QString xml = "<StaticData";
-    xml.append(" Id=\"" + m_id + "\"");
-    xml.append(" SourceName=\"" + m_sourceName + "\"");
+    xml.append(" Id=\"" + encode (m_id) + "\"");
+    xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
     xml.append(" Source=\"" + QString::number(m_source) + "\"");
     if ( hasLength() ) {
         xml.append(" Length=\"" + QString::number(m_length) + "\"");
@@ -513,10 +543,10 @@ QString StaticData::toXML() {
         xml.append(" Breadth=\"" + QString::number(m_breadth) + "\"");
     }
     if ( hasCallsign() ) {
-        xml.append(" Callsign=\"" + m_callsign + "\"");
+        xml.append(" Callsign=\"" + encode (m_callsign) + "\"");
     }
     if ( hasShipName() ) {
-        xml.append(" ShipName=\"" + m_shipName + "\"");
+        xml.append(" ShipName=\"" + encode (m_shipName) + "\"");
     }
     if ( hasObjectType() ) {
         xml.append(" ObjectType=\"" + QString::number(m_objectType) + "\"");
@@ -534,7 +564,7 @@ QString StaticData::toXML() {
         xml.append(" ATONType=\"" + QString::number(m_ATONType) + "\"");
     }
     if ( hasATONName() ) {
-        xml.append(" ATONName=\"" + m_ATONName + "\"");
+        xml.append(" ATONName=\"" + encode (m_ATONName) + "\"");
     }
     if ( hasAntPosDistFromFront() ) {
         xml.append(" AntPosDistFromFront=\"" + QString::number(m_antPosDistFromFront) + "\"");
@@ -543,13 +573,13 @@ QString StaticData::toXML() {
         xml.append(" AntPosDistFromLeft=\"" + QString::number(m_antPosDistFromLeft) + "\"");
     }
     if ( hasNatLangShipName() ) {
-        xml.append(" NatLangShipName=\"" + m_natLangShipName + "\"");
+        xml.append(" NatLangShipName=\"" + encode (m_natLangShipName) + "\"");
     }
     if ( hasPortOfRegistry() ) {
-        xml.append(" PortOfRegistry=\"" + m_portOfRegistry + "\"");
+        xml.append(" PortOfRegistry=\"" + encode (m_portOfRegistry) + "\"");
     }
     if ( hasCountryFlag() ) {
-        xml.append(" CountryFlag=\"" + m_countryFlag + "\"");
+        xml.append(" CountryFlag=\"" + encode (m_countryFlag) + "\"");
     }
     if ( hasMaxAirDraught() ) {
         xml.append(" MaxAirDraught=\"" + QString::number(m_maxAirDraught) + "\"");
@@ -558,7 +588,7 @@ QString StaticData::toXML() {
         xml.append(" MaxDraught=\"" + QString::number(m_maxDraught) + "\"");
     }
     if ( hasDeepWaterVesselind() ) {
-        xml.append(" DeepWaterVesselind=\"" + m_deepWaterVesselind + "\"");
+        xml.append(" DeepWaterVesselind=\"" + encode (m_deepWaterVesselind) + "\"");
     }
     xml.append(">\n");
     xml.append( "</StaticData>\n");

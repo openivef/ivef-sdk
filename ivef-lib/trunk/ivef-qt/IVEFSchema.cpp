@@ -14,6 +14,15 @@ Schema & Schema::operator=(const Schema &val) {
     return *this;
 }
 
+QString Schema::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
+}
+
 QString Schema::getElementFormDefault() const {
 
     return "qualified";
@@ -21,7 +30,7 @@ QString Schema::getElementFormDefault() const {
 
 QString Schema::getTargetNamespace() const {
 
-    return "urn:http://www.ivef.org/XMLSchema/IVEF/1.1";
+    return "urn:http://www.ivef.org/XMLSchema/IVEF/0.1.1";
 }
 
 QString Schema::toXML() {

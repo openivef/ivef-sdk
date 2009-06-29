@@ -3,6 +3,7 @@
 
 VesselData::VesselData() {
 
+    m_id = 0;
 }
 
 VesselData::VesselData(const VesselData &val) : QObject() {
@@ -10,6 +11,7 @@ VesselData::VesselData(const VesselData &val) : QObject() {
     m_posReport = val.m_posReport;
     m_staticDatas = val.m_staticDatas;
     m_voyages = val.m_voyages;
+    m_id = val.m_id;
 }
 
 VesselData & VesselData::operator=(const VesselData &val) {
@@ -17,7 +19,17 @@ VesselData & VesselData::operator=(const VesselData &val) {
     m_posReport = val.m_posReport;
     m_staticDatas = val.m_staticDatas;
     m_voyages = val.m_voyages;
+    m_id = val.m_id;
     return *this;
+}
+
+QString VesselData::encode( QString str) {
+
+    str.replace('&', "&amp;");
+    str.replace('<', "&lt;");
+    str.replace('>', "&gt;");
+    str.replace('"', "&quot;");
+    return str;
 }
 
 void VesselData::setPosReport(PosReport val) {
@@ -60,9 +72,20 @@ int VesselData::countOfVoyages() const {
     return m_voyages.count();
 }
 
+void VesselData::setId(int val) {
+
+    m_id = val;
+}
+
+int VesselData::getId() const {
+
+    return m_id;
+}
+
 QString VesselData::toXML() {
 
     QString xml = "<VesselData";
+    xml.append(" Id=\"" + QString::number(m_id) + "\"");
     xml.append(">\n");
     xml.append( m_posReport.toXML() );
     for(int i=0; i < m_staticDatas.count(); i++ ) {
@@ -80,6 +103,7 @@ QString VesselData::toXML() {
 QString VesselData::toString(QString lead) {
 
     QString str = lead + "VesselData\n";
+    str.append( lead + "    Id = " + QString::number(m_id) + "\n");
     str.append( m_posReport.toString(lead + "    ") );
     for(int i=0; i < m_staticDatas.count(); i++ ) {
        StaticData attribute = m_staticDatas.at(i);

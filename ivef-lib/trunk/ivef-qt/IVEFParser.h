@@ -2,34 +2,36 @@
 #define __PARSER_H__
 
 #include <QtCore>
+#include <QXmlInputSource>
 #include <QXmlDefaultHandler>
 
-#include "IVEFHeader.h"
-#include "IVEFMSG_VesselData.h"
-#include "IVEFBody.h"
-#include "IVEFVesselData.h"
-#include "IVEFPosReport.h"
-#include "IVEFStaticData.h"
-#include "IVEFVoyage.h"
 #include "IVEFMSG_LoginRequest.h"
-#include "IVEFLoginRequest.h"
+#include "IVEFBody.h"
 #include "IVEFMSG_LoginResponse.h"
-#include "IVEFLoginResponse.h"
-#include "IVEFMSG_Ping.h"
-#include "IVEFPing.h"
-#include "IVEFMSG_Pong.h"
-#include "IVEFPong.h"
-#include "IVEFMSG_ServerStatus.h"
-#include "IVEFServerStatus.h"
 #include "IVEFMSG_Logout.h"
 #include "IVEFLogout.h"
+#include "IVEFMSG_Ping.h"
+#include "IVEFMSG_Pong.h"
+#include "IVEFMSG_ServerStatus.h"
 #include "IVEFMSG_ServiceRequest.h"
+#include "IVEFMSG_VesselData.h"
+#include "IVEFHeader.h"
+#include "IVEFLoginRequest.h"
+#include "IVEFLoginResponse.h"
+#include "IVEFPing.h"
+#include "IVEFPong.h"
+#include "IVEFPos.h"
+#include "IVEFPosReport.h"
+#include "IVEFSensor.h"
+#include "IVEFStaticData.h"
+#include "IVEFServerStatus.h"
 #include "IVEFServiceRequest.h"
 #include "IVEFArea.h"
 #include "IVEFTransmission.h"
 #include "IVEFItem.h"
 #include "IVEFObject.h"
-#include "IVEFPos.h"
+#include "IVEFVesselData.h"
+#include "IVEFVoyage.h"
 
 class Parser : public QObject, QXmlDefaultHandler, QXmlSimpleReader { 
     Q_OBJECT
@@ -46,17 +48,25 @@ public:
     bool parseXMLString(QString data, bool cont);
 
 signals:
-    void signalMSG_VesselData( MSG_VesselData obj );
     void signalMSG_LoginRequest( MSG_LoginRequest obj );
     void signalMSG_LoginResponse( MSG_LoginResponse obj );
+    void signalMSG_Logout( MSG_Logout obj );
     void signalMSG_Ping( MSG_Ping obj );
     void signalMSG_Pong( MSG_Pong obj );
     void signalMSG_ServerStatus( MSG_ServerStatus obj );
-    void signalMSG_Logout( MSG_Logout obj );
     void signalMSG_ServiceRequest( MSG_ServiceRequest obj );
+    void signalMSG_VesselData( MSG_VesselData obj );
+    void signalError(QString errorStr);
+    void signalWarning(QString errorStr);
+protected:
+    virtual QString composeMessage( const QXmlParseException& exception );
+    virtual bool    error( const QXmlParseException& exception );
+    virtual bool    fatalError( const QXmlParseException& exception );
+    virtual bool    warning( const QXmlParseException& exception );
 
 private:
     QString m_dataBuffer;
+    QXmlInputSource m_inputForParser;
     QStack<QObject *> m_objStack;
     QStack<QString> m_typeStack;
 
