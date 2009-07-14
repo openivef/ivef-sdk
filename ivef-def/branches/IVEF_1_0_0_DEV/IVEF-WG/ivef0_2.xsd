@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by J. van Gils (Ministerie van Verkeer en Waterstaat) -->
-<!--Edited 05/07/2009 IVEF WG Rotterdam-->
-<xs:schema targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.0" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.0">
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.1" targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.1" elementFormDefault="qualified">
 	<xs:element name="MSG_IVEF">
 		<xs:annotation>
 			<xs:documentation>Root MESSAGE</xs:documentation>
@@ -84,7 +83,7 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="ForeignId">
+	<xs:element name="OtherId">
 		<xs:annotation>
 			<xs:documentation>Other Id's for the track than the world wide international standard Identifiers, e.g. regional indentifiers like ENI</xs:documentation>
 		</xs:annotation>
@@ -113,7 +112,7 @@
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="ForeignName">
+	<xs:element name="OtherName">
 		<xs:annotation>
 			<xs:documentation>Other names for the track than the English name</xs:documentation>
 		</xs:annotation>
@@ -159,7 +158,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.2.0">
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.2.1">
 				<xs:annotation>
 					<xs:documentation>Defines the version of the protocol used. Syntax is major.minor.patch patch releases fix only bugs, minor releases may add functionality but are compatible, major releases are not compatible</xs:documentation>
 				</xs:annotation>
@@ -474,16 +473,25 @@ North = positive; South = negative) Examples:
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="Object" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Filter" minOccurs="0">
 					<xs:complexType>
-						<xs:attribute name="FilterName" use="required">
+						<xs:attribute name="Predicate" use="required">
 							<xs:annotation>
-								<xs:documentation>Name of the filter. The filter can be a predefined selector of the server. One of the predefined selectors will be 'all', others can defined here in the future</xs:documentation>
+								<xs:documentation>Filter expression in XPath 1.0 definition (http://www.w3.org/TR/1999/REC-xpath-19991116) 
+A Filter must start with //ObjectData (Filter always on entire objects) and can not go beyond a single objects parameters (next/previous/last etc.) 
+
+Examples:
+
+All objects: //ObjectData
+All objects faster then 10 m/s: //ObjectData[TrackData[@SOG > 10]]
+All objects named "Krieken": //ObjectData[VesselData/Identifier[@Name = "Krieken"]]
+All objects heading for Antwerp, HANSADOK 497 with a max keelheigth of 20m: //ObjectData[VoyageData[@DestCode = BEANR0170100497]]  AND //ObjectData[VesselData/Construction[@MaxKeelHeigth > 20]]
+</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:minLength value="1"/>
-									<xs:maxLength value="42"/>
+									<xs:maxLength value="1024"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
@@ -659,7 +667,7 @@ expressed in degrees</xs:documentation>
 					<xs:restriction base="xs:decimal">
 						<xs:fractionDigits value="1"/>
 						<xs:minExclusive value="-720"/>
-						<xs:minInclusive value="720"/>
+						<xs:maxInclusive value="720"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -870,8 +878,8 @@ Check latest version			</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="ForeignId" minOccurs="0" maxOccurs="unbounded"/>
-							<xs:element ref="ForeignName" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="OtherId" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="OtherName" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 						<xs:attribute name="Callsign" use="optional">
 							<xs:annotation>
@@ -1242,7 +1250,7 @@ Check latest version			</xs:documentation>
 			</xs:attribute>
 			<xs:attribute name="SourceType" use="required">
 				<xs:annotation>
-					<xs:documentation>Source/originator type: 1 = transponder, 2 = database, 3 = manual, 4 =  fused, 5 = unknown</xs:documentation>
+					<xs:documentation>Source/originator type: 0 = unknown, 1 = transponder, 2 = database, 3 = manual, 4 =  fused</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -1269,7 +1277,7 @@ Check latest version			</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="Tugs" use="optional" type="xs:boolean">
+			<xs:attribute name="Tugs" type="xs:boolean" use="optional">
 				<xs:annotation>
 					<xs:documentation>Object uses tugs</xs:documentation>
 				</xs:annotation>
