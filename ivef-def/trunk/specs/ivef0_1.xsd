@@ -879,11 +879,6 @@ North = positive; South = negative) Examples:
 				<xs:element ref="StaticData" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="Voyage" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
-			<xs:attribute name="Id" type="xs:integer" use="required">
-				<xs:annotation>
-					<xs:documentation>The unique identification of this object, typically identical to Id in the PosReport, but not required</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Voyage">
