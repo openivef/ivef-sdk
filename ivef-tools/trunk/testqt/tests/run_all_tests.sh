@@ -1,8 +1,8 @@
 DATADIR=data
 TMPDIR=tmp
 
-export DYLD_LIBRARY_PATH="../../../ivef-qt/bin" 
-export LD_LIBRARY_PATH="../../../ivef-qt/bin" 
+export DYLD_LIBRARY_PATH="../../../../ivef-lib/trunk/ivef-qt/bin/"
+export LD_LIBRARY_PATH="../../../../ivef-lib/trunk/ivef-qt/bin/"
 
 mkdir -p $TMPDIR
 rm -Rf $TMPDIR/*
@@ -29,6 +29,7 @@ do
           echo ---
           diff data/$OUTNAME ${TMPDIR}/$OUTNAME
           echo ---
+          exit 1
       fi
    fi
  
