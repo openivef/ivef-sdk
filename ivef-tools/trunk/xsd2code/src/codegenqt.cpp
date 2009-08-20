@@ -35,7 +35,8 @@ void CodeGenQT::setOutputDir(QString outDir) {
 }
 
 QString dateToString(QString varName) {
-    return varName + ".toString(\"yyyy-MM-ddThh:mm:ss.zzz\")";
+    // new time format (issue 28)
+    return varName + ".toString(\"yyyy-MM-ddThh:mm:ss.zzzZ\")";
 }
 
 QString dateFromString(QString varName, bool withMillies) {
@@ -803,6 +804,10 @@ void CodeGenQT::go() {
                     else if (type == "int")
                         classFileOut << "                int val = value.toInt();\n";
                     else if (type == "QDateTime") {
+                        // timea may have a leading Z (issue 28)
+                        classFileOut << "                if (value.right(1) == \"Z\") { // new time encoding\n";
+                        classFileOut << "                     value = value.left(value.length() - 1);\n";
+                        classFileOut << "                }\n"; 
                         // dates may have milies or not according to xs:dateTime
                         classFileOut << "                QDateTime val = " << dateFromString("value", true) << ";\n";
                         classFileOut << "                if (!val.isValid()) { \n";
