@@ -827,6 +827,7 @@ void CodeGenObjC::go() {
         // store in local object (or stack) and signal on end tag
         // this way we can set obj in objects
         classFileOut << "        [m_objStack addObject: obj ];\n";
+        classFileOut << "        [obj release];\n";
         classFileOut << "    }\n";
     }
     classFileOut << "}\n\n";
