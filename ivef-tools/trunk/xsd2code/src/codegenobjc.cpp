@@ -91,6 +91,17 @@ QString CodeGenObjC::className(QString name) {
     return m_prefix + methodName(name);
 }
 
+QString CodeGenObjC::getMethodName(QString name) { // issue 30
+    if (name == "Id") {
+        name = "Ident"; // protected name in obj-C
+    }
+    return name.replace(0, 1, name.left(1).toLower());
+}
+
+QString CodeGenObjC::setMethodName(QString name) { // issue 30
+    return "set" + methodName(name);
+}
+
 QString CodeGenObjC::methodName(QString name) {
     return name.replace(0, 1, name.left(1).toUpper());
 }
@@ -226,12 +237,9 @@ void CodeGenObjC::go() {
                 headerFileOut << "    bool " << variableName(attr->name()) << "Present;\n";
             }
         }
-        headerFileOut << "    NSDateFormatter *m_dateFormatter;\n";
         headerFileOut << "}\n\n";
 
         // methods section
-	// probably not needed in objc
-        //headerFileOut << "-(" << className(name) << "*) copy:(" << className(name) << "* obj);\n"; // copy constructor
 
         // all attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -250,11 +258,13 @@ void CodeGenObjC::go() {
                 headerFileOut << "-(" << type << ") get" << methodName(attr->name()) << "At:(int) i;\n";
                 // count
                 headerFileOut << "-(int) countOf" << methodName(attr->name()) << "s;\n";
+                // all
+                headerFileOut << "-(NSArray *) " << methodName(attr->name()) << "s;\n";
             } else {
                 // setter
-                headerFileOut << "-(void) set" << methodName(attr->name()) << ":(" << type << ") val;\n";
+                headerFileOut << "-(void) " << setMethodName(attr->name()) << ":(" << type << ") val;\n";
                 // getter
-                headerFileOut << "-(" << type << ") get" << methodName(attr->name()) << ";\n";
+                headerFileOut << "-(" << type << ") " << getMethodName(attr->name()) << ";\n";
                 if (!attr->required() || obj->isMerged()) {
                     headerFileOut << "-(bool) has" << methodName(attr->name()) << ";\n";
                 }
@@ -265,12 +275,13 @@ void CodeGenObjC::go() {
             QString attrName = fixedValues.keys().at(j);
             QString type = "NSString"; // always a string
             // getter
-            headerFileOut << "-(" << type << "*) get" << methodName(attrName) << ";\n";
+            headerFileOut << "-(" << type << "*) " << getMethodName(attrName) << ";\n";
         }
         headerFileOut << "\n-(void) setAttributes:(NSDictionary *)attributeDict;\n";
         headerFileOut << "-(NSString *) XML;\n";
         headerFileOut << "-(NSString *) stringValueWithLead:(NSString *) lead;\n";
         headerFileOut << "-(NSString *) encode;\n"; // issue 19
+        headerFileOut << "-(NSDictionary *) attributes;\n"; // issue 32
 
         // close the header
         headerFileOut << "\n@end\n\n";
@@ -299,28 +310,40 @@ void CodeGenObjC::go() {
                 classFileOut << "        " << variableName(attr->name()) << "s = [[NSMutableArray alloc] init];\n";
 	    }
         }
-        classFileOut << "        m_dateFormatter = [[NSDateFormatter alloc] init];\n";
-        classFileOut << "        [m_dateFormatter setDateFormat:@\"yyyy-MM-dd'T'HH:mm:ss.SSS\"];\n";
         classFileOut << "    }\n    return self;\n}\n\n";
 
-        // copy constructor
-	/*
-        classFileOut << className(name) << "::" << className(name) << "(const " << className(name) << " &val) : QObject() {\n\n";
-        for(int j=0; j < attributes.size(); j++) {
-            XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
-            QString type = localType(attr->type()); // convert to cpp types
-            if (!attr->required() || obj->isMerged()) {
-                classFileOut << "    " << variableName(attr->name()) << "Present = val." << variableName(attr->name()) << "Present;\n";
-            }
-            if (attr->unbounded()) { // there more then one
-                classFileOut << "    " << variableName(attr->name()) << "s = val." << variableName(attr->name()) << "s;\n";
-            } else {
-                classFileOut << "    " << variableName(attr->name()) << " = val." << variableName(attr->name()) << ";\n";
-            }
-        }
+        // date parsing
+        classFileOut << "- (NSDate*)dateWithString:(NSString *)str {\n\n";
+        classFileOut << "     // new date strings can be in Zulu time\n";
+        classFileOut << "     str = [NSString stringByReplacingString:@\"Z\" withString:@""];\n\n";
+        classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
+        classFileOut << "     if (formatterWithMillies == nil) {\n";
+        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] init];\n";
+        classFileOut << "         [formatterWithMillies setDateFormat:@\"yyyy-MM-ddThh:mm:ss.zzz\"];\n";
+        classFileOut << "     }\n";
+        classFileOut << "     static NSDateFormatter *formatterWithSeconds = nil;\n";
+        classFileOut << "     if (formatterWithSeconds == nil) {\n";
+        classFileOut << "         formatterWithSeconds = [[NSDateFormatter alloc] init];\n";
+        classFileOut << "         [formatterWithSeconds setDateFormat:@\"yyyy-MM-ddThh:mm:ss\"];\n";
+        classFileOut << "     }\n";
+        classFileOut << "     if (formatterWithMinutes == nil) {\n";
+        classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] init];\n";
+        classFileOut << "         [formatterWithMinutes setDateFormat:@\"yyyy-MM-ddThh:mm\"];\n";
+        classFileOut << "     }\n";
+        classFileOut << "     NSDate *val = [formatterWithMillies dateFromString:str];\n";
+        classFileOut << "     if (val) {\n";
+        classFileOut << "         return val;\n";
+        classFileOut << "     }\n";
+        classFileOut << "     val = [formatterWithSeconds dateFromString:str];\n";
+        classFileOut << "     if (val) {\n";
+        classFileOut << "         return val;\n";
+        classFileOut << "     }\n";
+        classFileOut << "     val = [formatterWithMinutes dateFromString:str];\n";
+        classFileOut << "     if (val) {\n";
+        classFileOut << "         return val;\n";
+        classFileOut << "     }\n";
+        classFileOut << "     return nil; // invalid date\n";
         classFileOut << "}\n\n";
-        */
 
         // methods for attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -337,6 +360,9 @@ void CodeGenObjC::go() {
                 // count
                 classFileOut << "-(int) countOf" << methodName(attr->name()) << "s {\n";
                 classFileOut << "\n    return [" << variableName(attr->name()) << "s count];\n}\n\n";
+	        // reference to all
+                classFileOut << "-(NSArray *) " << methodName(attr->name()) << "s {\n";
+                classFileOut << "\n    return " << variableName(attr->name()) << "s;\n}\n\n";
             } else {
                 // setter
                 classFileOut << "-(void) set" << methodName(attr->name()) << ":(" << type << ") val {\n";
