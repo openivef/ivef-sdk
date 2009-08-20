@@ -5,12 +5,12 @@ MSG_Ping
         MsgRefId = String
     Body
         Ping
-            TimeStamp = 2001-12-17T09:30:47.000
+            TimeStamp = 2001-12-17T09:30:47.000Z
 <MSG_Ping>
 <Header Version="String" MsgRefId="String">
 </Header>
 <Body>
-<Ping TimeStamp="2001-12-17T09:30:47.000">
+<Ping TimeStamp="2001-12-17T09:30:47.000Z">
 </Ping>
 </Body>
 </MSG_Ping>

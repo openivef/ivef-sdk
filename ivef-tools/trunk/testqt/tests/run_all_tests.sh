@@ -27,7 +27,9 @@ do
       else
           echo NOK
           echo ---
-          diff data/$OUTNAME ${TMPDIR}/$OUTNAME
+          echo Difference: ${TMPDIR}/$OUTNAME data/$OUTNAME
+          echo ---
+          diff ${TMPDIR}/$OUTNAME data/$OUTNAME
           echo ---
           exit 1
       fi
