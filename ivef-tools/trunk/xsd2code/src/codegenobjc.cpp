@@ -99,6 +99,9 @@ QString CodeGenObjC::getMethodName(QString name) { // issue 30
 }
 
 QString CodeGenObjC::setMethodName(QString name) { // issue 30
+    if (name == "Id") {
+        name = "Ident"; // protected name in obj-C
+    }
     return "set" + methodName(name);
 }
 
@@ -313,8 +316,22 @@ void CodeGenObjC::go() {
         }
         classFileOut << "    }\n    return self;\n}\n\n";
 
+        // destructor
+        classFileOut << "- (void) dealloc {\n\n";
+        for(int j=0; j < attributes.size(); j++) {
+            XSDAttribute *attr = attributes.at(j);
+            QString type = localType(attr->type()); // convert to cpp types
+            if (attr->unbounded()) { // there more then one
+                classFileOut << "    [" << variableName(attr->name()) << "s release];\n";
+            } else if (type.right(1) == "*") { // its a dynamic type
+                classFileOut << "    [" <<  variableName(attr->name()) << " release];\n";
+            } 
+        }
+        classFileOut << "    [super dealloc];\n";
+        classFileOut << "}\n\n";
+
         // date parsing
-        classFileOut << "- (NSDate*)dateFromString:(NSString *)str {\n\n";
+        classFileOut << "- (NSDate*) dateFromString:(NSString *)str {\n\n";
         classFileOut << "     // new date strings can be in Zulu time\n";
         classFileOut << "     str = [NSString stringByReplacingOccurrencesOfString:@\"Z\" withString:@""];\n\n";
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
@@ -587,7 +604,7 @@ void CodeGenObjC::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
-                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%F\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%FZ\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type != localType("xs:string")) {
@@ -609,9 +626,6 @@ void CodeGenObjC::go() {
                 }
             }
         }
-        // close up
-        classFileOut << "    return str;\n";
-        classFileOut << "}\n\n";
 
         // for data members (embedded attributes)
         for(int j=0; j < attributes.size(); j++) {
@@ -633,6 +647,10 @@ void CodeGenObjC::go() {
             }
         }
 
+        // close up
+        classFileOut << "    return str;\n";
+        classFileOut << "}\n\n";
+
         // create an array of properties for this object
         // not the embedded ones since there can be more than one of those
         classFileOut << "-(NSDictionary *) attributes {\n\n";
@@ -649,7 +667,7 @@ void CodeGenObjC::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
-                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%F\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%FZ\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type != localType("xs:string")) {

@@ -43,6 +43,8 @@ protected:
 	QString variableName(QString name);
 	QString writeHeader(QString fileName);
 	QString methodName(QString name);
+	QString getMethodName(QString name);
+	QString setMethodName(QString name);
 	
 private:
         QString m_prefix;
