@@ -1,0 +1,31 @@
+XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
+TARGET=../../../ivef-lib/trunk
+HOME=`pwd`
+
+#make qt
+rm $TARGET/ivef-qt/*.cpp
+rm $TARGET/ivef-qt/*.o
+rm $TARGET/ivef-qt/*.h
+bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-qt/ --prefix=IVEF
+cd $TARGET/ivef-qt/
+qmake ivef.pro
+make -j 12
+qmake ivef-static.pro
+make -j 12
+cd $HOME
+
+#make objc
+rm $TARGET/ivef-objc/Classes/*.m
+rm $TARGET/ivef-objc/Classes/*.h
+bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-objc/Classes --prefix=IL --objc
+
+#make java
+rm $TARGET/ivef-java/ivef/*
+bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-java/ --prefix=IVEF --java
+cd $TARGET/ivef-java/ivef/
+mkdir -p classes
+rm -Rf classes/*
+javac -d classes *java
+cd classes
+jar cf ../ivef.jar ivef/*
+cd $HOME
