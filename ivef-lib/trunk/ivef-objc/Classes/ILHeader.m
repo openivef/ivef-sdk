@@ -75,7 +75,9 @@
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Version"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setVersion: val];
+                [m_version release]; 
+                m_version = val; // replace the default versioning number
+                [m_version retain]; 
             }
             else if ([key isEqualToString:@"MsgRefId"]) {
                 NSString *val = [attributeDict objectForKey: key];
