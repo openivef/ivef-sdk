@@ -65,7 +65,7 @@ int Pong::getSourceId() const {
 QString Pong::toXML() {
 
     QString xml = "<Pong";
-    xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
+    xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\"");
     xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
     xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
     xml.append(">\n");
@@ -76,7 +76,7 @@ QString Pong::toXML() {
 QString Pong::toString(QString lead) {
 
     QString str = lead + "Pong\n";
-    str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\n");
     str.append( lead + "    MsgId = " + m_msgId + "\n");
     str.append( lead + "    SourceId = " + QString::number(m_sourceId) + "\n");
     return str;

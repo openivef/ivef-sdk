@@ -75,7 +75,7 @@ QString Sensor::toXML() {
     QString xml = "<Sensor";
     xml.append(" SenId=\"" + QString::number(m_senId) + "\"");
     xml.append(" TrkId=\"" + QString::number(m_trkId) + "\"");
-    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
+    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\"");
     xml.append(">\n");
     xml.append( "</Sensor>\n");
     return xml;
@@ -86,7 +86,7 @@ QString Sensor::toString(QString lead) {
     QString str = lead + "Sensor\n";
     str.append( lead + "    SenId = " + QString::number(m_senId) + "\n");
     str.append( lead + "    TrkId = " + QString::number(m_trkId) + "\n");
-    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\n");
     return str;
 }
 

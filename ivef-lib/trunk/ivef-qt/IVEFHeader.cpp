@@ -3,7 +3,7 @@
 
 Header::Header() {
 
-    m_version = "";
+    m_version = "0.1.3";
     m_msgRefId = "";
 }
 

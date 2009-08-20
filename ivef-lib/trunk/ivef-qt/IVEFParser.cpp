@@ -132,6 +132,9 @@ bool Parser::startElement(const QString &,
             QString value = atts.value(i);
 
             if (key == "TimeStamp") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
                 QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
                 if (!val.isValid()) { 
                      val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
@@ -149,6 +152,9 @@ bool Parser::startElement(const QString &,
             QString value = atts.value(i);
 
             if (key == "TimeStamp") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
                 QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
                 if (!val.isValid()) { 
                      val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
@@ -200,6 +206,9 @@ bool Parser::startElement(const QString &,
                 obj->setSourceId(val);
             }
             else if (key == "UpdateTime") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
                 QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
                 if (!val.isValid()) { 
                      val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
@@ -269,6 +278,9 @@ bool Parser::startElement(const QString &,
                 obj->setTrkId(val);
             }
             else if (key == "UpdateTime") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
                 QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
                 if (!val.isValid()) { 
                      val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
@@ -492,6 +504,9 @@ bool Parser::startElement(const QString &,
                 obj->setDestination(val);
             }
             else if (key == "ETA") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
                 QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
                 if (!val.isValid()) { 
                      val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
@@ -499,6 +514,9 @@ bool Parser::startElement(const QString &,
                 obj->setETA(val);
             }
             else if (key == "ATA") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
                 QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
                 if (!val.isValid()) { 
                      val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");

@@ -30,7 +30,7 @@ QString Schema::getElementFormDefault() const {
 
 QString Schema::getTargetNamespace() const {
 
-    return "urn:http://www.ivef.org/XMLSchema/IVEF/0.1.1";
+    return "urn:http://www.ivef.org/XMLSchema/IVEF/0.1.3";
 }
 
 QString Schema::toXML() {

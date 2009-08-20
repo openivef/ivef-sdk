@@ -345,7 +345,7 @@ QString PosReport::toXML() {
     QString xml = "<PosReport";
     xml.append(" Id=\"" + QString::number(m_id) + "\"");
     xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
-    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
+    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\"");
     xml.append(" SOG=\"" + QString::number(m_SOG) + "\"");
     xml.append(" COG=\"" + QString::number(m_COG) + "\"");
     xml.append(" Lost=\"" + encode (m_lost) + "\"");
@@ -388,7 +388,7 @@ QString PosReport::toString(QString lead) {
     QString str = lead + "PosReport\n";
     str.append( lead + "    Id = " + QString::number(m_id) + "\n");
     str.append( lead + "    SourceId = " + QString::number(m_sourceId) + "\n");
-    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\n");
     str.append( lead + "    SOG = " + QString::number(m_SOG) + "\n");
     str.append( lead + "    COG = " + QString::number(m_COG) + "\n");
     str.append( lead + "    Lost = " + m_lost + "\n");

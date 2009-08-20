@@ -240,10 +240,10 @@ QString Voyage::toXML() {
         xml.append(" Destination=\"" + encode (m_destination) + "\"");
     }
     if ( hasETA() ) {
-        xml.append(" ETA=\"" + m_ETA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
+        xml.append(" ETA=\"" + m_ETA.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\"");
     }
     if ( hasATA() ) {
-        xml.append(" ATA=\"" + m_ATA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\"");
+        xml.append(" ATA=\"" + m_ATA.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\"");
     }
     if ( hasPersonsOnBoard() ) {
         xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard) + "\"");
@@ -272,10 +272,10 @@ QString Voyage::toString(QString lead) {
         str.append( lead + "    Destination = " + m_destination + "\n");
     }
     if ( hasETA() ) {
-        str.append( lead + "    ETA = " + m_ETA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+        str.append( lead + "    ETA = " + m_ETA.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\n");
     }
     if ( hasATA() ) {
-        str.append( lead + "    ATA = " + m_ATA.toString("yyyy-MM-ddThh:mm:ss.zzz") + "\n");
+        str.append( lead + "    ATA = " + m_ATA.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\n");
     }
     if ( hasPersonsOnBoard() ) {
         str.append( lead + "    PersonsOnBoard = " + QString::number(m_personsOnBoard) + "\n");
