@@ -260,6 +260,9 @@ void CodeGenJava::go() {
             if (!attr->required() || obj->isMerged()) {
                 classFileOut << "        " << variableName(attr->name()) << "Present = false;\n";
             }
+            if (attr->isFixed()) {
+                classFileOut << "        " << variableName(attr->name()) << " = \"" << attr->fixed() << "\";\n";
+            }
         }
         classFileOut << "    }\n\n";
 

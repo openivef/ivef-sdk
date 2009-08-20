@@ -287,13 +287,15 @@ void CodeGenQT::go() {
                 headerFileOut << "    //! \\return     int\n";
                 headerFileOut << "    int countOf" << methodName(attr->name()) << "s() const;\n\n";
             } else {
-                // setter
-                if (doc != "")
-                    headerFileOut << "    //!              sets the " << methodName(attr->name()) << ": " << doc << "\n";
-                else
-                    headerFileOut << "    //!              sets the " << methodName(attr->name()) << "\n";
-                headerFileOut << "    //!\n";
-                headerFileOut << "    void set" << methodName(attr->name()) << "(" << type << " val);\n\n";
+               
+		// setter
+		if (doc != "")
+		    headerFileOut << "    //!              sets the " << methodName(attr->name()) << ": " << doc << "\n";
+		else
+		    headerFileOut << "    //!              sets the " << methodName(attr->name()) << "\n";
+		headerFileOut << "    //!\n";
+		headerFileOut << "    void set" << methodName(attr->name()) << "(" << type << " val);\n\n";
+
                 // getter
                 if (doc != "")
                     headerFileOut << "    //!              gets the " << methodName(attr->name()) << ": " << doc << "\n";
@@ -380,8 +382,13 @@ void CodeGenQT::go() {
             QString type = localType(attr->type()); // convert to cpp types
 
             if (! attr->unbounded()) {
-                if (type=="QString")
-                    classFileOut << "    " << variableName(attr->name()) << " = \"\";\n";
+                if (type=="QString") {
+                    if (attr->isFixed()) {
+                       classFileOut << "    " << variableName(attr->name()) << " = \"" << attr->fixed()  << "\";\n";
+                    } else {
+                       classFileOut << "    " << variableName(attr->name()) << " = \"\";\n";
+                    }
+                }
                 else if (type=="bool")
                     classFileOut << "    " << variableName(attr->name()) << " = false;\n";
                 else if (type=="int")
@@ -461,37 +468,39 @@ void CodeGenQT::go() {
                 classFileOut << "int " << className(name) << "::countOf" << methodName(attr->name()) << "s() const {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << "s.count();\n}\n\n";
             } else {
-                // setter
-                classFileOut << "void " << className(name) << "::set" << methodName(attr->name()) << "(" << type << " val) {\n";
-                QVector<QString> enums = attr->enumeration();
-                if (enums.size() > 0) { // there are enumeration constraints for this item
+		// setter
+		classFileOut << "void " << className(name) << "::set" << methodName(attr->name()) << "(" << type << " val) {\n";
+		QVector<QString> enums = attr->enumeration();
+		if (enums.size() > 0) { // there are enumeration constraints for this item
 
-                    // strings should be between quotes, numbers not
-                    QString quote;
-                    if (type == "QString") {
-                        quote = "\"";
-                    }
+		    // strings should be between quotes, numbers not
+		    QString quote;
+		    if (type == "QString") {
+			quote = "\"";
+		    }
 
-                    classFileOut << "\n    if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
-                    for (int h=1; h < enums.size(); h++) {
-                        classFileOut << "&&\n         ( val != " << quote << enums.at(h) << quote << " ) ";
-                    }
-                    classFileOut <<    ")\n        return;";
-                }
-                if (attr->hasMin() && (attr->hasMax()) && knownType(attr->type())) {
+		    classFileOut << "\n    if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
+		    for (int h=1; h < enums.size(); h++) {
+			classFileOut << "&&\n         ( val != " << quote << enums.at(h) << quote << " ) ";
+		    }
+		    classFileOut <<    ")\n        return;";
+		}
+		if (attr->hasMin() && (attr->hasMax()) && knownType(attr->type())) {
 
-                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+		     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
-                     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return;";
-                     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return;";
-                }
-                if (!attr->required() || obj->isMerged()) {
-                     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
-                }
-                classFileOut << "\n    " << variableName(attr->name()) << " = val;\n}\n\n";
+		     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return;";
+		     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return;";
+		}
+		if (!attr->required() || obj->isMerged()) {
+		     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
+		}
+		classFileOut << "\n    " << variableName(attr->name()) << " = val;\n}\n\n";
+
                 // getter
                 classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "() const {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
+
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "bool " << className(name) << "::has" << methodName(attr->name()) << "() {\n";
                     classFileOut << "\n    return " << variableName(attr->name()) << "Present;\n}\n\n";

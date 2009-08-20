@@ -503,9 +503,14 @@ void CodeGenObjC::go() {
 
                     if (attr->unbounded() ) {
                        classFileOut << "                [self add" << methodName(attrName) << ": val];\n";
- 		    } else {
+ 		    } else if (!attr->isFixed()){ 
                        classFileOut << "                [self set" << methodName(attrName) << ": val];\n";
-		    }
+		    } else {
+                       // what to do, we get a fixed attribute which may be different from our own!
+                       classFileOut << "                [" << variableName(attrName) << " release]; \n";
+                       classFileOut << "                " << variableName(attrName) << " = val; // replace the default versioning number\n";
+                       classFileOut << "                [" << variableName(attrName) << " retain]; \n";
+                    }
                     classFileOut << "            }\n";
                 }
             }
