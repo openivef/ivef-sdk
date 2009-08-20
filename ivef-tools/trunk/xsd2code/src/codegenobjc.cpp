@@ -313,7 +313,7 @@ void CodeGenObjC::go() {
         classFileOut << "    }\n    return self;\n}\n\n";
 
         // date parsing
-        classFileOut << "- (NSDate*)dateWithString:(NSString *)str {\n\n";
+        classFileOut << "- (NSDate*)dateFromString:(NSString *)str {\n\n";
         classFileOut << "     // new date strings can be in Zulu time\n";
         classFileOut << "     str = [NSString stringByReplacingString:@\"Z\" withString:@""];\n\n";
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
@@ -365,7 +365,7 @@ void CodeGenObjC::go() {
                 classFileOut << "\n    return " << variableName(attr->name()) << "s;\n}\n\n";
             } else {
                 // setter
-                classFileOut << "-(void) set" << methodName(attr->name()) << ":(" << type << ") val {\n";
+                classFileOut << "-(void) " << setMethodName(attr->name()) << ":(" << type << ") val {\n";
                 QVector<QString> enums = attr->enumeration();
                 if (enums.size() > 0) { // there are enumeration constraints for this item
 
@@ -403,7 +403,7 @@ void CodeGenObjC::go() {
                 }
 		classFileOut << "}\n\n";
                 // getter
-                classFileOut << "- (" << type << ") get" << methodName(attr->name()) << " {\n";
+                classFileOut << "- (" << type << ") " << getMethodName(attr->name()) << " {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "-(bool) has" << methodName(attr->name()) << " {\n";
@@ -419,7 +419,7 @@ void CodeGenObjC::go() {
             QString type = localType("xs:string"); // always a string
 
             // getter
-            classFileOut << "-(" << type << ") get" << methodName(attrName) << " {\n";
+            classFileOut << "-(" << type << ") " << getMethodName(attrName) << " {\n";
             classFileOut << "\n    return @\"" << attrValue << "\";\n}\n\n";
         }
 
@@ -467,7 +467,7 @@ void CodeGenObjC::go() {
                         classFileOut << "                " << type << " val = [value intValue];\n";
                     } else if (type == localType("xs:dateTime")) {
                         classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
-                        classFileOut << "                NSDate *val = [m_dateFormatter dateFromString: value]; // assume \"yyyy-MM-ddThh:mm:ss.zzz\"\n";
+                        classFileOut << "                NSDate *val = [self dateFromString: value];\n";
                     } else if (type == localType("xs:decimal")) {
                         classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
                         classFileOut << "                " << type << " val = [value floatValue];\n";
@@ -504,7 +504,7 @@ void CodeGenObjC::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
-                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%F\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%FZ\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type == localType("xs:boolean")) {
