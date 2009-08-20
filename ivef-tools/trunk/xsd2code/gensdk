@@ -4,7 +4,7 @@ HOME=`pwd`
 
 #make objc
 rm $TARGET/ivef-objc/Classes/*.m
-rm $TARGET/ivef-objcqt/Classes/*.h
+rm $TARGET/ivef-objc/Classes/*.h
 bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-objc/Classes --prefix=IL --objc
 exit 0
 

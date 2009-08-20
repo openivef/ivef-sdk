@@ -23,7 +23,6 @@
 XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fixed) {
 	m_name = name;
 	m_type = type;
-        m_fixed = fixed;
 	m_required = required;
 	m_unbounded = false;
 	m_hasMin = false;
@@ -31,18 +30,23 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fi
 	m_maxLength = -1; 
 	m_minLength = -1; 
         m_digits = 0;
-        m_fixed = true;
+        m_fixed = fixed;
+        m_isFixed = true;
         if (fixed == "") {
           m_isFixed = false;
+        } else {
+	 // std::cout << "XSDAttribute contructor: has fixed [" << fixed.toLatin1().data() << "]" << std::endl;
         }
-        else {
-          m_isFixed = true;
-	}
     //std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
 }
 
 void XSDAttribute::setRequired(bool req) {
 	m_required = req;
+}
+
+void XSDAttribute::setFixed(QString type) {
+	m_fixed = type;
+        m_isFixed = true;
 }
 
 void XSDAttribute::setType(QString type) {
@@ -71,7 +75,7 @@ void XSDAttribute::setMaxLength(int length) {
 }
 
 void XSDAttribute::setUnbounded() {
-	m_unbounded = true;
+	 m_unbounded = true;
 }
 
 QVector<QString> XSDAttribute::enumeration() {
@@ -106,6 +110,14 @@ void XSDAttribute::setMinOccurs(int min) {
 
 bool XSDAttribute::required() {
 	return m_required;
+}
+
+bool XSDAttribute::isFixed() {
+	return m_isFixed;
+}
+
+QString XSDAttribute::fixed() {
+	return m_fixed;
 }
 
 QString XSDAttribute::doc() {

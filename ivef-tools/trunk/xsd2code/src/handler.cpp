@@ -133,7 +133,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
     QString qName = qualifiedName;
     qName.replace(QString("xsd:"), QString("xs:"));
 
-#if 1
+#if 0
     std::cout << QString("SE: %1").arg(qName).toLatin1().data() << std::endl;
 
     for (int i=0; i < atts.length(); i++) {
@@ -302,7 +302,7 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
     QString qName = qualifiedName;
     qName.replace(QString("xsd:"), QString("xs:"));
 
-#if 1
+#if 0
     std::cout << QString("EE: %1").arg(qName).toLatin1().data() << std::endl;
 #endif
 

@@ -265,7 +265,9 @@ void CodeGenObjC::go() {
                 headerFileOut << "-(NSArray *) " << methodName(attr->name()) << "s;\n";
             } else {
                 // setter
-                headerFileOut << "-(void) " << setMethodName(attr->name()) << ":(" << type << ") val;\n";
+                if (!attr->isFixed()) { // fixed attributes cannot be set
+                   headerFileOut << "-(void) " << setMethodName(attr->name()) << ":(" << type << ") val;\n";
+                }
                 // getter
                 headerFileOut << "-(" << type << ") " << getMethodName(attr->name()) << ";\n";
                 if (!attr->required() || obj->isMerged()) {
@@ -312,6 +314,9 @@ void CodeGenObjC::go() {
             }
             if (attr->unbounded()) { // there more then one
                 classFileOut << "        " << variableName(attr->name()) << "s = [[NSMutableArray alloc] init];\n";
+	    }
+            if (attr->isFixed()) { // we already know the value and it cannot be changed (no setter)
+                classFileOut << "        " << variableName(attr->name()) << " = @\"" << attr->fixed() << "\";\n";
 	    }
         }
         classFileOut << "    }\n    return self;\n}\n\n";
@@ -383,43 +388,46 @@ void CodeGenObjC::go() {
                 classFileOut << "\n    return " << variableName(attr->name()) << "s;\n}\n\n";
             } else {
                 // setter
-                classFileOut << "-(void) " << setMethodName(attr->name()) << ":(" << type << ") val {\n";
-                QVector<QString> enums = attr->enumeration();
-                if (enums.size() > 0) { // there are enumeration constraints for this item
+                if (!attr->isFixed()) { // fixed attributes cannot be set
+			classFileOut << "-(void) " << setMethodName(attr->name()) << ":(" << type << ") val {\n";
+			QVector<QString> enums = attr->enumeration();
+			if (enums.size() > 0) { // there are enumeration constraints for this item
 
-                    // strings should be between quotes, numbers not
-                    QString quote;
-                    if (type != localType("xs:string")) {
-			classFileOut << "\n    if ( ( val != " << enums.at(0) << " ) ";
-			for (int h=1; h < enums.size(); h++) {
-			    classFileOut << "&&\n         ( val != " << enums.at(h) << " ) ";
+			    // strings should be between quotes, numbers not
+			    QString quote;
+			    if (type != localType("xs:string")) {
+				classFileOut << "\n    if ( ( val != " << enums.at(0) << " ) ";
+				for (int h=1; h < enums.size(); h++) {
+				    classFileOut << "&&\n         ( val != " << enums.at(h) << " ) ";
+				}
+			    } else { 
+				classFileOut << "\n    if ( ( ![val isEqualToString: @\"" << enums.at(0) << "\"] ) ";
+				for (int h=1; h < enums.size(); h++) {
+				    classFileOut << "&&\n         ( ![val isEqualToString: @\"" << enums.at(h) << "\"] ) ";
+				}
+			    }
+			    classFileOut <<    ")\n        return;";
 			}
-                    } else { 
-			classFileOut << "\n    if ( ( ![val isEqualToString: @\"" << enums.at(0) << "\"] ) ";
-			for (int h=1; h < enums.size(); h++) {
-			    classFileOut << "&&\n         ( ![val isEqualToString: @\"" << enums.at(h) << "\"] ) ";
-			}
-		    }
-                    classFileOut <<    ")\n        return;";
-                }
-                if (attr->hasMin() && (attr->hasMax()) && knownType(attr->type()) ) {
-                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+			if (attr->hasMin() && (attr->hasMax()) && knownType(attr->type()) ) {
+			     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
-                     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return;";
-                     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return;";
-                }
-                if (!attr->required() || obj->isMerged()) {
-                     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
-                }
-                classFileOut << "\n";
-                if (type.right(1) == "*") {
-		    classFileOut << "    [" << variableName(attr->name()) << " release];\n";
-                }
-		classFileOut << "    " << variableName(attr->name()) << " = val;\n";
-                if (type.right(1) == "*") {
-		    classFileOut << "    [" << variableName(attr->name()) << " retain];\n";
-                }
-		classFileOut << "}\n\n";
+			     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return;";
+			     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return;";
+			}
+			if (!attr->required() || obj->isMerged()) {
+			     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
+			}
+			classFileOut << "\n";
+			if (type.right(1) == "*") {
+			    classFileOut << "    [" << variableName(attr->name()) << " release];\n";
+			}
+			classFileOut << "    " << variableName(attr->name()) << " = val;\n";
+			if (type.right(1) == "*") {
+			    classFileOut << "    [" << variableName(attr->name()) << " retain];\n";
+			}
+			classFileOut << "}\n\n";
+		}
+
                 // getter
                 classFileOut << "- (" << type << ") " << getMethodName(attr->name()) << " {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
@@ -685,7 +693,7 @@ void CodeGenObjC::go() {
         }
 
         // close up
-        classFileOut << "    return attr;\n";
+        classFileOut << "\n    return attr;\n";
         classFileOut << "}\n\n";
 
         classFileOut << "\n@end\n\n";

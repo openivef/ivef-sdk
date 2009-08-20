@@ -41,6 +41,7 @@ public:
 	QString name();
 	QString type();
 	QString doc();
+	QString fixed();
 	QVector<QString> enumeration();
 	bool required();
 	bool isFixed();
