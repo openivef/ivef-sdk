@@ -465,15 +465,6 @@ bool Parser::startElement(const QString &,
     }
     else if (qName == "VesselData") {
         VesselData *obj = new VesselData;
-        for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
-
-            if (key == "Id") {
-                int val = value.toInt();
-                obj->setId(val);
-            }
-        }
         m_objStack.push( obj );
         m_typeStack.push( "VesselData" );
     }

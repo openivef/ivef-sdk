@@ -107,16 +107,6 @@
     return m_voyages;
 }
 
--(void) setIdent:(int) val {
-
-    m_id = val;
-}
-
-- (int) ident {
-
-    return m_id;
-}
-
 -(void) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
@@ -132,20 +122,12 @@
                 ILVoyage * val = [attributeDict objectForKey: key];
                 [self addVoyage: val];
             }
-            else if ([key isEqualToString:@"Id"]) {
-                NSString *value = [attributeDict objectForKey: key];
-                int val = [value intValue];
-                [self setId: val];
-            }
         }
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
-    [xml appendString: @" Id=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: [m_posReport XML] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
@@ -181,11 +163,6 @@
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"VesselData\n"]];
-    [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
-    [str appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [str appendString: @"\"\n"];
-
     [str appendString: [m_posReport stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
         ILStaticData *attribute = [m_staticDatas objectAtIndex:i];
@@ -201,7 +178,6 @@
 -(NSDictionary *) attributes {
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
-    [attr setObject: [NSString stringWithFormat:@"%d", m_id] forKey: @"Id"];
 
     return attr;
 }
