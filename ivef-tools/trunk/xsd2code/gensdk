@@ -2,6 +2,12 @@ XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
 TARGET=../../../ivef-lib/trunk
 HOME=`pwd`
 
+#make objc
+rm $TARGET/ivef-objc/Classes/*.m
+rm $TARGET/ivef-objcqt/Classes/*.h
+bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-objc/Classes --prefix=IL --objc
+exit 0
+
 #make qt
 rm $TARGET/ivef-qt/*.cpp
 rm $TARGET/ivef-qt/*.o
@@ -13,11 +19,6 @@ make -j 12
 qmake ivef-static.pro
 make -j 12
 cd $HOME
-
-#make objc
-rm $TARGET/ivef-objc/Classes/*.m
-rm $TARGET/ivef-objcqt/Classes/*.h
-bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-objc/Classes --prefix=IVEF --objc
 
 #make java
 rm $TARGET/ivef-java/ivef/*
