@@ -1,5 +1,5 @@
 ==IVEF 0.1.2 Released==
-22 August 2009 - IVEF 0.1.2 is now available to the open source community. IVEF is a cross-platform message exchange framework for VTS data exchange. IVEF is available for customer use, evaluation and open source download.
+21 August 2009 - IVEF 0.1.2 is now available to the open source community. IVEF is a cross-platform message exchange framework for VTS data exchange. IVEF is available for customer use, evaluation and open source download.
 
 IVEF includes full interface capabilities in C++, JAVA and OBJECTIVE-C and has thoroughly  been tested on Linux (OpenSuSE 10.3 both 32 and 64 bit), Apple Mac OS X 10.5 and MS Windows XP SP2 
 
@@ -9,8 +9,19 @@ For detailed information on fixes and optimizations included in this releases, p
 Open Source Edition of IVEF 0.1.2 is available.  The Open Source Editions are released under the GPL for open source development. 
 
 ===Fixes===
-  * [http://code.google.com/p/ivef-sdk/issues/detail?id=18 Issue-18] Date time values are not parsed correctly when not specified with milliseconds
-  * [http://code.google.com/p/ivef-sdk/issues/detail?id=19 Issue-19] It is possible to generate illegal XML
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=20 Issue-20] Member variables not initialized
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=22 Issue-22] Doxygen comments for Qt 
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=24 Issue-24] Parser errors are not given to user 
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=28 Issue-28] Time strings do not accept Z(ulu) time 
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=29 Issue-29] No valid destructors (Obj-C) 
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=30 Issue-30] Getters do not comply with Obj-C standard
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=31 Issue-31] Access arrays directly
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=32 Issue-32] Access attributes as dictionary
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=34 Issue-34] Add stringValue operator 
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=35 Issue-35] Various parser issues (leaks)
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=36 Issue-36] Prefix is not Obj-C standard
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=37 Issue-37] Fixed attributes (version) become variables
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=38 Issue-38] Leak on new message
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
