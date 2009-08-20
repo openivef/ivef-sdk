@@ -354,7 +354,7 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toXML() {\n\n";
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
-        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss.SSS\");\n";
+        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss.SSSZ\");\n"; // issue 28
 		classFileOut << "\n";
 
         // for attributes
@@ -413,7 +413,7 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toString(String lead) {\n\n";
         classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
-        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss.SSS\");\n";
+        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss.SSSZ\");\n"; // issue 28
 		classFileOut << "\n";
                     
         // for attributes
@@ -657,6 +657,9 @@ void CodeGenJava::go() {
                     else if (type == "int")
                         classFileOut << "                " << type << " val = Integer.parseInt(value);\n";
                     else if (type == "Date") {
+			classFileOut << "                if (value.endsWith(\"Z\")) { \n"; // issue 28
+			classFileOut << "                    value = value.substring(0, value.length() - 1);\n";
+			classFileOut << "                } \n";
                         classFileOut << "                Date val = new Date(); // starts since the epoch\n";						
 			classFileOut << "                try { \n";
 			classFileOut << "                    DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss.SSS\");\n";	
