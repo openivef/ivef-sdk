@@ -233,7 +233,7 @@
 		<xs:complexType>
 			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
 				<xs:annotation>
-					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the time this message is sent.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
@@ -242,7 +242,7 @@
 		<xs:complexType>
 			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
 				<xs:annotation>
-					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss) of the time this message is sent.</xs:documentation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the time this message is sent.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="MsgId" use="required">
@@ -303,7 +303,7 @@ North = positive; South = negative) Examples:
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="Pos"/>
-				<xs:element maxOccurs="unbounded" minOccurs="0" name="Sensor">
+				<xs:element name="Sensor" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Sensors contributing to this postion report (for the purpose of analysis)</xs:documentation>
 					</xs:annotation>
@@ -350,7 +350,7 @@ North = positive; South = negative) Examples:
 			</xs:attribute>
 			<xs:attribute name="UpdateTime" type="xs:dateTime" use="required">
 				<xs:annotation>
-					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss)  this position was measured.</xs:documentation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ)  this position was measured.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="SOG" use="required">
@@ -942,12 +942,12 @@ North = positive; South = negative) Examples:
 			</xs:attribute>
 			<xs:attribute name="ETA" type="xs:dateTime" use="optional">
 				<xs:annotation>
-					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss) of the Expected Time Of Arrival of the target.</xs:documentation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the Expected Time Of Arrival of the target.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="ATA" type="xs:dateTime" use="optional">
 				<xs:annotation>
-					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sss) of the Actual Time Of Arrival of the target.</xs:documentation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the Actual Time Of Arrival of the target.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="PersonsOnBoard" use="optional">
