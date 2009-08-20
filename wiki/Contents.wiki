@@ -11,6 +11,8 @@ The tools layer has their own release cycle which can also trigger a new release
 
 Any update in the library will lead to an update of the examples since they demonstrate the workings of the library. Updates in the protocol description may also trigger new examples.
 
+(as of 0.1.1 the examples are part of the library)
+
 ==Documentation==
 ===Protocol Description===
 The protocol description is in development and the current draft can be found in the [http://code.google.com/p/ivef-sdk/downloads/list download] section.
