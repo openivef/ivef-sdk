@@ -5,7 +5,6 @@ MSG_VesselData
         MsgRefId = String
     Body
         VesselData
-            Id = 0
             PosReport
                 Id = 0
                 SourceId = 0
@@ -124,7 +123,7 @@ MSG_VesselData
 <Header Version="String" MsgRefId="String">
 </Header>
 <Body>
-<VesselData Id="0">
+<VesselData>
 <PosReport Id="0" SourceId="0" UpdateTime="2001-12-17T09:30:47.123Z" SOG="3.14159" COG="3.14159" Lost="no" RateOfTurn="3.14159" Orientation="3.14159" Length="3.14159" Breadth="3.14159" Altitude="3.14159" NavStatus="0" UpdSensorType="1" ATONOffPos="yes">
 <Pos Lat="3.14159" Long="3.14159">
 </Pos>
