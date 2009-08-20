@@ -278,11 +278,11 @@ void CodeGenObjC::go() {
             headerFileOut << "-(" << type << "*) " << getMethodName(attrName) << ";\n";
         }
         headerFileOut << "\n-(void) setAttributes:(NSDictionary *)attributeDict;\n";
+        headerFileOut << "-(NSDictionary *) attributes;\n"; // issue 32
         headerFileOut << "-(NSString *) XML;\n";
         headerFileOut << "-(NSString *) stringValue;\n";
         headerFileOut << "-(NSString *) stringValueWithLead:(NSString *) lead;\n";
         headerFileOut << "-(NSString *) encode;\n"; // issue 19
-        headerFileOut << "-(NSDictionary *) attributes;\n"; // issue 32
 
         // close the header
         headerFileOut << "\n@end\n\n";
@@ -609,8 +609,11 @@ void CodeGenObjC::go() {
                 }
             }
         }
+        // close up
+        classFileOut << "    return str;\n";
+        classFileOut << "}\n\n";
 
-        // for data members
+        // for data members (embedded attributes)
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = className(attr->type());
@@ -630,8 +633,41 @@ void CodeGenObjC::go() {
             }
         }
 
+        // create an array of properties for this object
+        // not the embedded ones since there can be more than one of those
+        classFileOut << "-(NSDictionary *) attributes {\n\n";
+        classFileOut << "    NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];\n";
+
+        // for attributes
+        for(int j=0; j < attributes.size(); j++) {
+            XSDAttribute *attr = attributes.at(j);
+            QString attrType = attr->type();
+            QString type = localType(attr->type()); // convert to cpp types
+            QString varName = variableName(attr->name());
+
+            if (attrType != attr->name()) {
+
+                // non-qstring items (ints) may give problems, so convert them
+                if (type == localType("xs:dateTime")) {
+                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%F\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                } else if (type == localType("xs:integer")) {
+                    varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
+                } else if (type != localType("xs:string")) {
+                    varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
+                }
+                // check if the attribute exist
+                if (!attr->required() || obj->isMerged()) {
+                    classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
+                    classFileOut << "        [attr setObject: " << varName << " forKey: @\"" << attr->name() <<  "\"];\n";
+                    classFileOut << "    }\n";
+                } else {
+                    classFileOut << "    [attr setObject: " << varName << " forKey: @\"" << attr->name() <<  "\"];\n";
+                }
+            }
+        }
+
         // close up
-        classFileOut << "    return str;\n";
+        classFileOut << "    return attr;\n";
         classFileOut << "}\n\n";
 
         classFileOut << "\n@end\n\n";
