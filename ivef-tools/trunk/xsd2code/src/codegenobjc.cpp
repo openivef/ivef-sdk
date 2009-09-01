@@ -267,11 +267,11 @@ void CodeGenObjC::go() {
                 // setter
                 headerFileOut << "-(void) add" << methodName(attr->name()) << ":(" << type << ") val;\n";
                 // getter
-                headerFileOut << "-(" << type << ") get" << methodName(attr->name()) << "At:(int) i;\n";
+                headerFileOut << "-(" << type << ") " << getMethodName(attr->name()) << "At:(int) i;\n";
                 // count
                 headerFileOut << "-(int) countOf" << methodName(attr->name()) << "s;\n";
                 // all
-                headerFileOut << "-(NSArray *) " << methodName(attr->name()) << "s;\n";
+                headerFileOut << "-(NSArray *) " << getMethodName(attr->name()) << "s;\n";
             } else {
                 // setter
                 if (!attr->isFixed()) { // fixed attributes cannot be set
@@ -388,13 +388,13 @@ void CodeGenObjC::go() {
                 classFileOut << "-(void) add" << methodName(attr->name()) << ":(" << type << ") val {\n";
                 classFileOut << "\n    [" << variableName(attr->name()) << "s addObject: val];\n}\n\n";
                 // getter
-                classFileOut << "-(" << type << ") get" << methodName(attr->name()) << "At:(int) i {\n";
+                classFileOut << "-(" << type << ") " << getMethodName(attr->name()) << "At:(int) i {\n";
                 classFileOut << "\n    return [" << variableName(attr->name()) << "s objectAtIndex: i];\n}\n\n";
                 // count
                 classFileOut << "-(int) countOf" << methodName(attr->name()) << "s {\n";
                 classFileOut << "\n    return [" << variableName(attr->name()) << "s count];\n}\n\n";
 	        // reference to all
-                classFileOut << "-(NSArray *) " << methodName(attr->name()) << "s {\n";
+                classFileOut << "-(NSArray *) " << getMethodName(attr->name()) << "s {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << "s;\n}\n\n";
             } else {
                 // setter
