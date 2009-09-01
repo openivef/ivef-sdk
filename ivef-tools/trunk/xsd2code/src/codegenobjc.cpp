@@ -345,23 +345,36 @@ void CodeGenObjC::go() {
         classFileOut << "}\n\n";
 
         // date parsing
+        classFileOut << "- (NSString*) stringFromDate:(NSDate *)date {\n\n";
+        classFileOut << "     // new date strings can be in Zulu time\n";
+        classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
+        classFileOut << "     if (date == nil) {\n";
+        classFileOut << "         return @\"\"; // illigal date\n";
+        classFileOut << "     }\n";
+        classFileOut << "     if (formatterWithMillies == nil) {\n";
+        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] init];\n";
+        classFileOut << "         [formatterWithMillies setDateFormat:@\"yyyy-MM-dd'T'HH:mm:ss.SSS\"];\n";
+        classFileOut << "     }\n";
+        classFileOut << "     return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@\"Z\"]; // always zulu time\n";
+        classFileOut << "}\n\n";
+
         classFileOut << "- (NSDate*) dateFromString:(NSString *)str {\n\n";
         classFileOut << "     // new date strings can be in Zulu time\n";
         classFileOut << "     str = [str stringByReplacingOccurrencesOfString:@\"Z\" withString:@\"\"];\n\n";
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
         classFileOut << "     if (formatterWithMillies == nil) {\n";
         classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] init];\n";
-        classFileOut << "         [formatterWithMillies setDateFormat:@\"yyyy-MM-ddThh:mm:ss.zzz\"];\n";
+        classFileOut << "         [formatterWithMillies setDateFormat:@\"yyyy-MM-dd'T'HH:mm:ss.SSS\"];\n";
         classFileOut << "     }\n";
         classFileOut << "     static NSDateFormatter *formatterWithSeconds = nil;\n";
         classFileOut << "     if (formatterWithSeconds == nil) {\n";
         classFileOut << "         formatterWithSeconds = [[NSDateFormatter alloc] init];\n";
-        classFileOut << "         [formatterWithSeconds setDateFormat:@\"yyyy-MM-ddThh:mm:ss\"];\n";
+        classFileOut << "         [formatterWithSeconds setDateFormat:@\"yyyy-MM-dd'T'HH:mm:ss\"];\n";
         classFileOut << "     }\n";
         classFileOut << "     static NSDateFormatter *formatterWithMinutes = nil;\n";
         classFileOut << "     if (formatterWithMinutes == nil) {\n";
         classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] init];\n";
-        classFileOut << "         [formatterWithMinutes setDateFormat:@\"yyyy-MM-ddThh:mm\"];\n";
+        classFileOut << "         [formatterWithMinutes setDateFormat:@\"yyyy-MM-dd'T'HH:mm\"];\n";
         classFileOut << "     }\n";
         classFileOut << "     NSDate *val = [formatterWithMillies dateFromString:str];\n";
         classFileOut << "     if (val) {\n";
@@ -545,7 +558,7 @@ void CodeGenObjC::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
-                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%FZ\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                    varName = "[self stringFromDate: " + variableName(attr->name()) + "]";
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type == localType("xs:boolean")) {
@@ -628,7 +641,7 @@ void CodeGenObjC::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
-                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%FZ\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                    varName = "[self stringFromDate: " + variableName(attr->name()) + "]";
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type != localType("xs:string")) {
@@ -691,7 +704,7 @@ void CodeGenObjC::go() {
 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
-                    varName = "[" + variableName(attr->name()) + " descriptionWithCalendarFormat:@\"%Y-%m-%dT%H:%M:%S.%FZ\" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]";
+                    varName = "[self stringFromDate: " + variableName(attr->name()) + "]";
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type != localType("xs:string")) {

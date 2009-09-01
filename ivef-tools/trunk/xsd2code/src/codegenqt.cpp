@@ -36,15 +36,15 @@ void CodeGenQT::setOutputDir(QString outDir) {
 
 QString dateToString(QString varName) {
     // new time format (issue 28)
-    return varName + ".toString(\"yyyy-MM-ddThh:mm:ss.zzzZ\")";
+    return varName + ".toString(\"yyyy-MM-dd'T'HH:mm:ss.SSSZ\")";
 }
 
 QString dateFromString(QString varName, bool withMillies) {
   
     if (withMillies) 
-        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-ddThh:mm:ss.z\")";
+        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-dd'T'HH:mm:ss.z\")";
     else
-        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-ddThh:mm:ss\")";
+        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-dd'T'HH:mm:ss\")";
 }
 
 QString CodeGenQT::sizeEvaluatorForType (QString type, QString varName) {
