@@ -253,7 +253,7 @@
     m_IMO = val;
 }
 
-- (int) iMO {
+- (int) IMO {
 
     return m_IMO;
 }
@@ -269,7 +269,7 @@
     m_MMSI = val;
 }
 
-- (int) mMSI {
+- (int) MMSI {
 
     return m_MMSI;
 }
@@ -319,7 +319,7 @@
     m_ATONType = val;
 }
 
-- (int) aTONType {
+- (int) ATONType {
 
     return m_ATONType;
 }
@@ -337,7 +337,7 @@
     [m_ATONName retain];
 }
 
-- (NSString *) aTONName {
+- (NSString *) ATONName {
 
     return m_ATONName;
 }

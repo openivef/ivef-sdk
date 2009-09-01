@@ -133,7 +133,7 @@
     m_SOG = val;
 }
 
-- (float) sOG {
+- (float) SOG {
 
     return m_SOG;
 }
@@ -147,7 +147,7 @@
     m_COG = val;
 }
 
-- (float) cOG {
+- (float) COG {
 
     return m_COG;
 }
@@ -312,7 +312,7 @@
     m_ATONOffPos = val;
 }
 
-- (bool) aTONOffPos {
+- (bool) ATONOffPos {
 
     return m_ATONOffPos;
 }

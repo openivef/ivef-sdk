@@ -150,7 +150,7 @@
     [m_ETA retain];
 }
 
-- (NSDate *) eTA {
+- (NSDate *) ETA {
 
     return m_ETA;
 }
@@ -168,7 +168,7 @@
     [m_ATA retain];
 }
 
-- (NSDate *) aTA {
+- (NSDate *) ATA {
 
     return m_ATA;
 }
