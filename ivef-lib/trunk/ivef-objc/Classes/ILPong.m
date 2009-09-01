@@ -18,6 +18,20 @@
     [super dealloc];
 }
 
+- (NSString*) stringFromDate:(NSDate *)date {
+
+     // new date strings can be in Zulu time
+     static NSDateFormatter *formatterWithMillies = nil;
+     if (date == nil) {
+         return @""; // illigal date
+     }
+     if (formatterWithMillies == nil) {
+         formatterWithMillies = [[NSDateFormatter alloc] init];
+         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+     }
+     return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+}
+
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
@@ -26,17 +40,17 @@
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-ddThh:mm:ss.zzz"];
+         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
          formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-ddThh:mm:ss"];
+         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-ddThh:mm"];
+         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
      }
      NSDate *val = [formatterWithMillies dateFromString:str];
      if (val) {
@@ -111,7 +125,7 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Pong"];
     [xml appendString: @" TimeStamp=\""];
-    [xml appendString: [m_timeStamp descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
+    [xml appendString: [self stringFromDate: m_timeStamp]];
     [xml appendString: @"\""];
     [xml appendString: @" MsgId=\""];
     [xml appendString: [self encode: m_msgId]];
@@ -147,7 +161,7 @@
     [str setString: [lead stringByAppendingString:@"Pong\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"TimeStamp=\""];
-    [str appendString: [m_timeStamp descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
+    [str appendString: [self stringFromDate: m_timeStamp]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
@@ -166,7 +180,7 @@
 -(NSDictionary *) attributes {
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
-    [attr setObject: [m_timeStamp descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]] forKey: @"TimeStamp"];
+    [attr setObject: [self stringFromDate: m_timeStamp] forKey: @"TimeStamp"];
     [attr setObject: m_msgId forKey: @"MsgId"];
     [attr setObject: [NSString stringWithFormat:@"%d", m_sourceId] forKey: @"SourceId"];
 

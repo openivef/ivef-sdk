@@ -28,6 +28,20 @@
     [super dealloc];
 }
 
+- (NSString*) stringFromDate:(NSDate *)date {
+
+     // new date strings can be in Zulu time
+     static NSDateFormatter *formatterWithMillies = nil;
+     if (date == nil) {
+         return @""; // illigal date
+     }
+     if (formatterWithMillies == nil) {
+         formatterWithMillies = [[NSDateFormatter alloc] init];
+         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+     }
+     return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+}
+
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
@@ -36,17 +50,17 @@
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-ddThh:mm:ss.zzz"];
+         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
          formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-ddThh:mm:ss"];
+         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-ddThh:mm"];
+         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
      }
      NSDate *val = [formatterWithMillies dateFromString:str];
      if (val) {
@@ -303,12 +317,12 @@
     }
     if ( [self hasETA] ) {
         [xml appendString: @" ETA=\""];
-        [xml appendString: [m_ETA descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
+        [xml appendString: [self stringFromDate: m_ETA]];
         [xml appendString: @"\""];
     }
     if ( [self hasATA] ) {
         [xml appendString: @" ATA=\""];
-        [xml appendString: [m_ATA descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
+        [xml appendString: [self stringFromDate: m_ATA]];
         [xml appendString: @"\""];
     }
     if ( [self hasPersonsOnBoard] ) {
@@ -384,14 +398,14 @@
     if ( [self hasETA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ETA = \""];
-        [str appendString: [m_ETA descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
+        [str appendString: [self stringFromDate: m_ETA]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasATA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ATA = \""];
-        [str appendString: [m_ATA descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]];
+        [str appendString: [self stringFromDate: m_ATA]];
         [str appendString: @"\"\n"];
 
     }
@@ -432,10 +446,10 @@
         [attr setObject: m_destination forKey: @"Destination"];
     }
     if ( [self hasETA] ) {
-        [attr setObject: [m_ETA descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]] forKey: @"ETA"];
+        [attr setObject: [self stringFromDate: m_ETA] forKey: @"ETA"];
     }
     if ( [self hasATA] ) {
-        [attr setObject: [m_ATA descriptionWithCalendarFormat:@"%Y-%m-%dT%H:%M:%S.%FZ" timeZone:nil locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]] forKey: @"ATA"];
+        [attr setObject: [self stringFromDate: m_ATA] forKey: @"ATA"];
     }
     if ( [self hasPersonsOnBoard] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_personsOnBoard] forKey: @"PersonsOnBoard"];
