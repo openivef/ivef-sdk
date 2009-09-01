@@ -63,7 +63,7 @@
     [m_areas addObject: val];
 }
 
--(ILArea *) getAreaAt:(int) i {
+-(ILArea *) areaAt:(int) i {
 
     return [m_areas objectAtIndex: i];
 }
@@ -73,7 +73,7 @@
     return [m_areas count];
 }
 
--(NSArray *) Areas {
+-(NSArray *) areas {
 
     return m_areas;
 }
@@ -95,7 +95,7 @@
     [m_items addObject: val];
 }
 
--(ILItem *) getItemAt:(int) i {
+-(ILItem *) itemAt:(int) i {
 
     return [m_items objectAtIndex: i];
 }
@@ -105,7 +105,7 @@
     return [m_items count];
 }
 
--(NSArray *) Items {
+-(NSArray *) items {
 
     return m_items;
 }
@@ -115,7 +115,7 @@
     [m_objects addObject: val];
 }
 
--(ILObject *) getObjectAt:(int) i {
+-(ILObject *) objectAt:(int) i {
 
     return [m_objects objectAtIndex: i];
 }
@@ -125,7 +125,7 @@
     return [m_objects count];
 }
 
--(NSArray *) Objects {
+-(NSArray *) objects {
 
     return m_objects;
 }

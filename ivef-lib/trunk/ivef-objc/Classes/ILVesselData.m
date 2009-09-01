@@ -73,7 +73,7 @@
     [m_staticDatas addObject: val];
 }
 
--(ILStaticData *) getStaticDataAt:(int) i {
+-(ILStaticData *) staticDataAt:(int) i {
 
     return [m_staticDatas objectAtIndex: i];
 }
@@ -83,7 +83,7 @@
     return [m_staticDatas count];
 }
 
--(NSArray *) StaticDatas {
+-(NSArray *) staticDatas {
 
     return m_staticDatas;
 }
@@ -93,7 +93,7 @@
     [m_voyages addObject: val];
 }
 
--(ILVoyage *) getVoyageAt:(int) i {
+-(ILVoyage *) voyageAt:(int) i {
 
     return [m_voyages objectAtIndex: i];
 }
@@ -103,7 +103,7 @@
     return [m_voyages count];
 }
 
--(NSArray *) Voyages {
+-(NSArray *) voyages {
 
     return m_voyages;
 }

@@ -199,7 +199,7 @@
     [m_vesselDatas addObject: val];
 }
 
--(ILVesselData *) getVesselDataAt:(int) i {
+-(ILVesselData *) vesselDataAt:(int) i {
 
     return [m_vesselDatas objectAtIndex: i];
 }
@@ -209,7 +209,7 @@
     return [m_vesselDatas count];
 }
 
--(NSArray *) VesselDatas {
+-(NSArray *) vesselDatas {
 
     return m_vesselDatas;
 }

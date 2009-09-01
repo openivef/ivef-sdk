@@ -81,7 +81,7 @@
     [m_sensors addObject: val];
 }
 
--(ILSensor *) getSensorAt:(int) i {
+-(ILSensor *) sensorAt:(int) i {
 
     return [m_sensors objectAtIndex: i];
 }
@@ -91,7 +91,7 @@
     return [m_sensors count];
 }
 
--(NSArray *) Sensors {
+-(NSArray *) sensors {
 
     return m_sensors;
 }

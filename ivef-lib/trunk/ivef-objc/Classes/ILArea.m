@@ -58,7 +58,7 @@
     [m_poss addObject: val];
 }
 
--(ILPos *) getPosAt:(int) i {
+-(ILPos *) posAt:(int) i {
 
     return [m_poss objectAtIndex: i];
 }
@@ -68,7 +68,7 @@
     return [m_poss count];
 }
 
--(NSArray *) Poss {
+-(NSArray *) poss {
 
     return m_poss;
 }
