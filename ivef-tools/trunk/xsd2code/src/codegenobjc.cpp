@@ -338,7 +338,7 @@ void CodeGenObjC::go() {
         // date parsing
         classFileOut << "- (NSDate*) dateFromString:(NSString *)str {\n\n";
         classFileOut << "     // new date strings can be in Zulu time\n";
-        classFileOut << "     str = [NSString stringByReplacingOccurrencesOfString:@\"Z\" withString:@\"\"];\n\n";
+        classFileOut << "     str = [str stringByReplacingOccurrencesOfString:@\"Z\" withString:@\"\"];\n\n";
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
         classFileOut << "     if (formatterWithMillies == nil) {\n";
         classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] init];\n";
@@ -590,10 +590,11 @@ void CodeGenObjC::go() {
         // string encoder, issue 19
         classFileOut << "-(NSString *) encode: (NSString *) input {\n\n";
         classFileOut << "    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];\n\n";
-        classFileOut << "    [str replaceOccurrencesOfString: @\"&\" withString: \"&amp;\" options: nil searchRange: NSMakeRange(0, [str length])];\n";
-        classFileOut << "    [str replaceOccurrencesOfString: @\"<\" withString: \"&lt;\" options: nil searchRange: NSMakeRange(0, [str length])];\n";
-        classFileOut << "    [str replaceOccurrencesOfString: @\">\" withString: \"&gt;\" options: nil searchRange: NSMakeRange(0, [str length])];\n";
-        classFileOut << "    [str replaceOccurrencesOfString: @\"\\\"\" withString: \"&quot;\" options: nil searchRange: NSMakeRange(0, [str length])];\n\n";
+        // issue 39
+        classFileOut << "    [str replaceOccurrencesOfString: @\"&\" withString: @\"&amp;\" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\"<\" withString: @\"&lt;\" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\">\" withString: @\"&gt;\" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\"\\\"\" withString: @\"&quot;\" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];\n\n";
         classFileOut << "    return str;\n";
         classFileOut << "}\n\n";
        // end issue 19
