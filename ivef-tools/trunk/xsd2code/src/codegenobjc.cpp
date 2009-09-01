@@ -287,7 +287,7 @@ void CodeGenObjC::go() {
         headerFileOut << "-(NSString *) XML;\n";
         headerFileOut << "-(NSString *) stringValue;\n";
         headerFileOut << "-(NSString *) stringValueWithLead:(NSString *) lead;\n";
-        headerFileOut << "-(NSString *) encode;\n"; // issue 19
+        headerFileOut << "-(NSString *) encode: (NSString *) input;\n"; // issue 19
 
         // close the header
         headerFileOut << "\n@end\n\n";
@@ -338,7 +338,7 @@ void CodeGenObjC::go() {
         // date parsing
         classFileOut << "- (NSDate*) dateFromString:(NSString *)str {\n\n";
         classFileOut << "     // new date strings can be in Zulu time\n";
-        classFileOut << "     str = [NSString stringByReplacingOccurrencesOfString:@\"Z\" withString:@""];\n\n";
+        classFileOut << "     str = [NSString stringByReplacingOccurrencesOfString:@\"Z\" withString:@\"\"];\n\n";
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
         classFileOut << "     if (formatterWithMillies == nil) {\n";
         classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] init];\n";
@@ -349,6 +349,7 @@ void CodeGenObjC::go() {
         classFileOut << "         formatterWithSeconds = [[NSDateFormatter alloc] init];\n";
         classFileOut << "         [formatterWithSeconds setDateFormat:@\"yyyy-MM-ddThh:mm:ss\"];\n";
         classFileOut << "     }\n";
+        classFileOut << "     static NSDateFormatter *formatterWithMinutes = nil;\n";
         classFileOut << "     if (formatterWithMinutes == nil) {\n";
         classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] init];\n";
         classFileOut << "         [formatterWithMinutes setDateFormat:@\"yyyy-MM-ddThh:mm\"];\n";
@@ -504,7 +505,7 @@ void CodeGenObjC::go() {
                     if (attr->unbounded() ) {
                        classFileOut << "                [self add" << methodName(attrName) << ": val];\n";
  		    } else if (!attr->isFixed()){ 
-                       classFileOut << "                [self set" << methodName(attrName) << ": val];\n";
+                       classFileOut << "                [self " << setMethodName(attrName) << ": val];\n";
 		    } else {
                        // what to do, we get a fixed attribute which may be different from our own!
                        classFileOut << "                [" << variableName(attrName) << " release]; \n";
@@ -543,7 +544,7 @@ void CodeGenObjC::go() {
                 } else if (type != localType("xs:string")) {
                     varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
                 } else { // String, issue 19
-                    varName = "[" + variableName(attr->name()) + " encode]"; 
+                    varName = "[self encode: " + variableName(attr->name()) + "]"; 
                 }
 
                 // check if the attribute exist
@@ -589,10 +590,10 @@ void CodeGenObjC::go() {
         // string encoder, issue 19
         classFileOut << "-(NSString *) encode: (NSString *) input {\n\n";
         classFileOut << "    NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];\n\n";
-        classFileOut << "    [str replaceOccurrencesOfString: @\"&\" withString: \"&amp;\") options: nil searchRange: NSMakeRange(0, [str length])];\n";
-        classFileOut << "    [str replaceOccurrencesOfString: @\"<\" withString: \"&lt;\") options: nil searchRange: NSMakeRange(0, [str length])];\n";
-        classFileOut << "    [str replaceOccurrencesOfString: @\">\" withString: \"&gt;\") options: nil searchRange: NSMakeRange(0, [str length])];\n";
-        classFileOut << "    [str replaceOccurrencesOfString: @\"\\\"\" withString: \"&quot;\") options: nil searchRange: NSMakeRange(0, [str length])];\n\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\"&\" withString: \"&amp;\" options: nil searchRange: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\"<\" withString: \"&lt;\" options: nil searchRange: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\">\" withString: \"&gt;\" options: nil searchRange: NSMakeRange(0, [str length])];\n";
+        classFileOut << "    [str replaceOccurrencesOfString: @\"\\\"\" withString: \"&quot;\" options: nil searchRange: NSMakeRange(0, [str length])];\n\n";
         classFileOut << "    return str;\n";
         classFileOut << "}\n\n";
        // end issue 19
