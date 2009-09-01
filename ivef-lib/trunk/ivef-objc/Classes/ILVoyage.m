@@ -31,7 +31,7 @@
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
-     str = [NSString stringByReplacingOccurrencesOfString:@"Z" withString:@];
+     str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
@@ -43,6 +43,7 @@
          formatterWithSeconds = [[NSDateFormatter alloc] init];
          [formatterWithSeconds setDateFormat:@"yyyy-MM-ddThh:mm:ss"];
      }
+     static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] init];
          [formatterWithMinutes setDateFormat:@"yyyy-MM-ddThh:mm"];
@@ -230,7 +231,7 @@
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Id"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setId: val];
+                [self setIdent: val];
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
@@ -282,10 +283,10 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Voyage"];
     [xml appendString: @" Id=\""];
-    [xml appendString: [m_id encode]];
+    [xml appendString: [self encode: m_id]];
     [xml appendString: @"\""];
     [xml appendString: @" SourceName=\""];
-    [xml appendString: [m_sourceName encode]];
+    [xml appendString: [self encode: m_sourceName]];
     [xml appendString: @"\""];
     [xml appendString: @" Source=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_source]];
@@ -297,7 +298,7 @@
     }
     if ( [self hasDestination] ) {
         [xml appendString: @" Destination=\""];
-        [xml appendString: [m_destination encode]];
+        [xml appendString: [self encode: m_destination]];
         [xml appendString: @"\""];
     }
     if ( [self hasETA] ) {
@@ -334,10 +335,10 @@
 
     NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
 
-    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"&" withString: @"&amp;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: @"&lt;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: @"&gt;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: @"&quot;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
 
     return str;
 }

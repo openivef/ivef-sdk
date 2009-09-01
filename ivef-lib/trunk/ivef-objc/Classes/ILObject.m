@@ -20,7 +20,7 @@
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
-     str = [NSString stringByReplacingOccurrencesOfString:@"Z" withString:@];
+     str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
@@ -32,6 +32,7 @@
          formatterWithSeconds = [[NSDateFormatter alloc] init];
          [formatterWithSeconds setDateFormat:@"yyyy-MM-ddThh:mm:ss"];
      }
+     static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] init];
          [formatterWithMinutes setDateFormat:@"yyyy-MM-ddThh:mm"];
@@ -77,7 +78,7 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Object"];
     [xml appendString: @" FileName=\""];
-    [xml appendString: [m_fileName encode]];
+    [xml appendString: [self encode: m_fileName]];
     [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: @"</Object>\n"];
@@ -88,10 +89,10 @@
 
     NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
 
-    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"&" withString: @"&amp;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: @"&lt;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: @"&gt;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: @"&quot;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
 
     return str;
 }

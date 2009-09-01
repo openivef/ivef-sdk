@@ -24,7 +24,7 @@
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
-     str = [NSString stringByReplacingOccurrencesOfString:@"Z" withString:@];
+     str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
@@ -36,6 +36,7 @@
          formatterWithSeconds = [[NSDateFormatter alloc] init];
          [formatterWithSeconds setDateFormat:@"yyyy-MM-ddThh:mm:ss"];
      }
+     static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] init];
          [formatterWithMinutes setDateFormat:@"yyyy-MM-ddThh:mm"];
@@ -107,6 +108,16 @@
     return m_voyages;
 }
 
+-(void) setIdent:(int) val {
+
+    m_id = val;
+}
+
+- (int) ident {
+
+    return m_id;
+}
+
 -(void) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
@@ -122,12 +133,20 @@
                 ILVoyage * val = [attributeDict objectForKey: key];
                 [self addVoyage: val];
             }
+            else if ([key isEqualToString:@"Id"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                int val = [value intValue];
+                [self setIdent: val];
+            }
         }
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
+    [xml appendString: @" Id=\""];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
+    [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: [m_posReport XML] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
@@ -146,10 +165,10 @@
 
     NSMutableString *str = [[[NSMutableString alloc] initWithString: input] autorelease];
 
-    [str replaceOccurrencesOfString: @"&" withString: "&amp;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @"<" withString: "&lt;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @">" withString: "&gt;") options: nil searchRange: NSMakeRange(0, [str length])];
-    [str replaceOccurrencesOfString: @"\"" withString: "&quot;") options: nil searchRange: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"&" withString: @"&amp;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"<" withString: @"&lt;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @">" withString: @"&gt;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
+    [str replaceOccurrencesOfString: @"\"" withString: @"&quot;" options: NSCaseInsensitiveSearch range: NSMakeRange(0, [str length])];
 
     return str;
 }
@@ -163,6 +182,11 @@
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"VesselData\n"]];
+    [str appendString: [lead stringByAppendingString: @" "]];
+    [str appendString: @"Id=\""];
+    [str appendString: [NSString stringWithFormat:@"%d", m_id]];
+    [str appendString: @"\"\n"];
+
     [str appendString: [m_posReport stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
         ILStaticData *attribute = [m_staticDatas objectAtIndex:i];
@@ -178,6 +202,7 @@
 -(NSDictionary *) attributes {
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
+    [attr setObject: [NSString stringWithFormat:@"%d", m_id] forKey: @"Id"];
 
     return attr;
 }
