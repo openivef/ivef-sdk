@@ -95,7 +95,12 @@ QString CodeGenObjC::getMethodName(QString name) { // issue 30
     if (name == "Id") {
         name = "Ident"; // protected name in obj-C
     }
-    return name.replace(0, 1, name.left(1).toLower());
+    
+    if (name.toUpper() == name) { // all in caps
+        return name; 
+    } else {
+        return name.replace(0, 1, name.left(1).toLower());        
+    }
 }
 
 QString CodeGenObjC::setMethodName(QString name) { // issue 30
@@ -106,7 +111,11 @@ QString CodeGenObjC::setMethodName(QString name) { // issue 30
 }
 
 QString CodeGenObjC::methodName(QString name) {
-    return name.replace(0, 1, name.left(1).toUpper());
+    if (name.toUpper() == name) { // all in caps
+        return name; 
+    } else {
+        return name.replace(0, 1, name.left(1).toUpper());        
+    }
 }
 
 QString CodeGenObjC::variableName(QString name) {
