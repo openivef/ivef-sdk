@@ -57,7 +57,7 @@ public class Version implements MouseListener {
      * This string will be automatically expanded upon "ant commit".
      * Do not edit it by hand!
      */
-    private static final String BUILD_TIME_STRING = "20090206-2035";
+    private static final String BUILD_TIME_STRING = "20090922-1152";
 
     /** A {@link Date} version of the build time. */
     private final Date BUILD_TIME = _getBuildDate();
