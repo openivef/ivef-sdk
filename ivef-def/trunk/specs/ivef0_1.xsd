@@ -797,6 +797,35 @@ North = positive; South = negative) Examples:
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="TaggedItem">
+		<xs:annotation>
+			<xs:documentation>Generic key/value pairs, can be used to pass information that is not (yet) in the standard, provided server and user agree upon interface. E.g. Blue sign indication for inland waterways, references to voyage or vesseldata (URL)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Key" use="required">
+				<xs:annotation>
+					<xs:documentation>Key for the tagged item</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Value" use="required">
+				<xs:annotation>
+					<xs:documentation>Value of the tagged item</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="ServiceRequest">
 		<xs:complexType>
 			<xs:sequence>
@@ -878,6 +907,7 @@ North = positive; South = negative) Examples:
 				<xs:element ref="PosReport" minOccurs="0"/>
 				<xs:element ref="StaticData" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="Voyage" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="TaggedItem" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
