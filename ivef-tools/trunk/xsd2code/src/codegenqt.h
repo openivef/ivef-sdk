@@ -43,6 +43,7 @@ protected:
 	QString variableName(QString name);
 	QString writeHeader(QString fileName);
 	QString methodName(QString name);
+	QString longestCommonPrefix(QStringList);
 
 private:
         QString m_prefix;
