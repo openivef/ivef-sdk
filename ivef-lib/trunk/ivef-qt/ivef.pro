@@ -36,6 +36,7 @@ macx {
 	IVEFServerStatus.h \
 	IVEFServiceRequest.h \
 	IVEFStaticData.h \
+	IVEFTaggedItem.h \
 	IVEFTransmission.h \
 	IVEFVesselData.h \
 	IVEFVoyage.h
@@ -75,6 +76,7 @@ HEADERS += \
 	IVEFServerStatus.h \
 	IVEFServiceRequest.h \
 	IVEFStaticData.h \
+	IVEFTaggedItem.h \
 	IVEFTransmission.h \
 	IVEFVesselData.h \
 	IVEFVoyage.h
@@ -106,6 +108,7 @@ SOURCES += \
 	IVEFServiceRequest.cpp \
 	IVEFStaticData.cpp \
 	IVEFTransmission.cpp \
+	IVEFTaggedItem.cpp \
 	IVEFVesselData.cpp \
 	IVEFVoyage.cpp
 
