@@ -10,6 +10,7 @@ VesselData::VesselData(const VesselData &val) : QObject() {
     m_posReport = val.m_posReport;
     m_staticDatas = val.m_staticDatas;
     m_voyages = val.m_voyages;
+    m_taggedItems = val.m_taggedItems;
 }
 
 VesselData & VesselData::operator=(const VesselData &val) {
@@ -17,6 +18,7 @@ VesselData & VesselData::operator=(const VesselData &val) {
     m_posReport = val.m_posReport;
     m_staticDatas = val.m_staticDatas;
     m_voyages = val.m_voyages;
+    m_taggedItems = val.m_taggedItems;
     return *this;
 }
 
@@ -69,6 +71,21 @@ int VesselData::countOfVoyages() const {
     return m_voyages.count();
 }
 
+void VesselData::addTaggedItem(TaggedItem val) {
+
+    m_taggedItems.append(val);
+}
+
+TaggedItem VesselData::getTaggedItemAt(int i) const {
+
+    return m_taggedItems.at(i);
+}
+
+int VesselData::countOfTaggedItems() const {
+
+    return m_taggedItems.count();
+}
+
 QString VesselData::toXML() {
 
     QString xml = "<VesselData";
@@ -80,6 +97,10 @@ QString VesselData::toXML() {
     }
     for(int i=0; i < m_voyages.count(); i++ ) {
         Voyage attribute = m_voyages.at(i);
+        xml.append( attribute.toXML() );
+    }
+    for(int i=0; i < m_taggedItems.count(); i++ ) {
+        TaggedItem attribute = m_taggedItems.at(i);
         xml.append( attribute.toXML() );
     }
     xml.append( "</VesselData>\n");
@@ -96,6 +117,10 @@ QString VesselData::toString(QString lead) {
     }
     for(int i=0; i < m_voyages.count(); i++ ) {
        Voyage attribute = m_voyages.at(i);
+       str.append( attribute.toString(lead + "    ") );
+    }
+    for(int i=0; i < m_taggedItems.count(); i++ ) {
+       TaggedItem attribute = m_taggedItems.at(i);
        str.append( attribute.toString(lead + "    ") );
     }
     return str;

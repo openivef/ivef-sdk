@@ -6,6 +6,12 @@ PosReport::PosReport() {
     m_id = 0;
     m_sourceId = 0;
     m_updateTime = QDateTime();
+    m_updateTimeRadar = QDateTime();
+    m_updateTimeRadarPresent = false;
+    m_updateTimeAIS = QDateTime();
+    m_updateTimeAISPresent = false;
+    m_updateTimeDR = QDateTime();
+    m_updateTimeDRPresent = false;
     m_SOG = 0.0;
     m_COG = 0.0;
     m_lost = "";
@@ -34,6 +40,12 @@ PosReport::PosReport(const PosReport &val) : QObject() {
     m_id = val.m_id;
     m_sourceId = val.m_sourceId;
     m_updateTime = val.m_updateTime;
+    m_updateTimeRadarPresent = val.m_updateTimeRadarPresent;
+    m_updateTimeRadar = val.m_updateTimeRadar;
+    m_updateTimeAISPresent = val.m_updateTimeAISPresent;
+    m_updateTimeAIS = val.m_updateTimeAIS;
+    m_updateTimeDRPresent = val.m_updateTimeDRPresent;
+    m_updateTimeDR = val.m_updateTimeDR;
     m_SOG = val.m_SOG;
     m_COG = val.m_COG;
     m_lost = val.m_lost;
@@ -62,6 +74,12 @@ PosReport & PosReport::operator=(const PosReport &val) {
     m_id = val.m_id;
     m_sourceId = val.m_sourceId;
     m_updateTime = val.m_updateTime;
+    m_updateTimeRadarPresent = val.m_updateTimeRadarPresent;
+    m_updateTimeRadar = val.m_updateTimeRadar;
+    m_updateTimeAISPresent = val.m_updateTimeAISPresent;
+    m_updateTimeAIS = val.m_updateTimeAIS;
+    m_updateTimeDRPresent = val.m_updateTimeDRPresent;
+    m_updateTimeDR = val.m_updateTimeDR;
     m_SOG = val.m_SOG;
     m_COG = val.m_COG;
     m_lost = val.m_lost;
@@ -146,6 +164,54 @@ void PosReport::setUpdateTime(QDateTime val) {
 QDateTime PosReport::getUpdateTime() const {
 
     return m_updateTime;
+}
+
+void PosReport::setUpdateTimeRadar(QDateTime val) {
+
+    m_updateTimeRadarPresent = true;
+    m_updateTimeRadar = val;
+}
+
+QDateTime PosReport::getUpdateTimeRadar() const {
+
+    return m_updateTimeRadar;
+}
+
+bool PosReport::hasUpdateTimeRadar() {
+
+    return m_updateTimeRadarPresent;
+}
+
+void PosReport::setUpdateTimeAIS(QDateTime val) {
+
+    m_updateTimeAISPresent = true;
+    m_updateTimeAIS = val;
+}
+
+QDateTime PosReport::getUpdateTimeAIS() const {
+
+    return m_updateTimeAIS;
+}
+
+bool PosReport::hasUpdateTimeAIS() {
+
+    return m_updateTimeAISPresent;
+}
+
+void PosReport::setUpdateTimeDR(QDateTime val) {
+
+    m_updateTimeDRPresent = true;
+    m_updateTimeDR = val;
+}
+
+QDateTime PosReport::getUpdateTimeDR() const {
+
+    return m_updateTimeDR;
+}
+
+bool PosReport::hasUpdateTimeDR() {
+
+    return m_updateTimeDRPresent;
 }
 
 void PosReport::setSOG(float val) {
@@ -345,7 +411,16 @@ QString PosReport::toXML() {
     QString xml = "<PosReport";
     xml.append(" Id=\"" + QString::number(m_id) + "\"");
     xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
-    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\"");
+    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    if ( hasUpdateTimeRadar() ) {
+        xml.append(" UpdateTimeRadar=\"" + m_updateTimeRadar.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    }
+    if ( hasUpdateTimeAIS() ) {
+        xml.append(" UpdateTimeAIS=\"" + m_updateTimeAIS.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    }
+    if ( hasUpdateTimeDR() ) {
+        xml.append(" UpdateTimeDR=\"" + m_updateTimeDR.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    }
     xml.append(" SOG=\"" + QString::number(m_SOG) + "\"");
     xml.append(" COG=\"" + QString::number(m_COG) + "\"");
     xml.append(" Lost=\"" + encode (m_lost) + "\"");
@@ -388,7 +463,16 @@ QString PosReport::toString(QString lead) {
     QString str = lead + "PosReport\n";
     str.append( lead + "    Id = " + QString::number(m_id) + "\n");
     str.append( lead + "    SourceId = " + QString::number(m_sourceId) + "\n");
-    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\n");
+    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+    if ( hasUpdateTimeRadar() ) {
+        str.append( lead + "    UpdateTimeRadar = " + m_updateTimeRadar.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+    }
+    if ( hasUpdateTimeAIS() ) {
+        str.append( lead + "    UpdateTimeAIS = " + m_updateTimeAIS.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+    }
+    if ( hasUpdateTimeDR() ) {
+        str.append( lead + "    UpdateTimeDR = " + m_updateTimeDR.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+    }
     str.append( lead + "    SOG = " + QString::number(m_SOG) + "\n");
     str.append( lead + "    COG = " + QString::number(m_COG) + "\n");
     str.append( lead + "    Lost = " + m_lost + "\n");

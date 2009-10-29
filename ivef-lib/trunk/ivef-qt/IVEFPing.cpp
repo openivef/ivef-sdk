@@ -39,7 +39,7 @@ QDateTime Ping::getTimeStamp() const {
 QString Ping::toXML() {
 
     QString xml = "<Ping";
-    xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\"");
+    xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
     xml.append(">\n");
     xml.append( "</Ping>\n");
     return xml;
@@ -48,7 +48,7 @@ QString Ping::toXML() {
 QString Ping::toString(QString lead) {
 
     QString str = lead + "Ping\n";
-    str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-ddThh:mm:ss.zzzZ") + "\n");
+    str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     return str;
 }
 

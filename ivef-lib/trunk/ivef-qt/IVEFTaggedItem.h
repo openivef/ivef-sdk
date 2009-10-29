@@ -1,7 +1,7 @@
 /* 
- *  LoginRequest
+ *  TaggedItem
  *
- *  LoginRequest is free software: you can redistribute it and/or modify
+ *  TaggedItem is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -19,59 +19,49 @@
  *
  */
 
-#ifndef __LOGINREQUEST_H__
-#define __LOGINREQUEST_H__
+#ifndef __TAGGEDITEM_H__
+#define __TAGGEDITEM_H__
 
 #include <QtCore>
 
 //-----------------------------------------------------------
-//! \brief       Class definition of LoginRequest
+//! \brief       Class definition of TaggedItem
 //!
-//! DATA login message with details of the user
+//! Generic key/value pairs, can be used to pass information that is not (yet) in the standard, provided server and user agree upon interface. E.g. Blue sign indication for inland waterways, references to voyage or vesseldata (URL)
 //!
 
-class LoginRequest : public QObject { 
+class TaggedItem : public QObject { 
     Q_OBJECT
 
 public:
     //!constructor
     //!
-    LoginRequest();
+    TaggedItem();
     //!copy constructor
     //!
-    LoginRequest(const LoginRequest&);
+    TaggedItem(const TaggedItem&);
     //!= operator
     //!
-    LoginRequest & operator=(const LoginRequest&/*val*/);
-    //!              sets the Name: Login name
+    TaggedItem & operator=(const TaggedItem&/*val*/);
+    //!              sets the Key: Key for the tagged item
     //!
-    void setName(QString val);
+    void setKey(QString val);
 
-    //!              gets the Name: Login name
+    //!              gets the Key: Key for the tagged item
     //!
     //! \return     QString
     //!
-    QString getName() const;
+    QString getKey() const;
 
-    //!              sets the Password: Password value
+    //!              sets the Value: Value of the tagged item
     //!
-    void setPassword(QString val);
+    void setValue(QString val);
 
-    //!              gets the Password: Password value
+    //!              gets the Value: Value of the tagged item
     //!
     //! \return     QString
     //!
-    QString getPassword() const;
-
-    //!              sets the Encryption: 1 = plain 2 = md5
-    //!
-    void setEncryption(int val);
-
-    //!              gets the Encryption: 1 = plain 2 = md5
-    //!
-    //! \return     int
-    //!
-    int getEncryption() const;
+    QString getValue() const;
 
     //!              generates XML of this object including attributes and child elements
     //!
@@ -90,9 +80,8 @@ public:
 
 
 private:
-    QString m_name;
-    QString m_password;
-    int m_encryption;
+    QString m_key;
+    QString m_value;
 
 }; 
 

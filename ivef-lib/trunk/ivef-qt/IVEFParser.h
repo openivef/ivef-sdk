@@ -25,6 +25,7 @@
 #include "IVEFSensor.h"
 #include "IVEFStaticData.h"
 #include "IVEFServerStatus.h"
+#include "IVEFTaggedItem.h"
 #include "IVEFServiceRequest.h"
 #include "IVEFArea.h"
 #include "IVEFTransmission.h"

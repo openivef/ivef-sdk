@@ -135,9 +135,9 @@ bool Parser::startElement(const QString &,
                 if (value.right(1) == "Z") { // new time encoding
                      value = value.left(value.length() - 1);
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
                 if (!val.isValid()) { 
-                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
                 }
                 obj->setTimeStamp(val);
             }
@@ -155,9 +155,9 @@ bool Parser::startElement(const QString &,
                 if (value.right(1) == "Z") { // new time encoding
                      value = value.left(value.length() - 1);
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
                 if (!val.isValid()) { 
-                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
                 }
                 obj->setTimeStamp(val);
             }
@@ -209,11 +209,41 @@ bool Parser::startElement(const QString &,
                 if (value.right(1) == "Z") { // new time encoding
                      value = value.left(value.length() - 1);
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
                 if (!val.isValid()) { 
-                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
                 }
                 obj->setUpdateTime(val);
+            }
+            else if (key == "UpdateTimeRadar") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
+                }
+                obj->setUpdateTimeRadar(val);
+            }
+            else if (key == "UpdateTimeAIS") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
+                }
+                obj->setUpdateTimeAIS(val);
+            }
+            else if (key == "UpdateTimeDR") {
+                if (value.right(1) == "Z") { // new time encoding
+                     value = value.left(value.length() - 1);
+                }
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
+                if (!val.isValid()) { 
+                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
+                }
+                obj->setUpdateTimeDR(val);
             }
             else if (key == "SOG") {
                 float val = value.toFloat();
@@ -276,16 +306,6 @@ bool Parser::startElement(const QString &,
             else if (key == "TrkId") {
                 float val = value.toFloat();
                 obj->setTrkId(val);
-            }
-            else if (key == "UpdateTime") {
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
-                }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
-                if (!val.isValid()) { 
-                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
-                }
-                obj->setUpdateTime(val);
             }
         }
         m_objStack.push( obj );
@@ -403,6 +423,24 @@ bool Parser::startElement(const QString &,
         m_objStack.push( obj );
         m_typeStack.push( "ServerStatus" );
     }
+    else if (qName == "TaggedItem") {
+        TaggedItem *obj = new TaggedItem;
+        for (int i=0; i < atts.length(); i++) {
+            QString key = atts.localName(i);
+            QString value = atts.value(i);
+
+            if (key == "Key") {
+                QString val = value;
+                obj->setKey(val);
+            }
+            else if (key == "Value") {
+                QString val = value;
+                obj->setValue(val);
+            }
+        }
+        m_objStack.push( obj );
+        m_typeStack.push( "TaggedItem" );
+    }
     else if (qName == "ServiceRequest") {
         ServiceRequest *obj = new ServiceRequest;
         m_objStack.push( obj );
@@ -498,9 +536,9 @@ bool Parser::startElement(const QString &,
                 if (value.right(1) == "Z") { // new time encoding
                      value = value.left(value.length() - 1);
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
                 if (!val.isValid()) { 
-                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
                 }
                 obj->setETA(val);
             }
@@ -508,9 +546,9 @@ bool Parser::startElement(const QString &,
                 if (value.right(1) == "Z") { // new time encoding
                      value = value.left(value.length() - 1);
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss.z");
+                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
                 if (!val.isValid()) { 
-                     val = QDateTime::fromString(value, "yyyy-MM-ddThh:mm:ss");
+                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
                 }
                 obj->setATA(val);
             }
@@ -747,6 +785,15 @@ bool Parser::endElement(const QString &,
         }
         delete( obj ); 
     }
+    else if (qName == "TaggedItem") {
+
+        m_typeStack.pop();
+        TaggedItem *obj = (TaggedItem*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "VesselData") {
+                ((VesselData*) ( m_objStack.top() ) )->addTaggedItem( *obj );
+        }
+        delete( obj ); 
+    }
     else if (qName == "ServiceRequest") {
 
         m_typeStack.pop();
@@ -817,30 +864,14 @@ bool Parser::parseXMLString(QString data, bool cont) {
 
      m_dataBuffer.append(data);
 
-     int index[8], indexMax = -1;
-
-     // note that if a message does not exist the index will be equal to strlen(name\n) - 1 so indexMax is always > 0
-     index[0] = m_dataBuffer.lastIndexOf("</MSG_LoginRequest>") + strlen("</MSG_LoginRequest>");
-     index[1] = m_dataBuffer.lastIndexOf("</MSG_LoginResponse>") + strlen("</MSG_LoginResponse>");
-     index[2] = m_dataBuffer.lastIndexOf("</MSG_Logout>") + strlen("</MSG_Logout>");
-     index[3] = m_dataBuffer.lastIndexOf("</MSG_Ping>") + strlen("</MSG_Ping>");
-     index[4] = m_dataBuffer.lastIndexOf("</MSG_Pong>") + strlen("</MSG_Pong>");
-     index[5] = m_dataBuffer.lastIndexOf("</MSG_ServerStatus>") + strlen("</MSG_ServerStatus>");
-     index[6] = m_dataBuffer.lastIndexOf("</MSG_ServiceRequest>") + strlen("</MSG_ServiceRequest>");
-     index[7] = m_dataBuffer.lastIndexOf("</MSG_VesselData>") + strlen("</MSG_VesselData>");
-     for (int i=0; i<8; i++) {
-         if (index[i] > indexMax) {
-             indexMax = index[i];
-         }
-     }
-
-     if (indexMax > 30) {
-         QString messages = m_dataBuffer.left(indexMax);
-         m_dataBuffer.remove(0, indexMax);
-         m_inputForParser.setData(messages);
-         this->parse(&m_inputForParser, false);
-     } else {
-         return false; // not enough data in string
+     int index = 0;
+     QRegExp rx( "</MSG_([A-Za-z0-9]+)>");
+     while ( (index = rx.indexIn( m_dataBuffer )) != -1 ) {
+          int len = index + rx.matchedLength();
+          QString message = m_dataBuffer.left(len);
+          m_dataBuffer.remove(0, len);
+          m_inputForParser.setData(message);
+          this->parse(&m_inputForParser, false);
      }
      if (!cont) {
          m_dataBuffer = "";
