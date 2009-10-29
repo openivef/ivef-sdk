@@ -330,11 +330,6 @@ North = positive; South = negative) Examples:
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
-						<xs:attribute name="UpdateTime" type="xs:dateTime" use="required">
-							<xs:annotation>
-								<xs:documentation>Date and time in UTC format (YYYY-MM-DDThh:mm:ss.sssZ) (subset of ISO 8601)  this position was measured.</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -351,6 +346,21 @@ North = positive; South = negative) Examples:
 			<xs:attribute name="UpdateTime" type="xs:dateTime" use="required">
 				<xs:annotation>
 					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ)  this position was measured.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="UpdateTimeRadar" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ)  this position was updated by Radar</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="UpdateTimeAIS" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ)  this position was updated by AIS</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="UpdateTimeDR" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ)  this position was updated by dead reckoning</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="SOG" use="required">
