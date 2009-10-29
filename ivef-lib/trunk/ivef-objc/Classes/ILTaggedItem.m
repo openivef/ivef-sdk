@@ -1,8 +1,8 @@
 
-#import "ILSchema.h"
+#import "ILTaggedItem.h"
 
 
-@implementation ILSchema
+@implementation ILTaggedItem
 
 - (id) init {
     self = [super init];
@@ -13,6 +13,8 @@
 
 - (void) dealloc {
 
+    [m_key release];
+    [m_value release];
     [super dealloc];
 }
 
@@ -65,25 +67,55 @@
      return nil; // invalid date
 }
 
--(NSString *) elementFormDefault {
+-(void) setKey:(NSString *) val {
 
-    return @"qualified";
+    [m_key release];
+    m_key = val;
+    [m_key retain];
 }
 
--(NSString *) targetNamespace {
+- (NSString *) key {
 
-    return @"urn:http://www.ivef.org/XMLSchema/IVEF/0.1.3";
+    return m_key;
+}
+
+-(void) setValue:(NSString *) val {
+
+    [m_value release];
+    m_value = val;
+    [m_value retain];
+}
+
+- (NSString *) value {
+
+    return m_value;
 }
 
 -(void) setAttributes:(NSDictionary *)attributeDict {
 
+        for (NSString *key in attributeDict) {
+            if ([key isEqualToString: @"Key"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                [self setKey: val];
+            }
+            else if ([key isEqualToString:@"Value"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                [self setValue: val];
+            }
+        }
 }
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSMutableString stringWithString:@"<Schema"];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<TaggedItem"];
+    [xml appendString: @" Key=\""];
+    [xml appendString: [self encode: m_key]];
+    [xml appendString: @"\""];
+    [xml appendString: @" Value=\""];
+    [xml appendString: [self encode: m_value]];
+    [xml appendString: @"\""];
     [xml appendString:@">\n"];
-    [xml appendString: @"</Schema>\n"];
+    [xml appendString: @"</TaggedItem>\n"];
     return xml;
 }
 
@@ -107,13 +139,25 @@
 -(NSString *) stringValueWithLead: (NSString *) lead {
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
-    [str setString: [lead stringByAppendingString:@"Schema\n"]];
+    [str setString: [lead stringByAppendingString:@"TaggedItem\n"]];
+    [str appendString: [lead stringByAppendingString: @" "]];
+    [str appendString: @"Key=\""];
+    [str appendString: m_key];
+    [str appendString: @"\"\n"];
+
+    [str appendString: [lead stringByAppendingString: @" "]];
+    [str appendString: @"Value=\""];
+    [str appendString: m_value];
+    [str appendString: @"\"\n"];
+
     return str;
 }
 
 -(NSDictionary *) attributes {
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
+    [attr setObject: m_key forKey: @"Key"];
+    [attr setObject: m_value forKey: @"Value"];
 
     return attr;
 }

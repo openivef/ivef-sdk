@@ -9,6 +9,7 @@
     if (self != nil) {
         m_staticDatas = [[NSMutableArray alloc] init];
         m_voyages = [[NSMutableArray alloc] init];
+        m_taggedItems = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -18,6 +19,7 @@
     [m_posReport release];
     [m_staticDatas release];
     [m_voyages release];
+    [m_taggedItems release];
     [super dealloc];
 }
 
@@ -122,14 +124,24 @@
     return m_voyages;
 }
 
--(void) setIdent:(int) val {
+-(void) addTaggedItem:(ILTaggedItem *) val {
 
-    m_id = val;
+    [m_taggedItems addObject: val];
 }
 
-- (int) ident {
+-(ILTaggedItem *) taggedItemAt:(int) i {
 
-    return m_id;
+    return [m_taggedItems objectAtIndex: i];
+}
+
+-(int) countOfTaggedItems {
+
+    return [m_taggedItems count];
+}
+
+-(NSArray *) taggedItems {
+
+    return m_taggedItems;
 }
 
 -(void) setAttributes:(NSDictionary *)attributeDict {
@@ -147,10 +159,9 @@
                 ILVoyage * val = [attributeDict objectForKey: key];
                 [self addVoyage: val];
             }
-            else if ([key isEqualToString:@"Id"]) {
-                NSString *value = [attributeDict objectForKey: key];
-                int val = [value intValue];
-                [self setIdent: val];
+            else if ([key isEqualToString:@"TaggedItem"]) {
+                ILTaggedItem * val = [attributeDict objectForKey: key];
+                [self addTaggedItem: val];
             }
         }
 }
@@ -158,9 +169,6 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
-    [xml appendString: @" Id=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: [m_posReport XML] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
@@ -169,6 +177,10 @@
     }
     for(int i=0; i < [m_voyages count]; i++ ) {
         ILVoyage *attribute = [m_voyages objectAtIndex:i];
+        [xml appendString: [attribute XML] ];
+    }
+    for(int i=0; i < [m_taggedItems count]; i++ ) {
+        ILTaggedItem *attribute = [m_taggedItems objectAtIndex:i];
         [xml appendString: [attribute XML] ];
     }
     [xml appendString: @"</VesselData>\n"];
@@ -196,11 +208,6 @@
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"VesselData\n"]];
-    [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
-    [str appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [str appendString: @"\"\n"];
-
     [str appendString: [m_posReport stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
     for(int i=0; i < [m_staticDatas count]; i++ ) {
         ILStaticData *attribute = [m_staticDatas objectAtIndex:i];
@@ -210,13 +217,16 @@
         ILVoyage *attribute = [m_voyages objectAtIndex:i];
         [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @" "]] ];
     }
+    for(int i=0; i < [m_taggedItems count]; i++ ) {
+        ILTaggedItem *attribute = [m_taggedItems objectAtIndex:i];
+        [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @" "]] ];
+    }
     return str;
 }
 
 -(NSDictionary *) attributes {
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
-    [attr setObject: [NSString stringWithFormat:@"%d", m_id] forKey: @"Id"];
 
     return attr;
 }

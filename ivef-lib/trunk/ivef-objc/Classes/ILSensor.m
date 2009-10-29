@@ -13,7 +13,6 @@
 
 - (void) dealloc {
 
-    [m_updateTime release];
     [super dealloc];
 }
 
@@ -94,18 +93,6 @@
     return m_trkId;
 }
 
--(void) setUpdateTime:(NSDate *) val {
-
-    [m_updateTime release];
-    m_updateTime = val;
-    [m_updateTime retain];
-}
-
-- (NSDate *) updateTime {
-
-    return m_updateTime;
-}
-
 -(void) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
@@ -119,11 +106,6 @@
                 float val = [value floatValue];
                 [self setTrkId: val];
             }
-            else if ([key isEqualToString:@"UpdateTime"]) {
-                NSString *value = [attributeDict objectForKey: key];
-                NSDate *val = [self dateFromString: value];
-                [self setUpdateTime: val];
-            }
         }
 }
 
@@ -135,9 +117,6 @@
     [xml appendString: @"\""];
     [xml appendString: @" TrkId=\""];
     [xml appendString: [NSString stringWithFormat:@"%f", m_trkId]];
-    [xml appendString: @"\""];
-    [xml appendString: @" UpdateTime=\""];
-    [xml appendString: [self stringFromDate: m_updateTime]];
     [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: @"</Sensor>\n"];
@@ -175,11 +154,6 @@
     [str appendString: [NSString stringWithFormat:@"%f", m_trkId]];
     [str appendString: @"\"\n"];
 
-    [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"UpdateTime=\""];
-    [str appendString: [self stringFromDate: m_updateTime]];
-    [str appendString: @"\"\n"];
-
     return str;
 }
 
@@ -188,7 +162,6 @@
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
     [attr setObject: [NSString stringWithFormat:@"%f", m_senId] forKey: @"SenId"];
     [attr setObject: [NSString stringWithFormat:@"%f", m_trkId] forKey: @"TrkId"];
-    [attr setObject: [self stringFromDate: m_updateTime] forKey: @"UpdateTime"];
 
     return attr;
 }

@@ -8,6 +8,9 @@
     self = [super init];
     if (self != nil) {
         m_sensors = [[NSMutableArray alloc] init];
+        m_updateTimeRadarPresent = false;
+        m_updateTimeAISPresent = false;
+        m_updateTimeDRPresent = false;
         m_rateOfTurnPresent = false;
         m_orientationPresent = false;
         m_lengthPresent = false;
@@ -25,6 +28,9 @@
     [m_pos release];
     [m_sensors release];
     [m_updateTime release];
+    [m_updateTimeRadar release];
+    [m_updateTimeAIS release];
+    [m_updateTimeDR release];
     [m_lost release];
     [super dealloc];
 }
@@ -140,6 +146,60 @@
 - (NSDate *) updateTime {
 
     return m_updateTime;
+}
+
+-(void) setUpdateTimeRadar:(NSDate *) val {
+
+    m_updateTimeRadarPresent = true;
+    [m_updateTimeRadar release];
+    m_updateTimeRadar = val;
+    [m_updateTimeRadar retain];
+}
+
+- (NSDate *) updateTimeRadar {
+
+    return m_updateTimeRadar;
+}
+
+-(bool) hasUpdateTimeRadar {
+
+    return m_updateTimeRadarPresent;
+}
+
+-(void) setUpdateTimeAIS:(NSDate *) val {
+
+    m_updateTimeAISPresent = true;
+    [m_updateTimeAIS release];
+    m_updateTimeAIS = val;
+    [m_updateTimeAIS retain];
+}
+
+- (NSDate *) updateTimeAIS {
+
+    return m_updateTimeAIS;
+}
+
+-(bool) hasUpdateTimeAIS {
+
+    return m_updateTimeAISPresent;
+}
+
+-(void) setUpdateTimeDR:(NSDate *) val {
+
+    m_updateTimeDRPresent = true;
+    [m_updateTimeDR release];
+    m_updateTimeDR = val;
+    [m_updateTimeDR retain];
+}
+
+- (NSDate *) updateTimeDR {
+
+    return m_updateTimeDR;
+}
+
+-(bool) hasUpdateTimeDR {
+
+    return m_updateTimeDRPresent;
 }
 
 -(void) setSOG:(float) val {
@@ -362,6 +422,21 @@
                 NSDate *val = [self dateFromString: value];
                 [self setUpdateTime: val];
             }
+            else if ([key isEqualToString:@"UpdateTimeRadar"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [self dateFromString: value];
+                [self setUpdateTimeRadar: val];
+            }
+            else if ([key isEqualToString:@"UpdateTimeAIS"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [self dateFromString: value];
+                [self setUpdateTimeAIS: val];
+            }
+            else if ([key isEqualToString:@"UpdateTimeDR"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [self dateFromString: value];
+                [self setUpdateTimeDR: val];
+            }
             else if ([key isEqualToString:@"SOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
@@ -431,6 +506,21 @@
     [xml appendString: @" UpdateTime=\""];
     [xml appendString: [self stringFromDate: m_updateTime]];
     [xml appendString: @"\""];
+    if ( [self hasUpdateTimeRadar] ) {
+        [xml appendString: @" UpdateTimeRadar=\""];
+        [xml appendString: [self stringFromDate: m_updateTimeRadar]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasUpdateTimeAIS] ) {
+        [xml appendString: @" UpdateTimeAIS=\""];
+        [xml appendString: [self stringFromDate: m_updateTimeAIS]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasUpdateTimeDR] ) {
+        [xml appendString: @" UpdateTimeDR=\""];
+        [xml appendString: [self stringFromDate: m_updateTimeDR]];
+        [xml appendString: @"\""];
+    }
     [xml appendString: @" SOG=\""];
     [xml appendString: [NSString stringWithFormat:@"%f", m_SOG]];
     [xml appendString: @"\""];
@@ -526,6 +616,27 @@
     [str appendString: [self stringFromDate: m_updateTime]];
     [str appendString: @"\"\n"];
 
+    if ( [self hasUpdateTimeRadar] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"UpdateTimeRadar = \""];
+        [str appendString: [self stringFromDate: m_updateTimeRadar]];
+        [str appendString: @"\"\n"];
+
+    }
+    if ( [self hasUpdateTimeAIS] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"UpdateTimeAIS = \""];
+        [str appendString: [self stringFromDate: m_updateTimeAIS]];
+        [str appendString: @"\"\n"];
+
+    }
+    if ( [self hasUpdateTimeDR] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"UpdateTimeDR = \""];
+        [str appendString: [self stringFromDate: m_updateTimeDR]];
+        [str appendString: @"\"\n"];
+
+    }
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"SOG=\""];
     [str appendString: [NSString stringWithFormat:@"%f", m_SOG]];
@@ -611,6 +722,15 @@
     [attr setObject: [NSString stringWithFormat:@"%d", m_id] forKey: @"Id"];
     [attr setObject: [NSString stringWithFormat:@"%d", m_sourceId] forKey: @"SourceId"];
     [attr setObject: [self stringFromDate: m_updateTime] forKey: @"UpdateTime"];
+    if ( [self hasUpdateTimeRadar] ) {
+        [attr setObject: [self stringFromDate: m_updateTimeRadar] forKey: @"UpdateTimeRadar"];
+    }
+    if ( [self hasUpdateTimeAIS] ) {
+        [attr setObject: [self stringFromDate: m_updateTimeAIS] forKey: @"UpdateTimeAIS"];
+    }
+    if ( [self hasUpdateTimeDR] ) {
+        [attr setObject: [self stringFromDate: m_updateTimeDR] forKey: @"UpdateTimeDR"];
+    }
     [attr setObject: [NSString stringWithFormat:@"%f", m_SOG] forKey: @"SOG"];
     [attr setObject: [NSString stringWithFormat:@"%f", m_COG] forKey: @"COG"];
     [attr setObject: m_lost forKey: @"Lost"];

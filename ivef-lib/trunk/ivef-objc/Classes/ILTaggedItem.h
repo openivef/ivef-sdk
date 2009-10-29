@@ -1,7 +1,7 @@
 /* 
- *  ILSchema
+ *  ILTaggedItem
  *
- *  ILSchema is free software: you can redistribute it and/or modify
+ *  ILTaggedItem is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -21,11 +21,21 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ILSchema : NSObject { 
+@interface ILTaggedItem : NSObject { 
+    NSString *m_key;
+    NSString *m_value;
 }
 
--(NSString*) elementFormDefault;
--(NSString*) targetNamespace;
+
+/* Key:
+   Key for the tagged item */
+-(void) setKey:(NSString *) val;
+-(NSString *) key;
+
+/* Value:
+   Value of the tagged item */
+-(void) setValue:(NSString *) val;
+-(NSString *) value;
 
 -(void) setAttributes:(NSDictionary *)attributeDict;
 -(NSDictionary *) attributes;

@@ -145,6 +145,12 @@
         [m_objStack addObject: obj ];
         [obj release];
     }
+    else if ([elementName isEqualToString: @"TaggedItem"]) {
+        ILTaggedItem *obj = [[ILTaggedItem alloc] init];
+        [obj setAttributes: attributeDict];
+        [m_objStack addObject: obj ];
+        [obj release];
+    }
     else if ([elementName isEqualToString: @"ServiceRequest"]) {
         ILServiceRequest *obj = [[ILServiceRequest alloc] init];
         [obj setAttributes: attributeDict];
@@ -420,6 +426,16 @@
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
                 [((ILBody*) [m_objStack lastObject] ) setServerStatus: obj ];
+        }
+        [obj release]; 
+    }
+    else if ([elementName isEqualToString: @"TaggedItem"]) {
+
+        ILTaggedItem *obj = (ILTaggedItem*) [m_objStack lastObject];
+        [obj retain];
+        [m_objStack removeLastObject];
+        if ( [[m_objStack lastObject] isKindOfClass: [ILVesselData class]]) {
+                [((ILVesselData*) [m_objStack lastObject] ) addTaggedItem: obj ];
         }
         [obj release]; 
     }
