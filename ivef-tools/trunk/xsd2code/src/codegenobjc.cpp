@@ -788,6 +788,7 @@ void CodeGenObjC::go() {
     headerFileOut << "       namespaceURI:(NSString *)namespaceURI\n";
     headerFileOut << "      qualifiedName:(NSString *)qualifiedName;\n";
     headerFileOut << "- (bool) parseXMLString:(NSString *)data andBuffer: (bool) cont;\n";
+    headerFileOut << "- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;\n";
 
     // define the signales
     headerFileOut << "\n// published notifications:\n";
@@ -918,6 +919,12 @@ void CodeGenObjC::go() {
         classFileOut << "        [obj release]; \n";
         classFileOut << "    }\n"; // close if
     }
+    classFileOut << "}\n\n"; // close method
+
+    // error handling
+    classFileOut << "- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {\n";
+    classFileOut << "    NSLog(@\"ILParser.parseErrorOccured: %@\", parseError);\n";
+    classFileOut <<"    [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILParserError\" object: self userInfo:parseError]];\n";
     classFileOut << "}\n\n"; // close method
 
     // the parseXMLString routine
