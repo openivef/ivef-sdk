@@ -278,7 +278,7 @@ void IVEFStreamHandler::slotReadyRead() {
 
     if ( !m_slipstream ) {
         m_parser->parseXMLString(m_buffer, true);
-        data = m_buffer;
+        data = QString::fromUtf8(m_buffer);
     }
 
     // clear the buffer
@@ -288,7 +288,7 @@ void IVEFStreamHandler::slotReadyRead() {
         // remove xml header from message(s) the file needs it only once
         data.replace("<?xml version = \"1.0\" encoding=\"UTF-8\"?>\n", "");
         data.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", "");
-        *m_log << QString(data).toLatin1().data();
+        *m_log << data;
         m_log->flush();
     }
 }
