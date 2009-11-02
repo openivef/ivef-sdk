@@ -15,6 +15,7 @@ IVEF is developed by a collaborative effort of:
    * [http://www.rijkswaterstaat.nl/ Rijkswaterstaat]
    * [http://www.sofrelog.com/   Sofrelog]
    * [http://www.lmco.com/       Lockhead Martin]
+   * [http://www.navielektro.fi/ NaviElektro
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
