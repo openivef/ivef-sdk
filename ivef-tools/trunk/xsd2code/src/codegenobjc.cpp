@@ -775,7 +775,7 @@ void CodeGenObjC::go() {
     // vars section
     headerFileOut << "    NSMutableString *m_dataBuffer;\n";
     headerFileOut << "    NSMutableArray *m_objStack;\n";
-    headerFileOut << "    NSMutableArray *m_m_closeTags;\n";
+    headerFileOut << "    NSMutableArray *m_closeTags;\n";
     headerFileOut << "}\n\n";
 
     // methods section
@@ -939,7 +939,7 @@ void CodeGenObjC::go() {
     // error handling
     classFileOut << "- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {\n";
     classFileOut << "    NSLog(@\"ILParser.parseErrorOccured: %@\", parseError);\n";
-    classFileOut <<"    [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILParserError\" object: self userInfo:parseError]];\n";
+    classFileOut <<"    [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILParserError\" object: self userInfo:parseError];\n";
     classFileOut << "}\n\n"; // close method
 
     // the parseXMLString routine
