@@ -1,0 +1,26 @@
+==IVEF 0.1.3 Released==
+03 November 2009 - The new IVEF release is now available to the open source community. IVEF is a cross-platform message exchange framework for VTS data exchange. IVEF is available for customer use, evaluation and open source download.
+
+IVEF includes full interface capabilities in C++, JAVA and OBJECTIVE-C and has thoroughly  been tested on Linux (OpenSuSE 11, 64 bit), Apple Mac OS X 10.5 and MS Windows XP SP2 
+
+For detailed information on fixes and optimizations included in this releases, please consult the [http://code.google.com/p/ivef-sdk/source/list change] log, or browse the source code contained in the [http://code.google.com/p/ivef-sdk/source/browse SVN] repository
+
+===Open Source Downloads===
+Open Source Edition of IVEF is available.  The Open Source Editions are released under the GPL for open source development. 
+
+===Additions===
+  * Backwards compatible support for Sensor information
+  * Backwards compatible support for People On Board and Height over Keel
+  * Backwards compatible support for Tagged Items
+
+===Fixes===
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=39 Issue-39] SDK won't build on OS X (Obj-C)
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=40 Issue-40] Parser cannot handle multpile root elements
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=41 Issue-41] iListen is not printing unicode strings correctly
+  
+===Recommendations===
+All users should upgrade immediately since Issue-40 could cause loss of data
+ 
+
+----
+[http://code.google.com/p/ivef-sdk/ Home]
