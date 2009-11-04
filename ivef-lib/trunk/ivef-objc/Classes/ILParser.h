@@ -53,7 +53,7 @@
 @interface ILParser : NSObject { 
     NSMutableString *m_dataBuffer;
     NSMutableArray *m_objStack;
-    NSMutableArray *m_m_closeTags;
+    NSMutableArray *m_closeTags;
 }
 
 - (void)     parser:(NSXMLParser *)parser 

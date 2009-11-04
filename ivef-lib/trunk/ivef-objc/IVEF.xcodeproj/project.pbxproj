@@ -65,6 +65,8 @@
 		52A9DF98104CFFB900440164 /* ILBody.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A9DF5E104CFFB900440164 /* ILBody.h */; };
 		52A9DF99104CFFB900440164 /* ILHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A9DF5F104CFFB900440164 /* ILHeader.h */; };
 		52A9DF9A104CFFB900440164 /* ILArea.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A9DF60104CFFB900440164 /* ILArea.h */; };
+		52C64C1E10A1E62F0085A2A5 /* ILTaggedItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 52C64C1C10A1E62F0085A2A5 /* ILTaggedItem.h */; };
+		52C64C1F10A1E62F0085A2A5 /* ILTaggedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C64C1D10A1E62F0085A2A5 /* ILTaggedItem.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -133,6 +135,8 @@
 		52A9DF5E104CFFB900440164 /* ILBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILBody.h; path = Classes/ILBody.h; sourceTree = "<group>"; };
 		52A9DF5F104CFFB900440164 /* ILHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILHeader.h; path = Classes/ILHeader.h; sourceTree = "<group>"; };
 		52A9DF60104CFFB900440164 /* ILArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILArea.h; path = Classes/ILArea.h; sourceTree = "<group>"; };
+		52C64C1C10A1E62F0085A2A5 /* ILTaggedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILTaggedItem.h; path = Classes/ILTaggedItem.h; sourceTree = "<group>"; };
+		52C64C1D10A1E62F0085A2A5 /* ILTaggedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILTaggedItem.m; path = Classes/ILTaggedItem.m; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* IVEF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IVEF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -191,6 +195,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				52C64C1C10A1E62F0085A2A5 /* ILTaggedItem.h */,
+				52C64C1D10A1E62F0085A2A5 /* ILTaggedItem.m */,
 				52A9DF27104CFFB900440164 /* ILVoyage.m */,
 				52A9DF28104CFFB900440164 /* ILVoyage.h */,
 				52A9DF29104CFFB900440164 /* ILVesselData.m */,
@@ -315,6 +321,7 @@
 				52A9DF98104CFFB900440164 /* ILBody.h in Headers */,
 				52A9DF99104CFFB900440164 /* ILHeader.h in Headers */,
 				52A9DF9A104CFFB900440164 /* ILArea.h in Headers */,
+				52C64C1E10A1E62F0085A2A5 /* ILTaggedItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +410,7 @@
 				52A9DF94104CFFB900440164 /* ILBody.m in Sources */,
 				52A9DF95104CFFB900440164 /* ILObject.m in Sources */,
 				52A9DF97104CFFB900440164 /* ILHeader.m in Sources */,
+				52C64C1F10A1E62F0085A2A5 /* ILTaggedItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
