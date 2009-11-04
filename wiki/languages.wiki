@@ -6,8 +6,7 @@ Supported languages:
   * Java
 
 Under development
-  * Pure C++
-  * C#
+  * C# (for now Microsofts Generator is an excellent substitute)
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home] [Contents]
