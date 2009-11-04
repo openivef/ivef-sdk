@@ -21,6 +21,8 @@ Open Source Edition of IVEF is available.  The Open Source Editions are released
 ===Recommendations===
 All users should upgrade immediately since Issue-40 could cause loss of data
  
+===Contents===
+See the [http://code.google.com/p/ivef-sdk/wiki/Status status] page to see the versions of the individual components
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
