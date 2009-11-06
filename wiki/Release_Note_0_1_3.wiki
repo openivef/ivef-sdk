@@ -1,4 +1,4 @@
-==IVEF 0.1.3 Released==
+==IVEF SDK 0.1.3 Released==
 03 November 2009 - The new IVEF release is now available to the open source community. IVEF is a cross-platform message exchange framework for VTS data exchange. IVEF is available for customer use, evaluation and open source download.
 
 IVEF includes full interface capabilities in C++, JAVA and OBJECTIVE-C and has thoroughly  been tested on Linux (OpenSuSE 11, 64 bit), Apple Mac OS X 10.5 and MS Windows XP SP2 
@@ -7,6 +7,9 @@ For detailed information on fixes and optimizations included in this releases, p
 
 ===Open Source Downloads===
 Open Source Edition of IVEF is available.  The Open Source Editions are released under the GPL for open source development. 
+
+===IVEF Definition===
+This IVEF SDK supports the IVEF 0.1.x definition. This definition represents the initial IVEF definition which was the starting point for the international working group. 
 
 ===Additions===
   * Backwards compatible support for Sensor information
