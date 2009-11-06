@@ -12,9 +12,10 @@ Open Source Edition of IVEF is available.  The Open Source Editions are released
 This IVEF SDK supports the IVEF 0.1.x definition. This definition represents the initial IVEF definition which was the starting point for the international working group. 
 
 ===Additions===
-  * Backwards compatible support for Sensor information
-  * Backwards compatible support for People On Board and Height over Keel
-  * Backwards compatible support for Tagged Items
+  * Backwards compatible support for Sensor information (backport 0.2)
+  * Backwards compatible support for People On Board and Height over Keel (backport 0.2)
+  * Backwards compatible support for Tagged Items (backport 0.2)
+  * Documentation based on the 0.1 definition (starting point for the 0.2 definition)
 
 ===Fixes===
   * [http://code.google.com/p/ivef-sdk/issues/detail?id=39 Issue-39] SDK won't build on OS X (Obj-C)
