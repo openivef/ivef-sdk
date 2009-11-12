@@ -630,21 +630,18 @@ expressed in degrees</xs:documentation>
 6 = aground
 7 = engaged in fishing
 8 = under way sailing
+9 = engaged in fishing other than trawling  
+10 = air-cushion vessel in non displacement mode or WIG craft taking off, landing or in flight
+11 = power driven vessel towing astern
+12 = power driven vessel pushing ahead or towing alongside
+13 = in distress or requiring assistance  
+14 = AIS SART, seeking to attract attention
 15 = undefined default</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
-						<xs:enumeration value="0"/>
-						<xs:enumeration value="1"/>
-						<xs:enumeration value="2"/>
-						<xs:enumeration value="3"/>
-						<xs:enumeration value="4"/>
-						<xs:enumeration value="5"/>
-						<xs:enumeration value="6"/>
-						<xs:enumeration value="7"/>
-						<xs:enumeration value="8"/>
-						<xs:enumeration value="9"/>
-						<xs:enumeration value="15"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="15"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
