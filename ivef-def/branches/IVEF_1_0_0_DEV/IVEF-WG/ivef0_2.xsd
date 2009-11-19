@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.1" targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.1" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2"
+	targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2"
+	elementFormDefault="qualified">
 	<xs:element name="MSG_IVEF">
 		<xs:annotation>
 			<xs:documentation>Root MESSAGE</xs:documentation>
@@ -158,7 +160,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.2.1">
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.2.2">
 				<xs:annotation>
 					<xs:documentation>Defines the version of the protocol used. Syntax is major.minor.patch patch releases fix only bugs, minor releases may add functionality but are compatible, major releases are not compatible</xs:documentation>
 				</xs:annotation>
@@ -258,20 +260,6 @@
 				<xs:element ref="VoyageData" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="TaggedItem" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
-			<xs:attribute name="Id" use="required">
-				<xs:annotation>
-					<xs:documentation>Must be an Universally Unique Identifier for each object(TU-T Rec. X.667 | ISO/IEC 9834-8.). In its canonical form, a UUID consists of 32 hexadecimal digits, displayed in 5 groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters, enclosed by brackets. For example:
-{550e8400-e29b-41d4-a716-446655440000}
-
-line up with UMDM object identification</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="36"/>
-						<xs:maxLength value="42"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Ping">
@@ -483,9 +471,9 @@ A Filter must start with //ObjectData (Filter always on entire objects) and can 
 Examples:
 
 All objects: //ObjectData
-All objects faster then 10 m/s: //ObjectData[TrackData[@SOG > 10]]
+All objects faster then 10 m/s: //ObjectData[TrackData[@SOG &gt; 10]]
 All objects named "Krieken": //ObjectData[VesselData/Identifier[@Name = "Krieken"]]
-All objects heading for Antwerp, HANSADOK 497 with a max keelheigth of 20m: //ObjectData[VoyageData[@DestCode = BEANR0170100497]]  AND //ObjectData[VesselData/Construction[@MaxKeelHeigth > 20]]
+All objects heading for Antwerp, HANSADOK 497 with a max keelheigth of 20m: //ObjectData[VoyageData[@DestCode = BEANR0170100497]]  AND //ObjectData[VesselData/Construction[@MaxKeelHeigth &gt; 20]]
 </xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
@@ -558,14 +546,8 @@ All objects heading for Antwerp, HANSADOK 497 with a max keelheigth of 20m: //Ob
 			</xs:attribute>
 			<xs:attribute name="Value" use="required">
 				<xs:annotation>
-					<xs:documentation>Value of the tagged item</xs:documentation>
+					<xs:documentation>Value of the tagged item, can be of any type</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="1"/>
-						<xs:maxLength value="42"/>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
@@ -679,10 +661,16 @@ expressed in degrees</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="SourceId" type="xs:integer" use="required">
+			<xs:attribute name="SourceId" use="optional">
 				<xs:annotation>
-					<xs:documentation>The unique identification of the node who initially created this message</xs:documentation>
+					<xs:documentation>Unique identification of the producer  (UN/LOCODE)  in case multiple producers exist on the same LOCODE, the local competent authority can optionally addended this with a local  code (e.g. BE ANR 01 = Antwerp, 01)</xs:documentation>
 				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="SourceName" use="required">
 				<xs:annotation>
@@ -945,6 +933,11 @@ Check latest version			</xs:documentation>
 					<xs:documentation>Vessel is blacklisted by a NCA</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="Id" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identification of this vesseldata. Valid from first message with TrackStatus!=Terminated to first message with TrackStatus=Terminated</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 			<xs:attribute name="SpecialAttention" use="optional">
 				<xs:annotation>
 					<xs:documentation>Vessel is under special attention of the NCA or fairway authorities</xs:documentation>
@@ -955,20 +948,16 @@ Check latest version			</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="Id" use="required">
+			<xs:attribute name="SourceId" use="optional">
 				<xs:annotation>
-					<xs:documentation>The unique identification of this vesseldata</xs:documentation>
+					<xs:documentation>Unique identification of the producer  (UN/LOCODE)  in case multiple producers exist on the same LOCODE, the local competent authority can optionally addended this with a local  code (e.g. BE ANR 01 = Antwerp, 01)</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
-						<xs:maxLength value="20"/>
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
 					</xs:restriction>
 				</xs:simpleType>
-			</xs:attribute>
-			<xs:attribute name="SourceId" type="xs:integer" use="required">
-				<xs:annotation>
-					<xs:documentation>The unique identification of the node who initially created this message</xs:documentation>
-				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="SourceName" use="required">
 				<xs:annotation>
@@ -1065,15 +1054,10 @@ Check latest version			</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="Id" use="required">
+			<xs:attribute name="Id" type="xs:integer" use="required">
 				<xs:annotation>
-					<xs:documentation>The identification of this voyage</xs:documentation>
+					<xs:documentation>The unique identification of this voyagedata. Valid from first message with TrackStatus!=Terminated to first message with TrackStatus=Terminated</xs:documentation>
 				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:maxLength value="20"/>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="CargoTypeIMO" use="optional">
 				<xs:annotation>
@@ -1229,10 +1213,16 @@ Check latest version			</xs:documentation>
 					<xs:documentation>This object is bound to the route of this voyage</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="SourceId" type="xs:integer" use="required">
+			<xs:attribute name="SourceId" use="optional">
 				<xs:annotation>
-					<xs:documentation>The unique identification of the node who initially created this message</xs:documentation>
+					<xs:documentation>Unique identification of the producer  (UN/LOCODE)  in case multiple producers exist on the same LOCODE, the local competent authority can optionally addended this with a local  code (e.g. BE ANR 01 = Antwerp, 01)</xs:documentation>
 				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="SourceName" use="required">
 				<xs:annotation>
