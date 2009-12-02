@@ -3,7 +3,7 @@ An international group of industrial partners as agreed to work on further speci
 
 As of 01/03/2009 the IVEF-SDK will follow the definition as defined by this [http://groups.google.com/group/ivef-ccb group]. The SDK will use a separate [http://groups.google.com/group/ivef-sdk ccb] (but could hold the same people)
 
-= Members =
+== Members ==
 IVEF is developed by a collaborative effort of:
 
    * [http://www.hitttraffic.nl/ HITT Traffic]
@@ -16,6 +16,14 @@ IVEF is developed by a collaborative effort of:
    * [http://www.sofrelog.com/   Sofrelog]
    * [http://www.lmco.com/       Lockhead Martin]
    * [http://www.navielektro.fi/ NaviElektro]
+
+== Meetings ==
+===IVEF WG02===
+2009-07-11 Rotterdam, updated [http://code.google.com/p/ivef-sdk/source/browse/ivef-def/branches/IVEF_1_0_0_DEV/IVEF-WG/ivef0_2.xsd?r=387 XSD to 0.2.1] drafted the contours for the recommendation
+===IVEF WG03===
+2009-11-19, Bremen, finalized [http://code.google.com/p/ivef-sdk/source/browse/ivef-def/branches/IVEF_1_0_0_DEV/IVEF-WG/ivef0_2.xsd?r=467 XSD to 0.2.2] finalized outline for [http://code.google.com/p/ivef-sdk/source/browse/ivef-def/branches/IVEF_1_0_0_DEV/IVEF-WG/81b_WorkingTowardsDraftIALARecOnInter-SystemDataExchangeFormat.doc?r=467 recommendation]
+
+http://ivef-sdk.googlecode.com/files/IVEFMeetingBremen1-small.jpg
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
