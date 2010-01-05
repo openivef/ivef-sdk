@@ -28,10 +28,16 @@
 									<xs:documentation>MESSAGE sent by the user to announce it will close it's connection</xs:documentation>
 								</xs:annotation>
 							</xs:element>
-							<xs:element ref="ObjectData">
-								<xs:annotation>
-									<xs:documentation>MESSAGE sent by the supplier containing data regarding objects in its domain</xs:documentation>
-								</xs:annotation>
+							<xs:element name="ObjectDatas">
+							        <xs:complexType>
+                                                                      	<xs:sequence>
+										<xs:element ref="ObjectData" minOccurs="1" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>MESSAGE sent by the supplier containing data regarding objects in its domain</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+                                                                	</xs:sequence>
+								</xs:complexType>
 							</xs:element>
 							<xs:element ref="Ping">
 								<xs:annotation>
