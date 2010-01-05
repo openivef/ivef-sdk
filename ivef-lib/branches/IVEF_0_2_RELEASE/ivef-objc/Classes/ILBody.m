@@ -10,7 +10,7 @@
         m_loginRequestPresent = false;
         m_loginResponsePresent = false;
         m_logoutPresent = false;
-        m_objectDataPresent = false;
+        m_objectDatasPresent = false;
         m_pingPresent = false;
         m_pongPresent = false;
         m_serverStatusPresent = false;
@@ -25,7 +25,7 @@
     [m_loginRequest release];
     [m_loginResponse release];
     [m_logout release];
-    [m_objectData release];
+    [m_objectDatas release];
     [m_ping release];
     [m_pong release];
     [m_serverStatus release];
@@ -137,22 +137,22 @@
     return m_logoutPresent;
 }
 
--(void) setObjectData:(ILObjectData *) val {
+-(void) setObjectDatas:(ILObjectDatas *) val {
 
-    m_objectDataPresent = true;
-    [m_objectData release];
-    m_objectData = val;
-    [m_objectData retain];
+    m_objectDatasPresent = true;
+    [m_objectDatas release];
+    m_objectDatas = val;
+    [m_objectDatas retain];
 }
 
-- (ILObjectData *) objectData {
+- (ILObjectDatas *) objectDatas {
 
-    return m_objectData;
+    return m_objectDatas;
 }
 
--(bool) hasObjectData {
+-(bool) hasObjectDatas {
 
-    return m_objectDataPresent;
+    return m_objectDatasPresent;
 }
 
 -(void) setPing:(ILPing *) val {
@@ -260,9 +260,9 @@
                 ILLogout * val = [attributeDict objectForKey: key];
                 [self setLogout: val];
             }
-            else if ([key isEqualToString:@"ObjectData"]) {
-                ILObjectData * val = [attributeDict objectForKey: key];
-                [self setObjectData: val];
+            else if ([key isEqualToString:@"ObjectDatas"]) {
+                ILObjectDatas * val = [attributeDict objectForKey: key];
+                [self setObjectDatas: val];
             }
             else if ([key isEqualToString:@"Ping"]) {
                 ILPing * val = [attributeDict objectForKey: key];
@@ -300,8 +300,8 @@
     if ( [self hasLogout] ) {
         [xml appendString: [m_logout XML] ];
     }
-    if ( [self hasObjectData] ) {
-        [xml appendString: [m_objectData XML] ];
+    if ( [self hasObjectDatas] ) {
+        [xml appendString: [m_objectDatas XML] ];
     }
     if ( [self hasPing] ) {
         [xml appendString: [m_ping XML] ];
@@ -352,8 +352,8 @@
     if ( [self hasLogout] ) {
         [str appendString: [m_logout stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
     }
-    if ( [self hasObjectData] ) {
-        [str appendString: [m_objectData stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    if ( [self hasObjectDatas] ) {
+        [str appendString: [m_objectDatas stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
     }
     if ( [self hasPing] ) {
         [str appendString: [m_ping stringValueWithLead: [lead stringByAppendingString: @"    "]] ];

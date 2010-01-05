@@ -23,6 +23,7 @@ macx {
 	IVEFLogout.h \
 	IVEFMSG_IVEF.h \
 	IVEFObjectData.h \
+	IVEFObjectDatas.h \
 	IVEFOtherId.h \
 	IVEFOtherName.h \
 	IVEFParser.h \
@@ -61,6 +62,7 @@ HEADERS += \
 	IVEFLogout.h \
 	IVEFMSG_IVEF.h \
 	IVEFObjectData.h \
+	IVEFObjectDatas.h \
 	IVEFOtherId.h \
 	IVEFOtherName.h \
 	IVEFParser.h \
@@ -92,6 +94,7 @@ SOURCES += \
 	IVEFLogout.cpp \
 	IVEFMSG_IVEF.cpp \
 	IVEFObjectData.cpp \
+	IVEFObjectDatas.cpp \
 	IVEFOtherId.cpp \
 	IVEFOtherName.cpp \
 	IVEFParser.cpp \

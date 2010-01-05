@@ -6,7 +6,7 @@ Body::Body() {
     m_loginRequestPresent = false;
     m_loginResponsePresent = false;
     m_logoutPresent = false;
-    m_objectDataPresent = false;
+    m_objectDatasPresent = false;
     m_pingPresent = false;
     m_pongPresent = false;
     m_serverStatusPresent = false;
@@ -22,8 +22,8 @@ Body::Body(const Body &val) : QObject() {
     m_loginResponse = val.m_loginResponse;
     m_logoutPresent = val.m_logoutPresent;
     m_logout = val.m_logout;
-    m_objectDataPresent = val.m_objectDataPresent;
-    m_objectData = val.m_objectData;
+    m_objectDatasPresent = val.m_objectDatasPresent;
+    m_objectDatas = val.m_objectDatas;
     m_pingPresent = val.m_pingPresent;
     m_ping = val.m_ping;
     m_pongPresent = val.m_pongPresent;
@@ -44,8 +44,8 @@ Body & Body::operator=(const Body &val) {
     m_loginResponse = val.m_loginResponse;
     m_logoutPresent = val.m_logoutPresent;
     m_logout = val.m_logout;
-    m_objectDataPresent = val.m_objectDataPresent;
-    m_objectData = val.m_objectData;
+    m_objectDatasPresent = val.m_objectDatasPresent;
+    m_objectDatas = val.m_objectDatas;
     m_pingPresent = val.m_pingPresent;
     m_ping = val.m_ping;
     m_pongPresent = val.m_pongPresent;
@@ -116,20 +116,20 @@ bool Body::hasLogout() {
     return m_logoutPresent;
 }
 
-void Body::setObjectData(ObjectData val) {
+void Body::setObjectDatas(ObjectDatas val) {
 
-    m_objectDataPresent = true;
-    m_objectData = val;
+    m_objectDatasPresent = true;
+    m_objectDatas = val;
 }
 
-ObjectData Body::getObjectData() const {
+ObjectDatas Body::getObjectDatas() const {
 
-    return m_objectData;
+    return m_objectDatas;
 }
 
-bool Body::hasObjectData() {
+bool Body::hasObjectDatas() {
 
-    return m_objectDataPresent;
+    return m_objectDatasPresent;
 }
 
 void Body::setPing(Ping val) {
@@ -225,8 +225,8 @@ QString Body::toXML() {
     if ( hasLogout() ) {
         xml.append( m_logout.toXML() );
     }
-    if ( hasObjectData() ) {
-        xml.append( m_objectData.toXML() );
+    if ( hasObjectDatas() ) {
+        xml.append( m_objectDatas.toXML() );
     }
     if ( hasPing() ) {
         xml.append( m_ping.toXML() );
@@ -259,8 +259,8 @@ QString Body::toString(QString lead) {
     if ( hasLogout() ) {
         str.append( m_logout.toString(lead + "    ") );
     }
-    if ( hasObjectData() ) {
-        str.append( m_objectData.toString(lead + "    ") );
+    if ( hasObjectDatas() ) {
+        str.append( m_objectDatas.toString(lead + "    ") );
     }
     if ( hasPing() ) {
         str.append( m_ping.toString(lead + "    ") );

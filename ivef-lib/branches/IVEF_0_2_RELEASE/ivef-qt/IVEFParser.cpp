@@ -23,6 +23,11 @@ bool Parser::startElement(const QString &,
         m_objStack.push( obj );
         m_typeStack.push( "Body" );
     }
+    else if (qName == "ObjectDatas") {
+        ObjectDatas *obj = new ObjectDatas;
+        m_objStack.push( obj );
+        m_typeStack.push( "ObjectDatas" );
+    }
     else if (qName == "Area") {
         Area *obj = new Area;
         for (int i=0; i < atts.length(); i++) {
@@ -744,6 +749,15 @@ bool Parser::endElement(const QString &,
         }
         delete( obj ); 
     }
+    else if (qName == "ObjectDatas") {
+
+        m_typeStack.pop();
+        ObjectDatas *obj = (ObjectDatas*) ( m_objStack.pop() );
+        if ( m_typeStack.top() == "Body") {
+                ((Body*) ( m_objStack.top() ) )->setObjectDatas( *obj );
+        }
+        delete( obj ); 
+    }
     else if (qName == "Area") {
 
         m_typeStack.pop();
@@ -811,8 +825,8 @@ bool Parser::endElement(const QString &,
 
         m_typeStack.pop();
         ObjectData *obj = (ObjectData*) ( m_objStack.pop() );
-        if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setObjectData( *obj );
+        if ( m_typeStack.top() == "ObjectDatas") {
+                ((ObjectDatas*) ( m_objStack.top() ) )->addObjectData( *obj );
         }
         delete( obj ); 
     }

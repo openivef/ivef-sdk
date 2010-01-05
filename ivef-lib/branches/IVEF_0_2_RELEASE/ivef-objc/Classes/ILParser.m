@@ -39,6 +39,12 @@
         [m_objStack addObject: obj ];
         [obj release];
     }
+    else if ([elementName isEqualToString: @"ObjectDatas"]) {
+        ILObjectDatas *obj = [[ILObjectDatas alloc] init];
+        [obj setAttributes: attributeDict];
+        [m_objStack addObject: obj ];
+        [obj release];
+    }
     else if ([elementName isEqualToString: @"Area"]) {
         ILArea *obj = [[ILArea alloc] init];
         [obj setAttributes: attributeDict];
@@ -214,6 +220,16 @@
         }
         [obj release]; 
     }
+    else if ([elementName isEqualToString: @"ObjectDatas"]) {
+
+        ILObjectDatas *obj = (ILObjectDatas*) [m_objStack lastObject];
+        [obj retain];
+        [m_objStack removeLastObject];
+        if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
+                [((ILBody*) [m_objStack lastObject] ) setObjectDatas: obj ];
+        }
+        [obj release]; 
+    }
     else if ([elementName isEqualToString: @"Area"]) {
 
         ILArea *obj = (ILArea*) [m_objStack lastObject];
@@ -289,8 +305,8 @@
         ILObjectData *obj = (ILObjectData*) [m_objStack lastObject];
         [obj retain];
         [m_objStack removeLastObject];
-        if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) setObjectData: obj ];
+        if ( [[m_objStack lastObject] isKindOfClass: [ILObjectDatas class]]) {
+                [((ILObjectDatas*) [m_objStack lastObject] ) addObjectData: obj ];
         }
         [obj release]; 
     }

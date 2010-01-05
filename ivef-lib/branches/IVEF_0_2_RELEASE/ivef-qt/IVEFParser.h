@@ -7,6 +7,7 @@
 
 #include "IVEFMSG_IVEF.h"
 #include "IVEFBody.h"
+#include "IVEFObjectDatas.h"
 #include "IVEFArea.h"
 #include "IVEFOtherId.h"
 #include "IVEFOtherName.h"
