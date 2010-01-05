@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'IVEF' target in the 'IVEF' project.
-//
-
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-#endif
