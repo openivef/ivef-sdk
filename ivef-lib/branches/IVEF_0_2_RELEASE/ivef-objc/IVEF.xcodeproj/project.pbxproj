@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		527246E110F3EFD200FD065D /* ILObjectDatas.h in Headers */ = {isa = PBXBuildFile; fileRef = 527246DF10F3EFD200FD065D /* ILObjectDatas.h */; };
+		527246E210F3EFD200FD065D /* ILObjectDatas.m in Sources */ = {isa = PBXBuildFile; fileRef = 527246E010F3EFD200FD065D /* ILObjectDatas.m */; };
 		52B1B22810F3E28100C555F3 /* ILArea.h in Headers */ = {isa = PBXBuildFile; fileRef = 52B1B1EE10F3E28100C555F3 /* ILArea.h */; };
 		52B1B22910F3E28100C555F3 /* ILBody.h in Headers */ = {isa = PBXBuildFile; fileRef = 52B1B1EF10F3E28100C555F3 /* ILBody.h */; };
 		52B1B22A10F3E28100C555F3 /* ILItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 52B1B1F010F3E28100C555F3 /* ILItem.h */; };
@@ -75,6 +77,8 @@
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* IVEF_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVEF_Prefix.pch; sourceTree = "<group>"; };
+		527246DF10F3EFD200FD065D /* ILObjectDatas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILObjectDatas.h; path = Classes/ILObjectDatas.h; sourceTree = "<group>"; };
+		527246E010F3EFD200FD065D /* ILObjectDatas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILObjectDatas.m; path = Classes/ILObjectDatas.m; sourceTree = "<group>"; };
 		52B1B1EE10F3E28100C555F3 /* ILArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILArea.h; path = Classes/ILArea.h; sourceTree = "<group>"; };
 		52B1B1EF10F3E28100C555F3 /* ILBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILBody.h; path = Classes/ILBody.h; sourceTree = "<group>"; };
 		52B1B1F010F3E28100C555F3 /* ILItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILItem.h; path = Classes/ILItem.h; sourceTree = "<group>"; };
@@ -209,6 +213,8 @@
 				52B1B1FD10F3E28100C555F3 /* ILTransmission.m */,
 				52B1B1FE10F3E28100C555F3 /* ILServiceRequestResponse.h */,
 				52B1B1FF10F3E28100C555F3 /* ILHeader.m */,
+				527246DF10F3EFD200FD065D /* ILObjectDatas.h */,
+				527246E010F3EFD200FD065D /* ILObjectDatas.m */,
 				52B1B20010F3E28100C555F3 /* ILFilter.m */,
 				52B1B20110F3E28100C555F3 /* ILPing.h */,
 				52B1B20210F3E28100C555F3 /* ILIdentifier.m */,
@@ -315,6 +321,7 @@
 				52B1B25C10F3E28100C555F3 /* ILLoginResponse.h in Headers */,
 				52B1B25E10F3E28100C555F3 /* ILLoginRequest.h in Headers */,
 				52B1B26110F3E28100C555F3 /* ILConstruction.h in Headers */,
+				527246E110F3EFD200FD065D /* ILObjectDatas.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +410,7 @@
 				52B1B25D10F3E28100C555F3 /* ILPos.m in Sources */,
 				52B1B25F10F3E28100C555F3 /* ILItem.m in Sources */,
 				52B1B26010F3E28100C555F3 /* ILConstruction.m in Sources */,
+				527246E210F3EFD200FD065D /* ILObjectDatas.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

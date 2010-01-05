@@ -51,7 +51,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					364,
+					577,
 					20,
 					48,
 					43,
@@ -90,12 +90,12 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 284418656;
-			PBXWorkspaceStateSaveDate = 284418656;
+			PBXPerProjectTemplateStateSaveDate = 284422074;
+			PBXWorkspaceStateSaveDate = 284422074;
 		};
 		perUserProjectItems = {
-			52B1B26410F3E33B00C555F3 /* PBXTextBookmark */ = 52B1B26410F3E33B00C555F3 /* PBXTextBookmark */;
-			52B1B26610F3E33B00C555F3 /* PBXTextBookmark */ = 52B1B26610F3E33B00C555F3 /* PBXTextBookmark */;
+			527246E710F3EFDD00FD065D /* PBXTextBookmark */ = 527246E710F3EFDD00FD065D /* PBXTextBookmark */;
+			527246E910F3EFE200FD065D /* PBXTextBookmark */ = 527246E910F3EFE200FD065D /* PBXTextBookmark */;
 		};
 		sourceControlManager = 52D1F83A0E56035B00F50B92 /* Source Control */;
 		userBuildSettings = {
@@ -108,30 +108,40 @@
 			sepNavVisRange = "{0, 45}";
 		};
 	};
-	52B1B20810F3E28100C555F3 /* ILParser.m */ = {
+	527246E510F3EFDA00FD065D /* ILParser.m */ = {
+		isa = PBXFileReference;
+		name = ILParser.m;
+		path = "/Users/aqua/Documents/Code/Active/ivef-sdk/ivef-lib/branches/IVEF_0_2_RELEASE/ivef-objc/Classes/ILParser.m";
+		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1092, 7462}}";
-			sepNavSelRange = "{7305, 56}";
-			sepNavVisRange = "{6637, 1082}";
+			sepNavIntBoundsRect = "{{0, 0}, {1002, 7658}}";
+			sepNavSelRange = "{18454, 115}";
+			sepNavVisRange = "{17929, 1212}";
 		};
 	};
-	52B1B26410F3E33B00C555F3 /* PBXTextBookmark */ = {
+	527246E710F3EFDD00FD065D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		comments = "warning: passing argument 3 of 'postNotificationName:object:userInfo:' from distinct Objective-C type";
-		fRef = 52B1B20810F3E28100C555F3 /* ILParser.m */;
+		fRef = 527246E510F3EFDA00FD065D /* ILParser.m */;
 		rLen = 1;
-		rLoc = 476;
+		rLoc = 492;
 		rType = 1;
 	};
-	52B1B26610F3E33B00C555F3 /* PBXTextBookmark */ = {
+	527246E910F3EFE200FD065D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 52B1B20810F3E28100C555F3 /* ILParser.m */;
-		name = "ILParser.m: 204";
-		rLen = 56;
-		rLoc = 7305;
+		name = "ILParser.m: 493";
+		rLen = 115;
+		rLoc = 18454;
 		rType = 0;
-		vrLen = 1082;
-		vrLoc = 6637;
+		vrLen = 1212;
+		vrLoc = 17929;
+	};
+	52B1B20810F3E28100C555F3 /* ILParser.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1002, 7658}}";
+			sepNavSelRange = "{18454, 115}";
+			sepNavVisRange = "{17929, 1212}";
+		};
 	};
 	52D1F83A0E56035B00F50B92 /* Source Control */ = {
 		isa = PBXSourceControlManager;
