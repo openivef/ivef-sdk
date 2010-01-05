@@ -111,19 +111,22 @@ void iListenApplication::printIVEF( MSG_IVEF obj ) {
 
     if ( ! m_options.getBoolean( "silent" ) ) {
 
-        if (obj.getBody().hasObjectData()) {
-           // special case, apply filter
-		ObjectData objData = obj.getBody().getObjectData();
+        if (obj.getBody().hasObjectDatas()) {
+           	// special case, apply filter
+		ObjectDatas objDatas = obj.getBody().getObjectDatas();
  
-		for (int i=0; i < objData.countOfVesselDatas();i++) {
-		    VesselData vessel = obj.getBody().getVesselDataAt(i);
+		for (int i=0; i < objDatas.countOfObjectDatas();i++) {
+		    ObjectData vessel = objDatas.getObjectDataAt(i);
+
 		    QString str = vessel.toString("");
 
 		    if ((m_filter == "") || (str.contains(m_filter))) {
 			std::cout << str.toLatin1().data() << std::endl;
 		    }
 		}
-
+        } else {
+		// any other message, simply print to console
+		std::cout << obj.getBody().toString("").toLatin1().data() << std::endl;
         }
 
     }

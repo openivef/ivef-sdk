@@ -146,7 +146,7 @@ void IVEFStreamHandler::slotConnected() {
     // we are connected, send the login first
 
     // create a message
-    MSG_LoginRequest msg;
+    MSG_IVEF msg;
 
     // every message has a header
     Header header;
