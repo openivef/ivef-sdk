@@ -17,8 +17,8 @@ SOURCES += ./src/testqt.cpp \
            ./src/main.cpp
 
 # include the CPP library
-INCLUDEPATH += ../../../ivef-lib/trunk/ivef-qt
-LIBS += -L ../../../ivef-lib/trunk/ivef-qt/bin -Bstatic -livef
+INCLUDEPATH += ../ivef-qt
+LIBS += -L ../ivef-qt/bin -Bstatic -livef
 
 CONFIG += warn_on stl qt release console
 QT += network xml
