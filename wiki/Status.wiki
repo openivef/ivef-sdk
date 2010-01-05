@@ -25,7 +25,7 @@ The next scheduled release is the first release supports IVEF_DEF 0.2 which is s
 || *Component / Version*            || -        || -        ||   
 || IVEF_DEF                         || 0.2.2    || ?        ||
 || IVEF_LIB                         || 0.2.0    || 0.1.4    ||
-|| IVEF_TOOLS                       || 0.1.4    || ?        ||
+|| IVEF_TOOLS                       || 0.1.5    || ?        ||
 
 Released and compiles on Windows, Linux and Mac OS X.  Click on Source and follow the instructions to use SVN and obtain the source. 
 
