@@ -24,14 +24,7 @@ testqt::testqt( int & argc, char ** argv )
         :QApplication(argc, argv, false) {
 
     // connect to the events from the parser
-    connect( &m_parser, SIGNAL( signalMSG_VesselData(MSG_VesselData)),         this, SLOT( slotMSG_VesselData(MSG_VesselData) ));
-    connect( &m_parser, SIGNAL( signalMSG_LoginRequest(MSG_LoginRequest)),     this, SLOT( slotMSG_LoginRequest(MSG_LoginRequest)));
-    connect( &m_parser, SIGNAL( signalMSG_LoginResponse(MSG_LoginResponse)),   this, SLOT( slotMSG_LoginResponse(MSG_LoginResponse)));
-    connect( &m_parser, SIGNAL( signalMSG_Ping(MSG_Ping)),                     this, SLOT( slotMSG_Ping(MSG_Ping)));
-    connect( &m_parser, SIGNAL( signalMSG_Pong(MSG_Pong)),                     this, SLOT( slotMSG_Pong(MSG_Pong)));
-    connect( &m_parser, SIGNAL( signalMSG_ServerStatus(MSG_ServerStatus)),     this, SLOT( slotMSG_ServerStatus(MSG_ServerStatus)));
-    connect( &m_parser, SIGNAL( signalMSG_Logout(MSG_Logout)),                 this, SLOT( slotMSG_Logout(MSG_Logout)));
-    connect( &m_parser, SIGNAL( signalMSG_ServiceRequest(MSG_ServiceRequest)), this, SLOT( slotMSG_ServiceRequest(MSG_ServiceRequest)));
+    connect( &m_parser, SIGNAL( signalMSG_IVEF(MSG_IVEF)), this, SLOT( slotMSG_IVEF(MSG_IVEF)));
     // Issue 24
     connect( &m_parser, SIGNAL( signalError(QString)), this, SLOT( slotPrintError(QString) ));
     connect( &m_parser, SIGNAL( signalWarning(QString)), this, SLOT( slotPrintError(QString) ));
@@ -50,14 +43,7 @@ testqt::testqt( int & argc, char ** argv )
     std::exit(0);
 }
 
-void testqt::slotMSG_VesselData( MSG_VesselData obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; } 
-void testqt::slotMSG_LoginRequest( MSG_LoginRequest obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_LoginResponse( MSG_LoginResponse obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Ping( MSG_Ping obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Pong( MSG_Pong obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_ServerStatus( MSG_ServerStatus obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Logout( MSG_Logout obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_ServiceRequest( MSG_ServiceRequest obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_IVEF( MSG_IVEF obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; } 
 // Issue 24
 void testqt::slotPrintError( QString errorStr ) { std::cout << errorStr.toUtf8().data() << std::endl; }
 // End Issue 24
