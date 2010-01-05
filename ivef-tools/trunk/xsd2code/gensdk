@@ -1,17 +1,15 @@
-XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
-TARGET=../../../ivef-lib/trunk
 HOME=`pwd`
 
 function genObjC {
-   	rm $TARGET/ivef-objc/Classes/*.m
-	rm $TARGET/ivef-objc/Classes/*.h
+   	rm $TARGET/ivef-objc/Classes/*.m 2>/dev/null
+	rm $TARGET/ivef-objc/Classes/*.h 2>/dev/null
 	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-objc/Classes --prefix=IL --objc
 }
 
 function genQt {
-	rm $TARGET/ivef-qt/*.cpp
-	rm $TARGET/ivef-qt/*.o
-	rm $TARGET/ivef-qt/*.h
+	rm $TARGET/ivef-qt/*.cpp 2>/dev/null
+	rm $TARGET/ivef-qt/*.o 2>/dev/null
+	rm $TARGET/ivef-qt/*.h 2>/dev/null
 	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-qt/ --prefix=IVEF
 	cd $TARGET/ivef-qt/
 	qmake ivef.pro
@@ -22,17 +20,31 @@ function genQt {
 }
 
 function genJava {
-	rm $TARGET/ivef-java/ivef/*
+	rm $TARGET/ivef-java/ivef/* 2>/dev/null
 	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-java/ --prefix=IVEF --java
 	cd $TARGET/ivef-java/ivef/
 	mkdir -p classes
-	rm -Rf classes/*
+	rm -Rf classes/* 2>/dev/null
 	javac -d classes *java
 	cd classes
 	jar cf ../ivef.jar ivef/*
 	cd $HOME
 }
 
-genObjC
-genQt
-genJava
+function genIVEF_0_1 {
+	XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
+	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
+	genObjC
+	genQt
+	genJava
+}
+
+function genIVEF_0_2 {
+	XSDFILE=../../../ivef-def/branches/IVEF_1_0_0_DEV/IVEF-WG/ivef0_2.xsd
+	TARGET=../../../ivef-lib/branches/IVEF_0_2_RELEASE
+	genObjC
+	genQt
+	genJava
+}
+
+genIVEF_0_2
