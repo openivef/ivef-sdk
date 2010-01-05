@@ -16,7 +16,7 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  ******************************************************************************/
-package isim;
+package luky;
 
 
 import java.util.Date;
@@ -41,14 +41,41 @@ import luky.util.*;
  *
  *  <ul>
  *   <li> 1.0.0 - initial version </li>
+ *   <li> 1.0.1 - updated BlowfishCipher to v1.01 </li>
+ *   <li> 1.0.2 - updated Upay to v2.02 </li>
+ *   <li> 1.0.3 - updated Upay to v2.03 </li>
+ *   <li> 1.0.4 - updated Constants to v1.01 </li>
+ *   <li> 1.0.5 - updated CustomerData, ArticleData, TransactionData to v1.01 </li>
+ *   <li> 1.0.6 - updated Upay to v2.10 </li>
+ *   <li> 1.0.7 - updated Constants to v1.02 </li>
+ *   <li> 1.0.8 - updated Upay to v2.11 </li>
+ *   <li> 1.0.9 - updated Constants to v1.03 </li>
+ *   <li> 2.0.0 - complete update for port to hitt </li>
+ *   <li> 2.0.1 - added getBuildTime</li>
+ *   <li> 3.0.0 - Alpha release for RA</li>
+ *   <li> 3.0.1 - added an AdvancedSnmpManager</li>
+ *   <li> 3.0.2 - AdvancedSnmpManager became more advanced (multi host)</li>
+ *   <li> 3.0.3 - Log can indicate level in format </li>
+ *   <li> 3.0.4 - Fixed memory leak in persistant string storage</li>
+ *   <li> 3.0.5 - Fixed sync error in server.Client (sleep vs wait)</li>
+ *   <li> 3.0.6 - deployment error fixed, better jar file </li>
+ *   <li> 3.0.7 - documentation error fixed, better javadoc, improvement on Log class </li>
+ *   <li> 3.0.8 - Log class bug fix </li>
+ *   <li> 3.0.9 - Added Watchdog </li>
+ *   <li> 3.1.0 - BlockedQueue is more threadsafe, about box added </li>
+ *   <li> 4.0.0 - Release under LGPL (a.b.c) (a=major, b=class compatible, c=api compatible)</li>
+ *   <li> 4.0.1 - Added luky.util.Col for easy colour naming, added peekFirst in BlockedQueue </li>
+ *   <li> 4.0.2 - Option to block decoding in Advanced SnmpManager, added StringUtilities, dialogs</li>
+ *   <li> 4.1.0 - Restructure for deployment on OS X</li>
+ *   <li> 4.1.1 - Bug fix in ClientExtended</li>
  * </ul>
  * @author Chris Lukassen <lukassen@hitt.nl>
  * @version 4.1.1
  ******************************************************************************/
 public class Version implements MouseListener {
 
-    private String version = "1.0.0";
-    private String name = "iSim";
+    private String version = "4.1.1";
+    private String name = "Luky Library";
     private String appVersion = null;
     private String appName = null;
     private String appBuildTime = null;
@@ -57,11 +84,11 @@ public class Version implements MouseListener {
      * This string will be automatically expanded upon "ant commit".
      * Do not edit it by hand!
      */
-    private static final String BUILD_TIME_STRING = "20090922-1402";
-
+    private static final String BUILD_TIME_STRING = "20061117-1148";
+    
     /** A {@link Date} version of the build time. */
     private final Date BUILD_TIME = _getBuildDate();
-
+    
     /**************************************************************************
      * default constructor
      **************************************************************************/
@@ -69,9 +96,9 @@ public class Version implements MouseListener {
 
     /**************************************************************************
      * alternative constructor
-     * @param name name name of the application using the library
-     * @param version version of the application using the library
-     * @param buildTime build time of the application using the library
+     * @param name name name of the application using the library 
+     * @param version version of the application using the library 
+     * @param buildTime build time of the application using the library 
      **************************************************************************/
     public Version(String name, String version, String buildTime) {
         appName = name;
@@ -84,7 +111,7 @@ public class Version implements MouseListener {
      * @return the version as a string
      **************************************************************************/
     public String getAppVersion() {
-        if ((appName != null) && (appVersion != null)) {
+        if ((appName != null) && (appVersion != null)) {	
             return appName + " - " + appVersion;
         } else {
             return null;
@@ -105,14 +132,14 @@ public class Version implements MouseListener {
     public static void main(String[] args) {
 
         Version ver = new Version();
-
+	
         if (ver.getAppVersion() != null) {
             System.out.println(
-                ver.getAppVersion() + " (" + ver.getAppBuildTimeString()
-                + ")");
-        }
+                    ver.getAppVersion() + " (" + ver.getAppBuildTimeString()
+                    + ")");
+        }	
         System.out.println(
-            ver.getLibVersion() + " (" + ver.getLibBuildTimeString() + ")");
+                ver.getLibVersion() + " (" + ver.getLibBuildTimeString() + ")");
     }
 
     /**************************************************************************
@@ -122,7 +149,7 @@ public class Version implements MouseListener {
     public String getAppBuildTimeString() {
         return appBuildTime;
     }
-
+    
     /**************************************************************************
      * returns the build time as a string of the library
      * @return the build time as a string
@@ -130,10 +157,10 @@ public class Version implements MouseListener {
     public String getLibBuildTimeString() {
         return BUILD_TIME_STRING;
     }
-
+    
     /**************************************************************************
      * set application buildtime shown in about box
-     * @param time buildTime of the application using the library
+     * @param time buildTime of the application using the library 
      **************************************************************************/
     public void setAppBuildTime(String time) {
 
@@ -142,7 +169,7 @@ public class Version implements MouseListener {
 
     /**************************************************************************
      * set application name shown in about box
-     * @param name name name of the application using the library
+     * @param name name name of the application using the library 
      **************************************************************************/
     public void setAppName(String name) {
 
@@ -151,7 +178,7 @@ public class Version implements MouseListener {
 
     /**************************************************************************
      * set application version shown in about box
-     * @param version version of the application using the library
+     * @param version version of the application using the library 
      **************************************************************************/
     public void setAppVersion(String version) {
 
@@ -160,12 +187,12 @@ public class Version implements MouseListener {
 
     /**************************************************************************
      * aboutBox shows a about box
-     * @param name name name of the application using the library
-     * @param version version of the application using the library
+     * @param name name name of the application using the library 
+     * @param version version of the application using the library 
      **************************************************************************/
     public void about(String name, String version) {
 
-        if ((name != null) && (version != null)) {
+        if ((name != null) && (version != null)) {	
             setAppName(name);
             setAppVersion(version);
         }
@@ -179,15 +206,15 @@ public class Version implements MouseListener {
 
         JOptionPane optionPane = null;
 
-        if ((appName != null) && (appVersion != null)) {
+        if ((appName != null) && (appVersion != null)) {	
             optionPane = new JOptionPane(
-                getAppVersion() + " (" + getAppBuildTimeString() + ")\n"
-                + getLibVersion() + " (" + getLibBuildTimeString() + ")",
-                JOptionPane.INFORMATION_MESSAGE);
+                    getAppVersion() + " (" + getAppBuildTimeString() + ")\n"
+                    + getLibVersion() + " (" + getLibBuildTimeString() + ")",  
+                    JOptionPane.INFORMATION_MESSAGE);
         } else {
             optionPane = new JOptionPane(
-                getLibVersion() + " (" + getLibBuildTimeString() + ")",
-                JOptionPane.INFORMATION_MESSAGE);
+                    getLibVersion() + " (" + getLibBuildTimeString() + ")", 
+                    JOptionPane.INFORMATION_MESSAGE);
         }
         JDialog dialog = optionPane.createDialog(null, "About");
 
@@ -237,7 +264,7 @@ public class Version implements MouseListener {
     private Date _getBuildDate() {
         try {
             return new SimpleDateFormat("yyyyMMdd-HHmm z").parse(
-                       BUILD_TIME_STRING + " GMT");
+                    BUILD_TIME_STRING + " GMT");
         } catch (Exception e) { // parse format or whatever problem
             return null;
         }
