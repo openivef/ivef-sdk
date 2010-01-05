@@ -728,10 +728,7 @@ expressed in degrees</xs:documentation>
 						<xs:sequence minOccurs="0">
 							<xs:element name="UnType">
 								<xs:annotation>
-									<xs:documentation>Object type according to "CODES FOR TYPES OF MEANS OF TRANSPORT" Revision 2				
-(UNECE CEFACT Trade Facilitation Recommendation No. 28 edition 2007)	
-
-Check latest version			</xs:documentation>
+									<xs:documentation>Object type according to CODES FOR TYPES OF MEANS OF TRANSPORT Revision 2 (UNECE CEFACT Trade Facilitation Recommendation No. 28 edition 2007) Check latest version</xs:documentation>
 								</xs:annotation>
 								<xs:complexType>
 									<xs:attribute name="CodeA" use="required">
