@@ -1,0 +1,29 @@
+==IVEF SDK 0.1.4 Released==
+*03 November 2009* - The new IVEF release is now available to the open source community. IVEF is a cross-platform message exchange framework for VTS data exchange. IVEF is available for customer use, evaluation and open source download.
+
+IVEF includes full interface capabilities in C++, JAVA and OBJECTIVE-C and has thoroughly  been tested on Linux (OpenSuSE 11, 64 bit), Apple Mac OS X 10.5 and MS Windows XP SP2 
+
+For detailed information on fixes and optimizations included in this releases, please consult the [http://code.google.com/p/ivef-sdk/source/list change] log, or browse the source code contained in the [http://code.google.com/p/ivef-sdk/source/browse SVN] repository
+
+===Open Source Downloads===
+Open Source Edition of IVEF is available.  The Open Source Editions are released under the GPL for open source development. 
+
+===IVEF Definition===
+This IVEF SDK supports the IVEF 0.1.x definition. This definition represents the initial IVEF definition which was the starting point for the international working group. 
+
+===Additions===
+  * None
+
+===Fixes===
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=42 Issue-42] parser errors are passed as casted object
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=43 Issue-43] Not enough comments in generated code
+  * [http://code.google.com/p/ivef-sdk/issues/detail?id=25 Issue-25] Minimum and maximum values of attributes
+  
+===Recommendations===
+All users should upgrade immediately since Issue-40 could cause loss of data
+ 
+===Contents===
+See the [http://code.google.com/p/ivef-sdk/wiki/Status status] page to see the versions of the individual components
+
+----
+[http://code.google.com/p/ivef-sdk/ Home]
