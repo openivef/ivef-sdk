@@ -18,7 +18,7 @@ This IVEF SDK supports the IVEF 0.2.x definition. This definition represents cur
   * None
   
 ===Recommendations===
-Technological preview only, the current XSD has not reached a mature state yet.
+Technological preview only, the current XSD has not reached a mature state yet. This version should not be used in operational systems.
  
 ===Contents===
 See the [http://code.google.com/p/ivef-sdk/wiki/Status status] page to see the versions of the individual components
