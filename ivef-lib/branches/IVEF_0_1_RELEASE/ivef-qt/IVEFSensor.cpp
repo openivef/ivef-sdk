@@ -1,18 +1,21 @@
 
 #include "IVEFSensor.h"
 
+// Constructor
 Sensor::Sensor() {
 
     m_senId = 0.0;
     m_trkId = 0.0;
 }
 
+// copy constructor
 Sensor::Sensor(const Sensor &val) : QObject() {
 
     m_senId = val.m_senId;
     m_trkId = val.m_trkId;
 }
 
+// comperator
 Sensor & Sensor::operator=(const Sensor &val) {
 
     m_senId = val.m_senId;
@@ -20,8 +23,10 @@ Sensor & Sensor::operator=(const Sensor &val) {
     return *this;
 }
 
+// String encoder
 QString Sensor::encode( QString str) {
 
+    // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
     str.replace('<', "&lt;");
     str.replace('>', "&gt;");
@@ -29,34 +34,43 @@ QString Sensor::encode( QString str) {
     return str;
 }
 
+// setter for Sensor
 void Sensor::setSenId(float val) {
+    // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return;    // check if the new value is within bounds 
+
     if (val > 65536)
         return;
     m_senId = val;
 }
 
+// getter for Sensor
 float Sensor::getSenId() const {
 
     return m_senId;
 }
 
+// setter for Sensor
 void Sensor::setTrkId(float val) {
+    // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return;    // check if the new value is within bounds 
+
     if (val > 65536)
         return;
     m_trkId = val;
 }
 
+// getter for Sensor
 float Sensor::getTrkId() const {
 
     return m_trkId;
 }
 
+// Get XML Representation
 QString Sensor::toXML() {
 
     QString xml = "<Sensor";
@@ -67,6 +81,13 @@ QString Sensor::toXML() {
     return xml;
 }
 
+// Get String Representation
+QString Sensor::toString() {
+
+    return toString("");
+}
+
+// Get String Representation with a lead
 QString Sensor::toString(QString lead) {
 
     QString str = lead + "Sensor\n";

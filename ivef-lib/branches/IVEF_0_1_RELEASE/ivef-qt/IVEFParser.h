@@ -34,11 +34,19 @@
 #include "IVEFVesselData.h"
 #include "IVEFVoyage.h"
 
+//-----------------------------------------------------------
+//! \brief       Class definition of Parser
+//!
+
 class Parser : public QObject, QXmlDefaultHandler, QXmlSimpleReader { 
     Q_OBJECT
 
 public:
+    //!constructor
+    //!
     Parser();
+    //!delegate methods for QXmlDefaultHandler
+    //!
     bool startElement(const QString &,
                       const QString &,
                       const QString & qName,
@@ -46,9 +54,13 @@ public:
     bool endElement(const QString &,
                       const QString &,
                       const QString & qName);
+    //!the actual parse routine
+    //!
     bool parseXMLString(QString data, bool cont);
 
 signals:
+    //!signals fired by the parser when a new object has been parsed
+    //!
     void signalMSG_LoginRequest( MSG_LoginRequest obj );
     void signalMSG_LoginResponse( MSG_LoginResponse obj );
     void signalMSG_Logout( MSG_Logout obj );
@@ -57,6 +69,8 @@ signals:
     void signalMSG_ServerStatus( MSG_ServerStatus obj );
     void signalMSG_ServiceRequest( MSG_ServiceRequest obj );
     void signalMSG_VesselData( MSG_VesselData obj );
+    //!signals fired by the parser when a parser problem occured
+    //!
     void signalError(QString errorStr);
     void signalWarning(QString errorStr);
 protected:

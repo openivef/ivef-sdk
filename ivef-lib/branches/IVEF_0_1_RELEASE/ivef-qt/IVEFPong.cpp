@@ -1,13 +1,17 @@
 
 #include "IVEFPong.h"
 
+// Constructor
 Pong::Pong() {
 
+    // initialize with random value
     m_timeStamp = QDateTime();
+    // initialize empty string
     m_msgId = "";
     m_sourceId = 0;
 }
 
+// copy constructor
 Pong::Pong(const Pong &val) : QObject() {
 
     m_timeStamp = val.m_timeStamp;
@@ -15,6 +19,7 @@ Pong::Pong(const Pong &val) : QObject() {
     m_sourceId = val.m_sourceId;
 }
 
+// comperator
 Pong & Pong::operator=(const Pong &val) {
 
     m_timeStamp = val.m_timeStamp;
@@ -23,8 +28,10 @@ Pong & Pong::operator=(const Pong &val) {
     return *this;
 }
 
+// String encoder
 QString Pong::encode( QString str) {
 
+    // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
     str.replace('<', "&lt;");
     str.replace('>', "&gt;");
@@ -32,36 +39,43 @@ QString Pong::encode( QString str) {
     return str;
 }
 
+// setter for Pong
 void Pong::setTimeStamp(QDateTime val) {
 
     m_timeStamp = val;
 }
 
+// getter for Pong
 QDateTime Pong::getTimeStamp() const {
 
     return m_timeStamp;
 }
 
+// setter for Pong
 void Pong::setMsgId(QString val) {
 
     m_msgId = val;
 }
 
+// getter for Pong
 QString Pong::getMsgId() const {
 
     return m_msgId;
 }
 
+// setter for Pong
 void Pong::setSourceId(int val) {
 
     m_sourceId = val;
 }
 
+// getter for Pong
 int Pong::getSourceId() const {
 
     return m_sourceId;
 }
 
+// Get XML Representation
 QString Pong::toXML() {
 
     QString xml = "<Pong";
@@ -73,6 +87,13 @@ QString Pong::toXML() {
     return xml;
 }
 
+// Get String Representation
+QString Pong::toString() {
+
+    return toString("");
+}
+
+// Get String Representation with a lead
 QString Pong::toString(QString lead) {
 
     QString str = lead + "Pong\n";
