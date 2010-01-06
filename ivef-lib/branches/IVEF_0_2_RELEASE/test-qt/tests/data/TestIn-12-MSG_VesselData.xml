@@ -1,8 +1,9 @@
-<MSG_VesselData xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:http://www.ivef.org/XMLSchema/IVEF/1.1
+<MSG_IVEF xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:http://www.ivef.org/XMLSchema/IVEF/1.1
 \\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
 	<Header MsgRefId="&lt;" Version="&lt;"/>
 	<Body>
-		<VesselData>
+		<ObjectDatas>
+		<ObjectData>
 			<PosReport SOG="3.1415926535897932384626433832795" Breadth="3.1415926535897932384626433832795" Length="3.1415926535897932384626433832795" RateOfTurn="3.1415926535897932384626433832795" Lost="no" UpdSensorType="1" NavStatus="0" Id="-0" Altitude="3.1415926535897932384626433832795" ATONOffPos="no" COG="3.1415926535897932384626433832795" SourceId="-0" UpdateTime="2001-12-17T09:30:47.123" Orientation="3.1415926535897932384626433832795">
 				<Pos Lat="3.1415926535897932384626433832795" Long="3.1415926535897932384626433832795"/>
 			</PosReport>
@@ -12,7 +13,8 @@
 			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="&lt;" ATA="2001-12-17T09:30:47.123" Id="&lt;" Destination="&lt;" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47.123"/>
 			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="&lt;" ATA="2001-12-17T09:30:47" Id="&lt;" Destination="&lt;" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47"/>
 			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="&lt;" ATA="2001-12-17T09:30:47.123" Id="&lt;" Destination="&lt;" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47.123"/>
-		</VesselData>
-</MSG_VesselData>
+		</ObjectData>
+		</ObjectDatas>
+</MSG_IVEF>
 	</Body>
 

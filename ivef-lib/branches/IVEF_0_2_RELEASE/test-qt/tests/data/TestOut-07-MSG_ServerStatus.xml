@@ -1,19 +1,20 @@
 TestQt ready for input
-MSG_ServerStatus
+MSG_IVEF
     Header
-        Version = String
-        MsgRefId = String
+        MsgRefId = StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+        Version = 0.2.2
     Body
         ServerStatus
-            Status = queuefull
+            ContactIdentity = String
             Details = String
-<MSG_ServerStatus>
-<Header Version="String" MsgRefId="String">
+            Status = 0
+<MSG_IVEF>
+<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2">
 </Header>
 <Body>
-<ServerStatus Status="queuefull" Details="String">
+<ServerStatus ContactIdentity="String" Details="String" Status="no">
 </ServerStatus>
 </Body>
-</MSG_ServerStatus>
+</MSG_IVEF>
 
 TestQt shutting down

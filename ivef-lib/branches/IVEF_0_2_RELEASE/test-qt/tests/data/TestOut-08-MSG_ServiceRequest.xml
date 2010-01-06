@@ -1,55 +1,98 @@
 TestQt ready for input
-MSG_ServiceRequest
+MSG_IVEF
     Header
-        Version = String
-        MsgRefId = String
+        MsgRefId = StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+        Version = 0.2.2
     Body
         ServiceRequest
             Area
+                Name = String
                 Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
                     Lat = 3.14159
                     Long = 3.14159
             Area
+                Name = String
                 Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
                     Lat = 3.14159
                     Long = 3.14159
-            Area
                 Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
                     Lat = 3.14159
                     Long = 3.14159
             Transmission
                 Type = 1
                 Period = 3.14159
             Item
-                Element = 1
-                Field = String
-            Object
-                FileName = Text
-<MSG_ServiceRequest>
-<Header Version="String" MsgRefId="String">
+                DataSelector = 1
+                FieldSelector = String
+            Item
+                DataSelector = 1
+                FieldSelector = String
+            Filter
+                Predicate = String
+<MSG_IVEF>
+<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2">
 </Header>
 <Body>
 <ServiceRequest>
-<Area>
-<Pos Lat="3.14159" Long="3.14159">
+<Area Name="String">
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
 </Pos>
 </Area>
-<Area>
-<Pos Lat="3.14159" Long="3.14159">
+<Area Name="String">
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
 </Pos>
-</Area>
-<Area>
-<Pos Lat="3.14159" Long="3.14159">
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
 </Pos>
 </Area>
 <Transmission Type="1" Period="3.14159">
 </Transmission>
-<Item Element="1" Field="String">
+<Item DataSelector="1" FieldSelector="String">
 </Item>
-<Object FileName="Text">
-</Object>
+<Item DataSelector="1" FieldSelector="String">
+</Item>
+<Filter Predicate="String">
+</Filter>
 </ServiceRequest>
 </Body>
-</MSG_ServiceRequest>
+</MSG_IVEF>
 
 TestQt shutting down

@@ -1,18 +1,28 @@
-<MSG_VesselData xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:http://www.ivef.org/XMLSchema/IVEF/1.1
-\\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
-	<Header MsgRefId="&lt;" Version="&lt;"/>
+<MSG_IVEF xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2
+U:\Software\ivef-sdk\ivef-def\branches\IVEF_1_0_0_DEV\IVEF-WG\ivef0_2.xsd">
+	<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2"/>
 	<Body>
-		<VesselData>
-			<PosReport SOG="3.1415926535897932384626433832795" Breadth="3.1415926535897932384626433832795" Length="3.1415926535897932384626433832795" RateOfTurn="3.1415926535897932384626433832795" Lost="no" UpdSensorType="1" NavStatus="0" Id="-0" Altitude="3.1415926535897932384626433832795" ATONOffPos="no" COG="3.1415926535897932384626433832795" SourceId="-0" UpdateTime="2001-12-17T09:30:47.123" Orientation="3.1415926535897932384626433832795">
-				<Pos Lat="3.1415926535897932384626433832795" Long="3.1415926535897932384626433832795"/>
-			</PosReport>
-			<StaticData CountryFlag="&lt;" ATONType="0" Breadth="3.1415926535897932384626433832795" Length="3.1415926535897932384626433832795" AntPosDistFromLeft="3.1415926535897932384626433832795" ShipType="20" ShipName="&amp;" PortOfRegistry="&lt;" ObjectType="1" SourceName="&gt;" Callsign="&quote;hello&quote;" MMSI="-0" AntPosDistFromFront="3.1415926535897932384626433832795" Id="&lt;" NatLangShipName="&lt;" IMO="-0" MaxDraught="3.1415926535897932384626433832795" ATONName="&lt;" Source="1" MaxAirDraught="3.1415926535897932384626433832795" DeepWaterVesselind="yes"/>
-			<StaticData CountryFlag="&lt;" ATONType="0" Breadth="3.1415926535897932384626433832795" Length="3.1415926535897932384626433832795" AntPosDistFromLeft="3.1415926535897932384626433832795" ShipType="20" ShipName="&lt;" PortOfRegistry="&lt;" ObjectType="1" SourceName="&lt;" Callsign="&lt;" MMSI="-0" AntPosDistFromFront="3.1415926535897932384626433832795" Id="&lt;" NatLangShipName="&lt;" IMO="-0" MaxDraught="3.1415926535897932384626433832795" ATONName="&lt;" Source="1" MaxAirDraught="3.1415926535897932384626433832795" DeepWaterVesselind="yes"/>
-			<StaticData CountryFlag="&lt;" ATONType="0" Breadth="3.1415926535897932384626433832795" Length="3.1415926535897932384626433832795" AntPosDistFromLeft="3.1415926535897932384626433832795" ShipType="20" ShipName="&lt;" PortOfRegistry="&lt;" ObjectType="1" SourceName="&lt;" Callsign="&lt;" MMSI="-0" AntPosDistFromFront="3.1415926535897932384626433832795" Id="&lt;" NatLangShipName="&lt;" IMO="-0" MaxDraught="3.1415926535897932384626433832795" ATONName="&lt;" Source="1" MaxAirDraught="3.1415926535897932384626433832795" DeepWaterVesselind="yes"/>
-			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="&lt;" ATA="2001-12-17T09:30:47.123" Id="&lt;" Destination="&lt;" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47.123"/>
-			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="&lt;" ATA="2001-12-17T09:30:47" Id="&lt;" Destination="&lt;" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47"/>
-			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="&lt;" ATA="2001-12-17T09:30:47.123" Id="&lt;" Destination="&lt;" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47.123"/>
-		</VesselData>
+		<ObjectDatas>
+			<ObjectData>
+				<TrackData SOG="3.1" Length="3.1415926535897932384626433832795" Width="3.1415926535897932384626433832795" EstAccCOG="3.1415926535897932384626433832795" SourceName="String" EstAccSOG="3.1415926535897932384626433832795" NavStatus="-0" TrackStatus="1" Id="-0" ROT="3.1" COG="3.1" SourceId="String" UpdateTime="2001-12-17T09:30:47.0Z" Heading="3.1415926535897932384626433832795">
+					<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+				</TrackData>
+				<VesselData SourceName="&amp;" SpecialAttention="&lt;" BlackListed="true" Id="-0" Class="0" SourceType="1" SourceId="&gt;" UpdateTime="2001-12-17T09:30:47.0Z">
+					<Construction Length="3.1415926535897932384626433832795" HullColor="String" Width="3.1415926535897932384626433832795" MaxSpeed="3.1415926535897932384626433832795" HullType="1" MaxKeelHeight="3.1" LloydsShipType="-0" MaxDraught="3.1" MaxPersonsOnBoard="3.1415926535897932384626433832795">
+						<UnType Mode="1" CodeA="-0" CodeB="-0"/>
+					</Construction>
+					<Identifier LRIT="&quote;hello&quote;" Callsign="String" MMSI="-0" Name="String" IMO="-0">
+						<OtherId Id="String" Value="String"/>
+						<OtherName Lang="St" Name="String"/>
+					</Identifier>
+				</VesselData>
+				<VoyageData PrevPort="Strin" PersonsOnBoard="3.1415926535897932384626433832795" Tugs="true" ISPSLevel="1" AirDraught="3.14" CargoTypeIMO="0" NextPort="Strin" OverSizedWidth="3.1" SourceName="String" DestName="String" OverSizedLength="3.1" DestCode="String" TankerStatus="0" Id="-0" RouteBound="true" SourceType="1" Pilots="3.1415926535897932384626433832795" SourceId="String" Draught="3.14" ETA="2001-12-17T09:30:47.0Z" UpdateTime="2001-12-17T09:30:47.0Z" ContactIdentity="String">
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+				</VoyageData>
+				<TaggedItem Key="String" Value="Text"/>
+			</ObjectData>
+		</ObjectDatas>
 	</Body>
-</MSG_VesselData>
-
+</MSG_IVEF>

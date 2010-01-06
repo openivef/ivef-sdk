@@ -1,8 +1,8 @@
-<MSG_ServerStatus xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:http://www.ivef.org/XMLSchema/IVEF/1.1
-\\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
-	<Header MsgRefId="String" Version="String"/>
+<MSG_IVEF xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2
+U:\Software\ivef-sdk\ivef-def\branches\IVEF_1_0_0_DEV\IVEF-WG\ivef0_2.xsd">
+	<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2"/>
 	<Body>
-		<ServerStatus Details="String" Status="queuefull"/>
+		<ServerStatus Details="String" Status="true" ContactIdentity="String"/>
 	</Body>
-</MSG_ServerStatus>
+</MSG_IVEF>
 

@@ -1,20 +1,20 @@
 TestQt ready for input
-MSG_LoginRequest
+MSG_IVEF
     Header
-        Version = String
         MsgRefId = String
+        Version = String
     Body
         LoginRequest
+            Encryption = 2
             Name = String
             Password = String
-            Encryption = 2
-<MSG_LoginRequest>
-<Header Version="String" MsgRefId="String">
+<MSG_IVEF>
+<Header MsgRefId="String" Version="String">
 </Header>
 <Body>
-<LoginRequest Name="String" Password="String" Encryption="2">
+<LoginRequest Encryption="2" Name="String" Password="String">
 </LoginRequest>
 </Body>
-</MSG_LoginRequest>
+</MSG_IVEF>
 
 TestQt shutting down

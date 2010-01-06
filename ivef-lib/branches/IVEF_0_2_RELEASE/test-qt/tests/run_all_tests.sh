@@ -29,7 +29,7 @@ do
           echo ---
           echo Difference: ${TMPDIR}/$OUTNAME data/$OUTNAME
           echo ---
-          diff ${TMPDIR}/$OUTNAME data/$OUTNAME
+          sdiff ${TMPDIR}/$OUTNAME data/$OUTNAME
           echo ---
           exit 1
       fi
