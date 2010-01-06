@@ -20,7 +20,7 @@ This IVEF SDK supports the IVEF 0.1.x definition. This definition represents the
   * [http://code.google.com/p/ivef-sdk/issues/detail?id=25 Issue-25] Minimum and maximum values of attributes
   
 ===Recommendations===
-All users should upgrade immediately since Issue-40 could cause loss of data
+All users are advised to upgrade on a convenient time, Issue-25 can cause operational nuisances
  
 ===Contents===
 See the [http://code.google.com/p/ivef-sdk/wiki/Status status] page to see the versions of the individual components
