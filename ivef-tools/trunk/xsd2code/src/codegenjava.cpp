@@ -318,11 +318,12 @@ void CodeGenJava::go() {
                     }
                     classFileOut <<    ")\n            return;";
                 }
-                if (attr->hasMin() && (attr->hasMax()) && knownType(attr->type()) ) {
-
+                if (attr->hasMin() && knownType(attr->type()) ) {
                      QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-
                      classFileOut << "\n        if (" << evaluator << " < " << attr->min() << ")\n          return;";
+                }
+                if (attr->hasMax() && knownType(attr->type()) ) {
+                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
                      classFileOut << "\n        if (" << evaluator << " > " << attr->max() << ")\n          return;";
                 }
                 if (!attr->required() || obj->isMerged()) {

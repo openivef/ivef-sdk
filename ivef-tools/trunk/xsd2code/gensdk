@@ -47,4 +47,5 @@ function genIVEF_0_2 {
 	genJava
 }
 
+genIVEF_0_1
 genIVEF_0_2

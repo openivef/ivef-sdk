@@ -362,6 +362,11 @@ void CodeGenQT::go() {
         headerFileOut << "    //!              generates output of this object including attributes and child elements\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
+        headerFileOut << "    QString toString();\n\n";
+
+        headerFileOut << "    //!              generates output of this object including attributes and child elements\n";
+        headerFileOut << "    //!\n";
+        headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    QString toString(QString lead);\n\n";
 
         headerFileOut << "    //!              encodes a string returning the encoded string\n";
@@ -400,6 +405,7 @@ void CodeGenQT::go() {
         classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
 
         // constructor
+        classFileOut << "// Constructor\n";
         classFileOut << className(name) << "::" << className(name) << "() {\n\n";
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -409,29 +415,38 @@ void CodeGenQT::go() {
             if (! attr->unbounded()) {
                 if (type=="QString") {
                     if (attr->isFixed()) {
+                       classFileOut << "    // initialize fixed value\n";
                        classFileOut << "    " << variableName(attr->name()) << " = \"" << attr->fixed()  << "\";\n";
                     } else {
+                       classFileOut << "    // initialize empty string\n";
                        classFileOut << "    " << variableName(attr->name()) << " = \"\";\n";
                     }
                 }
-                else if (type=="bool")
-                    classFileOut << "    " << variableName(attr->name()) << " = false;\n";
-                else if (type=="int")
-                    classFileOut << "    " << variableName(attr->name()) << " = 0;\n";
-                else if (type=="QDateTime")
-                    classFileOut << "    " << variableName(attr->name()) << " = QDateTime();\n";
-                else if (type=="float")
-                    classFileOut << "    " << variableName(attr->name()) << " = 0.0;\n";
-            }
+                else {
+		    if (type=="bool") {
+		        classFileOut << "    // initialize defaults to false\n";
+		        classFileOut << "    " << variableName(attr->name()) << " = false;\n";
+		    } else if (type=="int") {
+		        classFileOut << "    " << variableName(attr->name()) << " = 0;\n";
+		    } else if (type=="QDateTime") {
+		        classFileOut << "    // initialize with random value\n";
+		        classFileOut << "    " << variableName(attr->name()) << " = QDateTime();\n";
+		    } else if (type=="float") {
+		        classFileOut << "    " << variableName(attr->name()) << " = 0.0;\n";
+		    }
+		}
+	    }
 
             // ev: is not used     QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
             if (!attr->required() || obj->isMerged()) {
+                classFileOut << "    // optional attributes are by default not present\n";
                 classFileOut << "    " << variableName(attr->name()) << "Present = false;\n";
             }
         }
         classFileOut << "}\n\n";
 
         // copy constructor
+        classFileOut << "// copy constructor\n";
         classFileOut << className(name) << "::" << className(name) << "(const " << className(name) << " &val) : QObject() {\n\n";
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -449,6 +464,7 @@ void CodeGenQT::go() {
         classFileOut << "}\n\n";
 
         // = operator
+        classFileOut << "// comperator\n";
         classFileOut << className(name) << " & " << className(name) << "::operator=(const " << className(name) << " &val) {\n\n";
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -467,8 +483,10 @@ void CodeGenQT::go() {
         classFileOut << "}\n\n";
 
         // string encoder, issue 19
+        classFileOut << "// String encoder\n";
         classFileOut << "QString " << className(name) << "::encode( QString str) {\n";
         classFileOut << "\n";
+        classFileOut << "    // replace characters that are illigal in XML with their encodings\n";
         classFileOut << "    str.replace('&', \"&amp;\");\n";
         classFileOut << "    str.replace('<', \"&lt;\");\n";
         classFileOut << "    str.replace('>', \"&gt;\");\n";
@@ -484,16 +502,20 @@ void CodeGenQT::go() {
             QString type = localType(attr->type()); // convert to cpp types
             if (attr->unbounded()) { // there more then one
                 // setter
+                classFileOut << "// setter for " << className(name) << "\n";
                 classFileOut << "void " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n";
                 classFileOut << "\n    " << variableName(attr->name()) << "s.append(val);\n}\n\n";
                 // getter
+                classFileOut << "// getter for " << className(name) << "\n";
                 classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "At(int i) const {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << "s.at(i);\n}\n\n";
                 // count
+                classFileOut << "// count for " << className(name) << "\n";
                 classFileOut << "int " << className(name) << "::countOf" << methodName(attr->name()) << "s() const {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << "s.count();\n}\n\n";
             } else {
 		// setter
+                classFileOut << "// setter for " << className(name) << "\n";
 		classFileOut << "void " << className(name) << "::set" << methodName(attr->name()) << "(" << type << " val) {\n";
 		QVector<QString> enums = attr->enumeration();
 		if (enums.size() > 0) { // there are enumeration constraints for this item
@@ -504,17 +526,25 @@ void CodeGenQT::go() {
 			quote = "\"";
 		    }
 
+                    classFileOut << "// check if the new value is an approved value \n";
 		    classFileOut << "\n    if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
 		    for (int h=1; h < enums.size(); h++) {
 			classFileOut << "&&\n         ( val != " << quote << enums.at(h) << quote << " ) ";
 		    }
 		    classFileOut <<    ")\n        return;";
 		}
-		if (attr->hasMin() && (attr->hasMax()) && knownType(attr->type())) {
+		if (attr->hasMin() && knownType(attr->type())) {
 
 		     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
+                     classFileOut << "    // check if the new value is within bounds \n";
 		     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return;";
+		}
+		if (attr->hasMax() && knownType(attr->type())) {
+
+		     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+
+                     classFileOut << "    // check if the new value is within bounds \n";
 		     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return;";
 		}
 		if (!attr->required() || obj->isMerged()) {
@@ -523,10 +553,12 @@ void CodeGenQT::go() {
 		classFileOut << "\n    " << variableName(attr->name()) << " = val;\n}\n\n";
 
                 // getter
+                classFileOut << "// getter for " << className(name) << "\n";
                 classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "() const {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
 
                 if (!attr->required() || obj->isMerged()) {
+                    classFileOut << "// check if optional element " << className(name) << " has been set\n";
                     classFileOut << "bool " << className(name) << "::has" << methodName(attr->name()) << "() {\n";
                     classFileOut << "\n    return " << variableName(attr->name()) << "Present;\n}\n\n";
                 }
@@ -540,12 +572,14 @@ void CodeGenQT::go() {
             QString type = "QString"; // always a string
 
             // getter
+            classFileOut << "// getter for " << className(name) << "\n";
             classFileOut << type << " " << className(name) << "::get" << methodName(attrName) << "() const {\n";
             classFileOut << "\n    return \"" << attrValue << "\";\n}\n\n";
         }
 
         // xml generator
         // if attribute name and type are the same it means it was data
+        classFileOut << "// Get XML Representation\n";
         classFileOut << "QString " << className(name) << "::toXML() {\n\n";
         classFileOut << "    QString xml = \"<" << name << "\";\n"; // append attributes
 
@@ -568,6 +602,7 @@ void CodeGenQT::go() {
                 }
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
+                    classFileOut << "    // check for presence of optional attribute\n";
                     classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "        xml.append(\" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\");\n    }\n";
                 } else {
@@ -585,10 +620,12 @@ void CodeGenQT::go() {
             if (attrType == attr->name()) {
                 // check if the attribute exist
                 if (attr->unbounded() ) {
+                    classFileOut << "    // add all included data\n";
                     classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
                     classFileOut << "        " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
                     classFileOut << "        xml.append( attribute.toXML() );\n    }\n";
                 } else if (!attr->required() || obj->isMerged()) {
+                    classFileOut << "    // add optional data if available\n";
                     classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "        xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n    }\n";
                 } else {
@@ -604,6 +641,12 @@ void CodeGenQT::go() {
 
         // string generator
         // if attribute name and type are the same it means it was data
+        classFileOut << "// Get String Representation\n";
+        classFileOut << "QString " << className(name) << "::toString() {\n\n";
+        classFileOut << "    return toString(\"\");\n";
+        classFileOut << "}\n\n";
+
+        classFileOut << "// Get String Representation with a lead\n";
         classFileOut << "QString " << className(name) << "::toString(QString lead) {\n\n";
         classFileOut << "    QString str = lead + \"" << name << "\\n\";\n"; // append attributes
 
@@ -624,6 +667,7 @@ void CodeGenQT::go() {
                 }
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
+                    classFileOut << "    // check for presence of optional attribute\n";
                     classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "        str.append( lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\");\n    }\n";
                 } else {
@@ -640,10 +684,12 @@ void CodeGenQT::go() {
             if (attrType == attr->name()) {
                 // check if the attribute exist
                 if (attr->unbounded() ) {
+                    classFileOut << "    // add all included data\n";
                     classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
                     classFileOut << "       " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
                     classFileOut << "       str.append( attribute.toString(lead + \"    \") );\n    }\n";
                 } else if (!attr->required() || obj->isMerged()) {
+                    classFileOut << "    // add all optional data if present\n";
                     classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "        str.append(" << " " << variableName(attr->name()) << ".toString(lead + \"    \") );\n    }\n";
                 } else {
@@ -701,13 +747,21 @@ void CodeGenQT::go() {
         } 
     }
 
+    headerFileOut << "\n//-----------------------------------------------------------\n";
+    headerFileOut << "//! \\brief       Class definition of " << className(name) << "\n";
+    headerFileOut << "//!\n";
+
     // define the class
     headerFileOut << "\nclass " << className(name) << " : public QObject, QXmlDefaultHandler, QXmlSimpleReader { \n";
     headerFileOut << "    Q_OBJECT\n\n";
 
     // public section
     headerFileOut << "public:\n";
+    headerFileOut << "    //!constructor\n";
+    headerFileOut << "    //!\n";
     headerFileOut << "    " << className(name) << "();\n"; // constructor
+    headerFileOut << "    //!delegate methods for QXmlDefaultHandler\n";
+    headerFileOut << "    //!\n";
     headerFileOut << "    bool startElement(const QString &,\n"; // the parser routine
     headerFileOut << "                      const QString &,\n";
     headerFileOut << "                      const QString & qName,\n";
@@ -715,10 +769,14 @@ void CodeGenQT::go() {
     headerFileOut << "    bool endElement(const QString &,\n"; // the parser routine
     headerFileOut << "                      const QString &,\n";
     headerFileOut << "                      const QString & qName);\n";
+    headerFileOut << "    //!the actual parse routine\n";
+    headerFileOut << "    //!\n";
     headerFileOut << "    bool parseXMLString(QString data, bool cont);\n";
 
     // define the signales
     headerFileOut << "\nsignals:\n";
+    headerFileOut << "    //!signals fired by the parser when a new object has been parsed\n";
+    headerFileOut << "    //!\n";
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
@@ -726,6 +784,8 @@ void CodeGenQT::go() {
         }
     }
     // issue 24
+    headerFileOut << "    //!signals fired by the parser when a parser problem occured\n";
+    headerFileOut << "    //!\n";
     headerFileOut << "    void signalError(QString errorStr);\n";
     headerFileOut << "    void signalWarning(QString errorStr);\n";
 
@@ -754,12 +814,15 @@ void CodeGenQT::go() {
     classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
 
     // constructor
+    classFileOut << "// Constructor\n";
     classFileOut << className(name) << "::" << className(name) << "() {\n\n";
+    classFileOut << "    // we are a subclass of the parser, and our own delegate\n";
     classFileOut << "    setContentHandler(this);\n";
     classFileOut << "    setErrorHandler(this);\n"; // Issue 24
     classFileOut << "}\n\n";
 
     // main parser routine
+    classFileOut << "// Parser delegate routine\n";
     classFileOut << "bool " << className(name) << "::startElement(const QString &,\n"; // the parser routine
     classFileOut << "     const QString &,\n";
     classFileOut << "     const QString & qName,\n";
@@ -786,6 +849,7 @@ void CodeGenQT::go() {
         // if the name matches my object
         classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n";
         // create a temp object
+        classFileOut << "        // create a placeholder\n";
         classFileOut << "        " << className(obj->name()) << " *obj = new " << className(obj->name()) << ";\n";
 
         // check if there are attributes in this class or just data
@@ -803,9 +867,11 @@ void CodeGenQT::go() {
         // makes only sense if they are there
         if (attrCount > 0) {
             // run through all the attributes
+            classFileOut << "        // examine all supplied attributes\n";
             classFileOut << "        for (int i=0; i < atts.length(); i++) {\n";
             classFileOut << "            QString key = atts.localName(i);\n";
             classFileOut << "            QString value = atts.value(i);\n\n";
+            classFileOut << "            // and add them if we know them\n";
             // and match them with mine
             bool first = true;
             for(int j=0; j < obj->attributes().size(); j++) {
@@ -821,27 +887,33 @@ void CodeGenQT::go() {
                         first = false;
                     }
 
-                    if (type == "QString")
+                    if (type == "QString") {
                         classFileOut << "                QString val = value;\n";
-                    else if (type == "bool")
+                    } else if (type == "bool") {
+                        classFileOut << "                // booleans are sent as YES/NO textstrings \n";
                         classFileOut << "                bool val = (value.toUpper() == \"YES\");\n";
-                    else if (type == "int")
+                    } else if (type == "int") {
                         classFileOut << "                int val = value.toInt();\n";
-                    else if (type == "QDateTime") {
+                    } else if (type == "QDateTime") {
                         // timea may have a leading Z (issue 28)
+                        classFileOut << "                // date encoding should end on a Z, but some suppliers may exclude it\n";
+                        classFileOut << "                // we can be robust by checking for it\n";
                         classFileOut << "                if (value.right(1) == \"Z\") { // new time encoding\n";
                         classFileOut << "                     value = value.left(value.length() - 1);\n";
                         classFileOut << "                }\n"; 
                         // dates may have milies or not according to xs:dateTime
                         classFileOut << "                QDateTime val = " << dateFromString("value", true) << ";\n";
+                        classFileOut << "                // a date may be sent with or without miliseconds\n";
                         classFileOut << "                if (!val.isValid()) { \n";
+                        classFileOut << "                     // try other variant\n";
                         classFileOut << "                     val = " << dateFromString("value", false) << ";\n";
                         classFileOut << "                }\n";
                     }
-                    else if (type == "float")
+                    else if (type == "float") {
                         classFileOut << "                float val = value.toFloat();\n";
-                    else 
+                    } else  {
                         classFileOut << "                " << type << " val = value;\n";
+		    }
 
                     classFileOut << "                obj->set" << methodName(attrName) << "(val);\n";
                     classFileOut << "            }\n";
@@ -852,6 +924,7 @@ void CodeGenQT::go() {
 
         // store in local object (or stack) and signal on end tag
         // this way we can set obj in objects
+        classFileOut << "        // push the new object on the stack, on a close element we will pop it\n";
         classFileOut << "        m_objStack.push( obj );\n";
         classFileOut << "        m_typeStack.push( \"" << className(obj->name()) << "\" );\n";
         classFileOut << "    }\n";
@@ -862,6 +935,7 @@ void CodeGenQT::go() {
     // TODO check for attributes and messages we do not know and give an alert
 
     // the endTag routine
+    classFileOut << "// Parser delegate routine\n";
     classFileOut << "bool " << className(name) << "::endElement(const QString &,\n"; // the parser routine
     classFileOut << "     const QString &,\n";
     classFileOut << "     const QString & qName) {\n\n";
@@ -884,6 +958,7 @@ void CodeGenQT::go() {
         }
         // if the name matches my object
         classFileOut << " (qName == \"" << className(obj->name()) << "\") {\n\n";
+        classFileOut << "        // we know this tag, so we can close the top most object on the object stack\n";
         classFileOut << "        m_typeStack.pop();\n"; // will be equal to qName so ignore
         classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) ( m_objStack.pop() );\n";
 
@@ -896,6 +971,7 @@ void CodeGenQT::go() {
                 QString objType = attr->type();
 
                 if (objType == className(obj->name()) /*&& parent->isRootObject()*/) { // this object has an attribute of that type
+                    classFileOut << "        // check if there is a parent on the stack that needs this object as a child\n";
                     classFileOut << "        if ( m_typeStack.top() == \"" << parent->name() << "\") {\n";
                     if (attr->unbounded() ) {
                         classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj );\n";
@@ -907,6 +983,8 @@ void CodeGenQT::go() {
             }
         }
         if ((!obj->isEmbedded())) { // only if this object is not embedded
+            classFileOut << "        // tell the world a new object is available\n";
+            classFileOut << "        // this is only done for root level objects to avoid a storm of signals\n";
             classFileOut << "        emit signal" << className(obj->name()) << "( *obj ); \n";
         }
         classFileOut << "        delete( obj ); \n";
@@ -916,7 +994,9 @@ void CodeGenQT::go() {
     classFileOut << "}\n\n"; // close method
 
     // the parseXMLString routine
+    classFileOut << "// the actual parsing routine\n";
     classFileOut << "bool " << className(name) << "::parseXMLString(QString data, bool cont) { \n\n";
+    classFileOut << "     // add the data to what was left over from a previous parse run\n";
     classFileOut << "     m_dataBuffer.append(data);\n\n";
 
     // count the number of messages
@@ -940,10 +1020,12 @@ void CodeGenQT::go() {
     }
 
     // we search the buffer for any close tag that matches our regexp
+    classFileOut << "     // search the buffer for the nearest closetag\n";
     classFileOut << "     int index = 0;\n";
     classFileOut << "     QRegExp rx( \"" + regExp + "\");\n";
 
     // then we eat the buffer message by message and parse it
+    classFileOut << "     // parse the messages in the buffer one by one\n";
     classFileOut << "     while ( (index = rx.indexIn( m_dataBuffer )) != -1 ) {\n";
     classFileOut << "          int len = index + rx.matchedLength();\n";
     classFileOut << "          QString message = m_dataBuffer.left(len);\n";
@@ -953,6 +1035,8 @@ void CodeGenQT::go() {
     classFileOut << "     }\n";
     // Issue 40 end
 
+    classFileOut << "     // we finished parsing, check if we should keep possible\n";
+    classFileOut << "     // partial messages in the buffer\n";
     classFileOut << "     if (!cont) {\n";
     classFileOut << "         m_dataBuffer = \"\";\n";
     classFileOut << "     }\n";
@@ -961,6 +1045,7 @@ void CodeGenQT::go() {
     classFileOut << "}\n\n"; // close method
 
     // add error handling routines (Issue 24)
+    classFileOut << "// helper routine to make a readable error report\n";
     classFileOut << "QString Parser::composeMessage( const QXmlParseException& exception ) {\n";
     classFileOut << "    QString errorstr( exception.message() );\n";
     classFileOut << "    errorstr += \" at line \" + QString::number(exception.lineNumber());\n";
@@ -968,14 +1053,17 @@ void CodeGenQT::go() {
     classFileOut << "    errorstr += \"): \" + m_inputForParser.data().section('\\n', exception.lineNumber()-1, exception.lineNumber()-1);\n";
     classFileOut << "    return errorstr;\n";
     classFileOut << "}\n\n";
+    classFileOut << "// parser delegate method to turn parser errors in readable messages\n";
     classFileOut << "bool Parser::error( const QXmlParseException& exception ) {\n";
     classFileOut << "    emit signalError( composeMessage( exception ) );\n";
     classFileOut << "    return QXmlDefaultHandler::error( exception );\n";
     classFileOut << "}\n\n";
+    classFileOut << "// parser delegate method to turn parser errors in readable messages\n";
     classFileOut << "bool Parser::fatalError( const QXmlParseException& exception ) {\n";
     classFileOut << "    emit signalError( composeMessage( exception ) );\n";
     classFileOut << "    return QXmlDefaultHandler::fatalError( exception );\n";
     classFileOut << "}\n\n";
+    classFileOut << "// parser delegate method to turn parser errors in readable messages\n";
     classFileOut << "bool Parser::warning( const QXmlParseException& exception ) {\n";
     classFileOut << "    emit signalWarning( composeMessage( exception ) );\n";
     classFileOut << "    return QXmlDefaultHandler::warning( exception );\n";
