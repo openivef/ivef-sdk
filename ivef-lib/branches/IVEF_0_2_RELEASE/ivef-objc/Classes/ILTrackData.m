@@ -156,6 +156,8 @@
 
 -(void) setLength:(float) val {
 
+    if (val < 0)
+        return;
     m_lengthPresent = true;
     m_length = val;
 }
@@ -232,6 +234,8 @@
 
 -(void) setSOG:(float) val {
 
+    if (val < 0)
+        return;
     m_SOG = val;
 }
 
@@ -298,6 +302,8 @@
 
 -(void) setWidth:(float) val {
 
+    if (val < 0)
+        return;
     m_widthPresent = true;
     m_width = val;
 }

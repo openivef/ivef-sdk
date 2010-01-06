@@ -116,6 +116,8 @@
 
 -(void) setAirDraught:(float) val {
 
+    if (val < 0)
+        return;
     m_airDraughtPresent = true;
     m_airDraught = val;
 }
@@ -219,6 +221,8 @@
 
 -(void) setDraught:(float) val {
 
+    if (val < 0)
+        return;
     m_draughtPresent = true;
     m_draught = val;
 }
@@ -273,6 +277,8 @@
 
 -(void) setOverSizedLength:(float) val {
 
+    if (val < 0)
+        return;
     m_overSizedLengthPresent = true;
     m_overSizedLength = val;
 }
@@ -289,6 +295,8 @@
 
 -(void) setOverSizedWidth:(float) val {
 
+    if (val < 0)
+        return;
     m_overSizedWidthPresent = true;
     m_overSizedWidth = val;
 }
@@ -323,6 +331,8 @@
 
 -(void) setPersonsOnBoard:(float) val {
 
+    if (val < 0)
+        return;
     m_personsOnBoardPresent = true;
     m_personsOnBoard = val;
 }
@@ -339,6 +349,8 @@
 
 -(void) setPilots:(float) val {
 
+    if (val < 0)
+        return;
     m_pilotsPresent = true;
     m_pilots = val;
 }

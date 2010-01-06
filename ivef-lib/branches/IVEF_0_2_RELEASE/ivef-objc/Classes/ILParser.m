@@ -490,7 +490,7 @@
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
     NSLog(@"ILParser.parseErrorOccured: %@", parseError);
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ILParserError" object: self userInfo:parseError];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ILParserError" object: self userInfo:[NSDictionary dictionaryWithObject: parseError forKey: @"Error"]];
 }
 
 - (bool) parseXMLString:(NSString *)data andBuffer: (bool) cont {

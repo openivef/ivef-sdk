@@ -1,6 +1,7 @@
 
 #include "IVEFUnType.h"
 
+// Constructor
 UnType::UnType() {
 
     m_codeA = 0;
@@ -8,6 +9,7 @@ UnType::UnType() {
     m_mode = 0;
 }
 
+// copy constructor
 UnType::UnType(const UnType &val) : QObject() {
 
     m_codeA = val.m_codeA;
@@ -15,6 +17,7 @@ UnType::UnType(const UnType &val) : QObject() {
     m_mode = val.m_mode;
 }
 
+// comperator
 UnType & UnType::operator=(const UnType &val) {
 
     m_codeA = val.m_codeA;
@@ -23,8 +26,10 @@ UnType & UnType::operator=(const UnType &val) {
     return *this;
 }
 
+// String encoder
 QString UnType::encode( QString str) {
 
+    // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
     str.replace('<', "&lt;");
     str.replace('>', "&gt;");
@@ -32,35 +37,45 @@ QString UnType::encode( QString str) {
     return str;
 }
 
+// setter for UnType
 void UnType::setCodeA(int val) {
+    // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return;    // check if the new value is within bounds 
+
     if (val > 138)
         return;
     m_codeA = val;
 }
 
+// getter for UnType
 int UnType::getCodeA() const {
 
     return m_codeA;
 }
 
+// setter for UnType
 void UnType::setCodeB(int val) {
+    // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return;    // check if the new value is within bounds 
+
     if (val > 9)
         return;
     m_codeB = val;
 }
 
+// getter for UnType
 int UnType::getCodeB() const {
 
     return m_codeB;
 }
 
+// setter for UnType
 void UnType::setMode(int val) {
+// check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
@@ -72,11 +87,13 @@ void UnType::setMode(int val) {
     m_mode = val;
 }
 
+// getter for UnType
 int UnType::getMode() const {
 
     return m_mode;
 }
 
+// Get XML Representation
 QString UnType::toXML() {
 
     QString xml = "<UnType";
@@ -88,6 +105,13 @@ QString UnType::toXML() {
     return xml;
 }
 
+// Get String Representation
+QString UnType::toString() {
+
+    return toString("");
+}
+
+// Get String Representation with a lead
 QString UnType::toString(QString lead) {
 
     QString str = lead + "UnType\n";

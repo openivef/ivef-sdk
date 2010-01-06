@@ -1,18 +1,23 @@
 
 #include "IVEFOtherId.h"
 
+// Constructor
 OtherId::OtherId() {
 
+    // initialize empty string
     m_id = "";
+    // initialize empty string
     m_value = "";
 }
 
+// copy constructor
 OtherId::OtherId(const OtherId &val) : QObject() {
 
     m_id = val.m_id;
     m_value = val.m_value;
 }
 
+// comperator
 OtherId & OtherId::operator=(const OtherId &val) {
 
     m_id = val.m_id;
@@ -20,8 +25,10 @@ OtherId & OtherId::operator=(const OtherId &val) {
     return *this;
 }
 
+// String encoder
 QString OtherId::encode( QString str) {
 
+    // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
     str.replace('<', "&lt;");
     str.replace('>', "&gt;");
@@ -29,26 +36,31 @@ QString OtherId::encode( QString str) {
     return str;
 }
 
+// setter for OtherId
 void OtherId::setId(QString val) {
 
     m_id = val;
 }
 
+// getter for OtherId
 QString OtherId::getId() const {
 
     return m_id;
 }
 
+// setter for OtherId
 void OtherId::setValue(QString val) {
 
     m_value = val;
 }
 
+// getter for OtherId
 QString OtherId::getValue() const {
 
     return m_value;
 }
 
+// Get XML Representation
 QString OtherId::toXML() {
 
     QString xml = "<OtherId";
@@ -59,6 +71,13 @@ QString OtherId::toXML() {
     return xml;
 }
 
+// Get String Representation
+QString OtherId::toString() {
+
+    return toString("");
+}
+
+// Get String Representation with a lead
 QString OtherId::toString(QString lead) {
 
     QString str = lead + "OtherId\n";

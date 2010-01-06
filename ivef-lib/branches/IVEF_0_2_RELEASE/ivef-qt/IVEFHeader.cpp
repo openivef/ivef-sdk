@@ -1,18 +1,23 @@
 
 #include "IVEFHeader.h"
 
+// Constructor
 Header::Header() {
 
+    // initialize empty string
     m_msgRefId = "";
+    // initialize fixed value
     m_version = "0.2.2";
 }
 
+// copy constructor
 Header::Header(const Header &val) : QObject() {
 
     m_msgRefId = val.m_msgRefId;
     m_version = val.m_version;
 }
 
+// comperator
 Header & Header::operator=(const Header &val) {
 
     m_msgRefId = val.m_msgRefId;
@@ -20,8 +25,10 @@ Header & Header::operator=(const Header &val) {
     return *this;
 }
 
+// String encoder
 QString Header::encode( QString str) {
 
+    // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
     str.replace('<', "&lt;");
     str.replace('>', "&gt;");
@@ -29,26 +36,31 @@ QString Header::encode( QString str) {
     return str;
 }
 
+// setter for Header
 void Header::setMsgRefId(QString val) {
 
     m_msgRefId = val;
 }
 
+// getter for Header
 QString Header::getMsgRefId() const {
 
     return m_msgRefId;
 }
 
+// setter for Header
 void Header::setVersion(QString val) {
 
     m_version = val;
 }
 
+// getter for Header
 QString Header::getVersion() const {
 
     return m_version;
 }
 
+// Get XML Representation
 QString Header::toXML() {
 
     QString xml = "<Header";
@@ -59,6 +71,13 @@ QString Header::toXML() {
     return xml;
 }
 
+// Get String Representation
+QString Header::toString() {
+
+    return toString("");
+}
+
+// Get String Representation with a lead
 QString Header::toString(QString lead) {
 
     QString str = lead + "Header\n";

@@ -1,18 +1,23 @@
 
 #include "IVEFOtherName.h"
 
+// Constructor
 OtherName::OtherName() {
 
+    // initialize empty string
     m_lang = "";
+    // initialize empty string
     m_name = "";
 }
 
+// copy constructor
 OtherName::OtherName(const OtherName &val) : QObject() {
 
     m_lang = val.m_lang;
     m_name = val.m_name;
 }
 
+// comperator
 OtherName & OtherName::operator=(const OtherName &val) {
 
     m_lang = val.m_lang;
@@ -20,8 +25,10 @@ OtherName & OtherName::operator=(const OtherName &val) {
     return *this;
 }
 
+// String encoder
 QString OtherName::encode( QString str) {
 
+    // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
     str.replace('<', "&lt;");
     str.replace('>', "&gt;");
@@ -29,26 +36,31 @@ QString OtherName::encode( QString str) {
     return str;
 }
 
+// setter for OtherName
 void OtherName::setLang(QString val) {
 
     m_lang = val;
 }
 
+// getter for OtherName
 QString OtherName::getLang() const {
 
     return m_lang;
 }
 
+// setter for OtherName
 void OtherName::setName(QString val) {
 
     m_name = val;
 }
 
+// getter for OtherName
 QString OtherName::getName() const {
 
     return m_name;
 }
 
+// Get XML Representation
 QString OtherName::toXML() {
 
     QString xml = "<OtherName";
@@ -59,6 +71,13 @@ QString OtherName::toXML() {
     return xml;
 }
 
+// Get String Representation
+QString OtherName::toString() {
+
+    return toString("");
+}
+
+// Get String Representation with a lead
 QString OtherName::toString(QString lead) {
 
     QString str = lead + "OtherName\n";

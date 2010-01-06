@@ -128,6 +128,8 @@
 
 -(void) setLength:(float) val {
 
+    if (val < 0)
+        return;
     m_lengthPresent = true;
     m_length = val;
 }
@@ -160,6 +162,8 @@
 
 -(void) setMaxKeelHeight:(float) val {
 
+    if (val < 0)
+        return;
     m_maxKeelHeightPresent = true;
     m_maxKeelHeight = val;
 }
@@ -176,6 +180,8 @@
 
 -(void) setMaxDraught:(float) val {
 
+    if (val < 0)
+        return;
     m_maxDraughtPresent = true;
     m_maxDraught = val;
 }
@@ -192,6 +198,8 @@
 
 -(void) setMaxPersonsOnBoard:(float) val {
 
+    if (val < 0)
+        return;
     m_maxPersonsOnBoardPresent = true;
     m_maxPersonsOnBoard = val;
 }
@@ -208,6 +216,8 @@
 
 -(void) setMaxSpeed:(float) val {
 
+    if (val < 0)
+        return;
     m_maxSpeedPresent = true;
     m_maxSpeed = val;
 }
@@ -224,6 +234,8 @@
 
 -(void) setWidth:(float) val {
 
+    if (val < 0)
+        return;
     m_widthPresent = true;
     m_width = val;
 }

@@ -1,18 +1,22 @@
 
 #include "IVEFItem.h"
 
+// Constructor
 Item::Item() {
 
     m_dataSelector = 0;
+    // initialize empty string
     m_fieldSelector = "";
 }
 
+// copy constructor
 Item::Item(const Item &val) : QObject() {
 
     m_dataSelector = val.m_dataSelector;
     m_fieldSelector = val.m_fieldSelector;
 }
 
+// comperator
 Item & Item::operator=(const Item &val) {
 
     m_dataSelector = val.m_dataSelector;
@@ -20,8 +24,10 @@ Item & Item::operator=(const Item &val) {
     return *this;
 }
 
+// String encoder
 QString Item::encode( QString str) {
 
+    // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
     str.replace('<', "&lt;");
     str.replace('>', "&gt;");
@@ -29,7 +35,9 @@ QString Item::encode( QString str) {
     return str;
 }
 
+// setter for Item
 void Item::setDataSelector(int val) {
+// check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
@@ -38,21 +46,25 @@ void Item::setDataSelector(int val) {
     m_dataSelector = val;
 }
 
+// getter for Item
 int Item::getDataSelector() const {
 
     return m_dataSelector;
 }
 
+// setter for Item
 void Item::setFieldSelector(QString val) {
 
     m_fieldSelector = val;
 }
 
+// getter for Item
 QString Item::getFieldSelector() const {
 
     return m_fieldSelector;
 }
 
+// Get XML Representation
 QString Item::toXML() {
 
     QString xml = "<Item";
@@ -63,6 +75,13 @@ QString Item::toXML() {
     return xml;
 }
 
+// Get String Representation
+QString Item::toString() {
+
+    return toString("");
+}
+
+// Get String Representation with a lead
 QString Item::toString(QString lead) {
 
     QString str = lead + "Item\n";
