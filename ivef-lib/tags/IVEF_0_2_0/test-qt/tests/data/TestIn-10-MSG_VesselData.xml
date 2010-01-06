@@ -1,0 +1,88 @@
+<MSG_IVEF xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2
+U:\Software\ivef-sdk\ivef-def\branches\IVEF_1_0_0_DEV\IVEF-WG\ivef0_2.xsd">
+	<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2"/>
+	<Body>
+		<ObjectDatas>
+			<ObjectData>
+				<TrackData SOG="3.1" Length="3.1415926535897932384626433832795" Width="3.1415926535897932384626433832795" EstAccCOG="3.1415926535897932384626433832795" SourceName="String" EstAccSOG="3.1415926535897932384626433832795" NavStatus="-0" TrackStatus="1" Id="-0" ROT="3.1" COG="3.1" SourceId="String" UpdateTime="2001-12-17T09:30:47.0Z" Heading="3.1415926535897932384626433832795">
+					<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+				</TrackData>
+				<VesselData SourceName="String" SpecialAttention="String" BlackListed="true" Id="-0" Class="0" SourceType="1" SourceId="String" UpdateTime="2001-12-17T09:30:47.0Z">
+					<Construction Length="3.1415926535897932384626433832795" HullColor="String" Width="3.1415926535897932384626433832795" MaxSpeed="3.1415926535897932384626433832795" HullType="1" MaxKeelHeight="3.1" LloydsShipType="-0" MaxDraught="3.1" MaxPersonsOnBoard="3.1415926535897932384626433832795">
+						<UnType Mode="1" CodeA="-0" CodeB="-0"/>
+					</Construction>
+					<Identifier LRIT="String" Callsign="String" MMSI="-0" Name="String" IMO="-0">
+						<OtherId Id="String" Value="String"/>
+						<OtherId Id="String" Value="String"/>
+						<OtherId Id="String" Value="String"/>
+						<OtherName Lang="St" Name="String"/>
+						<OtherName Lang="St" Name="String"/>
+						<OtherName Lang="St" Name="String"/>
+					</Identifier>
+				</VesselData>
+				<VesselData SourceName="String" SpecialAttention="String" BlackListed="true" Id="-0" Class="0" SourceType="1" SourceId="String" UpdateTime="2001-12-17T09:30:47.0Z">
+					<Construction Length="3.1415926535897932384626433832795" HullColor="String" Width="3.1415926535897932384626433832795" MaxSpeed="3.1415926535897932384626433832795" HullType="1" MaxKeelHeight="3.1" LloydsShipType="-0" MaxDraught="3.1" MaxPersonsOnBoard="3.1415926535897932384626433832795">
+						<UnType Mode="1" CodeA="-0" CodeB="-0"/>
+					</Construction>
+					<Identifier LRIT="String" Callsign="String" MMSI="-0" Name="String" IMO="-0">
+						<OtherId Id="String" Value="String"/>
+						<OtherId Id="String" Value="String"/>
+						<OtherId Id="String" Value="String"/>
+						<OtherName Lang="St" Name="String"/>
+						<OtherName Lang="St" Name="String"/>
+						<OtherName Lang="St" Name="String"/>
+					</Identifier>
+				</VesselData>
+				<VesselData SourceName="String" SpecialAttention="String" BlackListed="true" Id="-0" Class="0" SourceType="1" SourceId="String" UpdateTime="2001-12-17T09:30:47.0Z">
+					<Construction Length="3.1415926535897932384626433832795" HullColor="String" Width="3.1415926535897932384626433832795" MaxSpeed="3.1415926535897932384626433832795" HullType="1" MaxKeelHeight="3.1" LloydsShipType="-0" MaxDraught="3.1" MaxPersonsOnBoard="3.1415926535897932384626433832795">
+						<UnType Mode="1" CodeA="-0" CodeB="-0"/>
+					</Construction>
+					<Identifier LRIT="String" Callsign="String" MMSI="-0" Name="String" IMO="-0">
+						<OtherId Id="String" Value="String"/>
+						<OtherId Id="String" Value="String"/>
+						<OtherId Id="String" Value="String"/>
+						<OtherName Lang="St" Name="String"/>
+						<OtherName Lang="St" Name="String"/>
+						<OtherName Lang="St" Name="String"/>
+					</Identifier>
+				</VesselData>
+				<VoyageData PrevPort="Strin" PersonsOnBoard="3.1415926535897932384626433832795" Tugs="true" ISPSLevel="1" AirDraught="3.14" CargoTypeIMO="0" NextPort="Strin" OverSizedWidth="3.1" SourceName="String" DestName="String" OverSizedLength="3.1" DestCode="String" TankerStatus="0" Id="-0" RouteBound="true" SourceType="1" Pilots="3.1415926535897932384626433832795" SourceId="String" Draught="3.14" ETA="2001-12-17T09:30:47.0Z" UpdateTime="2001-12-17T09:30:47.0Z" ContactIdentity="String">
+					<Waypoint RTA="2001-12-17T09:30:55" LoCode="String" ATA="2001-12-17T09:30:55Z" Name="String" ETA="2001-12-17T09:30:55Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+				</VoyageData>
+				<VoyageData PrevPort="Strin" PersonsOnBoard="3.1415926535897932384626433832795" Tugs="true" ISPSLevel="1" AirDraught="3.14" CargoTypeIMO="0" NextPort="Strin" OverSizedWidth="3.1" SourceName="String" DestName="String" OverSizedLength="3.1" DestCode="String" TankerStatus="0" Id="-0" RouteBound="true" SourceType="1" Pilots="3.1415926535897932384626433832795" SourceId="String" Draught="3.14" ETA="2001-12-17T09:30:47.0Z" UpdateTime="2001-12-17T09:30:47.0Z" ContactIdentity="String">
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+				</VoyageData>
+				<VoyageData PrevPort="Strin" PersonsOnBoard="3.1415926535897932384626433832795" Tugs="true" ISPSLevel="1" AirDraught="3.14" CargoTypeIMO="0" NextPort="Strin" OverSizedWidth="3.1" SourceName="String" DestName="String" OverSizedLength="3.1" DestCode="String" TankerStatus="0" Id="-0" RouteBound="true" SourceType="1" Pilots="3.1415926535897932384626433832795" SourceId="String" Draught="3.14" ETA="2001-12-17T09:30:47.0Z" UpdateTime="2001-12-17T09:30:47.0Z" ContactIdentity="String">
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+					<Waypoint RTA="2001-12-17T09:30:47.0Z" LoCode="String" ATA="2001-12-17T09:30:47.0Z" Name="String" ETA="2001-12-17T09:30:47.0Z">
+						<Pos EstAccLong="3.1415926535897932384626433832795" EstAccAlt="3.1415926535897932384626433832795" Lat="3.14159" EstAccLat="3.1415926535897932384626433832795" Altitude="3.1415926535897932384626433832795" Long="3.14159"/>
+					</Waypoint>
+				</VoyageData>
+				<TaggedItem Key="String" Value="Text"/>
+				<TaggedItem Key="String" Value="Text"/>
+				<TaggedItem Key="String" Value="Text"/>
+			</ObjectData>
+		</ObjectDatas>
+	</Body>
+</MSG_IVEF>

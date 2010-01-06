@@ -1,0 +1,20 @@
+TestQt ready for input
+MSG_IVEF
+    Header
+        MsgRefId = String
+        Version = String
+    Body
+        LoginResponse
+            Reason = QueueFull
+            ResponseOn = PreviousMessage
+            Result = 1
+<MSG_IVEF>
+<Header MsgRefId="String" Version="String">
+</Header>
+<Body>
+<LoginResponse Reason="QueueFull" ResponseOn="PreviousMessage" Result="1">
+</LoginResponse>
+</Body>
+</MSG_IVEF>
+
+TestQt shutting down

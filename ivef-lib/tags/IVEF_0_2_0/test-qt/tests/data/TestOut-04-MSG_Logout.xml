@@ -1,0 +1,17 @@
+TestQt ready for input
+MSG_IVEF
+    Header
+        MsgRefId = String
+        Version = String
+    Body
+        Logout
+<MSG_IVEF>
+<Header MsgRefId="String" Version="String">
+</Header>
+<Body>
+<Logout>
+</Logout>
+</Body>
+</MSG_IVEF>
+
+TestQt shutting down

@@ -1,0 +1,98 @@
+TestQt ready for input
+MSG_IVEF
+    Header
+        MsgRefId = StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+        Version = 0.2.2
+    Body
+        ServiceRequest
+            Area
+                Name = String
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+            Area
+                Name = String
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Altitude = 3.14159
+                    EstAccAlt = 3.14159
+                    EstAccLat = 3.14159
+                    EstAccLong = 3.14159
+                    Lat = 3.14159
+                    Long = 3.14159
+            Transmission
+                Type = 1
+                Period = 3.14159
+            Item
+                DataSelector = 1
+                FieldSelector = String
+            Item
+                DataSelector = 1
+                FieldSelector = String
+            Filter
+                Predicate = String
+<MSG_IVEF>
+<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2">
+</Header>
+<Body>
+<ServiceRequest>
+<Area Name="String">
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+</Area>
+<Area Name="String">
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+<Pos Altitude="3.14159" EstAccAlt="3.14159" EstAccLat="3.14159" EstAccLong="3.14159" Lat="3.14159" Long="3.14159">
+</Pos>
+</Area>
+<Transmission Type="1" Period="3.14159">
+</Transmission>
+<Item DataSelector="1" FieldSelector="String">
+</Item>
+<Item DataSelector="1" FieldSelector="String">
+</Item>
+<Filter Predicate="String">
+</Filter>
+</ServiceRequest>
+</Body>
+</MSG_IVEF>
+
+TestQt shutting down
