@@ -31,8 +31,10 @@ The next scheduled release is the first release supports IVEF_DEF 0.2 which is s
 Released and compiles on Windows, Linux and Mac OS X.  Click on Source and follow the instructions to use SVN and obtain the source. 
 
 ==Analysis==
-<wiki:gadget url="http://www.ohloh.net/p/57128/widgets/project_languages.xml" border="1" />
-<wiki:gadget url="http://www.ohloh.net/p/57128/widgets/project_cocomo.xml" height="240"  border="0" />
+<wiki:gadget url="http://www.ohloh.net/p/ivef-sdk/widgets/project_basic_stats.xml" height="220" border="1" />
+<wiki:gadget url="http://www.ohloh.net/p/ivef-sdk/widgets/project_factoids.xml" width="340" height="170" border="0" />
+<wiki:gadget url="http://www.ohloh.net/p/ivef-sdk/widgets/project_languages.xml" width="340" height="200" border="1" />
+<wiki:gadget url="http://www.ohloh.net/p/ivef-sdk/widgets/project_cocomo.xml" height="250" border="0" />
 
 ----
 [http://code.google.com/p/ivef-sdk/ Home]
