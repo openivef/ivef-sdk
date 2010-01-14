@@ -1,0 +1,7 @@
+= Introduction =
+
+One of the IVEF-SDK members designed an IVEF t-shirt. The design is free of charge, the only costs are those related to producing the shirt itself. Checkout the website below.
+
+= Details =
+
+<wiki:gadget url="http://ivef-sdk.googlecode.com/svn/ivef-def/trunk/misc/iframe.xml" height="200" border="0" />
