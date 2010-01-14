@@ -4,4 +4,6 @@ One of the IVEF-SDK members designed an IVEF t-shirt. The design is free of char
 
 = Details =
 
-<wiki:gadget url="http://ivef-sdk.googlecode.com/svn/ivef-def/trunk/misc/iframe.xml"/>
+http://image.spreadshirt.com/image-server/image/product/15726630/view/1/type/png/width/280/height/280
+
+See [http://www.spreadshirt.com/us/US/Detail/Detail-3376/Marketplace/Products/detail/article/5472103/ SpreadShirt] for details
