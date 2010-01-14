@@ -4,4 +4,4 @@ One of the IVEF-SDK members designed an IVEF t-shirt. The design is free of char
 
 = Details =
 
-<wiki:gadget url="http://ivef-sdk.googlecode.com/svn/ivef-def/trunk/misc/iframe.xml" height="200" border="0" />
+<wiki:gadget url="http://ivef-sdk.googlecode.com/svn/ivef-def/trunk/misc/iframe.xml"/>
