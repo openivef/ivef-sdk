@@ -7,7 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_version = @"0.1.4";
+        m_version = @"0.1.5";
     }
     return self;
 }

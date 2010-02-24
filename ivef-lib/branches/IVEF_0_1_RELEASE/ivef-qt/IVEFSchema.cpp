@@ -37,7 +37,7 @@ QString Schema::getElementFormDefault() const {
 // getter for Schema
 QString Schema::getTargetNamespace() const {
 
-    return "urn:http://www.ivef.org/XMLSchema/IVEF/0.1.4";
+    return "urn:http://www.ivef.org/XMLSchema/IVEF/0.1.5";
 }
 
 // Get XML Representation
