@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.4" targetNamespace="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.4" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.5" targetNamespace="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.5" elementFormDefault="qualified">
 	<xs:element name="MSG_LoginRequest">
 		<xs:annotation>
 			<xs:documentation>MESSAGE sent by the user to identify oneselfs and request the default service</xs:documentation>
@@ -140,7 +140,7 @@
 	</xs:element>
 	<xs:element name="Header">
 		<xs:complexType>
-			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.1.4"/>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.1.5"/>
 			<xs:attribute name="MsgRefId" use="required">
 				<xs:annotation>
 					<xs:documentation>Must be an Universally Unique Identifier</xs:documentation>
@@ -369,7 +369,7 @@ North = positive; South = negative) Examples:
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:decimal">
-						<xs:minExclusive value="0"/>
+						<xs:minInclusive value="0"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -418,7 +418,7 @@ North = positive; South = negative) Examples:
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:decimal">
-						<xs:minExclusive value="0"/>
+						<xs:minInclusive value="0"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -428,7 +428,7 @@ North = positive; South = negative) Examples:
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:decimal">
-						<xs:minExclusive value="0"/>
+						<xs:minInclusive value="0"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -507,7 +507,7 @@ North = positive; South = negative) Examples:
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
-						<xs:maxLength value="20"/>
+						<xs:maxLength value="40"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
@@ -929,7 +929,7 @@ North = positive; South = negative) Examples:
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
-						<xs:maxLength value="20"/>
+						<xs:maxLength value="40"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
