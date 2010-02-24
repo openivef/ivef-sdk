@@ -1,0 +1,1358 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
+<HTML>
+	<HEAD>
+		<title>
+			Koders - ProgressMonitorDialog.java
+		</title>
+		<LINK href="/skins/koders/styles.css" type="text/css" rel="stylesheet"/><LINK href="/Special/Stylesheets/koders.com.css" type="text/css" rel="stylesheet"/>
+		<script type="text/javascript" language="javascript">
+			//Copyright (c) 2005 Koders.com,
+			//All Rights Reserved.
+			var anchors;
+			var symbolSegment = 0;
+			
+			function assignInitial() {
+				var codeDiv = document.getElementById("CodeDiv");
+				anchors = codeDiv.getElementsByTagName("a");
+				assignR(300);
+			}
+			
+			function assignR(max) {
+				//var max = 50;
+				if(symbolSegment + max >= anchors.length) {
+					max = anchors.length - symbolSegment; 
+				}
+				for(i = 0; i < max; i++) {
+					var temp = "";
+					var index = symbolSegment +  i;
+					for(k=0; k < anchors[index].childNodes.length; k++) {
+						if(anchors[index].childNodes[k].data == undefined) {
+							temp = temp + anchors[index].childNodes[k].childNodes[0].data;
+						}
+						else {
+							temp = temp + anchors[index].childNodes[k].data;
+						}
+					}
+					
+					anchors[index].setAttribute("href", "javascript:searchRef('" + temp + "')");
+					anchors[index].setAttribute("title", "Search for references of '" + temp + "'");
+
+				}
+				
+				if(symbolSegment + max < anchors.length) { 
+					symbolSegment += max;
+					this.setTimeout("assignR(50)", 200);		
+				}
+				
+			}
+			
+			function searchRef(symbol) {
+				location = "http://" + homeUrl + "?s=" + symbol + "&scope=" + projectID + "&la=" + sourceLanguage;
+			}
+			
+			function Hide(element) {
+				if(element) {
+					element.style.visibility = "hidden";
+					element.style.display = "none";
+				} 
+			}
+			
+			function HideBanner() {
+				var eleArray = document.getElementsByTagName('div');
+				for(var i = 0; i < eleArray.length; i++) {
+					if(!eleArray[i] || !eleArray[i].id) {
+						continue;
+					}
+		
+					var id = eleArray[i].id;
+					if(id && id.indexOf("RightBanner") != -1){
+						Hide(eleArray[i]);
+											
+						// hide all the iframes nested in the Banner
+						var arrIframe = eleArray[i].getElementsByTagName('iframe');
+						if(!arrIframe)
+							return;
+						
+						for(var j = 0; j < arrIframe.length; j++) {
+							Hide(arrIframe[j]);
+						}
+					}
+				}
+			}
+
+			window.onload = function() {
+				assignInitial();
+			}
+		</script>
+	</HEAD>
+	<body>
+		<form name="FRM" method="post" action="kv.aspx?fid=1861AB23DDA136F34B00B191A81E0BBBF22E0432" id="FRM">
+<input type="hidden" name="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" value="dDwxNzkyMDYyNjQzO3Q8O2w8aTwxPjtpPDU+Oz47bDx0PHA8bDxUZXh0Oz47bDxLb2RlcnMgLSBQcm9ncmVzc01vbml0b3JEaWFsb2cuamF2YTs+Pjs7Pjt0PDtsPGk8Mz47aTw1Pjs+O2w8dDw7bDxpPDA+Oz47bDx0PDtsPGk8MT47aTw3PjtpPDk+O2k8MTE+Oz47bDx0PHA8cDxsPE5hdmlnYXRlVXJsOz47bDwvOz4+Oz47bDxpPDA+Oz47bDx0PHA8cDxsPEltYWdlVXJsOz47bDwvc2tpbnMva29kZXJzL2xvZ29fbWVkLmdpZjs+Pjs+Ozs+Oz4+O3Q8dDw7dDxpPDMxPjtAPEFsbCBMYW5ndWFnZXM7QWRhO0FTUDtBc3NlbWJsZXI7QztDIztDKys7Q29sZEZ1c2lvbjtEZWxwaGk7RWlmZmVsO0VybGFuZztGb3J0cmFuO0phdmE7SmF2YVNjcmlwdDtKU1A7TGlzcDtMdWE7TWF0aGVtYXRpY2E7TWF0bGFiO09iamVjdGl2ZUM7UGVybDtQSFA7UHJvbG9nO1B5dGhvbjtSdWJ5O1NjaGVtZTtTbWFsbHRhbGs7U1FMO1RjbDtWQjtWQi5ORVQ7PjtAPCo7QWRhO0FTUDtBc3NlbWJsZXI7QztDIztDcHA7Q29sZEZ1c2lvbjtEZWxwaGk7RWlmZmVsO0VybGFuZztGb3J0cmFuO0phdmE7SmF2YVNjcmlwdDtKU1A7TGlzcDtMdWE7TWF0aGVtYXRpY2E7TWF0bGFiO09iamVjdGl2ZUM7UGVybDtQSFA7UHJvbG9nO1B5dGhvbjtSdWJ5O1NjaGVtZTtTbWFsbHRhbGs7U1FMO1RjbDtWQjtWQi5ORVQ7Pj47Pjs7Pjt0PHQ8O3Q8aTwyMT47QDxBbGwgTGljZW5zZXM7QUZMO0FMMjA7QVNMO0FQU0w7QlNEO0NQTDtHUEw7TEdQTDtJQk1QTDtJT1NMO01QTDEwO01QTDExO05QTDEwO05QTDExO09TTDtQU0ZMO1NQTDtXM0M7WkxMO1pQTDs+O0A8KjtBRkw7QUwyMDtBU0w7QVBTTDtCU0Q7Q1BMO0dQTDtMR1BMO0lCTVBMO0lPU0w7TVBMMTA7TVBMMTE7TlBMMTA7TlBMMTE7T1NMO1BTRkw7U1BMO1czQztaTEw7WlBMOz4+Oz47Oz47dDxwPHA8bDxOYXZpZ2F0ZVVybDs+O2w8L2luZm8uYXNweD9jPUxpY2Vuc2VJbmZvOz4+Oz47bDxpPDA+Oz47bDx0PHA8bDxzcmM7PjtsPC9pbWFnZXMvaW5mb18xNi5naWY7Pj47Oz47Pj47Pj47Pj47dDw7bDxpPDA+O2k8Mj47aTwzPjtpPDU+O2k8Nj47aTw3Pjs+O2w8dDxwPHA8bDxJbWFnZVVybDtUb29sVGlwOz47bDwvaW1hZ2VzL2Rvd25sb2FkLmdpZjtEb3dubG9hZCBQcm9ncmVzc01vbml0b3JEaWFsb2cuamF2YTs+Pjs+Ozs+O3Q8cDxsPF8hSXRlbUNvdW50Oz47bDxpPDE+Oz4+O2w8aTwwPjs+O2w8dDw7bDxpPDA+Oz47bDx0PEA8UHJvZ3Jlc3NNb25pdG9yRGlhbG9nLmphdmE7SmF2YTtMaWNlbnNlOiBDUExcPGJyXD47Q29weXJpZ2h0OiAoYykgMjAwMCwgMjAwNCBJQk0gQ29ycG9yYXRpb24gYW5kIG90aGVycy4NClw8YnJcPjtMT0M6IDI4MTs+Ozs+Oz4+Oz4+O3Q8cDxsPF8hSXRlbUNvdW50Oz47bDxpPDE+Oz4+O2w8aTwwPjs+O2w8dDw7bDxpPDA+O2k8MT47aTwyPjs+O2w8dDxAPCBFY2xpcHNlIGlzIGEga2luZCBvZiB1bml2ZXJzYWwgdG9vbCBwbGF0Zm9ybSAtIGFuIG9wZW4gZXh0ZW5zaWJsZSBJREUgZm9yIGFueXRoaW5nIGFuZCBub3RoaW5nIGluIHBhcnRpY3VsYXIuOy9pbmZvLmFzcHg/Yz1Qcm9qZWN0SW5mbyZwaWQ9Q0ZMQlE3VTVRWjhEUEQ4NjVOMlFVTDEyR0I7Pjs7Pjt0PDtsPGk8MD47PjtsPHQ8QDxFY2xpcHNlX1Byb2plY3Q7ZWNsaXBzZTs+Ozs+Oz4+O3Q8QDxFY2xpcHNlO2N2czs+Ozs+Oz4+Oz4+O3Q8O2w8aTwwPjs+O2w8dDw7bDxpPDE+O2k8Mz47aTw1Pjs+O2w8dDxwPHA8bDxOYXZpZ2F0ZVVybDs+O2w8L2luZm8uYXNweD9jPVByb2plY3RJbmZvJnBpZD1DRkxCUTdVNVFaOERQRDg2NU4yUVVMMTJHQjs+Pjs+O2w8aTwwPjs+O2w8dDxwPHA8bDxJbWFnZVVybDs+O2w8L2ltYWdlcy9mb2xkZXIuZ2lmOz4+Oz47Oz47Pj47dDxwPHA8bDxUZXh0Oz47bDwuLi5cXG9yZ1xcZWNsaXBzZVxcamZhY2VcXGRpYWxvZ3NcXDs+Pjs+Ozs+O3Q8cDxsPF8hSXRlbUNvdW50Oz47bDxpPDE5Pjs+Pjs7Pjs+Pjs+Pjt0PDtsPGk8MD47PjtsPHQ8O2w8aTwxPjtpPDM+Oz47bDx0PHA8bDxUZXh0Oz47bDwvOz4+Ozs+O3Q8cDxsPF8hSXRlbUNvdW50Oz47bDxpPDE+Oz4+O2w8aTwwPjs+O2w8dDw7bDxpPDA+O2k8MT47aTwzPjtpPDU+Oz47bDx0PEA8UHJvZ3Jlc3NNb25pdG9yRGlhbG9nO0NsYXNzOz47Oz47dDxwPGw8XyFJdGVtQ291bnQ7PjtsPGk8NDI+Oz4+O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2k8NT47aTw2PjtpPDc+O2k8OD47aTw5PjtpPDEwPjtpPDExPjtpPDEyPjtpPDEzPjtpPDE0PjtpPDE1PjtpPDE2PjtpPDE3PjtpPDE4PjtpPDE5PjtpPDIwPjtpPDIxPjtpPDIyPjtpPDIzPjtpPDI0PjtpPDI1PjtpPDI2PjtpPDI3PjtpPDI4PjtpPDI5PjtpPDMwPjtpPDMxPjtpPDMyPjtpPDMzPjtpPDM0PjtpPDM1PjtpPDM2PjtpPDM3PjtpPDM4PjtpPDM5PjtpPDQwPjtpPDQxPjtpPDQyPjs+O2w8dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+Pjs7Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPERFRkFVTFRfVEFTS05BTUU7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPExBQkVMX0RMVVM7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPEJBUl9ETFVTOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxwcm9ncmVzc0luZGljYXRvcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8dGFza0xhYmVsOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxzdWJUYXNrTGFiZWw7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGNhbmNlbDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8b3BlcmF0aW9uQ2FuY2VsYWJsZVN0YXRlOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxlbmFibGVDYW5jZWxCdXR0b247Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPHByb2dyZXNzTW9uaXRvcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8dGFzazs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8bmVzdGluZ0RlcHRoOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxhcnJvd0N1cnNvcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8d2FpdEN1cnNvcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8b3Blbk9uUnVuOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxcPGEgdGl0bGU9InZvaWQgdXBkYXRlRm9yQ2xlYXJCbG9ja2VkKCkiXD51cGRhdGVGb3JDbGVhckJsb2NrZWRcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCB1cGRhdGVGb3JTZXRCbG9ja2VkKCkiXD51cGRhdGVGb3JTZXRCbG9ja2VkXDwvYVw+Oz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxcPGEgdGl0bGU9IlZvaWQgUHJvZ3Jlc3NNb25pdG9yRGlhbG9nKCkiXD5Qcm9ncmVzc01vbml0b3JEaWFsb2dcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCBhc3luY1NldE9wZXJhdGlvbkNhbmNlbEJ1dHRvbkVuYWJsZWQoKSJcPmFzeW5jU2V0T3BlcmF0aW9uQ2FuY2VsQnV0dG9uRW5hYmxlZFw8L2FcPjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8XDxhIHRpdGxlPSJ2b2lkIGNhbmNlbFByZXNzZWQoKSJcPmNhbmNlbFByZXNzZWRcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0iYm9vbGVhbiBjbG9zZSgpIlw+Y2xvc2VcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCBjbGVhckN1cnNvcnMoKSJcPmNsZWFyQ3Vyc29yc1w8L2FcPjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8XDxhIHRpdGxlPSJ2b2lkIGNvbmZpZ3VyZVNoZWxsKCkiXD5jb25maWd1cmVTaGVsbFw8L2FcPjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8XDxhIHRpdGxlPSJ2b2lkIGNyZWF0ZUJ1dHRvbnNGb3JCdXR0b25CYXIoKSJcPmNyZWF0ZUJ1dHRvbnNGb3JCdXR0b25CYXJcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCBjcmVhdGVDYW5jZWxCdXR0b24oKSJcPmNyZWF0ZUNhbmNlbEJ1dHRvblw8L2FcPjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8XDxhIHRpdGxlPSJDb250cm9sIGNyZWF0ZURpYWxvZ0FyZWEoKSJcPmNyZWF0ZURpYWxvZ0FyZWFcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0iUG9pbnQgZ2V0SW5pdGlhbFNpemUoKSJcPmdldEluaXRpYWxTaXplXDwvYVw+Oz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxcPGEgdGl0bGU9IklQcm9ncmVzc01vbml0b3IgZ2V0UHJvZ3Jlc3NNb25pdG9yKCkiXD5nZXRQcm9ncmVzc01vbml0b3JcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCBydW4oKSJcPnJ1blw8L2FcPjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8XDxhIHRpdGxlPSJib29sZWFuIGdldE9wZW5PblJ1bigpIlw+Z2V0T3Blbk9uUnVuXDwvYVw+Oz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxcPGEgdGl0bGU9InZvaWQgc2V0T3Blbk9uUnVuKCkiXD5zZXRPcGVuT25SdW5cPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0iaW50IGdldE5lc3RpbmdEZXB0aCgpIlw+Z2V0TmVzdGluZ0RlcHRoXDwvYVw+Oz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxcPGEgdGl0bGU9InZvaWQgaW5jcmVtZW50TmVzdGluZ0RlcHRoKCkiXD5pbmNyZW1lbnROZXN0aW5nRGVwdGhcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCBkZWNyZW1lbnROZXN0aW5nRGVwdGgoKSJcPmRlY3JlbWVudE5lc3RpbmdEZXB0aFw8L2FcPjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8XDxhIHRpdGxlPSJ2b2lkIGFib3V0VG9SdW4oKSJcPmFib3V0VG9SdW5cPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCBmaW5pc2hlZFJ1bigpIlw+ZmluaXNoZWRSdW5cPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCBzZXRDYW5jZWxhYmxlKCkiXD5zZXRDYW5jZWxhYmxlXDwvYVw+Oz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxcPGEgdGl0bGU9InZvaWQgc2V0T3BlcmF0aW9uQ2FuY2VsQnV0dG9uRW5hYmxlZCgpIlw+c2V0T3BlcmF0aW9uQ2FuY2VsQnV0dG9uRW5hYmxlZFw8L2FcPjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8XDxhIHRpdGxlPSJJbWFnZSBnZXRJbWFnZSgpIlw+Z2V0SW1hZ2VcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0idm9pZCBzZXRNZXNzYWdlKCkiXD5zZXRNZXNzYWdlXDwvYVw+Oz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxcPGEgdGl0bGU9InZvaWQgdXBkYXRlKCkiXD51cGRhdGVcPC9hXD47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPFw8YSB0aXRsZT0iaW50IG9wZW4oKSJcPm9wZW5cPC9hXD47Pjs7Pjs+Pjs+Pjt0PHA8bDxfIUl0ZW1Db3VudDs+O2w8aTw0Mj47Pj47bDxpPDA+O2k8MT47aTwyPjtpPDM+O2k8ND47aTw1PjtpPDY+O2k8Nz47aTw4PjtpPDk+O2k8MTA+O2k8MTE+O2k8MTI+O2k8MTM+O2k8MTQ+O2k8MTU+O2k8MTY+O2k8MTc+O2k8MTg+O2k8MTk+O2k8MjA+O2k8MjE+O2k8MjI+O2k8MjM+O2k8MjQ+O2k8MjU+O2k8MjY+O2k8Mjc+O2k8Mjg+O2k8Mjk+O2k8MzA+O2k8MzE+O2k8MzI+O2k8MzM+O2k8MzQ+O2k8MzU+O2k8MzY+O2k8Mzc+O2k8Mzg+O2k8Mzk+O2k8NDA+O2k8NDE+O2k8NDI+Oz47bDx0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+Ozs+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8REVGQVVMVF9UQVNLTkFNRTs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8TEFCRUxfRExVUzs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8QkFSX0RMVVM7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPHByb2dyZXNzSW5kaWNhdG9yOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDx0YXNrTGFiZWw7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPHN1YlRhc2tMYWJlbDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8Y2FuY2VsOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxvcGVyYXRpb25DYW5jZWxhYmxlU3RhdGU7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGVuYWJsZUNhbmNlbEJ1dHRvbjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8cHJvZ3Jlc3NNb25pdG9yOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDx0YXNrOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxuZXN0aW5nRGVwdGg7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGFycm93Q3Vyc29yOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDx3YWl0Q3Vyc29yOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxvcGVuT25SdW47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPHVwZGF0ZUZvckNsZWFyQmxvY2tlZDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8dXBkYXRlRm9yU2V0QmxvY2tlZDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8UHJvZ3Jlc3NNb25pdG9yRGlhbG9nOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxhc3luY1NldE9wZXJhdGlvbkNhbmNlbEJ1dHRvbkVuYWJsZWQ7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGNhbmNlbFByZXNzZWQ7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGNsb3NlOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxjbGVhckN1cnNvcnM7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGNvbmZpZ3VyZVNoZWxsOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxjcmVhdGVCdXR0b25zRm9yQnV0dG9uQmFyOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxjcmVhdGVDYW5jZWxCdXR0b247Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGNyZWF0ZURpYWxvZ0FyZWE7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGdldEluaXRpYWxTaXplOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxnZXRQcm9ncmVzc01vbml0b3I7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPHJ1bjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8Z2V0T3Blbk9uUnVuOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxzZXRPcGVuT25SdW47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGdldE5lc3RpbmdEZXB0aDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8aW5jcmVtZW50TmVzdGluZ0RlcHRoOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxkZWNyZW1lbnROZXN0aW5nRGVwdGg7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGFib3V0VG9SdW47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGZpbmlzaGVkUnVuOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxzZXRDYW5jZWxhYmxlOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxzZXRPcGVyYXRpb25DYW5jZWxCdXR0b25FbmFibGVkOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxnZXRJbWFnZTs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8c2V0TWVzc2FnZTs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8dXBkYXRlOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxvcGVuOz47Oz47Pj47Pj47dDxwPGw8XyFJdGVtQ291bnQ7PjtsPGk8NDI+Oz4+O2w8aTwwPjtpPDE+O2k8Mj47aTwzPjtpPDQ+O2k8NT47aTw2PjtpPDc+O2k8OD47aTw5PjtpPDEwPjtpPDExPjtpPDEyPjtpPDEzPjtpPDE0PjtpPDE1PjtpPDE2PjtpPDE3PjtpPDE4PjtpPDE5PjtpPDIwPjtpPDIxPjtpPDIyPjtpPDIzPjtpPDI0PjtpPDI1PjtpPDI2PjtpPDI3PjtpPDI4PjtpPDI5PjtpPDMwPjtpPDMxPjtpPDMyPjtpPDMzPjtpPDM0PjtpPDM1PjtpPDM2PjtpPDM3PjtpPDM4PjtpPDM5PjtpPDQwPjtpPDQxPjtpPDQyPjs+O2w8dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+Pjs7Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPERFRkFVTFRfVEFTS05BTUU7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPExBQkVMX0RMVVM7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPEJBUl9ETFVTOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxwcm9ncmVzc0luZGljYXRvcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8dGFza0xhYmVsOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxzdWJUYXNrTGFiZWw7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPGNhbmNlbDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8b3BlcmF0aW9uQ2FuY2VsYWJsZVN0YXRlOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxlbmFibGVDYW5jZWxCdXR0b247Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPHQ+Oz4+O2w8aTwwPjs+O2w8dDxAPHByb2dyZXNzTW9uaXRvcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8dGFzazs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8bmVzdGluZ0RlcHRoOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzx0Pjs+PjtsPGk8MD47PjtsPHQ8QDxhcnJvd0N1cnNvcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8d2FpdEN1cnNvcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88dD47Pj47bDxpPDA+Oz47bDx0PEA8b3Blbk9uUnVuOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDx1cGRhdGVGb3JDbGVhckJsb2NrZWQ7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPHVwZGF0ZUZvclNldEJsb2NrZWQ7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPFByb2dyZXNzTW9uaXRvckRpYWxvZzs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8YXN5bmNTZXRPcGVyYXRpb25DYW5jZWxCdXR0b25FbmFibGVkOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxjYW5jZWxQcmVzc2VkOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxjbG9zZTs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8Y2xlYXJDdXJzb3JzOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxjb25maWd1cmVTaGVsbDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8Y3JlYXRlQnV0dG9uc0ZvckJ1dHRvbkJhcjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8Y3JlYXRlQ2FuY2VsQnV0dG9uOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxjcmVhdGVEaWFsb2dBcmVhOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxnZXRJbml0aWFsU2l6ZTs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8Z2V0UHJvZ3Jlc3NNb25pdG9yOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxydW47Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGdldE9wZW5PblJ1bjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8c2V0T3Blbk9uUnVuOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxnZXROZXN0aW5nRGVwdGg7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPGluY3JlbWVudE5lc3RpbmdEZXB0aDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8ZGVjcmVtZW50TmVzdGluZ0RlcHRoOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxhYm91dFRvUnVuOz47Oz47Pj47dDxwPGw8VmlzaWJsZTs+O2w8bzxmPjs+PjtsPGk8MD47PjtsPHQ8QDxmaW5pc2hlZFJ1bjs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8c2V0Q2FuY2VsYWJsZTs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8c2V0T3BlcmF0aW9uQ2FuY2VsQnV0dG9uRW5hYmxlZDs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8Z2V0SW1hZ2U7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPHNldE1lc3NhZ2U7Pjs7Pjs+Pjt0PHA8bDxWaXNpYmxlOz47bDxvPGY+Oz4+O2w8aTwwPjs+O2w8dDxAPHVwZGF0ZTs+Ozs+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47bDxpPDA+Oz47bDx0PEA8b3Blbjs+Ozs+Oz4+Oz4+Oz4+Oz4+Oz4+Oz4+O3Q8cDxsPFZpc2libGU7PjtsPG88Zj47Pj47Oz47Pj47Pj47Pj47bDxLb2Rldmlld2VyMTpEb3dubG9hZEJ1dHRvbjs+Pna9HHE+LuPS3vWfNTQMq2peAIha" />
+
+<script language="javascript" type="text/javascript">
+<!--
+	function __doPostBack(eventTarget, eventArgument) {
+		var theform;
+		if (window.navigator.appName.toLowerCase().indexOf("microsoft") > -1) {
+			theform = document.FRM;
+		}
+		else {
+			theform = document.forms["FRM"];
+		}
+		theform.__EVENTTARGET.value = eventTarget.split("$").join(":");
+		theform.__EVENTARGUMENT.value = eventArgument;
+		theform.submit();
+	}
+// -->
+</script>
+
+			
+
+	<TABLE height="32" cellSpacing="0" cellPadding="0" width="100%" border="0">
+		<TR>
+			<TD>&nbsp; </TD>
+			<TD class="toolbar_corner" width="26">
+				<DIV style="OVERFLOW: hidden; WIDTH: 26px; HEIGHT: 16px"><IMG id="SToolbar_Image2" alt="" src="http://www.koders.com/images/gray-corner.gif" border="0">
+				</DIV>
+			</TD>
+			<TD class="toolbar" noWrap align="center" colSpan="3" width="415"><B>Koders</B>&nbsp;-&nbsp;<A id="SToolbar_subscribeLink" href="/info.aspx?page=MyAccount">Subscribe</A>&nbsp;-&nbsp;<A id="SToolbar_loginLink" href="/info.aspx?page=MyAccount&action=Login">Login</A>&nbsp;-&nbsp;<A href="http://www.koders.com/info.aspx?c=feedback">Feedback</A>&nbsp;-&nbsp;<A href="http://www.koders.com/info.aspx?c=tools">Downloads</A>&nbsp;-&nbsp;<A href="http://www.koders.com/info.aspx?page=EnterpriseInfo">Enterprise&nbsp;Edition</A></TD>
+		</TR>
+		<TR>
+			<TD>&nbsp; </TD>
+			<TD>&nbsp; </TD>
+			<TD width="64">&nbsp;</TD>
+			<TD class="toolbar_corner" width="26"><DIV style="OVERFLOW: hidden; WIDTH: 26px; HEIGHT: 16px"><IMG id="SToolbar_Image1" alt="" src="http://www.koders.com/images/gray-corner.gif" border="0"></DIV></TD>
+			<TD class="toolbar" noWrap align="center" width="325">
+<!-- Media Server Begin: 325x16 -->
+
+<!-- Media Server End: 325x16 -->
+</TD>
+		</TR>
+	</TABLE>
+	<BR>
+
+
+			<div class="SidePadding" align="left">
+				
+<script language="javascript" type="text/javascript">
+var agt=navigator.userAgent.toLowerCase();
+var is_ie     = ((agt.indexOf("msie") != -1) && (agt.indexOf("opera") == -1));
+//var NS4 = (document.layers) ? true : false;
+
+function checkEnter(event)
+{ 	
+	//alert("checkEnter");
+	// disable the enter key in IE for submit
+	if(is_ie) {
+		//alert("My Browser is " + agt);
+		return !(window.event && window.event.keyCode == 13);
+	}
+	return true;
+	/*
+	var code = 0;
+	
+	if (NS4)
+		code = event.which;
+	else
+		code = event.keyCode;
+	if (code==13) {
+		alert(document.getElementById("sb_btnSearch").id);
+		document.getElementById("sb_btnSearch").click();
+		return true;
+	}
+	*/
+}
+	
+</script>
+<TABLE id="t1" border="0" cellpadding="0" cellspacing="0">
+	<TR>
+		<TD style="white-space: nowrap;" nowrap="nowrap"><a id="_ctl0_Home" href="/"><img id="_ctl0_imgLogo" hspace="0" vspace="6" src="/skins/koders/logo_med.gif" alt="" border="0" height="32" width="141" /></a>
+		</TD>
+		<TD style="white-space: nowrap;" nowrap="nowrap"><input name="_ctl0:S" type="text" id="_ctl0_S" class="tbSearchSmall" onKeyPress="return checkEnter()" />&nbsp;<input type="submit" name="_ctl0:btnSearch" value="Search" id="_ctl0_btnSearch" /><br>
+			Filter:
+			<select name="_ctl0:Languages" id="_ctl0_Languages">
+	<option value="*">All Languages</option>
+	<option value="Ada">Ada</option>
+	<option value="ASP">ASP</option>
+	<option value="Assembler">Assembler</option>
+	<option value="C">C</option>
+	<option value="C#">C#</option>
+	<option value="Cpp">C++</option>
+	<option value="ColdFusion">ColdFusion</option>
+	<option value="Delphi">Delphi</option>
+	<option value="Eiffel">Eiffel</option>
+	<option value="Erlang">Erlang</option>
+	<option value="Fortran">Fortran</option>
+	<option value="Java">Java</option>
+	<option value="JavaScript">JavaScript</option>
+	<option value="JSP">JSP</option>
+	<option value="Lisp">Lisp</option>
+	<option value="Lua">Lua</option>
+	<option value="Mathematica">Mathematica</option>
+	<option value="Matlab">Matlab</option>
+	<option value="ObjectiveC">ObjectiveC</option>
+	<option value="Perl">Perl</option>
+	<option value="PHP">PHP</option>
+	<option value="Prolog">Prolog</option>
+	<option value="Python">Python</option>
+	<option value="Ruby">Ruby</option>
+	<option value="Scheme">Scheme</option>
+	<option value="Smalltalk">Smalltalk</option>
+	<option value="SQL">SQL</option>
+	<option value="Tcl">Tcl</option>
+	<option value="VB">VB</option>
+	<option value="VB.NET">VB.NET</option>
+
+</select>&nbsp;<select name="_ctl0:Licenses" id="_ctl0_Licenses">
+	<option value="*">All Licenses</option>
+	<option value="AFL">AFL</option>
+	<option value="AL20">AL20</option>
+	<option value="ASL">ASL</option>
+	<option value="APSL">APSL</option>
+	<option value="BSD">BSD</option>
+	<option value="CPL">CPL</option>
+	<option value="GPL">GPL</option>
+	<option value="LGPL">LGPL</option>
+	<option value="IBMPL">IBMPL</option>
+	<option value="IOSL">IOSL</option>
+	<option value="MPL10">MPL10</option>
+	<option value="MPL11">MPL11</option>
+	<option value="NPL10">NPL10</option>
+	<option value="NPL11">NPL11</option>
+	<option value="OSL">OSL</option>
+	<option value="PSFL">PSFL</option>
+	<option value="SPL">SPL</option>
+	<option value="W3C">W3C</option>
+	<option value="ZLL">ZLL</option>
+	<option value="ZPL">ZPL</option>
+
+</select>&nbsp;<a id="_ctl0_LicenseInfoLink" href="/info.aspx?c=LicenseInfo"><img src="/images/info_16.gif" id="_ctl0_InfoImg" height="16" width="16" border="0" /></img></a>
+		</TD>
+		<TD width="20">&nbsp;</TD>
+		<TD align="center" height="60px" width="468px" vAlign="middle">
+<!-- Media Server Begin: 468x60 -->
+
+<!-- Media Server End: 468x60 -->
+</TD>
+	</TR>
+</TABLE>
+
+				
+<!-- <div class="SidePadding" align="left"> -->
+<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+	<tr>
+		<td>
+			<TABLE id="Table2" cellSpacing="5" width="100%" border="0">
+				<TR>
+					<TD class="info_panel" vAlign="top">
+						<TABLE id="Table3" border="0">
+							<TR>
+								<TD vAlign="middle" align="center" width="60">
+									<input type="image" name="Kodeviewer1:DownloadButton" id="Kodeviewer1_DownloadButton" title="Download ProgressMonitorDialog.java" src="/images/download.gif" alt="" border="0" />
+									<a id="Kodeviewer1_LinkButton1" href="javascript:__doPostBack('Kodeviewer1$LinkButton1','')">download</a>
+								</TD>
+								<TD>
+											<b>
+												ProgressMonitorDialog.java
+											</b>
+											<br>
+											Language: <b>
+												Java
+											</b>
+											<br>
+											License: CPL<br>
+											Copyright: (c) 2000, 2004 IBM Corporation and others.
+<br>
+											LOC: 281
+											<br>
+										</TD>
+							</TR>
+						</TABLE>
+					</TD>
+					<TD class="kodeviewer_info_panel" vAlign="top" width="200">
+								<b>Project Info</b><br>
+								<a title=' Eclipse is a kind of universal tool platform - an open extensible IDE for anything and nothing in particular.' href='/info.aspx?c=ProjectInfo&pid=CFLBQ7U5QZ8DPD865N2QUL12GB'>
+									<b>
+										<span id="Kodeviewer1_ProjectView__ctl0_Label2">Eclipse_Project(eclipse)</span></b></a>
+								<br>
+								Server:
+								Eclipse
+								<br>
+								Type:
+								cvs
+							
+						
+						
+					</TD>
+				</TR>
+			</TABLE>
+		</td>
+	</tr>
+</table>
+
+<style type="text/css"> 
+.RightBanner { Z-INDEX: 2; RIGHT: 25px; FLOAT: right; WIDTH: 160px; POSITION: absolute; HEIGHT: 600px } 
+</style>
+
+	<DIV id="Kodeviewer1_RightBanner" class="RightBanner">
+<DIV style="MARGIN-BOTTOM: 2px" align=center>[<A style="FONT-SIZE: smaller" 
+href="javascript:HideBanner();">Hide Ad</A>] </DIV>
+<DIV>
+
+<!-- Media Server Begin: 160x600 -->
+
+<!-- Media Server End: 160x600 -->
+<br/><br/><br/>
+<!-- Media Server Begin: 160x602 -->
+
+<!-- Media Server End: 160x602 -->
+<br/><br/><br/>
+<!-- Media Server Begin: 160x603 -->
+
+<!-- Media Server End: 160x603 -->
+</DIV>
+<DIV style="MARGIN-TOP: 2px" align=center>[<A style="FONT-SIZE: smaller" 
+href="javascript:HideBanner();">Hide Ad</A>] </DIV></DIV>
+
+<table cellSpacing="0" cellPadding="0" width="100%" border="0">
+	<tr>
+		<td height="100%">
+			<TABLE id="Table9" height="100%"  cellSpacing="8" cellpadding="0" border="0">
+				<TR>
+					<TD vAlign="top">
+						
+<style>
+.exp_header { BORDER-RIGHT: gray 1px solid; BORDER-TOP: gray 1px solid; BORDER-LEFT: gray 1px solid; BORDER-BOTTOM: gray 1px solid; FONT-FAMILY: Tahoma, Arial; BACKGROUND-COLOR: whitesmoke }
+.exp_items { LINE-HEIGHT: 110% }
+</style>
+<TABLE id="Table1" style="BORDER-RIGHT: gray 1px solid; BORDER-TOP: gray 1px solid; BORDER-LEFT: gray 1px solid; BORDER-BOTTOM: gray 1px solid; BORDER-COLLAPSE: collapse"
+	cellSpacing="0" cellPadding="3" border="0" width="100%">
+	<TBODY>
+		<TR>
+			<TH class="exp_header" align="left">
+				<a id="Kodeviewer1__ctl1_hyFicon" href="/info.aspx?c=ProjectInfo&amp;pid=CFLBQ7U5QZ8DPD865N2QUL12GB"><img id="Kodeviewer1__ctl1_ficon" src="/images/folder.gif" alt="" align="Left" border="0" /></a><b><span id="Kodeviewer1__ctl1_Label1">...\org\eclipse\jface\dialogs\</span></b><br>
+			</TH>
+		</TR>
+		<tr>
+			<td class="exp_items">
+				
+						&nbsp;&nbsp;
+					<a title="ControlEnableState.java" href="/java/fid05D0EAED889B419EE4046F0255D10F0594795A2A.aspx">ControlEnableState.java<br></a>
+						&nbsp;&nbsp;
+					<a title="Dialog.java" href="/java/fidCE9510B712BA88201E1AEC0D86C2CC946A82A7A3.aspx">Dialog.java<br></a>
+						&nbsp;&nbsp;
+					<a title="DialogMessageArea.java" href="/java/fid78291D452C1D58B289C7A9C556D5A51DD0B0D173.aspx">DialogMessageArea.java<br></a>
+						&nbsp;&nbsp;
+					<a title="DialogPage.java" href="/java/fidF7896B450ACC6C10AFBE034DE29D21F1758B0491.aspx">DialogPage.java<br></a>
+						&nbsp;&nbsp;
+					<a title="DialogSettings.java" href="/java/fid90D52094D9B4C1B67694D9CA79DE39F8DDBC516E.aspx">DialogSettings.java<br></a>
+						&nbsp;&nbsp;
+					<a title="ErrorDialog.java" href="/java/fid441D7180302D685D134F0D86A17C8610CA26EEC0.aspx">ErrorDialog.java<br></a>
+						&nbsp;&nbsp;
+					<a title="IconAndMessageDialog.java" href="/java/fid9D4E2141E9888382F44C6056B6EF8CC1F23FB972.aspx">IconAndMessageDialog.java<br></a>
+						&nbsp;&nbsp;
+					<a title="IDialogBlockedHandler.java" href="/java/fidF42DDB161629A437AF4ADA8C490DE7B9A62D6FEB.aspx">IDialogBlockedHandler.java<br></a>
+						&nbsp;&nbsp;
+					<a title="IDialogConstants.java" href="/java/fid27836D1CFFF7F5593EB0A448A2D1A3109EB8834F.aspx">IDialogConstants.java<br></a>
+						&nbsp;&nbsp;
+					<a title="IDialogPage.java" href="/java/fid2D4B9619AA9D6E97265DFC8AFF871F35B645FE99.aspx">IDialogPage.java<br></a>
+						&nbsp;&nbsp;
+					<a title="IDialogSettings.java" href="/java/fid790430FC77C699BCF10C885602BF9B55718F7E4B.aspx">IDialogSettings.java<br></a>
+						&nbsp;&nbsp;
+					<a title="IInputValidator.java" href="/java/fid3CF24E0D3A82EB44DD08C41287645E4845CC2623.aspx">IInputValidator.java<br></a>
+						&nbsp;&nbsp;
+					<a title="IMessageProvider.java" href="/java/fid6C01744458836B2DE4FE32985DCD014F5D7157A1.aspx">IMessageProvider.java<br></a>
+						&nbsp;&nbsp;
+					<a title="InputDialog.java" href="/java/fid9377E607FFA73691B7D03AEADE8E9B190D907F1E.aspx">InputDialog.java<br></a>
+						&nbsp;&nbsp;
+					<a title="MessageDialog.java" href="/java/fidE32ABFBF6C0E2408529943E6F42FE58D00138508.aspx">MessageDialog.java<br></a>
+						&nbsp;&nbsp;
+					<a title="MessageDialogWithToggle.java" href="/java/fidC4F85B1F615931F19FCF53F755B0AEB9258419FD.aspx">...geDialogWithToggle.java<br></a>
+						&nbsp;&nbsp;
+					<a title="ProgressIndicator.java" href="/java/fidE38917FE4F70AE1055AD84F8A691E389D4721717.aspx">ProgressIndicator.java<br></a>
+						&nbsp;&nbsp;
+					<a title="ProgressMonitorDialog.java" href="/java/fid1861AB23DDA136F34B00B191A81E0BBBF22E0432.aspx">ProgressMonitorDialog.java<br></a>
+						&nbsp;&nbsp;
+					<a title="TitleAreaDialog.java" href="/java/fid2675BFABAC187990933F2635F210F2C10E00C5C0.aspx">TitleAreaDialog.java<br></a>
+			</td>
+		</tr>
+	</TBODY>
+</TABLE>
+<br>
+
+						
+<STYLE>
+.nm_type { FONT-SIZE: 10pt; FONT-FAMILY: Tahoma, Arial }
+.namesp { FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Tahoma, Arial }
+.uml_type { FONT-SIZE: 8pt; FONT-FAMILY: Tahoma, Arial }
+.uml_section { BORDER-TOP: gray 1px solid; FONT-SIZE: 8pt; FONT-FAMILY: Tahoma, Arial; BACKGROUND-COLOR: cornflowerblue }
+.uml_item { FONT-SIZE: 8pt; FONT-FAMILY: Tahoma, Arial }
+.entity { FONT-WEIGHT: bold; FONT-SIZE: 10pt; LINE-HEIGHT: 12pt; FONT-FAMILY: Tahoma, Arial }
+TH.entity { FONT-WEIGHT: normal; BACKGROUND-IMAGE: url(/images/blue-white-grad.PNG); BACKGROUND-REPEAT: repeat-y }
+</STYLE>
+
+		<TABLE id="Table1" style="BORDER: gray 1px solid; BORDER-COLLAPSE: collapse" cellSpacing="0"
+			cellPadding="3" width="100%" border="0">
+			<TR>
+				<TH align="left" class="entity" colSpan="2">
+					<span class="entity">
+						ProgressMonitorDialog
+					</span>
+					<br>
+					<span class="uml_type">
+						Class
+					</span>
+				</TH>
+			</TR>
+			<!--</TABLE>
+		<TABLE id="Table2" style="BORDER-RIGHT: gray thin solid; BORDER-TOP: gray thin solid; BORDER-LEFT: gray thin solid; BORDER-BOTTOM: gray thin solid; BORDER-COLLAPSE: collapse"
+			cellSpacing="0" cellPadding="3" width="200" border="0">
+			-->
+			
+					<TR>
+						<TD class="uml_section"></TD>
+						<TD class="uml_section">Methods</TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void updateForClearBlocked()">updateForClearBlocked</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void updateForSetBlocked()">updateForSetBlocked</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="Void ProgressMonitorDialog()">ProgressMonitorDialog</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void asyncSetOperationCancelButtonEnabled()">asyncSetOperationCancelButtonEnabled</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void cancelPressed()">cancelPressed</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="boolean close()">close</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void clearCursors()">clearCursors</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void configureShell()">configureShell</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void createButtonsForButtonBar()">createButtonsForButtonBar</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void createCancelButton()">createCancelButton</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="Control createDialogArea()">createDialogArea</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="Point getInitialSize()">getInitialSize</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="IProgressMonitor getProgressMonitor()">getProgressMonitor</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void run()">run</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="boolean getOpenOnRun()">getOpenOnRun</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void setOpenOnRun()">setOpenOnRun</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="int getNestingDepth()">getNestingDepth</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void incrementNestingDepth()">incrementNestingDepth</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void decrementNestingDepth()">decrementNestingDepth</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void aboutToRun()">aboutToRun</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void finishedRun()">finishedRun</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void setCancelable()">setCancelable</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void setOperationCancelButtonEnabled()">setOperationCancelButtonEnabled</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="Image getImage()">getImage</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void setMessage()">setMessage</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="void update()">update</a></TD>
+					</TR>
+				
+					<TR>
+						<TD class="uml_item"></TD>
+						<TD class="uml_item"><a title="int open()">open</a></TD>
+					</TR>
+				
+			
+			
+					<TR>
+						<TD class="uml_section"></TD>
+						<TD class="uml_section">Fields</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">DEFAULT_TASKNAME</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">LABEL_DLUS</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">BAR_DLUS</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">progressIndicator</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">taskLabel</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">subTaskLabel</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">cancel</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">operationCancelableState</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">enableCancelButton</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">progressMonitor</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">task</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">nestingDepth</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">arrowCursor</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">waitCursor</TD>
+					</TR>
+				
+					<TR height="px">
+						<TD class="uml_item"></TD>
+						<TD class="uml_item">openOnRun</TD>
+					</TR>
+				
+		</TABLE>
+		<br />
+		<br />
+	
+	
+
+						
+					</TD>
+					<td valign="top">
+						<div>
+							<pre><a href="#L1" name="L1">1</a><br/><a href="#L2" name="L2">2</a><br/><a href="#L3" name="L3">3</a><br/><a href="#L4" name="L4">4</a><br/><a href="#L5" name="L5">5</a><br/><a href="#L6" name="L6">6</a><br/><a href="#L7" name="L7">7</a><br/><a href="#L8" name="L8">8</a><br/><a href="#L9" name="L9">9</a><br/><a href="#L10" name="L10">10</a><br/><a href="#L11" name="L11">11</a><br/><a href="#L12" name="L12">12</a><br/><a href="#L13" name="L13">13</a><br/><a href="#L14" name="L14">14</a><br/><a href="#L15" name="L15">15</a><br/><a href="#L16" name="L16">16</a><br/><a href="#L17" name="L17">17</a><br/><a href="#L18" name="L18">18</a><br/><a href="#L19" name="L19">19</a><br/><a href="#L20" name="L20">20</a><br/><a href="#L21" name="L21">21</a><br/><a href="#L22" name="L22">22</a><br/><a href="#L23" name="L23">23</a><br/><a href="#L24" name="L24">24</a><br/><a href="#L25" name="L25">25</a><br/><a href="#L26" name="L26">26</a><br/><a href="#L27" name="L27">27</a><br/><a href="#L28" name="L28">28</a><br/><a href="#L29" name="L29">29</a><br/><a href="#L30" name="L30">30</a><br/><a href="#L31" name="L31">31</a><br/><a href="#L32" name="L32">32</a><br/><a href="#L33" name="L33">33</a><br/><a href="#L34" name="L34">34</a><br/><a href="#L35" name="L35">35</a><br/><a href="#L36" name="L36">36</a><br/><a href="#L37" name="L37">37</a><br/><a href="#L38" name="L38">38</a><br/><a href="#L39" name="L39">39</a><br/><a href="#L40" name="L40">40</a><br/><a href="#L41" name="L41">41</a><br/><a href="#L42" name="L42">42</a><br/><a href="#L43" name="L43">43</a><br/><a href="#L44" name="L44">44</a><br/><a href="#L45" name="L45">45</a><br/><a href="#L46" name="L46">46</a><br/><a href="#L47" name="L47">47</a><br/><a href="#L48" name="L48">48</a><br/><a href="#L49" name="L49">49</a><br/><a href="#L50" name="L50">50</a><br/><a href="#L51" name="L51">51</a><br/><a href="#L52" name="L52">52</a><br/><a href="#L53" name="L53">53</a><br/><a href="#L54" name="L54">54</a><br/><a href="#L55" name="L55">55</a><br/><a href="#L56" name="L56">56</a><br/><a href="#L57" name="L57">57</a><br/><a href="#L58" name="L58">58</a><br/><a href="#L59" name="L59">59</a><br/><a href="#L60" name="L60">60</a><br/><a href="#L61" name="L61">61</a><br/><a href="#L62" name="L62">62</a><br/><a href="#L63" name="L63">63</a><br/><a href="#L64" name="L64">64</a><br/><a href="#L65" name="L65">65</a><br/><a href="#L66" name="L66">66</a><br/><a href="#L67" name="L67">67</a><br/><a href="#L68" name="L68">68</a><br/><a href="#L69" name="L69">69</a><br/><a href="#L70" name="L70">70</a><br/><a href="#L71" name="L71">71</a><br/><a href="#L72" name="L72">72</a><br/><a href="#L73" name="L73">73</a><br/><a href="#L74" name="L74">74</a><br/><a href="#L75" name="L75">75</a><br/><a href="#L76" name="L76">76</a><br/><a href="#L77" name="L77">77</a><br/><a href="#L78" name="L78">78</a><br/><a href="#L79" name="L79">79</a><br/><a href="#L80" name="L80">80</a><br/><a href="#L81" name="L81">81</a><br/><a href="#L82" name="L82">82</a><br/><a href="#L83" name="L83">83</a><br/><a href="#L84" name="L84">84</a><br/><a href="#L85" name="L85">85</a><br/><a href="#L86" name="L86">86</a><br/><a href="#L87" name="L87">87</a><br/><a href="#L88" name="L88">88</a><br/><a href="#L89" name="L89">89</a><br/><a href="#L90" name="L90">90</a><br/><a href="#L91" name="L91">91</a><br/><a href="#L92" name="L92">92</a><br/><a href="#L93" name="L93">93</a><br/><a href="#L94" name="L94">94</a><br/><a href="#L95" name="L95">95</a><br/><a href="#L96" name="L96">96</a><br/><a href="#L97" name="L97">97</a><br/><a href="#L98" name="L98">98</a><br/><a href="#L99" name="L99">99</a><br/><a href="#L100" name="L100">100</a><br/><a href="#L101" name="L101">101</a><br/><a href="#L102" name="L102">102</a><br/><a href="#L103" name="L103">103</a><br/><a href="#L104" name="L104">104</a><br/><a href="#L105" name="L105">105</a><br/><a href="#L106" name="L106">106</a><br/><a href="#L107" name="L107">107</a><br/><a href="#L108" name="L108">108</a><br/><a href="#L109" name="L109">109</a><br/><a href="#L110" name="L110">110</a><br/><a href="#L111" name="L111">111</a><br/><a href="#L112" name="L112">112</a><br/><a href="#L113" name="L113">113</a><br/><a href="#L114" name="L114">114</a><br/><a href="#L115" name="L115">115</a><br/><a href="#L116" name="L116">116</a><br/><a href="#L117" name="L117">117</a><br/><a href="#L118" name="L118">118</a><br/><a href="#L119" name="L119">119</a><br/><a href="#L120" name="L120">120</a><br/><a href="#L121" name="L121">121</a><br/><a href="#L122" name="L122">122</a><br/><a href="#L123" name="L123">123</a><br/><a href="#L124" name="L124">124</a><br/><a href="#L125" name="L125">125</a><br/><a href="#L126" name="L126">126</a><br/><a href="#L127" name="L127">127</a><br/><a href="#L128" name="L128">128</a><br/><a href="#L129" name="L129">129</a><br/><a href="#L130" name="L130">130</a><br/><a href="#L131" name="L131">131</a><br/><a href="#L132" name="L132">132</a><br/><a href="#L133" name="L133">133</a><br/><a href="#L134" name="L134">134</a><br/><a href="#L135" name="L135">135</a><br/><a href="#L136" name="L136">136</a><br/><a href="#L137" name="L137">137</a><br/><a href="#L138" name="L138">138</a><br/><a href="#L139" name="L139">139</a><br/><a href="#L140" name="L140">140</a><br/><a href="#L141" name="L141">141</a><br/><a href="#L142" name="L142">142</a><br/><a href="#L143" name="L143">143</a><br/><a href="#L144" name="L144">144</a><br/><a href="#L145" name="L145">145</a><br/><a href="#L146" name="L146">146</a><br/><a href="#L147" name="L147">147</a><br/><a href="#L148" name="L148">148</a><br/><a href="#L149" name="L149">149</a><br/><a href="#L150" name="L150">150</a><br/><a href="#L151" name="L151">151</a><br/><a href="#L152" name="L152">152</a><br/><a href="#L153" name="L153">153</a><br/><a href="#L154" name="L154">154</a><br/><a href="#L155" name="L155">155</a><br/><a href="#L156" name="L156">156</a><br/><a href="#L157" name="L157">157</a><br/><a href="#L158" name="L158">158</a><br/><a href="#L159" name="L159">159</a><br/><a href="#L160" name="L160">160</a><br/><a href="#L161" name="L161">161</a><br/><a href="#L162" name="L162">162</a><br/><a href="#L163" name="L163">163</a><br/><a href="#L164" name="L164">164</a><br/><a href="#L165" name="L165">165</a><br/><a href="#L166" name="L166">166</a><br/><a href="#L167" name="L167">167</a><br/><a href="#L168" name="L168">168</a><br/><a href="#L169" name="L169">169</a><br/><a href="#L170" name="L170">170</a><br/><a href="#L171" name="L171">171</a><br/><a href="#L172" name="L172">172</a><br/><a href="#L173" name="L173">173</a><br/><a href="#L174" name="L174">174</a><br/><a href="#L175" name="L175">175</a><br/><a href="#L176" name="L176">176</a><br/><a href="#L177" name="L177">177</a><br/><a href="#L178" name="L178">178</a><br/><a href="#L179" name="L179">179</a><br/><a href="#L180" name="L180">180</a><br/><a href="#L181" name="L181">181</a><br/><a href="#L182" name="L182">182</a><br/><a href="#L183" name="L183">183</a><br/><a href="#L184" name="L184">184</a><br/><a href="#L185" name="L185">185</a><br/><a href="#L186" name="L186">186</a><br/><a href="#L187" name="L187">187</a><br/><a href="#L188" name="L188">188</a><br/><a href="#L189" name="L189">189</a><br/><a href="#L190" name="L190">190</a><br/><a href="#L191" name="L191">191</a><br/><a href="#L192" name="L192">192</a><br/><a href="#L193" name="L193">193</a><br/><a href="#L194" name="L194">194</a><br/><a href="#L195" name="L195">195</a><br/><a href="#L196" name="L196">196</a><br/><a href="#L197" name="L197">197</a><br/><a href="#L198" name="L198">198</a><br/><a href="#L199" name="L199">199</a><br/><a href="#L200" name="L200">200</a><br/><a href="#L201" name="L201">201</a><br/><a href="#L202" name="L202">202</a><br/><a href="#L203" name="L203">203</a><br/><a href="#L204" name="L204">204</a><br/><a href="#L205" name="L205">205</a><br/><a href="#L206" name="L206">206</a><br/><a href="#L207" name="L207">207</a><br/><a href="#L208" name="L208">208</a><br/><a href="#L209" name="L209">209</a><br/><a href="#L210" name="L210">210</a><br/><a href="#L211" name="L211">211</a><br/><a href="#L212" name="L212">212</a><br/><a href="#L213" name="L213">213</a><br/><a href="#L214" name="L214">214</a><br/><a href="#L215" name="L215">215</a><br/><a href="#L216" name="L216">216</a><br/><a href="#L217" name="L217">217</a><br/><a href="#L218" name="L218">218</a><br/><a href="#L219" name="L219">219</a><br/><a href="#L220" name="L220">220</a><br/><a href="#L221" name="L221">221</a><br/><a href="#L222" name="L222">222</a><br/><a href="#L223" name="L223">223</a><br/><a href="#L224" name="L224">224</a><br/><a href="#L225" name="L225">225</a><br/><a href="#L226" name="L226">226</a><br/><a href="#L227" name="L227">227</a><br/><a href="#L228" name="L228">228</a><br/><a href="#L229" name="L229">229</a><br/><a href="#L230" name="L230">230</a><br/><a href="#L231" name="L231">231</a><br/><a href="#L232" name="L232">232</a><br/><a href="#L233" name="L233">233</a><br/><a href="#L234" name="L234">234</a><br/><a href="#L235" name="L235">235</a><br/><a href="#L236" name="L236">236</a><br/><a href="#L237" name="L237">237</a><br/><a href="#L238" name="L238">238</a><br/><a href="#L239" name="L239">239</a><br/><a href="#L240" name="L240">240</a><br/><a href="#L241" name="L241">241</a><br/><a href="#L242" name="L242">242</a><br/><a href="#L243" name="L243">243</a><br/><a href="#L244" name="L244">244</a><br/><a href="#L245" name="L245">245</a><br/><a href="#L246" name="L246">246</a><br/><a href="#L247" name="L247">247</a><br/><a href="#L248" name="L248">248</a><br/><a href="#L249" name="L249">249</a><br/><a href="#L250" name="L250">250</a><br/><a href="#L251" name="L251">251</a><br/><a href="#L252" name="L252">252</a><br/><a href="#L253" name="L253">253</a><br/><a href="#L254" name="L254">254</a><br/><a href="#L255" name="L255">255</a><br/><a href="#L256" name="L256">256</a><br/><a href="#L257" name="L257">257</a><br/><a href="#L258" name="L258">258</a><br/><a href="#L259" name="L259">259</a><br/><a href="#L260" name="L260">260</a><br/><a href="#L261" name="L261">261</a><br/><a href="#L262" name="L262">262</a><br/><a href="#L263" name="L263">263</a><br/><a href="#L264" name="L264">264</a><br/><a href="#L265" name="L265">265</a><br/><a href="#L266" name="L266">266</a><br/><a href="#L267" name="L267">267</a><br/><a href="#L268" name="L268">268</a><br/><a href="#L269" name="L269">269</a><br/><a href="#L270" name="L270">270</a><br/><a href="#L271" name="L271">271</a><br/><a href="#L272" name="L272">272</a><br/><a href="#L273" name="L273">273</a><br/><a href="#L274" name="L274">274</a><br/><a href="#L275" name="L275">275</a><br/><a href="#L276" name="L276">276</a><br/><a href="#L277" name="L277">277</a><br/><a href="#L278" name="L278">278</a><br/><a href="#L279" name="L279">279</a><br/><a href="#L280" name="L280">280</a><br/><a href="#L281" name="L281">281</a><br/><a href="#L282" name="L282">282</a><br/><a href="#L283" name="L283">283</a><br/><a href="#L284" name="L284">284</a><br/><a href="#L285" name="L285">285</a><br/><a href="#L286" name="L286">286</a><br/><a href="#L287" name="L287">287</a><br/><a href="#L288" name="L288">288</a><br/><a href="#L289" name="L289">289</a><br/><a href="#L290" name="L290">290</a><br/><a href="#L291" name="L291">291</a><br/><a href="#L292" name="L292">292</a><br/><a href="#L293" name="L293">293</a><br/><a href="#L294" name="L294">294</a><br/><a href="#L295" name="L295">295</a><br/><a href="#L296" name="L296">296</a><br/><a href="#L297" name="L297">297</a><br/><a href="#L298" name="L298">298</a><br/><a href="#L299" name="L299">299</a><br/><a href="#L300" name="L300">300</a><br/><a href="#L301" name="L301">301</a><br/><a href="#L302" name="L302">302</a><br/><a href="#L303" name="L303">303</a><br/><a href="#L304" name="L304">304</a><br/><a href="#L305" name="L305">305</a><br/><a href="#L306" name="L306">306</a><br/><a href="#L307" name="L307">307</a><br/><a href="#L308" name="L308">308</a><br/><a href="#L309" name="L309">309</a><br/><a href="#L310" name="L310">310</a><br/><a href="#L311" name="L311">311</a><br/><a href="#L312" name="L312">312</a><br/><a href="#L313" name="L313">313</a><br/><a href="#L314" name="L314">314</a><br/><a href="#L315" name="L315">315</a><br/><a href="#L316" name="L316">316</a><br/><a href="#L317" name="L317">317</a><br/><a href="#L318" name="L318">318</a><br/><a href="#L319" name="L319">319</a><br/><a href="#L320" name="L320">320</a><br/><a href="#L321" name="L321">321</a><br/><a href="#L322" name="L322">322</a><br/><a href="#L323" name="L323">323</a><br/><a href="#L324" name="L324">324</a><br/><a href="#L325" name="L325">325</a><br/><a href="#L326" name="L326">326</a><br/><a href="#L327" name="L327">327</a><br/><a href="#L328" name="L328">328</a><br/><a href="#L329" name="L329">329</a><br/><a href="#L330" name="L330">330</a><br/><a href="#L331" name="L331">331</a><br/><a href="#L332" name="L332">332</a><br/><a href="#L333" name="L333">333</a><br/><a href="#L334" name="L334">334</a><br/><a href="#L335" name="L335">335</a><br/><a href="#L336" name="L336">336</a><br/><a href="#L337" name="L337">337</a><br/><a href="#L338" name="L338">338</a><br/><a href="#L339" name="L339">339</a><br/><a href="#L340" name="L340">340</a><br/><a href="#L341" name="L341">341</a><br/><a href="#L342" name="L342">342</a><br/><a href="#L343" name="L343">343</a><br/><a href="#L344" name="L344">344</a><br/><a href="#L345" name="L345">345</a><br/><a href="#L346" name="L346">346</a><br/><a href="#L347" name="L347">347</a><br/><a href="#L348" name="L348">348</a><br/><a href="#L349" name="L349">349</a><br/><a href="#L350" name="L350">350</a><br/><a href="#L351" name="L351">351</a><br/><a href="#L352" name="L352">352</a><br/><a href="#L353" name="L353">353</a><br/><a href="#L354" name="L354">354</a><br/><a href="#L355" name="L355">355</a><br/><a href="#L356" name="L356">356</a><br/><a href="#L357" name="L357">357</a><br/><a href="#L358" name="L358">358</a><br/><a href="#L359" name="L359">359</a><br/><a href="#L360" name="L360">360</a><br/><a href="#L361" name="L361">361</a><br/><a href="#L362" name="L362">362</a><br/><a href="#L363" name="L363">363</a><br/><a href="#L364" name="L364">364</a><br/><a href="#L365" name="L365">365</a><br/><a href="#L366" name="L366">366</a><br/><a href="#L367" name="L367">367</a><br/><a href="#L368" name="L368">368</a><br/><a href="#L369" name="L369">369</a><br/><a href="#L370" name="L370">370</a><br/><a href="#L371" name="L371">371</a><br/><a href="#L372" name="L372">372</a><br/><a href="#L373" name="L373">373</a><br/><a href="#L374" name="L374">374</a><br/><a href="#L375" name="L375">375</a><br/><a href="#L376" name="L376">376</a><br/><a href="#L377" name="L377">377</a><br/><a href="#L378" name="L378">378</a><br/><a href="#L379" name="L379">379</a><br/><a href="#L380" name="L380">380</a><br/><a href="#L381" name="L381">381</a><br/><a href="#L382" name="L382">382</a><br/><a href="#L383" name="L383">383</a><br/><a href="#L384" name="L384">384</a><br/><a href="#L385" name="L385">385</a><br/><a href="#L386" name="L386">386</a><br/><a href="#L387" name="L387">387</a><br/><a href="#L388" name="L388">388</a><br/><a href="#L389" name="L389">389</a><br/><a href="#L390" name="L390">390</a><br/><a href="#L391" name="L391">391</a><br/><a href="#L392" name="L392">392</a><br/><a href="#L393" name="L393">393</a><br/><a href="#L394" name="L394">394</a><br/><a href="#L395" name="L395">395</a><br/><a href="#L396" name="L396">396</a><br/><a href="#L397" name="L397">397</a><br/><a href="#L398" name="L398">398</a><br/><a href="#L399" name="L399">399</a><br/><a href="#L400" name="L400">400</a><br/><a href="#L401" name="L401">401</a><br/><a href="#L402" name="L402">402</a><br/><a href="#L403" name="L403">403</a><br/><a href="#L404" name="L404">404</a><br/><a href="#L405" name="L405">405</a><br/><a href="#L406" name="L406">406</a><br/><a href="#L407" name="L407">407</a><br/><a href="#L408" name="L408">408</a><br/><a href="#L409" name="L409">409</a><br/><a href="#L410" name="L410">410</a><br/><a href="#L411" name="L411">411</a><br/><a href="#L412" name="L412">412</a><br/><a href="#L413" name="L413">413</a><br/><a href="#L414" name="L414">414</a><br/><a href="#L415" name="L415">415</a><br/><a href="#L416" name="L416">416</a><br/><a href="#L417" name="L417">417</a><br/><a href="#L418" name="L418">418</a><br/><a href="#L419" name="L419">419</a><br/><a href="#L420" name="L420">420</a><br/><a href="#L421" name="L421">421</a><br/><a href="#L422" name="L422">422</a><br/><a href="#L423" name="L423">423</a><br/><a href="#L424" name="L424">424</a><br/><a href="#L425" name="L425">425</a><br/><a href="#L426" name="L426">426</a><br/><a href="#L427" name="L427">427</a><br/><a href="#L428" name="L428">428</a><br/><a href="#L429" name="L429">429</a><br/><a href="#L430" name="L430">430</a><br/><a href="#L431" name="L431">431</a><br/><a href="#L432" name="L432">432</a><br/><a href="#L433" name="L433">433</a><br/><a href="#L434" name="L434">434</a><br/><a href="#L435" name="L435">435</a><br/><a href="#L436" name="L436">436</a><br/><a href="#L437" name="L437">437</a><br/><a href="#L438" name="L438">438</a><br/><a href="#L439" name="L439">439</a><br/><a href="#L440" name="L440">440</a><br/><a href="#L441" name="L441">441</a><br/><a href="#L442" name="L442">442</a><br/><a href="#L443" name="L443">443</a><br/><a href="#L444" name="L444">444</a><br/><a href="#L445" name="L445">445</a><br/><a href="#L446" name="L446">446</a><br/><a href="#L447" name="L447">447</a><br/><a href="#L448" name="L448">448</a><br/><a href="#L449" name="L449">449</a><br/><a href="#L450" name="L450">450</a><br/><a href="#L451" name="L451">451</a><br/><a href="#L452" name="L452">452</a><br/><a href="#L453" name="L453">453</a><br/><a href="#L454" name="L454">454</a><br/><a href="#L455" name="L455">455</a><br/><a href="#L456" name="L456">456</a><br/><a href="#L457" name="L457">457</a><br/><a href="#L458" name="L458">458</a><br/><a href="#L459" name="L459">459</a><br/><a href="#L460" name="L460">460</a><br/><a href="#L461" name="L461">461</a><br/><a href="#L462" name="L462">462</a><br/><a href="#L463" name="L463">463</a><br/><a href="#L464" name="L464">464</a><br/><a href="#L465" name="L465">465</a><br/><a href="#L466" name="L466">466</a><br/><a href="#L467" name="L467">467</a><br/><a href="#L468" name="L468">468</a><br/><a href="#L469" name="L469">469</a><br/><a href="#L470" name="L470">470</a><br/><a href="#L471" name="L471">471</a><br/><a href="#L472" name="L472">472</a><br/><a href="#L473" name="L473">473</a><br/><a href="#L474" name="L474">474</a><br/><a href="#L475" name="L475">475</a><br/><a href="#L476" name="L476">476</a><br/><a href="#L477" name="L477">477</a><br/><a href="#L478" name="L478">478</a><br/><a href="#L479" name="L479">479</a><br/><a href="#L480" name="L480">480</a><br/><a href="#L481" name="L481">481</a><br/><a href="#L482" name="L482">482</a><br/><a href="#L483" name="L483">483</a><br/><a href="#L484" name="L484">484</a><br/><a href="#L485" name="L485">485</a><br/><a href="#L486" name="L486">486</a><br/><a href="#L487" name="L487">487</a><br/><a href="#L488" name="L488">488</a><br/><a href="#L489" name="L489">489</a><br/><a href="#L490" name="L490">490</a><br/><a href="#L491" name="L491">491</a><br/><a href="#L492" name="L492">492</a><br/><a href="#L493" name="L493">493</a><br/><a href="#L494" name="L494">494</a><br/><a href="#L495" name="L495">495</a><br/><a href="#L496" name="L496">496</a><br/><a href="#L497" name="L497">497</a><br/><a href="#L498" name="L498">498</a><br/><a href="#L499" name="L499">499</a><br/><a href="#L500" name="L500">500</a><br/><a href="#L501" name="L501">501</a><br/><a href="#L502" name="L502">502</a><br/><a href="#L503" name="L503">503</a><br/><a href="#L504" name="L504">504</a><br/><a href="#L505" name="L505">505</a><br/><a href="#L506" name="L506">506</a><br/><a href="#L507" name="L507">507</a><br/><a href="#L508" name="L508">508</a><br/><a href="#L509" name="L509">509</a><br/><a href="#L510" name="L510">510</a><br/><a href="#L511" name="L511">511</a><br/><a href="#L512" name="L512">512</a><br/><a href="#L513" name="L513">513</a><br/><a href="#L514" name="L514">514</a><br/><a href="#L515" name="L515">515</a><br/><a href="#L516" name="L516">516</a><br/><a href="#L517" name="L517">517</a><br/><a href="#L518" name="L518">518</a><br/><a href="#L519" name="L519">519</a><br/><a href="#L520" name="L520">520</a><br/><a href="#L521" name="L521">521</a><br/><a href="#L522" name="L522">522</a><br/><a href="#L523" name="L523">523</a><br/><a href="#L524" name="L524">524</a><br/><a href="#L525" name="L525">525</a><br/><a href="#L526" name="L526">526</a><br/><a href="#L527" name="L527">527</a><br/><a href="#L528" name="L528">528</a><br/><a href="#L529" name="L529">529</a><br/><a href="#L530" name="L530">530</a><br/><a href="#L531" name="L531">531</a><br/><a href="#L532" name="L532">532</a><br/><a href="#L533" name="L533">533</a><br/><a href="#L534" name="L534">534</a><br/><a href="#L535" name="L535">535</a><br/><a href="#L536" name="L536">536</a><br/><a href="#L537" name="L537">537</a><br/><a href="#L538" name="L538">538</a><br/><a href="#L539" name="L539">539</a><br/><a href="#L540" name="L540">540</a><br/><a href="#L541" name="L541">541</a><br/><a href="#L542" name="L542">542</a><br/><a href="#L543" name="L543">543</a><br/><a href="#L544" name="L544">544</a><br/><a href="#L545" name="L545">545</a><br/><a href="#L546" name="L546">546</a><br/><a href="#L547" name="L547">547</a><br/><a href="#L548" name="L548">548</a><br/><a href="#L549" name="L549">549</a><br/><a href="#L550" name="L550">550</a><br/><a href="#L551" name="L551">551</a><br/><a href="#L552" name="L552">552</a><br/><a href="#L553" name="L553">553</a><br/><a href="#L554" name="L554">554</a><br/><a href="#L555" name="L555">555</a><br/><a href="#L556" name="L556">556</a><br/><a href="#L557" name="L557">557</a><br/><a href="#L558" name="L558">558</a><br/><a href="#L559" name="L559">559</a><br/><a href="#L560" name="L560">560</a><br/><a href="#L561" name="L561">561</a><br/><a href="#L562" name="L562">562</a><br/><a href="#L563" name="L563">563</a><br/><a href="#L564" name="L564">564</a><br/><a href="#L565" name="L565">565</a><br/><a href="#L566" name="L566">566</a><br/><a href="#L567" name="L567">567</a><br/><a href="#L568" name="L568">568</a><br/><a href="#L569" name="L569">569</a><br/><a href="#L570" name="L570">570</a><br/><a href="#L571" name="L571">571</a><br/><a href="#L572" name="L572">572</a><br/><a href="#L573" name="L573">573</a><br/><a href="#L574" name="L574">574</a><br/><a href="#L575" name="L575">575</a><br/><a href="#L576" name="L576">576</a><br/><a href="#L577" name="L577">577</a><br/><a href="#L578" name="L578">578</a><br/><a href="#L579" name="L579">579</a><br/><a href="#L580" name="L580">580</a><br/><a href="#L581" name="L581">581</a><br/><a href="#L582" name="L582">582</a><br/><a href="#L583" name="L583">583</a><br/><a href="#L584" name="L584">584</a><br/><a href="#L585" name="L585">585</a><br/><a href="#L586" name="L586">586</a><br/><a href="#L587" name="L587">587</a><br/><a href="#L588" name="L588">588</a><br/><a href="#L589" name="L589">589</a><br/><a href="#L590" name="L590">590</a><br/><a href="#L591" name="L591">591</a><br/><a href="#L592" name="L592">592</a><br/><a href="#L593" name="L593">593</a><br/><a href="#L594" name="L594">594</a><br/><a href="#L595" name="L595">595</a><br/><a href="#L596" name="L596">596</a><br/><a href="#L597" name="L597">597</a><br/><a href="#L598" name="L598">598</a><br/><a href="#L599" name="L599">599</a><br/><a href="#L600" name="L600">600</a><br/><a href="#L601" name="L601">601</a><br/><a href="#L602" name="L602">602</a><br/><a href="#L603" name="L603">603</a><br/><a href="#L604" name="L604">604</a><br/><a href="#L605" name="L605">605</a><br/><a href="#L606" name="L606">606</a><br/><a href="#L607" name="L607">607</a><br/></pre>
+						</div>
+					</td>
+					<TD vAlign="top" onmouseup="javascript:LogReuse();">
+						<div id="CodeDiv">
+							<pre>/*******************************************************************************
+ * Copyright (c) 2000, 2004 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Common Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/cpl-v10.html
+ * 
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.jface.dialogs;
+
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitorWithBlocking;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.operation.IRunnableContext;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.operation.ModalContext;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+
+/**
+ * A modal dialog that displays progress during a long running operation.
+ * <p>
+ * This concrete dialog class can be instantiated as is, or further subclassed
+ * as required.
+ * </p>
+ * <p>
+ * Typical usage is:
+ * 
+ * <pre>
+ * 
+ *  
+ *   try {
+ *      IRunnableWithProgress op = ...;
+ *      new ProgressMonitorDialog(activeShell).run(true, true, op);
+ *   } catch (InvocationTargetException e) {
+ *      // handle exception
+ *   } catch (InterruptedException e) {
+ *      // handle cancelation
+ *   }
+ *   
+ *  
+ * </pre>
+ * 
+ * </p>
+ * <p>
+ * Note that the ProgressMonitorDialog is not intended to be used with multiple
+ * runnables - this dialog should be discarded after completion of one
+ * IRunnableWithProgress and a new one instantiated for use by a second or
+ * sebsequent IRunnableWithProgress to ensure proper initialization.
+ * </p>
+ * <p>
+ * Note that not forking the process will result in it running in the UI which
+ * may starve the UI. The most obvious symptom of this problem is non
+ * responsiveness of the cancel button. If you are running within the UI Thread
+ * you should do the bulk of your work in another Thread to prevent starvation.
+ * It is recommended that fork is set to true in most cases.
+ * </p>
+ */
+public class ProgressMonitorDialog extends IconAndMessageDialog implements
+        IRunnableContext {
+    /**
+     * Name to use for task when normal task name is empty string.
+     */
+    private static String DEFAULT_TASKNAME = JFaceResources
+            .getString("ProgressMonitorDialog.message"); //$NON-NLS-1$
+
+    /**
+     * Constants for label and monitor size
+     */
+    private static int LABEL_DLUS = 21;
+
+    private static int BAR_DLUS = 9;
+
+    /**
+     * The progress indicator control.
+     */
+    protected ProgressIndicator progressIndicator;
+
+    /**
+     * The label control for the task. Kept for backwards compatibility.
+     */
+    protected Label taskLabel;
+
+    /**
+     * The label control for the subtask.
+     */
+    protected Label subTaskLabel;
+
+    /**
+     * The Cancel button control.
+     */
+    protected Button cancel;
+
+    /**
+     * Indicates whether the Cancel button is to be shown.
+     */
+    protected boolean operationCancelableState = false;
+
+    /**
+     * Indicates whether the Cancel button is to be enabled.
+     */
+    protected boolean enableCancelButton;
+
+    /**
+     * The progress monitor.
+     */
+    private ProgressMonitor progressMonitor = new ProgressMonitor();
+
+    /**
+     * The name of the current task (used by ProgressMonitor).
+     */
+    private String task;
+
+    /**
+     * The nesting depth of currently running runnables.
+     */
+    private int nestingDepth;
+
+    /**
+     * The cursor used in the cancel button;
+     */
+    protected Cursor arrowCursor;
+
+    /**
+     * The cursor used in the shell;
+     */
+    private Cursor waitCursor;
+
+    /**
+     * Flag indicating whether to open or merely create the dialog before run.
+     */
+    private boolean openOnRun = true;
+
+    /**
+     * Internal progress monitor implementation.
+     */
+    private class ProgressMonitor implements IProgressMonitorWithBlocking {
+        private String fSubTask = "";//$NON-NLS-1$
+
+        private boolean fIsCanceled;
+
+        protected boolean forked = false;
+
+        protected boolean locked = false;
+
+        public void beginTask(String name, int totalWork) {
+            if (progressIndicator.isDisposed())
+                return;
+            if (name == null)
+                task = "";//$NON-NLS-1$
+            else
+                task = name;
+            String s = task;
+            if (s.length() <= 0)
+                s = DEFAULT_TASKNAME;
+            setMessage(s);
+            if (!forked)
+                update();
+            if (totalWork == UNKNOWN) {
+                progressIndicator.beginAnimatedTask();
+            } else {
+                progressIndicator.beginTask(totalWork);
+            }
+        }
+
+        public void done() {
+            if (!progressIndicator.isDisposed()) {
+                progressIndicator.sendRemainingWork();
+                progressIndicator.done();
+            }
+        }
+
+        public void setTaskName(String name) {
+            if (name == null)
+                task = "";//$NON-NLS-1$
+            else
+                task = name;
+            String s = task;
+            if (s.length() <= 0)
+                s = DEFAULT_TASKNAME;
+            setMessage(s);
+            if (!forked)
+                update();
+        }
+
+        public boolean isCanceled() {
+            return fIsCanceled;
+        }
+
+        public void setCanceled(boolean b) {
+            fIsCanceled = b;
+            if (locked)
+                clearBlocked();
+        }
+
+        public void subTask(String name) {
+            if (subTaskLabel.isDisposed())
+                return;
+            if (name == null)
+                fSubTask = "";//$NON-NLS-1$
+            else
+                fSubTask = name;
+            subTaskLabel.setText(shortenText(fSubTask,subTaskLabel));
+            if (!forked)
+                subTaskLabel.update();
+        }
+
+        public void worked(int work) {
+            internalWorked(work);
+        }
+
+        public void internalWorked(double work) {
+            if (!progressIndicator.isDisposed())
+                progressIndicator.worked(work);
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.eclipse.core.runtime.IProgressMonitorWithBlocking#clearBlocked()
+         */
+        public void clearBlocked() {
+            locked = false;
+            updateForClearBlocked();
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.eclipse.core.runtime.IProgressMonitorWithBlocking#setBlocked(org.eclipse.core.runtime.IStatus)
+         */
+        public void setBlocked(IStatus reason) {
+            locked = true;
+            updateForSetBlocked(reason);
+        }
+    }
+
+    /**
+     * Clear blocked state from the receiver.
+     */
+    protected void updateForClearBlocked() {
+        setMessage(task);
+        imageLabel.setImage(getImage());
+    }
+
+    /**
+     * Set blocked state from the receiver.
+     * 
+     * @param reason
+     *            IStatus that gives the details
+     */
+    protected void updateForSetBlocked(IStatus reason) {
+        setMessage(reason.getMessage());
+        imageLabel.setImage(getImage());
+    }
+
+    /**
+     * Creates a progress monitor dialog under the given shell. The dialog has a
+     * standard title and no image. <code>open</code> is non-blocking.
+     * 
+     * @param parent
+     *            the parent shell, or <code>null</code> to create a top-level
+     *            shell
+     */
+    public ProgressMonitorDialog(Shell parent) {
+        super(parent);
+        setShellStyle(SWT.BORDER | SWT.TITLE | SWT.APPLICATION_MODAL); // no
+        // close
+        // button
+        setBlockOnOpen(false);
+    }
+
+    /**
+     * Enables the cancel button (asynchronously).
+     * @param b The state to set the button to.
+     */
+    private void asyncSetOperationCancelButtonEnabled(final boolean b) {
+        if (getShell() != null) {
+            getShell().getDisplay().asyncExec(new Runnable() {
+                public void run() {
+                    setOperationCancelButtonEnabled(b);
+                }
+            });
+        }
+    }
+
+    /**
+     * The cancel button has been pressed.
+     * 
+     * @since 3.0
+     */
+    protected void cancelPressed() {
+        //NOTE: this was previously done from a listener installed on the
+        // cancel
+        //button. On GTK, the listener installed by Dialog.createButton is
+        // called
+        //first and this was throwing an exception because the cancel button
+        //was already disposed
+        cancel.setEnabled(false);
+        progressMonitor.setCanceled(true);
+        super.cancelPressed();
+    }
+
+    /*
+     * (non-Javadoc) Method declared on Window.
+     */
+    /**
+     * The <code>ProgressMonitorDialog</code> implementation of this method
+     * only closes the dialog if there are no currently running runnables.
+     */
+    public boolean close() {
+        if (getNestingDepth() <= 0) {
+            clearCursors();
+            return super.close();
+        }
+        return false;
+    }
+
+    /**
+     * Clear the cursors in the dialog.
+     * 
+     * @since 3.0
+     */
+    protected void clearCursors() {
+        if (cancel != null && !cancel.isDisposed()) {
+            cancel.setCursor(null);
+        }
+        Shell shell = getShell();
+        if (shell != null && !shell.isDisposed()) {
+            shell.setCursor(null);
+        }
+        if (arrowCursor != null)
+            arrowCursor.dispose();
+        if (waitCursor != null)
+            waitCursor.dispose();
+        arrowCursor = null;
+        waitCursor = null;
+    }
+
+    /*
+     * (non-Javadoc) Method declared in Window.
+     */
+    protected void configureShell(Shell shell) {
+        super.configureShell(shell);
+        shell.setText(JFaceResources.getString("ProgressMonitorDialog.title")); //$NON-NLS-1$
+        if (waitCursor == null)
+            waitCursor = new Cursor(shell.getDisplay(), SWT.CURSOR_WAIT);
+        shell.setCursor(waitCursor);
+    }
+
+    /*
+     * (non-Javadoc) Method declared on Dialog.
+     */
+    protected void createButtonsForButtonBar(Composite parent) {
+        // cancel button
+        createCancelButton(parent);
+    }
+
+    /**
+     * Creates the cancel button.
+     * 
+     * @param parent
+     *            the parent composite
+     * @since 3.0
+     */
+    protected void createCancelButton(Composite parent) {
+        cancel = createButton(parent, IDialogConstants.CANCEL_ID,
+                IDialogConstants.CANCEL_LABEL, true);
+        if (arrowCursor == null)
+            arrowCursor = new Cursor(cancel.getDisplay(), SWT.CURSOR_ARROW);
+        cancel.setCursor(arrowCursor);
+        setOperationCancelButtonEnabled(enableCancelButton);
+    }
+
+    /*
+     * (non-Javadoc) Method declared on Dialog.
+     */
+    protected Control createDialogArea(Composite parent) {
+        setMessage(DEFAULT_TASKNAME);
+        createMessageArea(parent);
+        //Only set for backwards compatibility
+        taskLabel = messageLabel;
+        // progress indicator
+        progressIndicator = new ProgressIndicator(parent);
+        GridData gd = new GridData();
+        gd.heightHint = convertVerticalDLUsToPixels(BAR_DLUS);
+        gd.horizontalAlignment = GridData.FILL;
+        gd.grabExcessHorizontalSpace = true;
+        gd.horizontalSpan = 2;
+        progressIndicator.setLayoutData(gd);
+        // label showing current task
+        subTaskLabel = new Label(parent, SWT.LEFT | SWT.WRAP);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.heightHint = convertVerticalDLUsToPixels(LABEL_DLUS);
+        gd.horizontalSpan = 2;
+        subTaskLabel.setLayoutData(gd);
+        subTaskLabel.setFont(parent.getFont());
+        return parent;
+    }
+
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.jface.window.Window#getInitialSize()
+     */
+    protected Point getInitialSize() {
+        Point calculatedSize = super.getInitialSize();
+        if (calculatedSize.x < 450)
+            calculatedSize.x = 450;
+        return calculatedSize;
+    }
+
+    /**
+     * Returns the progress monitor to use for operations run in this progress
+     * dialog.
+     * 
+     * @return the progress monitor
+     */
+    public IProgressMonitor getProgressMonitor() {
+        return progressMonitor;
+    }
+
+    /*
+     * (non-Javadoc) Method declared on IRunnableContext. Runs the given <code>
+     * IRunnableWithProgress </code> with the progress monitor for this progress
+     * dialog. The dialog is opened before it is run, and closed after it
+     * completes.
+     */
+    public void run(boolean fork, boolean cancelable,
+            IRunnableWithProgress runnable) throws InvocationTargetException,
+            InterruptedException {
+        setCancelable(cancelable);
+        try {
+            aboutToRun();
+            //Let the progress monitor know if they need to update in UI Thread
+            progressMonitor.forked = fork;
+            ModalContext.run(runnable, fork, getProgressMonitor(), getShell()
+                    .getDisplay());
+        } finally {
+            finishedRun();
+        }
+    }
+
+    /**
+     * Returns whether the dialog should be opened before the operation is run.
+     * Defaults to <code>true</code>
+     * 
+     * @return <code>true</code> to open the dialog before run,
+     *         <code>false</code> to only create the dialog, but not open it
+     * @since 3.0
+     */
+    public boolean getOpenOnRun() {
+        return openOnRun;
+    }
+
+    /**
+     * Sets whether the dialog should be opened before the operation is run.
+     * NOTE: Setting this to false and not forking a process may starve any
+     * asyncExec that tries to open the dialog later.
+     * 
+     * @param openOnRun
+     *            <code>true</code> to open the dialog before run,
+     *            <code>false</code> to only create the dialog, but not open
+     *            it
+     * @since 3.0
+     */
+    public void setOpenOnRun(boolean openOnRun) {
+        this.openOnRun = openOnRun;
+    }
+
+    /**
+     * Returns the nesting depth of running operations.
+     * 
+     * @return the nesting depth of running operations
+     * @since 3.0
+     */
+    protected int getNestingDepth() {
+        return nestingDepth;
+    }
+
+    /**
+     * Increments the nesting depth of running operations.
+     * 
+     * @since 3.0
+     */
+    protected void incrementNestingDepth() {
+        nestingDepth++;
+    }
+
+    /**
+     * Decrements the nesting depth of running operations.
+     * 
+     * @since 3.0
+     *  
+     */
+    protected void decrementNestingDepth() {
+        nestingDepth--;
+    }
+
+    /**
+     * Called just before the operation is run. Default behaviour is to open or
+     * create the dialog, based on the setting of <code>getOpenOnRun</code>,
+     * and increment the nesting depth.
+     * 
+     * @since 3.0
+     */
+    protected void aboutToRun() {
+        if (getOpenOnRun()) {
+            open();
+        } else {
+            create();
+        }
+        incrementNestingDepth();
+    }
+
+    /**
+     * Called just after the operation is run. Default behaviour is to decrement
+     * the nesting depth, and close the dialog.
+     * 
+     * @since 3.0
+     */
+    protected void finishedRun() {
+        decrementNestingDepth();
+        close();
+    }
+
+    /**
+     * Sets whether the progress dialog is cancelable or not.
+     * 
+     * @param cancelable
+     *            <code>true</code> if the end user can cancel this progress
+     *            dialog, and <code>false</code> if it cannot be canceled
+     */
+    public void setCancelable(boolean cancelable) {
+        if (cancel == null)
+            enableCancelButton = cancelable;
+        else
+            asyncSetOperationCancelButtonEnabled(cancelable);
+    }
+
+    /**
+     * Helper to enable/disable Cancel button for this dialog.
+     * 
+     * @param b
+     *            <code>true</code> to enable the cancel button, and
+     *            <code>false</code> to disable it
+     * @since 3.0
+     */
+    protected void setOperationCancelButtonEnabled(boolean b) {
+        operationCancelableState = b;
+        cancel.setEnabled(b);
+    }
+
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.IconAndMessageDialog#getImage()
+     */
+    protected Image getImage() {
+        return getInfoImage();
+    }
+
+    /**
+     * Set the message in the message label.
+     * @param messageString The string for the new message.
+     */
+    private void setMessage(String messageString) {
+        //must not set null text in a label
+        message = messageString == null ? "" : messageString; //$NON-NLS-1$
+        if (messageLabel == null || messageLabel.isDisposed())
+            return;
+        messageLabel.setText(shortenText(message,messageLabel));
+    }
+
+    /**
+     * Update the message label. Required if the monitor is forked.
+     */
+    private void update() {
+        if (messageLabel == null || messageLabel.isDisposed())
+            return;
+        messageLabel.update();
+    }
+
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.jface.window.Window#open()
+     */
+    public int open() {
+        //Check to be sure it is not already done. If it is just return OK.
+        if (!getOpenOnRun()) {
+            if (getNestingDepth() == 0)
+                return OK;
+        }
+        return super.open();
+    }
+}</pre>
+						</div>
+					</TD>
+				</TR>
+
+				<tr>
+					<td colspan="2">
+						<div style="VISIBILITY:hidden; OVERFLOW:hidden; WIDTH:1px; POSITION:absolute; HEIGHT:1px">
+							
+						</div>
+					</td>
+				</tr>
+			</TABLE>
+		</td>
+	</tr>
+</table>
+
+
+
+
+<script type="text/javascript" language="javascript">
+	
+var homeUrl = "www.koders.com/"; 
+var projectID = "CFLBQ7U5QZ8DPD865N2QUL12GB";
+var sourceLanguage = "Java";
+var IsLogged = false;
+
+// only logs once
+function LogReuse() {
+	// dynamic image loading
+	if(!IsLogged) {
+		//alert("logging");
+		var	fileImg	= new Image();
+		var fileImgSrc = "/java/kv.aspx?fid=1861AB23DDA136F34B00B191A81E0BBBF22E0432&mode=cp";
+		//alert("fileImgSrc = " + fileImgSrc);
+		fileImg.src	= fileImgSrc;
+		IsLogged = true;
+	} else {
+		//alert("already logged!");
+	}
+	return true;
+}
+
+/*
+function HideBanner() {
+	
+	var eleArray = document.getElementsByTagName('div');
+	for(var i = 0; i < eleArray.length; i++) {
+		if(!eleArray[i] || !eleArray[i].id) {
+			continue;
+		}
+		
+		var id = eleArray[i].id;
+		if(id && id.indexOf("RightBanner") != -1){
+			eleArray[i].style.visibility = "hidden";
+		}
+	}
+}
+*/
+
+
+
+
+</script>
+
+
+			</div>
+			
+			
+<div style="CLEAR: both" align="center" id="FooterDiv">
+	<table id="Footer1_ContentRotator468x100" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>
+	
+<!-- 468x100 start: Koders.Web.ContentRotator2 -->
+
+<!-- Media Server Begin: 468x100 -->
+
+<!-- Media Server End: 468x100 -->
+
+<!-- 468x100 end -->
+
+</td></tr></table>
+	<div style="MARGIN-TOP: 10px; MARGIN-BOTTOM: 10px">
+		<b>Developers:</b>&nbsp;<a href="/info.aspx?f=WhatsNew">What's New</a> |
+<a href="/info.aspx?c=GettingStarted">Getting Started</a> |
+<a href="/info.aspx?c=forms/SubmitProject">Add Projects</a> |
+<a href="/info.aspx?c=tools">Downloads</a><br />
+<a href="/info.aspx?c=tools#AddSearch">Add Search to Your Site</a> |
+<a href="/info.aspx?f=Advertise">Advertise</a> |
+<a href="/info.aspx?f=About">About Koders</a>
+	</div>
+	<p><SPAN class="footer">Copyright © 2006 <A href="http://www.koders.com">Koders</A>
+			&nbsp;-&nbsp; 
+Searching 225,816,744 lines of code.
+		</SPAN>
+	</p>
+	<P>&nbsp;</P>
+</div>
+
+		</form>
+	</body>
+</HTML>

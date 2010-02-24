@@ -1,0 +1,55 @@
+TestQt ready for input
+MSG_ServiceRequest
+    Header
+        Version = String
+        MsgRefId = String
+    Body
+        ServiceRequest
+            Area
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+            Area
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+            Area
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+            Transmission
+                Type = 1
+                Period = 3.14159
+            Item
+                Element = 1
+                Field = String
+            Object
+                FileName = Text
+<MSG_ServiceRequest>
+<Header Version="String" MsgRefId="String">
+</Header>
+<Body>
+<ServiceRequest>
+<Area>
+<Pos Lat="3.14159" Long="3.14159">
+</Pos>
+</Area>
+<Area>
+<Pos Lat="3.14159" Long="3.14159">
+</Pos>
+</Area>
+<Area>
+<Pos Lat="3.14159" Long="3.14159">
+</Pos>
+</Area>
+<Transmission Type="1" Period="3.14159">
+</Transmission>
+<Item Element="1" Field="String">
+</Item>
+<Object FileName="Text">
+</Object>
+</ServiceRequest>
+</Body>
+</MSG_ServiceRequest>
+
+TestQt shutting down
