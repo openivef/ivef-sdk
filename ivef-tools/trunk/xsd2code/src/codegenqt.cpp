@@ -258,10 +258,16 @@ void CodeGenQT::go() {
             }
         }
 
+        QString docu = obj->docu();
+        if (docu != "") { // there is documentation
+            docu.replace("\n", "\\n\n//! ");
+            docu.replace("\r", "");
+        }
+
         headerFileOut << "\n//-----------------------------------------------------------\n";
         headerFileOut << "//! \\brief       Class definition of " << className(name) << "\n";
         headerFileOut << "//!\n";
-        headerFileOut << "//! " << obj->docu() << "\n";
+        headerFileOut << "//! " << docu << "\n";
         headerFileOut << "//!\n";
 
         // define the class
