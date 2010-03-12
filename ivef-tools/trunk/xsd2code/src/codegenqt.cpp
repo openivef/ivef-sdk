@@ -597,6 +597,8 @@ void CodeGenQT::go() {
                     varName = dateToString(variableName(attr->name()) );
                 } else if (type == "bool" ) {
                     varName = "QString(" + variableName(attr->name()) + " ? \"true\" : \"false\" )";
+                } else if (type == "float") {
+                    varName = "QString::number(" + variableName(attr->name()) + ", 'f')";
                 } else if (type != "QString") {
                     varName = "QString::number(" + variableName(attr->name()) + ")";
                 }
