@@ -544,7 +544,9 @@ void CodeGenObjC::go() {
                         classFileOut << "                NSString *val = [attributeDict objectForKey: key];\n";
                     } else if (type == localType("xs:boolean")) {
                         classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
-                        classFileOut << "                " << type << " val = [[value uppercaseString] isEqualToString: @\"YES\"];\n";
+                        classFileOut << "                " << type << " val = ([[value uppercaseString] isEqualToString: @\"YES\"] || \n";  
+                        classFileOut << "                            [[value uppercaseString] isEqualToString: @\"TRUE\"] ||\n";
+                        classFileOut << "                            [[value uppercaseString] isEqualToString: @\"1\"]);\n";
                     } else if (type == localType("xs:integer")) {
                         classFileOut << "                NSString *value = [attributeDict objectForKey: key];\n";
                         classFileOut << "                " << type << " val = [value intValue];\n";
@@ -596,7 +598,7 @@ void CodeGenObjC::go() {
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type == localType("xs:boolean")) {
-                    varName = "(" + variableName(attr->name()) + "?@\"yes\":@\"no\")";
+                    varName = "(" + variableName(attr->name()) + "?@\"true\":@\"false\")";
                 } else if (type != localType("xs:string")) {
                     varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
                 } else { // String, issue 19

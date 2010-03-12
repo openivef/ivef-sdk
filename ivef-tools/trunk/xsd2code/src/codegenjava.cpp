@@ -653,8 +653,11 @@ void CodeGenJava::go() {
                     }
                     if (type == "String")
                         classFileOut << "                " << type << " val = value;\n";
-                    else if (type == "boolean")
-                        classFileOut << "                " << type << " val = (value.toUpperCase() == \"YES\");\n";
+                    else if (type == "boolean") {
+                        classFileOut << "                " << type << " val = (value.toUpperCase() == \"YES\" ||\n";
+                        classFileOut << "                               value.toUpperCase() == \"TRUE\" ||\n";
+                        classFileOut << "                               value.toUpperCase() == \"1\");\n";
+                    }
                     else if (type == "int")
                         classFileOut << "                " << type << " val = Integer.parseInt(value);\n";
                     else if (type == "Date") {

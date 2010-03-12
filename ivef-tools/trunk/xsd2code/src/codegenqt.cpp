@@ -596,7 +596,7 @@ void CodeGenQT::go() {
                 if (type == "QDateTime") {
                     varName = dateToString(variableName(attr->name()) );
                 } else if (type == "bool" ) {
-                    varName = "QString(" + variableName(attr->name()) + " ? \"yes\" : \"no\" )";
+                    varName = "QString(" + variableName(attr->name()) + " ? \"true\" : \"false\" )";
                 } else if (type != "QString") {
                     varName = "QString::number(" + variableName(attr->name()) + ")";
                 }
@@ -890,8 +890,10 @@ void CodeGenQT::go() {
                     if (type == "QString") {
                         classFileOut << "                QString val = value;\n";
                     } else if (type == "bool") {
-                        classFileOut << "                // booleans are sent as YES/NO textstrings \n";
-                        classFileOut << "                bool val = (value.toUpper() == \"YES\");\n";
+                        classFileOut << "                // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings \n";
+                        classFileOut << "                bool val = (value.toUpper() == \"YES\" ||\n";
+                        classFileOut << "                            value.toUpper() == \"TRUE\" ||\n";
+                        classFileOut << "                            value == \"1\");\n";
                     } else if (type == "int") {
                         classFileOut << "                int val = value.toInt();\n";
                     } else if (type == "QDateTime") {
