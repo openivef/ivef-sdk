@@ -341,7 +341,7 @@ void CodeGenQT::go() {
                     headerFileOut << "    //!              returns true if " << methodName(attr->name()) << "is used (optional field).\n";
                     headerFileOut << "    //!\n";
                     headerFileOut << "    //! \\return     bool\n";
-                    headerFileOut << "    bool has" << methodName(attr->name()) << "();\n\n";
+                    headerFileOut << "    bool has" << methodName(attr->name()) << "() const;\n\n";
                 }
             }
         }
@@ -565,7 +565,7 @@ void CodeGenQT::go() {
 
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "// check if optional element " << className(name) << " has been set\n";
-                    classFileOut << "bool " << className(name) << "::has" << methodName(attr->name()) << "() {\n";
+                    classFileOut << "bool " << className(name) << "::has" << methodName(attr->name()) << "() const {\n";
                     classFileOut << "\n    return " << variableName(attr->name()) << "Present;\n}\n\n";
                 }
             }
