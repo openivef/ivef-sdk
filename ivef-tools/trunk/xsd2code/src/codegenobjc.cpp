@@ -624,30 +624,34 @@ void CodeGenObjC::go() {
                 }
             }
         }
-        classFileOut << "    [xml appendString:@\">\\n\"];\n"; // close the statement
 
-        // for data members
-        for(int j=0; j < attributes.size(); j++) {
-            XSDAttribute *attr = attributes.at(j);
-            QString attrType = className(attr->type());
+        if (attributes.size() > 0) {
+        	classFileOut << "    [xml appendString:@\">\\n\"];\n"; // close the statement
+		// for data members
+		for(int j=0; j < attributes.size(); j++) {
+		    XSDAttribute *attr = attributes.at(j);
+		    QString attrType = className(attr->type());
 
-            if (attr->type() == attr->name()) {
-                // check if the attribute exist
-                if (attr->unbounded() ) {
-                    classFileOut << "    for(int i=0; i < [" << variableName(attr->name()) << "s count]; i++ ) {\n";
-                    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s objectAtIndex:i];\n";
-                    classFileOut << "        [xml appendString: [attribute XML] ];\n    }\n";
-                } else if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
-                    classFileOut << "        [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n    }\n";
-                } else {
-                    classFileOut << "    [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n";
-                }
-            }
+		    if (attr->type() == attr->name()) {
+			// check if the attribute exist
+			if (attr->unbounded() ) {
+			    classFileOut << "    for(int i=0; i < [" << variableName(attr->name()) << "s count]; i++ ) {\n";
+			    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s objectAtIndex:i];\n";
+			    classFileOut << "        [xml appendString: [attribute XML] ];\n    }\n";
+			} else if (!attr->required() || obj->isMerged()) {
+			    classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
+			    classFileOut << "        [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n    }\n";
+			} else {
+			    classFileOut << "    [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n";
+			}
+		    }
+		}
+
+		// close up
+		classFileOut << "    [xml appendString: @\"</" << name << ">\\n\"];\n"; // append attributes
+        } else {
+        	classFileOut << "    [xml appendString:@\"/>\\n\"];\n"; // close the statement
         }
-
-        // close up
-        classFileOut << "    [xml appendString: @\"</" << name << ">\\n\"];\n"; // append attributes
         classFileOut << "    return xml;\n";
         classFileOut << "}\n\n";
 

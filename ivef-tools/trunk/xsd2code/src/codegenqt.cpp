@@ -618,32 +618,39 @@ void CodeGenQT::go() {
                 }
             }
         }
-        classFileOut << "    xml.append(\">\\n\");\n"; // close the statement
 
-        // for data members
-        for(int j=0; j < attributes.size(); j++) {
-            XSDAttribute *attr = attributes.at(j);
-            QString attrType = localType (attr->type());
+        // check for data members
+        if (attributes.size() > 0) {
+		classFileOut << "    xml.append(\">\\n\");\n"; // close the statement
 
-            if (attrType == attr->name()) {
-                // check if the attribute exist
-                if (attr->unbounded() ) {
-                    classFileOut << "    // add all included data\n";
-                    classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
-                    classFileOut << "        " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
-                    classFileOut << "        xml.append( attribute.toXML() );\n    }\n";
-                } else if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "    // add optional data if available\n";
-                    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "        xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n    }\n";
-                } else {
-                    classFileOut << "    xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n";
-                }
-            }
+		// for data members
+		for(int j=0; j < attributes.size(); j++) {
+		    XSDAttribute *attr = attributes.at(j);
+		    QString attrType = localType (attr->type());
+
+		    if (attrType == attr->name()) {
+			// check if the attribute exist
+			if (attr->unbounded() ) {
+			    classFileOut << "    // add all included data\n";
+			    classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
+			    classFileOut << "        " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
+			    classFileOut << "        xml.append( attribute.toXML() );\n    }\n";
+			} else if (!attr->required() || obj->isMerged()) {
+			    classFileOut << "    // add optional data if available\n";
+			    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
+			    classFileOut << "        xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n    }\n";
+			} else {
+			    classFileOut << "    xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n";
+			}
+		    }
+		}
+                classFileOut << "    xml.append( \"</" << name << ">\\n\");\n"; // append attributes
         }
+        else {
+                classFileOut << "    xml.append(\"/>\\n\");\n"; // close the statement
+	}
 
         // close up
-        classFileOut << "    xml.append( \"</" << name << ">\\n\");\n"; // append attributes
         classFileOut << "    return xml;\n";
         classFileOut << "}\n\n";
 
