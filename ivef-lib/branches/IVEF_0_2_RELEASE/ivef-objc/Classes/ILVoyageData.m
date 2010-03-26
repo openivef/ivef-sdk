@@ -572,7 +572,9 @@
             }
             else if ([key isEqualToString:@"RouteBound"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = [[value uppercaseString] isEqualToString: @"YES"];
+                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                            [[value uppercaseString] isEqualToString: @"TRUE"] ||
+                            [[value uppercaseString] isEqualToString: @"1"]);
                 [self setRouteBound: val];
             }
             else if ([key isEqualToString:@"SourceId"]) {
@@ -595,7 +597,9 @@
             }
             else if ([key isEqualToString:@"Tugs"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = [[value uppercaseString] isEqualToString: @"YES"];
+                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                            [[value uppercaseString] isEqualToString: @"TRUE"] ||
+                            [[value uppercaseString] isEqualToString: @"1"]);
                 [self setTugs: val];
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
@@ -684,7 +688,7 @@
     }
     if ( [self hasRouteBound] ) {
         [xml appendString: @" RouteBound=\""];
-        [xml appendString: (m_routeBound?@"yes":@"no")];
+        [xml appendString: (m_routeBound?@"true":@"false")];
         [xml appendString: @"\""];
     }
     if ( [self hasSourceId] ) {
@@ -705,7 +709,7 @@
     }
     if ( [self hasTugs] ) {
         [xml appendString: @" Tugs=\""];
-        [xml appendString: (m_tugs?@"yes":@"no")];
+        [xml appendString: (m_tugs?@"true":@"false")];
         [xml appendString: @"\""];
     }
     [xml appendString: @" UpdateTime=\""];

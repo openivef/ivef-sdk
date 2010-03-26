@@ -15,7 +15,7 @@ ServiceRequest::ServiceRequest(const ServiceRequest &val) : QObject() {
     m_filter = val.m_filter;
 }
 
-// comperator
+// assignement
 ServiceRequest & ServiceRequest::operator=(const ServiceRequest &val) {
 
     m_areas = val.m_areas;

@@ -14,7 +14,7 @@ Filter::Filter(const Filter &val) : QObject() {
     m_predicate = val.m_predicate;
 }
 
-// comperator
+// assignement
 Filter & Filter::operator=(const Filter &val) {
 
     m_predicate = val.m_predicate;

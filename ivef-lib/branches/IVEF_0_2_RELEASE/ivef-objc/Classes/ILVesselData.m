@@ -237,7 +237,9 @@
             }
             else if ([key isEqualToString:@"BlackListed"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = [[value uppercaseString] isEqualToString: @"YES"];
+                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                            [[value uppercaseString] isEqualToString: @"TRUE"] ||
+                            [[value uppercaseString] isEqualToString: @"1"]);
                 [self setBlackListed: val];
             }
             else if ([key isEqualToString:@"Id"]) {
@@ -280,7 +282,7 @@
     }
     if ( [self hasBlackListed] ) {
         [xml appendString: @" BlackListed=\""];
-        [xml appendString: (m_blackListed?@"yes":@"no")];
+        [xml appendString: (m_blackListed?@"true":@"false")];
         [xml appendString: @"\""];
     }
     [xml appendString: @" Id=\""];

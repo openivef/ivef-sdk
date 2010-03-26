@@ -46,7 +46,7 @@ VesselData::VesselData(const VesselData &val) : QObject() {
     m_updateTime = val.m_updateTime;
 }
 
-// comperator
+// assignement
 VesselData & VesselData::operator=(const VesselData &val) {
 
     m_construction = val.m_construction;
@@ -120,7 +120,7 @@ int VesselData::getClass() const {
 }
 
 // check if optional element VesselData has been set
-bool VesselData::hasClass() {
+bool VesselData::hasClass() const {
 
     return m_classPresent;
 }
@@ -139,7 +139,7 @@ bool VesselData::getBlackListed() const {
 }
 
 // check if optional element VesselData has been set
-bool VesselData::hasBlackListed() {
+bool VesselData::hasBlackListed() const {
 
     return m_blackListedPresent;
 }
@@ -170,7 +170,7 @@ QString VesselData::getSpecialAttention() const {
 }
 
 // check if optional element VesselData has been set
-bool VesselData::hasSpecialAttention() {
+bool VesselData::hasSpecialAttention() const {
 
     return m_specialAttentionPresent;
 }
@@ -189,7 +189,7 @@ QString VesselData::getSourceId() const {
 }
 
 // check if optional element VesselData has been set
-bool VesselData::hasSourceId() {
+bool VesselData::hasSourceId() const {
 
     return m_sourceIdPresent;
 }
@@ -245,7 +245,7 @@ QString VesselData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasBlackListed() ) {
-        xml.append(" BlackListed=\"" + QString(m_blackListed ? "yes" : "no" ) + "\"");
+        xml.append(" BlackListed=\"" + QString(m_blackListed ? "true" : "false" ) + "\"");
     }
     xml.append(" Id=\"" + QString::number(m_id) + "\"");
     // check for presence of optional attribute

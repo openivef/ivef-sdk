@@ -17,7 +17,7 @@ UnType::UnType(const UnType &val) : QObject() {
     m_mode = val.m_mode;
 }
 
-// comperator
+// assignement
 UnType & UnType::operator=(const UnType &val) {
 
     m_codeA = val.m_codeA;

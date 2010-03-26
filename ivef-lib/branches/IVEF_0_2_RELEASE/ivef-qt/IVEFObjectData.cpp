@@ -15,7 +15,7 @@ ObjectData::ObjectData(const ObjectData &val) : QObject() {
     m_taggedItems = val.m_taggedItems;
 }
 
-// comperator
+// assignement
 ObjectData & ObjectData::operator=(const ObjectData &val) {
 
     m_trackData = val.m_trackData;

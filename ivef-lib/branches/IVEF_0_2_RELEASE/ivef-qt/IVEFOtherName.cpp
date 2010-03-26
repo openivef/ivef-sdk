@@ -17,7 +17,7 @@ OtherName::OtherName(const OtherName &val) : QObject() {
     m_name = val.m_name;
 }
 
-// comperator
+// assignement
 OtherName & OtherName::operator=(const OtherName &val) {
 
     m_lang = val.m_lang;

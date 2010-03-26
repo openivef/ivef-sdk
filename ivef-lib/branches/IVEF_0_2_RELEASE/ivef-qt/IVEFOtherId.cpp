@@ -17,7 +17,7 @@ OtherId::OtherId(const OtherId &val) : QObject() {
     m_value = val.m_value;
 }
 
-// comperator
+// assignement
 OtherId & OtherId::operator=(const OtherId &val) {
 
     m_id = val.m_id;

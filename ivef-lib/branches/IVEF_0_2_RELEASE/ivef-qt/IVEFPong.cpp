@@ -19,7 +19,7 @@ Pong::Pong(const Pong &val) : QObject() {
     m_timeStamp = val.m_timeStamp;
 }
 
-// comperator
+// assignement
 Pong & Pong::operator=(const Pong &val) {
 
     m_responseOn = val.m_responseOn;

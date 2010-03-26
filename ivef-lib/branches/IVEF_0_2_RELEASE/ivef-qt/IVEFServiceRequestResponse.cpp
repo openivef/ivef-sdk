@@ -22,7 +22,7 @@ ServiceRequestResponse::ServiceRequestResponse(const ServiceRequestResponse &val
     m_result = val.m_result;
 }
 
-// comperator
+// assignement
 ServiceRequestResponse & ServiceRequestResponse::operator=(const ServiceRequestResponse &val) {
 
     m_reasonPresent = val.m_reasonPresent;
@@ -57,7 +57,7 @@ QString ServiceRequestResponse::getReason() const {
 }
 
 // check if optional element ServiceRequestResponse has been set
-bool ServiceRequestResponse::hasReason() {
+bool ServiceRequestResponse::hasReason() const {
 
     return m_reasonPresent;
 }

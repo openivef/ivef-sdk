@@ -47,7 +47,7 @@ Body::Body(const Body &val) : QObject() {
     m_serviceRequestResponse = val.m_serviceRequestResponse;
 }
 
-// comperator
+// assignement
 Body & Body::operator=(const Body &val) {
 
     m_loginRequestPresent = val.m_loginRequestPresent;
@@ -96,7 +96,7 @@ LoginRequest Body::getLoginRequest() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasLoginRequest() {
+bool Body::hasLoginRequest() const {
 
     return m_loginRequestPresent;
 }
@@ -115,7 +115,7 @@ LoginResponse Body::getLoginResponse() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasLoginResponse() {
+bool Body::hasLoginResponse() const {
 
     return m_loginResponsePresent;
 }
@@ -134,7 +134,7 @@ Logout Body::getLogout() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasLogout() {
+bool Body::hasLogout() const {
 
     return m_logoutPresent;
 }
@@ -153,7 +153,7 @@ ObjectDatas Body::getObjectDatas() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasObjectDatas() {
+bool Body::hasObjectDatas() const {
 
     return m_objectDatasPresent;
 }
@@ -172,7 +172,7 @@ Ping Body::getPing() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasPing() {
+bool Body::hasPing() const {
 
     return m_pingPresent;
 }
@@ -191,7 +191,7 @@ Pong Body::getPong() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasPong() {
+bool Body::hasPong() const {
 
     return m_pongPresent;
 }
@@ -210,7 +210,7 @@ ServerStatus Body::getServerStatus() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasServerStatus() {
+bool Body::hasServerStatus() const {
 
     return m_serverStatusPresent;
 }
@@ -229,7 +229,7 @@ ServiceRequest Body::getServiceRequest() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasServiceRequest() {
+bool Body::hasServiceRequest() const {
 
     return m_serviceRequestPresent;
 }
@@ -248,7 +248,7 @@ ServiceRequestResponse Body::getServiceRequestResponse() const {
 }
 
 // check if optional element Body has been set
-bool Body::hasServiceRequestResponse() {
+bool Body::hasServiceRequestResponse() const {
 
     return m_serviceRequestResponsePresent;
 }

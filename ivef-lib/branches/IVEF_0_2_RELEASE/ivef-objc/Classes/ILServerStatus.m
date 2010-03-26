@@ -128,7 +128,9 @@
             }
             else if ([key isEqualToString:@"Status"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = [[value uppercaseString] isEqualToString: @"YES"];
+                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                            [[value uppercaseString] isEqualToString: @"TRUE"] ||
+                            [[value uppercaseString] isEqualToString: @"1"]);
                 [self setStatus: val];
             }
         }
@@ -148,7 +150,7 @@
         [xml appendString: @"\""];
     }
     [xml appendString: @" Status=\""];
-    [xml appendString: (m_status?@"yes":@"no")];
+    [xml appendString: (m_status?@"true":@"false")];
     [xml appendString: @"\""];
     [xml appendString:@">\n"];
     [xml appendString: @"</ServerStatus>\n"];

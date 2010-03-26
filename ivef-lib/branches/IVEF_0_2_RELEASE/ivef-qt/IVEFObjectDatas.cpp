@@ -12,7 +12,7 @@ ObjectDatas::ObjectDatas(const ObjectDatas &val) : QObject() {
     m_objectDatas = val.m_objectDatas;
 }
 
-// comperator
+// assignement
 ObjectDatas & ObjectDatas::operator=(const ObjectDatas &val) {
 
     m_objectDatas = val.m_objectDatas;

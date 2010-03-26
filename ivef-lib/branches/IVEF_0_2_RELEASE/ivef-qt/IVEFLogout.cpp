@@ -11,7 +11,7 @@ Logout::Logout(const Logout &val) : QObject() {
 
 }
 
-// comperator
+// assignement
 Logout & Logout::operator=(const Logout &val) {
 
     return *this;
@@ -32,8 +32,7 @@ QString Logout::encode( QString str) {
 QString Logout::toXML() {
 
     QString xml = "<Logout";
-    xml.append(">\n");
-    xml.append( "</Logout>\n");
+    xml.append("/>\n");
     return xml;
 }
 

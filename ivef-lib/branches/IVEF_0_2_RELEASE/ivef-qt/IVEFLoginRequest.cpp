@@ -19,7 +19,7 @@ LoginRequest::LoginRequest(const LoginRequest &val) : QObject() {
     m_password = val.m_password;
 }
 
-// comperator
+// assignement
 LoginRequest & LoginRequest::operator=(const LoginRequest &val) {
 
     m_encryption = val.m_encryption;

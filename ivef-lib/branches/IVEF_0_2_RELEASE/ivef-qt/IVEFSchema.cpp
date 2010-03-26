@@ -11,7 +11,7 @@ Schema::Schema(const Schema &val) : QObject() {
 
 }
 
-// comperator
+// assignement
 Schema & Schema::operator=(const Schema &val) {
 
     return *this;
@@ -44,8 +44,7 @@ QString Schema::getTargetNamespace() const {
 QString Schema::toXML() {
 
     QString xml = "<Schema";
-    xml.append(">\n");
-    xml.append( "</Schema>\n");
+    xml.append("/>\n");
     return xml;
 }
 

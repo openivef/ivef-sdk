@@ -16,7 +16,7 @@ Item::Item(const Item &val) : QObject() {
     m_fieldSelector = val.m_fieldSelector;
 }
 
-// comperator
+// assignement
 Item & Item::operator=(const Item &val) {
 
     m_dataSelector = val.m_dataSelector;

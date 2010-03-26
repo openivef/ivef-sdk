@@ -18,7 +18,7 @@ Transmission::Transmission(const Transmission &val) : QObject() {
     m_period = val.m_period;
 }
 
-// comperator
+// assignement
 Transmission & Transmission::operator=(const Transmission &val) {
 
     m_type = val.m_type;
@@ -69,7 +69,7 @@ float Transmission::getPeriod() const {
 }
 
 // check if optional element Transmission has been set
-bool Transmission::hasPeriod() {
+bool Transmission::hasPeriod() const {
 
     return m_periodPresent;
 }
@@ -81,7 +81,7 @@ QString Transmission::toXML() {
     xml.append(" Type=\"" + QString::number(m_type) + "\"");
     // check for presence of optional attribute
     if ( hasPeriod() ) {
-        xml.append(" Period=\"" + QString::number(m_period) + "\"");
+        xml.append(" Period=\"" + QString::number(m_period, 'f') + "\"");
     }
     xml.append(">\n");
     xml.append( "</Transmission>\n");

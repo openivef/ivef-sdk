@@ -307,8 +307,10 @@ bool Parser::startElement(const QString &,
                 obj->setDetails(val);
             }
             else if (key == "Status") {
-                // booleans are sent as YES/NO textstrings 
-                bool val = (value.toUpper() == "YES");
+                // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings 
+                bool val = (value.toUpper() == "YES" ||
+                            value.toUpper() == "TRUE" ||
+                            value == "1");
                 obj->setStatus(val);
             }
         }
@@ -527,8 +529,10 @@ bool Parser::startElement(const QString &,
                 obj->setClass(val);
             }
             else if (key == "BlackListed") {
-                // booleans are sent as YES/NO textstrings 
-                bool val = (value.toUpper() == "YES");
+                // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings 
+                bool val = (value.toUpper() == "YES" ||
+                            value.toUpper() == "TRUE" ||
+                            value == "1");
                 obj->setBlackListed(val);
             }
             else if (key == "Id") {
@@ -760,8 +764,10 @@ bool Parser::startElement(const QString &,
                 obj->setPrevPort(val);
             }
             else if (key == "RouteBound") {
-                // booleans are sent as YES/NO textstrings 
-                bool val = (value.toUpper() == "YES");
+                // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings 
+                bool val = (value.toUpper() == "YES" ||
+                            value.toUpper() == "TRUE" ||
+                            value == "1");
                 obj->setRouteBound(val);
             }
             else if (key == "SourceId") {
@@ -781,8 +787,10 @@ bool Parser::startElement(const QString &,
                 obj->setTankerStatus(val);
             }
             else if (key == "Tugs") {
-                // booleans are sent as YES/NO textstrings 
-                bool val = (value.toUpper() == "YES");
+                // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings 
+                bool val = (value.toUpper() == "YES" ||
+                            value.toUpper() == "TRUE" ||
+                            value == "1");
                 obj->setTugs(val);
             }
             else if (key == "UpdateTime") {

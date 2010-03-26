@@ -18,7 +18,7 @@ Area::Area(const Area &val) : QObject() {
     m_name = val.m_name;
 }
 
-// comperator
+// assignement
 Area & Area::operator=(const Area &val) {
 
     m_poss = val.m_poss;
@@ -70,7 +70,7 @@ QString Area::getName() const {
 }
 
 // check if optional element Area has been set
-bool Area::hasName() {
+bool Area::hasName() const {
 
     return m_namePresent;
 }

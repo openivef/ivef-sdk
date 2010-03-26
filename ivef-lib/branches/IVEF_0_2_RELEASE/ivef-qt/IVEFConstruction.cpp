@@ -58,7 +58,7 @@ Construction::Construction(const Construction &val) : QObject() {
     m_width = val.m_width;
 }
 
-// comperator
+// assignement
 Construction & Construction::operator=(const Construction &val) {
 
     m_unType = val.m_unType;
@@ -120,7 +120,7 @@ QString Construction::getHullColor() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasHullColor() {
+bool Construction::hasHullColor() const {
 
     return m_hullColorPresent;
 }
@@ -144,7 +144,7 @@ int Construction::getHullType() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasHullType() {
+bool Construction::hasHullType() const {
 
     return m_hullTypePresent;
 }
@@ -166,7 +166,7 @@ float Construction::getLength() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasLength() {
+bool Construction::hasLength() const {
 
     return m_lengthPresent;
 }
@@ -185,7 +185,7 @@ int Construction::getLloydsShipType() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasLloydsShipType() {
+bool Construction::hasLloydsShipType() const {
 
     return m_lloydsShipTypePresent;
 }
@@ -207,7 +207,7 @@ float Construction::getMaxKeelHeight() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasMaxKeelHeight() {
+bool Construction::hasMaxKeelHeight() const {
 
     return m_maxKeelHeightPresent;
 }
@@ -229,7 +229,7 @@ float Construction::getMaxDraught() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasMaxDraught() {
+bool Construction::hasMaxDraught() const {
 
     return m_maxDraughtPresent;
 }
@@ -251,7 +251,7 @@ float Construction::getMaxPersonsOnBoard() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasMaxPersonsOnBoard() {
+bool Construction::hasMaxPersonsOnBoard() const {
 
     return m_maxPersonsOnBoardPresent;
 }
@@ -273,7 +273,7 @@ float Construction::getMaxSpeed() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasMaxSpeed() {
+bool Construction::hasMaxSpeed() const {
 
     return m_maxSpeedPresent;
 }
@@ -295,7 +295,7 @@ float Construction::getWidth() const {
 }
 
 // check if optional element Construction has been set
-bool Construction::hasWidth() {
+bool Construction::hasWidth() const {
 
     return m_widthPresent;
 }
@@ -314,7 +314,7 @@ QString Construction::toXML() {
     }
     // check for presence of optional attribute
     if ( hasLength() ) {
-        xml.append(" Length=\"" + QString::number(m_length) + "\"");
+        xml.append(" Length=\"" + QString::number(m_length, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasLloydsShipType() ) {
@@ -322,23 +322,23 @@ QString Construction::toXML() {
     }
     // check for presence of optional attribute
     if ( hasMaxKeelHeight() ) {
-        xml.append(" MaxKeelHeight=\"" + QString::number(m_maxKeelHeight) + "\"");
+        xml.append(" MaxKeelHeight=\"" + QString::number(m_maxKeelHeight, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasMaxDraught() ) {
-        xml.append(" MaxDraught=\"" + QString::number(m_maxDraught) + "\"");
+        xml.append(" MaxDraught=\"" + QString::number(m_maxDraught, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasMaxPersonsOnBoard() ) {
-        xml.append(" MaxPersonsOnBoard=\"" + QString::number(m_maxPersonsOnBoard) + "\"");
+        xml.append(" MaxPersonsOnBoard=\"" + QString::number(m_maxPersonsOnBoard, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasMaxSpeed() ) {
-        xml.append(" MaxSpeed=\"" + QString::number(m_maxSpeed) + "\"");
+        xml.append(" MaxSpeed=\"" + QString::number(m_maxSpeed, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasWidth() ) {
-        xml.append(" Width=\"" + QString::number(m_width) + "\"");
+        xml.append(" Width=\"" + QString::number(m_width, 'f') + "\"");
     }
     xml.append(">\n");
     xml.append( m_unType.toXML() );

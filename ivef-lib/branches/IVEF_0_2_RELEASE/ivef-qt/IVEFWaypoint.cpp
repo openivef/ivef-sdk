@@ -39,7 +39,7 @@ Waypoint::Waypoint(const Waypoint &val) : QObject() {
     m_name = val.m_name;
 }
 
-// comperator
+// assignement
 Waypoint & Waypoint::operator=(const Waypoint &val) {
 
     m_pos = val.m_pos;
@@ -92,7 +92,7 @@ QDateTime Waypoint::getATA() const {
 }
 
 // check if optional element Waypoint has been set
-bool Waypoint::hasATA() {
+bool Waypoint::hasATA() const {
 
     return m_ATAPresent;
 }
@@ -111,7 +111,7 @@ QDateTime Waypoint::getETA() const {
 }
 
 // check if optional element Waypoint has been set
-bool Waypoint::hasETA() {
+bool Waypoint::hasETA() const {
 
     return m_ETAPresent;
 }
@@ -130,7 +130,7 @@ QDateTime Waypoint::getRTA() const {
 }
 
 // check if optional element Waypoint has been set
-bool Waypoint::hasRTA() {
+bool Waypoint::hasRTA() const {
 
     return m_RTAPresent;
 }
@@ -149,7 +149,7 @@ QString Waypoint::getLoCode() const {
 }
 
 // check if optional element Waypoint has been set
-bool Waypoint::hasLoCode() {
+bool Waypoint::hasLoCode() const {
 
     return m_loCodePresent;
 }

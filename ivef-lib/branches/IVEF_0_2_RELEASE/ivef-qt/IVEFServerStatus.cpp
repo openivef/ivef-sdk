@@ -26,7 +26,7 @@ ServerStatus::ServerStatus(const ServerStatus &val) : QObject() {
     m_status = val.m_status;
 }
 
-// comperator
+// assignement
 ServerStatus & ServerStatus::operator=(const ServerStatus &val) {
 
     m_contactIdentityPresent = val.m_contactIdentityPresent;
@@ -62,7 +62,7 @@ QString ServerStatus::getContactIdentity() const {
 }
 
 // check if optional element ServerStatus has been set
-bool ServerStatus::hasContactIdentity() {
+bool ServerStatus::hasContactIdentity() const {
 
     return m_contactIdentityPresent;
 }
@@ -81,7 +81,7 @@ QString ServerStatus::getDetails() const {
 }
 
 // check if optional element ServerStatus has been set
-bool ServerStatus::hasDetails() {
+bool ServerStatus::hasDetails() const {
 
     return m_detailsPresent;
 }
@@ -110,7 +110,7 @@ QString ServerStatus::toXML() {
     if ( hasDetails() ) {
         xml.append(" Details=\"" + encode (m_details) + "\"");
     }
-    xml.append(" Status=\"" + QString(m_status ? "yes" : "no" ) + "\"");
+    xml.append(" Status=\"" + QString(m_status ? "true" : "false" ) + "\"");
     xml.append(">\n");
     xml.append( "</ServerStatus>\n");
     return xml;

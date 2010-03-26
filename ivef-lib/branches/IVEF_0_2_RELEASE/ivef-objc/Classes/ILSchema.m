@@ -82,8 +82,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Schema"];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Schema>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

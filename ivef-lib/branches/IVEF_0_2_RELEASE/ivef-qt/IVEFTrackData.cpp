@@ -67,7 +67,7 @@ TrackData::TrackData(const TrackData &val) : QObject() {
     m_width = val.m_width;
 }
 
-// comperator
+// assignement
 TrackData & TrackData::operator=(const TrackData &val) {
 
     m_poss = val.m_poss;
@@ -157,7 +157,7 @@ float TrackData::getEstAccSOG() const {
 }
 
 // check if optional element TrackData has been set
-bool TrackData::hasEstAccSOG() {
+bool TrackData::hasEstAccSOG() const {
 
     return m_estAccSOGPresent;
 }
@@ -176,7 +176,7 @@ float TrackData::getEstAccCOG() const {
 }
 
 // check if optional element TrackData has been set
-bool TrackData::hasEstAccCOG() {
+bool TrackData::hasEstAccCOG() const {
 
     return m_estAccCOGPresent;
 }
@@ -210,7 +210,7 @@ float TrackData::getLength() const {
 }
 
 // check if optional element TrackData has been set
-bool TrackData::hasLength() {
+bool TrackData::hasLength() const {
 
     return m_lengthPresent;
 }
@@ -235,7 +235,7 @@ int TrackData::getNavStatus() const {
 }
 
 // check if optional element TrackData has been set
-bool TrackData::hasNavStatus() {
+bool TrackData::hasNavStatus() const {
 
     return m_navStatusPresent;
 }
@@ -260,7 +260,7 @@ float TrackData::getHeading() const {
 }
 
 // check if optional element TrackData has been set
-bool TrackData::hasHeading() {
+bool TrackData::hasHeading() const {
 
     return m_headingPresent;
 }
@@ -285,7 +285,7 @@ float TrackData::getROT() const {
 }
 
 // check if optional element TrackData has been set
-bool TrackData::hasROT() {
+bool TrackData::hasROT() const {
 
     return m_ROTPresent;
 }
@@ -319,7 +319,7 @@ QString TrackData::getSourceId() const {
 }
 
 // check if optional element TrackData has been set
-bool TrackData::hasSourceId() {
+bool TrackData::hasSourceId() const {
 
     return m_sourceIdPresent;
 }
@@ -382,7 +382,7 @@ float TrackData::getWidth() const {
 }
 
 // check if optional element TrackData has been set
-bool TrackData::hasWidth() {
+bool TrackData::hasWidth() const {
 
     return m_widthPresent;
 }
@@ -391,19 +391,19 @@ bool TrackData::hasWidth() {
 QString TrackData::toXML() {
 
     QString xml = "<TrackData";
-    xml.append(" COG=\"" + QString::number(m_COG) + "\"");
+    xml.append(" COG=\"" + QString::number(m_COG, 'f') + "\"");
     // check for presence of optional attribute
     if ( hasEstAccSOG() ) {
-        xml.append(" EstAccSOG=\"" + QString::number(m_estAccSOG) + "\"");
+        xml.append(" EstAccSOG=\"" + QString::number(m_estAccSOG, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasEstAccCOG() ) {
-        xml.append(" EstAccCOG=\"" + QString::number(m_estAccCOG) + "\"");
+        xml.append(" EstAccCOG=\"" + QString::number(m_estAccCOG, 'f') + "\"");
     }
     xml.append(" Id=\"" + QString::number(m_id) + "\"");
     // check for presence of optional attribute
     if ( hasLength() ) {
-        xml.append(" Length=\"" + QString::number(m_length) + "\"");
+        xml.append(" Length=\"" + QString::number(m_length, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasNavStatus() ) {
@@ -411,13 +411,13 @@ QString TrackData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasHeading() ) {
-        xml.append(" Heading=\"" + QString::number(m_heading) + "\"");
+        xml.append(" Heading=\"" + QString::number(m_heading, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasROT() ) {
-        xml.append(" ROT=\"" + QString::number(m_ROT) + "\"");
+        xml.append(" ROT=\"" + QString::number(m_ROT, 'f') + "\"");
     }
-    xml.append(" SOG=\"" + QString::number(m_SOG) + "\"");
+    xml.append(" SOG=\"" + QString::number(m_SOG, 'f') + "\"");
     // check for presence of optional attribute
     if ( hasSourceId() ) {
         xml.append(" SourceId=\"" + encode (m_sourceId) + "\"");
@@ -427,7 +427,7 @@ QString TrackData::toXML() {
     xml.append(" TrackStatus=\"" + QString::number(m_trackStatus) + "\"");
     // check for presence of optional attribute
     if ( hasWidth() ) {
-        xml.append(" Width=\"" + QString::number(m_width) + "\"");
+        xml.append(" Width=\"" + QString::number(m_width, 'f') + "\"");
     }
     xml.append(">\n");
     // add all included data

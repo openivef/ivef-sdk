@@ -35,7 +35,7 @@ Pos::Pos(const Pos &val) : QObject() {
     m_long = val.m_long;
 }
 
-// comperator
+// assignement
 Pos & Pos::operator=(const Pos &val) {
 
     m_altitudePresent = val.m_altitudePresent;
@@ -76,7 +76,7 @@ float Pos::getAltitude() const {
 }
 
 // check if optional element Pos has been set
-bool Pos::hasAltitude() {
+bool Pos::hasAltitude() const {
 
     return m_altitudePresent;
 }
@@ -95,7 +95,7 @@ float Pos::getEstAccAlt() const {
 }
 
 // check if optional element Pos has been set
-bool Pos::hasEstAccAlt() {
+bool Pos::hasEstAccAlt() const {
 
     return m_estAccAltPresent;
 }
@@ -114,7 +114,7 @@ float Pos::getEstAccLat() const {
 }
 
 // check if optional element Pos has been set
-bool Pos::hasEstAccLat() {
+bool Pos::hasEstAccLat() const {
 
     return m_estAccLatPresent;
 }
@@ -133,7 +133,7 @@ float Pos::getEstAccLong() const {
 }
 
 // check if optional element Pos has been set
-bool Pos::hasEstAccLong() {
+bool Pos::hasEstAccLong() const {
 
     return m_estAccLongPresent;
 }
@@ -180,22 +180,22 @@ QString Pos::toXML() {
     QString xml = "<Pos";
     // check for presence of optional attribute
     if ( hasAltitude() ) {
-        xml.append(" Altitude=\"" + QString::number(m_altitude) + "\"");
+        xml.append(" Altitude=\"" + QString::number(m_altitude, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasEstAccAlt() ) {
-        xml.append(" EstAccAlt=\"" + QString::number(m_estAccAlt) + "\"");
+        xml.append(" EstAccAlt=\"" + QString::number(m_estAccAlt, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasEstAccLat() ) {
-        xml.append(" EstAccLat=\"" + QString::number(m_estAccLat) + "\"");
+        xml.append(" EstAccLat=\"" + QString::number(m_estAccLat, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasEstAccLong() ) {
-        xml.append(" EstAccLong=\"" + QString::number(m_estAccLong) + "\"");
+        xml.append(" EstAccLong=\"" + QString::number(m_estAccLong, 'f') + "\"");
     }
-    xml.append(" Lat=\"" + QString::number(m_lat) + "\"");
-    xml.append(" Long=\"" + QString::number(m_long) + "\"");
+    xml.append(" Lat=\"" + QString::number(m_lat, 'f') + "\"");
+    xml.append(" Long=\"" + QString::number(m_long, 'f') + "\"");
     xml.append(">\n");
     xml.append( "</Pos>\n");
     return xml;

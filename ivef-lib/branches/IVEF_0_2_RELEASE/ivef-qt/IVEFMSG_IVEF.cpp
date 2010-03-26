@@ -13,7 +13,7 @@ MSG_IVEF::MSG_IVEF(const MSG_IVEF &val) : QObject() {
     m_body = val.m_body;
 }
 
-// comperator
+// assignement
 MSG_IVEF & MSG_IVEF::operator=(const MSG_IVEF &val) {
 
     m_header = val.m_header;

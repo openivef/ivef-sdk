@@ -41,7 +41,7 @@ Identifier::Identifier(const Identifier &val) : QObject() {
     m_LRIT = val.m_LRIT;
 }
 
-// comperator
+// assignement
 Identifier & Identifier::operator=(const Identifier &val) {
 
     m_otherIds = val.m_otherIds;
@@ -120,7 +120,7 @@ QString Identifier::getCallsign() const {
 }
 
 // check if optional element Identifier has been set
-bool Identifier::hasCallsign() {
+bool Identifier::hasCallsign() const {
 
     return m_callsignPresent;
 }
@@ -139,7 +139,7 @@ int Identifier::getIMO() const {
 }
 
 // check if optional element Identifier has been set
-bool Identifier::hasIMO() {
+bool Identifier::hasIMO() const {
 
     return m_IMOPresent;
 }
@@ -158,7 +158,7 @@ QString Identifier::getName() const {
 }
 
 // check if optional element Identifier has been set
-bool Identifier::hasName() {
+bool Identifier::hasName() const {
 
     return m_namePresent;
 }
@@ -177,7 +177,7 @@ int Identifier::getMMSI() const {
 }
 
 // check if optional element Identifier has been set
-bool Identifier::hasMMSI() {
+bool Identifier::hasMMSI() const {
 
     return m_MMSIPresent;
 }
@@ -196,7 +196,7 @@ QString Identifier::getLRIT() const {
 }
 
 // check if optional element Identifier has been set
-bool Identifier::hasLRIT() {
+bool Identifier::hasLRIT() const {
 
     return m_LRITPresent;
 }

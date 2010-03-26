@@ -121,7 +121,7 @@ VoyageData::VoyageData(const VoyageData &val) : QObject() {
     m_updateTime = val.m_updateTime;
 }
 
-// comperator
+// assignement
 VoyageData & VoyageData::operator=(const VoyageData &val) {
 
     m_waypoints = val.m_waypoints;
@@ -214,7 +214,7 @@ float VoyageData::getAirDraught() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasAirDraught() {
+bool VoyageData::hasAirDraught() const {
 
     return m_airDraughtPresent;
 }
@@ -253,7 +253,7 @@ int VoyageData::getCargoTypeIMO() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasCargoTypeIMO() {
+bool VoyageData::hasCargoTypeIMO() const {
 
     return m_cargoTypeIMOPresent;
 }
@@ -272,7 +272,7 @@ QString VoyageData::getContactIdentity() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasContactIdentity() {
+bool VoyageData::hasContactIdentity() const {
 
     return m_contactIdentityPresent;
 }
@@ -291,7 +291,7 @@ QString VoyageData::getDestCode() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasDestCode() {
+bool VoyageData::hasDestCode() const {
 
     return m_destCodePresent;
 }
@@ -310,7 +310,7 @@ QString VoyageData::getDestName() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasDestName() {
+bool VoyageData::hasDestName() const {
 
     return m_destNamePresent;
 }
@@ -332,7 +332,7 @@ float VoyageData::getDraught() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasDraught() {
+bool VoyageData::hasDraught() const {
 
     return m_draughtPresent;
 }
@@ -351,7 +351,7 @@ QDateTime VoyageData::getETA() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasETA() {
+bool VoyageData::hasETA() const {
 
     return m_ETAPresent;
 }
@@ -375,7 +375,7 @@ float VoyageData::getISPSLevel() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasISPSLevel() {
+bool VoyageData::hasISPSLevel() const {
 
     return m_ISPSLevelPresent;
 }
@@ -397,7 +397,7 @@ float VoyageData::getOverSizedLength() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasOverSizedLength() {
+bool VoyageData::hasOverSizedLength() const {
 
     return m_overSizedLengthPresent;
 }
@@ -419,7 +419,7 @@ float VoyageData::getOverSizedWidth() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasOverSizedWidth() {
+bool VoyageData::hasOverSizedWidth() const {
 
     return m_overSizedWidthPresent;
 }
@@ -438,7 +438,7 @@ QString VoyageData::getNextPort() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasNextPort() {
+bool VoyageData::hasNextPort() const {
 
     return m_nextPortPresent;
 }
@@ -460,7 +460,7 @@ float VoyageData::getPersonsOnBoard() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasPersonsOnBoard() {
+bool VoyageData::hasPersonsOnBoard() const {
 
     return m_personsOnBoardPresent;
 }
@@ -482,7 +482,7 @@ float VoyageData::getPilots() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasPilots() {
+bool VoyageData::hasPilots() const {
 
     return m_pilotsPresent;
 }
@@ -501,7 +501,7 @@ QString VoyageData::getPrevPort() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasPrevPort() {
+bool VoyageData::hasPrevPort() const {
 
     return m_prevPortPresent;
 }
@@ -520,7 +520,7 @@ bool VoyageData::getRouteBound() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasRouteBound() {
+bool VoyageData::hasRouteBound() const {
 
     return m_routeBoundPresent;
 }
@@ -539,7 +539,7 @@ QString VoyageData::getSourceId() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasSourceId() {
+bool VoyageData::hasSourceId() const {
 
     return m_sourceIdPresent;
 }
@@ -594,7 +594,7 @@ int VoyageData::getTankerStatus() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasTankerStatus() {
+bool VoyageData::hasTankerStatus() const {
 
     return m_tankerStatusPresent;
 }
@@ -613,7 +613,7 @@ bool VoyageData::getTugs() const {
 }
 
 // check if optional element VoyageData has been set
-bool VoyageData::hasTugs() {
+bool VoyageData::hasTugs() const {
 
     return m_tugsPresent;
 }
@@ -636,7 +636,7 @@ QString VoyageData::toXML() {
     QString xml = "<VoyageData";
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
-        xml.append(" AirDraught=\"" + QString::number(m_airDraught) + "\"");
+        xml.append(" AirDraught=\"" + QString::number(m_airDraught, 'f') + "\"");
     }
     xml.append(" Id=\"" + QString::number(m_id) + "\"");
     // check for presence of optional attribute
@@ -657,7 +657,7 @@ QString VoyageData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasDraught() ) {
-        xml.append(" Draught=\"" + QString::number(m_draught) + "\"");
+        xml.append(" Draught=\"" + QString::number(m_draught, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasETA() ) {
@@ -665,15 +665,15 @@ QString VoyageData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasISPSLevel() ) {
-        xml.append(" ISPSLevel=\"" + QString::number(m_ISPSLevel) + "\"");
+        xml.append(" ISPSLevel=\"" + QString::number(m_ISPSLevel, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasOverSizedLength() ) {
-        xml.append(" OverSizedLength=\"" + QString::number(m_overSizedLength) + "\"");
+        xml.append(" OverSizedLength=\"" + QString::number(m_overSizedLength, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasOverSizedWidth() ) {
-        xml.append(" OverSizedWidth=\"" + QString::number(m_overSizedWidth) + "\"");
+        xml.append(" OverSizedWidth=\"" + QString::number(m_overSizedWidth, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasNextPort() ) {
@@ -681,11 +681,11 @@ QString VoyageData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasPersonsOnBoard() ) {
-        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard) + "\"");
+        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasPilots() ) {
-        xml.append(" Pilots=\"" + QString::number(m_pilots) + "\"");
+        xml.append(" Pilots=\"" + QString::number(m_pilots, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasPrevPort() ) {
@@ -693,7 +693,7 @@ QString VoyageData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasRouteBound() ) {
-        xml.append(" RouteBound=\"" + QString(m_routeBound ? "yes" : "no" ) + "\"");
+        xml.append(" RouteBound=\"" + QString(m_routeBound ? "true" : "false" ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasSourceId() ) {
@@ -707,7 +707,7 @@ QString VoyageData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasTugs() ) {
-        xml.append(" Tugs=\"" + QString(m_tugs ? "yes" : "no" ) + "\"");
+        xml.append(" Tugs=\"" + QString(m_tugs ? "true" : "false" ) + "\"");
     }
     xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
     xml.append(">\n");
