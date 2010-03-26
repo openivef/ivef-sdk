@@ -143,7 +143,8 @@
 			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.1.5"/>
 			<xs:attribute name="MsgRefId" use="required">
 				<xs:annotation>
-					<xs:documentation>Must be an Universally Unique Identifier</xs:documentation>
+					<xs:documentation>Must be an Universally Unique Identifier for each message  (TU-T Rec. X.667 | ISO/IEC 9834-8.) Reply messages refer to this id to identify the message they are replying to. In its canonical form, a UUID consists of 32 hexadecimal digits, displayed in 5 groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters, enclosed by brackets. For example:
+{550e8400-e29b-41d4-a716-446655440000} For backwards compatibilty the string is not restricted to 38 characters</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string"/>
