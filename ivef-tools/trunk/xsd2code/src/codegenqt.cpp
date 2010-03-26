@@ -1026,7 +1026,7 @@ void CodeGenQT::go() {
     if (commonPrefix.size() > 0) {
         regExp = "</" + commonPrefix +  "([A-Za-z0-9]*)>";
     } else {
-        regExp = closeTags.join(" | ");
+        regExp = closeTags.join("|");
     }
 
     // we search the buffer for any close tag that matches our regexp
