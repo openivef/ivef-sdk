@@ -470,7 +470,7 @@ void CodeGenQT::go() {
         classFileOut << "}\n\n";
 
         // = operator
-        classFileOut << "// comperator\n";
+        classFileOut << "// assignement\n";
         classFileOut << className(name) << " & " << className(name) << "::operator=(const " << className(name) << " &val) {\n\n";
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
