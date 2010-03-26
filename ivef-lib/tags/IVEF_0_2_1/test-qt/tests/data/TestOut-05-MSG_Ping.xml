@@ -1,0 +1,18 @@
+TestQt ready for input
+MSG_IVEF
+    Header
+        MsgRefId = String
+        Version = String
+    Body
+        Ping
+            TimeStamp = 2001-12-17T09:30:47.000Z
+<MSG_IVEF>
+<Header MsgRefId="String" Version="String">
+</Header>
+<Body>
+<Ping TimeStamp="2001-12-17T09:30:47.000Z">
+</Ping>
+</Body>
+</MSG_IVEF>
+
+TestQt shutting down

@@ -1,0 +1,490 @@
+TestQt ready for input
+MSG_IVEF
+    Header
+        MsgRefId = StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+        Version = 0.2.2
+    Body
+        ObjectDatas
+            ObjectData
+                TrackData
+                    COG = 3.1
+                    EstAccSOG = 3.14159
+                    EstAccCOG = 3.14159
+                    Id = 0
+                    Length = 3.14159
+                    NavStatus = 0
+                    Heading = 3.14159
+                    ROT = 3.1
+                    SOG = 3.1
+                    SourceId = String
+                    SourceName = String
+                    UpdateTime = 2001-12-17T09:30:47.000Z
+                    TrackStatus = 1
+                    Width = 3.14159
+                    Pos
+                        Altitude = 3.14159
+                        EstAccAlt = 3.14159
+                        EstAccLat = 3.14159
+                        EstAccLong = 3.14159
+                        Lat = 3.14159
+                        Long = 3.14159
+                VesselData
+                    Class = 0
+                    BlackListed = 1
+                    Id = 0
+                    SpecialAttention = String
+                    SourceId = String
+                    SourceName = String
+                    SourceType = 1
+                    UpdateTime = 2001-12-17T09:30:47.000Z
+                    Construction
+                        HullColor = String
+                        HullType = 1
+                        Length = 3.14159
+                        LloydsShipType = 0
+                        MaxKeelHeight = 3.1
+                        MaxDraught = 3.1
+                        MaxPersonsOnBoard = 3.14159
+                        MaxSpeed = 3.14159
+                        Width = 3.14159
+                        UnType
+                            CodeA = 0
+                            CodeB = 0
+                            Mode = 1
+                    Identifier
+                        Callsign = String
+                        IMO = 0
+                        Name = String
+                        MMSI = 0
+                        LRIT = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                VesselData
+                    Class = 0
+                    BlackListed = 1
+                    Id = 0
+                    SpecialAttention = String
+                    SourceId = String
+                    SourceName = String
+                    SourceType = 1
+                    UpdateTime = 2001-12-17T09:30:47.000Z
+                    Construction
+                        HullColor = String
+                        HullType = 1
+                        Length = 3.14159
+                        LloydsShipType = 0
+                        MaxKeelHeight = 3.1
+                        MaxDraught = 3.1
+                        MaxPersonsOnBoard = 3.14159
+                        MaxSpeed = 3.14159
+                        Width = 3.14159
+                        UnType
+                            CodeA = 0
+                            CodeB = 0
+                            Mode = 1
+                    Identifier
+                        Callsign = String
+                        IMO = 0
+                        Name = String
+                        MMSI = 0
+                        LRIT = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                VesselData
+                    Class = 0
+                    BlackListed = 1
+                    Id = 0
+                    SpecialAttention = String
+                    SourceId = String
+                    SourceName = String
+                    SourceType = 1
+                    UpdateTime = 2001-12-17T09:30:47.000Z
+                    Construction
+                        HullColor = String
+                        HullType = 1
+                        Length = 3.14159
+                        LloydsShipType = 0
+                        MaxKeelHeight = 3.1
+                        MaxDraught = 3.1
+                        MaxPersonsOnBoard = 3.14159
+                        MaxSpeed = 3.14159
+                        Width = 3.14159
+                        UnType
+                            CodeA = 0
+                            CodeB = 0
+                            Mode = 1
+                    Identifier
+                        Callsign = String
+                        IMO = 0
+                        Name = String
+                        MMSI = 0
+                        LRIT = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherId
+                            Id = String
+                            Value = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                        OtherName
+                            Lang = St
+                            Name = String
+                VoyageData
+                    AirDraught = 3.14
+                    Id = 0
+                    CargoTypeIMO = 0
+                    ContactIdentity = String
+                    DestCode = String
+                    DestName = String
+                    Draught = 3.14
+                    ETA = 2001-12-17T09:30:47.000Z
+                    ISPSLevel = 1
+                    OverSizedLength = 3.1
+                    OverSizedWidth = 3.1
+                    NextPort = Strin
+                    PersonsOnBoard = 3.14159
+                    Pilots = 3.14159
+                    PrevPort = Strin
+                    RouteBound = 1
+                    SourceId = String
+                    SourceName = String
+                    SourceType = 1
+                    TankerStatus = 0
+                    Tugs = 1
+                    UpdateTime = 2001-12-17T09:30:47.000Z
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                VoyageData
+                    AirDraught = 3.14
+                    Id = 0
+                    CargoTypeIMO = 0
+                    ContactIdentity = String
+                    DestCode = String
+                    DestName = String
+                    Draught = 3.14
+                    ETA = 2001-12-17T09:30:47.000Z
+                    ISPSLevel = 1
+                    OverSizedLength = 3.1
+                    OverSizedWidth = 3.1
+                    NextPort = Strin
+                    PersonsOnBoard = 3.14159
+                    Pilots = 3.14159
+                    PrevPort = Strin
+                    RouteBound = 1
+                    SourceId = String
+                    SourceName = String
+                    SourceType = 1
+                    TankerStatus = 0
+                    Tugs = 1
+                    UpdateTime = 2001-12-17T09:30:47.000Z
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                VoyageData
+                    AirDraught = 3.14
+                    Id = 0
+                    CargoTypeIMO = 0
+                    ContactIdentity = String
+                    DestCode = String
+                    DestName = String
+                    Draught = 3.14
+                    ETA = 2001-12-17T09:30:47.000Z
+                    ISPSLevel = 1
+                    OverSizedLength = 3.1
+                    OverSizedWidth = 3.1
+                    NextPort = Strin
+                    PersonsOnBoard = 3.14159
+                    Pilots = 3.14159
+                    PrevPort = Strin
+                    RouteBound = 1
+                    SourceId = String
+                    SourceName = String
+                    SourceType = 1
+                    TankerStatus = 0
+                    Tugs = 1
+                    UpdateTime = 2001-12-17T09:30:47.000Z
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                    Waypoint
+                        ATA = 2001-12-17T09:30:47.000Z
+                        ETA = 2001-12-17T09:30:47.000Z
+                        RTA = 2001-12-17T09:30:47.000Z
+                        LoCode = String
+                        Name = String
+                        Pos
+                            Altitude = 3.14159
+                            EstAccAlt = 3.14159
+                            EstAccLat = 3.14159
+                            EstAccLong = 3.14159
+                            Lat = 3.14159
+                            Long = 3.14159
+                TaggedItem
+                    Key = String
+                    Value = Text
+                TaggedItem
+                    Key = String
+                    Value = Text
+                TaggedItem
+                    Key = String
+                    Value = Text
+<MSG_IVEF>
+<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2">
+</Header>
+<Body>
+<ObjectDatas>
+<ObjectData>
+<TrackData COG="3.100000" EstAccSOG="3.141593" EstAccCOG="3.141593" Id="0" Length="3.141593" NavStatus="0" Heading="3.141593" ROT="3.100000" SOG="3.100000" SourceId="String" SourceName="String" UpdateTime="2001-12-17T09:30:47.000Z" TrackStatus="1" Width="3.141593">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</TrackData>
+<VesselData Class="0" BlackListed="true" Id="0" SpecialAttention="String" SourceId="String" SourceName="String" SourceType="1" UpdateTime="2001-12-17T09:30:47.000Z">
+<Construction HullColor="String" HullType="1" Length="3.141593" LloydsShipType="0" MaxKeelHeight="3.100000" MaxDraught="3.100000" MaxPersonsOnBoard="3.141593" MaxSpeed="3.141593" Width="3.141593">
+<UnType CodeA="0" CodeB="0" Mode="1">
+</UnType>
+</Construction>
+<Identifier Callsign="String" IMO="0" Name="String" MMSI="0" LRIT="String">
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherName Lang="St" Name="String">
+</OtherName>
+<OtherName Lang="St" Name="String">
+</OtherName>
+<OtherName Lang="St" Name="String">
+</OtherName>
+</Identifier>
+</VesselData>
+<VesselData Class="0" BlackListed="true" Id="0" SpecialAttention="String" SourceId="String" SourceName="String" SourceType="1" UpdateTime="2001-12-17T09:30:47.000Z">
+<Construction HullColor="String" HullType="1" Length="3.141593" LloydsShipType="0" MaxKeelHeight="3.100000" MaxDraught="3.100000" MaxPersonsOnBoard="3.141593" MaxSpeed="3.141593" Width="3.141593">
+<UnType CodeA="0" CodeB="0" Mode="1">
+</UnType>
+</Construction>
+<Identifier Callsign="String" IMO="0" Name="String" MMSI="0" LRIT="String">
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherName Lang="St" Name="String">
+</OtherName>
+<OtherName Lang="St" Name="String">
+</OtherName>
+<OtherName Lang="St" Name="String">
+</OtherName>
+</Identifier>
+</VesselData>
+<VesselData Class="0" BlackListed="true" Id="0" SpecialAttention="String" SourceId="String" SourceName="String" SourceType="1" UpdateTime="2001-12-17T09:30:47.000Z">
+<Construction HullColor="String" HullType="1" Length="3.141593" LloydsShipType="0" MaxKeelHeight="3.100000" MaxDraught="3.100000" MaxPersonsOnBoard="3.141593" MaxSpeed="3.141593" Width="3.141593">
+<UnType CodeA="0" CodeB="0" Mode="1">
+</UnType>
+</Construction>
+<Identifier Callsign="String" IMO="0" Name="String" MMSI="0" LRIT="String">
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherId Id="String" Value="String">
+</OtherId>
+<OtherName Lang="St" Name="String">
+</OtherName>
+<OtherName Lang="St" Name="String">
+</OtherName>
+<OtherName Lang="St" Name="String">
+</OtherName>
+</Identifier>
+</VesselData>
+<VoyageData AirDraught="3.140000" Id="0" CargoTypeIMO="0" ContactIdentity="String" DestCode="String" DestName="String" Draught="3.140000" ETA="2001-12-17T09:30:47.000Z" ISPSLevel="1.000000" OverSizedLength="3.100000" OverSizedWidth="3.100000" NextPort="Strin" PersonsOnBoard="3.141593" Pilots="3.141593" PrevPort="Strin" RouteBound="true" SourceId="String" SourceName="String" SourceType="1" TankerStatus="0" Tugs="true" UpdateTime="2001-12-17T09:30:47.000Z">
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+</VoyageData>
+<VoyageData AirDraught="3.140000" Id="0" CargoTypeIMO="0" ContactIdentity="String" DestCode="String" DestName="String" Draught="3.140000" ETA="2001-12-17T09:30:47.000Z" ISPSLevel="1.000000" OverSizedLength="3.100000" OverSizedWidth="3.100000" NextPort="Strin" PersonsOnBoard="3.141593" Pilots="3.141593" PrevPort="Strin" RouteBound="true" SourceId="String" SourceName="String" SourceType="1" TankerStatus="0" Tugs="true" UpdateTime="2001-12-17T09:30:47.000Z">
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+</VoyageData>
+<VoyageData AirDraught="3.140000" Id="0" CargoTypeIMO="0" ContactIdentity="String" DestCode="String" DestName="String" Draught="3.140000" ETA="2001-12-17T09:30:47.000Z" ISPSLevel="1.000000" OverSizedLength="3.100000" OverSizedWidth="3.100000" NextPort="Strin" PersonsOnBoard="3.141593" Pilots="3.141593" PrevPort="Strin" RouteBound="true" SourceId="String" SourceName="String" SourceType="1" TankerStatus="0" Tugs="true" UpdateTime="2001-12-17T09:30:47.000Z">
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+<Waypoint ATA="2001-12-17T09:30:47.000Z" ETA="2001-12-17T09:30:47.000Z" RTA="2001-12-17T09:30:47.000Z" LoCode="String" Name="String">
+<Pos Altitude="3.141593" EstAccAlt="3.141593" EstAccLat="3.141593" EstAccLong="3.141593" Lat="3.141590" Long="3.141590">
+</Pos>
+</Waypoint>
+</VoyageData>
+<TaggedItem Key="String" Value="Text">
+</TaggedItem>
+<TaggedItem Key="String" Value="Text">
+</TaggedItem>
+<TaggedItem Key="String" Value="Text">
+</TaggedItem>
+</ObjectData>
+</ObjectDatas>
+</Body>
+</MSG_IVEF>
+
+TestQt shutting down
