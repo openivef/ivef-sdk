@@ -590,6 +590,7 @@ void CodeGenQT::go() {
         classFileOut << "    QString xml = \"<" << name << "\";\n"; // append attributes
 
         // for attributes
+        bool hasDataMembers = false;
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
@@ -616,11 +617,13 @@ void CodeGenQT::go() {
                 } else {
                     classFileOut << "    xml.append(\" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\");\n";
                 }
-            }
+            } else {
+              hasDataMembers = true;
+            } 
         }
 
         // check for data members
-        if (attributes.size() > 0) {
+        if (hasDataMembers) {
 		classFileOut << "    xml.append(\">\\n\");\n"; // close the statement
 
 		// for data members

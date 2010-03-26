@@ -359,6 +359,7 @@ void CodeGenJava::go() {
 		classFileOut << "\n";
 
         // for attributes
+        bool hasDataMembers = false;
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
@@ -381,10 +382,12 @@ void CodeGenJava::go() {
                 } else {
                     classFileOut << "        xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n";
                 }
-            }
+            } else {
+              hasDataMembers = true;
+            } 
         }
 
-        if (attributes.size() > 0) {
+        if (hasDataMembers) {
 		classFileOut << "        xml += \">\\n\";\n"; // close the statement
 
 		// for data members
