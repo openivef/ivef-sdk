@@ -1,0 +1,147 @@
+TestQt ready for input
+MSG_VesselData
+    Header
+        Version = String
+        MsgRefId = String
+    Body
+        VesselData
+            PosReport
+                Id = 0
+                SourceId = 0
+                UpdateTime = 2001-12-17T09:30:47.123Z
+                SOG = 3.14159
+                COG = 3.14159
+                Lost = no
+                RateOfTurn = 3.14159
+                Orientation = 3.14159
+                Length = 3.14159
+                Breadth = 3.14159
+                Altitude = 3.14159
+                NavStatus = 0
+                UpdSensorType = 1
+                ATONOffPos = 0
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+            StaticData
+                Id = String
+                SourceName = String
+                Source = 1
+                Length = 3.14159
+                Breadth = 3.14159
+                Callsign = String
+                ShipName = String
+                ObjectType = 1
+                ShipType = 20
+                IMO = 0
+                MMSI = 0
+                ATONType = 0
+                ATONName = String
+                AntPosDistFromFront = 3.14159
+                AntPosDistFromLeft = 3.14159
+                NatLangShipName = String
+                PortOfRegistry = String
+                CountryFlag = String
+                MaxAirDraught = 3.14159
+                MaxDraught = 3.14159
+                DeepWaterVesselind = yes
+            StaticData
+                Id = String
+                SourceName = String
+                Source = 1
+                Length = 3.14159
+                Breadth = 3.14159
+                Callsign = String
+                ShipName = String
+                ObjectType = 1
+                ShipType = 20
+                IMO = 0
+                MMSI = 0
+                ATONType = 0
+                ATONName = String
+                AntPosDistFromFront = 3.14159
+                AntPosDistFromLeft = 3.14159
+                NatLangShipName = String
+                PortOfRegistry = String
+                CountryFlag = String
+                MaxAirDraught = 3.14159
+                MaxDraught = 3.14159
+                DeepWaterVesselind = yes
+            StaticData
+                Id = String
+                SourceName = String
+                Source = 1
+                Length = 3.14159
+                Breadth = 3.14159
+                Callsign = String
+                ShipName = String
+                ObjectType = 1
+                ShipType = 20
+                IMO = 0
+                MMSI = 0
+                ATONType = 0
+                ATONName = String
+                AntPosDistFromFront = 3.14159
+                AntPosDistFromLeft = 3.14159
+                NatLangShipName = String
+                PortOfRegistry = String
+                CountryFlag = String
+                MaxAirDraught = 3.14159
+                MaxDraught = 3.14159
+                DeepWaterVesselind = yes
+            Voyage
+                Id = String
+                SourceName = String
+                Source = 1
+                CargoType = 0
+                Destination = String
+                ETA = 2001-12-17T09:30:47.123Z
+                ATA = 2001-12-17T09:30:47.123Z
+                AirDraught = 3.14159
+                Draught = 3.14159
+            Voyage
+                Id = String
+                SourceName = String
+                Source = 1
+                CargoType = 0
+                Destination = String
+                ETA = 2001-12-17T09:30:47.000Z
+                ATA = 2001-12-17T09:30:47.000Z
+                AirDraught = 3.14159
+                Draught = 3.14159
+            Voyage
+                Id = String
+                SourceName = String
+                Source = 1
+                CargoType = 0
+                Destination = String
+                ETA = 2001-12-17T09:30:47.123Z
+                ATA = 2001-12-17T09:30:47.123Z
+                AirDraught = 3.14159
+                Draught = 3.14159
+<MSG_VesselData>
+<Header Version="String" MsgRefId="String">
+</Header>
+<Body>
+<VesselData>
+<PosReport Id="0" SourceId="0" UpdateTime="2001-12-17T09:30:47.123Z" SOG="3.141593" COG="3.141593" Lost="no" RateOfTurn="3.141593" Orientation="3.141593" Length="3.141593" Breadth="3.141593" Altitude="3.141593" NavStatus="0" UpdSensorType="1" ATONOffPos="false">
+<Pos Lat="3.141593" Long="3.141593">
+</Pos>
+</PosReport>
+<StaticData Id="String" SourceName="String" Source="1" Length="3.141593" Breadth="3.141593" Callsign="String" ShipName="String" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="String" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="String" PortOfRegistry="String" CountryFlag="String" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes">
+</StaticData>
+<StaticData Id="String" SourceName="String" Source="1" Length="3.141593" Breadth="3.141593" Callsign="String" ShipName="String" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="String" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="String" PortOfRegistry="String" CountryFlag="String" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes">
+</StaticData>
+<StaticData Id="String" SourceName="String" Source="1" Length="3.141593" Breadth="3.141593" Callsign="String" ShipName="String" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="String" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="String" PortOfRegistry="String" CountryFlag="String" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes">
+</StaticData>
+<Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.123Z" ATA="2001-12-17T09:30:47.123Z" AirDraught="3.141593" Draught="3.141593">
+</Voyage>
+<Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.000Z" ATA="2001-12-17T09:30:47.000Z" AirDraught="3.141593" Draught="3.141593">
+</Voyage>
+<Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.123Z" ATA="2001-12-17T09:30:47.123Z" AirDraught="3.141593" Draught="3.141593">
+</Voyage>
+</VesselData>
+</Body>
+</MSG_VesselData>
+
+TestQt shutting down
