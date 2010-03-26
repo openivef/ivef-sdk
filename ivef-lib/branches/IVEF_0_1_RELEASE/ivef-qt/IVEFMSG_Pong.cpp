@@ -13,7 +13,7 @@ MSG_Pong::MSG_Pong(const MSG_Pong &val) : QObject() {
     m_body = val.m_body;
 }
 
-// comperator
+// assignement
 MSG_Pong & MSG_Pong::operator=(const MSG_Pong &val) {
 
     m_header = val.m_header;

@@ -116,7 +116,7 @@ StaticData::StaticData(const StaticData &val) : QObject() {
     m_deepWaterVesselind = val.m_deepWaterVesselind;
 }
 
-// comperator
+// assignement
 StaticData & StaticData::operator=(const StaticData &val) {
 
     m_id = val.m_id;
@@ -230,7 +230,7 @@ float StaticData::getLength() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasLength() {
+bool StaticData::hasLength() const {
 
     return m_lengthPresent;
 }
@@ -252,7 +252,7 @@ float StaticData::getBreadth() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasBreadth() {
+bool StaticData::hasBreadth() const {
 
     return m_breadthPresent;
 }
@@ -271,7 +271,7 @@ QString StaticData::getCallsign() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasCallsign() {
+bool StaticData::hasCallsign() const {
 
     return m_callsignPresent;
 }
@@ -290,7 +290,7 @@ QString StaticData::getShipName() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasShipName() {
+bool StaticData::hasShipName() const {
 
     return m_shipNamePresent;
 }
@@ -318,7 +318,7 @@ int StaticData::getObjectType() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasObjectType() {
+bool StaticData::hasObjectType() const {
 
     return m_objectTypePresent;
 }
@@ -361,7 +361,7 @@ int StaticData::getShipType() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasShipType() {
+bool StaticData::hasShipType() const {
 
     return m_shipTypePresent;
 }
@@ -380,7 +380,7 @@ int StaticData::getIMO() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasIMO() {
+bool StaticData::hasIMO() const {
 
     return m_IMOPresent;
 }
@@ -399,7 +399,7 @@ int StaticData::getMMSI() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasMMSI() {
+bool StaticData::hasMMSI() const {
 
     return m_MMSIPresent;
 }
@@ -453,7 +453,7 @@ int StaticData::getATONType() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasATONType() {
+bool StaticData::hasATONType() const {
 
     return m_ATONTypePresent;
 }
@@ -472,7 +472,7 @@ QString StaticData::getATONName() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasATONName() {
+bool StaticData::hasATONName() const {
 
     return m_ATONNamePresent;
 }
@@ -491,7 +491,7 @@ float StaticData::getAntPosDistFromFront() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasAntPosDistFromFront() {
+bool StaticData::hasAntPosDistFromFront() const {
 
     return m_antPosDistFromFrontPresent;
 }
@@ -510,7 +510,7 @@ float StaticData::getAntPosDistFromLeft() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasAntPosDistFromLeft() {
+bool StaticData::hasAntPosDistFromLeft() const {
 
     return m_antPosDistFromLeftPresent;
 }
@@ -529,7 +529,7 @@ QString StaticData::getNatLangShipName() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasNatLangShipName() {
+bool StaticData::hasNatLangShipName() const {
 
     return m_natLangShipNamePresent;
 }
@@ -548,7 +548,7 @@ QString StaticData::getPortOfRegistry() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasPortOfRegistry() {
+bool StaticData::hasPortOfRegistry() const {
 
     return m_portOfRegistryPresent;
 }
@@ -567,7 +567,7 @@ QString StaticData::getCountryFlag() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasCountryFlag() {
+bool StaticData::hasCountryFlag() const {
 
     return m_countryFlagPresent;
 }
@@ -589,7 +589,7 @@ float StaticData::getMaxAirDraught() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasMaxAirDraught() {
+bool StaticData::hasMaxAirDraught() const {
 
     return m_maxAirDraughtPresent;
 }
@@ -611,7 +611,7 @@ float StaticData::getMaxDraught() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasMaxDraught() {
+bool StaticData::hasMaxDraught() const {
 
     return m_maxDraughtPresent;
 }
@@ -634,7 +634,7 @@ QString StaticData::getDeepWaterVesselind() const {
 }
 
 // check if optional element StaticData has been set
-bool StaticData::hasDeepWaterVesselind() {
+bool StaticData::hasDeepWaterVesselind() const {
 
     return m_deepWaterVesselindPresent;
 }
@@ -648,11 +648,11 @@ QString StaticData::toXML() {
     xml.append(" Source=\"" + QString::number(m_source) + "\"");
     // check for presence of optional attribute
     if ( hasLength() ) {
-        xml.append(" Length=\"" + QString::number(m_length) + "\"");
+        xml.append(" Length=\"" + QString::number(m_length, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasBreadth() ) {
-        xml.append(" Breadth=\"" + QString::number(m_breadth) + "\"");
+        xml.append(" Breadth=\"" + QString::number(m_breadth, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasCallsign() ) {
@@ -688,11 +688,11 @@ QString StaticData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromFront() ) {
-        xml.append(" AntPosDistFromFront=\"" + QString::number(m_antPosDistFromFront) + "\"");
+        xml.append(" AntPosDistFromFront=\"" + QString::number(m_antPosDistFromFront, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromLeft() ) {
-        xml.append(" AntPosDistFromLeft=\"" + QString::number(m_antPosDistFromLeft) + "\"");
+        xml.append(" AntPosDistFromLeft=\"" + QString::number(m_antPosDistFromLeft, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasNatLangShipName() ) {
@@ -708,11 +708,11 @@ QString StaticData::toXML() {
     }
     // check for presence of optional attribute
     if ( hasMaxAirDraught() ) {
-        xml.append(" MaxAirDraught=\"" + QString::number(m_maxAirDraught) + "\"");
+        xml.append(" MaxAirDraught=\"" + QString::number(m_maxAirDraught, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasMaxDraught() ) {
-        xml.append(" MaxDraught=\"" + QString::number(m_maxDraught) + "\"");
+        xml.append(" MaxDraught=\"" + QString::number(m_maxDraught, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasDeepWaterVesselind() ) {

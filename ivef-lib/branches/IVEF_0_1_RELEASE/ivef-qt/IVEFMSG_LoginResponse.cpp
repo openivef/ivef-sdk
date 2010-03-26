@@ -13,7 +13,7 @@ MSG_LoginResponse::MSG_LoginResponse(const MSG_LoginResponse &val) : QObject() {
     m_body = val.m_body;
 }
 
-// comperator
+// assignement
 MSG_LoginResponse & MSG_LoginResponse::operator=(const MSG_LoginResponse &val) {
 
     m_header = val.m_header;

@@ -15,7 +15,7 @@ Sensor::Sensor(const Sensor &val) : QObject() {
     m_trkId = val.m_trkId;
 }
 
-// comperator
+// assignement
 Sensor & Sensor::operator=(const Sensor &val) {
 
     m_senId = val.m_senId;
@@ -74,8 +74,8 @@ float Sensor::getTrkId() const {
 QString Sensor::toXML() {
 
     QString xml = "<Sensor";
-    xml.append(" SenId=\"" + QString::number(m_senId) + "\"");
-    xml.append(" TrkId=\"" + QString::number(m_trkId) + "\"");
+    xml.append(" SenId=\"" + QString::number(m_senId, 'f') + "\"");
+    xml.append(" TrkId=\"" + QString::number(m_trkId, 'f') + "\"");
     xml.append(">\n");
     xml.append( "</Sensor>\n");
     return xml;

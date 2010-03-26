@@ -494,7 +494,9 @@
             }
             else if ([key isEqualToString:@"ATONOffPos"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = [[value uppercaseString] isEqualToString: @"YES"];
+                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                            [[value uppercaseString] isEqualToString: @"TRUE"] ||
+                            [[value uppercaseString] isEqualToString: @"1"]);
                 [self setATONOffPos: val];
             }
         }
@@ -573,7 +575,7 @@
     }
     if ( [self hasATONOffPos] ) {
         [xml appendString: @" ATONOffPos=\""];
-        [xml appendString: (m_ATONOffPos?@"yes":@"no")];
+        [xml appendString: (m_ATONOffPos?@"true":@"false")];
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];

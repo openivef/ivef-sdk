@@ -31,18 +31,18 @@ MSG_ServiceRequest
 <Body>
 <ServiceRequest>
 <Area>
-<Pos Lat="3.14159" Long="3.14159">
+<Pos Lat="3.141593" Long="3.141593">
 </Pos>
 </Area>
 <Area>
-<Pos Lat="3.14159" Long="3.14159">
+<Pos Lat="3.141593" Long="3.141593">
 </Pos>
 </Area>
 <Area>
-<Pos Lat="3.14159" Long="3.14159">
+<Pos Lat="3.141593" Long="3.141593">
 </Pos>
 </Area>
-<Transmission Type="1" Period="3.14159">
+<Transmission Type="1" Period="3.141593">
 </Transmission>
 <Item Element="1" Field="String">
 </Item>

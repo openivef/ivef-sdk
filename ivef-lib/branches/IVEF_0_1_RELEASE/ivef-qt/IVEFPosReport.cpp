@@ -86,7 +86,7 @@ PosReport::PosReport(const PosReport &val) : QObject() {
     m_ATONOffPos = val.m_ATONOffPos;
 }
 
-// comperator
+// assignement
 PosReport & PosReport::operator=(const PosReport &val) {
 
     m_pos = val.m_pos;
@@ -213,7 +213,7 @@ QDateTime PosReport::getUpdateTimeRadar() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasUpdateTimeRadar() {
+bool PosReport::hasUpdateTimeRadar() const {
 
     return m_updateTimeRadarPresent;
 }
@@ -232,7 +232,7 @@ QDateTime PosReport::getUpdateTimeAIS() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasUpdateTimeAIS() {
+bool PosReport::hasUpdateTimeAIS() const {
 
     return m_updateTimeAISPresent;
 }
@@ -251,7 +251,7 @@ QDateTime PosReport::getUpdateTimeDR() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasUpdateTimeDR() {
+bool PosReport::hasUpdateTimeDR() const {
 
     return m_updateTimeDRPresent;
 }
@@ -319,7 +319,7 @@ float PosReport::getRateOfTurn() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasRateOfTurn() {
+bool PosReport::hasRateOfTurn() const {
 
     return m_rateOfTurnPresent;
 }
@@ -344,7 +344,7 @@ float PosReport::getOrientation() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasOrientation() {
+bool PosReport::hasOrientation() const {
 
     return m_orientationPresent;
 }
@@ -366,7 +366,7 @@ float PosReport::getLength() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasLength() {
+bool PosReport::hasLength() const {
 
     return m_lengthPresent;
 }
@@ -388,7 +388,7 @@ float PosReport::getBreadth() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasBreadth() {
+bool PosReport::hasBreadth() const {
 
     return m_breadthPresent;
 }
@@ -407,7 +407,7 @@ float PosReport::getAltitude() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasAltitude() {
+bool PosReport::hasAltitude() const {
 
     return m_altitudePresent;
 }
@@ -444,7 +444,7 @@ int PosReport::getNavStatus() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasNavStatus() {
+bool PosReport::hasNavStatus() const {
 
     return m_navStatusPresent;
 }
@@ -470,7 +470,7 @@ int PosReport::getUpdSensorType() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasUpdSensorType() {
+bool PosReport::hasUpdSensorType() const {
 
     return m_updSensorTypePresent;
 }
@@ -489,7 +489,7 @@ bool PosReport::getATONOffPos() const {
 }
 
 // check if optional element PosReport has been set
-bool PosReport::hasATONOffPos() {
+bool PosReport::hasATONOffPos() const {
 
     return m_ATONOffPosPresent;
 }
@@ -513,28 +513,28 @@ QString PosReport::toXML() {
     if ( hasUpdateTimeDR() ) {
         xml.append(" UpdateTimeDR=\"" + m_updateTimeDR.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
     }
-    xml.append(" SOG=\"" + QString::number(m_SOG) + "\"");
-    xml.append(" COG=\"" + QString::number(m_COG) + "\"");
+    xml.append(" SOG=\"" + QString::number(m_SOG, 'f') + "\"");
+    xml.append(" COG=\"" + QString::number(m_COG, 'f') + "\"");
     xml.append(" Lost=\"" + encode (m_lost) + "\"");
     // check for presence of optional attribute
     if ( hasRateOfTurn() ) {
-        xml.append(" RateOfTurn=\"" + QString::number(m_rateOfTurn) + "\"");
+        xml.append(" RateOfTurn=\"" + QString::number(m_rateOfTurn, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasOrientation() ) {
-        xml.append(" Orientation=\"" + QString::number(m_orientation) + "\"");
+        xml.append(" Orientation=\"" + QString::number(m_orientation, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasLength() ) {
-        xml.append(" Length=\"" + QString::number(m_length) + "\"");
+        xml.append(" Length=\"" + QString::number(m_length, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasBreadth() ) {
-        xml.append(" Breadth=\"" + QString::number(m_breadth) + "\"");
+        xml.append(" Breadth=\"" + QString::number(m_breadth, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasAltitude() ) {
-        xml.append(" Altitude=\"" + QString::number(m_altitude) + "\"");
+        xml.append(" Altitude=\"" + QString::number(m_altitude, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasNavStatus() ) {
@@ -546,7 +546,7 @@ QString PosReport::toXML() {
     }
     // check for presence of optional attribute
     if ( hasATONOffPos() ) {
-        xml.append(" ATONOffPos=\"" + QString(m_ATONOffPos ? "yes" : "no" ) + "\"");
+        xml.append(" ATONOffPos=\"" + QString(m_ATONOffPos ? "true" : "false" ) + "\"");
     }
     xml.append(">\n");
     xml.append( m_pos.toXML() );

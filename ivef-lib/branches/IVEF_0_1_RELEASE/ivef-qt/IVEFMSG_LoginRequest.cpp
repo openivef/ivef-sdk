@@ -13,7 +13,7 @@ MSG_LoginRequest::MSG_LoginRequest(const MSG_LoginRequest &val) : QObject() {
     m_body = val.m_body;
 }
 
-// comperator
+// assignement
 MSG_LoginRequest & MSG_LoginRequest::operator=(const MSG_LoginRequest &val) {
 
     m_header = val.m_header;

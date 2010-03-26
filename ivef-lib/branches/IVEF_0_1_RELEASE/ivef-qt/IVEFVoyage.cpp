@@ -57,7 +57,7 @@ Voyage::Voyage(const Voyage &val) : QObject() {
     m_draught = val.m_draught;
 }
 
-// comperator
+// assignement
 Voyage & Voyage::operator=(const Voyage &val) {
 
     m_id = val.m_id;
@@ -154,7 +154,7 @@ int Voyage::getCargoType() const {
 }
 
 // check if optional element Voyage has been set
-bool Voyage::hasCargoType() {
+bool Voyage::hasCargoType() const {
 
     return m_cargoTypePresent;
 }
@@ -173,7 +173,7 @@ QString Voyage::getDestination() const {
 }
 
 // check if optional element Voyage has been set
-bool Voyage::hasDestination() {
+bool Voyage::hasDestination() const {
 
     return m_destinationPresent;
 }
@@ -192,7 +192,7 @@ QDateTime Voyage::getETA() const {
 }
 
 // check if optional element Voyage has been set
-bool Voyage::hasETA() {
+bool Voyage::hasETA() const {
 
     return m_ETAPresent;
 }
@@ -211,7 +211,7 @@ QDateTime Voyage::getATA() const {
 }
 
 // check if optional element Voyage has been set
-bool Voyage::hasATA() {
+bool Voyage::hasATA() const {
 
     return m_ATAPresent;
 }
@@ -233,7 +233,7 @@ float Voyage::getPersonsOnBoard() const {
 }
 
 // check if optional element Voyage has been set
-bool Voyage::hasPersonsOnBoard() {
+bool Voyage::hasPersonsOnBoard() const {
 
     return m_personsOnBoardPresent;
 }
@@ -255,7 +255,7 @@ float Voyage::getAirDraught() const {
 }
 
 // check if optional element Voyage has been set
-bool Voyage::hasAirDraught() {
+bool Voyage::hasAirDraught() const {
 
     return m_airDraughtPresent;
 }
@@ -277,7 +277,7 @@ float Voyage::getDraught() const {
 }
 
 // check if optional element Voyage has been set
-bool Voyage::hasDraught() {
+bool Voyage::hasDraught() const {
 
     return m_draughtPresent;
 }
@@ -307,15 +307,15 @@ QString Voyage::toXML() {
     }
     // check for presence of optional attribute
     if ( hasPersonsOnBoard() ) {
-        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard) + "\"");
+        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
-        xml.append(" AirDraught=\"" + QString::number(m_airDraught) + "\"");
+        xml.append(" AirDraught=\"" + QString::number(m_airDraught, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasDraught() ) {
-        xml.append(" Draught=\"" + QString::number(m_draught) + "\"");
+        xml.append(" Draught=\"" + QString::number(m_draught, 'f') + "\"");
     }
     xml.append(">\n");
     xml.append( "</Voyage>\n");

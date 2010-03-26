@@ -14,7 +14,7 @@ Ping::Ping(const Ping &val) : QObject() {
     m_timeStamp = val.m_timeStamp;
 }
 
-// comperator
+// assignement
 Ping & Ping::operator=(const Ping &val) {
 
     m_timeStamp = val.m_timeStamp;

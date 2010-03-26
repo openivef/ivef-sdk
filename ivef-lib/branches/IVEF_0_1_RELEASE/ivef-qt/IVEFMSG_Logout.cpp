@@ -13,7 +13,7 @@ MSG_Logout::MSG_Logout(const MSG_Logout &val) : QObject() {
     m_body = val.m_body;
 }
 
-// comperator
+// assignement
 MSG_Logout & MSG_Logout::operator=(const MSG_Logout &val) {
 
     m_header = val.m_header;

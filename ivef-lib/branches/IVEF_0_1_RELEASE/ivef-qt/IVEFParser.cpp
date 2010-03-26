@@ -360,8 +360,10 @@ bool Parser::startElement(const QString &,
                 obj->setUpdSensorType(val);
             }
             else if (key == "ATONOffPos") {
-                // booleans are sent as YES/NO textstrings 
-                bool val = (value.toUpper() == "YES");
+                // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings 
+                bool val = (value.toUpper() == "YES" ||
+                            value.toUpper() == "TRUE" ||
+                            value == "1");
                 obj->setATONOffPos(val);
             }
         }

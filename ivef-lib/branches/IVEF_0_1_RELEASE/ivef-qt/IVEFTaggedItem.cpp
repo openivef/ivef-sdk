@@ -17,7 +17,7 @@ TaggedItem::TaggedItem(const TaggedItem &val) : QObject() {
     m_value = val.m_value;
 }
 
-// comperator
+// assignement
 TaggedItem & TaggedItem::operator=(const TaggedItem &val) {
 
     m_key = val.m_key;

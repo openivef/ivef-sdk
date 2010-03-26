@@ -13,7 +13,7 @@ MSG_VesselData::MSG_VesselData(const MSG_VesselData &val) : QObject() {
     m_body = val.m_body;
 }
 
-// comperator
+// assignement
 MSG_VesselData & MSG_VesselData::operator=(const MSG_VesselData &val) {
 
     m_header = val.m_header;

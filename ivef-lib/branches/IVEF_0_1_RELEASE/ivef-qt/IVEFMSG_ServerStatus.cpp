@@ -13,7 +13,7 @@ MSG_ServerStatus::MSG_ServerStatus(const MSG_ServerStatus &val) : QObject() {
     m_body = val.m_body;
 }
 
-// comperator
+// assignement
 MSG_ServerStatus & MSG_ServerStatus::operator=(const MSG_ServerStatus &val) {
 
     m_header = val.m_header;

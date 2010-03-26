@@ -20,7 +20,7 @@ ServerStatus::ServerStatus(const ServerStatus &val) : QObject() {
     m_details = val.m_details;
 }
 
-// comperator
+// assignement
 ServerStatus & ServerStatus::operator=(const ServerStatus &val) {
 
     m_status = val.m_status;
@@ -70,7 +70,7 @@ QString ServerStatus::getDetails() const {
 }
 
 // check if optional element ServerStatus has been set
-bool ServerStatus::hasDetails() {
+bool ServerStatus::hasDetails() const {
 
     return m_detailsPresent;
 }

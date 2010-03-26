@@ -72,8 +72,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Logout"];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Logout>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

@@ -22,7 +22,7 @@ LoginResponse::LoginResponse(const LoginResponse &val) : QObject() {
     m_reason = val.m_reason;
 }
 
-// comperator
+// assignement
 LoginResponse & LoginResponse::operator=(const LoginResponse &val) {
 
     m_msgId = val.m_msgId;
@@ -85,7 +85,7 @@ QString LoginResponse::getReason() const {
 }
 
 // check if optional element LoginResponse has been set
-bool LoginResponse::hasReason() {
+bool LoginResponse::hasReason() const {
 
     return m_reasonPresent;
 }

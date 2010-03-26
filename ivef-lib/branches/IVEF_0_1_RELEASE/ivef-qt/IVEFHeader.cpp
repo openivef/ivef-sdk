@@ -17,7 +17,7 @@ Header::Header(const Header &val) : QObject() {
     m_msgRefId = val.m_msgRefId;
 }
 
-// comperator
+// assignement
 Header & Header::operator=(const Header &val) {
 
     m_version = val.m_version;

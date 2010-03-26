@@ -15,7 +15,7 @@ VesselData::VesselData(const VesselData &val) : QObject() {
     m_taggedItems = val.m_taggedItems;
 }
 
-// comperator
+// assignement
 VesselData & VesselData::operator=(const VesselData &val) {
 
     m_posReport = val.m_posReport;

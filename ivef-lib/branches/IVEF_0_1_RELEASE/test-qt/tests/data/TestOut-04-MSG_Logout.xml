@@ -9,8 +9,7 @@ MSG_Logout
 <Header Version="String" MsgRefId="String">
 </Header>
 <Body>
-<Logout>
-</Logout>
+<Logout/>
 </Body>
 </MSG_Logout>
 

@@ -14,7 +14,7 @@ Object::Object(const Object &val) : QObject() {
     m_fileName = val.m_fileName;
 }
 
-// comperator
+// assignement
 Object & Object::operator=(const Object &val) {
 
     m_fileName = val.m_fileName;

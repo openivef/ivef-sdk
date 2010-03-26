@@ -12,7 +12,7 @@ Area::Area(const Area &val) : QObject() {
     m_poss = val.m_poss;
 }
 
-// comperator
+// assignement
 Area & Area::operator=(const Area &val) {
 
     m_poss = val.m_poss;

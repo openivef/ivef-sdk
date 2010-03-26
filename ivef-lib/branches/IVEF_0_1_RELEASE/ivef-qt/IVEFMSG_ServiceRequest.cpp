@@ -13,7 +13,7 @@ MSG_ServiceRequest::MSG_ServiceRequest(const MSG_ServiceRequest &val) : QObject(
     m_body = val.m_body;
 }
 
-// comperator
+// assignement
 MSG_ServiceRequest & MSG_ServiceRequest::operator=(const MSG_ServiceRequest &val) {
 
     m_header = val.m_header;

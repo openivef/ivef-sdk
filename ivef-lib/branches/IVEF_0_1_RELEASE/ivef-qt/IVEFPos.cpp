@@ -15,7 +15,7 @@ Pos::Pos(const Pos &val) : QObject() {
     m_long = val.m_long;
 }
 
-// comperator
+// assignement
 Pos & Pos::operator=(const Pos &val) {
 
     m_lat = val.m_lat;
@@ -74,8 +74,8 @@ float Pos::getLong() const {
 QString Pos::toXML() {
 
     QString xml = "<Pos";
-    xml.append(" Lat=\"" + QString::number(m_lat) + "\"");
-    xml.append(" Long=\"" + QString::number(m_long) + "\"");
+    xml.append(" Lat=\"" + QString::number(m_lat, 'f') + "\"");
+    xml.append(" Long=\"" + QString::number(m_long, 'f') + "\"");
     xml.append(">\n");
     xml.append( "</Pos>\n");
     return xml;
