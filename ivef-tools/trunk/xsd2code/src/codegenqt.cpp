@@ -39,12 +39,9 @@ QString dateToString(QString varName) {
     return varName + ".toString(\"yyyy-MM-dd'T'HH:mm:ss.zzzZ\")";
 }
 
-QString dateFromString(QString varName, bool withMillies) {
+QString dateFromString(QString varName) {
   
-    if (withMillies) 
-        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-dd'T'HH:mm:ss.z\")";
-    else
-        return "QDateTime::fromString(" + varName + ", \"yyyy-MM-dd'T'HH:mm:ss\")";
+    return "QDateTime::fromString(" + varName + ", Qt::ISODate)";
 }
 
 QString CodeGenQT::sizeEvaluatorForType (QString type, QString varName) {
@@ -918,16 +915,10 @@ void CodeGenQT::go() {
                         // timea may have a leading Z (issue 28)
                         classFileOut << "                // date encoding should end on a Z, but some suppliers may exclude it\n";
                         classFileOut << "                // we can be robust by checking for it\n";
-                        classFileOut << "                if (value.right(1) == \"Z\") { // new time encoding\n";
-                        classFileOut << "                     value = value.left(value.length() - 1);\n";
+                        classFileOut << "                if (value.right(1) != \"Z\") { // new time encoding\n";
+                        classFileOut << "                     value.append(\"Z\");\n";
                         classFileOut << "                }\n"; 
-                        // dates may have milies or not according to xs:dateTime
-                        classFileOut << "                QDateTime val = " << dateFromString("value", true) << ";\n";
-                        classFileOut << "                // a date may be sent with or without miliseconds\n";
-                        classFileOut << "                if (!val.isValid()) { \n";
-                        classFileOut << "                     // try other variant\n";
-                        classFileOut << "                     val = " << dateFromString("value", false) << ";\n";
-                        classFileOut << "                }\n";
+                        classFileOut << "                QDateTime val = " << dateFromString("value") << ";\n";
                     }
                     else if (type == "float") {
                         classFileOut << "                float val = value.toFloat();\n";
