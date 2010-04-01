@@ -66,8 +66,7 @@ QString Header::toXML() {
     QString xml = "<Header";
     xml.append(" Version=\"" + encode (m_version) + "\"");
     xml.append(" MsgRefId=\"" + encode (m_msgRefId) + "\"");
-    xml.append(">\n");
-    xml.append( "</Header>\n");
+    xml.append("/>\n");
     return xml;
 }
 

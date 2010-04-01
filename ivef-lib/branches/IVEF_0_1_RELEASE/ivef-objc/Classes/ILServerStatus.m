@@ -126,8 +126,7 @@
         [xml appendString: [self encode: m_details]];
         [xml appendString: @"\""];
     }
-    [xml appendString:@">\n"];
-    [xml appendString: @"</ServerStatus>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

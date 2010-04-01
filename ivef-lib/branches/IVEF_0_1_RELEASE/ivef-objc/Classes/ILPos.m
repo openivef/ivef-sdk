@@ -118,8 +118,7 @@
     [xml appendString: @" Long=\""];
     [xml appendString: [NSString stringWithFormat:@"%f", m_long]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Pos>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

@@ -133,8 +133,7 @@
     [xml appendString: @" SourceId=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Pong>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

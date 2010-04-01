@@ -712,8 +712,7 @@
         [xml appendString: [self encode: m_deepWaterVesselind]];
         [xml appendString: @"\""];
     }
-    [xml appendString:@">\n"];
-    [xml appendString: @"</StaticData>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

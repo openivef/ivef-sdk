@@ -100,8 +100,7 @@ QString LoginResponse::toXML() {
     if ( hasReason() ) {
         xml.append(" Reason=\"" + encode (m_reason) + "\"");
     }
-    xml.append(">\n");
-    xml.append( "</LoginResponse>\n");
+    xml.append("/>\n");
     return xml;
 }
 

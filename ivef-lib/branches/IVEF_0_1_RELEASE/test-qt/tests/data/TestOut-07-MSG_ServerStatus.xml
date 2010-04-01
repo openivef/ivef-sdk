@@ -8,11 +8,9 @@ MSG_ServerStatus
             Status = queuefull
             Details = String
 <MSG_ServerStatus>
-<Header Version="String" MsgRefId="String">
-</Header>
+<Header Version="String" MsgRefId="String"/>
 <Body>
-<ServerStatus Status="queuefull" Details="String">
-</ServerStatus>
+<ServerStatus Status="queuefull" Details="String"/>
 </Body>
 </MSG_ServerStatus>
 

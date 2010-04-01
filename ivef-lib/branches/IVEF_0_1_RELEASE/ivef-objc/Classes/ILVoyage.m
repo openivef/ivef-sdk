@@ -346,8 +346,7 @@
         [xml appendString: [NSString stringWithFormat:@"%f", m_draught]];
         [xml appendString: @"\""];
     }
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Voyage>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

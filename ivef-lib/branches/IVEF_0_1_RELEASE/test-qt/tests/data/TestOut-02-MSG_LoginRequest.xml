@@ -9,11 +9,9 @@ MSG_LoginRequest
             Password = String
             Encryption = 2
 <MSG_LoginRequest>
-<Header Version="String" MsgRefId="String">
-</Header>
+<Header Version="String" MsgRefId="String"/>
 <Body>
-<LoginRequest Name="String" Password="String" Encryption="2">
-</LoginRequest>
+<LoginRequest Name="String" Password="String" Encryption="2"/>
 </Body>
 </MSG_LoginRequest>
 

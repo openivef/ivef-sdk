@@ -120,26 +120,18 @@ MSG_VesselData
                 AirDraught = 3.14159
                 Draught = 3.14159
 <MSG_VesselData>
-<Header Version="&lt;" MsgRefId="&lt;">
-</Header>
+<Header Version="&lt;" MsgRefId="&lt;"/>
 <Body>
 <VesselData>
 <PosReport Id="0" SourceId="0" UpdateTime="2001-12-17T09:30:47.123Z" SOG="3.141593" COG="3.141593" Lost="no" RateOfTurn="3.141593" Orientation="3.141593" Length="3.141593" Breadth="3.141593" Altitude="3.141593" NavStatus="0" UpdSensorType="1" ATONOffPos="false">
-<Pos Lat="3.141593" Long="3.141593">
-</Pos>
+<Pos Lat="3.141593" Long="3.141593"/>
 </PosReport>
-<StaticData Id="&lt;" SourceName="&gt;" Source="1" Length="3.141593" Breadth="3.141593" Callsign="hello" ShipName="&amp;" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="&lt;" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="&lt;" PortOfRegistry="&lt;" CountryFlag="&lt;" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes">
-</StaticData>
-<StaticData Id="&lt;" SourceName="&lt;" Source="1" Length="3.141593" Breadth="3.141593" Callsign="&lt;" ShipName="&lt;" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="&lt;" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="&lt;" PortOfRegistry="&lt;" CountryFlag="&lt;" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes">
-</StaticData>
-<StaticData Id="&lt;" SourceName="&lt;" Source="1" Length="3.141593" Breadth="3.141593" Callsign="&lt;" ShipName="&lt;" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="&lt;" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="&lt;" PortOfRegistry="&lt;" CountryFlag="&lt;" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes">
-</StaticData>
-<Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.123Z" ATA="2001-12-17T09:30:47.123Z" AirDraught="3.141593" Draught="3.141593">
-</Voyage>
-<Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.000Z" ATA="2001-12-17T09:30:47.000Z" AirDraught="3.141593" Draught="3.141593">
-</Voyage>
-<Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.123Z" ATA="2001-12-17T09:30:47.123Z" AirDraught="3.141593" Draught="3.141593">
-</Voyage>
+<StaticData Id="&lt;" SourceName="&gt;" Source="1" Length="3.141593" Breadth="3.141593" Callsign="hello" ShipName="&amp;" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="&lt;" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="&lt;" PortOfRegistry="&lt;" CountryFlag="&lt;" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes"/>
+<StaticData Id="&lt;" SourceName="&lt;" Source="1" Length="3.141593" Breadth="3.141593" Callsign="&lt;" ShipName="&lt;" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="&lt;" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="&lt;" PortOfRegistry="&lt;" CountryFlag="&lt;" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes"/>
+<StaticData Id="&lt;" SourceName="&lt;" Source="1" Length="3.141593" Breadth="3.141593" Callsign="&lt;" ShipName="&lt;" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="&lt;" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="&lt;" PortOfRegistry="&lt;" CountryFlag="&lt;" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes"/>
+<Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.123Z" ATA="2001-12-17T09:30:47.123Z" AirDraught="3.141593" Draught="3.141593"/>
+<Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.000Z" ATA="2001-12-17T09:30:47.000Z" AirDraught="3.141593" Draught="3.141593"/>
+<Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.123Z" ATA="2001-12-17T09:30:47.123Z" AirDraught="3.141593" Draught="3.141593"/>
 </VesselData>
 </Body>
 </MSG_VesselData>

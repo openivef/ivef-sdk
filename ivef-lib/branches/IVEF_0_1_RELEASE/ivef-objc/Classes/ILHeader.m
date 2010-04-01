@@ -110,8 +110,7 @@
     [xml appendString: @" MsgRefId=\""];
     [xml appendString: [self encode: m_msgRefId]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Header>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

@@ -9,11 +9,9 @@ MSG_LoginRequest
             Password = Very Secret
             Encryption = 1
 <MSG_LoginRequest>
-<Header Version="1.2" MsgRefId="1224-5667-8901-1234">
-</Header>
+<Header Version="1.2" MsgRefId="1224-5667-8901-1234"/>
 <Body>
-<LoginRequest Name="John Doe" Password="Very Secret" Encryption="1">
-</LoginRequest>
+<LoginRequest Name="John Doe" Password="Very Secret" Encryption="1"/>
 </Body>
 </MSG_LoginRequest>
 

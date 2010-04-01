@@ -94,8 +94,7 @@
     [xml appendString: @" FileName=\""];
     [xml appendString: [self encode: m_fileName]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Object>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

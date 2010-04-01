@@ -6,8 +6,7 @@ MSG_Logout
     Body
         Logout
 <MSG_Logout>
-<Header Version="String" MsgRefId="String">
-</Header>
+<Header Version="String" MsgRefId="String"/>
 <Body>
 <Logout/>
 </Body>

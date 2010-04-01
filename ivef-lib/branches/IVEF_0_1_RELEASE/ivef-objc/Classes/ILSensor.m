@@ -118,8 +118,7 @@
     [xml appendString: @" TrkId=\""];
     [xml appendString: [NSString stringWithFormat:@"%f", m_trkId]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Sensor>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

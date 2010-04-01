@@ -718,8 +718,7 @@ QString StaticData::toXML() {
     if ( hasDeepWaterVesselind() ) {
         xml.append(" DeepWaterVesselind=\"" + encode (m_deepWaterVesselind) + "\"");
     }
-    xml.append(">\n");
-    xml.append( "</StaticData>\n");
+    xml.append("/>\n");
     return xml;
 }
 

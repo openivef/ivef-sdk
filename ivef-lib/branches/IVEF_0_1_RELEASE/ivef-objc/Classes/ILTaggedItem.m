@@ -114,8 +114,7 @@
     [xml appendString: @" Value=\""];
     [xml appendString: [self encode: m_value]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</TaggedItem>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

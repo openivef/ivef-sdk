@@ -317,8 +317,7 @@ QString Voyage::toXML() {
     if ( hasDraught() ) {
         xml.append(" Draught=\"" + QString::number(m_draught, 'f') + "\"");
     }
-    xml.append(">\n");
-    xml.append( "</Voyage>\n");
+    xml.append("/>\n");
     return xml;
 }
 

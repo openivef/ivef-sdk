@@ -84,8 +84,7 @@ QString ServerStatus::toXML() {
     if ( hasDetails() ) {
         xml.append(" Details=\"" + encode (m_details) + "\"");
     }
-    xml.append(">\n");
-    xml.append( "</ServerStatus>\n");
+    xml.append("/>\n");
     return xml;
 }
 

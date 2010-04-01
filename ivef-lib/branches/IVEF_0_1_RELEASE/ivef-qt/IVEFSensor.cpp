@@ -76,8 +76,7 @@ QString Sensor::toXML() {
     QString xml = "<Sensor";
     xml.append(" SenId=\"" + QString::number(m_senId, 'f') + "\"");
     xml.append(" TrkId=\"" + QString::number(m_trkId, 'f') + "\"");
-    xml.append(">\n");
-    xml.append( "</Sensor>\n");
+    xml.append("/>\n");
     return xml;
 }
 

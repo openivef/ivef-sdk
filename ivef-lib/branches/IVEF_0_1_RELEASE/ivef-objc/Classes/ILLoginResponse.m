@@ -144,8 +144,7 @@
         [xml appendString: [self encode: m_reason]];
         [xml appendString: @"\""];
     }
-    [xml appendString:@">\n"];
-    [xml appendString: @"</LoginResponse>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

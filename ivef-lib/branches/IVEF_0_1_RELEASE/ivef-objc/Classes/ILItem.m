@@ -116,8 +116,7 @@
     [xml appendString: @" Field=\""];
     [xml appendString: [self encode: m_field]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Item>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

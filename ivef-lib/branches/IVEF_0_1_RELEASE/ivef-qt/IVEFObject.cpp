@@ -49,8 +49,7 @@ QString Object::toXML() {
 
     QString xml = "<Object";
     xml.append(" FileName=\"" + encode (m_fileName) + "\"");
-    xml.append(">\n");
-    xml.append( "</Object>\n");
+    xml.append("/>\n");
     return xml;
 }
 

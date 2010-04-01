@@ -135,8 +135,7 @@
     [xml appendString: @" Encryption=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_encryption]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</LoginRequest>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

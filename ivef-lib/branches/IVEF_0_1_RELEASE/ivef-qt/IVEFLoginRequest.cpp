@@ -86,8 +86,7 @@ QString LoginRequest::toXML() {
     xml.append(" Name=\"" + encode (m_name) + "\"");
     xml.append(" Password=\"" + encode (m_password) + "\"");
     xml.append(" Encryption=\"" + QString::number(m_encryption) + "\"");
-    xml.append(">\n");
-    xml.append( "</LoginRequest>\n");
+    xml.append("/>\n");
     return xml;
 }
 

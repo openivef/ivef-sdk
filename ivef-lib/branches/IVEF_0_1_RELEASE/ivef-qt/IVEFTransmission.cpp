@@ -84,8 +84,7 @@ QString Transmission::toXML() {
     if ( hasPeriod() ) {
         xml.append(" Period=\"" + QString::number(m_period, 'f') + "\"");
     }
-    xml.append(">\n");
-    xml.append( "</Transmission>\n");
+    xml.append("/>\n");
     return xml;
 }
 

@@ -124,8 +124,7 @@
         [xml appendString: [NSString stringWithFormat:@"%f", m_period]];
         [xml appendString: @"\""];
     }
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Transmission>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 
