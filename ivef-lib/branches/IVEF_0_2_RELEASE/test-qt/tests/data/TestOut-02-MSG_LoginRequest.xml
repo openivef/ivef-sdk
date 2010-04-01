@@ -9,11 +9,9 @@ MSG_IVEF
             Name = String
             Password = String
 <MSG_IVEF>
-<Header MsgRefId="String" Version="String">
-</Header>
+<Header MsgRefId="String" Version="String"/>
 <Body>
-<LoginRequest Encryption="2" Name="String" Password="String">
-</LoginRequest>
+<LoginRequest Encryption="2" Name="String" Password="String"/>
 </Body>
 </MSG_IVEF>
 

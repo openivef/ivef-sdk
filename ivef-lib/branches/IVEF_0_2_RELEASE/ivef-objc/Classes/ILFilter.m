@@ -94,8 +94,7 @@
     [xml appendString: @" Predicate=\""];
     [xml appendString: [self encode: m_predicate]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Filter>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

@@ -196,8 +196,7 @@ QString Pos::toXML() {
     }
     xml.append(" Lat=\"" + QString::number(m_lat, 'f') + "\"");
     xml.append(" Long=\"" + QString::number(m_long, 'f') + "\"");
-    xml.append(">\n");
-    xml.append( "</Pos>\n");
+    xml.append("/>\n");
     return xml;
 }
 

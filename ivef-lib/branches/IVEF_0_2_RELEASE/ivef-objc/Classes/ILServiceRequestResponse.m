@@ -145,8 +145,7 @@
     [xml appendString: @" Result=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_result]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</ServiceRequestResponse>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

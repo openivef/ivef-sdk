@@ -82,8 +82,7 @@ QString Pong::toXML() {
     xml.append(" ResponseOn=\"" + encode (m_responseOn) + "\"");
     xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
     xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
-    xml.append(">\n");
-    xml.append( "</Pong>\n");
+    xml.append("/>\n");
     return xml;
 }
 

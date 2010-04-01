@@ -6,8 +6,7 @@ MSG_IVEF
     Body
         Logout
 <MSG_IVEF>
-<Header MsgRefId="String" Version="String">
-</Header>
+<Header MsgRefId="String" Version="String"/>
 <Body>
 <Logout/>
 </Body>

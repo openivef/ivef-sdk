@@ -114,8 +114,7 @@
     [xml appendString: @" Name=\""];
     [xml appendString: [self encode: m_name]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</OtherName>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

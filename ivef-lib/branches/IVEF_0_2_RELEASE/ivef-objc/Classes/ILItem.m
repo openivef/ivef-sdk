@@ -116,8 +116,7 @@
     [xml appendString: @" FieldSelector=\""];
     [xml appendString: [self encode: m_fieldSelector]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Item>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

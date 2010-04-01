@@ -9,11 +9,9 @@ MSG_IVEF
             ResponseOn = PreviousMessage
             Result = 1
 <MSG_IVEF>
-<Header MsgRefId="String" Version="String">
-</Header>
+<Header MsgRefId="String" Version="String"/>
 <Body>
-<LoginResponse Reason="QueueFull" ResponseOn="PreviousMessage" Result="1">
-</LoginResponse>
+<LoginResponse Reason="QueueFull" ResponseOn="PreviousMessage" Result="1"/>
 </Body>
 </MSG_IVEF>
 

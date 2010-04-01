@@ -7,11 +7,9 @@ MSG_IVEF
         Ping
             TimeStamp = 2001-12-17T09:30:47.000Z
 <MSG_IVEF>
-<Header MsgRefId="String" Version="String">
-</Header>
+<Header MsgRefId="String" Version="String"/>
 <Body>
-<Ping TimeStamp="2001-12-17T09:30:47.000Z">
-</Ping>
+<Ping TimeStamp="2001-12-17T09:30:47.000Z"/>
 </Body>
 </MSG_IVEF>
 

@@ -9,11 +9,9 @@ MSG_IVEF
             SourceId = 0
             TimeStamp = 2001-12-17T09:30:47.001Z
 <MSG_IVEF>
-<Header MsgRefId="String" Version="String">
-</Header>
+<Header MsgRefId="String" Version="String"/>
 <Body>
-<Pong ResponseOn="PingWithID123" SourceId="0" TimeStamp="2001-12-17T09:30:47.001Z">
-</Pong>
+<Pong ResponseOn="PingWithID123" SourceId="0" TimeStamp="2001-12-17T09:30:47.001Z"/>
 </Body>
 </MSG_IVEF>
 

@@ -66,8 +66,7 @@ QString OtherId::toXML() {
     QString xml = "<OtherId";
     xml.append(" Id=\"" + encode (m_id) + "\"");
     xml.append(" Value=\"" + encode (m_value) + "\"");
-    xml.append(">\n");
-    xml.append( "</OtherId>\n");
+    xml.append("/>\n");
     return xml;
 }
 

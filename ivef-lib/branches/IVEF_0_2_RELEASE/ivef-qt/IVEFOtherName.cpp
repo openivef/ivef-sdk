@@ -66,8 +66,7 @@ QString OtherName::toXML() {
     QString xml = "<OtherName";
     xml.append(" Lang=\"" + encode (m_lang) + "\"");
     xml.append(" Name=\"" + encode (m_name) + "\"");
-    xml.append(">\n");
-    xml.append( "</OtherName>\n");
+    xml.append("/>\n");
     return xml;
 }
 

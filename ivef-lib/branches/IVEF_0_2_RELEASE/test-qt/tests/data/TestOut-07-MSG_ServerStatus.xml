@@ -9,11 +9,9 @@ MSG_IVEF
             Details = String
             Status = 1
 <MSG_IVEF>
-<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2">
-</Header>
+<Header MsgRefId="StringSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS" Version="0.2.2"/>
 <Body>
-<ServerStatus ContactIdentity="String" Details="String" Status="true">
-</ServerStatus>
+<ServerStatus ContactIdentity="String" Details="String" Status="true"/>
 </Body>
 </MSG_IVEF>
 

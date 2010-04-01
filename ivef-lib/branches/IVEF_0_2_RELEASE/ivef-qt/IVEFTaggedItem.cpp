@@ -66,8 +66,7 @@ QString TaggedItem::toXML() {
     QString xml = "<TaggedItem";
     xml.append(" Key=\"" + encode (m_key) + "\"");
     xml.append(" Value=\"" + encode (m_value) + "\"");
-    xml.append(">\n");
-    xml.append( "</TaggedItem>\n");
+    xml.append("/>\n");
     return xml;
 }
 

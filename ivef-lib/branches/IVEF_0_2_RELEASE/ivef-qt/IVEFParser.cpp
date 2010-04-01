@@ -199,15 +199,10 @@ bool Parser::startElement(const QString &,
             if (key == "TimeStamp") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setTimeStamp(val);
             }
         }
@@ -235,15 +230,10 @@ bool Parser::startElement(const QString &,
             else if (key == "TimeStamp") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setTimeStamp(val);
             }
         }
@@ -491,15 +481,10 @@ bool Parser::startElement(const QString &,
             else if (key == "UpdateTime") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setUpdateTime(val);
             }
             else if (key == "TrackStatus") {
@@ -558,15 +543,10 @@ bool Parser::startElement(const QString &,
             else if (key == "UpdateTime") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setUpdateTime(val);
             }
         }
@@ -724,15 +704,10 @@ bool Parser::startElement(const QString &,
             else if (key == "ETA") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setETA(val);
             }
             else if (key == "ISPSLevel") {
@@ -796,15 +771,10 @@ bool Parser::startElement(const QString &,
             else if (key == "UpdateTime") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setUpdateTime(val);
             }
         }
@@ -824,43 +794,28 @@ bool Parser::startElement(const QString &,
             if (key == "ATA") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setATA(val);
             }
             else if (key == "ETA") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setETA(val);
             }
             else if (key == "RTA") {
                 // date encoding should end on a Z, but some suppliers may exclude it
                 // we can be robust by checking for it
-                if (value.right(1) == "Z") { // new time encoding
-                     value = value.left(value.length() - 1);
+                if (value.right(1) != "Z") { // new time encoding
+                     value.append("Z");
                 }
-                QDateTime val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss.z");
-                // a date may be sent with or without miliseconds
-                if (!val.isValid()) { 
-                     // try other variant
-                     val = QDateTime::fromString(value, "yyyy-MM-dd'T'HH:mm:ss");
-                }
+                QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 obj->setRTA(val);
             }
             else if (key == "LoCode") {

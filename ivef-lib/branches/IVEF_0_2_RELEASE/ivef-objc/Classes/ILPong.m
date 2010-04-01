@@ -133,8 +133,7 @@
     [xml appendString: @" TimeStamp=\""];
     [xml appendString: [self stringFromDate: m_timeStamp]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Pong>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

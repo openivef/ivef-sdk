@@ -49,8 +49,7 @@ QString Ping::toXML() {
 
     QString xml = "<Ping";
     xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
-    xml.append(">\n");
-    xml.append( "</Ping>\n");
+    xml.append("/>\n");
     return xml;
 }
 

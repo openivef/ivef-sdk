@@ -152,8 +152,7 @@
     [xml appendString: @" Status=\""];
     [xml appendString: (m_status?@"true":@"false")];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</ServerStatus>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

@@ -70,8 +70,7 @@ QString Item::toXML() {
     QString xml = "<Item";
     xml.append(" DataSelector=\"" + QString::number(m_dataSelector) + "\"");
     xml.append(" FieldSelector=\"" + encode (m_fieldSelector) + "\"");
-    xml.append(">\n");
-    xml.append( "</Item>\n");
+    xml.append("/>\n");
     return xml;
 }
 

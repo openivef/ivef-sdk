@@ -143,8 +143,7 @@
     [xml appendString: @" Mode=\""];
     [xml appendString: [NSString stringWithFormat:@"%d", m_mode]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</UnType>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

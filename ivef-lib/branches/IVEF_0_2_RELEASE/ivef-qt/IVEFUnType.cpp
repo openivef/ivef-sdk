@@ -100,8 +100,7 @@ QString UnType::toXML() {
     xml.append(" CodeA=\"" + QString::number(m_codeA) + "\"");
     xml.append(" CodeB=\"" + QString::number(m_codeB) + "\"");
     xml.append(" Mode=\"" + QString::number(m_mode) + "\"");
-    xml.append(">\n");
-    xml.append( "</UnType>\n");
+    xml.append("/>\n");
     return xml;
 }
 

@@ -49,8 +49,7 @@ QString Filter::toXML() {
 
     QString xml = "<Filter";
     xml.append(" Predicate=\"" + encode (m_predicate) + "\"");
-    xml.append(">\n");
-    xml.append( "</Filter>\n");
+    xml.append("/>\n");
     return xml;
 }
 

@@ -9,11 +9,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -27,11 +25,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -45,11 +41,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -63,11 +57,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -81,11 +73,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -99,11 +89,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -117,11 +105,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -135,11 +121,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -153,11 +137,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 
@@ -171,11 +153,9 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234" Version="1.2">
-</Header>
+<Header MsgRefId="1224-5667-8901-1234" Version="1.2"/>
 <Body>
-<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret">
-</LoginRequest>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
 </MSG_IVEF>
 

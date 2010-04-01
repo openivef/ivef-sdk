@@ -110,8 +110,7 @@
     [xml appendString: @" Version=\""];
     [xml appendString: [self encode: m_version]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</Header>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 

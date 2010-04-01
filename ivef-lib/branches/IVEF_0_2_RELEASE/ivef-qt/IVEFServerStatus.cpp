@@ -111,8 +111,7 @@ QString ServerStatus::toXML() {
         xml.append(" Details=\"" + encode (m_details) + "\"");
     }
     xml.append(" Status=\"" + QString(m_status ? "true" : "false" ) + "\"");
-    xml.append(">\n");
-    xml.append( "</ServerStatus>\n");
+    xml.append("/>\n");
     return xml;
 }
 

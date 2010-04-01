@@ -101,8 +101,7 @@ QString ServiceRequestResponse::toXML() {
     }
     xml.append(" ResponseOn=\"" + encode (m_responseOn) + "\"");
     xml.append(" Result=\"" + QString::number(m_result) + "\"");
-    xml.append(">\n");
-    xml.append( "</ServiceRequestResponse>\n");
+    xml.append("/>\n");
     return xml;
 }
 

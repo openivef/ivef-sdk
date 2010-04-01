@@ -135,8 +135,7 @@
     [xml appendString: @" Password=\""];
     [xml appendString: [self encode: m_password]];
     [xml appendString: @"\""];
-    [xml appendString:@">\n"];
-    [xml appendString: @"</LoginRequest>\n"];
+    [xml appendString:@"/>\n"];
     return xml;
 }
 
