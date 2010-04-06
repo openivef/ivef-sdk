@@ -1,0 +1,17 @@
+TestJava ready for input
+MSG_ServerStatus
+    Header
+        Version = String
+        MsgRefId = String
+    Body
+        ServerStatus
+            Status = queuefull
+            Details = String
+<MSG_ServerStatus>
+<Header Version="String" MsgRefId="String"/>
+<Body>
+<ServerStatus Status="queuefull" Details="String"/>
+</Body>
+</MSG_ServerStatus>
+
+TestJava shutting down
