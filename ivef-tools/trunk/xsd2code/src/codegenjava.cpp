@@ -307,14 +307,18 @@ void CodeGenJava::go() {
                 if (enums.size() > 0) { // there are enumeration constraints for this item
 
                     // strings should be between quotes, numbers not
-                    QString quote;
+		    // strings are also compared with the isEqualTo and not a simple != (issue 56)
                     if (type == "String") {
-                        quote = "\"";
-                    }
+                        classFileOut << "\n        if ( ( !val.isEqualTo(\"" << enums.at(0) <<"\") ) ";
+                        for (int h=1; h < enums.size(); h++) {
+                            classFileOut << "&&\n             ( !val.isEqualTo(\"" << enums.at(h) << "\") ) ";
+                        }
+                    } else { // numbers
 
-                    classFileOut << "\n        if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
-                    for (int h=1; h < enums.size(); h++) {
-                        classFileOut << "&&\n             ( val != " << quote << enums.at(h) << quote << " ) ";
+                        classFileOut << "\n        if ( ( val != " << enums.at(0) <<" ) ";
+                        for (int h=1; h < enums.size(); h++) {
+                            classFileOut << "&&\n             ( val != " << enums.at(h) << " ) ";
+                        }
                     }
                     classFileOut <<    ")\n            return;";
                 }
@@ -355,7 +359,7 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toXML() {\n\n";
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
-        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
+        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
 		classFileOut << "\n";
 
         // for attributes
@@ -371,7 +375,7 @@ void CodeGenJava::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
 				    varName = "df.format(" + variableName(attr->name()) + ")"; 
-					// ".toString(\"yyyy-MM-dd'T'hh:mm:ss.SSS\")";
+					// ".toString(\"yyyy-MM-dd'T'HH:mm:ss.SSS\")";
                 } else  if (type == "String") {
                     varName = "encode( " + variableName(attr->name()) + ")";
                 } 
@@ -423,7 +427,7 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toString(String lead) {\n\n";
         classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
-        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
+        classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
 		classFileOut << "\n";
                     
         // for attributes
@@ -438,7 +442,7 @@ void CodeGenJava::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
 				    varName = "df.format(" + variableName(attr->name()) + ")"; 
-					// ".toString(\"yyyy-MM-dd'T'hh:mm:ss.SSS\")";
+					// ".toString(\"yyyy-MM-dd'T'HH:mm:ss.SSS\")";
                 } /*else  if (type != "String") {
                     varName = "String.number(" + variableName(attr->name()) + ")";
                 } */
@@ -675,11 +679,11 @@ void CodeGenJava::go() {
 			classFileOut << "                } \n";
                         classFileOut << "                Date val = new Date(); // starts since the epoch\n";						
 			classFileOut << "                try { \n";
-			classFileOut << "                    DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss.SSS\");\n";	
+			classFileOut << "                    DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS\");\n";	
                         classFileOut << "                    val = df.parse( value );\n";
                         classFileOut << "                } catch(Exception e) {\n";
 			classFileOut << "                    try { // if there are no miliseconds they will not be sent\n"; 
-			classFileOut << "                       DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'hh:mm:ss\");\n";	
+			classFileOut << "                       DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss\");\n";	
                         classFileOut << "                       val = df.parse( value );\n";
                         classFileOut << "                    } catch(Exception e2) {\n";
                         classFileOut << "                        e2.printStackTrace();\n";
