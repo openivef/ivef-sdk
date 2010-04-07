@@ -66,7 +66,7 @@ public class MSG_Pong {
     public String toXML() {
 
         String xml = "<MSG_Pong";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += ">\n";
         xml +=  m_header.toXML();
@@ -78,7 +78,7 @@ public class MSG_Pong {
     public String toString(String lead) {
 
         String str = lead + "MSG_Pong\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  m_header.toString(lead + "    ");
         str +=  m_body.toString(lead + "    ");

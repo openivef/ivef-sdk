@@ -240,7 +240,7 @@ public class Voyage {
     public String toXML() {
 
         String xml = "<Voyage";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Id=\"" + encode( m_id) + "\"";
         xml += " SourceName=\"" + encode( m_sourceName) + "\"";
@@ -273,7 +273,7 @@ public class Voyage {
     public String toString(String lead) {
 
         String str = lead + "Voyage\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Id = " + m_id + "\n";
         str +=  lead + "    SourceName = " + m_sourceName + "\n";

@@ -76,7 +76,7 @@ public class Pong {
     public String toXML() {
 
         String xml = "<Pong";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " TimeStamp=\"" + df.format(m_timeStamp) + "\"";
         xml += " MsgId=\"" + encode( m_msgId) + "\"";
@@ -88,7 +88,7 @@ public class Pong {
     public String toString(String lead) {
 
         String str = lead + "Pong\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    TimeStamp = " + df.format(m_timeStamp) + "\n";
         str +=  lead + "    MsgId = " + m_msgId + "\n";

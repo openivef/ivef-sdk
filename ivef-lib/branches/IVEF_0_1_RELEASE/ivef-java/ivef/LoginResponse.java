@@ -88,7 +88,7 @@ public class LoginResponse {
     public String toXML() {
 
         String xml = "<LoginResponse";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " MsgId=\"" + encode( m_msgId) + "\"";
         xml += " Result=\"" + m_result + "\"";
@@ -102,7 +102,7 @@ public class LoginResponse {
     public String toString(String lead) {
 
         String str = lead + "LoginResponse\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    MsgId = " + m_msgId + "\n";
         str +=  lead + "    Result = " + m_result + "\n";

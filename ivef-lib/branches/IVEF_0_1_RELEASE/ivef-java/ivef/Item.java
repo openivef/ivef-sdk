@@ -68,7 +68,7 @@ public class Item {
     public String toXML() {
 
         String xml = "<Item";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Element=\"" + m_element + "\"";
         xml += " Field=\"" + encode( m_field) + "\"";
@@ -79,7 +79,7 @@ public class Item {
     public String toString(String lead) {
 
         String str = lead + "Item\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Element = " + m_element + "\n";
         str +=  lead + "    Field = " + m_field + "\n";

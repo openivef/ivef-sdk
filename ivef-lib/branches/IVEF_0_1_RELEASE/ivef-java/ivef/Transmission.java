@@ -78,7 +78,7 @@ public class Transmission {
     public String toXML() {
 
         String xml = "<Transmission";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Type=\"" + m_type + "\"";
         if ( hasPeriod() ) {
@@ -91,7 +91,7 @@ public class Transmission {
     public String toString(String lead) {
 
         String str = lead + "Transmission\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Type = " + m_type + "\n";
         if ( hasPeriod() ) {

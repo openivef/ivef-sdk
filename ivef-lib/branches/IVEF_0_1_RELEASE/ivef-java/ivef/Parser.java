@@ -84,6 +84,7 @@ public class Parser extends DefaultHandler {
                              String qName,
                              Attributes atts) {
 
+    System.out.println("start qname "+qName);
     // check all possible options
     if (qName == "MSG_LoginRequest") {
         MSG_LoginRequest obj = new MSG_LoginRequest();
@@ -196,11 +197,11 @@ public class Parser extends DefaultHandler {
                 } 
                 Date val = new Date(); // starts since the epoch
                 try { 
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     val = df.parse( value );
                 } catch(Exception e) {
                     try { // if there are no miliseconds they will not be sent
-                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                        val = df.parse( value );
                     } catch(Exception e2) {
                         e2.printStackTrace();
@@ -223,11 +224,11 @@ public class Parser extends DefaultHandler {
                 } 
                 Date val = new Date(); // starts since the epoch
                 try { 
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     val = df.parse( value );
                 } catch(Exception e) {
                     try { // if there are no miliseconds they will not be sent
-                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                        val = df.parse( value );
                     } catch(Exception e2) {
                         e2.printStackTrace();
@@ -283,11 +284,11 @@ public class Parser extends DefaultHandler {
                 } 
                 Date val = new Date(); // starts since the epoch
                 try { 
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     val = df.parse( value );
                 } catch(Exception e) {
                     try { // if there are no miliseconds they will not be sent
-                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                        val = df.parse( value );
                     } catch(Exception e2) {
                         e2.printStackTrace();
@@ -301,11 +302,11 @@ public class Parser extends DefaultHandler {
                 } 
                 Date val = new Date(); // starts since the epoch
                 try { 
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     val = df.parse( value );
                 } catch(Exception e) {
                     try { // if there are no miliseconds they will not be sent
-                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                        val = df.parse( value );
                     } catch(Exception e2) {
                         e2.printStackTrace();
@@ -319,11 +320,11 @@ public class Parser extends DefaultHandler {
                 } 
                 Date val = new Date(); // starts since the epoch
                 try { 
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     val = df.parse( value );
                 } catch(Exception e) {
                     try { // if there are no miliseconds they will not be sent
-                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                        val = df.parse( value );
                     } catch(Exception e2) {
                         e2.printStackTrace();
@@ -337,11 +338,11 @@ public class Parser extends DefaultHandler {
                 } 
                 Date val = new Date(); // starts since the epoch
                 try { 
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     val = df.parse( value );
                 } catch(Exception e) {
                     try { // if there are no miliseconds they will not be sent
-                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                        val = df.parse( value );
                     } catch(Exception e2) {
                         e2.printStackTrace();
@@ -514,6 +515,7 @@ public class Parser extends DefaultHandler {
             String key = atts.getLocalName(i);
             String value = atts.getValue(i);
 
+            System.out.println("key "+key+" Val "+value);
             if (key == "Status") {
                 String val = value;
                 obj.setStatus(val);
@@ -633,11 +635,11 @@ public class Parser extends DefaultHandler {
                 } 
                 Date val = new Date(); // starts since the epoch
                 try { 
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     val = df.parse( value );
                 } catch(Exception e) {
                     try { // if there are no miliseconds they will not be sent
-                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                        val = df.parse( value );
                     } catch(Exception e2) {
                         e2.printStackTrace();
@@ -651,11 +653,11 @@ public class Parser extends DefaultHandler {
                 } 
                 Date val = new Date(); // starts since the epoch
                 try { 
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     val = df.parse( value );
                 } catch(Exception e) {
                     try { // if there are no miliseconds they will not be sent
-                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                        val = df.parse( value );
                     } catch(Exception e2) {
                         e2.printStackTrace();
@@ -684,6 +686,7 @@ public class Parser extends DefaultHandler {
                            String localName,
                            String qName) {
 
+    System.out.println("end  qname "+qName);
     // check all possible options
     if (qName == "MSG_LoginRequest") {
 

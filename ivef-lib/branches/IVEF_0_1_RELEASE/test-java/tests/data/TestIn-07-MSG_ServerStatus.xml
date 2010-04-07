@@ -2,7 +2,7 @@
 \\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
 	<Header MsgRefId="String" Version="String"/>
 	<Body>
-		<ServerStatus Details="String" Status="queuefull"/>
+		<ServerStatus Details="we had a party" Status="queuefull"/>
 	</Body>
 </MSG_ServerStatus>
 

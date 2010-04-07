@@ -416,7 +416,7 @@ public class PosReport {
     public String toXML() {
 
         String xml = "<PosReport";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Id=\"" + m_id + "\"";
         xml += " SourceId=\"" + m_sourceId + "\"";
@@ -470,7 +470,7 @@ public class PosReport {
     public String toString(String lead) {
 
         String str = lead + "PosReport\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Id = " + m_id + "\n";
         str +=  lead + "    SourceId = " + m_sourceId + "\n";

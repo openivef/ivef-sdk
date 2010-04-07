@@ -72,7 +72,7 @@ public class Pos {
     public String toXML() {
 
         String xml = "<Pos";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Lat=\"" + m_lat + "\"";
         xml += " Long=\"" + m_long + "\"";
@@ -83,7 +83,7 @@ public class Pos {
     public String toString(String lead) {
 
         String str = lead + "Pos\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Lat = " + m_lat + "\n";
         str +=  lead + "    Long = " + m_long + "\n";

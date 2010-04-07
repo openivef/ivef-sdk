@@ -60,7 +60,7 @@ public class Area {
     public String toXML() {
 
         String xml = "<Area";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += ">\n";
         for(int i=0; i < m_poss.size(); i++ ) {
@@ -74,7 +74,7 @@ public class Area {
     public String toString(String lead) {
 
         String str = lead + "Area\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         for(int i=0; i < m_poss.size(); i++ ) {
            Pos attribute = (Pos) m_poss.get(i);

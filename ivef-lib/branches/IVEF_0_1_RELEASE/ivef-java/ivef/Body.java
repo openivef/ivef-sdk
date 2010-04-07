@@ -216,7 +216,7 @@ public class Body {
     public String toXML() {
 
         String xml = "<Body";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += ">\n";
         if ( hasLoginRequest() ) {
@@ -251,7 +251,7 @@ public class Body {
     public String toString(String lead) {
 
         String str = lead + "Body\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         if ( hasLoginRequest() ) {
             str +=  m_loginRequest.toString(lead + "    ") ;

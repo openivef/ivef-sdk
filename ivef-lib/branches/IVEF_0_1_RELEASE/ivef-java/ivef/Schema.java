@@ -50,7 +50,7 @@ public class Schema {
     public String toXML() {
 
         String xml = "<Schema";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += "/>\n";
         return xml;
@@ -59,7 +59,7 @@ public class Schema {
     public String toString(String lead) {
 
         String str = lead + "Schema\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         return str;
     }

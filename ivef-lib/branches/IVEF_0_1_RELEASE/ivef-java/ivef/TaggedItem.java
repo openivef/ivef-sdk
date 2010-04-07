@@ -64,7 +64,7 @@ public class TaggedItem {
     public String toXML() {
 
         String xml = "<TaggedItem";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Key=\"" + encode( m_key) + "\"";
         xml += " Value=\"" + encode( m_value) + "\"";
@@ -75,7 +75,7 @@ public class TaggedItem {
     public String toString(String lead) {
 
         String str = lead + "TaggedItem\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Key = " + m_key + "\n";
         str +=  lead + "    Value = " + m_value + "\n";

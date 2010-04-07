@@ -79,7 +79,7 @@ public class LoginRequest {
     public String toXML() {
 
         String xml = "<LoginRequest";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Name=\"" + encode( m_name) + "\"";
         xml += " Password=\"" + encode( m_password) + "\"";
@@ -91,7 +91,7 @@ public class LoginRequest {
     public String toString(String lead) {
 
         String str = lead + "LoginRequest\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Name = " + m_name + "\n";
         str +=  lead + "    Password = " + m_password + "\n";

@@ -65,7 +65,7 @@ public class Header {
     public String toXML() {
 
         String xml = "<Header";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Version=\"" + encode( m_version) + "\"";
         xml += " MsgRefId=\"" + encode( m_msgRefId) + "\"";
@@ -76,7 +76,7 @@ public class Header {
     public String toString(String lead) {
 
         String str = lead + "Header\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Version = " + m_version + "\n";
         str +=  lead + "    MsgRefId = " + m_msgRefId + "\n";

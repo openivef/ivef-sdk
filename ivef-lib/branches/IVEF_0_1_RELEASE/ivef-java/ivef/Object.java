@@ -52,7 +52,7 @@ public class Object {
     public String toXML() {
 
         String xml = "<Object";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " FileName=\"" + encode( m_fileName) + "\"";
         xml += "/>\n";
@@ -62,7 +62,7 @@ public class Object {
     public String toString(String lead) {
 
         String str = lead + "Object\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    FileName = " + m_fileName + "\n";
         return str;

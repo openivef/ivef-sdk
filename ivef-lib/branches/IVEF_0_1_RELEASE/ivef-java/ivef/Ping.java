@@ -52,7 +52,7 @@ public class Ping {
     public String toXML() {
 
         String xml = "<Ping";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " TimeStamp=\"" + df.format(m_timeStamp) + "\"";
         xml += "/>\n";
@@ -62,7 +62,7 @@ public class Ping {
     public String toString(String lead) {
 
         String str = lead + "Ping\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    TimeStamp = " + df.format(m_timeStamp) + "\n";
         return str;

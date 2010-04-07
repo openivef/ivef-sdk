@@ -40,7 +40,7 @@ public class Logout {
     public String toXML() {
 
         String xml = "<Logout";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += "/>\n";
         return xml;
@@ -49,7 +49,7 @@ public class Logout {
     public String toString(String lead) {
 
         String str = lead + "Logout\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         return str;
     }

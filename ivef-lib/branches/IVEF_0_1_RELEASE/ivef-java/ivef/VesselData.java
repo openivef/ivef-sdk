@@ -113,7 +113,7 @@ public class VesselData {
     public String toXML() {
 
         String xml = "<VesselData";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += ">\n";
         xml +=  m_posReport.toXML();
@@ -136,7 +136,7 @@ public class VesselData {
     public String toString(String lead) {
 
         String str = lead + "VesselData\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  m_posReport.toString(lead + "    ");
         for(int i=0; i < m_staticDatas.size(); i++ ) {

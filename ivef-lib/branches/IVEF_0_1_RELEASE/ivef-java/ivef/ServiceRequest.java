@@ -113,7 +113,7 @@ public class ServiceRequest {
     public String toXML() {
 
         String xml = "<ServiceRequest";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += ">\n";
         for(int i=0; i < m_areas.size(); i++ ) {
@@ -136,7 +136,7 @@ public class ServiceRequest {
     public String toString(String lead) {
 
         String str = lead + "ServiceRequest\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         for(int i=0; i < m_areas.size(); i++ ) {
            Area attribute = (Area) m_areas.get(i);

@@ -76,7 +76,7 @@ public class ServerStatus {
     public String toXML() {
 
         String xml = "<ServerStatus";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         xml += " Status=\"" + encode( m_status) + "\"";
         if ( hasDetails() ) {
@@ -89,7 +89,7 @@ public class ServerStatus {
     public String toString(String lead) {
 
         String str = lead + "ServerStatus\n";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         str +=  lead + "    Status = " + m_status + "\n";
         if ( hasDetails() ) {
@@ -99,6 +99,7 @@ public class ServerStatus {
     }
     public String encode( String str) {
 
+	if (str == null) return str;
         str = str.replaceAll("&", "&amp;");
         str = str.replaceAll("<", "&lt;");
         str = str.replaceAll(">", "&gt;");
