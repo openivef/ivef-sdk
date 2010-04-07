@@ -309,9 +309,9 @@ void CodeGenJava::go() {
                     // strings should be between quotes, numbers not
 		    // strings are also compared with the isEqualTo and not a simple != (issue 56)
                     if (type == "String") {
-                        classFileOut << "\n        if ( ( !val.isEqualTo(\"" << enums.at(0) <<"\") ) ";
+                        classFileOut << "\n        if ( ( !val.equals(\"" << enums.at(0) <<"\") ) ";
                         for (int h=1; h < enums.size(); h++) {
-                            classFileOut << "&&\n             ( !val.isEqualTo(\"" << enums.at(h) << "\") ) ";
+                            classFileOut << "&&\n             ( !val.equals(\"" << enums.at(h) << "\") ) ";
                         }
                     } else { // numbers
 
