@@ -7,19 +7,19 @@ MSG_ServiceRequest
         ServiceRequest
             Area
                 Pos
-                    Lat = 3.14159
-                    Long = 3.14159
+                    Lat = 3.141592653589793
+                    Long = 3.141592653589793
             Area
                 Pos
-                    Lat = 3.14159
-                    Long = 3.14159
+                    Lat = 3.141592653589793
+                    Long = 3.141592653589793
             Area
                 Pos
-                    Lat = 3.14159
-                    Long = 3.14159
+                    Lat = 3.141592653589793
+                    Long = 3.141592653589793
             Transmission
                 Type = 1
-                Period = 3.14159
+                Period = 3.141592653589793
             Item
                 Element = 1
                 Field = String
@@ -30,15 +30,15 @@ MSG_ServiceRequest
 <Body>
 <ServiceRequest>
 <Area>
-<Pos Lat="3.141593" Long="3.141593"/>
+<Pos Lat="3.141592653589793" Long="3.141592653589793"/>
 </Area>
 <Area>
-<Pos Lat="3.141593" Long="3.141593"/>
+<Pos Lat="3.141592653589793" Long="3.141592653589793"/>
 </Area>
 <Area>
-<Pos Lat="3.141593" Long="3.141593"/>
+<Pos Lat="3.141592653589793" Long="3.141592653589793"/>
 </Area>
-<Transmission Type="1" Period="3.141593"/>
+<Transmission Type="1" Period="3.141592653589793"/>
 <Item Element="1" Field="String"/>
 <Object FileName="Text"/>
 </ServiceRequest>

@@ -6,11 +6,11 @@ MSG_ServerStatus
     Body
         ServerStatus
             Status = queuefull
-            Details = String
+            Details = we had a party
 <MSG_ServerStatus>
 <Header Version="String" MsgRefId="String"/>
 <Body>
-<ServerStatus Status="queuefull" Details="String"/>
+<ServerStatus Status="queuefull" Details="we had a party"/>
 </Body>
 </MSG_ServerStatus>
 
