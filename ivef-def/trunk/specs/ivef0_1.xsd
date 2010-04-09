@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.5" targetNamespace="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.5" elementFormDefault="qualified">
 	<xs:element name="MSG_LoginRequest">
 		<xs:annotation>
@@ -314,7 +313,7 @@ North = positive; South = negative) Examples:
 								<xs:documentation>Identifier of local sensor contributing to position report</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
-								<xs:restriction base="xs:decimal">
+								<xs:restriction base="xs:integer">
 									<xs:maxInclusive value="65536"/>
 									<xs:minInclusive value="0"/>
 								</xs:restriction>
@@ -325,7 +324,7 @@ North = positive; South = negative) Examples:
 								<xs:documentation>local Identifier of track from sensor contributing to position report</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
-								<xs:restriction base="xs:decimal">
+								<xs:restriction base="xs:integer">
 									<xs:maxInclusive value="65536"/>
 									<xs:minInclusive value="0"/>
 								</xs:restriction>
@@ -991,7 +990,7 @@ North = positive; South = negative) Examples:
 					<xs:documentation>Total number of persons on board (passengers, crew, pilots, etc)</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base="xs:decimal">
+					<xs:restriction base="xs:integer">
 						<xs:minExclusive value="0"/>
 					</xs:restriction>
 				</xs:simpleType>
