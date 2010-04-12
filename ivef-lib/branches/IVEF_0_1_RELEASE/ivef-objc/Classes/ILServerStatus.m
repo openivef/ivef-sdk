@@ -152,13 +152,13 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"ServerStatus\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Status=\""];
+    [str appendString: @"Status = "];
     [str appendString: m_status];
     [str appendString: @"\"\n"];
 
     if ( [self hasDetails] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Details = \""];
+        [str appendString: @"Details = "];
         [str appendString: m_details];
         [str appendString: @"\"\n"];
 

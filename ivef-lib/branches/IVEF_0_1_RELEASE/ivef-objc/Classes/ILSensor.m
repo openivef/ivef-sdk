@@ -65,7 +65,7 @@
      return nil; // invalid date
 }
 
--(void) setSenId:(float) val {
+-(void) setSenId:(int) val {
 
     if (val < 0)
         return;
@@ -74,12 +74,12 @@
     m_senId = val;
 }
 
-- (float) senId {
+- (int) senId {
 
     return m_senId;
 }
 
--(void) setTrkId:(float) val {
+-(void) setTrkId:(int) val {
 
     if (val < 0)
         return;
@@ -88,7 +88,7 @@
     m_trkId = val;
 }
 
-- (float) trkId {
+- (int) trkId {
 
     return m_trkId;
 }
@@ -98,12 +98,12 @@
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"SenId"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                float val = [value floatValue];
+                int val = [value intValue];
                 [self setSenId: val];
             }
             else if ([key isEqualToString:@"TrkId"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                float val = [value floatValue];
+                int val = [value intValue];
                 [self setTrkId: val];
             }
         }
@@ -113,10 +113,10 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Sensor"];
     [xml appendString: @" SenId=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_senId]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_senId]];
     [xml appendString: @"\""];
     [xml appendString: @" TrkId=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_trkId]];
+    [xml appendString: [NSString stringWithFormat:@"%d", m_trkId]];
     [xml appendString: @"\""];
     [xml appendString:@"/>\n"];
     return xml;
@@ -144,13 +144,13 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Sensor\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SenId=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_senId]];
+    [str appendString: @"SenId = "];
+    [str appendString: [NSString stringWithFormat:@"%d", m_senId]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"TrkId=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_trkId]];
+    [str appendString: @"TrkId = "];
+    [str appendString: [NSString stringWithFormat:@"%d", m_trkId]];
     [str appendString: @"\"\n"];
 
     return str;
@@ -159,8 +159,8 @@
 -(NSDictionary *) attributes {
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
-    [attr setObject: [NSString stringWithFormat:@"%f", m_senId] forKey: @"SenId"];
-    [attr setObject: [NSString stringWithFormat:@"%f", m_trkId] forKey: @"TrkId"];
+    [attr setObject: [NSString stringWithFormat:@"%d", m_senId] forKey: @"SenId"];
+    [attr setObject: [NSString stringWithFormat:@"%d", m_trkId] forKey: @"TrkId"];
 
     return attr;
 }

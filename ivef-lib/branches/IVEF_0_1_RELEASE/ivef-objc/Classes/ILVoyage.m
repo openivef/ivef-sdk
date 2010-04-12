@@ -192,7 +192,7 @@
     return m_ATAPresent;
 }
 
--(void) setPersonsOnBoard:(float) val {
+-(void) setPersonsOnBoard:(int) val {
 
     if (val < 0)
         return;
@@ -200,7 +200,7 @@
     m_personsOnBoard = val;
 }
 
-- (float) personsOnBoard {
+- (int) personsOnBoard {
 
     return m_personsOnBoard;
 }
@@ -283,7 +283,7 @@
             }
             else if ([key isEqualToString:@"PersonsOnBoard"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                float val = [value floatValue];
+                int val = [value intValue];
                 [self setPersonsOnBoard: val];
             }
             else if ([key isEqualToString:@"AirDraught"]) {
@@ -333,7 +333,7 @@
     }
     if ( [self hasPersonsOnBoard] ) {
         [xml appendString: @" PersonsOnBoard=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_personsOnBoard]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_personsOnBoard]];
         [xml appendString: @"\""];
     }
     if ( [self hasAirDraught] ) {
@@ -372,65 +372,65 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Voyage\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
+    [str appendString: @"Id = "];
     [str appendString: m_id];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceName=\""];
+    [str appendString: @"SourceName = "];
     [str appendString: m_sourceName];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Source=\""];
+    [str appendString: @"Source = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_source]];
     [str appendString: @"\"\n"];
 
     if ( [self hasCargoType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"CargoType = \""];
+        [str appendString: @"CargoType = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_cargoType]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasDestination] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Destination = \""];
+        [str appendString: @"Destination = "];
         [str appendString: m_destination];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasETA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ETA = \""];
+        [str appendString: @"ETA = "];
         [str appendString: [self stringFromDate: m_ETA]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasATA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ATA = \""];
+        [str appendString: @"ATA = "];
         [str appendString: [self stringFromDate: m_ATA]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasPersonsOnBoard] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"PersonsOnBoard = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_personsOnBoard]];
+        [str appendString: @"PersonsOnBoard = "];
+        [str appendString: [NSString stringWithFormat:@"%d", m_personsOnBoard]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasAirDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"AirDraught = \""];
+        [str appendString: @"AirDraught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_airDraught]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Draught = \""];
+        [str appendString: @"Draught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_draught]];
         [str appendString: @"\"\n"];
 
@@ -457,7 +457,7 @@
         [attr setObject: [self stringFromDate: m_ATA] forKey: @"ATA"];
     }
     if ( [self hasPersonsOnBoard] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_personsOnBoard] forKey: @"PersonsOnBoard"];
+        [attr setObject: [NSString stringWithFormat:@"%d", m_personsOnBoard] forKey: @"PersonsOnBoard"];
     }
     if ( [self hasAirDraught] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_airDraught] forKey: @"AirDraught"];

@@ -90,8 +90,8 @@ QString Pos::toString() {
 QString Pos::toString(QString lead) {
 
     QString str = lead + "Pos\n";
-    str.append( lead + "    Lat = " + QString::number(m_lat) + "\n");
-    str.append( lead + "    Long = " + QString::number(m_long) + "\n");
+    str.append( lead + "    Lat = " + QString::number(m_lat, 'f') + "\n");
+    str.append( lead + "    Long = " + QString::number(m_long, 'f') + "\n");
     return str;
 }
 

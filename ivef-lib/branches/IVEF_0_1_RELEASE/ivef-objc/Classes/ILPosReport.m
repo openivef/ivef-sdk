@@ -610,108 +610,108 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"PosReport\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
+    [str appendString: @"Id = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_id]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceId=\""];
+    [str appendString: @"SourceId = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"UpdateTime=\""];
+    [str appendString: @"UpdateTime = "];
     [str appendString: [self stringFromDate: m_updateTime]];
     [str appendString: @"\"\n"];
 
     if ( [self hasUpdateTimeRadar] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"UpdateTimeRadar = \""];
+        [str appendString: @"UpdateTimeRadar = "];
         [str appendString: [self stringFromDate: m_updateTimeRadar]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasUpdateTimeAIS] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"UpdateTimeAIS = \""];
+        [str appendString: @"UpdateTimeAIS = "];
         [str appendString: [self stringFromDate: m_updateTimeAIS]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasUpdateTimeDR] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"UpdateTimeDR = \""];
+        [str appendString: @"UpdateTimeDR = "];
         [str appendString: [self stringFromDate: m_updateTimeDR]];
         [str appendString: @"\"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SOG=\""];
+    [str appendString: @"SOG = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_SOG]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"COG=\""];
+    [str appendString: @"COG = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_COG]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Lost=\""];
+    [str appendString: @"Lost = "];
     [str appendString: m_lost];
     [str appendString: @"\"\n"];
 
     if ( [self hasRateOfTurn] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"RateOfTurn = \""];
+        [str appendString: @"RateOfTurn = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_rateOfTurn]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasOrientation] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Orientation = \""];
+        [str appendString: @"Orientation = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_orientation]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasLength] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Length = \""];
+        [str appendString: @"Length = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_length]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasBreadth] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Breadth = \""];
+        [str appendString: @"Breadth = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_breadth]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasAltitude] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Altitude = \""];
+        [str appendString: @"Altitude = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_altitude]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasNavStatus] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"NavStatus = \""];
+        [str appendString: @"NavStatus = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_navStatus]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasUpdSensorType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"UpdSensorType = \""];
+        [str appendString: @"UpdSensorType = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_updSensorType]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasATONOffPos] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ATONOffPos = \""];
+        [str appendString: @"ATONOffPos = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_ATONOffPos]];
         [str appendString: @"\"\n"];
 

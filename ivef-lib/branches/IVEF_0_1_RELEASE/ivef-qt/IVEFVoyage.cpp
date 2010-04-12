@@ -24,7 +24,7 @@ Voyage::Voyage() {
     m_ATA = QDateTime();
     // optional attributes are by default not present
     m_ATAPresent = false;
-    m_personsOnBoard = 0.0;
+    m_personsOnBoard = 0;
     // optional attributes are by default not present
     m_personsOnBoardPresent = false;
     m_airDraught = 0.0;
@@ -217,7 +217,7 @@ bool Voyage::hasATA() const {
 }
 
 // setter for Voyage
-void Voyage::setPersonsOnBoard(float val) {
+void Voyage::setPersonsOnBoard(int val) {
     // check if the new value is within bounds 
 
     if (val < 0)
@@ -227,7 +227,7 @@ void Voyage::setPersonsOnBoard(float val) {
 }
 
 // getter for Voyage
-float Voyage::getPersonsOnBoard() const {
+int Voyage::getPersonsOnBoard() const {
 
     return m_personsOnBoard;
 }
@@ -307,7 +307,7 @@ QString Voyage::toXML() {
     }
     // check for presence of optional attribute
     if ( hasPersonsOnBoard() ) {
-        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard, 'f') + "\"");
+        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard) + "\"");
     }
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
@@ -356,11 +356,11 @@ QString Voyage::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
-        str.append( lead + "    AirDraught = " + QString::number(m_airDraught) + "\n");
+        str.append( lead + "    AirDraught = " + QString::number(m_airDraught, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasDraught() ) {
-        str.append( lead + "    Draught = " + QString::number(m_draught) + "\n");
+        str.append( lead + "    Draught = " + QString::number(m_draught, 'f') + "\n");
     }
     return str;
 }

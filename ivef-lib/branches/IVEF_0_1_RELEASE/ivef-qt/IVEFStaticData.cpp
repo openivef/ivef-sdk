@@ -737,11 +737,11 @@ QString StaticData::toString(QString lead) {
     str.append( lead + "    Source = " + QString::number(m_source) + "\n");
     // check for presence of optional attribute
     if ( hasLength() ) {
-        str.append( lead + "    Length = " + QString::number(m_length) + "\n");
+        str.append( lead + "    Length = " + QString::number(m_length, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasBreadth() ) {
-        str.append( lead + "    Breadth = " + QString::number(m_breadth) + "\n");
+        str.append( lead + "    Breadth = " + QString::number(m_breadth, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasCallsign() ) {
@@ -777,11 +777,11 @@ QString StaticData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromFront() ) {
-        str.append( lead + "    AntPosDistFromFront = " + QString::number(m_antPosDistFromFront) + "\n");
+        str.append( lead + "    AntPosDistFromFront = " + QString::number(m_antPosDistFromFront, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromLeft() ) {
-        str.append( lead + "    AntPosDistFromLeft = " + QString::number(m_antPosDistFromLeft) + "\n");
+        str.append( lead + "    AntPosDistFromLeft = " + QString::number(m_antPosDistFromLeft, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasNatLangShipName() ) {
@@ -797,11 +797,11 @@ QString StaticData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasMaxAirDraught() ) {
-        str.append( lead + "    MaxAirDraught = " + QString::number(m_maxAirDraught) + "\n");
+        str.append( lead + "    MaxAirDraught = " + QString::number(m_maxAirDraught, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasMaxDraught() ) {
-        str.append( lead + "    MaxDraught = " + QString::number(m_maxDraught) + "\n");
+        str.append( lead + "    MaxDraught = " + QString::number(m_maxDraught, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasDeepWaterVesselind() ) {

@@ -351,11 +351,11 @@ bool Parser::startElement(const QString &,
 
             // and add them if we know them
             if (key == "SenId") {
-                float val = value.toFloat();
+                int val = value.toInt();
                 obj->setSenId(val);
             }
             else if (key == "TrkId") {
-                float val = value.toFloat();
+                int val = value.toInt();
                 obj->setTrkId(val);
             }
         }
@@ -636,7 +636,7 @@ bool Parser::startElement(const QString &,
                 obj->setATA(val);
             }
             else if (key == "PersonsOnBoard") {
-                float val = value.toFloat();
+                int val = value.toInt();
                 obj->setPersonsOnBoard(val);
             }
             else if (key == "AirDraught") {

@@ -140,12 +140,12 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"TaggedItem\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Key=\""];
+    [str appendString: @"Key = "];
     [str appendString: m_key];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Value=\""];
+    [str appendString: @"Value = "];
     [str appendString: m_value];
     [str appendString: @"\"\n"];
 

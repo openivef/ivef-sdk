@@ -144,12 +144,12 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Pos\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Lat=\""];
+    [str appendString: @"Lat = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_lat]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Long=\""];
+    [str appendString: @"Long = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_long]];
     [str appendString: @"\"\n"];
 

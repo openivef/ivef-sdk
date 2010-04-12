@@ -584,28 +584,28 @@ QString PosReport::toString(QString lead) {
     if ( hasUpdateTimeDR() ) {
         str.append( lead + "    UpdateTimeDR = " + m_updateTimeDR.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     }
-    str.append( lead + "    SOG = " + QString::number(m_SOG) + "\n");
-    str.append( lead + "    COG = " + QString::number(m_COG) + "\n");
+    str.append( lead + "    SOG = " + QString::number(m_SOG, 'f') + "\n");
+    str.append( lead + "    COG = " + QString::number(m_COG, 'f') + "\n");
     str.append( lead + "    Lost = " + m_lost + "\n");
     // check for presence of optional attribute
     if ( hasRateOfTurn() ) {
-        str.append( lead + "    RateOfTurn = " + QString::number(m_rateOfTurn) + "\n");
+        str.append( lead + "    RateOfTurn = " + QString::number(m_rateOfTurn, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasOrientation() ) {
-        str.append( lead + "    Orientation = " + QString::number(m_orientation) + "\n");
+        str.append( lead + "    Orientation = " + QString::number(m_orientation, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasLength() ) {
-        str.append( lead + "    Length = " + QString::number(m_length) + "\n");
+        str.append( lead + "    Length = " + QString::number(m_length, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasBreadth() ) {
-        str.append( lead + "    Breadth = " + QString::number(m_breadth) + "\n");
+        str.append( lead + "    Breadth = " + QString::number(m_breadth, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasAltitude() ) {
-        str.append( lead + "    Altitude = " + QString::number(m_altitude) + "\n");
+        str.append( lead + "    Altitude = " + QString::number(m_altitude, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasNavStatus() ) {
@@ -617,7 +617,7 @@ QString PosReport::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasATONOffPos() ) {
-        str.append( lead + "    ATONOffPos = " + QString::number(m_ATONOffPos) + "\n");
+        str.append( lead + "    ATONOffPos = " + QString(m_ATONOffPos ? "true" : "false" ) + "\n");
     }
     str.append( m_pos.toString(lead + "    ") );
     // add all included data

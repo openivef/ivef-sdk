@@ -136,12 +136,12 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Header\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Version=\""];
+    [str appendString: @"Version = "];
     [str appendString: m_version];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"MsgRefId=\""];
+    [str appendString: @"MsgRefId = "];
     [str appendString: m_msgRefId];
     [str appendString: @"\"\n"];
 

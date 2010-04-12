@@ -142,12 +142,12 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Item\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Element=\""];
+    [str appendString: @"Element = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_element]];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Field=\""];
+    [str appendString: @"Field = "];
     [str appendString: m_field];
     [str appendString: @"\"\n"];
 

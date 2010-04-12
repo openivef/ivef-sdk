@@ -738,142 +738,142 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"StaticData\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
+    [str appendString: @"Id = "];
     [str appendString: m_id];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceName=\""];
+    [str appendString: @"SourceName = "];
     [str appendString: m_sourceName];
     [str appendString: @"\"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Source=\""];
+    [str appendString: @"Source = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_source]];
     [str appendString: @"\"\n"];
 
     if ( [self hasLength] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Length = \""];
+        [str appendString: @"Length = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_length]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasBreadth] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Breadth = \""];
+        [str appendString: @"Breadth = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_breadth]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasCallsign] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Callsign = \""];
+        [str appendString: @"Callsign = "];
         [str appendString: m_callsign];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasShipName] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ShipName = \""];
+        [str appendString: @"ShipName = "];
         [str appendString: m_shipName];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasObjectType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ObjectType = \""];
+        [str appendString: @"ObjectType = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_objectType]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasShipType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ShipType = \""];
+        [str appendString: @"ShipType = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_shipType]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasIMO] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"IMO = \""];
+        [str appendString: @"IMO = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_IMO]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasMMSI] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MMSI = \""];
+        [str appendString: @"MMSI = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_MMSI]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasATONType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ATONType = \""];
+        [str appendString: @"ATONType = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_ATONType]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasATONName] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ATONName = \""];
+        [str appendString: @"ATONName = "];
         [str appendString: m_ATONName];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasAntPosDistFromFront] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"AntPosDistFromFront = \""];
+        [str appendString: @"AntPosDistFromFront = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_antPosDistFromFront]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasAntPosDistFromLeft] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"AntPosDistFromLeft = \""];
+        [str appendString: @"AntPosDistFromLeft = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_antPosDistFromLeft]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasNatLangShipName] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"NatLangShipName = \""];
+        [str appendString: @"NatLangShipName = "];
         [str appendString: m_natLangShipName];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasPortOfRegistry] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"PortOfRegistry = \""];
+        [str appendString: @"PortOfRegistry = "];
         [str appendString: m_portOfRegistry];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasCountryFlag] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"CountryFlag = \""];
+        [str appendString: @"CountryFlag = "];
         [str appendString: m_countryFlag];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasMaxAirDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MaxAirDraught = \""];
+        [str appendString: @"MaxAirDraught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_maxAirDraught]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasMaxDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MaxDraught = \""];
+        [str appendString: @"MaxDraught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_maxDraught]];
         [str appendString: @"\"\n"];
 
     }
     if ( [self hasDeepWaterVesselind] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"DeepWaterVesselind = \""];
+        [str appendString: @"DeepWaterVesselind = "];
         [str appendString: m_deepWaterVesselind];
         [str appendString: @"\"\n"];
 

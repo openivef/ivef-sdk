@@ -4,8 +4,8 @@
 // Constructor
 Sensor::Sensor() {
 
-    m_senId = 0.0;
-    m_trkId = 0.0;
+    m_senId = 0;
+    m_trkId = 0;
 }
 
 // copy constructor
@@ -35,7 +35,7 @@ QString Sensor::encode( QString str) {
 }
 
 // setter for Sensor
-void Sensor::setSenId(float val) {
+void Sensor::setSenId(int val) {
     // check if the new value is within bounds 
 
     if (val < 0)
@@ -47,13 +47,13 @@ void Sensor::setSenId(float val) {
 }
 
 // getter for Sensor
-float Sensor::getSenId() const {
+int Sensor::getSenId() const {
 
     return m_senId;
 }
 
 // setter for Sensor
-void Sensor::setTrkId(float val) {
+void Sensor::setTrkId(int val) {
     // check if the new value is within bounds 
 
     if (val < 0)
@@ -65,7 +65,7 @@ void Sensor::setTrkId(float val) {
 }
 
 // getter for Sensor
-float Sensor::getTrkId() const {
+int Sensor::getTrkId() const {
 
     return m_trkId;
 }
@@ -74,8 +74,8 @@ float Sensor::getTrkId() const {
 QString Sensor::toXML() {
 
     QString xml = "<Sensor";
-    xml.append(" SenId=\"" + QString::number(m_senId, 'f') + "\"");
-    xml.append(" TrkId=\"" + QString::number(m_trkId, 'f') + "\"");
+    xml.append(" SenId=\"" + QString::number(m_senId) + "\"");
+    xml.append(" TrkId=\"" + QString::number(m_trkId) + "\"");
     xml.append("/>\n");
     return xml;
 }

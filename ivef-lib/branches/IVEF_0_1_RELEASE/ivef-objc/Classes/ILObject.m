@@ -120,7 +120,7 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Object\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"FileName=\""];
+    [str appendString: @"FileName = "];
     [str appendString: m_fileName];
     [str appendString: @"\"\n"];
 
