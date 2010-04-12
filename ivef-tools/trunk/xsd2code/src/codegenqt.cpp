@@ -12,7 +12,7 @@
  *  GNU General Public License for more details.
  *
  *  Created by Lukassen on 11/06/08.
- *  Copyright 2008
+ *  Copyright 2010
  *
  */
 

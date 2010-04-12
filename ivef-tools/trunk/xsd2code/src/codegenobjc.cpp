@@ -700,13 +700,13 @@ void CodeGenObjC::go() {
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
                     classFileOut << "        [str appendString: [lead stringByAppendingString: @\" \"]];\n";
-                    classFileOut << "        [str appendString: @\"" << attr->name() << " = \\\"\"];\n";
+                    classFileOut << "        [str appendString: @\"" << attr->name() << " = \"];\n";
                     classFileOut << "        [str appendString: " << varName << "];\n";
                     classFileOut << "        [str appendString: @\"\\\"\\n\"];\n\n";
                     classFileOut << "    }\n";
                 } else {
                     classFileOut << "    [str appendString: [lead stringByAppendingString: @\" \"]];\n";
-                    classFileOut << "    [str appendString: @\"" << attr->name() << "=\\\"\"];\n";
+                    classFileOut << "    [str appendString: @\"" << attr->name() << " = \"];\n";
                     classFileOut << "    [str appendString: " << varName << "];\n";
                     classFileOut << "    [str appendString: @\"\\\"\\n\"];\n\n";
                 }
@@ -823,7 +823,7 @@ void CodeGenObjC::go() {
     headerFileOut << "//!\n";
 
     // define the class
-    headerFileOut << "\n@interface " << className(name) << " : NSObject { \n"; // issue 35
+    headerFileOut << "\n@interface " << className(name) << " : NSObject <NSXMLParserDelegate> { \n"; // issue 35, added interface for 10.6
 
     // vars section
     headerFileOut << "    NSMutableString *m_dataBuffer;\n";
