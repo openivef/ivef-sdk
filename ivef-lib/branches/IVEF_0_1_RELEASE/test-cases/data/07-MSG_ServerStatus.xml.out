@@ -1,0 +1,17 @@
+TestApp ready for input
+MSG_ServerStatus
+    Header
+        Version = String
+        MsgRefId = String
+    Body
+        ServerStatus
+            Status = queuefull
+            Details = we had a party
+<MSG_ServerStatus>
+<Header Version="String" MsgRefId="String"/>
+<Body>
+<ServerStatus Status="queuefull" Details="we had a party"/>
+</Body>
+</MSG_ServerStatus>
+
+TestApp shutting down
