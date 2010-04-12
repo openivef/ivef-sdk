@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		52D924AC11724C0F00BAD334 /* Handler.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D924AB11724C0F00BAD334 /* Handler.m */; };
-		52D9259E1172509E00BAD334 /* IVEF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D9259D1172509E00BAD334 /* IVEF.framework */; };
+		52FF74991173BAE0001A1783 /* IVEF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52FF74981173BAE0001A1783 /* IVEF.framework */; };
 		8DD76F9A0486AA7600D96B5E /* testobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* testobjc.m */; settings = {ATTRIBUTES = (); }; };
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		8DD76F9F0486AA7600D96B5E /* testobjc.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* testobjc.1 */; };
@@ -33,7 +33,7 @@
 		32A70AAB03705E1F00C91783 /* testobjc_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testobjc_Prefix.pch; sourceTree = "<group>"; };
 		52D924AA11724C0F00BAD334 /* Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Handler.h; sourceTree = "<group>"; };
 		52D924AB11724C0F00BAD334 /* Handler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Handler.m; sourceTree = "<group>"; };
-		52D9259D1172509E00BAD334 /* IVEF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVEF.framework; path = "/Users/aqua/Documents/Code/ivef-sdk/ivef-lib/branches/IVEF_0_1_RELEASE/ivef-objc/build/Release/IVEF.framework"; sourceTree = "<absolute>"; };
+		52FF74981173BAE0001A1783 /* IVEF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVEF.framework; path = "/Users/aqua/Documents/Code/Active/ivef-sdk/ivef-lib/branches/IVEF_0_1_RELEASE/ivef-objc/build/Release/IVEF.framework"; sourceTree = "<absolute>"; };
 		8DD76FA10486AA7600D96B5E /* testobjc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = testobjc; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6859EA3029092ED04C91782 /* testobjc.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = testobjc.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -44,7 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
-				52D9259E1172509E00BAD334 /* IVEF.framework in Frameworks */,
+				52FF74991173BAE0001A1783 /* IVEF.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +76,8 @@
 		08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				52D9259D1172509E00BAD334 /* IVEF.framework */,
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
+				52FF74981173BAE0001A1783 /* IVEF.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -158,6 +158,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../../../Library/Frameworks\"",
 					"\"$(SRCROOT)/../../ivef-objc/build/Release\"",
+					"\"$(SRCROOT)/../ivef-objc/build/Release\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -179,6 +180,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../../../Library/Frameworks\"",
 					"\"$(SRCROOT)/../../ivef-objc/build/Release\"",
+					"\"$(SRCROOT)/../ivef-objc/build/Release\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
