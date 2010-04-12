@@ -146,12 +146,12 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Lat = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_lat]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Long = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_long]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

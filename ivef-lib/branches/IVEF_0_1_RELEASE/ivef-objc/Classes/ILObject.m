@@ -122,7 +122,7 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"FileName = "];
     [str appendString: m_fileName];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

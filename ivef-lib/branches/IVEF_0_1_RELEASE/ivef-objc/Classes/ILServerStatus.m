@@ -154,13 +154,13 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Status = "];
     [str appendString: m_status];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasDetails] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"Details = "];
         [str appendString: m_details];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     return str;

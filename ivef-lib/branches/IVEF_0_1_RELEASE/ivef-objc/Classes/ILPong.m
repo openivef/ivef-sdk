@@ -161,17 +161,17 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"TimeStamp = "];
     [str appendString: [self stringFromDate: m_timeStamp]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"MsgId = "];
     [str appendString: m_msgId];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"SourceId = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

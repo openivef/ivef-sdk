@@ -142,12 +142,12 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Key = "];
     [str appendString: m_key];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Value = "];
     [str appendString: m_value];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

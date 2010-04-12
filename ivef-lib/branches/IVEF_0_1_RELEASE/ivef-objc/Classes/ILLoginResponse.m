@@ -172,18 +172,18 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"MsgId = "];
     [str appendString: m_msgId];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Result = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_result]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasReason] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"Reason = "];
         [str appendString: m_reason];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     return str;

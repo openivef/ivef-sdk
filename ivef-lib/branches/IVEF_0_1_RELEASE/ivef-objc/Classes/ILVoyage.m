@@ -374,65 +374,65 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Id = "];
     [str appendString: m_id];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"SourceName = "];
     [str appendString: m_sourceName];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Source = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_source]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasCargoType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"CargoType = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_cargoType]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasDestination] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"Destination = "];
         [str appendString: m_destination];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasETA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ETA = "];
         [str appendString: [self stringFromDate: m_ETA]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasATA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ATA = "];
         [str appendString: [self stringFromDate: m_ATA]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasPersonsOnBoard] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"PersonsOnBoard = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_personsOnBoard]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasAirDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"AirDraught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_airDraught]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"Draught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_draught]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     return str;

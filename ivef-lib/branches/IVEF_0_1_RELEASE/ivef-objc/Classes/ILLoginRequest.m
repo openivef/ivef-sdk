@@ -163,17 +163,17 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Name = "];
     [str appendString: m_name];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Password = "];
     [str appendString: m_password];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Encryption = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_encryption]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

@@ -123,7 +123,7 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"TimeStamp = "];
     [str appendString: [self stringFromDate: m_timeStamp]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

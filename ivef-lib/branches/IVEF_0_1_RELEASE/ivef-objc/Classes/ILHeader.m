@@ -138,12 +138,12 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Version = "];
     [str appendString: m_version];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"MsgRefId = "];
     [str appendString: m_msgRefId];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

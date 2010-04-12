@@ -146,12 +146,12 @@
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"SenId = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_senId]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"TrkId = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_trkId]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }
