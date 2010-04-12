@@ -149,15 +149,15 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Transmission\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Type=\""];
+    [str appendString: @"Type = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_type]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasPeriod] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Period = \""];
+        [str appendString: @"Period = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_period]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     return str;

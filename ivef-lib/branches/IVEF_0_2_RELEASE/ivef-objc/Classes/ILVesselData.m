@@ -337,51 +337,51 @@
     [str setString: [lead stringByAppendingString:@"VesselData\n"]];
     if ( [self hasClass] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Class = \""];
+        [str appendString: @"Class = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_class]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasBlackListed] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"BlackListed = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_blackListed]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"BlackListed = "];
+        [str appendString: (m_blackListed?@"true":@"false")];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
+    [str appendString: @"Id = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasSpecialAttention] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"SpecialAttention = \""];
+        [str appendString: @"SpecialAttention = "];
         [str appendString: m_specialAttention];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasSourceId] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"SourceId = \""];
+        [str appendString: @"SourceId = "];
         [str appendString: m_sourceId];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceName=\""];
+    [str appendString: @"SourceName = "];
     [str appendString: m_sourceName];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceType=\""];
+    [str appendString: @"SourceType = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_sourceType]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"UpdateTime=\""];
+    [str appendString: @"UpdateTime = "];
     [str appendString: [self stringFromDate: m_updateTime]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [m_construction stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
     [str appendString: [m_identifier stringValueWithLead: [lead stringByAppendingString: @"    "]] ];

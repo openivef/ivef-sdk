@@ -303,37 +303,37 @@
     [str setString: [lead stringByAppendingString:@"Identifier\n"]];
     if ( [self hasCallsign] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Callsign = \""];
+        [str appendString: @"Callsign = "];
         [str appendString: m_callsign];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasIMO] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"IMO = \""];
+        [str appendString: @"IMO = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_IMO]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasName] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Name = \""];
+        [str appendString: @"Name = "];
         [str appendString: m_name];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasMMSI] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MMSI = \""];
+        [str appendString: @"MMSI = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_MMSI]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasLRIT] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"LRIT = \""];
+        [str appendString: @"LRIT = "];
         [str appendString: m_LRIT];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     for(int i=0; i < [m_otherIds count]; i++ ) {

@@ -449,19 +449,19 @@ QString TrackData::toString() {
 QString TrackData::toString(QString lead) {
 
     QString str = lead + "TrackData\n";
-    str.append( lead + "    COG = " + QString::number(m_COG) + "\n");
+    str.append( lead + "    COG = " + QString::number(m_COG, 'f') + "\n");
     // check for presence of optional attribute
     if ( hasEstAccSOG() ) {
-        str.append( lead + "    EstAccSOG = " + QString::number(m_estAccSOG) + "\n");
+        str.append( lead + "    EstAccSOG = " + QString::number(m_estAccSOG, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasEstAccCOG() ) {
-        str.append( lead + "    EstAccCOG = " + QString::number(m_estAccCOG) + "\n");
+        str.append( lead + "    EstAccCOG = " + QString::number(m_estAccCOG, 'f') + "\n");
     }
     str.append( lead + "    Id = " + QString::number(m_id) + "\n");
     // check for presence of optional attribute
     if ( hasLength() ) {
-        str.append( lead + "    Length = " + QString::number(m_length) + "\n");
+        str.append( lead + "    Length = " + QString::number(m_length, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasNavStatus() ) {
@@ -469,13 +469,13 @@ QString TrackData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasHeading() ) {
-        str.append( lead + "    Heading = " + QString::number(m_heading) + "\n");
+        str.append( lead + "    Heading = " + QString::number(m_heading, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasROT() ) {
-        str.append( lead + "    ROT = " + QString::number(m_ROT) + "\n");
+        str.append( lead + "    ROT = " + QString::number(m_ROT, 'f') + "\n");
     }
-    str.append( lead + "    SOG = " + QString::number(m_SOG) + "\n");
+    str.append( lead + "    SOG = " + QString::number(m_SOG, 'f') + "\n");
     // check for presence of optional attribute
     if ( hasSourceId() ) {
         str.append( lead + "    SourceId = " + m_sourceId + "\n");
@@ -485,7 +485,7 @@ QString TrackData::toString(QString lead) {
     str.append( lead + "    TrackStatus = " + QString::number(m_trackStatus) + "\n");
     // check for presence of optional attribute
     if ( hasWidth() ) {
-        str.append( lead + "    Width = " + QString::number(m_width) + "\n");
+        str.append( lead + "    Width = " + QString::number(m_width, 'f') + "\n");
     }
     // add all included data
     for(int i=0; i < m_poss.count(); i++ ) {

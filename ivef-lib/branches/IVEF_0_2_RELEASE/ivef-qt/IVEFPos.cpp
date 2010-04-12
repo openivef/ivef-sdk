@@ -212,22 +212,22 @@ QString Pos::toString(QString lead) {
     QString str = lead + "Pos\n";
     // check for presence of optional attribute
     if ( hasAltitude() ) {
-        str.append( lead + "    Altitude = " + QString::number(m_altitude) + "\n");
+        str.append( lead + "    Altitude = " + QString::number(m_altitude, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasEstAccAlt() ) {
-        str.append( lead + "    EstAccAlt = " + QString::number(m_estAccAlt) + "\n");
+        str.append( lead + "    EstAccAlt = " + QString::number(m_estAccAlt, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasEstAccLat() ) {
-        str.append( lead + "    EstAccLat = " + QString::number(m_estAccLat) + "\n");
+        str.append( lead + "    EstAccLat = " + QString::number(m_estAccLat, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasEstAccLong() ) {
-        str.append( lead + "    EstAccLong = " + QString::number(m_estAccLong) + "\n");
+        str.append( lead + "    EstAccLong = " + QString::number(m_estAccLong, 'f') + "\n");
     }
-    str.append( lead + "    Lat = " + QString::number(m_lat) + "\n");
-    str.append( lead + "    Long = " + QString::number(m_long) + "\n");
+    str.append( lead + "    Lat = " + QString::number(m_lat, 'f') + "\n");
+    str.append( lead + "    Long = " + QString::number(m_long, 'f') + "\n");
     return str;
 }
 

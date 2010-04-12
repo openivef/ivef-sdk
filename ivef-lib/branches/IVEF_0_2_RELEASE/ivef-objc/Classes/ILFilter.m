@@ -120,9 +120,9 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Filter\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Predicate=\""];
+    [str appendString: @"Predicate = "];
     [str appendString: m_predicate];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

@@ -179,22 +179,22 @@
     [str setString: [lead stringByAppendingString:@"ServerStatus\n"]];
     if ( [self hasContactIdentity] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ContactIdentity = \""];
+        [str appendString: @"ContactIdentity = "];
         [str appendString: m_contactIdentity];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasDetails] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Details = \""];
+        [str appendString: @"Details = "];
         [str appendString: m_details];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Status=\""];
-    [str appendString: [NSString stringWithFormat:@"%f", m_status]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"Status = "];
+    [str appendString: (m_status?@"true":@"false")];
+    [str appendString: @"\n"];
 
     return str;
 }

@@ -161,9 +161,9 @@
     [str setString: [lead stringByAppendingString:@"Area\n"]];
     if ( [self hasName] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Name = \""];
+        [str appendString: @"Name = "];
         [str appendString: m_name];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     for(int i=0; i < [m_poss count]; i++ ) {

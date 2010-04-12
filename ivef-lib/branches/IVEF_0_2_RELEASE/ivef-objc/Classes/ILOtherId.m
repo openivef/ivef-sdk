@@ -140,14 +140,14 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"OtherId\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
+    [str appendString: @"Id = "];
     [str appendString: m_id];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Value=\""];
+    [str appendString: @"Value = "];
     [str appendString: m_value];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

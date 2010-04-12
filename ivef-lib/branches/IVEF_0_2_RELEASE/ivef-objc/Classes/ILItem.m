@@ -142,14 +142,14 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Item\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"DataSelector=\""];
+    [str appendString: @"DataSelector = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_dataSelector]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"FieldSelector=\""];
+    [str appendString: @"FieldSelector = "];
     [str appendString: m_fieldSelector];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

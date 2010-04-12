@@ -172,20 +172,20 @@
     [str setString: [lead stringByAppendingString:@"ServiceRequestResponse\n"]];
     if ( [self hasReason] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Reason = \""];
+        [str appendString: @"Reason = "];
         [str appendString: m_reason];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"ResponseOn=\""];
+    [str appendString: @"ResponseOn = "];
     [str appendString: m_responseOn];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Result=\""];
+    [str appendString: @"Result = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_result]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

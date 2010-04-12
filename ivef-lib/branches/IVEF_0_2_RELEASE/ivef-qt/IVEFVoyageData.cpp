@@ -732,7 +732,7 @@ QString VoyageData::toString(QString lead) {
     QString str = lead + "VoyageData\n";
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
-        str.append( lead + "    AirDraught = " + QString::number(m_airDraught) + "\n");
+        str.append( lead + "    AirDraught = " + QString::number(m_airDraught, 'f') + "\n");
     }
     str.append( lead + "    Id = " + QString::number(m_id) + "\n");
     // check for presence of optional attribute
@@ -753,7 +753,7 @@ QString VoyageData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasDraught() ) {
-        str.append( lead + "    Draught = " + QString::number(m_draught) + "\n");
+        str.append( lead + "    Draught = " + QString::number(m_draught, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasETA() ) {
@@ -761,15 +761,15 @@ QString VoyageData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasISPSLevel() ) {
-        str.append( lead + "    ISPSLevel = " + QString::number(m_ISPSLevel) + "\n");
+        str.append( lead + "    ISPSLevel = " + QString::number(m_ISPSLevel, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasOverSizedLength() ) {
-        str.append( lead + "    OverSizedLength = " + QString::number(m_overSizedLength) + "\n");
+        str.append( lead + "    OverSizedLength = " + QString::number(m_overSizedLength, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasOverSizedWidth() ) {
-        str.append( lead + "    OverSizedWidth = " + QString::number(m_overSizedWidth) + "\n");
+        str.append( lead + "    OverSizedWidth = " + QString::number(m_overSizedWidth, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasNextPort() ) {
@@ -777,11 +777,11 @@ QString VoyageData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasPersonsOnBoard() ) {
-        str.append( lead + "    PersonsOnBoard = " + QString::number(m_personsOnBoard) + "\n");
+        str.append( lead + "    PersonsOnBoard = " + QString::number(m_personsOnBoard, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasPilots() ) {
-        str.append( lead + "    Pilots = " + QString::number(m_pilots) + "\n");
+        str.append( lead + "    Pilots = " + QString::number(m_pilots, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasPrevPort() ) {
@@ -789,7 +789,7 @@ QString VoyageData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasRouteBound() ) {
-        str.append( lead + "    RouteBound = " + QString::number(m_routeBound) + "\n");
+        str.append( lead + "    RouteBound = " + QString(m_routeBound ? "true" : "false" ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasSourceId() ) {
@@ -803,7 +803,7 @@ QString VoyageData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasTugs() ) {
-        str.append( lead + "    Tugs = " + QString::number(m_tugs) + "\n");
+        str.append( lead + "    Tugs = " + QString(m_tugs ? "true" : "false" ) + "\n");
     }
     str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     // add all included data

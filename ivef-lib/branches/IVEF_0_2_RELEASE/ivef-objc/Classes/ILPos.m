@@ -253,41 +253,41 @@
     [str setString: [lead stringByAppendingString:@"Pos\n"]];
     if ( [self hasAltitude] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Altitude = \""];
+        [str appendString: @"Altitude = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_altitude]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasEstAccAlt] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"EstAccAlt = \""];
+        [str appendString: @"EstAccAlt = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_estAccAlt]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasEstAccLat] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"EstAccLat = \""];
+        [str appendString: @"EstAccLat = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_estAccLat]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasEstAccLong] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"EstAccLong = \""];
+        [str appendString: @"EstAccLong = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_estAccLong]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Lat=\""];
+    [str appendString: @"Lat = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_lat]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Long=\""];
+    [str appendString: @"Long = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_long]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

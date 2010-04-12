@@ -381,65 +381,65 @@
     [str setString: [lead stringByAppendingString:@"Construction\n"]];
     if ( [self hasHullColor] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"HullColor = \""];
+        [str appendString: @"HullColor = "];
         [str appendString: m_hullColor];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasHullType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"HullType = \""];
+        [str appendString: @"HullType = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_hullType]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasLength] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Length = \""];
+        [str appendString: @"Length = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_length]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasLloydsShipType] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"LloydsShipType = \""];
+        [str appendString: @"LloydsShipType = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_lloydsShipType]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasMaxKeelHeight] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MaxKeelHeight = \""];
+        [str appendString: @"MaxKeelHeight = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_maxKeelHeight]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasMaxDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MaxDraught = \""];
+        [str appendString: @"MaxDraught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_maxDraught]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasMaxPersonsOnBoard] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MaxPersonsOnBoard = \""];
+        [str appendString: @"MaxPersonsOnBoard = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_maxPersonsOnBoard]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasMaxSpeed] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MaxSpeed = \""];
+        [str appendString: @"MaxSpeed = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_maxSpeed]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasWidth] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Width = \""];
+        [str appendString: @"Width = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_width]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [m_unType stringValueWithLead: [lead stringByAppendingString: @"    "]] ];

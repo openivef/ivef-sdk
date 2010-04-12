@@ -159,19 +159,19 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Pong\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"ResponseOn=\""];
+    [str appendString: @"ResponseOn = "];
     [str appendString: m_responseOn];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceId=\""];
+    [str appendString: @"SourceId = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"TimeStamp=\""];
+    [str appendString: @"TimeStamp = "];
     [str appendString: [self stringFromDate: m_timeStamp]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

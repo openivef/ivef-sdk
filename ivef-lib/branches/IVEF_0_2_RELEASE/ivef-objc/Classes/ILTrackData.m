@@ -488,89 +488,89 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"TrackData\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"COG=\""];
+    [str appendString: @"COG = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_COG]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasEstAccSOG] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"EstAccSOG = \""];
+        [str appendString: @"EstAccSOG = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_estAccSOG]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasEstAccCOG] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"EstAccCOG = \""];
+        [str appendString: @"EstAccCOG = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_estAccCOG]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
+    [str appendString: @"Id = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasLength] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Length = \""];
+        [str appendString: @"Length = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_length]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasNavStatus] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"NavStatus = \""];
+        [str appendString: @"NavStatus = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_navStatus]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasHeading] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Heading = \""];
+        [str appendString: @"Heading = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_heading]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasROT] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ROT = \""];
+        [str appendString: @"ROT = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_ROT]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SOG=\""];
+    [str appendString: @"SOG = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_SOG]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasSourceId] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"SourceId = \""];
+        [str appendString: @"SourceId = "];
         [str appendString: m_sourceId];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceName=\""];
+    [str appendString: @"SourceName = "];
     [str appendString: m_sourceName];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"UpdateTime=\""];
+    [str appendString: @"UpdateTime = "];
     [str appendString: [self stringFromDate: m_updateTime]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"TrackStatus=\""];
+    [str appendString: @"TrackStatus = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_trackStatus]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasWidth] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Width = \""];
+        [str appendString: @"Width = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_width]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     for(int i=0; i < [m_poss count]; i++ ) {

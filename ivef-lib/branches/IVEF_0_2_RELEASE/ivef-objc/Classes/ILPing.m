@@ -121,9 +121,9 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"Ping\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"TimeStamp=\""];
+    [str appendString: @"TimeStamp = "];
     [str appendString: [self stringFromDate: m_timeStamp]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

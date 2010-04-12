@@ -169,19 +169,19 @@
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"UnType\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"CodeA=\""];
+    [str appendString: @"CodeA = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_codeA]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"CodeB=\""];
+    [str appendString: @"CodeB = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_codeB]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Mode=\""];
+    [str appendString: @"Mode = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_mode]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     return str;
 }

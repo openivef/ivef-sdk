@@ -100,7 +100,7 @@ QString Transmission::toString(QString lead) {
     str.append( lead + "    Type = " + QString::number(m_type) + "\n");
     // check for presence of optional attribute
     if ( hasPeriod() ) {
-        str.append( lead + "    Period = " + QString::number(m_period) + "\n");
+        str.append( lead + "    Period = " + QString::number(m_period, 'f') + "\n");
     }
     return str;
 }

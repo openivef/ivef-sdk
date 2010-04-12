@@ -282,7 +282,7 @@ QString VesselData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasBlackListed() ) {
-        str.append( lead + "    BlackListed = " + QString::number(m_blackListed) + "\n");
+        str.append( lead + "    BlackListed = " + QString(m_blackListed ? "true" : "false" ) + "\n");
     }
     str.append( lead + "    Id = " + QString::number(m_id) + "\n");
     // check for presence of optional attribute

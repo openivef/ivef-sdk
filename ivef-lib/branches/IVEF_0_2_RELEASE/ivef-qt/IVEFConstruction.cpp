@@ -366,7 +366,7 @@ QString Construction::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasLength() ) {
-        str.append( lead + "    Length = " + QString::number(m_length) + "\n");
+        str.append( lead + "    Length = " + QString::number(m_length, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasLloydsShipType() ) {
@@ -374,23 +374,23 @@ QString Construction::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasMaxKeelHeight() ) {
-        str.append( lead + "    MaxKeelHeight = " + QString::number(m_maxKeelHeight) + "\n");
+        str.append( lead + "    MaxKeelHeight = " + QString::number(m_maxKeelHeight, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasMaxDraught() ) {
-        str.append( lead + "    MaxDraught = " + QString::number(m_maxDraught) + "\n");
+        str.append( lead + "    MaxDraught = " + QString::number(m_maxDraught, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasMaxPersonsOnBoard() ) {
-        str.append( lead + "    MaxPersonsOnBoard = " + QString::number(m_maxPersonsOnBoard) + "\n");
+        str.append( lead + "    MaxPersonsOnBoard = " + QString::number(m_maxPersonsOnBoard, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasMaxSpeed() ) {
-        str.append( lead + "    MaxSpeed = " + QString::number(m_maxSpeed) + "\n");
+        str.append( lead + "    MaxSpeed = " + QString::number(m_maxSpeed, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasWidth() ) {
-        str.append( lead + "    Width = " + QString::number(m_width) + "\n");
+        str.append( lead + "    Width = " + QString::number(m_width, 'f') + "\n");
     }
     str.append( m_unType.toString(lead + "    ") );
     return str;

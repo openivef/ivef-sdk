@@ -747,149 +747,149 @@
     [str setString: [lead stringByAppendingString:@"VoyageData\n"]];
     if ( [self hasAirDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"AirDraught = \""];
+        [str appendString: @"AirDraught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_airDraught]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Id=\""];
+    [str appendString: @"Id = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasCargoTypeIMO] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"CargoTypeIMO = \""];
+        [str appendString: @"CargoTypeIMO = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_cargoTypeIMO]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasContactIdentity] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ContactIdentity = \""];
+        [str appendString: @"ContactIdentity = "];
         [str appendString: m_contactIdentity];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasDestCode] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"DestCode = \""];
+        [str appendString: @"DestCode = "];
         [str appendString: m_destCode];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasDestName] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"DestName = \""];
+        [str appendString: @"DestName = "];
         [str appendString: m_destName];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Draught = \""];
+        [str appendString: @"Draught = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_draught]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasETA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ETA = \""];
+        [str appendString: @"ETA = "];
         [str appendString: [self stringFromDate: m_ETA]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasISPSLevel] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ISPSLevel = \""];
+        [str appendString: @"ISPSLevel = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_ISPSLevel]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasOverSizedLength] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"OverSizedLength = \""];
+        [str appendString: @"OverSizedLength = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_overSizedLength]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasOverSizedWidth] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"OverSizedWidth = \""];
+        [str appendString: @"OverSizedWidth = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_overSizedWidth]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasNextPort] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"NextPort = \""];
+        [str appendString: @"NextPort = "];
         [str appendString: m_nextPort];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasPersonsOnBoard] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"PersonsOnBoard = \""];
+        [str appendString: @"PersonsOnBoard = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_personsOnBoard]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasPilots] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Pilots = \""];
+        [str appendString: @"Pilots = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_pilots]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasPrevPort] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"PrevPort = \""];
+        [str appendString: @"PrevPort = "];
         [str appendString: m_prevPort];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasRouteBound] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"RouteBound = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_routeBound]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"RouteBound = "];
+        [str appendString: (m_routeBound?@"true":@"false")];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasSourceId] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"SourceId = \""];
+        [str appendString: @"SourceId = "];
         [str appendString: m_sourceId];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceName=\""];
+    [str appendString: @"SourceName = "];
     [str appendString: m_sourceName];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"SourceType=\""];
+    [str appendString: @"SourceType = "];
     [str appendString: [NSString stringWithFormat:@"%d", m_sourceType]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     if ( [self hasTankerStatus] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"TankerStatus = \""];
+        [str appendString: @"TankerStatus = "];
         [str appendString: [NSString stringWithFormat:@"%d", m_tankerStatus]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasTugs] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Tugs = \""];
-        [str appendString: [NSString stringWithFormat:@"%f", m_tugs]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"Tugs = "];
+        [str appendString: (m_tugs?@"true":@"false")];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"UpdateTime=\""];
+    [str appendString: @"UpdateTime = "];
     [str appendString: [self stringFromDate: m_updateTime]];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     for(int i=0; i < [m_waypoints count]; i++ ) {
         ILWaypoint *attribute = [m_waypoints objectAtIndex:i];

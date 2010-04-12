@@ -133,7 +133,7 @@ QString ServerStatus::toString(QString lead) {
     if ( hasDetails() ) {
         str.append( lead + "    Details = " + m_details + "\n");
     }
-    str.append( lead + "    Status = " + QString::number(m_status) + "\n");
+    str.append( lead + "    Status = " + QString(m_status ? "true" : "false" ) + "\n");
     return str;
 }
 

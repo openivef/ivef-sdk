@@ -259,36 +259,36 @@
     [str setString: [lead stringByAppendingString:@"Waypoint\n"]];
     if ( [self hasATA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ATA = \""];
+        [str appendString: @"ATA = "];
         [str appendString: [self stringFromDate: m_ATA]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasETA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ETA = \""];
+        [str appendString: @"ETA = "];
         [str appendString: [self stringFromDate: m_ETA]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasRTA] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"RTA = \""];
+        [str appendString: @"RTA = "];
         [str appendString: [self stringFromDate: m_RTA]];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     if ( [self hasLoCode] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"LoCode = \""];
+        [str appendString: @"LoCode = "];
         [str appendString: m_loCode];
-        [str appendString: @"\"\n"];
+        [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Name=\""];
+    [str appendString: @"Name = "];
     [str appendString: m_name];
-    [str appendString: @"\"\n"];
+    [str appendString: @"\n"];
 
     [str appendString: [m_pos stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
     return str;
