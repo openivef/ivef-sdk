@@ -38,7 +38,7 @@ testqt::testqt( int & argc, char ** argv )
     // End Issue 24
 
     // and keep reading from standard in
-    std::cout << "TestQt ready for input" << std::endl;
+    std::cout << "TestApp ready for input" << std::endl;
     std::string input_line;
     while(!std::cin.fail()) {
         getline(std::cin, input_line);
@@ -46,7 +46,7 @@ testqt::testqt( int & argc, char ** argv )
         //std::cout << input_line << std::endl;
         m_parser.parseXMLString(QString(input_line.c_str()), true);
     };
-    std::cout << "TestQt shutting down" << std::endl;
+    std::cout << "TestApp shutting down" << std::endl;
     std::exit(0);
 }
 
