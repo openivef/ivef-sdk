@@ -702,13 +702,13 @@ void CodeGenObjC::go() {
                     classFileOut << "        [str appendString: [lead stringByAppendingString: @\" \"]];\n";
                     classFileOut << "        [str appendString: @\"" << attr->name() << " = \"];\n";
                     classFileOut << "        [str appendString: " << varName << "];\n";
-                    classFileOut << "        [str appendString: @\"\\\"\\n\"];\n\n";
+                    classFileOut << "        [str appendString: @\"\\n\"];\n\n";
                     classFileOut << "    }\n";
                 } else {
                     classFileOut << "    [str appendString: [lead stringByAppendingString: @\" \"]];\n";
                     classFileOut << "    [str appendString: @\"" << attr->name() << " = \"];\n";
                     classFileOut << "    [str appendString: " << varName << "];\n";
-                    classFileOut << "    [str appendString: @\"\\\"\\n\"];\n\n";
+                    classFileOut << "    [str appendString: @\"\\n\"];\n\n";
                 }
             }
         }
