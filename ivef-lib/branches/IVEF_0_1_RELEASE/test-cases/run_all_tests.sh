@@ -29,7 +29,7 @@ fi
 mkdir -p $TMPDIR
 rm -Rf $TMPDIR/*
 
-for INPUTFILE in `ls ${DATADIR}/*.xml.in ${DATADIR}/*.xml.$1.in` 
+for INPUTFILE in `ls ${DATADIR}/*.xml.in ${DATADIR}/*.xml-$1.in` 
 do
    STCASE=`echo $INPUTFILE | cut -d - -f 1`
    TESTNAME=`echo $INPUTFILE | cut -d . -f 1`

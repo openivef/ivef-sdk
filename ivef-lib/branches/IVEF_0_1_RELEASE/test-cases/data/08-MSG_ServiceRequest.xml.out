@@ -7,19 +7,19 @@ MSG_ServiceRequest
         ServiceRequest
             Area
                 Pos
-                    Lat = 3.14159
-                    Long = 3.14159
+                    Lat = 3.141593
+                    Long = 3.141593
             Area
                 Pos
-                    Lat = 3.14159
-                    Long = 3.14159
+                    Lat = 3.141593
+                    Long = 3.141593
             Area
                 Pos
-                    Lat = 3.14159
-                    Long = 3.14159
+                    Lat = 3.141593
+                    Long = 3.141593
             Transmission
                 Type = 1
-                Period = 3.14159
+                Period = 3.141593
             Item
                 Element = 1
                 Field = String
