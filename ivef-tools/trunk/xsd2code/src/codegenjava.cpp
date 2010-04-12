@@ -615,6 +615,16 @@ void CodeGenJava::go() {
 	classFileOut << "    private SAXParser m_parser; // init in constructor\n";
     classFileOut << "    private Pattern m_closeTagsPattern; \n";
 
+    // count the number of messages
+    QStringList closeTags, rootObjects;
+    for(int i=0; i < m_objects.size(); i++) {
+        XSDObject *obj = m_objects.at(i);
+        if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
+            rootObjects.append(obj->name());
+            closeTags.append("</" + obj->name() + ">");
+        }
+    }
+
     // build a regexp for the rootTags
     QString regExp;
     QString commonPrefix = longestCommonPrefix(rootObjects);
@@ -810,7 +820,7 @@ void CodeGenJava::go() {
     classFileOut << "     int indexStart = 0, indexEnd = -1;\n";
     classFileOut << "\n";
     classFileOut << "     // look for the pattern that defines a root element\n";
-    classFileOut << "     Matcher matcher = m_pattern.matcher( m_dataBuffer );\n";
+    classFileOut << "     Matcher matcher = m_closeTagsPattern.matcher( m_dataBuffer );\n";
     classFileOut << "\n";
     classFileOut << "     // parse the messages in the buffer one by one\n";
     classFileOut << "     while ( matcher.find() ) {\n";

@@ -36,6 +36,7 @@ public:
 
 protected:
 	bool knownType(QString type);
+	QString longestCommonPrefix(QStringList strings);
         QString sizeEvaluatorForType (QString type, QString varName);
 	QString localType(QString type);
 	QString fileBaseName(QString name);
