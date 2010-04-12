@@ -1,7 +1,5 @@
 DATADIR=data
 TMPDIR=tmp
-COMMAND='../build/Debug/testobjc'
-
 
 if [ "$1" == "qt" ]
 then
@@ -10,7 +8,11 @@ then
     COMMAND='../test-qt/bin/testqt'
 elif [ "$1" == "objc" ]
 then
-    COMMAND='../test-objc/build/Debug/testobjc'
+    COMMAND='../test-objc/build/Release/testobjc'
+    if [ ! -f $COMMAND ]
+    then
+        COMMAND='../test-objc/build/Debug/testobjc'
+    fi
 elif [ "$1" == "java" ]
 then
     COMMAND='java -classpath ../test-java/target/testjava.jar:../ivef-java/ivef/ivef.jar testjava/testjava'
@@ -51,7 +53,7 @@ do
           echo ---
           echo Difference: ${TMPDIR}/$OUTNAME data/$OUTNAME
           echo ---
-          diff ${TMPDIR}/$OUTNAME data/$OUTNAME
+          diff -b ${TMPDIR}/$OUTNAME data/$OUTNAME
           echo ---
           exit 1
       fi
