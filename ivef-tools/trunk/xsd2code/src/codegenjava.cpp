@@ -238,6 +238,7 @@ void CodeGenJava::go() {
         classFileOut << "package " << package << ";\n\n";
         
         classFileOut << "import java.util.*;\n";
+        classFileOut << "import java.text.DecimalFormat;\n";
         classFileOut << "import java.text.DateFormat;\n";
         classFileOut << "import java.text.SimpleDateFormat;\n\n";
         
@@ -385,7 +386,8 @@ void CodeGenJava::go() {
         classFileOut << "    public String toXML() {\n\n";
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
-		classFileOut << "\n";
+        classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
+	classFileOut << "\n";
         
         // for attributes
         bool hasDataMembers = false;
@@ -399,11 +401,13 @@ void CodeGenJava::go() {
                 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
-				    varName = "df.format(" + variableName(attr->name()) + ")"; 
-					// ".toString(\"yyyy-MM-dd'T'HH:mm:ss.SSS\")";
-                } else  if (type == "String") {
+		    varName = "df.format(" + variableName(attr->name()) + ")"; 
+                } else if (type == "String") {
                     varName = "encode( " + variableName(attr->name()) + ")";
-                } 
+                } else if (type == "double") { // issue 63
+		    varName = "nf.format(" + variableName(attr->name()) + ")"; 
+                }
+                     
                 // check if the attribute exist
                 if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
                     classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
@@ -453,6 +457,7 @@ void CodeGenJava::go() {
         classFileOut << "    public String toString(String lead) {\n\n";
         classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
+        classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
 		classFileOut << "\n";
         
         // for attributes
@@ -466,8 +471,9 @@ void CodeGenJava::go() {
                 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
-				    varName = "df.format(" + variableName(attr->name()) + ")"; 
-					// ".toString(\"yyyy-MM-dd'T'HH:mm:ss.SSS\")";
+		    varName = "df.format(" + variableName(attr->name()) + ")"; 
+                } else if (type == "double") { // issue 63
+		    varName = "nf.format(" + variableName(attr->name()) + ")"; 
                 } /*else  if (type != "String") {
                    varName = "String.number(" + variableName(attr->name()) + ")";
                    } */
@@ -713,9 +719,9 @@ void CodeGenJava::go() {
                     if (type == "String")
                         classFileOut << "                " << type << " val = value;\n";
                     else if (type == "boolean") {
-                        classFileOut << "                " << type << " val = (value.toUpperCase() == \"YES\" ||\n";
-                        classFileOut << "                               value.toUpperCase() == \"TRUE\" ||\n";
-                        classFileOut << "                               value.toUpperCase() == \"1\");\n";
+                        classFileOut << "                " << type << " val = (value.toUpperCase().equals(\"YES\") ||\n";
+                        classFileOut << "                               value.toUpperCase().equals(\"TRUE\") ||\n";
+                        classFileOut << "                               value.toUpperCase().equals(\"1\"));\n";
                     }
                     else if (type == "int")
                         classFileOut << "                " << type << " val = Integer.parseInt(value);\n";

@@ -677,6 +677,10 @@ void CodeGenQT::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "QDateTime") {
                     varName = dateToString(variableName(attr->name()) );
+                } else if (type == "bool" ) {
+                    varName = "QString(" + variableName(attr->name()) + " ? \"true\" : \"false\" )";
+                } else if (type == "float") { // issue 63
+                    varName = "QString::number(" + variableName(attr->name()) + ", 'f')";
                 } else if (type != "QString") {
                     varName = "QString::number(" + variableName(attr->name()) + ")";
                 }
