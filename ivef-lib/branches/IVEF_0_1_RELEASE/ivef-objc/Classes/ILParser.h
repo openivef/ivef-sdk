@@ -54,7 +54,7 @@
 //! \brief       Class definition of ILParser
 //!
 
-@interface ILParser : NSObject { 
+@interface ILParser : NSObject <NSXMLParserDelegate> { 
     NSMutableString *m_dataBuffer;
     NSMutableArray *m_objStack;
     NSMutableArray *m_closeTags;

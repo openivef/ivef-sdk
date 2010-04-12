@@ -2,6 +2,7 @@
 {
 	0867D690FE84028FC02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Release;
+		activeSDKPreference = macosx10.6;
 		activeTarget = 8DC2EF4F0486A6940098B216 /* IVEF */;
 		addToTargets = (
 			8DC2EF4F0486A6940098B216 /* IVEF */,
@@ -51,7 +52,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					128,
+					658,
 					20,
 					48,
 					43,
@@ -70,13 +71,13 @@
 			};
 			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
 				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
-				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnSortingKey = PBXTargetDataSource_PrimaryAttribute;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					518,
+					618,
 					60,
 					20,
-					48.16259765625,
+					48,
 					43,
 					43,
 				);
@@ -90,17 +91,18 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 279045883;
-			PBXWorkspaceStateSaveDate = 279045883;
+			PBXPerProjectTemplateStateSaveDate = 292706850;
+			PBXWorkspaceStateSaveDate = 292706850;
 		};
 		perUserProjectItems = {
-			52C64C2710A1E6CB0085A2A5 /* PBXTextBookmark */ = 52C64C2710A1E6CB0085A2A5 /* PBXTextBookmark */;
-			52C64C2810A1E6CB0085A2A5 /* PBXTextBookmark */ = 52C64C2810A1E6CB0085A2A5 /* PBXTextBookmark */;
-			52C64C2B10A1E6CB0085A2A5 /* PBXTextBookmark */ = 52C64C2B10A1E6CB0085A2A5 /* PBXTextBookmark */;
-			52C64C2C10A1E6CB0085A2A5 /* PBXTextBookmark */ = 52C64C2C10A1E6CB0085A2A5 /* PBXTextBookmark */;
-			52C64C2D10A1E6CB0085A2A5 /* PBXTextBookmark */ = 52C64C2D10A1E6CB0085A2A5 /* PBXTextBookmark */;
-			52C64C3810A1E7010085A2A5 /* PBXTextBookmark */ = 52C64C3810A1E7010085A2A5 /* PBXTextBookmark */;
-			52C64C3910A1E7100085A2A5 /* PBXTextBookmark */ = 52C64C3910A1E7100085A2A5 /* PBXTextBookmark */;
+			52247F40116F010000BCE4E8 /* PBXTextBookmark */ = 52247F40116F010000BCE4E8 /* PBXTextBookmark */;
+			52D9256411724FF300BAD334 /* PBXTextBookmark */ = 52D9256411724FF300BAD334 /* PBXTextBookmark */;
+			52D9256511724FF300BAD334 /* PBXTextBookmark */ = 52D9256511724FF300BAD334 /* PBXTextBookmark */;
+			52D925731172505300BAD334 /* PlistBookmark */ = 52D925731172505300BAD334 /* PlistBookmark */;
+			52D9266811725A4800BAD334 /* PBXTextBookmark */ = 52D9266811725A4800BAD334 /* PBXTextBookmark */;
+			52D9266911725A4800BAD334 /* PBXTextBookmark */ = 52D9266911725A4800BAD334 /* PBXTextBookmark */;
+			52D9266A11725A4800BAD334 /* PBXTextBookmark */ = 52D9266A11725A4800BAD334 /* PBXTextBookmark */;
+			52D9267011725A4800BAD334 /* PBXTextBookmark */ = 52D9267011725A4800BAD334 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 52D1F83A0E56035B00F50B92 /* Source Control */;
 		userBuildSettings = {
@@ -108,16 +110,27 @@
 	};
 	089C1667FE841158C02AAC07 /* English */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 170}}";
+			sepNavIntBoundsRect = "{{0, 0}, {366, 240}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 45}";
+			sepNavWindowFrame = "{{15, 4}, {750, 774}}";
 		};
+	};
+	52247F40116F010000BCE4E8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A9DF49104CFFB900440164 /* ILParser.m */;
+		name = "ILParser.m: 553";
+		rLen = 0;
+		rLoc = 22974;
+		rType = 0;
+		vrLen = 401;
+		vrLoc = 22775;
 	};
 	52A9DF27104CFFB900440164 /* ILVoyage.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1146, 6632}}";
-			sepNavSelRange = "{13170, 5}";
-			sepNavVisRange = "{11906, 1271}";
+			sepNavIntBoundsRect = "{{0, 0}, {957, 5915}}";
+			sepNavSelRange = "{9373, 25}";
+			sepNavVisRange = "{9370, 608}";
 		};
 	};
 	52A9DF28104CFFB900440164 /* ILVoyage.h */ = {
@@ -136,16 +149,16 @@
 	};
 	52A9DF49104CFFB900440164 /* ILParser.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1410, 8092}}";
-			sepNavSelRange = "{7704, 20}";
-			sepNavVisRange = "{7076, 1221}";
+			sepNavIntBoundsRect = "{{0, 0}, {1643, 7397}}";
+			sepNavSelRange = "{22974, 0}";
+			sepNavVisRange = "{22775, 401}";
 		};
 	};
 	52A9DF4A104CFFB900440164 /* ILParser.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {915, 1190}}";
-			sepNavSelRange = "{1715, 0}";
-			sepNavVisRange = "{1572, 1219}";
+			sepNavIntBoundsRect = "{{0, 0}, {593, 1339}}";
+			sepNavSelRange = "{1738, 19}";
+			sepNavVisRange = "{1655, 560}";
 		};
 	};
 	52A9DF4C104CFFB900440164 /* ILPosReport.m */ = {
@@ -162,6 +175,13 @@
 			sepNavVisRange = "{3459, 719}";
 		};
 	};
+	52A9DF53104CFFB900440164 /* ILLoginRequest.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {836, 1066}}";
+			sepNavSelRange = "{1071, 0}";
+			sepNavVisRange = "{756, 440}";
+		};
+	};
 	52A9DF5D104CFFB900440164 /* ILHeader.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1012, 2310}}";
@@ -169,112 +189,97 @@
 			sepNavVisRange = "{308, 1378}";
 		};
 	};
-	52C64C1A10A1E6040085A2A5 /* ILParser.m */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.objc;
-		name = ILParser.m;
-		path = "/Users/aqua/Documents/Code/Active/ivef-sdk/ivef-lib/trunk/ivef-objc/Classes/ILParser.m";
-		sourceTree = "<absolute>";
+	52A9DF60104CFFB900440164 /* ILArea.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1410, 8092}}";
-			sepNavSelRange = "{7704, 20}";
-			sepNavVisRange = "{7076, 1221}";
+			sepNavIntBoundsRect = "{{0, 0}, {836, 767}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 850}";
 		};
-	};
-	52C64C2710A1E6CB0085A2A5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 52A9DF4A104CFFB900440164 /* ILParser.h */;
-		name = "ILParser.h: 56";
-		rLen = 0;
-		rLoc = 1715;
-		rType = 0;
-		vrLen = 1219;
-		vrLoc = 1572;
-	};
-	52C64C2810A1E6CB0085A2A5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 52C64C2910A1E6CB0085A2A5 /* codegenobjc.cpp */;
-		name = "codegenobjc.cpp: 942";
-		rLen = 0;
-		rLoc = 44884;
-		rType = 0;
-		vrLen = 1899;
-		vrLoc = 44077;
-	};
-	52C64C2910A1E6CB0085A2A5 /* codegenobjc.cpp */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.cpp.cpp;
-		name = codegenobjc.cpp;
-		path = "/Users/aqua/Documents/Code/Active/ivef-sdk/ivef-tools/trunk/xsd2code/src/codegenobjc.cpp";
-		sourceTree = "<absolute>";
-	};
-	52C64C2B10A1E6CB0085A2A5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 52C64C1A10A1E6040085A2A5 /* ILParser.m */;
-		name = "ILParser.m: 150";
-		rLen = 4;
-		rLoc = 5491;
-		rType = 0;
-		vrLen = 1100;
-		vrLoc = 4871;
-	};
-	52C64C2C10A1E6CB0085A2A5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 52A9DF4A104CFFB900440164 /* ILParser.h */;
-		name = "ILParser.h: 56";
-		rLen = 0;
-		rLoc = 1715;
-		rType = 0;
-		vrLen = 1219;
-		vrLoc = 1572;
-	};
-	52C64C2D10A1E6CB0085A2A5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 52C64C2E10A1E6CB0085A2A5 /* codegenobjc.cpp */;
-		name = "codegenobjc.cpp: 942";
-		rLen = 0;
-		rLoc = 44884;
-		rType = 0;
-		vrLen = 1899;
-		vrLoc = 44077;
-	};
-	52C64C2E10A1E6CB0085A2A5 /* codegenobjc.cpp */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.cpp.cpp;
-		name = codegenobjc.cpp;
-		path = "/Users/aqua/Documents/Code/Active/ivef-sdk/ivef-tools/trunk/xsd2code/src/codegenobjc.cpp";
-		sourceTree = "<absolute>";
-	};
-	52C64C3810A1E7010085A2A5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 52C64C1A10A1E6040085A2A5 /* ILParser.m */;
-		name = "ILParser.m: 210";
-		rLen = 20;
-		rLoc = 7704;
-		rType = 0;
-		vrLen = 1221;
-		vrLoc = 7076;
-	};
-	52C64C3910A1E7100085A2A5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 52A9DF49104CFFB900440164 /* ILParser.m */;
-		name = "ILParser.m: 210";
-		rLen = 20;
-		rLoc = 7704;
-		rType = 0;
-		vrLen = 1221;
-		vrLoc = 7076;
 	};
 	52D1F83A0E56035B00F50B92 /* Source Control */ = {
 		isa = PBXSourceControlManager;
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = svn;
+			};
 		};
 	};
 	52D1F83B0E56035B00F50B92 /* Code sense */ = {
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
+	};
+	52D9256411724FF300BAD334 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A9DF4A104CFFB900440164 /* ILParser.h */;
+		name = "ILParser.h: 57";
+		rLen = 19;
+		rLoc = 1738;
+		rType = 0;
+		vrLen = 560;
+		vrLoc = 1655;
+	};
+	52D9256511724FF300BAD334 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 089C1667FE841158C02AAC07 /* English */;
+		name = "InfoPlist.strings: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 45;
+		vrLoc = 0;
+	};
+	52D925731172505300BAD334 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8DC2EF5A0486A6940098B216 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/aqua/Documents/Code/ivef-sdk/ivef-lib/branches/IVEF_0_1_RELEASE/ivef-objc/Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	52D9266811725A4800BAD334 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A9DF53104CFFB900440164 /* ILLoginRequest.h */;
+		name = "ILLoginRequest.h: 28";
+		rLen = 0;
+		rLoc = 1071;
+		rType = 0;
+		vrLen = 440;
+		vrLoc = 756;
+	};
+	52D9266911725A4800BAD334 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A9DF60104CFFB900440164 /* ILArea.h */;
+		name = "ILArea.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 850;
+		vrLoc = 0;
+	};
+	52D9266A11725A4800BAD334 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A9DF27104CFFB900440164 /* ILVoyage.m */;
+		name = "ILVoyage.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 384;
+		vrLoc = 0;
+	};
+	52D9267011725A4800BAD334 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A9DF27104CFFB900440164 /* ILVoyage.m */;
+		name = "ILVoyage.m: 365";
+		rLen = 25;
+		rLoc = 9373;
+		rType = 0;
+		vrLen = 608;
+		vrLoc = 9370;
 	};
 	8DC2EF4F0486A6940098B216 /* IVEF */ = {
 		activeExec = 0;
