@@ -54,7 +54,7 @@ public class testjava {
             Handler dumpToScreen = new Handler();
             ivef.Parser parser = new ivef.Parser(dumpToScreen);
 
-            System.out.println("TestJava ready for input");
+            System.out.println("TestApp ready for input");
 
             //Read File Line By Line
             while ((strLine = br.readLine()) != null)   {
@@ -69,6 +69,6 @@ public class testjava {
         } catch (Exception e) {//Catch exception if any
             System.out.println ("testjava.main Error: " + e.getMessage());
         }
-        System.out.println("TestJava shutting down");
+        System.out.println("TestApp shutting down");
     }
 }
