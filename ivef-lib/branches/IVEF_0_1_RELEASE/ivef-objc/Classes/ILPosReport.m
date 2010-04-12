@@ -712,7 +712,7 @@
     if ( [self hasATONOffPos] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ATONOffPos = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_ATONOffPos]];
+        [str appendString: (m_ATONOffPos?@"true":@"false")];
         [str appendString: @"\n"];
 
     }
