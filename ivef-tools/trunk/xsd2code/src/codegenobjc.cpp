@@ -691,6 +691,8 @@ void CodeGenObjC::go() {
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == localType("xs:dateTime")) {
                     varName = "[self stringFromDate: " + variableName(attr->name()) + "]";
+                } else if (type == localType("xs:boolean")) {  // issue 64
+                    varName = "(" + variableName(attr->name()) + "?@\"true\":@\"false\")";
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type != localType("xs:string")) {
