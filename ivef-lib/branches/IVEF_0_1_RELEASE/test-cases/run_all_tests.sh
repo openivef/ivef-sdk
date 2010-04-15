@@ -44,6 +44,7 @@ do
    if [ ! -f data/$OUTNAME ]
    then
       echo ERROR i have no reference for test: data/$OUTNAME
+      exit 1
    else
       if [ "`diff -b data/$OUTNAME ${TMPDIR}/$OUTNAME`" == "" ] 
       then 
