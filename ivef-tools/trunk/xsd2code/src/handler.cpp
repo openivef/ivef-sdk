@@ -64,6 +64,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
     for (int i=0; i < atts.length(); i++) {
         QString key = atts.localName(i);
         QString value = atts.value(i);
+        //std::cout << QString("Attr key %1 val %2").arg(key, value).toLatin1().data() << std::endl;
         if (key == "name") {
             // new object (but name could occur multiple times)
             XSDObject *existingObj = NULL;
@@ -116,6 +117,11 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
     }
     if (hasMin) {
         attr->setMinOccurs(min.toInt());
+    }
+    if ((min == "0") &&  // default is 1
+        ((!hasMax || max == "1"))) { // default max is 1  
+        attr->setRequired(false);   // means the attribute is optional
+        std::cout << QString("detected optional attribute due to minOccurs").toLatin1().data() << std::endl;
     }
     if (parent != NULL) {
         parent->addAttribute(attr);
