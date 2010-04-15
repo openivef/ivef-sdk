@@ -155,7 +155,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
     } else if (qName == "xs:attribute") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         QString name = "unknown", type = "unknown", fixed = "";
-        bool required = true;
+        bool required = false;
         for (int i=0; i < atts.length(); i++) {
             QString key = atts.localName(i);
             QString value = atts.value(i);
@@ -167,7 +167,9 @@ bool Handler::startElement (const QString & /* namespaceURI */,
             } else if (key == "fixed") {
                 fixed = value;
             } else if (key == "use") {
-                if (value == "optional") {
+                if (value == "required") {
+                    required = true;
+                } else if (value == "prohibited") {
                     required = false;
                 }
             } else {
