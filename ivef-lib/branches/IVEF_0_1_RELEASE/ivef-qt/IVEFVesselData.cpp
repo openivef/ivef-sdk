@@ -4,11 +4,14 @@
 // Constructor
 VesselData::VesselData() {
 
+    // optional attributes are by default not present
+    m_posReportPresent = false;
 }
 
 // copy constructor
 VesselData::VesselData(const VesselData &val) : QObject() {
 
+    m_posReportPresent = val.m_posReportPresent;
     m_posReport = val.m_posReport;
     m_staticDatas = val.m_staticDatas;
     m_voyages = val.m_voyages;
@@ -18,6 +21,7 @@ VesselData::VesselData(const VesselData &val) : QObject() {
 // assignement
 VesselData & VesselData::operator=(const VesselData &val) {
 
+    m_posReportPresent = val.m_posReportPresent;
     m_posReport = val.m_posReport;
     m_staticDatas = val.m_staticDatas;
     m_voyages = val.m_voyages;
@@ -39,6 +43,7 @@ QString VesselData::encode( QString str) {
 // setter for VesselData
 void VesselData::setPosReport(PosReport val) {
 
+    m_posReportPresent = true;
     m_posReport = val;
 }
 
@@ -46,6 +51,12 @@ void VesselData::setPosReport(PosReport val) {
 PosReport VesselData::getPosReport() const {
 
     return m_posReport;
+}
+
+// check if optional element VesselData has been set
+bool VesselData::hasPosReport() const {
+
+    return m_posReportPresent;
 }
 
 // setter for VesselData
@@ -107,7 +118,10 @@ QString VesselData::toXML() {
 
     QString xml = "<VesselData";
     xml.append(">\n");
-    xml.append( m_posReport.toXML() );
+    // add optional data if available
+    if ( hasPosReport() ) {
+        xml.append( m_posReport.toXML() );
+    }
     // add all included data
     for(int i=0; i < m_staticDatas.count(); i++ ) {
         StaticData attribute = m_staticDatas.at(i);
@@ -137,7 +151,10 @@ QString VesselData::toString() {
 QString VesselData::toString(QString lead) {
 
     QString str = lead + "VesselData\n";
-    str.append( m_posReport.toString(lead + "    ") );
+    // add all optional data if present
+    if ( hasPosReport() ) {
+        str.append( m_posReport.toString(lead + "    ") );
+    }
     // add all included data
     for(int i=0; i < m_staticDatas.count(); i++ ) {
        StaticData attribute = m_staticDatas.at(i);
