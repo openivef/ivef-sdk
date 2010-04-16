@@ -360,7 +360,7 @@ void CodeGenQT::go() {
         headerFileOut << "    //!              generates XML of this object including attributes and child elements\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
-        headerFileOut << "    QString toXML();\n\n";
+        headerFileOut << "    QString toXML() const;\n\n";
 
         headerFileOut << "    //!              generates output of this object including attributes and child elements\n";
         headerFileOut << "    //!\n";
@@ -375,7 +375,7 @@ void CodeGenQT::go() {
         headerFileOut << "    //!              encodes a string returning the encoded string\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
-        headerFileOut << "    QString encode(QString str);\n\n"; // issue 19
+        headerFileOut << "    QString encode(QString str) const;\n\n"; // issue 19
 
         // private section
         headerFileOut << "\nprivate:\n";
@@ -487,7 +487,7 @@ void CodeGenQT::go() {
 
         // string encoder, issue 19
         classFileOut << "// String encoder\n";
-        classFileOut << "QString " << className(name) << "::encode( QString str) {\n";
+        classFileOut << "QString " << className(name) << "::encode( QString str) const {\n";
         classFileOut << "\n";
         classFileOut << "    // replace characters that are illigal in XML with their encodings\n";
         classFileOut << "    str.replace('&', \"&amp;\");\n";
@@ -583,7 +583,7 @@ void CodeGenQT::go() {
         // xml generator
         // if attribute name and type are the same it means it was data
         classFileOut << "// Get XML Representation\n";
-        classFileOut << "QString " << className(name) << "::toXML() {\n\n";
+        classFileOut << "QString " << className(name) << "::toXML() const {\n\n";
         classFileOut << "    QString xml = \"<" << name << "\";\n"; // append attributes
 
         // for attributes
