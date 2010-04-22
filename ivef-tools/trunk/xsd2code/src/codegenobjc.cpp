@@ -321,7 +321,7 @@ void CodeGenObjC::go() {
         }
         headerFileOut << "//!Set attributes by providing a key/value dictionary\n";
         headerFileOut << "//!\n";
-        headerFileOut << "\n-(void) setAttributes:(NSDictionary *)attributeDict;\n";
+        headerFileOut << "\n-(bool) setAttributes:(NSDictionary *)attributeDict;\n";
         headerFileOut << "//!Get attributes as a key/value dictionary\n";
         headerFileOut << "//!\n";
         headerFileOut << "-(NSDictionary *) attributes;\n"; // issue 32
@@ -516,7 +516,7 @@ void CodeGenObjC::go() {
         }
 
         // set attributes from a dict
-        classFileOut << "-(void) setAttributes:(NSDictionary *)attributeDict {\n\n";
+        classFileOut << "-(bool) setAttributes:(NSDictionary *)attributeDict {\n\n";
 
         // check if there are attributes in this class or just data
         int attrCount = 0;
@@ -570,9 +570,9 @@ void CodeGenObjC::go() {
 		    }
 
                     if (attr->unbounded() ) {
-                       classFileOut << "                [self add" << methodName(attrName) << ": val];\n";
+                       classFileOut << "                if (![self add" << methodName(attrName) << ": val]) {\n                   return false;\n                }\n";
  		    } else if (!attr->isFixed()){ 
-                       classFileOut << "                [self " << setMethodName(attrName) << ": val];\n";
+                       classFileOut << "                if (![self " << setMethodName(attrName) << ": val]) {\n                   return false;\n                }\n";
 		    } else {
                        // what to do, we get a fixed attribute which may be different from our own!
                        classFileOut << "                [" << variableName(attrName) << " release]; \n";
@@ -863,6 +863,7 @@ void CodeGenObjC::go() {
         }
     }
     headerFileOut << "//    @\"" << "ILParserError\" with @\"Error\" = NSError \n";
+    headerFileOut << "//    @\"" << "ILValidationError\" with @\"Error\" = NString \n";
 
     // close the header
     headerFileOut << "\n@end\n\n";
@@ -932,7 +933,9 @@ void CodeGenObjC::go() {
         classFileOut << " ([elementName isEqualToString: @\"" << obj->name() << "\"]) {\n";
         // create a temp object
         classFileOut << "        " << className(obj->name()) << " *obj = [[" << className(obj->name()) << " alloc] init];\n";
-        classFileOut << "        [obj setAttributes: attributeDict];\n";
+        classFileOut << "        if (! [obj setAttributes: attributeDict] ) {\n";
+        classFileOut << "            [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: elementName];\n";
+        classFileOut << "        };\n";
         // store in local object (or stack) and signal on end tag
         // this way we can set obj in objects
         classFileOut << "        [m_objStack addObject: obj ];\n";
@@ -984,9 +987,13 @@ void CodeGenObjC::go() {
                 if (className(objType) == className(obj->name()) /*&& parent->isRootObject()*/) { // this object has an attribute of that type
                     classFileOut << "        if ( [[m_objStack lastObject] isKindOfClass: [" << className(parent->name()) << " class]]) {\n";
                     if (attr->unbounded() ) {
-                        classFileOut << "                [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) add" << methodName(obj->name()) << ": obj ];\n";
+                        classFileOut << "                if (! [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) add" << methodName(obj->name()) << ": obj ] ) {\n";
+                        classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: elementName];\n";
+                        classFileOut << "                };\n";
                     } else {
-                        classFileOut << "                [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) set" << methodName(obj->name()) << ": obj ];\n";
+                        classFileOut << "                if (! [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) " << setMethodName(obj->name()) << ": obj ] ) {\n";
+                        classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: elementName];\n";
+                        classFileOut << "                };\n";
                     }
                     classFileOut << "        }\n"; // close if
                 }
