@@ -998,11 +998,11 @@ void CodeGenQT::go() {
                     classFileOut << "        if ( m_typeStack.top() == \"" << parent->name() << "\") {\n";
                     if (attr->unbounded() ) {
                         classFileOut << "                if (! (("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj ) ) {\n";
-                        classFileOut << "                    emit signalValidationError( \"Error for \" + key + \" = \" + value );\n";
+                        classFileOut << "                    emit signalValidationError( \"Error for \" + qName);\n";
                         classFileOut << "                }\n";
                     } else {
                         classFileOut << "                if (! (("<< parent->name() << "*) ( m_objStack.top() ) )->set" << className(obj->name()) << "( *obj ) ) {\n";
-                        classFileOut << "                    emit signalValidationError( \"Error for \" + key + \" = \" + value );\n";
+                        classFileOut << "                    emit signalValidationError( \"Error for \" + qName );\n";
                         classFileOut << "                }\n";
                     }
                     classFileOut << "        }\n"; // close if
