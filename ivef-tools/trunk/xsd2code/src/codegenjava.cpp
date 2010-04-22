@@ -596,10 +596,11 @@ void CodeGenJava::go() {
     classFileOut << writeHeader( className(name) );
     
     classFileOut << "package " << package << ";\n\n";
-    
-	classFileOut << "import " << package << "." << fileBaseName("ParserListener") << ";\n";
+
+    classFileOut << "import " << package << "." << fileBaseName("ParserListener") << ";\n";
     classFileOut << "import java.util.*;\n";
     classFileOut << "import java.util.regex.*;\n";
+    classFileOut << "import java.lang.Exception;\n";
     classFileOut << "import java.text.DateFormat;\n";
     classFileOut << "import java.io.*;\n";
     classFileOut << "import java.text.SimpleDateFormat;\n";
@@ -663,7 +664,7 @@ void CodeGenJava::go() {
     classFileOut << "\n    public void startElement(String namespaceUri,\n"; // the parser routine
     classFileOut << "                             String localName,\n";
     classFileOut << "                             String qName,\n";
-    classFileOut << "                             Attributes atts) {\n\n";
+    classFileOut << "                             Attributes atts) throws Exception {\n\n";
     
     // run through all objects
     bool first = true;
@@ -749,7 +750,9 @@ void CodeGenJava::go() {
                     else if (type == "double")
                         classFileOut << "                " << type << " val = Double.parseDouble(value);\n";
                     
-                    classFileOut << "                obj.set" << methodName(attrName) << "(val);\n";
+                    classFileOut << "                if (! obj.set" << methodName(attrName) << "(val) ) {\n";
+                    classFileOut << "                   throw new Exception(\"Validation Exception: \" + key + \" = \" + value );\n";
+                    classFileOut << "                }\n";
                     classFileOut << "            }\n";
                 }
             }
@@ -769,7 +772,7 @@ void CodeGenJava::go() {
     // the endTag routine
     classFileOut << "    public void endElement(String namespaceUri,\n"; // the parser routine
     classFileOut << "                           String localName,\n";
-    classFileOut << "                           String qName) {\n\n";
+    classFileOut << "                           String qName) throws Exception {\n\n";
     
     // run through all objects
     first = true;
@@ -803,9 +806,13 @@ void CodeGenJava::go() {
                 if (objType == className(obj->name())) { // this object has an attribute of that type
                     classFileOut << "        if ( m_objStack.peek().getClass() == new " << parent->name() << "().getClass() ) {\n";
                     if (attr->unbounded() ) {
-                        classFileOut << "                (("<< parent->name() << ") ( m_objStack.peek() ) ).add" << className(obj->name()) << "( obj );\n";
+                        classFileOut << "                if (! (("<< parent->name() << ") ( m_objStack.peek() ) ).add" << className(obj->name()) << "( obj ) ) {\n";
+                        classFileOut << "                   throw new Exception(\"Validation Exception: \" + qName);\n";
+                        classFileOut << "                }\n";
                     } else {
-                        classFileOut << "                (("<< parent->name() << ") ( m_objStack.peek() ) ).set" << className(obj->name()) << "( obj );\n";
+                        classFileOut << "                if (! (("<< parent->name() << ") ( m_objStack.peek() ) ).set" << className(obj->name()) << "( obj ) ) {\n";
+                        classFileOut << "                   throw new Exception(\"Validation Exception: \" + qName);\n";
+                        classFileOut << "                }\n";
                     }
                     classFileOut << "        }\n"; // close if
                 }
