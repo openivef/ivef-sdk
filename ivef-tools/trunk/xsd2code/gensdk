@@ -40,7 +40,7 @@ function genIVEF_0_1 {
 }
 
 function genIVEF_0_2 {
-	XSDFILE=../../../ivef-def/branches/IVEF_1_0_0_DEV/IVEF-WG/ivef0_2.xsd
+	XSDFILE=../../../ivef-def/branches/IVEF_1_0_0_DEV/specs/ivef0_2.xsd
 	TARGET=../../../ivef-lib/branches/IVEF_0_2_RELEASE
 	genObjC
 	genQt

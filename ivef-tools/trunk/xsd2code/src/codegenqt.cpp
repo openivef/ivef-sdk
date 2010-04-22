@@ -304,7 +304,7 @@ void CodeGenQT::go() {
                 // setter
                 headerFileOut << "    //!              adds a " << methodName(attr->name()) << ".\n";
                 headerFileOut << "    //!\n";
-                headerFileOut << "    void add" << methodName(attr->name()) << "(" << type << " val);\n\n";
+                headerFileOut << "    bool add" << methodName(attr->name()) << "(" << type << " val);\n\n";
                 // getter
                 headerFileOut << "    //!              gets the i-th " << methodName(attr->name()) << ".\n";
                 headerFileOut << "    //!\n";
@@ -322,7 +322,7 @@ void CodeGenQT::go() {
 		else
 		    headerFileOut << "    //!              sets the " << methodName(attr->name()) << "\n";
 		headerFileOut << "    //!\n";
-		headerFileOut << "    void set" << methodName(attr->name()) << "(" << type << " val);\n\n";
+		headerFileOut << "    bool set" << methodName(attr->name()) << "(" << type << " val);\n\n";
 
                 // getter
                 if (doc != "")
@@ -506,8 +506,10 @@ void CodeGenQT::go() {
             if (attr->unbounded()) { // there more then one
                 // setter
                 classFileOut << "// setter for " << className(name) << "\n";
-                classFileOut << "void " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n";
-                classFileOut << "\n    " << variableName(attr->name()) << "s.append(val);\n}\n\n";
+                classFileOut << "bool " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n";
+                classFileOut << "\n    " << variableName(attr->name()) << "s.append(val);\n";
+		classFileOut << "      return true;\n";
+		classFileOut << "}\n\n";
                 // getter
                 classFileOut << "// getter for " << className(name) << "\n";
                 classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "At(int i) const {\n";
@@ -519,7 +521,7 @@ void CodeGenQT::go() {
             } else {
 		// setter
                 classFileOut << "// setter for " << className(name) << "\n";
-		classFileOut << "void " << className(name) << "::set" << methodName(attr->name()) << "(" << type << " val) {\n";
+		classFileOut << "bool " << className(name) << "::set" << methodName(attr->name()) << "(" << type << " val) {\n";
 		QVector<QString> enums = attr->enumeration();
 		if (enums.size() > 0) { // there are enumeration constraints for this item
 
@@ -534,26 +536,28 @@ void CodeGenQT::go() {
 		    for (int h=1; h < enums.size(); h++) {
 			classFileOut << "&&\n         ( val != " << quote << enums.at(h) << quote << " ) ";
 		    }
-		    classFileOut <<    ")\n        return;";
+		    classFileOut <<    ")\n        return false;";
 		}
 		if (attr->hasMin() && knownType(attr->type())) {
 
 		     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
                      classFileOut << "    // check if the new value is within bounds \n";
-		     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return;";
+		     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return false;";
 		}
 		if (attr->hasMax() && knownType(attr->type())) {
 
 		     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
                      classFileOut << "    // check if the new value is within bounds \n";
-		     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return;";
+		     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return false;";
 		}
 		if (!attr->required() || obj->isMerged()) {
 		     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
 		}
-		classFileOut << "\n    " << variableName(attr->name()) << " = val;\n}\n\n";
+		classFileOut << "\n    " << variableName(attr->name()) << " = val;\n";
+		classFileOut << "      return true;\n";
+		classFileOut << "}\n\n";
 
                 // getter
                 classFileOut << "// getter for " << className(name) << "\n";

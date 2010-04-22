@@ -279,7 +279,7 @@ void CodeGenObjC::go() {
                 // setter
                 headerFileOut << "//!Setter for " << methodName(attr->name()) << "\n";
                 headerFileOut << "//!\n";
-                headerFileOut << "-(void) add" << methodName(attr->name()) << ":(" << type << ") val;\n";
+                headerFileOut << "-(bool) add" << methodName(attr->name()) << ":(" << type << ") val;\n";
                 // getter
                 headerFileOut << "//!Getter for " << methodName(attr->name()) << "\n";
                 headerFileOut << "//!\n";
@@ -297,7 +297,7 @@ void CodeGenObjC::go() {
                 if (!attr->isFixed()) { // fixed attributes cannot be set
                    headerFileOut << "//!Setter for " << methodName(attr->name()) << "\n";
                    headerFileOut << "//!\n";
-                   headerFileOut << "-(void) " << setMethodName(attr->name()) << ":(" << type << ") val;\n";
+                   headerFileOut << "-(bool) " << setMethodName(attr->name()) << ":(" << type << ") val;\n";
                 }
                 // getter
                 headerFileOut << "//!Getter for " << methodName(attr->name()) << "\n";
@@ -436,8 +436,10 @@ void CodeGenObjC::go() {
             QString type = localType(attr->type()); // convert to cpp types
             if (attr->unbounded()) { // there more then one
                 // setter
-                classFileOut << "-(void) add" << methodName(attr->name()) << ":(" << type << ") val {\n";
-                classFileOut << "\n    [" << variableName(attr->name()) << "s addObject: val];\n}\n\n";
+                classFileOut << "-(bool) add" << methodName(attr->name()) << ":(" << type << ") val {\n";
+                classFileOut << "\n    [" << variableName(attr->name()) << "s addObject: val];\n";
+		classFileOut << "      return YES;\n";
+		classFileOut << "}\n\n";
                 // getter
                 classFileOut << "-(" << type << ") " << getMethodName(attr->name()) << "At:(int) i {\n";
                 classFileOut << "\n    return [" << variableName(attr->name()) << "s objectAtIndex: i];\n}\n\n";
@@ -450,7 +452,7 @@ void CodeGenObjC::go() {
             } else {
                 // setter
                 if (!attr->isFixed()) { // fixed attributes cannot be set
-			classFileOut << "-(void) " << setMethodName(attr->name()) << ":(" << type << ") val {\n";
+			classFileOut << "-(bool) " << setMethodName(attr->name()) << ":(" << type << ") val {\n";
 			QVector<QString> enums = attr->enumeration();
 			if (enums.size() > 0) { // there are enumeration constraints for this item
 
@@ -467,15 +469,15 @@ void CodeGenObjC::go() {
 				    classFileOut << "&&\n         ( ![val isEqualToString: @\"" << enums.at(h) << "\"] ) ";
 				}
 			    }
-			    classFileOut <<    ")\n        return;";
+			    classFileOut <<    ")\n        return NO;";
 			}
 			if (attr->hasMin() && knownType(attr->type()) ) {
 			     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-			     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return;";
+			     classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return NO;";
 			}
 			if (attr->hasMax() && knownType(attr->type()) ) {
 			     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-			     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return;";
+			     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return NO;";
 			}
 			if (!attr->required() || obj->isMerged()) {
 			     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
@@ -488,6 +490,7 @@ void CodeGenObjC::go() {
 			if (type.right(1) == "*") {
 			    classFileOut << "    [" << variableName(attr->name()) << " retain];\n";
 			}
+		        classFileOut << "      return YES;\n";
 			classFileOut << "}\n\n";
 		}
 

@@ -318,8 +318,10 @@ void CodeGenJava::go() {
             QString type = localType(attr->type()); // convert to java types
             if (attr->unbounded()) { // there more then one
                 // setter
-                classFileOut << "    public void " << "add" << methodName(attr->name()) << "(" << type << " val) {\n";
-                classFileOut << "\n        " << variableName(attr->name()) << "s.add(val);\n    }\n\n";
+                classFileOut << "    public boolean " << "add" << methodName(attr->name()) << "(" << type << " val) {\n";
+                classFileOut << "\n        " << variableName(attr->name()) << "s.add(val);\n";
+		classFileOut << "          return true;\n";
+		classFileOut << "    }\n\n";
                 // getter
                 classFileOut << "    public " << type << " " << "get" << methodName(attr->name()) << "At(int i) {\n";
                 classFileOut << "\n        return ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n    }\n\n";
@@ -328,7 +330,7 @@ void CodeGenJava::go() {
                 classFileOut << "\n        return " << variableName(attr->name()) << "s.size();\n    }\n\n";
             } else {
                 // setter
-                classFileOut << "    public void set" << methodName(attr->name()) << "(" << type << " val) {\n";
+                classFileOut << "    public boolean set" << methodName(attr->name()) << "(" << type << " val) {\n";
                 QVector<QString> enums = attr->enumeration();
                 if (enums.size() > 0) { // there are enumeration constraints for this item
                     
@@ -346,20 +348,22 @@ void CodeGenJava::go() {
                             classFileOut << "&&\n             ( val != " << enums.at(h) << " ) ";
                         }
                     }
-                    classFileOut <<    ")\n            return;";
+                    classFileOut <<    ")\n            return false;";
                 }
                 if (attr->hasMin() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-                    classFileOut << "\n        if (" << evaluator << " < " << attr->min() << ")\n          return;";
+                    classFileOut << "\n        if (" << evaluator << " < " << attr->min() << ")\n          return false;";
                 }
                 if (attr->hasMax() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-                    classFileOut << "\n        if (" << evaluator << " > " << attr->max() << ")\n          return;";
+                    classFileOut << "\n        if (" << evaluator << " > " << attr->max() << ")\n          return false;";
                 }
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "\n        " << variableName(attr->name()) << "Present = true;";
                 }
-                classFileOut << "\n        " << variableName(attr->name()) << " = val;\n    }\n\n";
+                classFileOut << "\n        " << variableName(attr->name()) << " = val;\n";
+		classFileOut << "          return true;\n";
+		classFileOut << "    }\n\n";
                 // getter
                 classFileOut << "    public " << type << " get" << methodName(attr->name()) << "() {\n";
                 classFileOut << "\n        return " << variableName(attr->name()) << ";\n    }\n\n";
