@@ -811,6 +811,8 @@ void CodeGenQT::go() {
     headerFileOut << "    //!\n";
     headerFileOut << "    void signalError(QString errorStr);\n";
     headerFileOut << "    void signalWarning(QString errorStr);\n";
+    // issue 69
+    headerFileOut << "    void signalValidationError(QString errorStr);\n";
 
     // protected section (Issue 24)
     headerFileOut << "protected:\n";
@@ -934,7 +936,9 @@ void CodeGenQT::go() {
                         classFileOut << "                " << type << " val = value;\n";
 		    }
 
-                    classFileOut << "                obj->set" << methodName(attrName) << "(val);\n";
+                    classFileOut << "                if (! (obj->set" << methodName(attrName) << "(val) )) {\n";
+                    classFileOut << "                    emit signalValidationError( \"Error for \" + key + \" = \" + value );\n";
+                    classFileOut << "                }\n";
                     classFileOut << "            }\n";
                 }
             }
@@ -993,9 +997,13 @@ void CodeGenQT::go() {
                     classFileOut << "        // check if there is a parent on the stack that needs this object as a child\n";
                     classFileOut << "        if ( m_typeStack.top() == \"" << parent->name() << "\") {\n";
                     if (attr->unbounded() ) {
-                        classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj );\n";
+                        classFileOut << "                if (! (("<< parent->name() << "*) ( m_objStack.top() ) )->add" << className(obj->name()) << "( *obj ) ) {\n";
+                        classFileOut << "                    emit signalValidationError( \"Error for \" + key + \" = \" + value );\n";
+                        classFileOut << "                }\n";
                     } else {
-                        classFileOut << "                (("<< parent->name() << "*) ( m_objStack.top() ) )->set" << className(obj->name()) << "( *obj );\n";
+                        classFileOut << "                if (! (("<< parent->name() << "*) ( m_objStack.top() ) )->set" << className(obj->name()) << "( *obj ) ) {\n";
+                        classFileOut << "                    emit signalValidationError( \"Error for \" + key + \" = \" + value );\n";
+                        classFileOut << "                }\n";
                     }
                     classFileOut << "        }\n"; // close if
                 }
