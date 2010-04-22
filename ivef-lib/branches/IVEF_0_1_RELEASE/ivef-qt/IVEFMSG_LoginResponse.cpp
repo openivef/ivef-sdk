@@ -22,7 +22,7 @@ MSG_LoginResponse & MSG_LoginResponse::operator=(const MSG_LoginResponse &val) {
 }
 
 // String encoder
-QString MSG_LoginResponse::encode( QString str) {
+QString MSG_LoginResponse::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString MSG_LoginResponse::encode( QString str) {
 }
 
 // setter for MSG_LoginResponse
-void MSG_LoginResponse::setHeader(Header val) {
+bool MSG_LoginResponse::setHeader(Header val) {
 
     m_header = val;
+      return true;
 }
 
 // getter for MSG_LoginResponse
@@ -45,9 +46,10 @@ Header MSG_LoginResponse::getHeader() const {
 }
 
 // setter for MSG_LoginResponse
-void MSG_LoginResponse::setBody(Body val) {
+bool MSG_LoginResponse::setBody(Body val) {
 
     m_body = val;
+      return true;
 }
 
 // getter for MSG_LoginResponse
@@ -57,7 +59,7 @@ Body MSG_LoginResponse::getBody() const {
 }
 
 // Get XML Representation
-QString MSG_LoginResponse::toXML() {
+QString MSG_LoginResponse::toXML() const {
 
     QString xml = "<MSG_LoginResponse";
     xml.append(">\n");

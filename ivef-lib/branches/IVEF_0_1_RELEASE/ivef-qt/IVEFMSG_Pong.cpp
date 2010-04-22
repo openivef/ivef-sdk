@@ -22,7 +22,7 @@ MSG_Pong & MSG_Pong::operator=(const MSG_Pong &val) {
 }
 
 // String encoder
-QString MSG_Pong::encode( QString str) {
+QString MSG_Pong::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString MSG_Pong::encode( QString str) {
 }
 
 // setter for MSG_Pong
-void MSG_Pong::setHeader(Header val) {
+bool MSG_Pong::setHeader(Header val) {
 
     m_header = val;
+      return true;
 }
 
 // getter for MSG_Pong
@@ -45,9 +46,10 @@ Header MSG_Pong::getHeader() const {
 }
 
 // setter for MSG_Pong
-void MSG_Pong::setBody(Body val) {
+bool MSG_Pong::setBody(Body val) {
 
     m_body = val;
+      return true;
 }
 
 // getter for MSG_Pong
@@ -57,7 +59,7 @@ Body MSG_Pong::getBody() const {
 }
 
 // Get XML Representation
-QString MSG_Pong::toXML() {
+QString MSG_Pong::toXML() const {
 
     QString xml = "<MSG_Pong";
     xml.append(">\n");

@@ -67,11 +67,12 @@
      return nil; // invalid date
 }
 
--(void) setHeader:(ILHeader *) val {
+-(bool) setHeader:(ILHeader *) val {
 
     [m_header release];
     m_header = val;
     [m_header retain];
+      return YES;
 }
 
 - (ILHeader *) header {
@@ -79,11 +80,12 @@
     return m_header;
 }
 
--(void) setBody:(ILBody *) val {
+-(bool) setBody:(ILBody *) val {
 
     [m_body release];
     m_body = val;
     [m_body retain];
+      return YES;
 }
 
 - (ILBody *) body {
@@ -91,16 +93,20 @@
     return m_body;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Header"]) {
                 ILHeader * val = [attributeDict objectForKey: key];
-                [self setHeader: val];
+                if (![self setHeader: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Body"]) {
                 ILBody * val = [attributeDict objectForKey: key];
-                [self setBody: val];
+                if (![self setBody: val]) {
+                   return false;
+                }
             }
         }
 }

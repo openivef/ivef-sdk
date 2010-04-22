@@ -123,7 +123,7 @@ PosReport & PosReport::operator=(const PosReport &val) {
 }
 
 // String encoder
-QString PosReport::encode( QString str) {
+QString PosReport::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -134,9 +134,10 @@ QString PosReport::encode( QString str) {
 }
 
 // setter for PosReport
-void PosReport::setPos(Pos val) {
+bool PosReport::setPos(Pos val) {
 
     m_pos = val;
+      return true;
 }
 
 // getter for PosReport
@@ -146,9 +147,10 @@ Pos PosReport::getPos() const {
 }
 
 // setter for PosReport
-void PosReport::addSensor(Sensor val) {
+bool PosReport::addSensor(Sensor val) {
 
     m_sensors.append(val);
+      return true;
 }
 
 // getter for PosReport
@@ -164,9 +166,10 @@ int PosReport::countOfSensors() const {
 }
 
 // setter for PosReport
-void PosReport::setId(int val) {
+bool PosReport::setId(int val) {
 
     m_id = val;
+      return true;
 }
 
 // getter for PosReport
@@ -176,9 +179,10 @@ int PosReport::getId() const {
 }
 
 // setter for PosReport
-void PosReport::setSourceId(int val) {
+bool PosReport::setSourceId(int val) {
 
     m_sourceId = val;
+      return true;
 }
 
 // getter for PosReport
@@ -188,9 +192,10 @@ int PosReport::getSourceId() const {
 }
 
 // setter for PosReport
-void PosReport::setUpdateTime(QDateTime val) {
+bool PosReport::setUpdateTime(QDateTime val) {
 
     m_updateTime = val;
+      return true;
 }
 
 // getter for PosReport
@@ -200,10 +205,11 @@ QDateTime PosReport::getUpdateTime() const {
 }
 
 // setter for PosReport
-void PosReport::setUpdateTimeRadar(QDateTime val) {
+bool PosReport::setUpdateTimeRadar(QDateTime val) {
 
     m_updateTimeRadarPresent = true;
     m_updateTimeRadar = val;
+      return true;
 }
 
 // getter for PosReport
@@ -219,10 +225,11 @@ bool PosReport::hasUpdateTimeRadar() const {
 }
 
 // setter for PosReport
-void PosReport::setUpdateTimeAIS(QDateTime val) {
+bool PosReport::setUpdateTimeAIS(QDateTime val) {
 
     m_updateTimeAISPresent = true;
     m_updateTimeAIS = val;
+      return true;
 }
 
 // getter for PosReport
@@ -238,10 +245,11 @@ bool PosReport::hasUpdateTimeAIS() const {
 }
 
 // setter for PosReport
-void PosReport::setUpdateTimeDR(QDateTime val) {
+bool PosReport::setUpdateTimeDR(QDateTime val) {
 
     m_updateTimeDRPresent = true;
     m_updateTimeDR = val;
+      return true;
 }
 
 // getter for PosReport
@@ -257,12 +265,13 @@ bool PosReport::hasUpdateTimeDR() const {
 }
 
 // setter for PosReport
-void PosReport::setSOG(float val) {
+bool PosReport::setSOG(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_SOG = val;
+      return true;
 }
 
 // getter for PosReport
@@ -272,15 +281,16 @@ float PosReport::getSOG() const {
 }
 
 // setter for PosReport
-void PosReport::setCOG(float val) {
+bool PosReport::setCOG(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;    // check if the new value is within bounds 
+        return false;    // check if the new value is within bounds 
 
     if (val > 360)
-        return;
+        return false;
     m_COG = val;
+      return true;
 }
 
 // getter for PosReport
@@ -290,13 +300,14 @@ float PosReport::getCOG() const {
 }
 
 // setter for PosReport
-void PosReport::setLost(QString val) {
+bool PosReport::setLost(QString val) {
 // check if the new value is an approved value 
 
     if ( ( val != "no" ) &&
          ( val != "yes" ) )
-        return;
+        return false;
     m_lost = val;
+      return true;
 }
 
 // getter for PosReport
@@ -306,10 +317,11 @@ QString PosReport::getLost() const {
 }
 
 // setter for PosReport
-void PosReport::setRateOfTurn(float val) {
+bool PosReport::setRateOfTurn(float val) {
 
     m_rateOfTurnPresent = true;
     m_rateOfTurn = val;
+      return true;
 }
 
 // getter for PosReport
@@ -325,16 +337,17 @@ bool PosReport::hasRateOfTurn() const {
 }
 
 // setter for PosReport
-void PosReport::setOrientation(float val) {
+bool PosReport::setOrientation(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;    // check if the new value is within bounds 
+        return false;    // check if the new value is within bounds 
 
     if (val > 360)
-        return;
+        return false;
     m_orientationPresent = true;
     m_orientation = val;
+      return true;
 }
 
 // getter for PosReport
@@ -350,13 +363,14 @@ bool PosReport::hasOrientation() const {
 }
 
 // setter for PosReport
-void PosReport::setLength(float val) {
+bool PosReport::setLength(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_lengthPresent = true;
     m_length = val;
+      return true;
 }
 
 // getter for PosReport
@@ -372,13 +386,14 @@ bool PosReport::hasLength() const {
 }
 
 // setter for PosReport
-void PosReport::setBreadth(float val) {
+bool PosReport::setBreadth(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_breadthPresent = true;
     m_breadth = val;
+      return true;
 }
 
 // getter for PosReport
@@ -394,10 +409,11 @@ bool PosReport::hasBreadth() const {
 }
 
 // setter for PosReport
-void PosReport::setAltitude(float val) {
+bool PosReport::setAltitude(float val) {
 
     m_altitudePresent = true;
     m_altitude = val;
+      return true;
 }
 
 // getter for PosReport
@@ -413,7 +429,7 @@ bool PosReport::hasAltitude() const {
 }
 
 // setter for PosReport
-void PosReport::setNavStatus(int val) {
+bool PosReport::setNavStatus(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 0 ) &&
@@ -432,9 +448,10 @@ void PosReport::setNavStatus(int val) {
          ( val != 13 ) &&
          ( val != 14 ) &&
          ( val != 15 ) )
-        return;
+        return false;
     m_navStatusPresent = true;
     m_navStatus = val;
+      return true;
 }
 
 // getter for PosReport
@@ -450,7 +467,7 @@ bool PosReport::hasNavStatus() const {
 }
 
 // setter for PosReport
-void PosReport::setUpdSensorType(int val) {
+bool PosReport::setUpdSensorType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
@@ -458,9 +475,10 @@ void PosReport::setUpdSensorType(int val) {
          ( val != 3 ) &&
          ( val != 4 ) &&
          ( val != 5 ) )
-        return;
+        return false;
     m_updSensorTypePresent = true;
     m_updSensorType = val;
+      return true;
 }
 
 // getter for PosReport
@@ -476,10 +494,11 @@ bool PosReport::hasUpdSensorType() const {
 }
 
 // setter for PosReport
-void PosReport::setATONOffPos(bool val) {
+bool PosReport::setATONOffPos(bool val) {
 
     m_ATONOffPosPresent = true;
     m_ATONOffPos = val;
+      return true;
 }
 
 // getter for PosReport
@@ -495,7 +514,7 @@ bool PosReport::hasATONOffPos() const {
 }
 
 // Get XML Representation
-QString PosReport::toXML() {
+QString PosReport::toXML() const {
 
     QString xml = "<PosReport";
     xml.append(" Id=\"" + QString::number(m_id) + "\"");

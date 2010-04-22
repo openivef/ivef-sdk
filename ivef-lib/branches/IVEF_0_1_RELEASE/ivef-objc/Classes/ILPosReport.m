@@ -84,11 +84,12 @@
      return nil; // invalid date
 }
 
--(void) setPos:(ILPos *) val {
+-(bool) setPos:(ILPos *) val {
 
     [m_pos release];
     m_pos = val;
     [m_pos retain];
+      return YES;
 }
 
 - (ILPos *) pos {
@@ -96,9 +97,10 @@
     return m_pos;
 }
 
--(void) addSensor:(ILSensor *) val {
+-(bool) addSensor:(ILSensor *) val {
 
     [m_sensors addObject: val];
+      return YES;
 }
 
 -(ILSensor *) sensorAt:(int) i {
@@ -116,9 +118,10 @@
     return m_sensors;
 }
 
--(void) setIdent:(int) val {
+-(bool) setIdent:(int) val {
 
     m_id = val;
+      return YES;
 }
 
 - (int) ident {
@@ -126,9 +129,10 @@
     return m_id;
 }
 
--(void) setSourceId:(int) val {
+-(bool) setSourceId:(int) val {
 
     m_sourceId = val;
+      return YES;
 }
 
 - (int) sourceId {
@@ -136,11 +140,12 @@
     return m_sourceId;
 }
 
--(void) setUpdateTime:(NSDate *) val {
+-(bool) setUpdateTime:(NSDate *) val {
 
     [m_updateTime release];
     m_updateTime = val;
     [m_updateTime retain];
+      return YES;
 }
 
 - (NSDate *) updateTime {
@@ -148,12 +153,13 @@
     return m_updateTime;
 }
 
--(void) setUpdateTimeRadar:(NSDate *) val {
+-(bool) setUpdateTimeRadar:(NSDate *) val {
 
     m_updateTimeRadarPresent = true;
     [m_updateTimeRadar release];
     m_updateTimeRadar = val;
     [m_updateTimeRadar retain];
+      return YES;
 }
 
 - (NSDate *) updateTimeRadar {
@@ -166,12 +172,13 @@
     return m_updateTimeRadarPresent;
 }
 
--(void) setUpdateTimeAIS:(NSDate *) val {
+-(bool) setUpdateTimeAIS:(NSDate *) val {
 
     m_updateTimeAISPresent = true;
     [m_updateTimeAIS release];
     m_updateTimeAIS = val;
     [m_updateTimeAIS retain];
+      return YES;
 }
 
 - (NSDate *) updateTimeAIS {
@@ -184,12 +191,13 @@
     return m_updateTimeAISPresent;
 }
 
--(void) setUpdateTimeDR:(NSDate *) val {
+-(bool) setUpdateTimeDR:(NSDate *) val {
 
     m_updateTimeDRPresent = true;
     [m_updateTimeDR release];
     m_updateTimeDR = val;
     [m_updateTimeDR retain];
+      return YES;
 }
 
 - (NSDate *) updateTimeDR {
@@ -202,11 +210,12 @@
     return m_updateTimeDRPresent;
 }
 
--(void) setSOG:(float) val {
+-(bool) setSOG:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     m_SOG = val;
+      return YES;
 }
 
 - (float) SOG {
@@ -214,13 +223,14 @@
     return m_SOG;
 }
 
--(void) setCOG:(float) val {
+-(bool) setCOG:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 360)
-        return;
+        return NO;
     m_COG = val;
+      return YES;
 }
 
 - (float) COG {
@@ -228,14 +238,15 @@
     return m_COG;
 }
 
--(void) setLost:(NSString *) val {
+-(bool) setLost:(NSString *) val {
 
     if ( ( ![val isEqualToString: @"no"] ) &&
          ( ![val isEqualToString: @"yes"] ) )
-        return;
+        return NO;
     [m_lost release];
     m_lost = val;
     [m_lost retain];
+      return YES;
 }
 
 - (NSString *) lost {
@@ -243,10 +254,11 @@
     return m_lost;
 }
 
--(void) setRateOfTurn:(float) val {
+-(bool) setRateOfTurn:(float) val {
 
     m_rateOfTurnPresent = true;
     m_rateOfTurn = val;
+      return YES;
 }
 
 - (float) rateOfTurn {
@@ -259,14 +271,15 @@
     return m_rateOfTurnPresent;
 }
 
--(void) setOrientation:(float) val {
+-(bool) setOrientation:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 360)
-        return;
+        return NO;
     m_orientationPresent = true;
     m_orientation = val;
+      return YES;
 }
 
 - (float) orientation {
@@ -279,12 +292,13 @@
     return m_orientationPresent;
 }
 
--(void) setLength:(float) val {
+-(bool) setLength:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     m_lengthPresent = true;
     m_length = val;
+      return YES;
 }
 
 - (float) length {
@@ -297,12 +311,13 @@
     return m_lengthPresent;
 }
 
--(void) setBreadth:(float) val {
+-(bool) setBreadth:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     m_breadthPresent = true;
     m_breadth = val;
+      return YES;
 }
 
 - (float) breadth {
@@ -315,10 +330,11 @@
     return m_breadthPresent;
 }
 
--(void) setAltitude:(float) val {
+-(bool) setAltitude:(float) val {
 
     m_altitudePresent = true;
     m_altitude = val;
+      return YES;
 }
 
 - (float) altitude {
@@ -331,7 +347,7 @@
     return m_altitudePresent;
 }
 
--(void) setNavStatus:(int) val {
+-(bool) setNavStatus:(int) val {
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
@@ -349,9 +365,10 @@
          ( val != 13 ) &&
          ( val != 14 ) &&
          ( val != 15 ) )
-        return;
+        return NO;
     m_navStatusPresent = true;
     m_navStatus = val;
+      return YES;
 }
 
 - (int) navStatus {
@@ -364,16 +381,17 @@
     return m_navStatusPresent;
 }
 
--(void) setUpdSensorType:(int) val {
+-(bool) setUpdSensorType:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) &&
          ( val != 4 ) &&
          ( val != 5 ) )
-        return;
+        return NO;
     m_updSensorTypePresent = true;
     m_updSensorType = val;
+      return YES;
 }
 
 - (int) updSensorType {
@@ -386,10 +404,11 @@
     return m_updSensorTypePresent;
 }
 
--(void) setATONOffPos:(bool) val {
+-(bool) setATONOffPos:(bool) val {
 
     m_ATONOffPosPresent = true;
     m_ATONOffPos = val;
+      return YES;
 }
 
 - (bool) ATONOffPos {
@@ -402,102 +421,140 @@
     return m_ATONOffPosPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Pos"]) {
                 ILPos * val = [attributeDict objectForKey: key];
-                [self setPos: val];
+                if (![self setPos: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Sensor"]) {
                 ILSensor * val = [attributeDict objectForKey: key];
-                [self addSensor: val];
+                if (![self addSensor: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Id"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setIdent: val];
+                if (![self setIdent: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setSourceId: val];
+                if (![self setSourceId: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setUpdateTime: val];
+                if (![self setUpdateTime: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"UpdateTimeRadar"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setUpdateTimeRadar: val];
+                if (![self setUpdateTimeRadar: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"UpdateTimeAIS"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setUpdateTimeAIS: val];
+                if (![self setUpdateTimeAIS: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"UpdateTimeDR"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setUpdateTimeDR: val];
+                if (![self setUpdateTimeDR: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"SOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setSOG: val];
+                if (![self setSOG: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"COG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setCOG: val];
+                if (![self setCOG: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Lost"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setLost: val];
+                if (![self setLost: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"RateOfTurn"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setRateOfTurn: val];
+                if (![self setRateOfTurn: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Orientation"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setOrientation: val];
+                if (![self setOrientation: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Length"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setLength: val];
+                if (![self setLength: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Breadth"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setBreadth: val];
+                if (![self setBreadth: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Altitude"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setAltitude: val];
+                if (![self setAltitude: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"NavStatus"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setNavStatus: val];
+                if (![self setNavStatus: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"UpdSensorType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setUpdSensorType: val];
+                if (![self setUpdSensorType: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"ATONOffPos"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
                             [[value uppercaseString] isEqualToString: @"TRUE"] ||
                             [[value uppercaseString] isEqualToString: @"1"]);
-                [self setATONOffPos: val];
+                if (![self setATONOffPos: val]) {
+                   return false;
+                }
             }
         }
 }

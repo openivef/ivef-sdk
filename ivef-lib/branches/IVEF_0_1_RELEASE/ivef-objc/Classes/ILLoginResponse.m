@@ -68,11 +68,12 @@
      return nil; // invalid date
 }
 
--(void) setMsgId:(NSString *) val {
+-(bool) setMsgId:(NSString *) val {
 
     [m_msgId release];
     m_msgId = val;
     [m_msgId retain];
+      return YES;
 }
 
 - (NSString *) msgId {
@@ -80,12 +81,13 @@
     return m_msgId;
 }
 
--(void) setResult:(int) val {
+-(bool) setResult:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) )
-        return;
+        return NO;
     m_result = val;
+      return YES;
 }
 
 - (int) result {
@@ -93,12 +95,13 @@
     return m_result;
 }
 
--(void) setReason:(NSString *) val {
+-(bool) setReason:(NSString *) val {
 
     m_reasonPresent = true;
     [m_reason release];
     m_reason = val;
     [m_reason retain];
+      return YES;
 }
 
 - (NSString *) reason {
@@ -111,21 +114,27 @@
     return m_reasonPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"MsgId"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setMsgId: val];
+                if (![self setMsgId: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Result"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setResult: val];
+                if (![self setResult: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Reason"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setReason: val];
+                if (![self setReason: val]) {
+                   return false;
+                }
             }
         }
 }

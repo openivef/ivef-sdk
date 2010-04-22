@@ -22,7 +22,7 @@ MSG_ServerStatus & MSG_ServerStatus::operator=(const MSG_ServerStatus &val) {
 }
 
 // String encoder
-QString MSG_ServerStatus::encode( QString str) {
+QString MSG_ServerStatus::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString MSG_ServerStatus::encode( QString str) {
 }
 
 // setter for MSG_ServerStatus
-void MSG_ServerStatus::setHeader(Header val) {
+bool MSG_ServerStatus::setHeader(Header val) {
 
     m_header = val;
+      return true;
 }
 
 // getter for MSG_ServerStatus
@@ -45,9 +46,10 @@ Header MSG_ServerStatus::getHeader() const {
 }
 
 // setter for MSG_ServerStatus
-void MSG_ServerStatus::setBody(Body val) {
+bool MSG_ServerStatus::setBody(Body val) {
 
     m_body = val;
+      return true;
 }
 
 // getter for MSG_ServerStatus
@@ -57,7 +59,7 @@ Body MSG_ServerStatus::getBody() const {
 }
 
 // Get XML Representation
-QString MSG_ServerStatus::toXML() {
+QString MSG_ServerStatus::toXML() const {
 
     QString xml = "<MSG_ServerStatus";
     xml.append(">\n");

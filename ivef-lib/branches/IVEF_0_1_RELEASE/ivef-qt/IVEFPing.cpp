@@ -22,7 +22,7 @@ Ping & Ping::operator=(const Ping &val) {
 }
 
 // String encoder
-QString Ping::encode( QString str) {
+QString Ping::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString Ping::encode( QString str) {
 }
 
 // setter for Ping
-void Ping::setTimeStamp(QDateTime val) {
+bool Ping::setTimeStamp(QDateTime val) {
 
     m_timeStamp = val;
+      return true;
 }
 
 // getter for Ping
@@ -45,7 +46,7 @@ QDateTime Ping::getTimeStamp() const {
 }
 
 // Get XML Representation
-QString Ping::toXML() {
+QString Ping::toXML() const {
 
     QString xml = "<Ping";
     xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");

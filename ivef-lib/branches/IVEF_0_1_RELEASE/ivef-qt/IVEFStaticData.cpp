@@ -162,7 +162,7 @@ StaticData & StaticData::operator=(const StaticData &val) {
 }
 
 // String encoder
-QString StaticData::encode( QString str) {
+QString StaticData::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -173,9 +173,10 @@ QString StaticData::encode( QString str) {
 }
 
 // setter for StaticData
-void StaticData::setId(QString val) {
+bool StaticData::setId(QString val) {
 
     m_id = val;
+      return true;
 }
 
 // getter for StaticData
@@ -185,9 +186,10 @@ QString StaticData::getId() const {
 }
 
 // setter for StaticData
-void StaticData::setSourceName(QString val) {
+bool StaticData::setSourceName(QString val) {
 
     m_sourceName = val;
+      return true;
 }
 
 // getter for StaticData
@@ -197,14 +199,15 @@ QString StaticData::getSourceName() const {
 }
 
 // setter for StaticData
-void StaticData::setSource(int val) {
+bool StaticData::setSource(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return false;
     m_source = val;
+      return true;
 }
 
 // getter for StaticData
@@ -214,13 +217,14 @@ int StaticData::getSource() const {
 }
 
 // setter for StaticData
-void StaticData::setLength(float val) {
+bool StaticData::setLength(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_lengthPresent = true;
     m_length = val;
+      return true;
 }
 
 // getter for StaticData
@@ -236,13 +240,14 @@ bool StaticData::hasLength() const {
 }
 
 // setter for StaticData
-void StaticData::setBreadth(float val) {
+bool StaticData::setBreadth(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_breadthPresent = true;
     m_breadth = val;
+      return true;
 }
 
 // getter for StaticData
@@ -258,10 +263,11 @@ bool StaticData::hasBreadth() const {
 }
 
 // setter for StaticData
-void StaticData::setCallsign(QString val) {
+bool StaticData::setCallsign(QString val) {
 
     m_callsignPresent = true;
     m_callsign = val;
+      return true;
 }
 
 // getter for StaticData
@@ -277,10 +283,11 @@ bool StaticData::hasCallsign() const {
 }
 
 // setter for StaticData
-void StaticData::setShipName(QString val) {
+bool StaticData::setShipName(QString val) {
 
     m_shipNamePresent = true;
     m_shipName = val;
+      return true;
 }
 
 // getter for StaticData
@@ -296,7 +303,7 @@ bool StaticData::hasShipName() const {
 }
 
 // setter for StaticData
-void StaticData::setObjectType(int val) {
+bool StaticData::setObjectType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
@@ -306,9 +313,10 @@ void StaticData::setObjectType(int val) {
          ( val != 5 ) &&
          ( val != 6 ) &&
          ( val != 7 ) )
-        return;
+        return false;
     m_objectTypePresent = true;
     m_objectType = val;
+      return true;
 }
 
 // getter for StaticData
@@ -324,7 +332,7 @@ bool StaticData::hasObjectType() const {
 }
 
 // setter for StaticData
-void StaticData::setShipType(int val) {
+bool StaticData::setShipType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 20 ) &&
@@ -349,9 +357,10 @@ void StaticData::setShipType(int val) {
          ( val != 70 ) &&
          ( val != 80 ) &&
          ( val != 90 ) )
-        return;
+        return false;
     m_shipTypePresent = true;
     m_shipType = val;
+      return true;
 }
 
 // getter for StaticData
@@ -367,10 +376,11 @@ bool StaticData::hasShipType() const {
 }
 
 // setter for StaticData
-void StaticData::setIMO(int val) {
+bool StaticData::setIMO(int val) {
 
     m_IMOPresent = true;
     m_IMO = val;
+      return true;
 }
 
 // getter for StaticData
@@ -386,10 +396,11 @@ bool StaticData::hasIMO() const {
 }
 
 // setter for StaticData
-void StaticData::setMMSI(int val) {
+bool StaticData::setMMSI(int val) {
 
     m_MMSIPresent = true;
     m_MMSI = val;
+      return true;
 }
 
 // getter for StaticData
@@ -405,7 +416,7 @@ bool StaticData::hasMMSI() const {
 }
 
 // setter for StaticData
-void StaticData::setATONType(int val) {
+bool StaticData::setATONType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 0 ) &&
@@ -441,9 +452,10 @@ void StaticData::setATONType(int val) {
          ( val != 31 ) &&
          ( val != 32 ) &&
          ( val != 33 ) )
-        return;
+        return false;
     m_ATONTypePresent = true;
     m_ATONType = val;
+      return true;
 }
 
 // getter for StaticData
@@ -459,10 +471,11 @@ bool StaticData::hasATONType() const {
 }
 
 // setter for StaticData
-void StaticData::setATONName(QString val) {
+bool StaticData::setATONName(QString val) {
 
     m_ATONNamePresent = true;
     m_ATONName = val;
+      return true;
 }
 
 // getter for StaticData
@@ -478,10 +491,11 @@ bool StaticData::hasATONName() const {
 }
 
 // setter for StaticData
-void StaticData::setAntPosDistFromFront(float val) {
+bool StaticData::setAntPosDistFromFront(float val) {
 
     m_antPosDistFromFrontPresent = true;
     m_antPosDistFromFront = val;
+      return true;
 }
 
 // getter for StaticData
@@ -497,10 +511,11 @@ bool StaticData::hasAntPosDistFromFront() const {
 }
 
 // setter for StaticData
-void StaticData::setAntPosDistFromLeft(float val) {
+bool StaticData::setAntPosDistFromLeft(float val) {
 
     m_antPosDistFromLeftPresent = true;
     m_antPosDistFromLeft = val;
+      return true;
 }
 
 // getter for StaticData
@@ -516,10 +531,11 @@ bool StaticData::hasAntPosDistFromLeft() const {
 }
 
 // setter for StaticData
-void StaticData::setNatLangShipName(QString val) {
+bool StaticData::setNatLangShipName(QString val) {
 
     m_natLangShipNamePresent = true;
     m_natLangShipName = val;
+      return true;
 }
 
 // getter for StaticData
@@ -535,10 +551,11 @@ bool StaticData::hasNatLangShipName() const {
 }
 
 // setter for StaticData
-void StaticData::setPortOfRegistry(QString val) {
+bool StaticData::setPortOfRegistry(QString val) {
 
     m_portOfRegistryPresent = true;
     m_portOfRegistry = val;
+      return true;
 }
 
 // getter for StaticData
@@ -554,10 +571,11 @@ bool StaticData::hasPortOfRegistry() const {
 }
 
 // setter for StaticData
-void StaticData::setCountryFlag(QString val) {
+bool StaticData::setCountryFlag(QString val) {
 
     m_countryFlagPresent = true;
     m_countryFlag = val;
+      return true;
 }
 
 // getter for StaticData
@@ -573,13 +591,14 @@ bool StaticData::hasCountryFlag() const {
 }
 
 // setter for StaticData
-void StaticData::setMaxAirDraught(float val) {
+bool StaticData::setMaxAirDraught(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_maxAirDraughtPresent = true;
     m_maxAirDraught = val;
+      return true;
 }
 
 // getter for StaticData
@@ -595,13 +614,14 @@ bool StaticData::hasMaxAirDraught() const {
 }
 
 // setter for StaticData
-void StaticData::setMaxDraught(float val) {
+bool StaticData::setMaxDraught(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_maxDraughtPresent = true;
     m_maxDraught = val;
+      return true;
 }
 
 // getter for StaticData
@@ -617,14 +637,15 @@ bool StaticData::hasMaxDraught() const {
 }
 
 // setter for StaticData
-void StaticData::setDeepWaterVesselind(QString val) {
+bool StaticData::setDeepWaterVesselind(QString val) {
 // check if the new value is an approved value 
 
     if ( ( val != "yes" ) &&
          ( val != "no" ) )
-        return;
+        return false;
     m_deepWaterVesselindPresent = true;
     m_deepWaterVesselind = val;
+      return true;
 }
 
 // getter for StaticData
@@ -640,7 +661,7 @@ bool StaticData::hasDeepWaterVesselind() const {
 }
 
 // Get XML Representation
-QString StaticData::toXML() {
+QString StaticData::toXML() const {
 
     QString xml = "<StaticData";
     xml.append(" Id=\"" + encode (m_id) + "\"");

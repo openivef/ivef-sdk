@@ -67,11 +67,12 @@
      return nil; // invalid date
 }
 
--(void) setKey:(NSString *) val {
+-(bool) setKey:(NSString *) val {
 
     [m_key release];
     m_key = val;
     [m_key retain];
+      return YES;
 }
 
 - (NSString *) key {
@@ -79,11 +80,12 @@
     return m_key;
 }
 
--(void) setValue:(NSString *) val {
+-(bool) setValue:(NSString *) val {
 
     [m_value release];
     m_value = val;
     [m_value retain];
+      return YES;
 }
 
 - (NSString *) value {
@@ -91,16 +93,20 @@
     return m_value;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Key"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setKey: val];
+                if (![self setKey: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Value"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setValue: val];
+                if (![self setValue: val]) {
+                   return false;
+                }
             }
         }
 }

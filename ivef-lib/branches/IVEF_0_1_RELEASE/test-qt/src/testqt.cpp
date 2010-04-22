@@ -35,6 +35,7 @@ testqt::testqt( int & argc, char ** argv )
     // Issue 24
     connect( &m_parser, SIGNAL( signalError(QString)), this, SLOT( slotPrintError(QString) ));
     connect( &m_parser, SIGNAL( signalWarning(QString)), this, SLOT( slotPrintError(QString) ));
+    connect( &m_parser, SIGNAL( signalValidationError(QString)), this, SLOT( slotPrintError(QString) ));
     // End Issue 24
 
     // and keep reading from standard in

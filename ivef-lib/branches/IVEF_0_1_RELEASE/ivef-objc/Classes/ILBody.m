@@ -82,12 +82,13 @@
      return nil; // invalid date
 }
 
--(void) setLoginRequest:(ILLoginRequest *) val {
+-(bool) setLoginRequest:(ILLoginRequest *) val {
 
     m_loginRequestPresent = true;
     [m_loginRequest release];
     m_loginRequest = val;
     [m_loginRequest retain];
+      return YES;
 }
 
 - (ILLoginRequest *) loginRequest {
@@ -100,12 +101,13 @@
     return m_loginRequestPresent;
 }
 
--(void) setLoginResponse:(ILLoginResponse *) val {
+-(bool) setLoginResponse:(ILLoginResponse *) val {
 
     m_loginResponsePresent = true;
     [m_loginResponse release];
     m_loginResponse = val;
     [m_loginResponse retain];
+      return YES;
 }
 
 - (ILLoginResponse *) loginResponse {
@@ -118,12 +120,13 @@
     return m_loginResponsePresent;
 }
 
--(void) setLogout:(ILLogout *) val {
+-(bool) setLogout:(ILLogout *) val {
 
     m_logoutPresent = true;
     [m_logout release];
     m_logout = val;
     [m_logout retain];
+      return YES;
 }
 
 - (ILLogout *) logout {
@@ -136,12 +139,13 @@
     return m_logoutPresent;
 }
 
--(void) setPing:(ILPing *) val {
+-(bool) setPing:(ILPing *) val {
 
     m_pingPresent = true;
     [m_ping release];
     m_ping = val;
     [m_ping retain];
+      return YES;
 }
 
 - (ILPing *) ping {
@@ -154,12 +158,13 @@
     return m_pingPresent;
 }
 
--(void) setPong:(ILPong *) val {
+-(bool) setPong:(ILPong *) val {
 
     m_pongPresent = true;
     [m_pong release];
     m_pong = val;
     [m_pong retain];
+      return YES;
 }
 
 - (ILPong *) pong {
@@ -172,12 +177,13 @@
     return m_pongPresent;
 }
 
--(void) setServerStatus:(ILServerStatus *) val {
+-(bool) setServerStatus:(ILServerStatus *) val {
 
     m_serverStatusPresent = true;
     [m_serverStatus release];
     m_serverStatus = val;
     [m_serverStatus retain];
+      return YES;
 }
 
 - (ILServerStatus *) serverStatus {
@@ -190,12 +196,13 @@
     return m_serverStatusPresent;
 }
 
--(void) setServiceRequest:(ILServiceRequest *) val {
+-(bool) setServiceRequest:(ILServiceRequest *) val {
 
     m_serviceRequestPresent = true;
     [m_serviceRequest release];
     m_serviceRequest = val;
     [m_serviceRequest retain];
+      return YES;
 }
 
 - (ILServiceRequest *) serviceRequest {
@@ -208,9 +215,10 @@
     return m_serviceRequestPresent;
 }
 
--(void) addVesselData:(ILVesselData *) val {
+-(bool) addVesselData:(ILVesselData *) val {
 
     [m_vesselDatas addObject: val];
+      return YES;
 }
 
 -(ILVesselData *) vesselDataAt:(int) i {
@@ -228,40 +236,56 @@
     return m_vesselDatas;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"LoginRequest"]) {
                 ILLoginRequest * val = [attributeDict objectForKey: key];
-                [self setLoginRequest: val];
+                if (![self setLoginRequest: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"LoginResponse"]) {
                 ILLoginResponse * val = [attributeDict objectForKey: key];
-                [self setLoginResponse: val];
+                if (![self setLoginResponse: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Logout"]) {
                 ILLogout * val = [attributeDict objectForKey: key];
-                [self setLogout: val];
+                if (![self setLogout: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Ping"]) {
                 ILPing * val = [attributeDict objectForKey: key];
-                [self setPing: val];
+                if (![self setPing: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Pong"]) {
                 ILPong * val = [attributeDict objectForKey: key];
-                [self setPong: val];
+                if (![self setPong: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"ServerStatus"]) {
                 ILServerStatus * val = [attributeDict objectForKey: key];
-                [self setServerStatus: val];
+                if (![self setServerStatus: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"ServiceRequest"]) {
                 ILServiceRequest * val = [attributeDict objectForKey: key];
-                [self setServiceRequest: val];
+                if (![self setServiceRequest: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"VesselData"]) {
                 ILVesselData * val = [attributeDict objectForKey: key];
-                [self addVesselData: val];
+                if (![self addVesselData: val]) {
+                   return false;
+                }
             }
         }
 }

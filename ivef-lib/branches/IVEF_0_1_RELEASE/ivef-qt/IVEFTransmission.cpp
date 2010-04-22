@@ -28,7 +28,7 @@ Transmission & Transmission::operator=(const Transmission &val) {
 }
 
 // String encoder
-QString Transmission::encode( QString str) {
+QString Transmission::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -39,15 +39,16 @@ QString Transmission::encode( QString str) {
 }
 
 // setter for Transmission
-void Transmission::setType(int val) {
+bool Transmission::setType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) &&
          ( val != 4 ) )
-        return;
+        return false;
     m_type = val;
+      return true;
 }
 
 // getter for Transmission
@@ -57,10 +58,11 @@ int Transmission::getType() const {
 }
 
 // setter for Transmission
-void Transmission::setPeriod(float val) {
+bool Transmission::setPeriod(float val) {
 
     m_periodPresent = true;
     m_period = val;
+      return true;
 }
 
 // getter for Transmission
@@ -76,7 +78,7 @@ bool Transmission::hasPeriod() const {
 }
 
 // Get XML Representation
-QString Transmission::toXML() {
+QString Transmission::toXML() const {
 
     QString xml = "<Transmission";
     xml.append(" Type=\"" + QString::number(m_type) + "\"");

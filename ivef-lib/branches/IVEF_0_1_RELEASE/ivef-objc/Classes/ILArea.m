@@ -67,9 +67,10 @@
      return nil; // invalid date
 }
 
--(void) addPos:(ILPos *) val {
+-(bool) addPos:(ILPos *) val {
 
     [m_poss addObject: val];
+      return YES;
 }
 
 -(ILPos *) posAt:(int) i {
@@ -87,12 +88,14 @@
     return m_poss;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Pos"]) {
                 ILPos * val = [attributeDict objectForKey: key];
-                [self addPos: val];
+                if (![self addPos: val]) {
+                   return false;
+                }
             }
         }
 }

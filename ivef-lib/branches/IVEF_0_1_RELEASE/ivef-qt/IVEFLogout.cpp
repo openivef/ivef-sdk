@@ -18,7 +18,7 @@ Logout & Logout::operator=(const Logout &val) {
 }
 
 // String encoder
-QString Logout::encode( QString str) {
+QString Logout::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -29,7 +29,7 @@ QString Logout::encode( QString str) {
 }
 
 // Get XML Representation
-QString Logout::toXML() {
+QString Logout::toXML() const {
 
     QString xml = "<Logout";
     xml.append("/>\n");

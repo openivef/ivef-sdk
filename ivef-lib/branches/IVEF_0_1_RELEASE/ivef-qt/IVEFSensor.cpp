@@ -24,7 +24,7 @@ Sensor & Sensor::operator=(const Sensor &val) {
 }
 
 // String encoder
-QString Sensor::encode( QString str) {
+QString Sensor::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -35,15 +35,16 @@ QString Sensor::encode( QString str) {
 }
 
 // setter for Sensor
-void Sensor::setSenId(int val) {
+bool Sensor::setSenId(int val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;    // check if the new value is within bounds 
+        return false;    // check if the new value is within bounds 
 
     if (val > 65536)
-        return;
+        return false;
     m_senId = val;
+      return true;
 }
 
 // getter for Sensor
@@ -53,15 +54,16 @@ int Sensor::getSenId() const {
 }
 
 // setter for Sensor
-void Sensor::setTrkId(int val) {
+bool Sensor::setTrkId(int val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;    // check if the new value is within bounds 
+        return false;    // check if the new value is within bounds 
 
     if (val > 65536)
-        return;
+        return false;
     m_trkId = val;
+      return true;
 }
 
 // getter for Sensor
@@ -71,7 +73,7 @@ int Sensor::getTrkId() const {
 }
 
 // Get XML Representation
-QString Sensor::toXML() {
+QString Sensor::toXML() const {
 
     QString xml = "<Sensor";
     xml.append(" SenId=\"" + QString::number(m_senId) + "\"");

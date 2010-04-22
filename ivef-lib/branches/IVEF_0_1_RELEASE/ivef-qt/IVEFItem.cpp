@@ -25,7 +25,7 @@ Item & Item::operator=(const Item &val) {
 }
 
 // String encoder
-QString Item::encode( QString str) {
+QString Item::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -36,14 +36,15 @@ QString Item::encode( QString str) {
 }
 
 // setter for Item
-void Item::setElement(int val) {
+bool Item::setElement(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return false;
     m_element = val;
+      return true;
 }
 
 // getter for Item
@@ -53,9 +54,10 @@ int Item::getElement() const {
 }
 
 // setter for Item
-void Item::setField(QString val) {
+bool Item::setField(QString val) {
 
     m_field = val;
+      return true;
 }
 
 // getter for Item
@@ -65,7 +67,7 @@ QString Item::getField() const {
 }
 
 // Get XML Representation
-QString Item::toXML() {
+QString Item::toXML() const {
 
     QString xml = "<Item";
     xml.append(" Element=\"" + QString::number(m_element) + "\"");

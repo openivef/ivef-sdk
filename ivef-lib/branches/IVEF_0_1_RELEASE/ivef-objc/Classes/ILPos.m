@@ -65,13 +65,14 @@
      return nil; // invalid date
 }
 
--(void) setLat:(float) val {
+-(bool) setLat:(float) val {
 
     if (val < -90)
-        return;
+        return NO;
     if (val > 90)
-        return;
+        return NO;
     m_lat = val;
+      return YES;
 }
 
 - (float) lat {
@@ -79,13 +80,14 @@
     return m_lat;
 }
 
--(void) setLong:(float) val {
+-(bool) setLong:(float) val {
 
     if (val < -180)
-        return;
+        return NO;
     if (val > 180)
-        return;
+        return NO;
     m_long = val;
+      return YES;
 }
 
 - (float) long {
@@ -93,18 +95,22 @@
     return m_long;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Lat"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setLat: val];
+                if (![self setLat: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Long"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setLong: val];
+                if (![self setLong: val]) {
+                   return false;
+                }
             }
         }
 }

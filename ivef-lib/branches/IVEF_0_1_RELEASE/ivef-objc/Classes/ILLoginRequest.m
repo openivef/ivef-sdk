@@ -67,11 +67,12 @@
      return nil; // invalid date
 }
 
--(void) setName:(NSString *) val {
+-(bool) setName:(NSString *) val {
 
     [m_name release];
     m_name = val;
     [m_name retain];
+      return YES;
 }
 
 - (NSString *) name {
@@ -79,11 +80,12 @@
     return m_name;
 }
 
--(void) setPassword:(NSString *) val {
+-(bool) setPassword:(NSString *) val {
 
     [m_password release];
     m_password = val;
     [m_password retain];
+      return YES;
 }
 
 - (NSString *) password {
@@ -91,12 +93,13 @@
     return m_password;
 }
 
--(void) setEncryption:(int) val {
+-(bool) setEncryption:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) )
-        return;
+        return NO;
     m_encryption = val;
+      return YES;
 }
 
 - (int) encryption {
@@ -104,21 +107,27 @@
     return m_encryption;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Name"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setName: val];
+                if (![self setName: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Password"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setPassword: val];
+                if (![self setPassword: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Encryption"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setEncryption: val];
+                if (![self setEncryption: val]) {
+                   return false;
+                }
             }
         }
 }

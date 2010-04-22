@@ -66,14 +66,15 @@
      return nil; // invalid date
 }
 
--(void) setType:(int) val {
+-(bool) setType:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) &&
          ( val != 4 ) )
-        return;
+        return NO;
     m_type = val;
+      return YES;
 }
 
 - (int) type {
@@ -81,10 +82,11 @@
     return m_type;
 }
 
--(void) setPeriod:(float) val {
+-(bool) setPeriod:(float) val {
 
     m_periodPresent = true;
     m_period = val;
+      return YES;
 }
 
 - (float) period {
@@ -97,18 +99,22 @@
     return m_periodPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Type"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setType: val];
+                if (![self setType: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Period"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setPeriod: val];
+                if (![self setPeriod: val]) {
+                   return false;
+                }
             }
         }
 }

@@ -72,9 +72,10 @@
      return nil; // invalid date
 }
 
--(void) addArea:(ILArea *) val {
+-(bool) addArea:(ILArea *) val {
 
     [m_areas addObject: val];
+      return YES;
 }
 
 -(ILArea *) areaAt:(int) i {
@@ -92,11 +93,12 @@
     return m_areas;
 }
 
--(void) setTransmission:(ILTransmission *) val {
+-(bool) setTransmission:(ILTransmission *) val {
 
     [m_transmission release];
     m_transmission = val;
     [m_transmission retain];
+      return YES;
 }
 
 - (ILTransmission *) transmission {
@@ -104,9 +106,10 @@
     return m_transmission;
 }
 
--(void) addItem:(ILItem *) val {
+-(bool) addItem:(ILItem *) val {
 
     [m_items addObject: val];
+      return YES;
 }
 
 -(ILItem *) itemAt:(int) i {
@@ -124,9 +127,10 @@
     return m_items;
 }
 
--(void) addObject:(ILObject *) val {
+-(bool) addObject:(ILObject *) val {
 
     [m_objects addObject: val];
+      return YES;
 }
 
 -(ILObject *) objectAt:(int) i {
@@ -144,24 +148,32 @@
     return m_objects;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Area"]) {
                 ILArea * val = [attributeDict objectForKey: key];
-                [self addArea: val];
+                if (![self addArea: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Transmission"]) {
                 ILTransmission * val = [attributeDict objectForKey: key];
-                [self setTransmission: val];
+                if (![self setTransmission: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Item"]) {
                 ILItem * val = [attributeDict objectForKey: key];
-                [self addItem: val];
+                if (![self addItem: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Object"]) {
                 ILObject * val = [attributeDict objectForKey: key];
-                [self addObject: val];
+                if (![self addObject: val]) {
+                   return false;
+                }
             }
         }
 }

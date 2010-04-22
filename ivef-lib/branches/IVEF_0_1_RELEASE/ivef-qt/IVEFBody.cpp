@@ -66,7 +66,7 @@ Body & Body::operator=(const Body &val) {
 }
 
 // String encoder
-QString Body::encode( QString str) {
+QString Body::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -77,10 +77,11 @@ QString Body::encode( QString str) {
 }
 
 // setter for Body
-void Body::setLoginRequest(LoginRequest val) {
+bool Body::setLoginRequest(LoginRequest val) {
 
     m_loginRequestPresent = true;
     m_loginRequest = val;
+      return true;
 }
 
 // getter for Body
@@ -96,10 +97,11 @@ bool Body::hasLoginRequest() const {
 }
 
 // setter for Body
-void Body::setLoginResponse(LoginResponse val) {
+bool Body::setLoginResponse(LoginResponse val) {
 
     m_loginResponsePresent = true;
     m_loginResponse = val;
+      return true;
 }
 
 // getter for Body
@@ -115,10 +117,11 @@ bool Body::hasLoginResponse() const {
 }
 
 // setter for Body
-void Body::setLogout(Logout val) {
+bool Body::setLogout(Logout val) {
 
     m_logoutPresent = true;
     m_logout = val;
+      return true;
 }
 
 // getter for Body
@@ -134,10 +137,11 @@ bool Body::hasLogout() const {
 }
 
 // setter for Body
-void Body::setPing(Ping val) {
+bool Body::setPing(Ping val) {
 
     m_pingPresent = true;
     m_ping = val;
+      return true;
 }
 
 // getter for Body
@@ -153,10 +157,11 @@ bool Body::hasPing() const {
 }
 
 // setter for Body
-void Body::setPong(Pong val) {
+bool Body::setPong(Pong val) {
 
     m_pongPresent = true;
     m_pong = val;
+      return true;
 }
 
 // getter for Body
@@ -172,10 +177,11 @@ bool Body::hasPong() const {
 }
 
 // setter for Body
-void Body::setServerStatus(ServerStatus val) {
+bool Body::setServerStatus(ServerStatus val) {
 
     m_serverStatusPresent = true;
     m_serverStatus = val;
+      return true;
 }
 
 // getter for Body
@@ -191,10 +197,11 @@ bool Body::hasServerStatus() const {
 }
 
 // setter for Body
-void Body::setServiceRequest(ServiceRequest val) {
+bool Body::setServiceRequest(ServiceRequest val) {
 
     m_serviceRequestPresent = true;
     m_serviceRequest = val;
+      return true;
 }
 
 // getter for Body
@@ -210,9 +217,10 @@ bool Body::hasServiceRequest() const {
 }
 
 // setter for Body
-void Body::addVesselData(VesselData val) {
+bool Body::addVesselData(VesselData val) {
 
     m_vesselDatas.append(val);
+      return true;
 }
 
 // getter for Body
@@ -228,7 +236,7 @@ int Body::countOfVesselDatas() const {
 }
 
 // Get XML Representation
-QString Body::toXML() {
+QString Body::toXML() const {
 
     QString xml = "<Body";
     xml.append(">\n");

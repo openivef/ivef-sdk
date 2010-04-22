@@ -30,7 +30,7 @@ VesselData & VesselData::operator=(const VesselData &val) {
 }
 
 // String encoder
-QString VesselData::encode( QString str) {
+QString VesselData::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -41,10 +41,11 @@ QString VesselData::encode( QString str) {
 }
 
 // setter for VesselData
-void VesselData::setPosReport(PosReport val) {
+bool VesselData::setPosReport(PosReport val) {
 
     m_posReportPresent = true;
     m_posReport = val;
+      return true;
 }
 
 // getter for VesselData
@@ -60,9 +61,10 @@ bool VesselData::hasPosReport() const {
 }
 
 // setter for VesselData
-void VesselData::addStaticData(StaticData val) {
+bool VesselData::addStaticData(StaticData val) {
 
     m_staticDatas.append(val);
+      return true;
 }
 
 // getter for VesselData
@@ -78,9 +80,10 @@ int VesselData::countOfStaticDatas() const {
 }
 
 // setter for VesselData
-void VesselData::addVoyage(Voyage val) {
+bool VesselData::addVoyage(Voyage val) {
 
     m_voyages.append(val);
+      return true;
 }
 
 // getter for VesselData
@@ -96,9 +99,10 @@ int VesselData::countOfVoyages() const {
 }
 
 // setter for VesselData
-void VesselData::addTaggedItem(TaggedItem val) {
+bool VesselData::addTaggedItem(TaggedItem val) {
 
     m_taggedItems.append(val);
+      return true;
 }
 
 // getter for VesselData
@@ -114,7 +118,7 @@ int VesselData::countOfTaggedItems() const {
 }
 
 // Get XML Representation
-QString VesselData::toXML() {
+QString VesselData::toXML() const {
 
     QString xml = "<VesselData";
     xml.append(">\n");

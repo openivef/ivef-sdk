@@ -97,11 +97,15 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Version") {
                 QString val = value;
-                obj->setVersion(val);
+                if (! (obj->setVersion(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "MsgRefId") {
                 QString val = value;
-                obj->setMsgRefId(val);
+                if (! (obj->setMsgRefId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -119,15 +123,21 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Name") {
                 QString val = value;
-                obj->setName(val);
+                if (! (obj->setName(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Password") {
                 QString val = value;
-                obj->setPassword(val);
+                if (! (obj->setPassword(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Encryption") {
                 int val = value.toInt();
-                obj->setEncryption(val);
+                if (! (obj->setEncryption(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -145,15 +155,21 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "MsgId") {
                 QString val = value;
-                obj->setMsgId(val);
+                if (! (obj->setMsgId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Result") {
                 int val = value.toInt();
-                obj->setResult(val);
+                if (! (obj->setResult(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Reason") {
                 QString val = value;
-                obj->setReason(val);
+                if (! (obj->setReason(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -176,7 +192,9 @@ bool Parser::startElement(const QString &,
                      value.append("Z");
                 }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
-                obj->setTimeStamp(val);
+                if (! (obj->setTimeStamp(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -199,15 +217,21 @@ bool Parser::startElement(const QString &,
                      value.append("Z");
                 }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
-                obj->setTimeStamp(val);
+                if (! (obj->setTimeStamp(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "MsgId") {
                 QString val = value;
-                obj->setMsgId(val);
+                if (! (obj->setMsgId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "SourceId") {
                 int val = value.toInt();
-                obj->setSourceId(val);
+                if (! (obj->setSourceId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -225,11 +249,15 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Lat") {
                 float val = value.toFloat();
-                obj->setLat(val);
+                if (! (obj->setLat(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Long") {
                 float val = value.toFloat();
-                obj->setLong(val);
+                if (! (obj->setLong(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -247,11 +275,15 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Id") {
                 int val = value.toInt();
-                obj->setId(val);
+                if (! (obj->setId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "SourceId") {
                 int val = value.toInt();
-                obj->setSourceId(val);
+                if (! (obj->setSourceId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "UpdateTime") {
                 // date encoding should end on a Z, but some suppliers may exclude it
@@ -260,7 +292,9 @@ bool Parser::startElement(const QString &,
                      value.append("Z");
                 }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
-                obj->setUpdateTime(val);
+                if (! (obj->setUpdateTime(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "UpdateTimeRadar") {
                 // date encoding should end on a Z, but some suppliers may exclude it
@@ -269,7 +303,9 @@ bool Parser::startElement(const QString &,
                      value.append("Z");
                 }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
-                obj->setUpdateTimeRadar(val);
+                if (! (obj->setUpdateTimeRadar(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "UpdateTimeAIS") {
                 // date encoding should end on a Z, but some suppliers may exclude it
@@ -278,7 +314,9 @@ bool Parser::startElement(const QString &,
                      value.append("Z");
                 }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
-                obj->setUpdateTimeAIS(val);
+                if (! (obj->setUpdateTimeAIS(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "UpdateTimeDR") {
                 // date encoding should end on a Z, but some suppliers may exclude it
@@ -287,54 +325,78 @@ bool Parser::startElement(const QString &,
                      value.append("Z");
                 }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
-                obj->setUpdateTimeDR(val);
+                if (! (obj->setUpdateTimeDR(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "SOG") {
                 float val = value.toFloat();
-                obj->setSOG(val);
+                if (! (obj->setSOG(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "COG") {
                 float val = value.toFloat();
-                obj->setCOG(val);
+                if (! (obj->setCOG(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Lost") {
                 QString val = value;
-                obj->setLost(val);
+                if (! (obj->setLost(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "RateOfTurn") {
                 float val = value.toFloat();
-                obj->setRateOfTurn(val);
+                if (! (obj->setRateOfTurn(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Orientation") {
                 float val = value.toFloat();
-                obj->setOrientation(val);
+                if (! (obj->setOrientation(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Length") {
                 float val = value.toFloat();
-                obj->setLength(val);
+                if (! (obj->setLength(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Breadth") {
                 float val = value.toFloat();
-                obj->setBreadth(val);
+                if (! (obj->setBreadth(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Altitude") {
                 float val = value.toFloat();
-                obj->setAltitude(val);
+                if (! (obj->setAltitude(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "NavStatus") {
                 int val = value.toInt();
-                obj->setNavStatus(val);
+                if (! (obj->setNavStatus(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "UpdSensorType") {
                 int val = value.toInt();
-                obj->setUpdSensorType(val);
+                if (! (obj->setUpdSensorType(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "ATONOffPos") {
                 // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings 
                 bool val = (value.toUpper() == "YES" ||
                             value.toUpper() == "TRUE" ||
                             value == "1");
-                obj->setATONOffPos(val);
+                if (! (obj->setATONOffPos(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -352,11 +414,15 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "SenId") {
                 int val = value.toInt();
-                obj->setSenId(val);
+                if (! (obj->setSenId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "TrkId") {
                 int val = value.toInt();
-                obj->setTrkId(val);
+                if (! (obj->setTrkId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -374,87 +440,129 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Id") {
                 QString val = value;
-                obj->setId(val);
+                if (! (obj->setId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "SourceName") {
                 QString val = value;
-                obj->setSourceName(val);
+                if (! (obj->setSourceName(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Source") {
                 int val = value.toInt();
-                obj->setSource(val);
+                if (! (obj->setSource(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Length") {
                 float val = value.toFloat();
-                obj->setLength(val);
+                if (! (obj->setLength(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Breadth") {
                 float val = value.toFloat();
-                obj->setBreadth(val);
+                if (! (obj->setBreadth(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Callsign") {
                 QString val = value;
-                obj->setCallsign(val);
+                if (! (obj->setCallsign(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "ShipName") {
                 QString val = value;
-                obj->setShipName(val);
+                if (! (obj->setShipName(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "ObjectType") {
                 int val = value.toInt();
-                obj->setObjectType(val);
+                if (! (obj->setObjectType(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "ShipType") {
                 int val = value.toInt();
-                obj->setShipType(val);
+                if (! (obj->setShipType(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "IMO") {
                 int val = value.toInt();
-                obj->setIMO(val);
+                if (! (obj->setIMO(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "MMSI") {
                 int val = value.toInt();
-                obj->setMMSI(val);
+                if (! (obj->setMMSI(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "ATONType") {
                 int val = value.toInt();
-                obj->setATONType(val);
+                if (! (obj->setATONType(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "ATONName") {
                 QString val = value;
-                obj->setATONName(val);
+                if (! (obj->setATONName(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "AntPosDistFromFront") {
                 float val = value.toFloat();
-                obj->setAntPosDistFromFront(val);
+                if (! (obj->setAntPosDistFromFront(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "AntPosDistFromLeft") {
                 float val = value.toFloat();
-                obj->setAntPosDistFromLeft(val);
+                if (! (obj->setAntPosDistFromLeft(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "NatLangShipName") {
                 QString val = value;
-                obj->setNatLangShipName(val);
+                if (! (obj->setNatLangShipName(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "PortOfRegistry") {
                 QString val = value;
-                obj->setPortOfRegistry(val);
+                if (! (obj->setPortOfRegistry(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "CountryFlag") {
                 QString val = value;
-                obj->setCountryFlag(val);
+                if (! (obj->setCountryFlag(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "MaxAirDraught") {
                 float val = value.toFloat();
-                obj->setMaxAirDraught(val);
+                if (! (obj->setMaxAirDraught(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "MaxDraught") {
                 float val = value.toFloat();
-                obj->setMaxDraught(val);
+                if (! (obj->setMaxDraught(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "DeepWaterVesselind") {
                 QString val = value;
-                obj->setDeepWaterVesselind(val);
+                if (! (obj->setDeepWaterVesselind(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -472,11 +580,15 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Status") {
                 QString val = value;
-                obj->setStatus(val);
+                if (! (obj->setStatus(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Details") {
                 QString val = value;
-                obj->setDetails(val);
+                if (! (obj->setDetails(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -494,11 +606,15 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Key") {
                 QString val = value;
-                obj->setKey(val);
+                if (! (obj->setKey(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Value") {
                 QString val = value;
-                obj->setValue(val);
+                if (! (obj->setValue(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -530,11 +646,15 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Type") {
                 int val = value.toInt();
-                obj->setType(val);
+                if (! (obj->setType(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Period") {
                 float val = value.toFloat();
-                obj->setPeriod(val);
+                if (! (obj->setPeriod(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -552,11 +672,15 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Element") {
                 int val = value.toInt();
-                obj->setElement(val);
+                if (! (obj->setElement(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Field") {
                 QString val = value;
-                obj->setField(val);
+                if (! (obj->setField(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -574,7 +698,9 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "FileName") {
                 QString val = value;
-                obj->setFileName(val);
+                if (! (obj->setFileName(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -599,23 +725,33 @@ bool Parser::startElement(const QString &,
             // and add them if we know them
             if (key == "Id") {
                 QString val = value;
-                obj->setId(val);
+                if (! (obj->setId(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "SourceName") {
                 QString val = value;
-                obj->setSourceName(val);
+                if (! (obj->setSourceName(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Source") {
                 int val = value.toInt();
-                obj->setSource(val);
+                if (! (obj->setSource(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "CargoType") {
                 int val = value.toInt();
-                obj->setCargoType(val);
+                if (! (obj->setCargoType(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Destination") {
                 QString val = value;
-                obj->setDestination(val);
+                if (! (obj->setDestination(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "ETA") {
                 // date encoding should end on a Z, but some suppliers may exclude it
@@ -624,7 +760,9 @@ bool Parser::startElement(const QString &,
                      value.append("Z");
                 }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
-                obj->setETA(val);
+                if (! (obj->setETA(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "ATA") {
                 // date encoding should end on a Z, but some suppliers may exclude it
@@ -633,19 +771,27 @@ bool Parser::startElement(const QString &,
                      value.append("Z");
                 }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
-                obj->setATA(val);
+                if (! (obj->setATA(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "PersonsOnBoard") {
                 int val = value.toInt();
-                obj->setPersonsOnBoard(val);
+                if (! (obj->setPersonsOnBoard(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "AirDraught") {
                 float val = value.toFloat();
-                obj->setAirDraught(val);
+                if (! (obj->setAirDraught(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
             else if (key == "Draught") {
                 float val = value.toFloat();
-                obj->setDraught(val);
+                if (! (obj->setDraught(val) )) {
+                    emit signalValidationError( "Error for " + key + " = " + value );
+                }
             }
         }
         // push the new object on the stack, on a close element we will pop it
@@ -678,35 +824,51 @@ bool Parser::endElement(const QString &,
         Body *obj = (Body*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_LoginRequest") {
-                ((MSG_LoginRequest*) ( m_objStack.top() ) )->setBody( *obj );
+                if (! ((MSG_LoginRequest*) ( m_objStack.top() ) )->setBody( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_LoginResponse") {
-                ((MSG_LoginResponse*) ( m_objStack.top() ) )->setBody( *obj );
+                if (! ((MSG_LoginResponse*) ( m_objStack.top() ) )->setBody( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_Logout") {
-                ((MSG_Logout*) ( m_objStack.top() ) )->setBody( *obj );
+                if (! ((MSG_Logout*) ( m_objStack.top() ) )->setBody( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_Ping") {
-                ((MSG_Ping*) ( m_objStack.top() ) )->setBody( *obj );
+                if (! ((MSG_Ping*) ( m_objStack.top() ) )->setBody( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_Pong") {
-                ((MSG_Pong*) ( m_objStack.top() ) )->setBody( *obj );
+                if (! ((MSG_Pong*) ( m_objStack.top() ) )->setBody( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_ServerStatus") {
-                ((MSG_ServerStatus*) ( m_objStack.top() ) )->setBody( *obj );
+                if (! ((MSG_ServerStatus*) ( m_objStack.top() ) )->setBody( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_ServiceRequest") {
-                ((MSG_ServiceRequest*) ( m_objStack.top() ) )->setBody( *obj );
+                if (! ((MSG_ServiceRequest*) ( m_objStack.top() ) )->setBody( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_VesselData") {
-                ((MSG_VesselData*) ( m_objStack.top() ) )->setBody( *obj );
+                if (! ((MSG_VesselData*) ( m_objStack.top() ) )->setBody( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -737,7 +899,9 @@ bool Parser::endElement(const QString &,
         Logout *obj = (Logout*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setLogout( *obj );
+                if (! ((Body*) ( m_objStack.top() ) )->setLogout( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -798,35 +962,51 @@ bool Parser::endElement(const QString &,
         Header *obj = (Header*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_LoginRequest") {
-                ((MSG_LoginRequest*) ( m_objStack.top() ) )->setHeader( *obj );
+                if (! ((MSG_LoginRequest*) ( m_objStack.top() ) )->setHeader( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_LoginResponse") {
-                ((MSG_LoginResponse*) ( m_objStack.top() ) )->setHeader( *obj );
+                if (! ((MSG_LoginResponse*) ( m_objStack.top() ) )->setHeader( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_Logout") {
-                ((MSG_Logout*) ( m_objStack.top() ) )->setHeader( *obj );
+                if (! ((MSG_Logout*) ( m_objStack.top() ) )->setHeader( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_Ping") {
-                ((MSG_Ping*) ( m_objStack.top() ) )->setHeader( *obj );
+                if (! ((MSG_Ping*) ( m_objStack.top() ) )->setHeader( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_Pong") {
-                ((MSG_Pong*) ( m_objStack.top() ) )->setHeader( *obj );
+                if (! ((MSG_Pong*) ( m_objStack.top() ) )->setHeader( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_ServerStatus") {
-                ((MSG_ServerStatus*) ( m_objStack.top() ) )->setHeader( *obj );
+                if (! ((MSG_ServerStatus*) ( m_objStack.top() ) )->setHeader( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_ServiceRequest") {
-                ((MSG_ServiceRequest*) ( m_objStack.top() ) )->setHeader( *obj );
+                if (! ((MSG_ServiceRequest*) ( m_objStack.top() ) )->setHeader( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "MSG_VesselData") {
-                ((MSG_VesselData*) ( m_objStack.top() ) )->setHeader( *obj );
+                if (! ((MSG_VesselData*) ( m_objStack.top() ) )->setHeader( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -837,7 +1017,9 @@ bool Parser::endElement(const QString &,
         LoginRequest *obj = (LoginRequest*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setLoginRequest( *obj );
+                if (! ((Body*) ( m_objStack.top() ) )->setLoginRequest( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -848,7 +1030,9 @@ bool Parser::endElement(const QString &,
         LoginResponse *obj = (LoginResponse*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setLoginResponse( *obj );
+                if (! ((Body*) ( m_objStack.top() ) )->setLoginResponse( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -859,7 +1043,9 @@ bool Parser::endElement(const QString &,
         Ping *obj = (Ping*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setPing( *obj );
+                if (! ((Body*) ( m_objStack.top() ) )->setPing( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -870,7 +1056,9 @@ bool Parser::endElement(const QString &,
         Pong *obj = (Pong*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setPong( *obj );
+                if (! ((Body*) ( m_objStack.top() ) )->setPong( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -881,11 +1069,15 @@ bool Parser::endElement(const QString &,
         Pos *obj = (Pos*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "PosReport") {
-                ((PosReport*) ( m_objStack.top() ) )->setPos( *obj );
+                if (! ((PosReport*) ( m_objStack.top() ) )->setPos( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Area") {
-                ((Area*) ( m_objStack.top() ) )->addPos( *obj );
+                if (! ((Area*) ( m_objStack.top() ) )->addPos( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }
@@ -896,7 +1088,9 @@ bool Parser::endElement(const QString &,
         PosReport *obj = (PosReport*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "VesselData") {
-                ((VesselData*) ( m_objStack.top() ) )->setPosReport( *obj );
+                if (! ((VesselData*) ( m_objStack.top() ) )->setPosReport( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -907,7 +1101,9 @@ bool Parser::endElement(const QString &,
         Sensor *obj = (Sensor*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "PosReport") {
-                ((PosReport*) ( m_objStack.top() ) )->addSensor( *obj );
+                if (! ((PosReport*) ( m_objStack.top() ) )->addSensor( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }
@@ -918,7 +1114,9 @@ bool Parser::endElement(const QString &,
         StaticData *obj = (StaticData*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "VesselData") {
-                ((VesselData*) ( m_objStack.top() ) )->addStaticData( *obj );
+                if (! ((VesselData*) ( m_objStack.top() ) )->addStaticData( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }
@@ -929,7 +1127,9 @@ bool Parser::endElement(const QString &,
         ServerStatus *obj = (ServerStatus*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setServerStatus( *obj );
+                if (! ((Body*) ( m_objStack.top() ) )->setServerStatus( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -940,7 +1140,9 @@ bool Parser::endElement(const QString &,
         TaggedItem *obj = (TaggedItem*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "VesselData") {
-                ((VesselData*) ( m_objStack.top() ) )->addTaggedItem( *obj );
+                if (! ((VesselData*) ( m_objStack.top() ) )->addTaggedItem( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }
@@ -951,7 +1153,9 @@ bool Parser::endElement(const QString &,
         ServiceRequest *obj = (ServiceRequest*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->setServiceRequest( *obj );
+                if (! ((Body*) ( m_objStack.top() ) )->setServiceRequest( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -962,7 +1166,9 @@ bool Parser::endElement(const QString &,
         Area *obj = (Area*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "ServiceRequest") {
-                ((ServiceRequest*) ( m_objStack.top() ) )->addArea( *obj );
+                if (! ((ServiceRequest*) ( m_objStack.top() ) )->addArea( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }
@@ -973,7 +1179,9 @@ bool Parser::endElement(const QString &,
         Transmission *obj = (Transmission*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "ServiceRequest") {
-                ((ServiceRequest*) ( m_objStack.top() ) )->setTransmission( *obj );
+                if (! ((ServiceRequest*) ( m_objStack.top() ) )->setTransmission( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName );
+                }
         }
         delete( obj ); 
     }
@@ -984,7 +1192,9 @@ bool Parser::endElement(const QString &,
         Item *obj = (Item*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "ServiceRequest") {
-                ((ServiceRequest*) ( m_objStack.top() ) )->addItem( *obj );
+                if (! ((ServiceRequest*) ( m_objStack.top() ) )->addItem( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }
@@ -995,7 +1205,9 @@ bool Parser::endElement(const QString &,
         Object *obj = (Object*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "ServiceRequest") {
-                ((ServiceRequest*) ( m_objStack.top() ) )->addObject( *obj );
+                if (! ((ServiceRequest*) ( m_objStack.top() ) )->addObject( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }
@@ -1006,7 +1218,9 @@ bool Parser::endElement(const QString &,
         VesselData *obj = (VesselData*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "Body") {
-                ((Body*) ( m_objStack.top() ) )->addVesselData( *obj );
+                if (! ((Body*) ( m_objStack.top() ) )->addVesselData( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }
@@ -1017,7 +1231,9 @@ bool Parser::endElement(const QString &,
         Voyage *obj = (Voyage*) ( m_objStack.pop() );
         // check if there is a parent on the stack that needs this object as a child
         if ( m_typeStack.top() == "VesselData") {
-                ((VesselData*) ( m_objStack.top() ) )->addVoyage( *obj );
+                if (! ((VesselData*) ( m_objStack.top() ) )->addVoyage( *obj ) ) {
+                    emit signalValidationError( "Error for " + qName);
+                }
         }
         delete( obj ); 
     }

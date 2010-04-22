@@ -26,7 +26,7 @@ Header & Header::operator=(const Header &val) {
 }
 
 // String encoder
-QString Header::encode( QString str) {
+QString Header::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -37,9 +37,10 @@ QString Header::encode( QString str) {
 }
 
 // setter for Header
-void Header::setVersion(QString val) {
+bool Header::setVersion(QString val) {
 
     m_version = val;
+      return true;
 }
 
 // getter for Header
@@ -49,9 +50,10 @@ QString Header::getVersion() const {
 }
 
 // setter for Header
-void Header::setMsgRefId(QString val) {
+bool Header::setMsgRefId(QString val) {
 
     m_msgRefId = val;
+      return true;
 }
 
 // getter for Header
@@ -61,7 +63,7 @@ QString Header::getMsgRefId() const {
 }
 
 // Get XML Representation
-QString Header::toXML() {
+QString Header::toXML() const {
 
     QString xml = "<Header";
     xml.append(" Version=\"" + encode (m_version) + "\"");

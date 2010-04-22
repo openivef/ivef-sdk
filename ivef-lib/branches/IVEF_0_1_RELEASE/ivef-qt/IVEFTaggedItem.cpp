@@ -26,7 +26,7 @@ TaggedItem & TaggedItem::operator=(const TaggedItem &val) {
 }
 
 // String encoder
-QString TaggedItem::encode( QString str) {
+QString TaggedItem::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -37,9 +37,10 @@ QString TaggedItem::encode( QString str) {
 }
 
 // setter for TaggedItem
-void TaggedItem::setKey(QString val) {
+bool TaggedItem::setKey(QString val) {
 
     m_key = val;
+      return true;
 }
 
 // getter for TaggedItem
@@ -49,9 +50,10 @@ QString TaggedItem::getKey() const {
 }
 
 // setter for TaggedItem
-void TaggedItem::setValue(QString val) {
+bool TaggedItem::setValue(QString val) {
 
     m_value = val;
+      return true;
 }
 
 // getter for TaggedItem
@@ -61,7 +63,7 @@ QString TaggedItem::getValue() const {
 }
 
 // Get XML Representation
-QString TaggedItem::toXML() {
+QString TaggedItem::toXML() const {
 
     QString xml = "<TaggedItem";
     xml.append(" Key=\"" + encode (m_key) + "\"");

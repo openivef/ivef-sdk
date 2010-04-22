@@ -22,7 +22,7 @@ MSG_ServiceRequest & MSG_ServiceRequest::operator=(const MSG_ServiceRequest &val
 }
 
 // String encoder
-QString MSG_ServiceRequest::encode( QString str) {
+QString MSG_ServiceRequest::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString MSG_ServiceRequest::encode( QString str) {
 }
 
 // setter for MSG_ServiceRequest
-void MSG_ServiceRequest::setHeader(Header val) {
+bool MSG_ServiceRequest::setHeader(Header val) {
 
     m_header = val;
+      return true;
 }
 
 // getter for MSG_ServiceRequest
@@ -45,9 +46,10 @@ Header MSG_ServiceRequest::getHeader() const {
 }
 
 // setter for MSG_ServiceRequest
-void MSG_ServiceRequest::setBody(Body val) {
+bool MSG_ServiceRequest::setBody(Body val) {
 
     m_body = val;
+      return true;
 }
 
 // getter for MSG_ServiceRequest
@@ -57,7 +59,7 @@ Body MSG_ServiceRequest::getBody() const {
 }
 
 // Get XML Representation
-QString MSG_ServiceRequest::toXML() {
+QString MSG_ServiceRequest::toXML() const {
 
     QString xml = "<MSG_ServiceRequest";
     xml.append(">\n");

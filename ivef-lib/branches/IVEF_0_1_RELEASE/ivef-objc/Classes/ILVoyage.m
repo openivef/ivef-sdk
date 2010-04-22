@@ -77,11 +77,12 @@
      return nil; // invalid date
 }
 
--(void) setIdent:(NSString *) val {
+-(bool) setIdent:(NSString *) val {
 
     [m_id release];
     m_id = val;
     [m_id retain];
+      return YES;
 }
 
 - (NSString *) ident {
@@ -89,11 +90,12 @@
     return m_id;
 }
 
--(void) setSourceName:(NSString *) val {
+-(bool) setSourceName:(NSString *) val {
 
     [m_sourceName release];
     m_sourceName = val;
     [m_sourceName retain];
+      return YES;
 }
 
 - (NSString *) sourceName {
@@ -101,13 +103,14 @@
     return m_sourceName;
 }
 
--(void) setSource:(int) val {
+-(bool) setSource:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return NO;
     m_source = val;
+      return YES;
 }
 
 - (int) source {
@@ -115,7 +118,7 @@
     return m_source;
 }
 
--(void) setCargoType:(int) val {
+-(bool) setCargoType:(int) val {
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
@@ -123,9 +126,10 @@
          ( val != 3 ) &&
          ( val != 4 ) &&
          ( val != 9 ) )
-        return;
+        return NO;
     m_cargoTypePresent = true;
     m_cargoType = val;
+      return YES;
 }
 
 - (int) cargoType {
@@ -138,12 +142,13 @@
     return m_cargoTypePresent;
 }
 
--(void) setDestination:(NSString *) val {
+-(bool) setDestination:(NSString *) val {
 
     m_destinationPresent = true;
     [m_destination release];
     m_destination = val;
     [m_destination retain];
+      return YES;
 }
 
 - (NSString *) destination {
@@ -156,12 +161,13 @@
     return m_destinationPresent;
 }
 
--(void) setETA:(NSDate *) val {
+-(bool) setETA:(NSDate *) val {
 
     m_ETAPresent = true;
     [m_ETA release];
     m_ETA = val;
     [m_ETA retain];
+      return YES;
 }
 
 - (NSDate *) ETA {
@@ -174,12 +180,13 @@
     return m_ETAPresent;
 }
 
--(void) setATA:(NSDate *) val {
+-(bool) setATA:(NSDate *) val {
 
     m_ATAPresent = true;
     [m_ATA release];
     m_ATA = val;
     [m_ATA retain];
+      return YES;
 }
 
 - (NSDate *) ATA {
@@ -192,12 +199,13 @@
     return m_ATAPresent;
 }
 
--(void) setPersonsOnBoard:(int) val {
+-(bool) setPersonsOnBoard:(int) val {
 
     if (val < 0)
-        return;
+        return NO;
     m_personsOnBoardPresent = true;
     m_personsOnBoard = val;
+      return YES;
 }
 
 - (int) personsOnBoard {
@@ -210,12 +218,13 @@
     return m_personsOnBoardPresent;
 }
 
--(void) setAirDraught:(float) val {
+-(bool) setAirDraught:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     m_airDraughtPresent = true;
     m_airDraught = val;
+      return YES;
 }
 
 - (float) airDraught {
@@ -228,12 +237,13 @@
     return m_airDraughtPresent;
 }
 
--(void) setDraught:(float) val {
+-(bool) setDraught:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     m_draughtPresent = true;
     m_draught = val;
+      return YES;
 }
 
 - (float) draught {
@@ -246,55 +256,75 @@
     return m_draughtPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Id"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setIdent: val];
+                if (![self setIdent: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setSourceName: val];
+                if (![self setSourceName: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Source"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setSource: val];
+                if (![self setSource: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"CargoType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setCargoType: val];
+                if (![self setCargoType: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Destination"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setDestination: val];
+                if (![self setDestination: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"ETA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setETA: val];
+                if (![self setETA: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"ATA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setATA: val];
+                if (![self setATA: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"PersonsOnBoard"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setPersonsOnBoard: val];
+                if (![self setPersonsOnBoard: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"AirDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setAirDraught: val];
+                if (![self setAirDraught: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Draught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setDraught: val];
+                if (![self setDraught: val]) {
+                   return false;
+                }
             }
         }
 }

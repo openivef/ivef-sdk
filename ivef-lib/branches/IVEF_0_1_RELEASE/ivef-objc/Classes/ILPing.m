@@ -66,11 +66,12 @@
      return nil; // invalid date
 }
 
--(void) setTimeStamp:(NSDate *) val {
+-(bool) setTimeStamp:(NSDate *) val {
 
     [m_timeStamp release];
     m_timeStamp = val;
     [m_timeStamp retain];
+      return YES;
 }
 
 - (NSDate *) timeStamp {
@@ -78,13 +79,15 @@
     return m_timeStamp;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"TimeStamp"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setTimeStamp: val];
+                if (![self setTimeStamp: val]) {
+                   return false;
+                }
             }
         }
 }

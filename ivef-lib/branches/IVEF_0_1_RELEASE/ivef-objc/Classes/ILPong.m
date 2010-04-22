@@ -67,11 +67,12 @@
      return nil; // invalid date
 }
 
--(void) setTimeStamp:(NSDate *) val {
+-(bool) setTimeStamp:(NSDate *) val {
 
     [m_timeStamp release];
     m_timeStamp = val;
     [m_timeStamp retain];
+      return YES;
 }
 
 - (NSDate *) timeStamp {
@@ -79,11 +80,12 @@
     return m_timeStamp;
 }
 
--(void) setMsgId:(NSString *) val {
+-(bool) setMsgId:(NSString *) val {
 
     [m_msgId release];
     m_msgId = val;
     [m_msgId retain];
+      return YES;
 }
 
 - (NSString *) msgId {
@@ -91,9 +93,10 @@
     return m_msgId;
 }
 
--(void) setSourceId:(int) val {
+-(bool) setSourceId:(int) val {
 
     m_sourceId = val;
+      return YES;
 }
 
 - (int) sourceId {
@@ -101,22 +104,28 @@
     return m_sourceId;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"TimeStamp"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setTimeStamp: val];
+                if (![self setTimeStamp: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"MsgId"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setMsgId: val];
+                if (![self setMsgId: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setSourceId: val];
+                if (![self setSourceId: val]) {
+                   return false;
+                }
             }
         }
 }

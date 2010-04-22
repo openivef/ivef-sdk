@@ -65,7 +65,7 @@
      return nil; // invalid date
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
 }
 

@@ -66,13 +66,14 @@
      return nil; // invalid date
 }
 
--(void) setElement:(int) val {
+-(bool) setElement:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return NO;
     m_element = val;
+      return YES;
 }
 
 - (int) element {
@@ -80,11 +81,12 @@
     return m_element;
 }
 
--(void) setField:(NSString *) val {
+-(bool) setField:(NSString *) val {
 
     [m_field release];
     m_field = val;
     [m_field retain];
+      return YES;
 }
 
 - (NSString *) field {
@@ -92,17 +94,21 @@
     return m_field;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Element"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setElement: val];
+                if (![self setElement: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Field"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setField: val];
+                if (![self setField: val]) {
+                   return false;
+                }
             }
         }
 }

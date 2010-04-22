@@ -29,7 +29,7 @@ Pong & Pong::operator=(const Pong &val) {
 }
 
 // String encoder
-QString Pong::encode( QString str) {
+QString Pong::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -40,9 +40,10 @@ QString Pong::encode( QString str) {
 }
 
 // setter for Pong
-void Pong::setTimeStamp(QDateTime val) {
+bool Pong::setTimeStamp(QDateTime val) {
 
     m_timeStamp = val;
+      return true;
 }
 
 // getter for Pong
@@ -52,9 +53,10 @@ QDateTime Pong::getTimeStamp() const {
 }
 
 // setter for Pong
-void Pong::setMsgId(QString val) {
+bool Pong::setMsgId(QString val) {
 
     m_msgId = val;
+      return true;
 }
 
 // getter for Pong
@@ -64,9 +66,10 @@ QString Pong::getMsgId() const {
 }
 
 // setter for Pong
-void Pong::setSourceId(int val) {
+bool Pong::setSourceId(int val) {
 
     m_sourceId = val;
+      return true;
 }
 
 // getter for Pong
@@ -76,7 +79,7 @@ int Pong::getSourceId() const {
 }
 
 // Get XML Representation
-QString Pong::toXML() {
+QString Pong::toXML() const {
 
     QString xml = "<Pong";
     xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");

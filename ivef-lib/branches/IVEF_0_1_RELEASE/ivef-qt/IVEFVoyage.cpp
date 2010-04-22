@@ -81,7 +81,7 @@ Voyage & Voyage::operator=(const Voyage &val) {
 }
 
 // String encoder
-QString Voyage::encode( QString str) {
+QString Voyage::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -92,9 +92,10 @@ QString Voyage::encode( QString str) {
 }
 
 // setter for Voyage
-void Voyage::setId(QString val) {
+bool Voyage::setId(QString val) {
 
     m_id = val;
+      return true;
 }
 
 // getter for Voyage
@@ -104,9 +105,10 @@ QString Voyage::getId() const {
 }
 
 // setter for Voyage
-void Voyage::setSourceName(QString val) {
+bool Voyage::setSourceName(QString val) {
 
     m_sourceName = val;
+      return true;
 }
 
 // getter for Voyage
@@ -116,14 +118,15 @@ QString Voyage::getSourceName() const {
 }
 
 // setter for Voyage
-void Voyage::setSource(int val) {
+bool Voyage::setSource(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return false;
     m_source = val;
+      return true;
 }
 
 // getter for Voyage
@@ -133,7 +136,7 @@ int Voyage::getSource() const {
 }
 
 // setter for Voyage
-void Voyage::setCargoType(int val) {
+bool Voyage::setCargoType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 0 ) &&
@@ -142,9 +145,10 @@ void Voyage::setCargoType(int val) {
          ( val != 3 ) &&
          ( val != 4 ) &&
          ( val != 9 ) )
-        return;
+        return false;
     m_cargoTypePresent = true;
     m_cargoType = val;
+      return true;
 }
 
 // getter for Voyage
@@ -160,10 +164,11 @@ bool Voyage::hasCargoType() const {
 }
 
 // setter for Voyage
-void Voyage::setDestination(QString val) {
+bool Voyage::setDestination(QString val) {
 
     m_destinationPresent = true;
     m_destination = val;
+      return true;
 }
 
 // getter for Voyage
@@ -179,10 +184,11 @@ bool Voyage::hasDestination() const {
 }
 
 // setter for Voyage
-void Voyage::setETA(QDateTime val) {
+bool Voyage::setETA(QDateTime val) {
 
     m_ETAPresent = true;
     m_ETA = val;
+      return true;
 }
 
 // getter for Voyage
@@ -198,10 +204,11 @@ bool Voyage::hasETA() const {
 }
 
 // setter for Voyage
-void Voyage::setATA(QDateTime val) {
+bool Voyage::setATA(QDateTime val) {
 
     m_ATAPresent = true;
     m_ATA = val;
+      return true;
 }
 
 // getter for Voyage
@@ -217,13 +224,14 @@ bool Voyage::hasATA() const {
 }
 
 // setter for Voyage
-void Voyage::setPersonsOnBoard(int val) {
+bool Voyage::setPersonsOnBoard(int val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_personsOnBoardPresent = true;
     m_personsOnBoard = val;
+      return true;
 }
 
 // getter for Voyage
@@ -239,13 +247,14 @@ bool Voyage::hasPersonsOnBoard() const {
 }
 
 // setter for Voyage
-void Voyage::setAirDraught(float val) {
+bool Voyage::setAirDraught(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_airDraughtPresent = true;
     m_airDraught = val;
+      return true;
 }
 
 // getter for Voyage
@@ -261,13 +270,14 @@ bool Voyage::hasAirDraught() const {
 }
 
 // setter for Voyage
-void Voyage::setDraught(float val) {
+bool Voyage::setDraught(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_draughtPresent = true;
     m_draught = val;
+      return true;
 }
 
 // getter for Voyage
@@ -283,7 +293,7 @@ bool Voyage::hasDraught() const {
 }
 
 // Get XML Representation
-QString Voyage::toXML() {
+QString Voyage::toXML() const {
 
     QString xml = "<Voyage";
     xml.append(" Id=\"" + encode (m_id) + "\"");

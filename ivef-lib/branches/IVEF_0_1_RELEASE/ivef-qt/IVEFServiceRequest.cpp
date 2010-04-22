@@ -26,7 +26,7 @@ ServiceRequest & ServiceRequest::operator=(const ServiceRequest &val) {
 }
 
 // String encoder
-QString ServiceRequest::encode( QString str) {
+QString ServiceRequest::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -37,9 +37,10 @@ QString ServiceRequest::encode( QString str) {
 }
 
 // setter for ServiceRequest
-void ServiceRequest::addArea(Area val) {
+bool ServiceRequest::addArea(Area val) {
 
     m_areas.append(val);
+      return true;
 }
 
 // getter for ServiceRequest
@@ -55,9 +56,10 @@ int ServiceRequest::countOfAreas() const {
 }
 
 // setter for ServiceRequest
-void ServiceRequest::setTransmission(Transmission val) {
+bool ServiceRequest::setTransmission(Transmission val) {
 
     m_transmission = val;
+      return true;
 }
 
 // getter for ServiceRequest
@@ -67,9 +69,10 @@ Transmission ServiceRequest::getTransmission() const {
 }
 
 // setter for ServiceRequest
-void ServiceRequest::addItem(Item val) {
+bool ServiceRequest::addItem(Item val) {
 
     m_items.append(val);
+      return true;
 }
 
 // getter for ServiceRequest
@@ -85,9 +88,10 @@ int ServiceRequest::countOfItems() const {
 }
 
 // setter for ServiceRequest
-void ServiceRequest::addObject(Object val) {
+bool ServiceRequest::addObject(Object val) {
 
     m_objects.append(val);
+      return true;
 }
 
 // getter for ServiceRequest
@@ -103,7 +107,7 @@ int ServiceRequest::countOfObjects() const {
 }
 
 // Get XML Representation
-QString ServiceRequest::toXML() {
+QString ServiceRequest::toXML() const {
 
     QString xml = "<ServiceRequest";
     xml.append(">\n");

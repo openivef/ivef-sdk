@@ -33,7 +33,7 @@ LoginResponse & LoginResponse::operator=(const LoginResponse &val) {
 }
 
 // String encoder
-QString LoginResponse::encode( QString str) {
+QString LoginResponse::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -44,9 +44,10 @@ QString LoginResponse::encode( QString str) {
 }
 
 // setter for LoginResponse
-void LoginResponse::setMsgId(QString val) {
+bool LoginResponse::setMsgId(QString val) {
 
     m_msgId = val;
+      return true;
 }
 
 // getter for LoginResponse
@@ -56,13 +57,14 @@ QString LoginResponse::getMsgId() const {
 }
 
 // setter for LoginResponse
-void LoginResponse::setResult(int val) {
+bool LoginResponse::setResult(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) )
-        return;
+        return false;
     m_result = val;
+      return true;
 }
 
 // getter for LoginResponse
@@ -72,10 +74,11 @@ int LoginResponse::getResult() const {
 }
 
 // setter for LoginResponse
-void LoginResponse::setReason(QString val) {
+bool LoginResponse::setReason(QString val) {
 
     m_reasonPresent = true;
     m_reason = val;
+      return true;
 }
 
 // getter for LoginResponse
@@ -91,7 +94,7 @@ bool LoginResponse::hasReason() const {
 }
 
 // Get XML Representation
-QString LoginResponse::toXML() {
+QString LoginResponse::toXML() const {
 
     QString xml = "<LoginResponse";
     xml.append(" MsgId=\"" + encode (m_msgId) + "\"");

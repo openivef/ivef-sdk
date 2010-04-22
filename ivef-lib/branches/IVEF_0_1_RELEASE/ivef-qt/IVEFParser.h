@@ -73,6 +73,7 @@ signals:
     //!
     void signalError(QString errorStr);
     void signalWarning(QString errorStr);
+    void signalValidationError(QString errorStr);
 protected:
     virtual QString composeMessage( const QXmlParseException& exception );
     virtual bool    error( const QXmlParseException& exception );

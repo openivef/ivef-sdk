@@ -30,7 +30,7 @@ ServerStatus & ServerStatus::operator=(const ServerStatus &val) {
 }
 
 // String encoder
-QString ServerStatus::encode( QString str) {
+QString ServerStatus::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -41,13 +41,14 @@ QString ServerStatus::encode( QString str) {
 }
 
 // setter for ServerStatus
-void ServerStatus::setStatus(QString val) {
+bool ServerStatus::setStatus(QString val) {
 // check if the new value is an approved value 
 
     if ( ( val != "queuefull" ) &&
          ( val != "ok" ) )
-        return;
+        return false;
     m_status = val;
+      return true;
 }
 
 // getter for ServerStatus
@@ -57,10 +58,11 @@ QString ServerStatus::getStatus() const {
 }
 
 // setter for ServerStatus
-void ServerStatus::setDetails(QString val) {
+bool ServerStatus::setDetails(QString val) {
 
     m_detailsPresent = true;
     m_details = val;
+      return true;
 }
 
 // getter for ServerStatus
@@ -76,7 +78,7 @@ bool ServerStatus::hasDetails() const {
 }
 
 // Get XML Representation
-QString ServerStatus::toXML() {
+QString ServerStatus::toXML() const {
 
     QString xml = "<ServerStatus";
     xml.append(" Status=\"" + encode (m_status) + "\"");

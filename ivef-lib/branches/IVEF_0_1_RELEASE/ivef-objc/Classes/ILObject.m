@@ -66,11 +66,12 @@
      return nil; // invalid date
 }
 
--(void) setFileName:(NSString *) val {
+-(bool) setFileName:(NSString *) val {
 
     [m_fileName release];
     m_fileName = val;
     [m_fileName retain];
+      return YES;
 }
 
 - (NSString *) fileName {
@@ -78,12 +79,14 @@
     return m_fileName;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"FileName"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setFileName: val];
+                if (![self setFileName: val]) {
+                   return false;
+                }
             }
         }
 }

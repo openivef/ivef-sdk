@@ -22,7 +22,7 @@ MSG_Logout & MSG_Logout::operator=(const MSG_Logout &val) {
 }
 
 // String encoder
-QString MSG_Logout::encode( QString str) {
+QString MSG_Logout::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString MSG_Logout::encode( QString str) {
 }
 
 // setter for MSG_Logout
-void MSG_Logout::setHeader(Header val) {
+bool MSG_Logout::setHeader(Header val) {
 
     m_header = val;
+      return true;
 }
 
 // getter for MSG_Logout
@@ -45,9 +46,10 @@ Header MSG_Logout::getHeader() const {
 }
 
 // setter for MSG_Logout
-void MSG_Logout::setBody(Body val) {
+bool MSG_Logout::setBody(Body val) {
 
     m_body = val;
+      return true;
 }
 
 // getter for MSG_Logout
@@ -57,7 +59,7 @@ Body MSG_Logout::getBody() const {
 }
 
 // Get XML Representation
-QString MSG_Logout::toXML() {
+QString MSG_Logout::toXML() const {
 
     QString xml = "<MSG_Logout";
     xml.append(">\n");

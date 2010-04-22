@@ -73,11 +73,12 @@
     return m_version;
 }
 
--(void) setMsgRefId:(NSString *) val {
+-(bool) setMsgRefId:(NSString *) val {
 
     [m_msgRefId release];
     m_msgRefId = val;
     [m_msgRefId retain];
+      return YES;
 }
 
 - (NSString *) msgRefId {
@@ -85,7 +86,7 @@
     return m_msgRefId;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Version"]) {
@@ -96,7 +97,9 @@
             }
             else if ([key isEqualToString:@"MsgRefId"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setMsgRefId: val];
+                if (![self setMsgRefId: val]) {
+                   return false;
+                }
             }
         }
 }

@@ -29,7 +29,7 @@ LoginRequest & LoginRequest::operator=(const LoginRequest &val) {
 }
 
 // String encoder
-QString LoginRequest::encode( QString str) {
+QString LoginRequest::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -40,9 +40,10 @@ QString LoginRequest::encode( QString str) {
 }
 
 // setter for LoginRequest
-void LoginRequest::setName(QString val) {
+bool LoginRequest::setName(QString val) {
 
     m_name = val;
+      return true;
 }
 
 // getter for LoginRequest
@@ -52,9 +53,10 @@ QString LoginRequest::getName() const {
 }
 
 // setter for LoginRequest
-void LoginRequest::setPassword(QString val) {
+bool LoginRequest::setPassword(QString val) {
 
     m_password = val;
+      return true;
 }
 
 // getter for LoginRequest
@@ -64,13 +66,14 @@ QString LoginRequest::getPassword() const {
 }
 
 // setter for LoginRequest
-void LoginRequest::setEncryption(int val) {
+bool LoginRequest::setEncryption(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) )
-        return;
+        return false;
     m_encryption = val;
+      return true;
 }
 
 // getter for LoginRequest
@@ -80,7 +83,7 @@ int LoginRequest::getEncryption() const {
 }
 
 // Get XML Representation
-QString LoginRequest::toXML() {
+QString LoginRequest::toXML() const {
 
     QString xml = "<LoginRequest";
     xml.append(" Name=\"" + encode (m_name) + "\"");

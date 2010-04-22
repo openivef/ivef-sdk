@@ -7,6 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_posReportPresent = false;
         m_staticDatas = [[NSMutableArray alloc] init];
         m_voyages = [[NSMutableArray alloc] init];
         m_taggedItems = [[NSMutableArray alloc] init];
@@ -72,11 +73,13 @@
      return nil; // invalid date
 }
 
--(void) setPosReport:(ILPosReport *) val {
+-(bool) setPosReport:(ILPosReport *) val {
 
+    m_posReportPresent = true;
     [m_posReport release];
     m_posReport = val;
     [m_posReport retain];
+      return YES;
 }
 
 - (ILPosReport *) posReport {
@@ -84,9 +87,15 @@
     return m_posReport;
 }
 
--(void) addStaticData:(ILStaticData *) val {
+-(bool) hasPosReport {
+
+    return m_posReportPresent;
+}
+
+-(bool) addStaticData:(ILStaticData *) val {
 
     [m_staticDatas addObject: val];
+      return YES;
 }
 
 -(ILStaticData *) staticDataAt:(int) i {
@@ -104,9 +113,10 @@
     return m_staticDatas;
 }
 
--(void) addVoyage:(ILVoyage *) val {
+-(bool) addVoyage:(ILVoyage *) val {
 
     [m_voyages addObject: val];
+      return YES;
 }
 
 -(ILVoyage *) voyageAt:(int) i {
@@ -124,9 +134,10 @@
     return m_voyages;
 }
 
--(void) addTaggedItem:(ILTaggedItem *) val {
+-(bool) addTaggedItem:(ILTaggedItem *) val {
 
     [m_taggedItems addObject: val];
+      return YES;
 }
 
 -(ILTaggedItem *) taggedItemAt:(int) i {
@@ -144,24 +155,32 @@
     return m_taggedItems;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"PosReport"]) {
                 ILPosReport * val = [attributeDict objectForKey: key];
-                [self setPosReport: val];
+                if (![self setPosReport: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"StaticData"]) {
                 ILStaticData * val = [attributeDict objectForKey: key];
-                [self addStaticData: val];
+                if (![self addStaticData: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Voyage"]) {
                 ILVoyage * val = [attributeDict objectForKey: key];
-                [self addVoyage: val];
+                if (![self addVoyage: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"TaggedItem"]) {
                 ILTaggedItem * val = [attributeDict objectForKey: key];
-                [self addTaggedItem: val];
+                if (![self addTaggedItem: val]) {
+                   return false;
+                }
             }
         }
 }
@@ -170,7 +189,9 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
     [xml appendString:@">\n"];
-    [xml appendString: [m_posReport XML] ];
+    if ( [self hasPosReport] ) {
+        [xml appendString: [m_posReport XML] ];
+    }
     for(int i=0; i < [m_staticDatas count]; i++ ) {
         ILStaticData *attribute = [m_staticDatas objectAtIndex:i];
         [xml appendString: [attribute XML] ];
@@ -208,7 +229,9 @@
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"VesselData\n"]];
-    [str appendString: [m_posReport stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    if ( [self hasPosReport] ) {
+        [str appendString: [m_posReport stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    }
     for(int i=0; i < [m_staticDatas count]; i++ ) {
         ILStaticData *attribute = [m_staticDatas objectAtIndex:i];
         [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @" "]] ];

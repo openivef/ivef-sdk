@@ -22,7 +22,7 @@ MSG_VesselData & MSG_VesselData::operator=(const MSG_VesselData &val) {
 }
 
 // String encoder
-QString MSG_VesselData::encode( QString str) {
+QString MSG_VesselData::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString MSG_VesselData::encode( QString str) {
 }
 
 // setter for MSG_VesselData
-void MSG_VesselData::setHeader(Header val) {
+bool MSG_VesselData::setHeader(Header val) {
 
     m_header = val;
+      return true;
 }
 
 // getter for MSG_VesselData
@@ -45,9 +46,10 @@ Header MSG_VesselData::getHeader() const {
 }
 
 // setter for MSG_VesselData
-void MSG_VesselData::setBody(Body val) {
+bool MSG_VesselData::setBody(Body val) {
 
     m_body = val;
+      return true;
 }
 
 // getter for MSG_VesselData
@@ -57,7 +59,7 @@ Body MSG_VesselData::getBody() const {
 }
 
 // Get XML Representation
-QString MSG_VesselData::toXML() {
+QString MSG_VesselData::toXML() const {
 
     QString xml = "<MSG_VesselData";
     xml.append(">\n");

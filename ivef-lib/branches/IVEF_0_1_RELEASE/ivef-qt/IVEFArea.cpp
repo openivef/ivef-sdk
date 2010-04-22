@@ -20,7 +20,7 @@ Area & Area::operator=(const Area &val) {
 }
 
 // String encoder
-QString Area::encode( QString str) {
+QString Area::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -31,9 +31,10 @@ QString Area::encode( QString str) {
 }
 
 // setter for Area
-void Area::addPos(Pos val) {
+bool Area::addPos(Pos val) {
 
     m_poss.append(val);
+      return true;
 }
 
 // getter for Area
@@ -49,7 +50,7 @@ int Area::countOfPoss() const {
 }
 
 // Get XML Representation
-QString Area::toXML() {
+QString Area::toXML() const {
 
     QString xml = "<Area";
     xml.append(">\n");

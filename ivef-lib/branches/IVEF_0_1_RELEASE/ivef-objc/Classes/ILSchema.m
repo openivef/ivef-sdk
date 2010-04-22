@@ -75,7 +75,7 @@
     return @"urn:http://www.ivef.org/XMLSchema/IVEF/0.1.5";
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
 }
 

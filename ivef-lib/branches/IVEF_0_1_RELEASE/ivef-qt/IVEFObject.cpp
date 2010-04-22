@@ -22,7 +22,7 @@ Object & Object::operator=(const Object &val) {
 }
 
 // String encoder
-QString Object::encode( QString str) {
+QString Object::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString Object::encode( QString str) {
 }
 
 // setter for Object
-void Object::setFileName(QString val) {
+bool Object::setFileName(QString val) {
 
     m_fileName = val;
+      return true;
 }
 
 // getter for Object
@@ -45,7 +46,7 @@ QString Object::getFileName() const {
 }
 
 // Get XML Representation
-QString Object::toXML() {
+QString Object::toXML() const {
 
     QString xml = "<Object";
     xml.append(" FileName=\"" + encode (m_fileName) + "\"");

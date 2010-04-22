@@ -68,14 +68,15 @@
      return nil; // invalid date
 }
 
--(void) setStatus:(NSString *) val {
+-(bool) setStatus:(NSString *) val {
 
     if ( ( ![val isEqualToString: @"queuefull"] ) &&
          ( ![val isEqualToString: @"ok"] ) )
-        return;
+        return NO;
     [m_status release];
     m_status = val;
     [m_status retain];
+      return YES;
 }
 
 - (NSString *) status {
@@ -83,12 +84,13 @@
     return m_status;
 }
 
--(void) setDetails:(NSString *) val {
+-(bool) setDetails:(NSString *) val {
 
     m_detailsPresent = true;
     [m_details release];
     m_details = val;
     [m_details retain];
+      return YES;
 }
 
 - (NSString *) details {
@@ -101,16 +103,20 @@
     return m_detailsPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"Status"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setStatus: val];
+                if (![self setStatus: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"Details"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setDetails: val];
+                if (![self setDetails: val]) {
+                   return false;
+                }
             }
         }
 }

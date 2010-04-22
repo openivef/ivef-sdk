@@ -22,7 +22,7 @@ MSG_Ping & MSG_Ping::operator=(const MSG_Ping &val) {
 }
 
 // String encoder
-QString MSG_Ping::encode( QString str) {
+QString MSG_Ping::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +33,10 @@ QString MSG_Ping::encode( QString str) {
 }
 
 // setter for MSG_Ping
-void MSG_Ping::setHeader(Header val) {
+bool MSG_Ping::setHeader(Header val) {
 
     m_header = val;
+      return true;
 }
 
 // getter for MSG_Ping
@@ -45,9 +46,10 @@ Header MSG_Ping::getHeader() const {
 }
 
 // setter for MSG_Ping
-void MSG_Ping::setBody(Body val) {
+bool MSG_Ping::setBody(Body val) {
 
     m_body = val;
+      return true;
 }
 
 // getter for MSG_Ping
@@ -57,7 +59,7 @@ Body MSG_Ping::getBody() const {
 }
 
 // Get XML Representation
-QString MSG_Ping::toXML() {
+QString MSG_Ping::toXML() const {
 
     QString xml = "<MSG_Ping";
     xml.append(">\n");

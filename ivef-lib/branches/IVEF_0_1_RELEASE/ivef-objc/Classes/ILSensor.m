@@ -65,13 +65,14 @@
      return nil; // invalid date
 }
 
--(void) setSenId:(int) val {
+-(bool) setSenId:(int) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 65536)
-        return;
+        return NO;
     m_senId = val;
+      return YES;
 }
 
 - (int) senId {
@@ -79,13 +80,14 @@
     return m_senId;
 }
 
--(void) setTrkId:(int) val {
+-(bool) setTrkId:(int) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 65536)
-        return;
+        return NO;
     m_trkId = val;
+      return YES;
 }
 
 - (int) trkId {
@@ -93,18 +95,22 @@
     return m_trkId;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(bool) setAttributes:(NSDictionary *)attributeDict {
 
         for (NSString *key in attributeDict) {
             if ([key isEqualToString: @"SenId"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setSenId: val];
+                if (![self setSenId: val]) {
+                   return false;
+                }
             }
             else if ([key isEqualToString:@"TrkId"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setTrkId: val];
+                if (![self setTrkId: val]) {
+                   return false;
+                }
             }
         }
 }

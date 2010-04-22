@@ -29,169 +29,225 @@
     // check all possible options
     if ([elementName isEqualToString: @"MSG_LoginRequest"]) {
         ILMSG_LoginRequest *obj = [[ILMSG_LoginRequest alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Body"]) {
         ILBody *obj = [[ILBody alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"MSG_LoginResponse"]) {
         ILMSG_LoginResponse *obj = [[ILMSG_LoginResponse alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"MSG_Logout"]) {
         ILMSG_Logout *obj = [[ILMSG_Logout alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Logout"]) {
         ILLogout *obj = [[ILLogout alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"MSG_Ping"]) {
         ILMSG_Ping *obj = [[ILMSG_Ping alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"MSG_Pong"]) {
         ILMSG_Pong *obj = [[ILMSG_Pong alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"MSG_ServerStatus"]) {
         ILMSG_ServerStatus *obj = [[ILMSG_ServerStatus alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"MSG_ServiceRequest"]) {
         ILMSG_ServiceRequest *obj = [[ILMSG_ServiceRequest alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"MSG_VesselData"]) {
         ILMSG_VesselData *obj = [[ILMSG_VesselData alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Header"]) {
         ILHeader *obj = [[ILHeader alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"LoginRequest"]) {
         ILLoginRequest *obj = [[ILLoginRequest alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"LoginResponse"]) {
         ILLoginResponse *obj = [[ILLoginResponse alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Ping"]) {
         ILPing *obj = [[ILPing alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Pong"]) {
         ILPong *obj = [[ILPong alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Pos"]) {
         ILPos *obj = [[ILPos alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"PosReport"]) {
         ILPosReport *obj = [[ILPosReport alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Sensor"]) {
         ILSensor *obj = [[ILSensor alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"StaticData"]) {
         ILStaticData *obj = [[ILStaticData alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"ServerStatus"]) {
         ILServerStatus *obj = [[ILServerStatus alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"TaggedItem"]) {
         ILTaggedItem *obj = [[ILTaggedItem alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"ServiceRequest"]) {
         ILServiceRequest *obj = [[ILServiceRequest alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Area"]) {
         ILArea *obj = [[ILArea alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Transmission"]) {
         ILTransmission *obj = [[ILTransmission alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Item"]) {
         ILItem *obj = [[ILItem alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Object"]) {
         ILObject *obj = [[ILObject alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"VesselData"]) {
         ILVesselData *obj = [[ILVesselData alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
     else if ([elementName isEqualToString: @"Voyage"]) {
         ILVoyage *obj = [[ILVoyage alloc] init];
-        [obj setAttributes: attributeDict];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+        };
         [m_objStack addObject: obj ];
         [obj release];
     }
@@ -216,28 +272,44 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_LoginRequest class]]) {
-                [((ILMSG_LoginRequest*) [m_objStack lastObject] ) setBody: obj ];
+                if (! [((ILMSG_LoginRequest*) [m_objStack lastObject] ) setBody: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_LoginResponse class]]) {
-                [((ILMSG_LoginResponse*) [m_objStack lastObject] ) setBody: obj ];
+                if (! [((ILMSG_LoginResponse*) [m_objStack lastObject] ) setBody: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_Logout class]]) {
-                [((ILMSG_Logout*) [m_objStack lastObject] ) setBody: obj ];
+                if (! [((ILMSG_Logout*) [m_objStack lastObject] ) setBody: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_Ping class]]) {
-                [((ILMSG_Ping*) [m_objStack lastObject] ) setBody: obj ];
+                if (! [((ILMSG_Ping*) [m_objStack lastObject] ) setBody: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_Pong class]]) {
-                [((ILMSG_Pong*) [m_objStack lastObject] ) setBody: obj ];
+                if (! [((ILMSG_Pong*) [m_objStack lastObject] ) setBody: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_ServerStatus class]]) {
-                [((ILMSG_ServerStatus*) [m_objStack lastObject] ) setBody: obj ];
+                if (! [((ILMSG_ServerStatus*) [m_objStack lastObject] ) setBody: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_ServiceRequest class]]) {
-                [((ILMSG_ServiceRequest*) [m_objStack lastObject] ) setBody: obj ];
+                if (! [((ILMSG_ServiceRequest*) [m_objStack lastObject] ) setBody: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_VesselData class]]) {
-                [((ILMSG_VesselData*) [m_objStack lastObject] ) setBody: obj ];
+                if (! [((ILMSG_VesselData*) [m_objStack lastObject] ) setBody: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -263,7 +335,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) setLogout: obj ];
+                if (! [((ILBody*) [m_objStack lastObject] ) setLogout: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -313,28 +387,44 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_LoginRequest class]]) {
-                [((ILMSG_LoginRequest*) [m_objStack lastObject] ) setHeader: obj ];
+                if (! [((ILMSG_LoginRequest*) [m_objStack lastObject] ) setHeader: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_LoginResponse class]]) {
-                [((ILMSG_LoginResponse*) [m_objStack lastObject] ) setHeader: obj ];
+                if (! [((ILMSG_LoginResponse*) [m_objStack lastObject] ) setHeader: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_Logout class]]) {
-                [((ILMSG_Logout*) [m_objStack lastObject] ) setHeader: obj ];
+                if (! [((ILMSG_Logout*) [m_objStack lastObject] ) setHeader: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_Ping class]]) {
-                [((ILMSG_Ping*) [m_objStack lastObject] ) setHeader: obj ];
+                if (! [((ILMSG_Ping*) [m_objStack lastObject] ) setHeader: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_Pong class]]) {
-                [((ILMSG_Pong*) [m_objStack lastObject] ) setHeader: obj ];
+                if (! [((ILMSG_Pong*) [m_objStack lastObject] ) setHeader: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_ServerStatus class]]) {
-                [((ILMSG_ServerStatus*) [m_objStack lastObject] ) setHeader: obj ];
+                if (! [((ILMSG_ServerStatus*) [m_objStack lastObject] ) setHeader: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_ServiceRequest class]]) {
-                [((ILMSG_ServiceRequest*) [m_objStack lastObject] ) setHeader: obj ];
+                if (! [((ILMSG_ServiceRequest*) [m_objStack lastObject] ) setHeader: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILMSG_VesselData class]]) {
-                [((ILMSG_VesselData*) [m_objStack lastObject] ) setHeader: obj ];
+                if (! [((ILMSG_VesselData*) [m_objStack lastObject] ) setHeader: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -344,7 +434,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) setLoginRequest: obj ];
+                if (! [((ILBody*) [m_objStack lastObject] ) setLoginRequest: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -354,7 +446,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) setLoginResponse: obj ];
+                if (! [((ILBody*) [m_objStack lastObject] ) setLoginResponse: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -364,7 +458,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) setPing: obj ];
+                if (! [((ILBody*) [m_objStack lastObject] ) setPing: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -374,7 +470,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) setPong: obj ];
+                if (! [((ILBody*) [m_objStack lastObject] ) setPong: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -384,10 +482,14 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILPosReport class]]) {
-                [((ILPosReport*) [m_objStack lastObject] ) setPos: obj ];
+                if (! [((ILPosReport*) [m_objStack lastObject] ) setPos: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         if ( [[m_objStack lastObject] isKindOfClass: [ILArea class]]) {
-                [((ILArea*) [m_objStack lastObject] ) addPos: obj ];
+                if (! [((ILArea*) [m_objStack lastObject] ) addPos: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -397,7 +499,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILVesselData class]]) {
-                [((ILVesselData*) [m_objStack lastObject] ) setPosReport: obj ];
+                if (! [((ILVesselData*) [m_objStack lastObject] ) setPosReport: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -407,7 +511,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILPosReport class]]) {
-                [((ILPosReport*) [m_objStack lastObject] ) addSensor: obj ];
+                if (! [((ILPosReport*) [m_objStack lastObject] ) addSensor: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -417,7 +523,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILVesselData class]]) {
-                [((ILVesselData*) [m_objStack lastObject] ) addStaticData: obj ];
+                if (! [((ILVesselData*) [m_objStack lastObject] ) addStaticData: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -427,7 +535,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) setServerStatus: obj ];
+                if (! [((ILBody*) [m_objStack lastObject] ) setServerStatus: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -437,7 +547,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILVesselData class]]) {
-                [((ILVesselData*) [m_objStack lastObject] ) addTaggedItem: obj ];
+                if (! [((ILVesselData*) [m_objStack lastObject] ) addTaggedItem: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -447,7 +559,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) setServiceRequest: obj ];
+                if (! [((ILBody*) [m_objStack lastObject] ) setServiceRequest: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -457,7 +571,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILServiceRequest class]]) {
-                [((ILServiceRequest*) [m_objStack lastObject] ) addArea: obj ];
+                if (! [((ILServiceRequest*) [m_objStack lastObject] ) addArea: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -467,7 +583,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILServiceRequest class]]) {
-                [((ILServiceRequest*) [m_objStack lastObject] ) setTransmission: obj ];
+                if (! [((ILServiceRequest*) [m_objStack lastObject] ) setTransmission: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -477,7 +595,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILServiceRequest class]]) {
-                [((ILServiceRequest*) [m_objStack lastObject] ) addItem: obj ];
+                if (! [((ILServiceRequest*) [m_objStack lastObject] ) addItem: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -487,7 +607,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILServiceRequest class]]) {
-                [((ILServiceRequest*) [m_objStack lastObject] ) addObject: obj ];
+                if (! [((ILServiceRequest*) [m_objStack lastObject] ) addObject: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -497,7 +619,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILBody class]]) {
-                [((ILBody*) [m_objStack lastObject] ) addVesselData: obj ];
+                if (! [((ILBody*) [m_objStack lastObject] ) addVesselData: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }
@@ -507,7 +631,9 @@
         [obj retain];
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILVesselData class]]) {
-                [((ILVesselData*) [m_objStack lastObject] ) addVoyage: obj ];
+                if (! [((ILVesselData*) [m_objStack lastObject] ) addVoyage: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: elementName];
+                };
         }
         [obj release]; 
     }

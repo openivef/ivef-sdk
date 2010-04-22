@@ -24,7 +24,7 @@ Pos & Pos::operator=(const Pos &val) {
 }
 
 // String encoder
-QString Pos::encode( QString str) {
+QString Pos::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -35,15 +35,16 @@ QString Pos::encode( QString str) {
 }
 
 // setter for Pos
-void Pos::setLat(float val) {
+bool Pos::setLat(float val) {
     // check if the new value is within bounds 
 
     if (val < -90)
-        return;    // check if the new value is within bounds 
+        return false;    // check if the new value is within bounds 
 
     if (val > 90)
-        return;
+        return false;
     m_lat = val;
+      return true;
 }
 
 // getter for Pos
@@ -53,15 +54,16 @@ float Pos::getLat() const {
 }
 
 // setter for Pos
-void Pos::setLong(float val) {
+bool Pos::setLong(float val) {
     // check if the new value is within bounds 
 
     if (val < -180)
-        return;    // check if the new value is within bounds 
+        return false;    // check if the new value is within bounds 
 
     if (val > 180)
-        return;
+        return false;
     m_long = val;
+      return true;
 }
 
 // getter for Pos
@@ -71,7 +73,7 @@ float Pos::getLong() const {
 }
 
 // Get XML Representation
-QString Pos::toXML() {
+QString Pos::toXML() const {
 
     QString xml = "<Pos";
     xml.append(" Lat=\"" + QString::number(m_lat, 'f') + "\"");

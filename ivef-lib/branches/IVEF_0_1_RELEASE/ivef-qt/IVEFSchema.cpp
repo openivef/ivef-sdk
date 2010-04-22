@@ -18,7 +18,7 @@ Schema & Schema::operator=(const Schema &val) {
 }
 
 // String encoder
-QString Schema::encode( QString str) {
+QString Schema::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -41,7 +41,7 @@ QString Schema::getTargetNamespace() const {
 }
 
 // Get XML Representation
-QString Schema::toXML() {
+QString Schema::toXML() const {
 
     QString xml = "<Schema";
     xml.append("/>\n");
