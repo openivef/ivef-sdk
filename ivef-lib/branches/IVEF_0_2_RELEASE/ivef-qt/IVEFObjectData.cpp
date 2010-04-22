@@ -4,11 +4,14 @@
 // Constructor
 ObjectData::ObjectData() {
 
+    // optional attributes are by default not present
+    m_trackDataPresent = false;
 }
 
 // copy constructor
 ObjectData::ObjectData(const ObjectData &val) : QObject() {
 
+    m_trackDataPresent = val.m_trackDataPresent;
     m_trackData = val.m_trackData;
     m_vesselDatas = val.m_vesselDatas;
     m_voyageDatas = val.m_voyageDatas;
@@ -18,6 +21,7 @@ ObjectData::ObjectData(const ObjectData &val) : QObject() {
 // assignement
 ObjectData & ObjectData::operator=(const ObjectData &val) {
 
+    m_trackDataPresent = val.m_trackDataPresent;
     m_trackData = val.m_trackData;
     m_vesselDatas = val.m_vesselDatas;
     m_voyageDatas = val.m_voyageDatas;
@@ -39,6 +43,7 @@ QString ObjectData::encode( QString str) {
 // setter for ObjectData
 void ObjectData::setTrackData(TrackData val) {
 
+    m_trackDataPresent = true;
     m_trackData = val;
 }
 
@@ -46,6 +51,12 @@ void ObjectData::setTrackData(TrackData val) {
 TrackData ObjectData::getTrackData() const {
 
     return m_trackData;
+}
+
+// check if optional element ObjectData has been set
+bool ObjectData::hasTrackData() const {
+
+    return m_trackDataPresent;
 }
 
 // setter for ObjectData
@@ -107,7 +118,10 @@ QString ObjectData::toXML() {
 
     QString xml = "<ObjectData";
     xml.append(">\n");
-    xml.append( m_trackData.toXML() );
+    // add optional data if available
+    if ( hasTrackData() ) {
+        xml.append( m_trackData.toXML() );
+    }
     // add all included data
     for(int i=0; i < m_vesselDatas.count(); i++ ) {
         VesselData attribute = m_vesselDatas.at(i);
@@ -137,7 +151,10 @@ QString ObjectData::toString() {
 QString ObjectData::toString(QString lead) {
 
     QString str = lead + "ObjectData\n";
-    str.append( m_trackData.toString(lead + "    ") );
+    // add all optional data if present
+    if ( hasTrackData() ) {
+        str.append( m_trackData.toString(lead + "    ") );
+    }
     // add all included data
     for(int i=0; i < m_vesselDatas.count(); i++ ) {
        VesselData attribute = m_vesselDatas.at(i);

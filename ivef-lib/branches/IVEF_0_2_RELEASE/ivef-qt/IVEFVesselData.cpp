@@ -4,6 +4,10 @@
 // Constructor
 VesselData::VesselData() {
 
+    // optional attributes are by default not present
+    m_constructionPresent = false;
+    // optional attributes are by default not present
+    m_identifierPresent = false;
     m_class = 0;
     // optional attributes are by default not present
     m_classPresent = false;
@@ -30,7 +34,9 @@ VesselData::VesselData() {
 // copy constructor
 VesselData::VesselData(const VesselData &val) : QObject() {
 
+    m_constructionPresent = val.m_constructionPresent;
     m_construction = val.m_construction;
+    m_identifierPresent = val.m_identifierPresent;
     m_identifier = val.m_identifier;
     m_classPresent = val.m_classPresent;
     m_class = val.m_class;
@@ -49,7 +55,9 @@ VesselData::VesselData(const VesselData &val) : QObject() {
 // assignement
 VesselData & VesselData::operator=(const VesselData &val) {
 
+    m_constructionPresent = val.m_constructionPresent;
     m_construction = val.m_construction;
+    m_identifierPresent = val.m_identifierPresent;
     m_identifier = val.m_identifier;
     m_classPresent = val.m_classPresent;
     m_class = val.m_class;
@@ -80,6 +88,7 @@ QString VesselData::encode( QString str) {
 // setter for VesselData
 void VesselData::setConstruction(Construction val) {
 
+    m_constructionPresent = true;
     m_construction = val;
 }
 
@@ -89,9 +98,16 @@ Construction VesselData::getConstruction() const {
     return m_construction;
 }
 
+// check if optional element VesselData has been set
+bool VesselData::hasConstruction() const {
+
+    return m_constructionPresent;
+}
+
 // setter for VesselData
 void VesselData::setIdentifier(Identifier val) {
 
+    m_identifierPresent = true;
     m_identifier = val;
 }
 
@@ -99,6 +115,12 @@ void VesselData::setIdentifier(Identifier val) {
 Identifier VesselData::getIdentifier() const {
 
     return m_identifier;
+}
+
+// check if optional element VesselData has been set
+bool VesselData::hasIdentifier() const {
+
+    return m_identifierPresent;
 }
 
 // setter for VesselData
@@ -260,8 +282,14 @@ QString VesselData::toXML() {
     xml.append(" SourceType=\"" + QString::number(m_sourceType) + "\"");
     xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
     xml.append(">\n");
-    xml.append( m_construction.toXML() );
-    xml.append( m_identifier.toXML() );
+    // add optional data if available
+    if ( hasConstruction() ) {
+        xml.append( m_construction.toXML() );
+    }
+    // add optional data if available
+    if ( hasIdentifier() ) {
+        xml.append( m_identifier.toXML() );
+    }
     xml.append( "</VesselData>\n");
     return xml;
 }
@@ -296,8 +324,14 @@ QString VesselData::toString(QString lead) {
     str.append( lead + "    SourceName = " + m_sourceName + "\n");
     str.append( lead + "    SourceType = " + QString::number(m_sourceType) + "\n");
     str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
-    str.append( m_construction.toString(lead + "    ") );
-    str.append( m_identifier.toString(lead + "    ") );
+    // add all optional data if present
+    if ( hasConstruction() ) {
+        str.append( m_construction.toString(lead + "    ") );
+    }
+    // add all optional data if present
+    if ( hasIdentifier() ) {
+        str.append( m_identifier.toString(lead + "    ") );
+    }
     return str;
 }
 

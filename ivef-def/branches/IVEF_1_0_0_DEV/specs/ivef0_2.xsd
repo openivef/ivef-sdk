@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2"
-	targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2"
-	elementFormDefault="qualified">
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2" targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2" elementFormDefault="qualified">
 	<xs:element name="MSG_IVEF">
 		<xs:annotation>
 			<xs:documentation>Root MESSAGE</xs:documentation>
@@ -29,14 +27,14 @@
 								</xs:annotation>
 							</xs:element>
 							<xs:element name="ObjectDatas">
-							        <xs:complexType>
-                                                                      	<xs:sequence>
-										<xs:element ref="ObjectData" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="ObjectData" maxOccurs="unbounded">
 											<xs:annotation>
 												<xs:documentation>MESSAGE sent by the supplier containing data regarding objects in its domain</xs:documentation>
 											</xs:annotation>
 										</xs:element>
-                                                                	</xs:sequence>
+									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
 							<xs:element ref="Ping">
@@ -732,7 +730,7 @@ expressed in degrees</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence minOccurs="0">
-							<xs:element name="UnType">
+							<xs:element name="UnType" minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>Object type according to CODES FOR TYPES OF MEANS OF TRANSPORT Revision 2 (UNECE CEFACT Trade Facilitation Recommendation No. 28 edition 2007) Check latest version</xs:documentation>
 								</xs:annotation>
@@ -833,7 +831,7 @@ expressed in degrees</xs:documentation>
 								<xs:documentation>The maximum number of persons on board of the object (crew, support, passengers, pilots)</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
-								<xs:restriction base="xs:decimal">
+								<xs:restriction base="xs:integer">
 									<xs:minExclusive value="0"/>
 								</xs:restriction>
 							</xs:simpleType>
@@ -1181,7 +1179,7 @@ expressed in degrees</xs:documentation>
 					<xs:documentation>The number of persons on board of the object, should equal the sum of crew, passengers and support personel if available</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base="xs:decimal">
+					<xs:restriction base="xs:integer">
 						<xs:minExclusive value="0"/>
 					</xs:restriction>
 				</xs:simpleType>

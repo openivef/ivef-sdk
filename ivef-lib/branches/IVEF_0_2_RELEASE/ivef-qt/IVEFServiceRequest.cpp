@@ -4,6 +4,8 @@
 // Constructor
 ServiceRequest::ServiceRequest() {
 
+    // optional attributes are by default not present
+    m_filterPresent = false;
 }
 
 // copy constructor
@@ -12,6 +14,7 @@ ServiceRequest::ServiceRequest(const ServiceRequest &val) : QObject() {
     m_areas = val.m_areas;
     m_transmission = val.m_transmission;
     m_items = val.m_items;
+    m_filterPresent = val.m_filterPresent;
     m_filter = val.m_filter;
 }
 
@@ -21,6 +24,7 @@ ServiceRequest & ServiceRequest::operator=(const ServiceRequest &val) {
     m_areas = val.m_areas;
     m_transmission = val.m_transmission;
     m_items = val.m_items;
+    m_filterPresent = val.m_filterPresent;
     m_filter = val.m_filter;
     return *this;
 }
@@ -87,6 +91,7 @@ int ServiceRequest::countOfItems() const {
 // setter for ServiceRequest
 void ServiceRequest::setFilter(Filter val) {
 
+    m_filterPresent = true;
     m_filter = val;
 }
 
@@ -94,6 +99,12 @@ void ServiceRequest::setFilter(Filter val) {
 Filter ServiceRequest::getFilter() const {
 
     return m_filter;
+}
+
+// check if optional element ServiceRequest has been set
+bool ServiceRequest::hasFilter() const {
+
+    return m_filterPresent;
 }
 
 // Get XML Representation
@@ -112,7 +123,10 @@ QString ServiceRequest::toXML() {
         Item attribute = m_items.at(i);
         xml.append( attribute.toXML() );
     }
-    xml.append( m_filter.toXML() );
+    // add optional data if available
+    if ( hasFilter() ) {
+        xml.append( m_filter.toXML() );
+    }
     xml.append( "</ServiceRequest>\n");
     return xml;
 }
@@ -138,7 +152,10 @@ QString ServiceRequest::toString(QString lead) {
        Item attribute = m_items.at(i);
        str.append( attribute.toString(lead + "    ") );
     }
-    str.append( m_filter.toString(lead + "    ") );
+    // add all optional data if present
+    if ( hasFilter() ) {
+        str.append( m_filter.toString(lead + "    ") );
+    }
     return str;
 }
 

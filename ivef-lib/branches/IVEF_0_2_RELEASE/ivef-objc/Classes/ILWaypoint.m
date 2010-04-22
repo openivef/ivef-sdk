@@ -7,6 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_posPresent = false;
         m_ATAPresent = false;
         m_ETAPresent = false;
         m_RTAPresent = false;
@@ -77,6 +78,7 @@
 
 -(void) setPos:(ILPos *) val {
 
+    m_posPresent = true;
     [m_pos release];
     m_pos = val;
     [m_pos retain];
@@ -85,6 +87,11 @@
 - (ILPos *) pos {
 
     return m_pos;
+}
+
+-(bool) hasPos {
+
+    return m_posPresent;
 }
 
 -(void) setATA:(NSDate *) val {
@@ -231,7 +238,9 @@
     [xml appendString: [self encode: m_name]];
     [xml appendString: @"\""];
     [xml appendString:@">\n"];
-    [xml appendString: [m_pos XML] ];
+    if ( [self hasPos] ) {
+        [xml appendString: [m_pos XML] ];
+    }
     [xml appendString: @"</Waypoint>\n"];
     return xml;
 }
@@ -290,7 +299,9 @@
     [str appendString: m_name];
     [str appendString: @"\n"];
 
-    [str appendString: [m_pos stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    if ( [self hasPos] ) {
+        [str appendString: [m_pos stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    }
     return str;
 }
 

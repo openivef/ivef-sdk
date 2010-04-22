@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_constructionPresent = false;
+        m_identifierPresent = false;
         m_classPresent = false;
         m_blackListedPresent = false;
         m_specialAttentionPresent = false;
@@ -77,6 +79,7 @@
 
 -(void) setConstruction:(ILConstruction *) val {
 
+    m_constructionPresent = true;
     [m_construction release];
     m_construction = val;
     [m_construction retain];
@@ -87,8 +90,14 @@
     return m_construction;
 }
 
+-(bool) hasConstruction {
+
+    return m_constructionPresent;
+}
+
 -(void) setIdentifier:(ILIdentifier *) val {
 
+    m_identifierPresent = true;
     [m_identifier release];
     m_identifier = val;
     [m_identifier retain];
@@ -97,6 +106,11 @@
 - (ILIdentifier *) identifier {
 
     return m_identifier;
+}
+
+-(bool) hasIdentifier {
+
+    return m_identifierPresent;
 }
 
 -(void) setClass:(int) val {
@@ -308,8 +322,12 @@
     [xml appendString: [self stringFromDate: m_updateTime]];
     [xml appendString: @"\""];
     [xml appendString:@">\n"];
-    [xml appendString: [m_construction XML] ];
-    [xml appendString: [m_identifier XML] ];
+    if ( [self hasConstruction] ) {
+        [xml appendString: [m_construction XML] ];
+    }
+    if ( [self hasIdentifier] ) {
+        [xml appendString: [m_identifier XML] ];
+    }
     [xml appendString: @"</VesselData>\n"];
     return xml;
 }
@@ -383,8 +401,12 @@
     [str appendString: [self stringFromDate: m_updateTime]];
     [str appendString: @"\n"];
 
-    [str appendString: [m_construction stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
-    [str appendString: [m_identifier stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    if ( [self hasConstruction] ) {
+        [str appendString: [m_construction stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    }
+    if ( [self hasIdentifier] ) {
+        [str appendString: [m_identifier stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    }
     return str;
 }
 

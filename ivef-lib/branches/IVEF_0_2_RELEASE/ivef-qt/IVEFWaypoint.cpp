@@ -4,6 +4,8 @@
 // Constructor
 Waypoint::Waypoint() {
 
+    // optional attributes are by default not present
+    m_posPresent = false;
     // initialize with random value
     m_ATA = QDateTime();
     // optional attributes are by default not present
@@ -27,6 +29,7 @@ Waypoint::Waypoint() {
 // copy constructor
 Waypoint::Waypoint(const Waypoint &val) : QObject() {
 
+    m_posPresent = val.m_posPresent;
     m_pos = val.m_pos;
     m_ATAPresent = val.m_ATAPresent;
     m_ATA = val.m_ATA;
@@ -42,6 +45,7 @@ Waypoint::Waypoint(const Waypoint &val) : QObject() {
 // assignement
 Waypoint & Waypoint::operator=(const Waypoint &val) {
 
+    m_posPresent = val.m_posPresent;
     m_pos = val.m_pos;
     m_ATAPresent = val.m_ATAPresent;
     m_ATA = val.m_ATA;
@@ -69,6 +73,7 @@ QString Waypoint::encode( QString str) {
 // setter for Waypoint
 void Waypoint::setPos(Pos val) {
 
+    m_posPresent = true;
     m_pos = val;
 }
 
@@ -76,6 +81,12 @@ void Waypoint::setPos(Pos val) {
 Pos Waypoint::getPos() const {
 
     return m_pos;
+}
+
+// check if optional element Waypoint has been set
+bool Waypoint::hasPos() const {
+
+    return m_posPresent;
 }
 
 // setter for Waypoint
@@ -188,7 +199,10 @@ QString Waypoint::toXML() {
     }
     xml.append(" Name=\"" + encode (m_name) + "\"");
     xml.append(">\n");
-    xml.append( m_pos.toXML() );
+    // add optional data if available
+    if ( hasPos() ) {
+        xml.append( m_pos.toXML() );
+    }
     xml.append( "</Waypoint>\n");
     return xml;
 }
@@ -220,7 +234,10 @@ QString Waypoint::toString(QString lead) {
         str.append( lead + "    LoCode = " + m_loCode + "\n");
     }
     str.append( lead + "    Name = " + m_name + "\n");
-    str.append( m_pos.toString(lead + "    ") );
+    // add all optional data if present
+    if ( hasPos() ) {
+        str.append( m_pos.toString(lead + "    ") );
+    }
     return str;
 }
 

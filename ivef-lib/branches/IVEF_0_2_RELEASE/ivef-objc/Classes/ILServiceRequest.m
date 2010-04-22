@@ -9,6 +9,7 @@
     if (self != nil) {
         m_areas = [[NSMutableArray alloc] init];
         m_items = [[NSMutableArray alloc] init];
+        m_filterPresent = false;
     }
     return self;
 }
@@ -125,6 +126,7 @@
 
 -(void) setFilter:(ILFilter *) val {
 
+    m_filterPresent = true;
     [m_filter release];
     m_filter = val;
     [m_filter retain];
@@ -133,6 +135,11 @@
 - (ILFilter *) filter {
 
     return m_filter;
+}
+
+-(bool) hasFilter {
+
+    return m_filterPresent;
 }
 
 -(void) setAttributes:(NSDictionary *)attributeDict {
@@ -170,7 +177,9 @@
         ILItem *attribute = [m_items objectAtIndex:i];
         [xml appendString: [attribute XML] ];
     }
-    [xml appendString: [m_filter XML] ];
+    if ( [self hasFilter] ) {
+        [xml appendString: [m_filter XML] ];
+    }
     [xml appendString: @"</ServiceRequest>\n"];
     return xml;
 }
@@ -205,7 +214,9 @@
         ILItem *attribute = [m_items objectAtIndex:i];
         [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @" "]] ];
     }
-    [str appendString: [m_filter stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    if ( [self hasFilter] ) {
+        [str appendString: [m_filter stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    }
     return str;
 }
 

@@ -7,6 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_trackDataPresent = false;
         m_vesselDatas = [[NSMutableArray alloc] init];
         m_voyageDatas = [[NSMutableArray alloc] init];
         m_taggedItems = [[NSMutableArray alloc] init];
@@ -74,6 +75,7 @@
 
 -(void) setTrackData:(ILTrackData *) val {
 
+    m_trackDataPresent = true;
     [m_trackData release];
     m_trackData = val;
     [m_trackData retain];
@@ -82,6 +84,11 @@
 - (ILTrackData *) trackData {
 
     return m_trackData;
+}
+
+-(bool) hasTrackData {
+
+    return m_trackDataPresent;
 }
 
 -(void) addVesselData:(ILVesselData *) val {
@@ -170,7 +177,9 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ObjectData"];
     [xml appendString:@">\n"];
-    [xml appendString: [m_trackData XML] ];
+    if ( [self hasTrackData] ) {
+        [xml appendString: [m_trackData XML] ];
+    }
     for(int i=0; i < [m_vesselDatas count]; i++ ) {
         ILVesselData *attribute = [m_vesselDatas objectAtIndex:i];
         [xml appendString: [attribute XML] ];
@@ -208,7 +217,9 @@
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
     [str setString: [lead stringByAppendingString:@"ObjectData\n"]];
-    [str appendString: [m_trackData stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    if ( [self hasTrackData] ) {
+        [str appendString: [m_trackData stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    }
     for(int i=0; i < [m_vesselDatas count]; i++ ) {
         ILVesselData *attribute = [m_vesselDatas objectAtIndex:i];
         [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @" "]] ];
