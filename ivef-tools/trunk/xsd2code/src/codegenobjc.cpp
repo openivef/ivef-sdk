@@ -438,7 +438,7 @@ void CodeGenObjC::go() {
                 // setter
                 classFileOut << "-(BOOL) add" << methodName(attr->name()) << ":(" << type << ") val {\n";
                 classFileOut << "\n    [" << variableName(attr->name()) << "s addObject: val];\n";
-		classFileOut << "      return YES;\n";
+		classFileOut << "     return YES;\n";
 		classFileOut << "}\n\n";
                 // getter
                 classFileOut << "-(" << type << ") " << getMethodName(attr->name()) << "At:(int) i {\n";
@@ -490,7 +490,7 @@ void CodeGenObjC::go() {
 			if (type.right(1) == "*") {
 			    classFileOut << "    [" << variableName(attr->name()) << " retain];\n";
 			}
-		        classFileOut << "      return YES;\n";
+		        classFileOut << "    return YES;\n";
 			classFileOut << "}\n\n";
 		}
 
@@ -570,9 +570,9 @@ void CodeGenObjC::go() {
 		    }
 
                     if (attr->unbounded() ) {
-                       classFileOut << "                if (![self add" << methodName(attrName) << ": val]) {\n                   return false;\n                }\n";
+                       classFileOut << "                if (![self add" << methodName(attrName) << ": val]) {\n                   return NO;\n                }\n";
  		    } else if (!attr->isFixed()){ 
-                       classFileOut << "                if (![self " << setMethodName(attrName) << ": val]) {\n                   return false;\n                }\n";
+                       classFileOut << "                if (![self " << setMethodName(attrName) << ": val]) {\n                   return NO;\n                }\n";
 		    } else {
                        // what to do, we get a fixed attribute which may be different from our own!
                        classFileOut << "                [" << variableName(attrName) << " release]; \n";
@@ -583,6 +583,7 @@ void CodeGenObjC::go() {
                 }
             }
             classFileOut << "        }\n";
+            classFileOut << "        return YES;\n";
         }
 
         classFileOut << "}\n\n";
