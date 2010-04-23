@@ -390,39 +390,56 @@ void CodeGenObjC::go() {
         classFileOut << "         return @\"\"; // illigal date\n";
         classFileOut << "     }\n";
         classFileOut << "     if (formatterWithMillies == nil) {\n";
-        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] init];\n";
-        classFileOut << "         [formatterWithMillies setDateFormat:@\"yyyy-MM-dd'T'HH:mm:ss.SSS\"];\n";
+        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss.SSS\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
+        classFileOut << "#if defined (__clang__)\n"; 
+        classFileOut << "     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@\"Z\"]; // always zulu time\n";
+        classFileOut << "#else\n"; 
         classFileOut << "     return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@\"Z\"]; // always zulu time\n";
+        classFileOut << "#endif\n"; 
         classFileOut << "}\n\n";
 
         classFileOut << "- (NSDate*) dateFromString:(NSString *)str {\n\n";
         classFileOut << "     // new date strings can be in Zulu time\n";
+        classFileOut << "#if defined (__clang__)\n"; 
+        classFileOut << "     str = [str stringByReplacingString:@\"Z\" withString:@\"\"];\n\n";
+        classFileOut << "#else\n"; 
         classFileOut << "     str = [str stringByReplacingOccurrencesOfString:@\"Z\" withString:@\"\"];\n\n";
+        classFileOut << "#endif\n"; 
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
         classFileOut << "     if (formatterWithMillies == nil) {\n";
-        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] init];\n";
-        classFileOut << "         [formatterWithMillies setDateFormat:@\"yyyy-MM-dd'T'HH:mm:ss.SSS\"];\n";
+        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss.SSS\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
         classFileOut << "     static NSDateFormatter *formatterWithSeconds = nil;\n";
         classFileOut << "     if (formatterWithSeconds == nil) {\n";
-        classFileOut << "         formatterWithSeconds = [[NSDateFormatter alloc] init];\n";
-        classFileOut << "         [formatterWithSeconds setDateFormat:@\"yyyy-MM-dd'T'HH:mm:ss\"];\n";
+        classFileOut << "         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
         classFileOut << "     static NSDateFormatter *formatterWithMinutes = nil;\n";
         classFileOut << "     if (formatterWithMinutes == nil) {\n";
-        classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] init];\n";
-        classFileOut << "         [formatterWithMinutes setDateFormat:@\"yyyy-MM-dd'T'HH:mm\"];\n";
+        classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
+        classFileOut << "#if defined (__clang__)\n"; 
+        classFileOut << "     NSDate *val;\n";
+        classFileOut << "     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];\n";
+        classFileOut << "#else\n"; 
         classFileOut << "     NSDate *val = [formatterWithMillies dateFromString:str];\n";
+        classFileOut << "#endif\n"; 
         classFileOut << "     if (val) {\n";
         classFileOut << "         return val;\n";
         classFileOut << "     }\n";
+        classFileOut << "#if defined (__clang__)\n"; 
+        classFileOut << "     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];\n";
+        classFileOut << "#else\n"; 
         classFileOut << "     val = [formatterWithSeconds dateFromString:str];\n";
+        classFileOut << "#endif\n"; 
         classFileOut << "     if (val) {\n";
         classFileOut << "         return val;\n";
         classFileOut << "     }\n";
+        classFileOut << "#if defined (__clang__)\n"; 
+        classFileOut << "     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];\n";
+        classFileOut << "#else\n"; 
         classFileOut << "     val = [formatterWithMinutes dateFromString:str];\n";
+        classFileOut << "#endif\n"; 
         classFileOut << "     if (val) {\n";
         classFileOut << "         return val;\n";
         classFileOut << "     }\n";
@@ -583,9 +600,8 @@ void CodeGenObjC::go() {
                 }
             }
             classFileOut << "        }\n";
-            classFileOut << "        return YES;\n";
         }
-
+        classFileOut << "        return YES;\n";
         classFileOut << "}\n\n";
 
         // xml generator
