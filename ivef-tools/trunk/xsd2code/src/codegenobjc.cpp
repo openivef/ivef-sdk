@@ -357,7 +357,7 @@ void CodeGenObjC::go() {
             XSDAttribute *attr = attributes.at(j);
             QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
             if (!attr->required() || obj->isMerged()) {
-                classFileOut << "        " << variableName(attr->name()) << "Present = false;\n";
+                classFileOut << "        " << variableName(attr->name()) << "Present = NO;\n";
             }
             if (attr->unbounded()) { // there more then one
                 classFileOut << "        " << variableName(attr->name()) << "s = [[NSMutableArray alloc] init];\n";
@@ -480,7 +480,7 @@ void CodeGenObjC::go() {
 			     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return NO;";
 			}
 			if (!attr->required() || obj->isMerged()) {
-			     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
+			     classFileOut << "\n    " << variableName(attr->name()) << "Present = YES;";
 			}
 			classFileOut << "\n";
 			if (type.right(1) == "*") {
@@ -1061,7 +1061,7 @@ void CodeGenObjC::go() {
     classFileOut << "     // free temp memory\n";
     classFileOut << "     [pool release];\n\n";
    
-    classFileOut << "     return true;\n";
+    classFileOut << "     return YES;\n";
     // issue 40
 
     classFileOut << "}\n\n"; // close method
