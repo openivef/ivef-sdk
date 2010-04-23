@@ -47,7 +47,7 @@ QString CodeGenObjC::localType(QString type) {
     if (type == "xs:string")
         return "NSString *";
     else if (type == "xs:boolean")
-        return "bool";
+        return "BOOL";
     else if (type == "xs:integer")
         return "int";
     else if (type == "xs:hexBinary") 
@@ -258,7 +258,7 @@ void CodeGenObjC::go() {
                 headerFileOut << "    " << type << variableName(attr->name()) << ";\n";
             }
             if (!attr->required() || obj->isMerged()) {
-                headerFileOut << "    bool " << variableName(attr->name()) << "Present;\n";
+                headerFileOut << "    BOOL " << variableName(attr->name()) << "Present;\n";
             }
         }
         headerFileOut << "}\n\n";
@@ -279,7 +279,7 @@ void CodeGenObjC::go() {
                 // setter
                 headerFileOut << "//!Setter for " << methodName(attr->name()) << "\n";
                 headerFileOut << "//!\n";
-                headerFileOut << "-(bool) add" << methodName(attr->name()) << ":(" << type << ") val;\n";
+                headerFileOut << "-(BOOL) add" << methodName(attr->name()) << ":(" << type << ") val;\n";
                 // getter
                 headerFileOut << "//!Getter for " << methodName(attr->name()) << "\n";
                 headerFileOut << "//!\n";
@@ -297,7 +297,7 @@ void CodeGenObjC::go() {
                 if (!attr->isFixed()) { // fixed attributes cannot be set
                    headerFileOut << "//!Setter for " << methodName(attr->name()) << "\n";
                    headerFileOut << "//!\n";
-                   headerFileOut << "-(bool) " << setMethodName(attr->name()) << ":(" << type << ") val;\n";
+                   headerFileOut << "-(BOOL) " << setMethodName(attr->name()) << ":(" << type << ") val;\n";
                 }
                 // getter
                 headerFileOut << "//!Getter for " << methodName(attr->name()) << "\n";
@@ -306,7 +306,7 @@ void CodeGenObjC::go() {
                 if (!attr->required() || obj->isMerged()) {
                     headerFileOut << "//!Test for pressence of " << methodName(attr->name()) << "\n";
                     headerFileOut << "//!\n";
-                    headerFileOut << "-(bool) has" << methodName(attr->name()) << ";\n";
+                    headerFileOut << "-(BOOL) has" << methodName(attr->name()) << ";\n";
                 }
             }
         }
@@ -321,7 +321,7 @@ void CodeGenObjC::go() {
         }
         headerFileOut << "//!Set attributes by providing a key/value dictionary\n";
         headerFileOut << "//!\n";
-        headerFileOut << "\n-(bool) setAttributes:(NSDictionary *)attributeDict;\n";
+        headerFileOut << "\n-(BOOL) setAttributes:(NSDictionary *)attributeDict;\n";
         headerFileOut << "//!Get attributes as a key/value dictionary\n";
         headerFileOut << "//!\n";
         headerFileOut << "-(NSDictionary *) attributes;\n"; // issue 32
@@ -436,7 +436,7 @@ void CodeGenObjC::go() {
             QString type = localType(attr->type()); // convert to cpp types
             if (attr->unbounded()) { // there more then one
                 // setter
-                classFileOut << "-(bool) add" << methodName(attr->name()) << ":(" << type << ") val {\n";
+                classFileOut << "-(BOOL) add" << methodName(attr->name()) << ":(" << type << ") val {\n";
                 classFileOut << "\n    [" << variableName(attr->name()) << "s addObject: val];\n";
 		classFileOut << "      return YES;\n";
 		classFileOut << "}\n\n";
@@ -452,7 +452,7 @@ void CodeGenObjC::go() {
             } else {
                 // setter
                 if (!attr->isFixed()) { // fixed attributes cannot be set
-			classFileOut << "-(bool) " << setMethodName(attr->name()) << ":(" << type << ") val {\n";
+			classFileOut << "-(BOOL) " << setMethodName(attr->name()) << ":(" << type << ") val {\n";
 			QVector<QString> enums = attr->enumeration();
 			if (enums.size() > 0) { // there are enumeration constraints for this item
 
@@ -498,7 +498,7 @@ void CodeGenObjC::go() {
                 classFileOut << "- (" << type << ") " << getMethodName(attr->name()) << " {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
                 if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "-(bool) has" << methodName(attr->name()) << " {\n";
+                    classFileOut << "-(BOOL) has" << methodName(attr->name()) << " {\n";
                     classFileOut << "\n    return " << variableName(attr->name()) << "Present;\n}\n\n";
                 }
             }
@@ -516,7 +516,7 @@ void CodeGenObjC::go() {
         }
 
         // set attributes from a dict
-        classFileOut << "-(bool) setAttributes:(NSDictionary *)attributeDict {\n\n";
+        classFileOut << "-(BOOL) setAttributes:(NSDictionary *)attributeDict {\n\n";
 
         // check if there are attributes in this class or just data
         int attrCount = 0;
@@ -850,7 +850,7 @@ void CodeGenObjC::go() {
     headerFileOut << "      didEndElement:(NSString *)elementName\n";
     headerFileOut << "       namespaceURI:(NSString *)namespaceURI\n";
     headerFileOut << "      qualifiedName:(NSString *)qualifiedName;\n";
-    headerFileOut << "- (bool) parseXMLString:(NSString *)data andBuffer: (bool) cont;\n";
+    headerFileOut << "- (BOOL) parseXMLString:(NSString *)data andBuffer: (BOOL) cont;\n";
     headerFileOut << "- (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;\n";
 
     // define the signales
@@ -1014,7 +1014,7 @@ void CodeGenObjC::go() {
     classFileOut << "}\n\n"; // close method
 
     // the parseXMLString routine
-    classFileOut << "- (bool) parseXMLString:(NSString *)data andBuffer: (bool) cont {\n\n";
+    classFileOut << "- (BOOL) parseXMLString:(NSString *)data andBuffer: (BOOL) cont {\n\n";
    
     // issue 40
     classFileOut << "     // create a seperate memory pool, so we can quickly deallocate temp objects generated by the parser\n";
