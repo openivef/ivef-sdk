@@ -8,17 +8,17 @@
     self = [super init];
     if (self != nil) {
         m_sensors = [[NSMutableArray alloc] init];
-        m_updateTimeRadarPresent = false;
-        m_updateTimeAISPresent = false;
-        m_updateTimeDRPresent = false;
-        m_rateOfTurnPresent = false;
-        m_orientationPresent = false;
-        m_lengthPresent = false;
-        m_breadthPresent = false;
-        m_altitudePresent = false;
-        m_navStatusPresent = false;
-        m_updSensorTypePresent = false;
-        m_ATONOffPosPresent = false;
+        m_updateTimeRadarPresent = NO;
+        m_updateTimeAISPresent = NO;
+        m_updateTimeDRPresent = NO;
+        m_rateOfTurnPresent = NO;
+        m_orientationPresent = NO;
+        m_lengthPresent = NO;
+        m_breadthPresent = NO;
+        m_altitudePresent = NO;
+        m_navStatusPresent = NO;
+        m_updSensorTypePresent = NO;
+        m_ATONOffPosPresent = NO;
     }
     return self;
 }
@@ -43,53 +43,71 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(bool) setPos:(ILPos *) val {
+-(BOOL) setPos:(ILPos *) val {
 
     [m_pos release];
     m_pos = val;
     [m_pos retain];
-      return YES;
+    return YES;
 }
 
 - (ILPos *) pos {
@@ -97,10 +115,10 @@
     return m_pos;
 }
 
--(bool) addSensor:(ILSensor *) val {
+-(BOOL) addSensor:(ILSensor *) val {
 
     [m_sensors addObject: val];
-      return YES;
+     return YES;
 }
 
 -(ILSensor *) sensorAt:(int) i {
@@ -118,10 +136,10 @@
     return m_sensors;
 }
 
--(bool) setIdent:(int) val {
+-(BOOL) setIdent:(int) val {
 
     m_id = val;
-      return YES;
+    return YES;
 }
 
 - (int) ident {
@@ -129,10 +147,10 @@
     return m_id;
 }
 
--(bool) setSourceId:(int) val {
+-(BOOL) setSourceId:(int) val {
 
     m_sourceId = val;
-      return YES;
+    return YES;
 }
 
 - (int) sourceId {
@@ -140,12 +158,12 @@
     return m_sourceId;
 }
 
--(bool) setUpdateTime:(NSDate *) val {
+-(BOOL) setUpdateTime:(NSDate *) val {
 
     [m_updateTime release];
     m_updateTime = val;
     [m_updateTime retain];
-      return YES;
+    return YES;
 }
 
 - (NSDate *) updateTime {
@@ -153,13 +171,13 @@
     return m_updateTime;
 }
 
--(bool) setUpdateTimeRadar:(NSDate *) val {
+-(BOOL) setUpdateTimeRadar:(NSDate *) val {
 
-    m_updateTimeRadarPresent = true;
+    m_updateTimeRadarPresent = YES;
     [m_updateTimeRadar release];
     m_updateTimeRadar = val;
     [m_updateTimeRadar retain];
-      return YES;
+    return YES;
 }
 
 - (NSDate *) updateTimeRadar {
@@ -167,18 +185,18 @@
     return m_updateTimeRadar;
 }
 
--(bool) hasUpdateTimeRadar {
+-(BOOL) hasUpdateTimeRadar {
 
     return m_updateTimeRadarPresent;
 }
 
--(bool) setUpdateTimeAIS:(NSDate *) val {
+-(BOOL) setUpdateTimeAIS:(NSDate *) val {
 
-    m_updateTimeAISPresent = true;
+    m_updateTimeAISPresent = YES;
     [m_updateTimeAIS release];
     m_updateTimeAIS = val;
     [m_updateTimeAIS retain];
-      return YES;
+    return YES;
 }
 
 - (NSDate *) updateTimeAIS {
@@ -186,18 +204,18 @@
     return m_updateTimeAIS;
 }
 
--(bool) hasUpdateTimeAIS {
+-(BOOL) hasUpdateTimeAIS {
 
     return m_updateTimeAISPresent;
 }
 
--(bool) setUpdateTimeDR:(NSDate *) val {
+-(BOOL) setUpdateTimeDR:(NSDate *) val {
 
-    m_updateTimeDRPresent = true;
+    m_updateTimeDRPresent = YES;
     [m_updateTimeDR release];
     m_updateTimeDR = val;
     [m_updateTimeDR retain];
-      return YES;
+    return YES;
 }
 
 - (NSDate *) updateTimeDR {
@@ -205,17 +223,17 @@
     return m_updateTimeDR;
 }
 
--(bool) hasUpdateTimeDR {
+-(BOOL) hasUpdateTimeDR {
 
     return m_updateTimeDRPresent;
 }
 
--(bool) setSOG:(float) val {
+-(BOOL) setSOG:(float) val {
 
     if (val < 0)
         return NO;
     m_SOG = val;
-      return YES;
+    return YES;
 }
 
 - (float) SOG {
@@ -223,14 +241,14 @@
     return m_SOG;
 }
 
--(bool) setCOG:(float) val {
+-(BOOL) setCOG:(float) val {
 
     if (val < 0)
         return NO;
     if (val > 360)
         return NO;
     m_COG = val;
-      return YES;
+    return YES;
 }
 
 - (float) COG {
@@ -238,7 +256,7 @@
     return m_COG;
 }
 
--(bool) setLost:(NSString *) val {
+-(BOOL) setLost:(NSString *) val {
 
     if ( ( ![val isEqualToString: @"no"] ) &&
          ( ![val isEqualToString: @"yes"] ) )
@@ -246,7 +264,7 @@
     [m_lost release];
     m_lost = val;
     [m_lost retain];
-      return YES;
+    return YES;
 }
 
 - (NSString *) lost {
@@ -254,11 +272,11 @@
     return m_lost;
 }
 
--(bool) setRateOfTurn:(float) val {
+-(BOOL) setRateOfTurn:(float) val {
 
-    m_rateOfTurnPresent = true;
+    m_rateOfTurnPresent = YES;
     m_rateOfTurn = val;
-      return YES;
+    return YES;
 }
 
 - (float) rateOfTurn {
@@ -266,20 +284,20 @@
     return m_rateOfTurn;
 }
 
--(bool) hasRateOfTurn {
+-(BOOL) hasRateOfTurn {
 
     return m_rateOfTurnPresent;
 }
 
--(bool) setOrientation:(float) val {
+-(BOOL) setOrientation:(float) val {
 
     if (val < 0)
         return NO;
     if (val > 360)
         return NO;
-    m_orientationPresent = true;
+    m_orientationPresent = YES;
     m_orientation = val;
-      return YES;
+    return YES;
 }
 
 - (float) orientation {
@@ -287,18 +305,18 @@
     return m_orientation;
 }
 
--(bool) hasOrientation {
+-(BOOL) hasOrientation {
 
     return m_orientationPresent;
 }
 
--(bool) setLength:(float) val {
+-(BOOL) setLength:(float) val {
 
     if (val < 0)
         return NO;
-    m_lengthPresent = true;
+    m_lengthPresent = YES;
     m_length = val;
-      return YES;
+    return YES;
 }
 
 - (float) length {
@@ -306,18 +324,18 @@
     return m_length;
 }
 
--(bool) hasLength {
+-(BOOL) hasLength {
 
     return m_lengthPresent;
 }
 
--(bool) setBreadth:(float) val {
+-(BOOL) setBreadth:(float) val {
 
     if (val < 0)
         return NO;
-    m_breadthPresent = true;
+    m_breadthPresent = YES;
     m_breadth = val;
-      return YES;
+    return YES;
 }
 
 - (float) breadth {
@@ -325,16 +343,16 @@
     return m_breadth;
 }
 
--(bool) hasBreadth {
+-(BOOL) hasBreadth {
 
     return m_breadthPresent;
 }
 
--(bool) setAltitude:(float) val {
+-(BOOL) setAltitude:(float) val {
 
-    m_altitudePresent = true;
+    m_altitudePresent = YES;
     m_altitude = val;
-      return YES;
+    return YES;
 }
 
 - (float) altitude {
@@ -342,12 +360,12 @@
     return m_altitude;
 }
 
--(bool) hasAltitude {
+-(BOOL) hasAltitude {
 
     return m_altitudePresent;
 }
 
--(bool) setNavStatus:(int) val {
+-(BOOL) setNavStatus:(int) val {
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
@@ -366,9 +384,9 @@
          ( val != 14 ) &&
          ( val != 15 ) )
         return NO;
-    m_navStatusPresent = true;
+    m_navStatusPresent = YES;
     m_navStatus = val;
-      return YES;
+    return YES;
 }
 
 - (int) navStatus {
@@ -376,12 +394,12 @@
     return m_navStatus;
 }
 
--(bool) hasNavStatus {
+-(BOOL) hasNavStatus {
 
     return m_navStatusPresent;
 }
 
--(bool) setUpdSensorType:(int) val {
+-(BOOL) setUpdSensorType:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
@@ -389,9 +407,9 @@
          ( val != 4 ) &&
          ( val != 5 ) )
         return NO;
-    m_updSensorTypePresent = true;
+    m_updSensorTypePresent = YES;
     m_updSensorType = val;
-      return YES;
+    return YES;
 }
 
 - (int) updSensorType {
@@ -399,164 +417,171 @@
     return m_updSensorType;
 }
 
--(bool) hasUpdSensorType {
+-(BOOL) hasUpdSensorType {
 
     return m_updSensorTypePresent;
 }
 
--(bool) setATONOffPos:(bool) val {
+-(BOOL) setATONOffPos:(BOOL) val {
 
-    m_ATONOffPosPresent = true;
+    m_ATONOffPosPresent = YES;
     m_ATONOffPos = val;
-      return YES;
+    return YES;
 }
 
-- (bool) ATONOffPos {
+- (BOOL) ATONOffPos {
 
     return m_ATONOffPos;
 }
 
--(bool) hasATONOffPos {
+-(BOOL) hasATONOffPos {
 
     return m_ATONOffPosPresent;
 }
 
--(bool) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"Pos"]) {
                 ILPos * val = [attributeDict objectForKey: key];
                 if (![self setPos: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Sensor"]) {
                 ILSensor * val = [attributeDict objectForKey: key];
                 if (![self addSensor: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Id"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 if (![self setIdent: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 if (![self setSourceId: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
                 if (![self setUpdateTime: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"UpdateTimeRadar"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
                 if (![self setUpdateTimeRadar: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"UpdateTimeAIS"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
                 if (![self setUpdateTimeAIS: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"UpdateTimeDR"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
                 if (![self setUpdateTimeDR: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"SOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setSOG: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"COG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setCOG: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Lost"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setLost: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"RateOfTurn"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setRateOfTurn: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Orientation"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setOrientation: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Length"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setLength: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Breadth"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setBreadth: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Altitude"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setAltitude: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"NavStatus"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 if (![self setNavStatus: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"UpdSensorType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 if (![self setUpdSensorType: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"ATONOffPos"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                BOOL val = ([[value uppercaseString] isEqualToString: @"YES"] || 
                             [[value uppercaseString] isEqualToString: @"TRUE"] ||
                             [[value uppercaseString] isEqualToString: @"1"]);
                 if (![self setATONOffPos: val]) {
-                   return false;
+                   return NO;
                 }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {

@@ -7,7 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_reasonPresent = false;
+        m_reasonPresent = NO;
     }
     return self;
 }
@@ -27,53 +27,71 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(bool) setMsgId:(NSString *) val {
+-(BOOL) setMsgId:(NSString *) val {
 
     [m_msgId release];
     m_msgId = val;
     [m_msgId retain];
-      return YES;
+    return YES;
 }
 
 - (NSString *) msgId {
@@ -81,13 +99,13 @@
     return m_msgId;
 }
 
--(bool) setResult:(int) val {
+-(BOOL) setResult:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) )
         return NO;
     m_result = val;
-      return YES;
+    return YES;
 }
 
 - (int) result {
@@ -95,13 +113,13 @@
     return m_result;
 }
 
--(bool) setReason:(NSString *) val {
+-(BOOL) setReason:(NSString *) val {
 
-    m_reasonPresent = true;
+    m_reasonPresent = YES;
     [m_reason release];
     m_reason = val;
     [m_reason retain];
-      return YES;
+    return YES;
 }
 
 - (NSString *) reason {
@@ -109,34 +127,41 @@
     return m_reason;
 }
 
--(bool) hasReason {
+-(BOOL) hasReason {
 
     return m_reasonPresent;
 }
 
--(bool) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"MsgId"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setMsgId: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Result"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 if (![self setResult: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Reason"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setReason: val]) {
-                   return false;
+                   return NO;
                 }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {

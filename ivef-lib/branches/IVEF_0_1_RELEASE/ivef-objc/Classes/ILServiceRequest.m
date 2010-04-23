@@ -31,51 +31,69 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(bool) addArea:(ILArea *) val {
+-(BOOL) addArea:(ILArea *) val {
 
     [m_areas addObject: val];
-      return YES;
+     return YES;
 }
 
 -(ILArea *) areaAt:(int) i {
@@ -93,12 +111,12 @@
     return m_areas;
 }
 
--(bool) setTransmission:(ILTransmission *) val {
+-(BOOL) setTransmission:(ILTransmission *) val {
 
     [m_transmission release];
     m_transmission = val;
     [m_transmission retain];
-      return YES;
+    return YES;
 }
 
 - (ILTransmission *) transmission {
@@ -106,10 +124,10 @@
     return m_transmission;
 }
 
--(bool) addItem:(ILItem *) val {
+-(BOOL) addItem:(ILItem *) val {
 
     [m_items addObject: val];
-      return YES;
+     return YES;
 }
 
 -(ILItem *) itemAt:(int) i {
@@ -127,10 +145,10 @@
     return m_items;
 }
 
--(bool) addObject:(ILObject *) val {
+-(BOOL) addObject:(ILObject *) val {
 
     [m_objects addObject: val];
-      return YES;
+     return YES;
 }
 
 -(ILObject *) objectAt:(int) i {
@@ -148,34 +166,41 @@
     return m_objects;
 }
 
--(bool) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"Area"]) {
                 ILArea * val = [attributeDict objectForKey: key];
                 if (![self addArea: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Transmission"]) {
                 ILTransmission * val = [attributeDict objectForKey: key];
                 if (![self setTransmission: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Item"]) {
                 ILItem * val = [attributeDict objectForKey: key];
                 if (![self addItem: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Object"]) {
                 ILObject * val = [attributeDict objectForKey: key];
                 if (![self addObject: val]) {
-                   return false;
+                   return NO;
                 }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {

@@ -7,13 +7,13 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_cargoTypePresent = false;
-        m_destinationPresent = false;
-        m_ETAPresent = false;
-        m_ATAPresent = false;
-        m_personsOnBoardPresent = false;
-        m_airDraughtPresent = false;
-        m_draughtPresent = false;
+        m_cargoTypePresent = NO;
+        m_destinationPresent = NO;
+        m_ETAPresent = NO;
+        m_ATAPresent = NO;
+        m_personsOnBoardPresent = NO;
+        m_airDraughtPresent = NO;
+        m_draughtPresent = NO;
     }
     return self;
 }
@@ -36,53 +36,71 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(bool) setIdent:(NSString *) val {
+-(BOOL) setIdent:(NSString *) val {
 
     [m_id release];
     m_id = val;
     [m_id retain];
-      return YES;
+    return YES;
 }
 
 - (NSString *) ident {
@@ -90,12 +108,12 @@
     return m_id;
 }
 
--(bool) setSourceName:(NSString *) val {
+-(BOOL) setSourceName:(NSString *) val {
 
     [m_sourceName release];
     m_sourceName = val;
     [m_sourceName retain];
-      return YES;
+    return YES;
 }
 
 - (NSString *) sourceName {
@@ -103,14 +121,14 @@
     return m_sourceName;
 }
 
--(bool) setSource:(int) val {
+-(BOOL) setSource:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
         return NO;
     m_source = val;
-      return YES;
+    return YES;
 }
 
 - (int) source {
@@ -118,7 +136,7 @@
     return m_source;
 }
 
--(bool) setCargoType:(int) val {
+-(BOOL) setCargoType:(int) val {
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
@@ -127,9 +145,9 @@
          ( val != 4 ) &&
          ( val != 9 ) )
         return NO;
-    m_cargoTypePresent = true;
+    m_cargoTypePresent = YES;
     m_cargoType = val;
-      return YES;
+    return YES;
 }
 
 - (int) cargoType {
@@ -137,18 +155,18 @@
     return m_cargoType;
 }
 
--(bool) hasCargoType {
+-(BOOL) hasCargoType {
 
     return m_cargoTypePresent;
 }
 
--(bool) setDestination:(NSString *) val {
+-(BOOL) setDestination:(NSString *) val {
 
-    m_destinationPresent = true;
+    m_destinationPresent = YES;
     [m_destination release];
     m_destination = val;
     [m_destination retain];
-      return YES;
+    return YES;
 }
 
 - (NSString *) destination {
@@ -156,18 +174,18 @@
     return m_destination;
 }
 
--(bool) hasDestination {
+-(BOOL) hasDestination {
 
     return m_destinationPresent;
 }
 
--(bool) setETA:(NSDate *) val {
+-(BOOL) setETA:(NSDate *) val {
 
-    m_ETAPresent = true;
+    m_ETAPresent = YES;
     [m_ETA release];
     m_ETA = val;
     [m_ETA retain];
-      return YES;
+    return YES;
 }
 
 - (NSDate *) ETA {
@@ -175,18 +193,18 @@
     return m_ETA;
 }
 
--(bool) hasETA {
+-(BOOL) hasETA {
 
     return m_ETAPresent;
 }
 
--(bool) setATA:(NSDate *) val {
+-(BOOL) setATA:(NSDate *) val {
 
-    m_ATAPresent = true;
+    m_ATAPresent = YES;
     [m_ATA release];
     m_ATA = val;
     [m_ATA retain];
-      return YES;
+    return YES;
 }
 
 - (NSDate *) ATA {
@@ -194,18 +212,18 @@
     return m_ATA;
 }
 
--(bool) hasATA {
+-(BOOL) hasATA {
 
     return m_ATAPresent;
 }
 
--(bool) setPersonsOnBoard:(int) val {
+-(BOOL) setPersonsOnBoard:(int) val {
 
     if (val < 0)
         return NO;
-    m_personsOnBoardPresent = true;
+    m_personsOnBoardPresent = YES;
     m_personsOnBoard = val;
-      return YES;
+    return YES;
 }
 
 - (int) personsOnBoard {
@@ -213,18 +231,18 @@
     return m_personsOnBoard;
 }
 
--(bool) hasPersonsOnBoard {
+-(BOOL) hasPersonsOnBoard {
 
     return m_personsOnBoardPresent;
 }
 
--(bool) setAirDraught:(float) val {
+-(BOOL) setAirDraught:(float) val {
 
     if (val < 0)
         return NO;
-    m_airDraughtPresent = true;
+    m_airDraughtPresent = YES;
     m_airDraught = val;
-      return YES;
+    return YES;
 }
 
 - (float) airDraught {
@@ -232,18 +250,18 @@
     return m_airDraught;
 }
 
--(bool) hasAirDraught {
+-(BOOL) hasAirDraught {
 
     return m_airDraughtPresent;
 }
 
--(bool) setDraught:(float) val {
+-(BOOL) setDraught:(float) val {
 
     if (val < 0)
         return NO;
-    m_draughtPresent = true;
+    m_draughtPresent = YES;
     m_draught = val;
-      return YES;
+    return YES;
 }
 
 - (float) draught {
@@ -251,82 +269,89 @@
     return m_draught;
 }
 
--(bool) hasDraught {
+-(BOOL) hasDraught {
 
     return m_draughtPresent;
 }
 
--(bool) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"Id"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setIdent: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setSourceName: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Source"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 if (![self setSource: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"CargoType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 if (![self setCargoType: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Destination"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setDestination: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"ETA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
                 if (![self setETA: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"ATA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
                 if (![self setATA: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"PersonsOnBoard"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
                 if (![self setPersonsOnBoard: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"AirDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setAirDraught: val]) {
-                   return false;
+                   return NO;
                 }
             }
             else if ([key isEqualToString:@"Draught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
                 if (![self setDraught: val]) {
-                   return false;
+                   return NO;
                 }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
