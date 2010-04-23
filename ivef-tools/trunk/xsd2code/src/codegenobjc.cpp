@@ -828,8 +828,12 @@ void CodeGenObjC::go() {
     headerFileOut << "//! \\brief       Class definition of " << className(name) << "\n";
     headerFileOut << "//!\n";
 
-    // define the class
-    headerFileOut << "\n@interface " << className(name) << " : NSObject <NSXMLParserDelegate> { \n"; // issue 35, added interface for 10.6
+    // define the classa
+    headerFileOut << "\n#if defined (__clang__)\n"; 
+    headerFileOut << "@interface " << className(name) << " : NSObject { // defintion is missing in GNUStep \n"; // added suport for clang
+    headerFileOut << "#else\n"; 
+    headerFileOut << "@interface " << className(name) << " : NSObject <NSXMLParserDelegate> { \n"; // issue 35, added interface for 10.6
+    headerFileOut << "#endif\n"; 
 
     // vars section
     headerFileOut << "    NSMutableString *m_dataBuffer;\n";
@@ -935,7 +939,7 @@ void CodeGenObjC::go() {
         // create a temp object
         classFileOut << "        " << className(obj->name()) << " *obj = [[" << className(obj->name()) << " alloc] init];\n";
         classFileOut << "        if (! [obj setAttributes: attributeDict] ) {\n";
-        classFileOut << "            [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: elementName];\n";
+        classFileOut << "            [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
         classFileOut << "        };\n";
         // store in local object (or stack) and signal on end tag
         // this way we can set obj in objects
@@ -989,11 +993,11 @@ void CodeGenObjC::go() {
                     classFileOut << "        if ( [[m_objStack lastObject] isKindOfClass: [" << className(parent->name()) << " class]]) {\n";
                     if (attr->unbounded() ) {
                         classFileOut << "                if (! [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) add" << methodName(obj->name()) << ": obj ] ) {\n";
-                        classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: elementName];\n";
+                        classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
                         classFileOut << "                };\n";
                     } else {
                         classFileOut << "                if (! [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) " << setMethodName(obj->name()) << ": obj ] ) {\n";
-                        classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: elementName];\n";
+                        classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
                         classFileOut << "                };\n";
                     }
                     classFileOut << "        }\n"; // close if
@@ -1022,8 +1026,13 @@ void CodeGenObjC::go() {
     classFileOut << "     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];\n\n";
    
     classFileOut << "	  // data may or may not be lead by xml definitions, but we need them before each message\n";
+    classFileOut << "#if defined (__clang__)\n"; 
+    classFileOut << "	  data = [data stringByReplacingString:@\"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n\" withString:@\"\"];\n";
+    classFileOut << "     data = [data stringByReplacingString:@\"<?xml version = \\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n\" withString:@\"\"];\n";
+    classFileOut << "#else\n"; 
     classFileOut << "	  data = [data stringByReplacingOccurrencesOfString:@\"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n\" withString:@\"\"];\n";
     classFileOut << "     data = [data stringByReplacingOccurrencesOfString:@\"<?xml version = \\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\n\" withString:@\"\"];\n";
+    classFileOut << "#endif\n"; 
     classFileOut << "     [m_dataBuffer appendString: data];\n\n";
    
     classFileOut << "     NSRange firstTagRange;\n";
