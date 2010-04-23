@@ -550,7 +550,13 @@ void CodeGenObjC::go() {
         // makes only sense if they are there
         if (attrCount > 0) {
             // run through all the attributes
+            classFileOut << "#if defined (__clang__)\n"; 
+            classFileOut << "        NSEnumerator *enumerator = [attributeDict keyEnumerator];\n";
+            classFileOut << "        NSString *key;\n";
+            classFileOut << "        while (key = [enumerator nextObject]) {\n";
+            classFileOut << "#else\n";
             classFileOut << "        for (NSString *key in attributeDict) {\n";
+            classFileOut << "#endif\n";
             // and match them with mine
             bool first = true;
             for(int j=0; j < attributes.size(); j++) {
@@ -1054,8 +1060,13 @@ void CodeGenObjC::go() {
     classFileOut << "     NSRange firstTagRange;\n";
     classFileOut << "     do {\n";
     classFileOut << "         // search if a message is in the buffer\n";
-    classFileOut << "        firstTagRange = NSMakeRange(NSNotFound , 0);\n";
+    classFileOut << "         firstTagRange = NSMakeRange(NSNotFound , 0);\n";
+    classFileOut << "#if defined (__clang__)\n"; 
+    classFileOut << "         for (int i=0; i < [m_closeTags count]; i++) {\n";
+    classFileOut << "             NSString *tag = [m_closeTags objectAtIndex: i];\n";
+    classFileOut << "#else\n";
     classFileOut << "         for (NSString *tag in m_closeTags) {\n";
+    classFileOut << "#endif\n";
     classFileOut << "             NSRange rangeOfTag = [m_dataBuffer rangeOfString:tag];\n";
     classFileOut << "             if (rangeOfTag.location != NSNotFound) {\n";
     classFileOut << "                 if (firstTagRange.location != NSNotFound) {\n";
