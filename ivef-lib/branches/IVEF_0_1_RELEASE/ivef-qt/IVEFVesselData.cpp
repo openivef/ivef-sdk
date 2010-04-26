@@ -5,9 +5,6 @@
 VesselData::VesselData() {
 
     m_posReportPresent = false;
-    m_staticDataPresent = false;
-    m_voyagePresent = false;
-    m_taggedItemPresent = false;
 }
 
 // copy constructor
@@ -140,6 +137,9 @@ QString VesselData::toXML() const {
             return NULL;
         }
     }
+    if (m_staticDatas.count() < 0) {
+        return NULL; // not enough values
+    }
     // add all included data
     for(int i=0; i < m_staticDatas.count(); i++ ) {
         StaticData attribute = m_staticDatas.at(i);
@@ -150,6 +150,9 @@ QString VesselData::toXML() const {
             return NULL;
         }
     }
+    if (m_voyages.count() < 0) {
+        return NULL; // not enough values
+    }
     // add all included data
     for(int i=0; i < m_voyages.count(); i++ ) {
         Voyage attribute = m_voyages.at(i);
@@ -159,6 +162,9 @@ QString VesselData::toXML() const {
         } else {
             return NULL;
         }
+    }
+    if (m_taggedItems.count() < 0) {
+        return NULL; // not enough values
     }
     // add all included data
     for(int i=0; i < m_taggedItems.count(); i++ ) {

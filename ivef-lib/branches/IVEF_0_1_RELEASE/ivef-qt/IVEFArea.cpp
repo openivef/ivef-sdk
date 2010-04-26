@@ -4,7 +4,6 @@
 // Constructor
 Area::Area() {
 
-    m_posPresent = false;
 }
 
 // copy constructor
@@ -58,6 +57,9 @@ QString Area::toXML() const {
     QString xml = "<Area";
     QString dataMember;
     xml.append(">\n");
+    if (m_poss.count() < 3) {
+        return NULL; // not enough values
+    }
     // add all included data
     for(int i=0; i < m_poss.count(); i++ ) {
         Pos attribute = m_poss.at(i);

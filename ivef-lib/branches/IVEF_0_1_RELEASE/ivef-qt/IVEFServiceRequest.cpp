@@ -4,10 +4,7 @@
 // Constructor
 ServiceRequest::ServiceRequest() {
 
-    m_areaPresent = false;
     m_transmissionPresent = false;
-    m_itemPresent = false;
-    m_objectPresent = false;
 }
 
 // copy constructor
@@ -125,6 +122,9 @@ QString ServiceRequest::toXML() const {
     QString xml = "<ServiceRequest";
     QString dataMember;
     xml.append(">\n");
+    if (m_areas.count() < 0) {
+        return NULL; // not enough values
+    }
     // add all included data
     for(int i=0; i < m_areas.count(); i++ ) {
         Area attribute = m_areas.at(i);

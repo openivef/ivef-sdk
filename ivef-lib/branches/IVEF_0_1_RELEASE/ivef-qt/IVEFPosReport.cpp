@@ -5,7 +5,6 @@
 PosReport::PosReport() {
 
     m_posPresent = false;
-    m_sensorPresent = false;
     m_id = 0;
     m_idPresent = false;
     m_sourceId = 0;
@@ -28,6 +27,7 @@ PosReport::PosReport() {
     m_COGPresent = false;
     // initialize empty string
     m_lost = "";
+    m_lostPresent = false;
     m_lostPresent = false;
     m_rateOfTurn = 0.0;
     m_rateOfTurnPresent = false;
@@ -629,6 +629,9 @@ QString PosReport::toXML() const {
         }
     } else {
         return NULL;
+    }
+    if (m_sensors.count() < 0) {
+        return NULL; // not enough values
     }
     // add all included data
     for(int i=0; i < m_sensors.count(); i++ ) {

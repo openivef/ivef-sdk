@@ -7,8 +7,10 @@ TaggedItem::TaggedItem() {
     // initialize empty string
     m_key = "";
     m_keyPresent = false;
+    m_keyPresent = false;
     // initialize empty string
     m_value = "";
+    m_valuePresent = false;
     m_valuePresent = false;
 }
 

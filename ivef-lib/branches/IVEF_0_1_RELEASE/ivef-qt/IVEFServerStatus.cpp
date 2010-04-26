@@ -7,8 +7,10 @@ ServerStatus::ServerStatus() {
     // initialize empty string
     m_status = "";
     m_statusPresent = false;
+    m_statusPresent = false;
     // initialize empty string
     m_details = "";
+    m_detailsPresent = false;
     m_detailsPresent = false;
 }
 

@@ -11,7 +11,6 @@ Body::Body() {
     m_pongPresent = false;
     m_serverStatusPresent = false;
     m_serviceRequestPresent = false;
-    m_vesselDataPresent = false;
 }
 
 // copy constructor

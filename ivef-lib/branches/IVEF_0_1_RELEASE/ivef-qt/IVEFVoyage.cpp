@@ -7,8 +7,10 @@ Voyage::Voyage() {
     // initialize empty string
     m_id = "";
     m_idPresent = false;
+    m_idPresent = false;
     // initialize empty string
     m_sourceName = "";
+    m_sourceNamePresent = false;
     m_sourceNamePresent = false;
     m_source = 0;
     m_sourcePresent = false;
@@ -16,6 +18,7 @@ Voyage::Voyage() {
     m_cargoTypePresent = false;
     // initialize empty string
     m_destination = "";
+    m_destinationPresent = false;
     m_destinationPresent = false;
     // initialize with random value
     m_ETA = QDateTime();

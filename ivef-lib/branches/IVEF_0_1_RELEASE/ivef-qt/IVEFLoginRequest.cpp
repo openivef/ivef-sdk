@@ -7,8 +7,10 @@ LoginRequest::LoginRequest() {
     // initialize empty string
     m_name = "";
     m_namePresent = false;
+    m_namePresent = false;
     // initialize empty string
     m_password = "";
+    m_passwordPresent = false;
     m_passwordPresent = false;
     m_encryption = 0;
     m_encryptionPresent = false;

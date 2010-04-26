@@ -7,8 +7,10 @@ StaticData::StaticData() {
     // initialize empty string
     m_id = "";
     m_idPresent = false;
+    m_idPresent = false;
     // initialize empty string
     m_sourceName = "";
+    m_sourceNamePresent = false;
     m_sourceNamePresent = false;
     m_source = 0;
     m_sourcePresent = false;
@@ -19,8 +21,10 @@ StaticData::StaticData() {
     // initialize empty string
     m_callsign = "";
     m_callsignPresent = false;
+    m_callsignPresent = false;
     // initialize empty string
     m_shipName = "";
+    m_shipNamePresent = false;
     m_shipNamePresent = false;
     m_objectType = 0;
     m_objectTypePresent = false;
@@ -35,6 +39,7 @@ StaticData::StaticData() {
     // initialize empty string
     m_ATONName = "";
     m_ATONNamePresent = false;
+    m_ATONNamePresent = false;
     m_antPosDistFromFront = 0.0;
     m_antPosDistFromFrontPresent = false;
     m_antPosDistFromLeft = 0.0;
@@ -42,11 +47,14 @@ StaticData::StaticData() {
     // initialize empty string
     m_natLangShipName = "";
     m_natLangShipNamePresent = false;
+    m_natLangShipNamePresent = false;
     // initialize empty string
     m_portOfRegistry = "";
     m_portOfRegistryPresent = false;
+    m_portOfRegistryPresent = false;
     // initialize empty string
     m_countryFlag = "";
+    m_countryFlagPresent = false;
     m_countryFlagPresent = false;
     m_maxAirDraught = 0.0;
     m_maxAirDraughtPresent = false;
@@ -54,6 +62,7 @@ StaticData::StaticData() {
     m_maxDraughtPresent = false;
     // initialize empty string
     m_deepWaterVesselind = "";
+    m_deepWaterVesselindPresent = false;
     m_deepWaterVesselindPresent = false;
 }
 
