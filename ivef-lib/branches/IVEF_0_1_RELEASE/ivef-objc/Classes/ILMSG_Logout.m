@@ -146,13 +146,25 @@
     NSString *dataMember;
     [xml appendString:@">\n"];
     if ( m_headerPresent ) {
-        [xml appendString: [m_header XML] ];
+        dataMember = [m_header XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Header" forKey: @"description"]];
+            return nil;
+        }
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Header" forKey: @"description"]];
         return nil;
     }
     if ( m_bodyPresent ) {
-        [xml appendString: [m_body XML] ];
+        dataMember = [m_body XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Body" forKey: @"description"]];
+            return nil;
+        }
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Body" forKey: @"description"]];
         return nil;

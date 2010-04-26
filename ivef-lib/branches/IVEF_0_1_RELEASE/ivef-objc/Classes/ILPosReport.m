@@ -708,7 +708,13 @@
     }
     [xml appendString:@">\n"];
     if ( m_posPresent ) {
-        [xml appendString: [m_pos XML] ];
+        dataMember = [m_pos XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pos" forKey: @"description"]];
+            return nil;
+        }
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pos" forKey: @"description"]];
         return nil;

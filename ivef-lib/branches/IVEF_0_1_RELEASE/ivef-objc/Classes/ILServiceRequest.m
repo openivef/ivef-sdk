@@ -228,7 +228,13 @@
         }
     }
     if ( m_transmissionPresent ) {
-        [xml appendString: [m_transmission XML] ];
+        dataMember = [m_transmission XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Transmission" forKey: @"description"]];
+            return nil;
+        }
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Transmission" forKey: @"description"]];
         return nil;
