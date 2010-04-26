@@ -283,12 +283,13 @@ void CodeGenJava::go() {
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
-            //if (!attr->required() || obj->isMerged()) { // issue 21
-                classFileOut << "        " << variableName(attr->name()) << "Present = false;\n";
-            //}
             if (attr->isFixed()) {
                 classFileOut << "        " << variableName(attr->name()) << " = \"" << attr->fixed() << "\";\n";
-            }
+                classFileOut << "        " << variableName(attr->name()) << "Present = true;\n"; // issue 21
+            } else {
+                classFileOut << "        " << variableName(attr->name()) << "Present = false;\n"; // issue 21
+ 	    }
+
         }
         classFileOut << "    }\n\n";
         

@@ -356,14 +356,16 @@ void CodeGenObjC::go() {
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
-            //if (!attr->required() || obj->isMerged()) { // issue 21
-            classFileOut << "        " << variableName(attr->name()) << "Present = NO;\n";
             if (attr->unbounded()) { // there more then one
                 classFileOut << "        " << variableName(attr->name()) << "s = [[NSMutableArray alloc] init];\n";
 	    }
             if (attr->isFixed()) { // we already know the value and it cannot be changed (no setter)
                 classFileOut << "        " << variableName(attr->name()) << " = @\"" << attr->fixed() << "\";\n";
-	    }
+                classFileOut << "        " << variableName(attr->name()) << "Present = YES;\n";
+	    } else {
+                //if (!attr->required() || obj->isMerged()) { // issue 21
+                classFileOut << "        " << variableName(attr->name()) << "Present = NO;\n";
+            }
         }
         classFileOut << "    }\n    return self;\n}\n\n";
 
@@ -598,6 +600,7 @@ void CodeGenObjC::go() {
                        // what to do, we get a fixed attribute which may be different from our own!
                        classFileOut << "                [" << variableName(attrName) << " release]; \n";
                        classFileOut << "                " << variableName(attrName) << " = val; // replace the default versioning number\n";
+                       classFileOut << "                " << variableName(attr->name()) << "Present = YES;\n"; // issue 21
                        classFileOut << "                [" << variableName(attrName) << " retain]; \n";
                     }
                     classFileOut << "            }\n";

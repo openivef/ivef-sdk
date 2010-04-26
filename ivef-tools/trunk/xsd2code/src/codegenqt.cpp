@@ -430,9 +430,11 @@ void CodeGenQT::go() {
                     if (attr->isFixed()) {
                        classFileOut << "    // initialize fixed value\n";
                        classFileOut << "    " << variableName(attr->name()) << " = \"" << attr->fixed()  << "\";\n";
+                       classFileOut << "    " << variableName(attr->name()) << "Present = true;\n"; // issue 21
                     } else {
                        classFileOut << "    // initialize empty string\n";
                        classFileOut << "    " << variableName(attr->name()) << " = \"\";\n";
+                       classFileOut << "    " << variableName(attr->name()) << "Present = false;\n"; // issue 21
                     }
                 }
                 else {
@@ -448,13 +450,8 @@ void CodeGenQT::go() {
 		        classFileOut << "    " << variableName(attr->name()) << " = 0.0;\n";
 		    }
 		}
+                classFileOut << "    " << variableName(attr->name()) << "Present = false;\n"; // issue 21
 	    }
-
-            // ev: is not used     QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
-            //if (!attr->required() || obj->isMerged()) { // issue 21
-                //classFileOut << "    // keep track of all attributes that can be set\n";
-                classFileOut << "    " << variableName(attr->name()) << "Present = false;\n";
-            //}
         }
         classFileOut << "}\n\n";
 
