@@ -390,8 +390,9 @@ void CodeGenObjC::go() {
         classFileOut << "     if (date == nil) {\n";
         classFileOut << "         return @\"\"; // illigal date\n";
         classFileOut << "     }\n";
-        classFileOut << "     if (formatterWithMillies == nil) {\n";
-        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss.SSS\" allowNaturalLanguage:NO];\n";
+        classFileOut << "     if (formatterWithMillies == nil) {\n";  // NEXTSTEP format!
+        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"%Y-%m-%dT%H:%M:%S.%F\" allowNaturalLanguage:NO];\n";
+        //classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss.SSS\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
         classFileOut << "#if defined (__clang__)\n"; 
         classFileOut << "     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@\"Z\"]; // always zulu time\n";
@@ -409,15 +410,18 @@ void CodeGenObjC::go() {
         classFileOut << "#endif\n"; 
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
         classFileOut << "     if (formatterWithMillies == nil) {\n";
-        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss.SSS\" allowNaturalLanguage:NO];\n";
+        classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"%Y-%m-%dT%H:%M:%S.%F\" allowNaturalLanguage:NO];\n";
+        //classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss.SSS\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
         classFileOut << "     static NSDateFormatter *formatterWithSeconds = nil;\n";
         classFileOut << "     if (formatterWithSeconds == nil) {\n";
-        classFileOut << "         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss\" allowNaturalLanguage:NO];\n";
+        classFileOut << "         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @\"%Y-%m-%dT%H:%M:%S\" allowNaturalLanguage:NO];\n";
+        //classFileOut << "         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
         classFileOut << "     static NSDateFormatter *formatterWithMinutes = nil;\n";
         classFileOut << "     if (formatterWithMinutes == nil) {\n";
-        classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm\" allowNaturalLanguage:NO];\n";
+        classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @\"%Y-%m-%dT%H:%M\" allowNaturalLanguage:NO];\n";
+        //classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
         classFileOut << "#if defined (__clang__)\n"; 
         classFileOut << "     NSDate *val;\n";
@@ -615,6 +619,7 @@ void CodeGenObjC::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "-(NSString *) XML {\n\n";
         classFileOut << "    NSMutableString *xml = [NSMutableString stringWithString:@\"<" << name << "\"];\n"; // append attributes
+        classFileOut << "    NSString *dataMember;\n"; // append attributes
 
         // for attributes
         bool hasDataMembers = false;
@@ -680,13 +685,36 @@ void CodeGenObjC::go() {
                             }
 			    classFileOut << "    for(int i=0; i < [" << variableName(attr->name()) << "s count]; i++ ) {\n";
 			    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s objectAtIndex:i];\n";
-			    classFileOut << "        [xml appendString: [attribute XML] ];\n    }\n";
+			    classFileOut << "        dataMember = [attribute XML];\n";
+			    classFileOut << "        if (dataMember != nil) {\n";
+			    classFileOut << "            [xml appendString: dataMember];\n";
+			    classFileOut << "        } else { \n";
+			    classFileOut << "            [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: ";
+                            classFileOut << "[NSDictionary dictionaryWithObject: @\"" + attr->name() +"\" forKey: @\"description\"]];\n";
+			    classFileOut << "            return nil;\n";
+			    classFileOut << "        }\n";
+			    classFileOut << "    }\n";
 			} else if (!attr->required() || obj->isMerged()) {
 			    classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
-			    classFileOut << "        [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n    }\n";
+			    classFileOut << "        dataMember = [" << variableName(attr->name()) << " XML];\n";
+			    classFileOut << "        if (dataMember != nil) {\n";
+			    classFileOut << "            [xml appendString: dataMember];\n";
+			    classFileOut << "        } else { \n";
+			    classFileOut << "            [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: ";
+                            classFileOut << "[NSDictionary dictionaryWithObject: @\"" + attr->name() +"\" forKey: @\"description\"]];\n";
+			    classFileOut << "            return nil;\n";
+			    classFileOut << "        }\n";
+			    classFileOut << "    }\n";
 			} else { // issue 21
                             classFileOut << "    if ( " << variableName(attr->name()) << "Present ) {\n";
-			    classFileOut << "        [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n";
+			    classFileOut << "        dataMember = [" << variableName(attr->name()) << " XML];\n";
+			    classFileOut << "        if (dataMember != nil) {\n";
+			    classFileOut << "            [xml appendString: dataMember];\n";
+			    classFileOut << "        } else { \n";
+			    classFileOut << "            [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: ";
+                            classFileOut << "[NSDictionary dictionaryWithObject: @\"" + attr->name() +"\" forKey: @\"description\"]];\n";
+			    classFileOut << "            return nil;\n";
+			    classFileOut << "        }\n";
 			    classFileOut << "    } else { // required element is missing !\n";
 			    classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: @\"" +
 						      attr->name() +"\" forKey: @\"description\"]];\n";
