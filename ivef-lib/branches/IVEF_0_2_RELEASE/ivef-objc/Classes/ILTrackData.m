@@ -7,15 +7,22 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_posPresent = NO;
         m_poss = [[NSMutableArray alloc] init];
-        m_estAccSOGPresent = false;
-        m_estAccCOGPresent = false;
-        m_lengthPresent = false;
-        m_navStatusPresent = false;
-        m_headingPresent = false;
-        m_ROTPresent = false;
-        m_sourceIdPresent = false;
-        m_widthPresent = false;
+        m_COGPresent = NO;
+        m_estAccSOGPresent = NO;
+        m_estAccCOGPresent = NO;
+        m_idPresent = NO;
+        m_lengthPresent = NO;
+        m_navStatusPresent = NO;
+        m_headingPresent = NO;
+        m_ROTPresent = NO;
+        m_SOGPresent = NO;
+        m_sourceIdPresent = NO;
+        m_sourceNamePresent = NO;
+        m_updateTimePresent = NO;
+        m_trackStatusPresent = NO;
+        m_widthPresent = NO;
     }
     return self;
 }
@@ -37,50 +44,69 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) addPos:(ILPos *) val {
+-(BOOL) addPos:(ILPos *) val {
 
     [m_poss addObject: val];
+     return YES;
 }
 
 -(ILPos *) posAt:(int) i {
@@ -98,13 +124,15 @@
     return m_poss;
 }
 
--(void) setCOG:(float) val {
+-(BOOL) setCOG:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 360)
-        return;
+        return NO;
+    m_COGPresent = YES;
     m_COG = val;
+    return YES;
 }
 
 - (float) COG {
@@ -112,10 +140,11 @@
     return m_COG;
 }
 
--(void) setEstAccSOG:(float) val {
+-(BOOL) setEstAccSOG:(float) val {
 
-    m_estAccSOGPresent = true;
+    m_estAccSOGPresent = YES;
     m_estAccSOG = val;
+    return YES;
 }
 
 - (float) estAccSOG {
@@ -123,15 +152,16 @@
     return m_estAccSOG;
 }
 
--(bool) hasEstAccSOG {
+-(BOOL) hasEstAccSOG {
 
     return m_estAccSOGPresent;
 }
 
--(void) setEstAccCOG:(float) val {
+-(BOOL) setEstAccCOG:(float) val {
 
-    m_estAccCOGPresent = true;
+    m_estAccCOGPresent = YES;
     m_estAccCOG = val;
+    return YES;
 }
 
 - (float) estAccCOG {
@@ -139,14 +169,16 @@
     return m_estAccCOG;
 }
 
--(bool) hasEstAccCOG {
+-(BOOL) hasEstAccCOG {
 
     return m_estAccCOGPresent;
 }
 
--(void) setIdent:(int) val {
+-(BOOL) setIdent:(int) val {
 
+    m_idPresent = YES;
     m_id = val;
+    return YES;
 }
 
 - (int) ident {
@@ -154,12 +186,13 @@
     return m_id;
 }
 
--(void) setLength:(float) val {
+-(BOOL) setLength:(float) val {
 
     if (val < 0)
-        return;
-    m_lengthPresent = true;
+        return NO;
+    m_lengthPresent = YES;
     m_length = val;
+    return YES;
 }
 
 - (float) length {
@@ -167,19 +200,20 @@
     return m_length;
 }
 
--(bool) hasLength {
+-(BOOL) hasLength {
 
     return m_lengthPresent;
 }
 
--(void) setNavStatus:(int) val {
+-(BOOL) setNavStatus:(int) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 15)
-        return;
-    m_navStatusPresent = true;
+        return NO;
+    m_navStatusPresent = YES;
     m_navStatus = val;
+    return YES;
 }
 
 - (int) navStatus {
@@ -187,19 +221,20 @@
     return m_navStatus;
 }
 
--(bool) hasNavStatus {
+-(BOOL) hasNavStatus {
 
     return m_navStatusPresent;
 }
 
--(void) setHeading:(float) val {
+-(BOOL) setHeading:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 360)
-        return;
-    m_headingPresent = true;
+        return NO;
+    m_headingPresent = YES;
     m_heading = val;
+    return YES;
 }
 
 - (float) heading {
@@ -207,19 +242,20 @@
     return m_heading;
 }
 
--(bool) hasHeading {
+-(BOOL) hasHeading {
 
     return m_headingPresent;
 }
 
--(void) setROT:(float) val {
+-(BOOL) setROT:(float) val {
 
     if (val < -720)
-        return;
+        return NO;
     if (val > 720)
-        return;
-    m_ROTPresent = true;
+        return NO;
+    m_ROTPresent = YES;
     m_ROT = val;
+    return YES;
 }
 
 - (float) ROT {
@@ -227,16 +263,18 @@
     return m_ROT;
 }
 
--(bool) hasROT {
+-(BOOL) hasROT {
 
     return m_ROTPresent;
 }
 
--(void) setSOG:(float) val {
+-(BOOL) setSOG:(float) val {
 
     if (val < 0)
-        return;
+        return NO;
+    m_SOGPresent = YES;
     m_SOG = val;
+    return YES;
 }
 
 - (float) SOG {
@@ -244,12 +282,13 @@
     return m_SOG;
 }
 
--(void) setSourceId:(NSString *) val {
+-(BOOL) setSourceId:(NSString *) val {
 
-    m_sourceIdPresent = true;
+    m_sourceIdPresent = YES;
     [m_sourceId release];
     m_sourceId = val;
     [m_sourceId retain];
+    return YES;
 }
 
 - (NSString *) sourceId {
@@ -257,16 +296,18 @@
     return m_sourceId;
 }
 
--(bool) hasSourceId {
+-(BOOL) hasSourceId {
 
     return m_sourceIdPresent;
 }
 
--(void) setSourceName:(NSString *) val {
+-(BOOL) setSourceName:(NSString *) val {
 
+    m_sourceNamePresent = YES;
     [m_sourceName release];
     m_sourceName = val;
     [m_sourceName retain];
+    return YES;
 }
 
 - (NSString *) sourceName {
@@ -274,11 +315,13 @@
     return m_sourceName;
 }
 
--(void) setUpdateTime:(NSDate *) val {
+-(BOOL) setUpdateTime:(NSDate *) val {
 
+    m_updateTimePresent = YES;
     [m_updateTime release];
     m_updateTime = val;
     [m_updateTime retain];
+    return YES;
 }
 
 - (NSDate *) updateTime {
@@ -286,13 +329,15 @@
     return m_updateTime;
 }
 
--(void) setTrackStatus:(int) val {
+-(BOOL) setTrackStatus:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return NO;
+    m_trackStatusPresent = YES;
     m_trackStatus = val;
+    return YES;
 }
 
 - (int) trackStatus {
@@ -300,12 +345,13 @@
     return m_trackStatus;
 }
 
--(void) setWidth:(float) val {
+-(BOOL) setWidth:(float) val {
 
     if (val < 0)
-        return;
-    m_widthPresent = true;
+        return NO;
+    m_widthPresent = YES;
     m_width = val;
+    return YES;
 }
 
 - (float) width {
@@ -313,95 +359,137 @@
     return m_width;
 }
 
--(bool) hasWidth {
+-(BOOL) hasWidth {
 
     return m_widthPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"Pos"]) {
                 ILPos * val = [attributeDict objectForKey: key];
-                [self addPos: val];
+                if (![self addPos: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"COG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setCOG: val];
+                if (![self setCOG: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"EstAccSOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setEstAccSOG: val];
+                if (![self setEstAccSOG: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"EstAccCOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setEstAccCOG: val];
+                if (![self setEstAccCOG: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Id"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setIdent: val];
+                if (![self setIdent: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Length"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setLength: val];
+                if (![self setLength: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"NavStatus"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setNavStatus: val];
+                if (![self setNavStatus: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Heading"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setHeading: val];
+                if (![self setHeading: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ROT"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setROT: val];
+                if (![self setROT: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setSOG: val];
+                if (![self setSOG: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setSourceId: val];
+                if (![self setSourceId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setSourceName: val];
+                if (![self setSourceName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setUpdateTime: val];
+                if (![self setUpdateTime: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"TrackStatus"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setTrackStatus: val];
+                if (![self setTrackStatus: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Width"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setWidth: val];
+                if (![self setWidth: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<TrackData"];
-    [xml appendString: @" COG=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_COG]];
-    [xml appendString: @"\""];
+    if ( m_COGPresent ) {
+        [xml appendString: @" COG=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_COG]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"COG" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasEstAccSOG] ) {
         [xml appendString: @" EstAccSOG=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_estAccSOG]];
@@ -412,9 +500,14 @@
         [xml appendString: [NSString stringWithFormat:@"%f", m_estAccCOG]];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" Id=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [xml appendString: @"\""];
+    if ( m_idPresent ) {
+        [xml appendString: @" Id=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Id" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasLength] ) {
         [xml appendString: @" Length=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_length]];
@@ -435,23 +528,43 @@
         [xml appendString: [NSString stringWithFormat:@"%f", m_ROT]];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" SOG=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_SOG]];
-    [xml appendString: @"\""];
+    if ( m_SOGPresent ) {
+        [xml appendString: @" SOG=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_SOG]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SOG" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasSourceId] ) {
         [xml appendString: @" SourceId=\""];
         [xml appendString: [self encode: m_sourceId]];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" SourceName=\""];
-    [xml appendString: [self encode: m_sourceName]];
-    [xml appendString: @"\""];
-    [xml appendString: @" UpdateTime=\""];
-    [xml appendString: [self stringFromDate: m_updateTime]];
-    [xml appendString: @"\""];
-    [xml appendString: @" TrackStatus=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_trackStatus]];
-    [xml appendString: @"\""];
+    if ( m_sourceNamePresent ) {
+        [xml appendString: @" SourceName=\""];
+        [xml appendString: [self encode: m_sourceName]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SourceName" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_updateTimePresent ) {
+        [xml appendString: @" UpdateTime=\""];
+        [xml appendString: [self stringFromDate: m_updateTime]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"UpdateTime" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_trackStatusPresent ) {
+        [xml appendString: @" TrackStatus=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_trackStatus]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"TrackStatus" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasWidth] ) {
         [xml appendString: @" Width=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_width]];

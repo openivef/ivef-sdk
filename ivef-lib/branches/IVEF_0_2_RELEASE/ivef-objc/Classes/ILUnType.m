@@ -7,6 +7,9 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_codeAPresent = NO;
+        m_codeBPresent = NO;
+        m_modePresent = NO;
     }
     return self;
 }
@@ -24,54 +27,74 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) setCodeA:(int) val {
+-(BOOL) setCodeA:(int) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 138)
-        return;
+        return NO;
+    m_codeAPresent = YES;
     m_codeA = val;
+    return YES;
 }
 
 - (int) codeA {
@@ -79,13 +102,15 @@
     return m_codeA;
 }
 
--(void) setCodeB:(int) val {
+-(BOOL) setCodeB:(int) val {
 
     if (val < 0)
-        return;
+        return NO;
     if (val > 9)
-        return;
+        return NO;
+    m_codeBPresent = YES;
     m_codeB = val;
+    return YES;
 }
 
 - (int) codeB {
@@ -93,7 +118,7 @@
     return m_codeB;
 }
 
--(void) setMode:(int) val {
+-(BOOL) setMode:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
@@ -101,8 +126,10 @@
          ( val != 6 ) &&
          ( val != 7 ) &&
          ( val != 8 ) )
-        return;
+        return NO;
+    m_modePresent = YES;
     m_mode = val;
+    return YES;
 }
 
 - (int) mode {
@@ -110,39 +137,67 @@
     return m_mode;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"CodeA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setCodeA: val];
+                if (![self setCodeA: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"CodeB"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setCodeB: val];
+                if (![self setCodeB: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Mode"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setMode: val];
+                if (![self setMode: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<UnType"];
-    [xml appendString: @" CodeA=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_codeA]];
-    [xml appendString: @"\""];
-    [xml appendString: @" CodeB=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_codeB]];
-    [xml appendString: @"\""];
-    [xml appendString: @" Mode=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_mode]];
-    [xml appendString: @"\""];
+    if ( m_codeAPresent ) {
+        [xml appendString: @" CodeA=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_codeA]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"CodeA" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_codeBPresent ) {
+        [xml appendString: @" CodeB=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_codeB]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"CodeB" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_modePresent ) {
+        [xml appendString: @" Mode=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_mode]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Mode" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

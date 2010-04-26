@@ -7,25 +7,30 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_waypointPresent = NO;
         m_waypoints = [[NSMutableArray alloc] init];
-        m_airDraughtPresent = false;
-        m_cargoTypeIMOPresent = false;
-        m_contactIdentityPresent = false;
-        m_destCodePresent = false;
-        m_destNamePresent = false;
-        m_draughtPresent = false;
-        m_ETAPresent = false;
-        m_ISPSLevelPresent = false;
-        m_overSizedLengthPresent = false;
-        m_overSizedWidthPresent = false;
-        m_nextPortPresent = false;
-        m_personsOnBoardPresent = false;
-        m_pilotsPresent = false;
-        m_prevPortPresent = false;
-        m_routeBoundPresent = false;
-        m_sourceIdPresent = false;
-        m_tankerStatusPresent = false;
-        m_tugsPresent = false;
+        m_airDraughtPresent = NO;
+        m_idPresent = NO;
+        m_cargoTypeIMOPresent = NO;
+        m_contactIdentityPresent = NO;
+        m_destCodePresent = NO;
+        m_destNamePresent = NO;
+        m_draughtPresent = NO;
+        m_ETAPresent = NO;
+        m_ISPSLevelPresent = NO;
+        m_overSizedLengthPresent = NO;
+        m_overSizedWidthPresent = NO;
+        m_nextPortPresent = NO;
+        m_personsOnBoardPresent = NO;
+        m_pilotsPresent = NO;
+        m_prevPortPresent = NO;
+        m_routeBoundPresent = NO;
+        m_sourceIdPresent = NO;
+        m_sourceNamePresent = NO;
+        m_sourceTypePresent = NO;
+        m_tankerStatusPresent = NO;
+        m_tugsPresent = NO;
+        m_updateTimePresent = NO;
     }
     return self;
 }
@@ -53,50 +58,69 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) addWaypoint:(ILWaypoint *) val {
+-(BOOL) addWaypoint:(ILWaypoint *) val {
 
     [m_waypoints addObject: val];
+     return YES;
 }
 
 -(ILWaypoint *) waypointAt:(int) i {
@@ -114,12 +138,13 @@
     return m_waypoints;
 }
 
--(void) setAirDraught:(float) val {
+-(BOOL) setAirDraught:(float) val {
 
     if (val < 0)
-        return;
-    m_airDraughtPresent = true;
+        return NO;
+    m_airDraughtPresent = YES;
     m_airDraught = val;
+    return YES;
 }
 
 - (float) airDraught {
@@ -127,14 +152,16 @@
     return m_airDraught;
 }
 
--(bool) hasAirDraught {
+-(BOOL) hasAirDraught {
 
     return m_airDraughtPresent;
 }
 
--(void) setIdent:(int) val {
+-(BOOL) setIdent:(int) val {
 
+    m_idPresent = YES;
     m_id = val;
+    return YES;
 }
 
 - (int) ident {
@@ -142,7 +169,7 @@
     return m_id;
 }
 
--(void) setCargoTypeIMO:(int) val {
+-(BOOL) setCargoTypeIMO:(int) val {
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
@@ -150,9 +177,10 @@
          ( val != 3 ) &&
          ( val != 4 ) &&
          ( val != 5 ) )
-        return;
-    m_cargoTypeIMOPresent = true;
+        return NO;
+    m_cargoTypeIMOPresent = YES;
     m_cargoTypeIMO = val;
+    return YES;
 }
 
 - (int) cargoTypeIMO {
@@ -160,17 +188,18 @@
     return m_cargoTypeIMO;
 }
 
--(bool) hasCargoTypeIMO {
+-(BOOL) hasCargoTypeIMO {
 
     return m_cargoTypeIMOPresent;
 }
 
--(void) setContactIdentity:(NSString *) val {
+-(BOOL) setContactIdentity:(NSString *) val {
 
-    m_contactIdentityPresent = true;
+    m_contactIdentityPresent = YES;
     [m_contactIdentity release];
     m_contactIdentity = val;
     [m_contactIdentity retain];
+    return YES;
 }
 
 - (NSString *) contactIdentity {
@@ -178,17 +207,18 @@
     return m_contactIdentity;
 }
 
--(bool) hasContactIdentity {
+-(BOOL) hasContactIdentity {
 
     return m_contactIdentityPresent;
 }
 
--(void) setDestCode:(NSString *) val {
+-(BOOL) setDestCode:(NSString *) val {
 
-    m_destCodePresent = true;
+    m_destCodePresent = YES;
     [m_destCode release];
     m_destCode = val;
     [m_destCode retain];
+    return YES;
 }
 
 - (NSString *) destCode {
@@ -196,17 +226,18 @@
     return m_destCode;
 }
 
--(bool) hasDestCode {
+-(BOOL) hasDestCode {
 
     return m_destCodePresent;
 }
 
--(void) setDestName:(NSString *) val {
+-(BOOL) setDestName:(NSString *) val {
 
-    m_destNamePresent = true;
+    m_destNamePresent = YES;
     [m_destName release];
     m_destName = val;
     [m_destName retain];
+    return YES;
 }
 
 - (NSString *) destName {
@@ -214,17 +245,18 @@
     return m_destName;
 }
 
--(bool) hasDestName {
+-(BOOL) hasDestName {
 
     return m_destNamePresent;
 }
 
--(void) setDraught:(float) val {
+-(BOOL) setDraught:(float) val {
 
     if (val < 0)
-        return;
-    m_draughtPresent = true;
+        return NO;
+    m_draughtPresent = YES;
     m_draught = val;
+    return YES;
 }
 
 - (float) draught {
@@ -232,17 +264,18 @@
     return m_draught;
 }
 
--(bool) hasDraught {
+-(BOOL) hasDraught {
 
     return m_draughtPresent;
 }
 
--(void) setETA:(NSDate *) val {
+-(BOOL) setETA:(NSDate *) val {
 
-    m_ETAPresent = true;
+    m_ETAPresent = YES;
     [m_ETA release];
     m_ETA = val;
     [m_ETA retain];
+    return YES;
 }
 
 - (NSDate *) ETA {
@@ -250,19 +283,20 @@
     return m_ETA;
 }
 
--(bool) hasETA {
+-(BOOL) hasETA {
 
     return m_ETAPresent;
 }
 
--(void) setISPSLevel:(float) val {
+-(BOOL) setISPSLevel:(float) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
-    m_ISPSLevelPresent = true;
+        return NO;
+    m_ISPSLevelPresent = YES;
     m_ISPSLevel = val;
+    return YES;
 }
 
 - (float) ISPSLevel {
@@ -270,17 +304,18 @@
     return m_ISPSLevel;
 }
 
--(bool) hasISPSLevel {
+-(BOOL) hasISPSLevel {
 
     return m_ISPSLevelPresent;
 }
 
--(void) setOverSizedLength:(float) val {
+-(BOOL) setOverSizedLength:(float) val {
 
     if (val < 0)
-        return;
-    m_overSizedLengthPresent = true;
+        return NO;
+    m_overSizedLengthPresent = YES;
     m_overSizedLength = val;
+    return YES;
 }
 
 - (float) overSizedLength {
@@ -288,17 +323,18 @@
     return m_overSizedLength;
 }
 
--(bool) hasOverSizedLength {
+-(BOOL) hasOverSizedLength {
 
     return m_overSizedLengthPresent;
 }
 
--(void) setOverSizedWidth:(float) val {
+-(BOOL) setOverSizedWidth:(float) val {
 
     if (val < 0)
-        return;
-    m_overSizedWidthPresent = true;
+        return NO;
+    m_overSizedWidthPresent = YES;
     m_overSizedWidth = val;
+    return YES;
 }
 
 - (float) overSizedWidth {
@@ -306,17 +342,18 @@
     return m_overSizedWidth;
 }
 
--(bool) hasOverSizedWidth {
+-(BOOL) hasOverSizedWidth {
 
     return m_overSizedWidthPresent;
 }
 
--(void) setNextPort:(NSString *) val {
+-(BOOL) setNextPort:(NSString *) val {
 
-    m_nextPortPresent = true;
+    m_nextPortPresent = YES;
     [m_nextPort release];
     m_nextPort = val;
     [m_nextPort retain];
+    return YES;
 }
 
 - (NSString *) nextPort {
@@ -324,35 +361,37 @@
     return m_nextPort;
 }
 
--(bool) hasNextPort {
+-(BOOL) hasNextPort {
 
     return m_nextPortPresent;
 }
 
--(void) setPersonsOnBoard:(float) val {
+-(BOOL) setPersonsOnBoard:(int) val {
 
     if (val < 0)
-        return;
-    m_personsOnBoardPresent = true;
+        return NO;
+    m_personsOnBoardPresent = YES;
     m_personsOnBoard = val;
+    return YES;
 }
 
-- (float) personsOnBoard {
+- (int) personsOnBoard {
 
     return m_personsOnBoard;
 }
 
--(bool) hasPersonsOnBoard {
+-(BOOL) hasPersonsOnBoard {
 
     return m_personsOnBoardPresent;
 }
 
--(void) setPilots:(float) val {
+-(BOOL) setPilots:(float) val {
 
     if (val < 0)
-        return;
-    m_pilotsPresent = true;
+        return NO;
+    m_pilotsPresent = YES;
     m_pilots = val;
+    return YES;
 }
 
 - (float) pilots {
@@ -360,17 +399,18 @@
     return m_pilots;
 }
 
--(bool) hasPilots {
+-(BOOL) hasPilots {
 
     return m_pilotsPresent;
 }
 
--(void) setPrevPort:(NSString *) val {
+-(BOOL) setPrevPort:(NSString *) val {
 
-    m_prevPortPresent = true;
+    m_prevPortPresent = YES;
     [m_prevPort release];
     m_prevPort = val;
     [m_prevPort retain];
+    return YES;
 }
 
 - (NSString *) prevPort {
@@ -378,33 +418,35 @@
     return m_prevPort;
 }
 
--(bool) hasPrevPort {
+-(BOOL) hasPrevPort {
 
     return m_prevPortPresent;
 }
 
--(void) setRouteBound:(bool) val {
+-(BOOL) setRouteBound:(BOOL) val {
 
-    m_routeBoundPresent = true;
+    m_routeBoundPresent = YES;
     m_routeBound = val;
+    return YES;
 }
 
-- (bool) routeBound {
+- (BOOL) routeBound {
 
     return m_routeBound;
 }
 
--(bool) hasRouteBound {
+-(BOOL) hasRouteBound {
 
     return m_routeBoundPresent;
 }
 
--(void) setSourceId:(NSString *) val {
+-(BOOL) setSourceId:(NSString *) val {
 
-    m_sourceIdPresent = true;
+    m_sourceIdPresent = YES;
     [m_sourceId release];
     m_sourceId = val;
     [m_sourceId retain];
+    return YES;
 }
 
 - (NSString *) sourceId {
@@ -412,16 +454,18 @@
     return m_sourceId;
 }
 
--(bool) hasSourceId {
+-(BOOL) hasSourceId {
 
     return m_sourceIdPresent;
 }
 
--(void) setSourceName:(NSString *) val {
+-(BOOL) setSourceName:(NSString *) val {
 
+    m_sourceNamePresent = YES;
     [m_sourceName release];
     m_sourceName = val;
     [m_sourceName retain];
+    return YES;
 }
 
 - (NSString *) sourceName {
@@ -429,15 +473,17 @@
     return m_sourceName;
 }
 
--(void) setSourceType:(int) val {
+-(BOOL) setSourceType:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) &&
          ( val != 4 ) &&
          ( val != 5 ) )
-        return;
+        return NO;
+    m_sourceTypePresent = YES;
     m_sourceType = val;
+    return YES;
 }
 
 - (int) sourceType {
@@ -445,14 +491,15 @@
     return m_sourceType;
 }
 
--(void) setTankerStatus:(int) val {
+-(BOOL) setTankerStatus:(int) val {
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
          ( val != 2 ) )
-        return;
-    m_tankerStatusPresent = true;
+        return NO;
+    m_tankerStatusPresent = YES;
     m_tankerStatus = val;
+    return YES;
 }
 
 - (int) tankerStatus {
@@ -460,32 +507,35 @@
     return m_tankerStatus;
 }
 
--(bool) hasTankerStatus {
+-(BOOL) hasTankerStatus {
 
     return m_tankerStatusPresent;
 }
 
--(void) setTugs:(bool) val {
+-(BOOL) setTugs:(BOOL) val {
 
-    m_tugsPresent = true;
+    m_tugsPresent = YES;
     m_tugs = val;
+    return YES;
 }
 
-- (bool) tugs {
+- (BOOL) tugs {
 
     return m_tugs;
 }
 
--(bool) hasTugs {
+-(BOOL) hasTugs {
 
     return m_tugsPresent;
 }
 
--(void) setUpdateTime:(NSDate *) val {
+-(BOOL) setUpdateTime:(NSDate *) val {
 
+    m_updateTimePresent = YES;
     [m_updateTime release];
     m_updateTime = val;
     [m_updateTime retain];
+    return YES;
 }
 
 - (NSDate *) updateTime {
@@ -493,121 +543,174 @@
     return m_updateTime;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"Waypoint"]) {
                 ILWaypoint * val = [attributeDict objectForKey: key];
-                [self addWaypoint: val];
+                if (![self addWaypoint: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"AirDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setAirDraught: val];
+                if (![self setAirDraught: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Id"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setIdent: val];
+                if (![self setIdent: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"CargoTypeIMO"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setCargoTypeIMO: val];
+                if (![self setCargoTypeIMO: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ContactIdentity"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setContactIdentity: val];
+                if (![self setContactIdentity: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"DestCode"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setDestCode: val];
+                if (![self setDestCode: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"DestName"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setDestName: val];
+                if (![self setDestName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Draught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setDraught: val];
+                if (![self setDraught: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ETA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setETA: val];
+                if (![self setETA: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ISPSLevel"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setISPSLevel: val];
+                if (![self setISPSLevel: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"OverSizedLength"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setOverSizedLength: val];
+                if (![self setOverSizedLength: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"OverSizedWidth"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setOverSizedWidth: val];
+                if (![self setOverSizedWidth: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"NextPort"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setNextPort: val];
+                if (![self setNextPort: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"PersonsOnBoard"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                float val = [value floatValue];
-                [self setPersonsOnBoard: val];
+                int val = [value intValue];
+                if (![self setPersonsOnBoard: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Pilots"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setPilots: val];
+                if (![self setPilots: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"PrevPort"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setPrevPort: val];
+                if (![self setPrevPort: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"RouteBound"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                BOOL val = ([[value uppercaseString] isEqualToString: @"YES"] || 
                             [[value uppercaseString] isEqualToString: @"TRUE"] ||
                             [[value uppercaseString] isEqualToString: @"1"]);
-                [self setRouteBound: val];
+                if (![self setRouteBound: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setSourceId: val];
+                if (![self setSourceId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setSourceName: val];
+                if (![self setSourceName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setSourceType: val];
+                if (![self setSourceType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"TankerStatus"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setTankerStatus: val];
+                if (![self setTankerStatus: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Tugs"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                BOOL val = ([[value uppercaseString] isEqualToString: @"YES"] || 
                             [[value uppercaseString] isEqualToString: @"TRUE"] ||
                             [[value uppercaseString] isEqualToString: @"1"]);
-                [self setTugs: val];
+                if (![self setTugs: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setUpdateTime: val];
+                if (![self setUpdateTime: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
@@ -618,9 +721,14 @@
         [xml appendString: [NSString stringWithFormat:@"%f", m_airDraught]];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" Id=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [xml appendString: @"\""];
+    if ( m_idPresent ) {
+        [xml appendString: @" Id=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Id" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasCargoTypeIMO] ) {
         [xml appendString: @" CargoTypeIMO=\""];
         [xml appendString: [NSString stringWithFormat:@"%d", m_cargoTypeIMO]];
@@ -673,7 +781,7 @@
     }
     if ( [self hasPersonsOnBoard] ) {
         [xml appendString: @" PersonsOnBoard=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_personsOnBoard]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_personsOnBoard]];
         [xml appendString: @"\""];
     }
     if ( [self hasPilots] ) {
@@ -696,12 +804,22 @@
         [xml appendString: [self encode: m_sourceId]];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" SourceName=\""];
-    [xml appendString: [self encode: m_sourceName]];
-    [xml appendString: @"\""];
-    [xml appendString: @" SourceType=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_sourceType]];
-    [xml appendString: @"\""];
+    if ( m_sourceNamePresent ) {
+        [xml appendString: @" SourceName=\""];
+        [xml appendString: [self encode: m_sourceName]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SourceName" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_sourceTypePresent ) {
+        [xml appendString: @" SourceType=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_sourceType]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SourceType" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasTankerStatus] ) {
         [xml appendString: @" TankerStatus=\""];
         [xml appendString: [NSString stringWithFormat:@"%d", m_tankerStatus]];
@@ -712,10 +830,19 @@
         [xml appendString: (m_tugs?@"true":@"false")];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" UpdateTime=\""];
-    [xml appendString: [self stringFromDate: m_updateTime]];
-    [xml appendString: @"\""];
+    if ( m_updateTimePresent ) {
+        [xml appendString: @" UpdateTime=\""];
+        [xml appendString: [self stringFromDate: m_updateTime]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"UpdateTime" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@">\n"];
+    if ([m_waypoints count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Waypoint" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_waypoints count]; i++ ) {
         ILWaypoint *attribute = [m_waypoints objectAtIndex:i];
         [xml appendString: [attribute XML] ];
@@ -830,7 +957,7 @@
     if ( [self hasPersonsOnBoard] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"PersonsOnBoard = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_personsOnBoard]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_personsOnBoard]];
         [str appendString: @"\n"];
 
     }
@@ -936,7 +1063,7 @@
         [attr setObject: m_nextPort forKey: @"NextPort"];
     }
     if ( [self hasPersonsOnBoard] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_personsOnBoard] forKey: @"PersonsOnBoard"];
+        [attr setObject: [NSString stringWithFormat:@"%d", m_personsOnBoard] forKey: @"PersonsOnBoard"];
     }
     if ( [self hasPilots] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_pilots] forKey: @"Pilots"];

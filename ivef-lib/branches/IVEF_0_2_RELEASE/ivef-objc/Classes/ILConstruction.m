@@ -7,15 +7,16 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_hullColorPresent = false;
-        m_hullTypePresent = false;
-        m_lengthPresent = false;
-        m_lloydsShipTypePresent = false;
-        m_maxKeelHeightPresent = false;
-        m_maxDraughtPresent = false;
-        m_maxPersonsOnBoardPresent = false;
-        m_maxSpeedPresent = false;
-        m_widthPresent = false;
+        m_unTypePresent = NO;
+        m_hullColorPresent = NO;
+        m_hullTypePresent = NO;
+        m_lengthPresent = NO;
+        m_lloydsShipTypePresent = NO;
+        m_maxKeelHeightPresent = NO;
+        m_maxDraughtPresent = NO;
+        m_maxPersonsOnBoardPresent = NO;
+        m_maxSpeedPresent = NO;
+        m_widthPresent = NO;
     }
     return self;
 }
@@ -35,52 +36,72 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) setUnType:(ILUnType *) val {
+-(BOOL) setUnType:(ILUnType *) val {
 
+    m_unTypePresent = YES;
     [m_unType release];
     m_unType = val;
     [m_unType retain];
+    return YES;
 }
 
 - (ILUnType *) unType {
@@ -88,12 +109,18 @@
     return m_unType;
 }
 
--(void) setHullColor:(NSString *) val {
+-(BOOL) hasUnType {
 
-    m_hullColorPresent = true;
+    return m_unTypePresent;
+}
+
+-(BOOL) setHullColor:(NSString *) val {
+
+    m_hullColorPresent = YES;
     [m_hullColor release];
     m_hullColor = val;
     [m_hullColor retain];
+    return YES;
 }
 
 - (NSString *) hullColor {
@@ -101,19 +128,20 @@
     return m_hullColor;
 }
 
--(bool) hasHullColor {
+-(BOOL) hasHullColor {
 
     return m_hullColorPresent;
 }
 
--(void) setHullType:(int) val {
+-(BOOL) setHullType:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
-    m_hullTypePresent = true;
+        return NO;
+    m_hullTypePresent = YES;
     m_hullType = val;
+    return YES;
 }
 
 - (int) hullType {
@@ -121,17 +149,18 @@
     return m_hullType;
 }
 
--(bool) hasHullType {
+-(BOOL) hasHullType {
 
     return m_hullTypePresent;
 }
 
--(void) setLength:(float) val {
+-(BOOL) setLength:(float) val {
 
     if (val < 0)
-        return;
-    m_lengthPresent = true;
+        return NO;
+    m_lengthPresent = YES;
     m_length = val;
+    return YES;
 }
 
 - (float) length {
@@ -139,15 +168,16 @@
     return m_length;
 }
 
--(bool) hasLength {
+-(BOOL) hasLength {
 
     return m_lengthPresent;
 }
 
--(void) setLloydsShipType:(int) val {
+-(BOOL) setLloydsShipType:(int) val {
 
-    m_lloydsShipTypePresent = true;
+    m_lloydsShipTypePresent = YES;
     m_lloydsShipType = val;
+    return YES;
 }
 
 - (int) lloydsShipType {
@@ -155,17 +185,18 @@
     return m_lloydsShipType;
 }
 
--(bool) hasLloydsShipType {
+-(BOOL) hasLloydsShipType {
 
     return m_lloydsShipTypePresent;
 }
 
--(void) setMaxKeelHeight:(float) val {
+-(BOOL) setMaxKeelHeight:(float) val {
 
     if (val < 0)
-        return;
-    m_maxKeelHeightPresent = true;
+        return NO;
+    m_maxKeelHeightPresent = YES;
     m_maxKeelHeight = val;
+    return YES;
 }
 
 - (float) maxKeelHeight {
@@ -173,17 +204,18 @@
     return m_maxKeelHeight;
 }
 
--(bool) hasMaxKeelHeight {
+-(BOOL) hasMaxKeelHeight {
 
     return m_maxKeelHeightPresent;
 }
 
--(void) setMaxDraught:(float) val {
+-(BOOL) setMaxDraught:(float) val {
 
     if (val < 0)
-        return;
-    m_maxDraughtPresent = true;
+        return NO;
+    m_maxDraughtPresent = YES;
     m_maxDraught = val;
+    return YES;
 }
 
 - (float) maxDraught {
@@ -191,35 +223,37 @@
     return m_maxDraught;
 }
 
--(bool) hasMaxDraught {
+-(BOOL) hasMaxDraught {
 
     return m_maxDraughtPresent;
 }
 
--(void) setMaxPersonsOnBoard:(float) val {
+-(BOOL) setMaxPersonsOnBoard:(int) val {
 
     if (val < 0)
-        return;
-    m_maxPersonsOnBoardPresent = true;
+        return NO;
+    m_maxPersonsOnBoardPresent = YES;
     m_maxPersonsOnBoard = val;
+    return YES;
 }
 
-- (float) maxPersonsOnBoard {
+- (int) maxPersonsOnBoard {
 
     return m_maxPersonsOnBoard;
 }
 
--(bool) hasMaxPersonsOnBoard {
+-(BOOL) hasMaxPersonsOnBoard {
 
     return m_maxPersonsOnBoardPresent;
 }
 
--(void) setMaxSpeed:(float) val {
+-(BOOL) setMaxSpeed:(float) val {
 
     if (val < 0)
-        return;
-    m_maxSpeedPresent = true;
+        return NO;
+    m_maxSpeedPresent = YES;
     m_maxSpeed = val;
+    return YES;
 }
 
 - (float) maxSpeed {
@@ -227,17 +261,18 @@
     return m_maxSpeed;
 }
 
--(bool) hasMaxSpeed {
+-(BOOL) hasMaxSpeed {
 
     return m_maxSpeedPresent;
 }
 
--(void) setWidth:(float) val {
+-(BOOL) setWidth:(float) val {
 
     if (val < 0)
-        return;
-    m_widthPresent = true;
+        return NO;
+    m_widthPresent = YES;
     m_width = val;
+    return YES;
 }
 
 - (float) width {
@@ -245,63 +280,90 @@
     return m_width;
 }
 
--(bool) hasWidth {
+-(BOOL) hasWidth {
 
     return m_widthPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"UnType"]) {
                 ILUnType * val = [attributeDict objectForKey: key];
-                [self setUnType: val];
+                if (![self setUnType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"HullColor"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setHullColor: val];
+                if (![self setHullColor: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"HullType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setHullType: val];
+                if (![self setHullType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Length"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setLength: val];
+                if (![self setLength: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"LloydsShipType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setLloydsShipType: val];
+                if (![self setLloydsShipType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MaxKeelHeight"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setMaxKeelHeight: val];
+                if (![self setMaxKeelHeight: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MaxDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setMaxDraught: val];
+                if (![self setMaxDraught: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MaxPersonsOnBoard"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                float val = [value floatValue];
-                [self setMaxPersonsOnBoard: val];
+                int val = [value intValue];
+                if (![self setMaxPersonsOnBoard: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MaxSpeed"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setMaxSpeed: val];
+                if (![self setMaxSpeed: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Width"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                [self setWidth: val];
+                if (![self setWidth: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
@@ -339,7 +401,7 @@
     }
     if ( [self hasMaxPersonsOnBoard] ) {
         [xml appendString: @" MaxPersonsOnBoard=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_maxPersonsOnBoard]];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_maxPersonsOnBoard]];
         [xml appendString: @"\""];
     }
     if ( [self hasMaxSpeed] ) {
@@ -353,7 +415,9 @@
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];
-    [xml appendString: [m_unType XML] ];
+    if ( [self hasUnType] ) {
+        [xml appendString: [m_unType XML] ];
+    }
     [xml appendString: @"</Construction>\n"];
     return xml;
 }
@@ -424,7 +488,7 @@
     if ( [self hasMaxPersonsOnBoard] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"MaxPersonsOnBoard = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_maxPersonsOnBoard]];
+        [str appendString: [NSString stringWithFormat:@"%d", m_maxPersonsOnBoard]];
         [str appendString: @"\n"];
 
     }
@@ -442,7 +506,9 @@
         [str appendString: @"\n"];
 
     }
-    [str appendString: [m_unType stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    if ( [self hasUnType] ) {
+        [str appendString: [m_unType stringValueWithLead: [lead stringByAppendingString: @"    "]] ];
+    }
     return str;
 }
 
@@ -468,7 +534,7 @@
         [attr setObject: [NSString stringWithFormat:@"%f", m_maxDraught] forKey: @"MaxDraught"];
     }
     if ( [self hasMaxPersonsOnBoard] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_maxPersonsOnBoard] forKey: @"MaxPersonsOnBoard"];
+        [attr setObject: [NSString stringWithFormat:@"%d", m_maxPersonsOnBoard] forKey: @"MaxPersonsOnBoard"];
     }
     if ( [self hasMaxSpeed] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_maxSpeed] forKey: @"MaxSpeed"];

@@ -7,11 +7,12 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_posPresent = false;
-        m_ATAPresent = false;
-        m_ETAPresent = false;
-        m_RTAPresent = false;
-        m_loCodePresent = false;
+        m_posPresent = NO;
+        m_ATAPresent = NO;
+        m_ETAPresent = NO;
+        m_RTAPresent = NO;
+        m_loCodePresent = NO;
+        m_namePresent = NO;
     }
     return self;
 }
@@ -35,53 +36,72 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) setPos:(ILPos *) val {
+-(BOOL) setPos:(ILPos *) val {
 
-    m_posPresent = true;
+    m_posPresent = YES;
     [m_pos release];
     m_pos = val;
     [m_pos retain];
+    return YES;
 }
 
 - (ILPos *) pos {
@@ -89,17 +109,18 @@
     return m_pos;
 }
 
--(bool) hasPos {
+-(BOOL) hasPos {
 
     return m_posPresent;
 }
 
--(void) setATA:(NSDate *) val {
+-(BOOL) setATA:(NSDate *) val {
 
-    m_ATAPresent = true;
+    m_ATAPresent = YES;
     [m_ATA release];
     m_ATA = val;
     [m_ATA retain];
+    return YES;
 }
 
 - (NSDate *) ATA {
@@ -107,17 +128,18 @@
     return m_ATA;
 }
 
--(bool) hasATA {
+-(BOOL) hasATA {
 
     return m_ATAPresent;
 }
 
--(void) setETA:(NSDate *) val {
+-(BOOL) setETA:(NSDate *) val {
 
-    m_ETAPresent = true;
+    m_ETAPresent = YES;
     [m_ETA release];
     m_ETA = val;
     [m_ETA retain];
+    return YES;
 }
 
 - (NSDate *) ETA {
@@ -125,17 +147,18 @@
     return m_ETA;
 }
 
--(bool) hasETA {
+-(BOOL) hasETA {
 
     return m_ETAPresent;
 }
 
--(void) setRTA:(NSDate *) val {
+-(BOOL) setRTA:(NSDate *) val {
 
-    m_RTAPresent = true;
+    m_RTAPresent = YES;
     [m_RTA release];
     m_RTA = val;
     [m_RTA retain];
+    return YES;
 }
 
 - (NSDate *) RTA {
@@ -143,17 +166,18 @@
     return m_RTA;
 }
 
--(bool) hasRTA {
+-(BOOL) hasRTA {
 
     return m_RTAPresent;
 }
 
--(void) setLoCode:(NSString *) val {
+-(BOOL) setLoCode:(NSString *) val {
 
-    m_loCodePresent = true;
+    m_loCodePresent = YES;
     [m_loCode release];
     m_loCode = val;
     [m_loCode retain];
+    return YES;
 }
 
 - (NSString *) loCode {
@@ -161,16 +185,18 @@
     return m_loCode;
 }
 
--(bool) hasLoCode {
+-(BOOL) hasLoCode {
 
     return m_loCodePresent;
 }
 
--(void) setName:(NSString *) val {
+-(BOOL) setName:(NSString *) val {
 
+    m_namePresent = YES;
     [m_name release];
     m_name = val;
     [m_name retain];
+    return YES;
 }
 
 - (NSString *) name {
@@ -178,37 +204,56 @@
     return m_name;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"Pos"]) {
                 ILPos * val = [attributeDict objectForKey: key];
-                [self setPos: val];
+                if (![self setPos: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ATA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setATA: val];
+                if (![self setATA: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ETA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setETA: val];
+                if (![self setETA: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"RTA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setRTA: val];
+                if (![self setRTA: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"LoCode"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setLoCode: val];
+                if (![self setLoCode: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Name"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setName: val];
+                if (![self setName: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
@@ -234,9 +279,14 @@
         [xml appendString: [self encode: m_loCode]];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" Name=\""];
-    [xml appendString: [self encode: m_name]];
-    [xml appendString: @"\""];
+    if ( m_namePresent ) {
+        [xml appendString: @" Name=\""];
+        [xml appendString: [self encode: m_name]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Name" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@">\n"];
     if ( [self hasPos] ) {
         [xml appendString: [m_pos XML] ];

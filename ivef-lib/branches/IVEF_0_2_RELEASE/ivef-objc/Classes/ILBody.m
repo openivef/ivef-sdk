@@ -7,15 +7,15 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_loginRequestPresent = false;
-        m_loginResponsePresent = false;
-        m_logoutPresent = false;
-        m_objectDatasPresent = false;
-        m_pingPresent = false;
-        m_pongPresent = false;
-        m_serverStatusPresent = false;
-        m_serviceRequestPresent = false;
-        m_serviceRequestResponsePresent = false;
+        m_loginRequestPresent = NO;
+        m_loginResponsePresent = NO;
+        m_logoutPresent = NO;
+        m_objectDatasPresent = NO;
+        m_pingPresent = NO;
+        m_pongPresent = NO;
+        m_serverStatusPresent = NO;
+        m_serviceRequestPresent = NO;
+        m_serviceRequestResponsePresent = NO;
     }
     return self;
 }
@@ -42,53 +42,72 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) setLoginRequest:(ILLoginRequest *) val {
+-(BOOL) setLoginRequest:(ILLoginRequest *) val {
 
-    m_loginRequestPresent = true;
+    m_loginRequestPresent = YES;
     [m_loginRequest release];
     m_loginRequest = val;
     [m_loginRequest retain];
+    return YES;
 }
 
 - (ILLoginRequest *) loginRequest {
@@ -96,17 +115,18 @@
     return m_loginRequest;
 }
 
--(bool) hasLoginRequest {
+-(BOOL) hasLoginRequest {
 
     return m_loginRequestPresent;
 }
 
--(void) setLoginResponse:(ILLoginResponse *) val {
+-(BOOL) setLoginResponse:(ILLoginResponse *) val {
 
-    m_loginResponsePresent = true;
+    m_loginResponsePresent = YES;
     [m_loginResponse release];
     m_loginResponse = val;
     [m_loginResponse retain];
+    return YES;
 }
 
 - (ILLoginResponse *) loginResponse {
@@ -114,17 +134,18 @@
     return m_loginResponse;
 }
 
--(bool) hasLoginResponse {
+-(BOOL) hasLoginResponse {
 
     return m_loginResponsePresent;
 }
 
--(void) setLogout:(ILLogout *) val {
+-(BOOL) setLogout:(ILLogout *) val {
 
-    m_logoutPresent = true;
+    m_logoutPresent = YES;
     [m_logout release];
     m_logout = val;
     [m_logout retain];
+    return YES;
 }
 
 - (ILLogout *) logout {
@@ -132,17 +153,18 @@
     return m_logout;
 }
 
--(bool) hasLogout {
+-(BOOL) hasLogout {
 
     return m_logoutPresent;
 }
 
--(void) setObjectDatas:(ILObjectDatas *) val {
+-(BOOL) setObjectDatas:(ILObjectDatas *) val {
 
-    m_objectDatasPresent = true;
+    m_objectDatasPresent = YES;
     [m_objectDatas release];
     m_objectDatas = val;
     [m_objectDatas retain];
+    return YES;
 }
 
 - (ILObjectDatas *) objectDatas {
@@ -150,17 +172,18 @@
     return m_objectDatas;
 }
 
--(bool) hasObjectDatas {
+-(BOOL) hasObjectDatas {
 
     return m_objectDatasPresent;
 }
 
--(void) setPing:(ILPing *) val {
+-(BOOL) setPing:(ILPing *) val {
 
-    m_pingPresent = true;
+    m_pingPresent = YES;
     [m_ping release];
     m_ping = val;
     [m_ping retain];
+    return YES;
 }
 
 - (ILPing *) ping {
@@ -168,17 +191,18 @@
     return m_ping;
 }
 
--(bool) hasPing {
+-(BOOL) hasPing {
 
     return m_pingPresent;
 }
 
--(void) setPong:(ILPong *) val {
+-(BOOL) setPong:(ILPong *) val {
 
-    m_pongPresent = true;
+    m_pongPresent = YES;
     [m_pong release];
     m_pong = val;
     [m_pong retain];
+    return YES;
 }
 
 - (ILPong *) pong {
@@ -186,17 +210,18 @@
     return m_pong;
 }
 
--(bool) hasPong {
+-(BOOL) hasPong {
 
     return m_pongPresent;
 }
 
--(void) setServerStatus:(ILServerStatus *) val {
+-(BOOL) setServerStatus:(ILServerStatus *) val {
 
-    m_serverStatusPresent = true;
+    m_serverStatusPresent = YES;
     [m_serverStatus release];
     m_serverStatus = val;
     [m_serverStatus retain];
+    return YES;
 }
 
 - (ILServerStatus *) serverStatus {
@@ -204,17 +229,18 @@
     return m_serverStatus;
 }
 
--(bool) hasServerStatus {
+-(BOOL) hasServerStatus {
 
     return m_serverStatusPresent;
 }
 
--(void) setServiceRequest:(ILServiceRequest *) val {
+-(BOOL) setServiceRequest:(ILServiceRequest *) val {
 
-    m_serviceRequestPresent = true;
+    m_serviceRequestPresent = YES;
     [m_serviceRequest release];
     m_serviceRequest = val;
     [m_serviceRequest retain];
+    return YES;
 }
 
 - (ILServiceRequest *) serviceRequest {
@@ -222,17 +248,18 @@
     return m_serviceRequest;
 }
 
--(bool) hasServiceRequest {
+-(BOOL) hasServiceRequest {
 
     return m_serviceRequestPresent;
 }
 
--(void) setServiceRequestResponse:(ILServiceRequestResponse *) val {
+-(BOOL) setServiceRequestResponse:(ILServiceRequestResponse *) val {
 
-    m_serviceRequestResponsePresent = true;
+    m_serviceRequestResponsePresent = YES;
     [m_serviceRequestResponse release];
     m_serviceRequestResponse = val;
     [m_serviceRequestResponse retain];
+    return YES;
 }
 
 - (ILServiceRequestResponse *) serviceRequestResponse {
@@ -240,51 +267,76 @@
     return m_serviceRequestResponse;
 }
 
--(bool) hasServiceRequestResponse {
+-(BOOL) hasServiceRequestResponse {
 
     return m_serviceRequestResponsePresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"LoginRequest"]) {
                 ILLoginRequest * val = [attributeDict objectForKey: key];
-                [self setLoginRequest: val];
+                if (![self setLoginRequest: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"LoginResponse"]) {
                 ILLoginResponse * val = [attributeDict objectForKey: key];
-                [self setLoginResponse: val];
+                if (![self setLoginResponse: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Logout"]) {
                 ILLogout * val = [attributeDict objectForKey: key];
-                [self setLogout: val];
+                if (![self setLogout: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ObjectDatas"]) {
                 ILObjectDatas * val = [attributeDict objectForKey: key];
-                [self setObjectDatas: val];
+                if (![self setObjectDatas: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Ping"]) {
                 ILPing * val = [attributeDict objectForKey: key];
-                [self setPing: val];
+                if (![self setPing: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Pong"]) {
                 ILPong * val = [attributeDict objectForKey: key];
-                [self setPong: val];
+                if (![self setPong: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ServerStatus"]) {
                 ILServerStatus * val = [attributeDict objectForKey: key];
-                [self setServerStatus: val];
+                if (![self setServerStatus: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ServiceRequest"]) {
                 ILServiceRequest * val = [attributeDict objectForKey: key];
-                [self setServiceRequest: val];
+                if (![self setServiceRequest: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ServiceRequestResponse"]) {
                 ILServiceRequestResponse * val = [attributeDict objectForKey: key];
-                [self setServiceRequestResponse: val];
+                if (![self setServiceRequestResponse: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {

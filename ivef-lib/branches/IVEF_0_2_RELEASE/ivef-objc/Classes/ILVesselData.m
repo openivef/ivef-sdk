@@ -7,12 +7,16 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_constructionPresent = false;
-        m_identifierPresent = false;
-        m_classPresent = false;
-        m_blackListedPresent = false;
-        m_specialAttentionPresent = false;
-        m_sourceIdPresent = false;
+        m_constructionPresent = NO;
+        m_identifierPresent = NO;
+        m_classPresent = NO;
+        m_blackListedPresent = NO;
+        m_idPresent = NO;
+        m_specialAttentionPresent = NO;
+        m_sourceIdPresent = NO;
+        m_sourceNamePresent = NO;
+        m_sourceTypePresent = NO;
+        m_updateTimePresent = NO;
     }
     return self;
 }
@@ -36,53 +40,72 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) setConstruction:(ILConstruction *) val {
+-(BOOL) setConstruction:(ILConstruction *) val {
 
-    m_constructionPresent = true;
+    m_constructionPresent = YES;
     [m_construction release];
     m_construction = val;
     [m_construction retain];
+    return YES;
 }
 
 - (ILConstruction *) construction {
@@ -90,17 +113,18 @@
     return m_construction;
 }
 
--(bool) hasConstruction {
+-(BOOL) hasConstruction {
 
     return m_constructionPresent;
 }
 
--(void) setIdentifier:(ILIdentifier *) val {
+-(BOOL) setIdentifier:(ILIdentifier *) val {
 
-    m_identifierPresent = true;
+    m_identifierPresent = YES;
     [m_identifier release];
     m_identifier = val;
     [m_identifier retain];
+    return YES;
 }
 
 - (ILIdentifier *) identifier {
@@ -108,19 +132,20 @@
     return m_identifier;
 }
 
--(bool) hasIdentifier {
+-(BOOL) hasIdentifier {
 
     return m_identifierPresent;
 }
 
--(void) setClass:(int) val {
+-(BOOL) setClass:(int) val {
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
          ( val != 2 ) )
-        return;
-    m_classPresent = true;
+        return NO;
+    m_classPresent = YES;
     m_class = val;
+    return YES;
 }
 
 - (int) class {
@@ -128,30 +153,33 @@
     return m_class;
 }
 
--(bool) hasClass {
+-(BOOL) hasClass {
 
     return m_classPresent;
 }
 
--(void) setBlackListed:(bool) val {
+-(BOOL) setBlackListed:(BOOL) val {
 
-    m_blackListedPresent = true;
+    m_blackListedPresent = YES;
     m_blackListed = val;
+    return YES;
 }
 
-- (bool) blackListed {
+- (BOOL) blackListed {
 
     return m_blackListed;
 }
 
--(bool) hasBlackListed {
+-(BOOL) hasBlackListed {
 
     return m_blackListedPresent;
 }
 
--(void) setIdent:(int) val {
+-(BOOL) setIdent:(int) val {
 
+    m_idPresent = YES;
     m_id = val;
+    return YES;
 }
 
 - (int) ident {
@@ -159,12 +187,13 @@
     return m_id;
 }
 
--(void) setSpecialAttention:(NSString *) val {
+-(BOOL) setSpecialAttention:(NSString *) val {
 
-    m_specialAttentionPresent = true;
+    m_specialAttentionPresent = YES;
     [m_specialAttention release];
     m_specialAttention = val;
     [m_specialAttention retain];
+    return YES;
 }
 
 - (NSString *) specialAttention {
@@ -172,17 +201,18 @@
     return m_specialAttention;
 }
 
--(bool) hasSpecialAttention {
+-(BOOL) hasSpecialAttention {
 
     return m_specialAttentionPresent;
 }
 
--(void) setSourceId:(NSString *) val {
+-(BOOL) setSourceId:(NSString *) val {
 
-    m_sourceIdPresent = true;
+    m_sourceIdPresent = YES;
     [m_sourceId release];
     m_sourceId = val;
     [m_sourceId retain];
+    return YES;
 }
 
 - (NSString *) sourceId {
@@ -190,16 +220,18 @@
     return m_sourceId;
 }
 
--(bool) hasSourceId {
+-(BOOL) hasSourceId {
 
     return m_sourceIdPresent;
 }
 
--(void) setSourceName:(NSString *) val {
+-(BOOL) setSourceName:(NSString *) val {
 
+    m_sourceNamePresent = YES;
     [m_sourceName release];
     m_sourceName = val;
     [m_sourceName retain];
+    return YES;
 }
 
 - (NSString *) sourceName {
@@ -207,13 +239,15 @@
     return m_sourceName;
 }
 
--(void) setSourceType:(int) val {
+-(BOOL) setSourceType:(int) val {
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return NO;
+    m_sourceTypePresent = YES;
     m_sourceType = val;
+    return YES;
 }
 
 - (int) sourceType {
@@ -221,11 +255,13 @@
     return m_sourceType;
 }
 
--(void) setUpdateTime:(NSDate *) val {
+-(BOOL) setUpdateTime:(NSDate *) val {
 
+    m_updateTimePresent = YES;
     [m_updateTime release];
     m_updateTime = val;
     [m_updateTime retain];
+    return YES;
 }
 
 - (NSDate *) updateTime {
@@ -233,57 +269,84 @@
     return m_updateTime;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"Construction"]) {
                 ILConstruction * val = [attributeDict objectForKey: key];
-                [self setConstruction: val];
+                if (![self setConstruction: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Identifier"]) {
                 ILIdentifier * val = [attributeDict objectForKey: key];
-                [self setIdentifier: val];
+                if (![self setIdentifier: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Class"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setClass: val];
+                if (![self setClass: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"BlackListed"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                bool val = ([[value uppercaseString] isEqualToString: @"YES"] || 
+                BOOL val = ([[value uppercaseString] isEqualToString: @"YES"] || 
                             [[value uppercaseString] isEqualToString: @"TRUE"] ||
                             [[value uppercaseString] isEqualToString: @"1"]);
-                [self setBlackListed: val];
+                if (![self setBlackListed: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Id"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setIdent: val];
+                if (![self setIdent: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SpecialAttention"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setSpecialAttention: val];
+                if (![self setSpecialAttention: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setSourceId: val];
+                if (![self setSourceId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setSourceName: val];
+                if (![self setSourceName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setSourceType: val];
+                if (![self setSourceType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
-                [self setUpdateTime: val];
+                if (![self setUpdateTime: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
@@ -299,9 +362,14 @@
         [xml appendString: (m_blackListed?@"true":@"false")];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" Id=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [xml appendString: @"\""];
+    if ( m_idPresent ) {
+        [xml appendString: @" Id=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Id" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasSpecialAttention] ) {
         [xml appendString: @" SpecialAttention=\""];
         [xml appendString: [self encode: m_specialAttention]];
@@ -312,15 +380,30 @@
         [xml appendString: [self encode: m_sourceId]];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" SourceName=\""];
-    [xml appendString: [self encode: m_sourceName]];
-    [xml appendString: @"\""];
-    [xml appendString: @" SourceType=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_sourceType]];
-    [xml appendString: @"\""];
-    [xml appendString: @" UpdateTime=\""];
-    [xml appendString: [self stringFromDate: m_updateTime]];
-    [xml appendString: @"\""];
+    if ( m_sourceNamePresent ) {
+        [xml appendString: @" SourceName=\""];
+        [xml appendString: [self encode: m_sourceName]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SourceName" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_sourceTypePresent ) {
+        [xml appendString: @" SourceType=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_sourceType]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SourceType" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_updateTimePresent ) {
+        [xml appendString: @" UpdateTime=\""];
+        [xml appendString: [self stringFromDate: m_updateTime]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"UpdateTime" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@">\n"];
     if ( [self hasConstruction] ) {
         [xml appendString: [m_construction XML] ];

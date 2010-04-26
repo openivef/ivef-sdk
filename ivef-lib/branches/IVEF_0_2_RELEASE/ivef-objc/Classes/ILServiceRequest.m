@@ -7,9 +7,12 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_areaPresent = NO;
         m_areas = [[NSMutableArray alloc] init];
+        m_transmissionPresent = NO;
+        m_itemPresent = NO;
         m_items = [[NSMutableArray alloc] init];
-        m_filterPresent = false;
+        m_filterPresent = NO;
     }
     return self;
 }
@@ -31,50 +34,69 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) addArea:(ILArea *) val {
+-(BOOL) addArea:(ILArea *) val {
 
     [m_areas addObject: val];
+     return YES;
 }
 
 -(ILArea *) areaAt:(int) i {
@@ -92,11 +114,13 @@
     return m_areas;
 }
 
--(void) setTransmission:(ILTransmission *) val {
+-(BOOL) setTransmission:(ILTransmission *) val {
 
+    m_transmissionPresent = YES;
     [m_transmission release];
     m_transmission = val;
     [m_transmission retain];
+    return YES;
 }
 
 - (ILTransmission *) transmission {
@@ -104,9 +128,10 @@
     return m_transmission;
 }
 
--(void) addItem:(ILItem *) val {
+-(BOOL) addItem:(ILItem *) val {
 
     [m_items addObject: val];
+     return YES;
 }
 
 -(ILItem *) itemAt:(int) i {
@@ -124,12 +149,13 @@
     return m_items;
 }
 
--(void) setFilter:(ILFilter *) val {
+-(BOOL) setFilter:(ILFilter *) val {
 
-    m_filterPresent = true;
+    m_filterPresent = YES;
     [m_filter release];
     m_filter = val;
     [m_filter retain];
+    return YES;
 }
 
 - (ILFilter *) filter {
@@ -137,42 +163,70 @@
     return m_filter;
 }
 
--(bool) hasFilter {
+-(BOOL) hasFilter {
 
     return m_filterPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"Area"]) {
                 ILArea * val = [attributeDict objectForKey: key];
-                [self addArea: val];
+                if (![self addArea: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Transmission"]) {
                 ILTransmission * val = [attributeDict objectForKey: key];
-                [self setTransmission: val];
+                if (![self setTransmission: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Item"]) {
                 ILItem * val = [attributeDict objectForKey: key];
-                [self addItem: val];
+                if (![self addItem: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Filter"]) {
                 ILFilter * val = [attributeDict objectForKey: key];
-                [self setFilter: val];
+                if (![self setFilter: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ServiceRequest"];
     [xml appendString:@">\n"];
+    if ([m_areas count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Area" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_areas count]; i++ ) {
         ILArea *attribute = [m_areas objectAtIndex:i];
         [xml appendString: [attribute XML] ];
     }
-    [xml appendString: [m_transmission XML] ];
+    if ( m_transmissionPresent ) {
+        [xml appendString: [m_transmission XML] ];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Transmission" forKey: @"description"]];
+        return nil;
+    }
+    if ([m_items count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Item" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_items count]; i++ ) {
         ILItem *attribute = [m_items objectAtIndex:i];
         [xml appendString: [attribute XML] ];

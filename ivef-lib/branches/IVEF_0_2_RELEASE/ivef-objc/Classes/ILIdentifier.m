@@ -7,13 +7,15 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_otherIdPresent = NO;
         m_otherIds = [[NSMutableArray alloc] init];
+        m_otherNamePresent = NO;
         m_otherNames = [[NSMutableArray alloc] init];
-        m_callsignPresent = false;
-        m_IMOPresent = false;
-        m_namePresent = false;
-        m_MMSIPresent = false;
-        m_LRITPresent = false;
+        m_callsignPresent = NO;
+        m_IMOPresent = NO;
+        m_namePresent = NO;
+        m_MMSIPresent = NO;
+        m_LRITPresent = NO;
     }
     return self;
 }
@@ -36,50 +38,69 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
+#else
      return [[formatterWithMillies stringFromDate:date] stringByAppendingString:@"Z"]; // always zulu time
+#endif
 }
 
 - (NSDate*) dateFromString:(NSString *)str {
 
      // new date strings can be in Zulu time
+#if defined (__clang__)
+     str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
      str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
 
+#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] init];
-         [formatterWithMillies setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS"];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] init];
-         [formatterWithSeconds setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] init];
-         [formatterWithMinutes setDateFormat:@"yyyy-MM-dd'T'HH:mm"];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
      }
+#if defined (__clang__)
+     NSDate *val;
+     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
+#else
      NSDate *val = [formatterWithMillies dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithSeconds getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithSeconds dateFromString:str];
+#endif
      if (val) {
          return val;
      }
+#if defined (__clang__)
+     [formatterWithMinutes getObjectValue: &val forString: str errorDescription: nil];
+#else
      val = [formatterWithMinutes dateFromString:str];
+#endif
      if (val) {
          return val;
      }
      return nil; // invalid date
 }
 
--(void) addOtherId:(ILOtherId *) val {
+-(BOOL) addOtherId:(ILOtherId *) val {
 
     [m_otherIds addObject: val];
+     return YES;
 }
 
 -(ILOtherId *) otherIdAt:(int) i {
@@ -97,9 +118,10 @@
     return m_otherIds;
 }
 
--(void) addOtherName:(ILOtherName *) val {
+-(BOOL) addOtherName:(ILOtherName *) val {
 
     [m_otherNames addObject: val];
+     return YES;
 }
 
 -(ILOtherName *) otherNameAt:(int) i {
@@ -117,12 +139,13 @@
     return m_otherNames;
 }
 
--(void) setCallsign:(NSString *) val {
+-(BOOL) setCallsign:(NSString *) val {
 
-    m_callsignPresent = true;
+    m_callsignPresent = YES;
     [m_callsign release];
     m_callsign = val;
     [m_callsign retain];
+    return YES;
 }
 
 - (NSString *) callsign {
@@ -130,15 +153,16 @@
     return m_callsign;
 }
 
--(bool) hasCallsign {
+-(BOOL) hasCallsign {
 
     return m_callsignPresent;
 }
 
--(void) setIMO:(int) val {
+-(BOOL) setIMO:(int) val {
 
-    m_IMOPresent = true;
+    m_IMOPresent = YES;
     m_IMO = val;
+    return YES;
 }
 
 - (int) IMO {
@@ -146,17 +170,18 @@
     return m_IMO;
 }
 
--(bool) hasIMO {
+-(BOOL) hasIMO {
 
     return m_IMOPresent;
 }
 
--(void) setName:(NSString *) val {
+-(BOOL) setName:(NSString *) val {
 
-    m_namePresent = true;
+    m_namePresent = YES;
     [m_name release];
     m_name = val;
     [m_name retain];
+    return YES;
 }
 
 - (NSString *) name {
@@ -164,15 +189,16 @@
     return m_name;
 }
 
--(bool) hasName {
+-(BOOL) hasName {
 
     return m_namePresent;
 }
 
--(void) setMMSI:(int) val {
+-(BOOL) setMMSI:(int) val {
 
-    m_MMSIPresent = true;
+    m_MMSIPresent = YES;
     m_MMSI = val;
+    return YES;
 }
 
 - (int) MMSI {
@@ -180,17 +206,18 @@
     return m_MMSI;
 }
 
--(bool) hasMMSI {
+-(BOOL) hasMMSI {
 
     return m_MMSIPresent;
 }
 
--(void) setLRIT:(NSString *) val {
+-(BOOL) setLRIT:(NSString *) val {
 
-    m_LRITPresent = true;
+    m_LRITPresent = YES;
     [m_LRIT release];
     m_LRIT = val;
     [m_LRIT retain];
+    return YES;
 }
 
 - (NSString *) LRIT {
@@ -198,45 +225,66 @@
     return m_LRIT;
 }
 
--(bool) hasLRIT {
+-(BOOL) hasLRIT {
 
     return m_LRITPresent;
 }
 
--(void) setAttributes:(NSDictionary *)attributeDict {
+-(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
+#if defined (__clang__)
+        NSEnumerator *enumerator = [attributeDict keyEnumerator];
+        NSString *key;
+        while (key = [enumerator nextObject]) {
+#else
         for (NSString *key in attributeDict) {
+#endif
             if ([key isEqualToString: @"OtherId"]) {
                 ILOtherId * val = [attributeDict objectForKey: key];
-                [self addOtherId: val];
+                if (![self addOtherId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"OtherName"]) {
                 ILOtherName * val = [attributeDict objectForKey: key];
-                [self addOtherName: val];
+                if (![self addOtherName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Callsign"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setCallsign: val];
+                if (![self setCallsign: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"IMO"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setIMO: val];
+                if (![self setIMO: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Name"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setName: val];
+                if (![self setName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MMSI"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
-                [self setMMSI: val];
+                if (![self setMMSI: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"LRIT"]) {
                 NSString *val = [attributeDict objectForKey: key];
-                [self setLRIT: val];
+                if (![self setLRIT: val]) {
+                   return NO;
+                }
             }
         }
+        return YES;
 }
 
 -(NSString *) XML {
@@ -268,9 +316,17 @@
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];
+    if ([m_otherIds count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of OtherId" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_otherIds count]; i++ ) {
         ILOtherId *attribute = [m_otherIds objectAtIndex:i];
         [xml appendString: [attribute XML] ];
+    }
+    if ([m_otherNames count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of OtherName" forKey: @"description"]];
+        return nil;
     }
     for(int i=0; i < [m_otherNames count]; i++ ) {
         ILOtherName *attribute = [m_otherNames objectAtIndex:i];
