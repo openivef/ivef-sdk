@@ -136,6 +136,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Header"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_versionPresent ) {
         [xml appendString: @" Version=\""];
         [xml appendString: [self encode: m_version]];

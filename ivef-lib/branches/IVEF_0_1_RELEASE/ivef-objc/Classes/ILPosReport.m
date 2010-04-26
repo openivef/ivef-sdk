@@ -602,6 +602,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<PosReport"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_idPresent ) {
         [xml appendString: @" Id=\""];
         [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
@@ -718,7 +719,13 @@
     }
     for(int i=0; i < [m_sensors count]; i++ ) {
         ILSensor *attribute = [m_sensors objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Sensor" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</PosReport>\n"];
     return xml;

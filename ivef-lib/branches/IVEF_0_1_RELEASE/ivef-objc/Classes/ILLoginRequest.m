@@ -166,6 +166,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<LoginRequest"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_namePresent ) {
         [xml appendString: @" Name=\""];
         [xml appendString: [self encode: m_name]];

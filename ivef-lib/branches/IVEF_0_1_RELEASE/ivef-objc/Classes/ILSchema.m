@@ -101,6 +101,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Schema"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     [xml appendString:@"/>\n"];
     return xml;
 }

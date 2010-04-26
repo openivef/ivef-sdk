@@ -147,6 +147,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Pos"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_latPresent ) {
         [xml appendString: @" Lat=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_lat]];

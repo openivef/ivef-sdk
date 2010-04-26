@@ -707,6 +707,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<StaticData"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_idPresent ) {
         [xml appendString: @" Id=\""];
         [xml appendString: [self encode: m_id]];

@@ -145,6 +145,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Item"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_elementPresent ) {
         [xml appendString: @" Element=\""];
         [xml appendString: [NSString stringWithFormat:@"%d", m_element]];

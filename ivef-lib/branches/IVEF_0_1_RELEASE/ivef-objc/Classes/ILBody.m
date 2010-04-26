@@ -318,31 +318,80 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Body"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     [xml appendString:@">\n"];
     if ( [self hasLoginRequest] ) {
-        [xml appendString: [m_loginRequest XML] ];
+        dataMember = [m_loginRequest XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"LoginRequest" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasLoginResponse] ) {
-        [xml appendString: [m_loginResponse XML] ];
+        dataMember = [m_loginResponse XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"LoginResponse" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasLogout] ) {
-        [xml appendString: [m_logout XML] ];
+        dataMember = [m_logout XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Logout" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasPing] ) {
-        [xml appendString: [m_ping XML] ];
+        dataMember = [m_ping XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Ping" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasPong] ) {
-        [xml appendString: [m_pong XML] ];
+        dataMember = [m_pong XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pong" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasServerStatus] ) {
-        [xml appendString: [m_serverStatus XML] ];
+        dataMember = [m_serverStatus XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"ServerStatus" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasServiceRequest] ) {
-        [xml appendString: [m_serviceRequest XML] ];
+        dataMember = [m_serviceRequest XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"ServiceRequest" forKey: @"description"]];
+            return nil;
+        }
     }
     for(int i=0; i < [m_vesselDatas count]; i++ ) {
         ILVesselData *attribute = [m_vesselDatas objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"VesselData" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</Body>\n"];
     return xml;

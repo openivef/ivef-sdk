@@ -91,6 +91,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Logout"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     [xml appendString:@"/>\n"];
     return xml;
 }

@@ -149,6 +149,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Transmission"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_typePresent ) {
         [xml appendString: @" Type=\""];
         [xml appendString: [NSString stringWithFormat:@"%d", m_type]];

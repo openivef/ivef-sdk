@@ -129,10 +129,21 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Area"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     [xml appendString:@">\n"];
+    if ([m_poss count] < 3) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Pos" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_poss count]; i++ ) {
         ILPos *attribute = [m_poss objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pos" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</Area>\n"];
     return xml;

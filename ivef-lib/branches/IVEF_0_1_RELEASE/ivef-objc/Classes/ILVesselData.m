@@ -216,9 +216,16 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     [xml appendString:@">\n"];
     if ( [self hasPosReport] ) {
-        [xml appendString: [m_posReport XML] ];
+        dataMember = [m_posReport XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"PosReport" forKey: @"description"]];
+            return nil;
+        }
     }
     if ([m_staticDatas count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of StaticData" forKey: @"description"]];
@@ -226,7 +233,13 @@
     }
     for(int i=0; i < [m_staticDatas count]; i++ ) {
         ILStaticData *attribute = [m_staticDatas objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"StaticData" forKey: @"description"]];
+            return nil;
+        }
     }
     if ([m_voyages count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Voyage" forKey: @"description"]];
@@ -234,7 +247,13 @@
     }
     for(int i=0; i < [m_voyages count]; i++ ) {
         ILVoyage *attribute = [m_voyages objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Voyage" forKey: @"description"]];
+            return nil;
+        }
     }
     if ([m_taggedItems count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of TaggedItem" forKey: @"description"]];
@@ -242,7 +261,13 @@
     }
     for(int i=0; i < [m_taggedItems count]; i++ ) {
         ILTaggedItem *attribute = [m_taggedItems objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"TaggedItem" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</VesselData>\n"];
     return xml;

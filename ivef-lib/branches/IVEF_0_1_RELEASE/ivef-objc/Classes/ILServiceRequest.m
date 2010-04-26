@@ -211,6 +211,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ServiceRequest"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     [xml appendString:@">\n"];
     if ([m_areas count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Area" forKey: @"description"]];
@@ -218,7 +219,13 @@
     }
     for(int i=0; i < [m_areas count]; i++ ) {
         ILArea *attribute = [m_areas objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Area" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( m_transmissionPresent ) {
         [xml appendString: [m_transmission XML] ];
@@ -228,11 +235,23 @@
     }
     for(int i=0; i < [m_items count]; i++ ) {
         ILItem *attribute = [m_items objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Item" forKey: @"description"]];
+            return nil;
+        }
     }
     for(int i=0; i < [m_objects count]; i++ ) {
         ILObject *attribute = [m_objects objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Object" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</ServiceRequest>\n"];
     return xml;

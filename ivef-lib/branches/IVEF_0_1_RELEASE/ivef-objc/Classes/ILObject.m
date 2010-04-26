@@ -121,6 +121,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Object"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_fileNamePresent ) {
         [xml appendString: @" FileName=\""];
         [xml appendString: [self encode: m_fileName]];

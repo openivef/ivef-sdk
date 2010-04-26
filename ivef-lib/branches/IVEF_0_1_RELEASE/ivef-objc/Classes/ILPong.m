@@ -164,6 +164,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Pong"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     if ( m_timeStampPresent ) {
         [xml appendString: @" TimeStamp=\""];
         [xml appendString: [self stringFromDate: m_timeStamp]];

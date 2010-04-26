@@ -143,6 +143,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<MSG_ServiceRequest"];
+    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
     [xml appendString:@">\n"];
     if ( m_headerPresent ) {
         [xml appendString: [m_header XML] ];
