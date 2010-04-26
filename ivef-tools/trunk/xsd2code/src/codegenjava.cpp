@@ -269,9 +269,9 @@ void CodeGenJava::go() {
             } else {
                 classFileOut << "    private " << type << " " << variableName(attr->name()) << "; // default value is uninitialized\n";
             }
-            if (!attr->required() || obj->isMerged()) {
+            //if (!attr->required() || obj->isMerged()) { // issue 21
                 classFileOut << "    private boolean " << variableName(attr->name()) << "Present;\n";
-            }
+            //}
         }
         
         //-----------------------------------------------------------------------------------------------
@@ -283,9 +283,9 @@ void CodeGenJava::go() {
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
-            if (!attr->required() || obj->isMerged()) {
+            //if (!attr->required() || obj->isMerged()) { // issue 21
                 classFileOut << "        " << variableName(attr->name()) << "Present = false;\n";
-            }
+            //}
             if (attr->isFixed()) {
                 classFileOut << "        " << variableName(attr->name()) << " = \"" << attr->fixed() << "\";\n";
             }
@@ -298,15 +298,18 @@ void CodeGenJava::go() {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to java types
-            if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
-                classFileOut << "        " << variableName(attr->name()) << "Present = val.has" << methodName(attr->name()) << "();\n";
-            }
+            //if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) { // issue 21
+            //    classFileOut << "        " << variableName(attr->name()) << "Present = val.has" << methodName(attr->name()) << "();\n";
+            //}
             if (attr->unbounded()) { // there more then one
                 classFileOut << "        for(int i=0; i < val.countOf" << methodName(attr->name()) << "s(); i++ ) {\n";
                 classFileOut << "            " << variableName(attr->name()) << "s.add( val.get" << methodName(attr->name()) << "At(i) );\n";
                 classFileOut << "        }\n";
             } else {
                 classFileOut << "        " << variableName(attr->name()) << " = val.get" << methodName(attr->name()) << "();\n";
+                classFileOut << "        if (val != null) {\n";
+                classFileOut << "            " << variableName(attr->name()) << "Present = true;\n"; // issue 21
+                classFileOut << "        }\n";
             }
         }
         classFileOut << "    }\n\n";
@@ -358,16 +361,16 @@ void CodeGenJava::go() {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
                     classFileOut << "\n        if (" << evaluator << " > " << attr->max() << ")\n          return false;";
                 }
-                if (!attr->required() || obj->isMerged()) {
+                //if (!attr->required() || obj->isMerged()) {// issue 21
                     classFileOut << "\n        " << variableName(attr->name()) << "Present = true;";
-                }
+                //}
                 classFileOut << "\n        " << variableName(attr->name()) << " = val;\n";
 		classFileOut << "          return true;\n";
 		classFileOut << "    }\n\n";
                 // getter
                 classFileOut << "    public " << type << " get" << methodName(attr->name()) << "() {\n";
                 classFileOut << "\n        return " << variableName(attr->name()) << ";\n    }\n\n";
-                if (!attr->required() || obj->isMerged()) {
+                if (!attr->required() || obj->isMerged()) { // issue 21 expose only optional elements
                     classFileOut << "    public boolean has" << methodName(attr->name()) << "() {\n";
                     classFileOut << "\n        return " << variableName(attr->name()) << "Present;\n    }\n\n";
                 }
@@ -416,8 +419,12 @@ void CodeGenJava::go() {
                 if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
                     classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "            xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n        }\n";
-                } else {
-                    classFileOut << "        xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n";
+                } else { // issue 21
+                    classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n";
+                    classFileOut << "            xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n";
+                    classFileOut << "        } else { \n";
+                    classFileOut << "            return null; // not all required attributes have been set \n";
+                    classFileOut << "        } \n";
                 }
             } else {
                 hasDataMembers = true;
@@ -442,7 +449,11 @@ void CodeGenJava::go() {
                         classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
                         classFileOut << "            xml += " << " " << variableName(attr->name()) << ".toXML() ;\n            }\n";
                     } else {
-                        classFileOut << "        xml += " << " " << variableName(attr->name()) << ".toXML();\n";
+                        classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n"; // issue 21
+                        classFileOut << "            xml += " << " " << variableName(attr->name()) << ".toXML();\n";
+                        classFileOut << "        } else { \n";
+                        classFileOut << "            return null; // not all required data members have been set \n";
+                        classFileOut << "        } \n";
                     }
                 }
             }
