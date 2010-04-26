@@ -143,7 +143,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<TaggedItem"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     if ( m_keyPresent ) {
         [xml appendString: @" Key=\""];
         [xml appendString: [self encode: m_key]];

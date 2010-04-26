@@ -171,7 +171,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<LoginResponse"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     if ( m_msgIdPresent ) {
         [xml appendString: @" MsgId=\""];
         [xml appendString: [self encode: m_msgId]];

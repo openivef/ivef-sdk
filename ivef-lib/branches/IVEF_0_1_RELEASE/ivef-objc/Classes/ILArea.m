@@ -129,7 +129,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Area"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     [xml appendString:@">\n"];
     if ([m_poss count] < 3) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Pos" forKey: @"description"]];

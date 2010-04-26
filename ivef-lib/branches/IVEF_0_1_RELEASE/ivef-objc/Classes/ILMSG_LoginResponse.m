@@ -143,7 +143,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<MSG_LoginResponse"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     [xml appendString:@">\n"];
     if ( m_headerPresent ) {
         [xml appendString: [m_header XML] ];

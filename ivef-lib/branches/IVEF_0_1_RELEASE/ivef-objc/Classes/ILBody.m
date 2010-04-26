@@ -318,7 +318,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Body"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     [xml appendString:@">\n"];
     if ( [self hasLoginRequest] ) {
         dataMember = [m_loginRequest XML];

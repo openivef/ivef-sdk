@@ -216,7 +216,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     [xml appendString:@">\n"];
     if ( [self hasPosReport] ) {
         dataMember = [m_posReport XML];

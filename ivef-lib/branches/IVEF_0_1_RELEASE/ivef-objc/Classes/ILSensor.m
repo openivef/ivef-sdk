@@ -147,7 +147,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Sensor"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     if ( m_senIdPresent ) {
         [xml appendString: @" SenId=\""];
         [xml appendString: [NSString stringWithFormat:@"%d", m_senId]];

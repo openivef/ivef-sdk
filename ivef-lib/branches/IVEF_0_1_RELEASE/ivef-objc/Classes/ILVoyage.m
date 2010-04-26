@@ -363,7 +363,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Voyage"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     if ( m_idPresent ) {
         [xml appendString: @" Id=\""];
         [xml appendString: [self encode: m_id]];

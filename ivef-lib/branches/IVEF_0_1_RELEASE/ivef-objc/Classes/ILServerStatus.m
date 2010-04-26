@@ -151,7 +151,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ServerStatus"];
-    NSMutableString *dataMember = [NSMutableString stringWithString:@""];
+    NSString *dataMember;
     if ( m_statusPresent ) {
         [xml appendString: @" Status=\""];
         [xml appendString: [self encode: m_status]];
