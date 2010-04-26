@@ -7,13 +7,13 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_areaPresent = NO;
         m_areas = [[NSMutableArray alloc] init];
+        m_areaPresent = NO;
         m_transmissionPresent = NO;
-        m_itemPresent = NO;
         m_items = [[NSMutableArray alloc] init];
-        m_objectPresent = NO;
+        m_itemPresent = NO;
         m_objects = [[NSMutableArray alloc] init];
+        m_objectPresent = NO;
     }
     return self;
 }
@@ -212,6 +212,10 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ServiceRequest"];
     [xml appendString:@">\n"];
+    if ([m_areas count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Area" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_areas count]; i++ ) {
         ILArea *attribute = [m_areas objectAtIndex:i];
         [xml appendString: [attribute XML] ];

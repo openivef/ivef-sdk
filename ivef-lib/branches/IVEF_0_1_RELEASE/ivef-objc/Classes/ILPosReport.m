@@ -8,8 +8,8 @@
     self = [super init];
     if (self != nil) {
         m_posPresent = NO;
-        m_sensorPresent = NO;
         m_sensors = [[NSMutableArray alloc] init];
+        m_sensorPresent = NO;
         m_idPresent = NO;
         m_sourceIdPresent = NO;
         m_updateTimePresent = NO;
@@ -710,6 +710,10 @@
         [xml appendString: [m_pos XML] ];
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pos" forKey: @"description"]];
+        return nil;
+    }
+    if ([m_sensors count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Sensor" forKey: @"description"]];
         return nil;
     }
     for(int i=0; i < [m_sensors count]; i++ ) {

@@ -7,8 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_versionPresent = NO;
         m_version = @"0.1.5";
+        m_versionPresent = YES;
         m_msgRefIdPresent = NO;
     }
     return self;
@@ -120,6 +120,7 @@
                 NSString *val = [attributeDict objectForKey: key];
                 [m_version release]; 
                 m_version = val; // replace the default versioning number
+                m_versionPresent = YES;
                 [m_version retain]; 
             }
             else if ([key isEqualToString:@"MsgRefId"]) {

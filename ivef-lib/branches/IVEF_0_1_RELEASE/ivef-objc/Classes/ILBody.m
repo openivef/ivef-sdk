@@ -14,8 +14,8 @@
         m_pongPresent = NO;
         m_serverStatusPresent = NO;
         m_serviceRequestPresent = NO;
-        m_vesselDataPresent = NO;
         m_vesselDatas = [[NSMutableArray alloc] init];
+        m_vesselDataPresent = NO;
     }
     return self;
 }

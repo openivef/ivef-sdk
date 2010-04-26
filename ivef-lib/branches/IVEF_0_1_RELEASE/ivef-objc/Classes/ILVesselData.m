@@ -8,12 +8,12 @@
     self = [super init];
     if (self != nil) {
         m_posReportPresent = NO;
-        m_staticDataPresent = NO;
         m_staticDatas = [[NSMutableArray alloc] init];
-        m_voyagePresent = NO;
+        m_staticDataPresent = NO;
         m_voyages = [[NSMutableArray alloc] init];
-        m_taggedItemPresent = NO;
+        m_voyagePresent = NO;
         m_taggedItems = [[NSMutableArray alloc] init];
+        m_taggedItemPresent = NO;
     }
     return self;
 }
@@ -220,13 +220,25 @@
     if ( [self hasPosReport] ) {
         [xml appendString: [m_posReport XML] ];
     }
+    if ([m_staticDatas count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of StaticData" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_staticDatas count]; i++ ) {
         ILStaticData *attribute = [m_staticDatas objectAtIndex:i];
         [xml appendString: [attribute XML] ];
     }
+    if ([m_voyages count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Voyage" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_voyages count]; i++ ) {
         ILVoyage *attribute = [m_voyages objectAtIndex:i];
         [xml appendString: [attribute XML] ];
+    }
+    if ([m_taggedItems count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of TaggedItem" forKey: @"description"]];
+        return nil;
     }
     for(int i=0; i < [m_taggedItems count]; i++ ) {
         ILTaggedItem *attribute = [m_taggedItems objectAtIndex:i];

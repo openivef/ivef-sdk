@@ -7,8 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_posPresent = NO;
         m_poss = [[NSMutableArray alloc] init];
+        m_posPresent = NO;
     }
     return self;
 }
