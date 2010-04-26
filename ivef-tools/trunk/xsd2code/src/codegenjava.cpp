@@ -443,6 +443,11 @@ void CodeGenJava::go() {
                 if (attrType == attr->name()) {
                     // check if the attribute exist
                     if (attr->unbounded() ) {
+                        if (attr->hasMin()) { // issue 26
+                           classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->min() << ") {\n";
+			   classFileOut << "            return null; // not enough values\n";
+			   classFileOut << "        }\n";
+                        }
                         classFileOut << "        for(int i=0; i < " << variableName(attr->name()) << "s.size(); i++ ) {\n";
                         classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
                         classFileOut << "            xml += attribute.toXML();\n        }\n";

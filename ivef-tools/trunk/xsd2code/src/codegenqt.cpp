@@ -650,6 +650,11 @@ void CodeGenQT::go() {
 		    if (attrType == attr->name()) {
 			// check if the attribute exist
 			if (attr->unbounded() ) {
+                            if (attr->hasMin()) { // issue 26
+                                classFileOut << "    if (" << variableName(attr->name()) << "s.count() < " << attr->min() << ") {\n";
+			        classFileOut << "        return NULL; // not enough values\n";
+			        classFileOut << "    }\n";
+                            }
 			    classFileOut << "    // add all included data\n";
 			    classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
 			    classFileOut << "        " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
