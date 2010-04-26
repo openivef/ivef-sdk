@@ -668,6 +668,13 @@ void CodeGenObjC::go() {
 		    if (attr->type() == attr->name()) {
 			// check if the attribute exist
 			if (attr->unbounded() ) {
+                            if (attr->hasMin()) { // issue 26
+                                classFileOut << "    if ([" << variableName(attr->name()) << "s count] < " << attr->min() << ") {\n";
+			        classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: @\"Not enough entries of " +
+				    		      attr->name() +"\" forKey: @\"description\"]];\n";
+			        classFileOut << "        return nil;\n";
+			        classFileOut << "    }\n";
+                            }
 			    classFileOut << "    for(int i=0; i < [" << variableName(attr->name()) << "s count]; i++ ) {\n";
 			    classFileOut << "        " << attrType << " *attribute = [" << variableName(attr->name()) << "s objectAtIndex:i];\n";
 			    classFileOut << "        [xml appendString: [attribute XML] ];\n    }\n";
