@@ -257,9 +257,8 @@ void CodeGenObjC::go() {
             } else {
                 headerFileOut << "    " << type << variableName(attr->name()) << ";\n";
             }
-            if (!attr->required() || obj->isMerged()) {
-                headerFileOut << "    BOOL " << variableName(attr->name()) << "Present;\n";
-            }
+            //if (!attr->required() || obj->isMerged()) { // issue 21
+            headerFileOut << "    BOOL " << variableName(attr->name()) << "Present;\n";
         }
         headerFileOut << "}\n\n";
 
@@ -326,6 +325,7 @@ void CodeGenObjC::go() {
         headerFileOut << "//!\n";
         headerFileOut << "-(NSDictionary *) attributes;\n"; // issue 32
         headerFileOut << "//!Get a XML representation of this class\n";
+        headerFileOut << "//!returns nil if not all required fields are set\n";
         headerFileOut << "//!\n";
         headerFileOut << "-(NSString *) XML;\n";
         headerFileOut << "//!Get a string representation of this class\n";
@@ -356,9 +356,8 @@ void CodeGenObjC::go() {
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
-            if (!attr->required() || obj->isMerged()) {
-                classFileOut << "        " << variableName(attr->name()) << "Present = NO;\n";
-            }
+            //if (!attr->required() || obj->isMerged()) { // issue 21
+            classFileOut << "        " << variableName(attr->name()) << "Present = NO;\n";
             if (attr->unbounded()) { // there more then one
                 classFileOut << "        " << variableName(attr->name()) << "s = [[NSMutableArray alloc] init];\n";
 	    }
@@ -496,9 +495,8 @@ void CodeGenObjC::go() {
 			     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 			     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return NO;";
 			}
-			if (!attr->required() || obj->isMerged()) {
-			     classFileOut << "\n    " << variableName(attr->name()) << "Present = YES;";
-			}
+			//if (!attr->required() || obj->isMerged()) {  // issue 21
+			classFileOut << "\n    " << variableName(attr->name()) << "Present = YES;";
 			classFileOut << "\n";
 			if (type.right(1) == "*") {
 			    classFileOut << "    [" << variableName(attr->name()) << " release];\n";
@@ -514,7 +512,7 @@ void CodeGenObjC::go() {
                 // getter
                 classFileOut << "- (" << type << ") " << getMethodName(attr->name()) << " {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
-                if (!attr->required() || obj->isMerged()) {
+                if (!attr->required() || obj->isMerged()) { // issue 21 test only for optional elements
                     classFileOut << "-(BOOL) has" << methodName(attr->name()) << " {\n";
                     classFileOut << "\n    return " << variableName(attr->name()) << "Present;\n}\n\n";
                 }
@@ -644,10 +642,16 @@ void CodeGenObjC::go() {
                     classFileOut << "        [xml appendString: @\" " << attr->name() << "=\\\"\"];\n";
                     classFileOut << "        [xml appendString: " << varName << "];\n";
                     classFileOut << "        [xml appendString: @\"\\\"\"];\n    }\n";
-                } else {
-                    classFileOut << "    [xml appendString: @\" " << attr->name() << "=\\\"\"];\n";
-                    classFileOut << "    [xml appendString: " << varName << "];\n";
-                    classFileOut << "    [xml appendString: @\"\\\"\"];\n";
+                } else {  // issue 21 check also for required attributes
+                    classFileOut << "    if ( " << variableName(attr->name()) << "Present ) {\n";
+                    classFileOut << "        [xml appendString: @\" " << attr->name() << "=\\\"\"];\n";
+                    classFileOut << "        [xml appendString: " << varName << "];\n";
+                    classFileOut << "        [xml appendString: @\"\\\"\"];\n";
+		    classFileOut << "    } else { // required element is missing !\n";
+                    classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: @\"" +
+                                              attr->name() +"\" forKey: @\"description\"]];\n";
+		    classFileOut << "        return nil;\n";
+		    classFileOut << "    }\n";
                 }
             } else {
               hasDataMembers = true;
@@ -670,8 +674,14 @@ void CodeGenObjC::go() {
 			} else if (!attr->required() || obj->isMerged()) {
 			    classFileOut << "    if ( [self has" << methodName(attr->name()) << "] ) {\n";
 			    classFileOut << "        [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n    }\n";
-			} else {
-			    classFileOut << "    [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n";
+			} else { // issue 21
+                            classFileOut << "    if ( " << variableName(attr->name()) << "Present ) {\n";
+			    classFileOut << "        [xml appendString:" << " [" << variableName(attr->name()) << " XML] ];\n";
+			    classFileOut << "    } else { // required element is missing !\n";
+			    classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: @\"" +
+						      attr->name() +"\" forKey: @\"description\"]];\n";
+			    classFileOut << "        return nil;\n";
+			    classFileOut << "    }\n";
 			}
 		    }
 		}
