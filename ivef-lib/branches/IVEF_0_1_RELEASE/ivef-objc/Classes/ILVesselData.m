@@ -8,8 +8,11 @@
     self = [super init];
     if (self != nil) {
         m_posReportPresent = NO;
+        m_staticDataPresent = NO;
         m_staticDatas = [[NSMutableArray alloc] init];
+        m_voyagePresent = NO;
         m_voyages = [[NSMutableArray alloc] init];
+        m_taggedItemPresent = NO;
         m_taggedItems = [[NSMutableArray alloc] init];
     }
     return self;

@@ -7,6 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_timeStampPresent = NO;
     }
     return self;
 }
@@ -86,6 +87,7 @@
 
 -(BOOL) setTimeStamp:(NSDate *) val {
 
+    m_timeStampPresent = YES;
     [m_timeStamp release];
     m_timeStamp = val;
     [m_timeStamp retain];
@@ -120,9 +122,14 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Ping"];
-    [xml appendString: @" TimeStamp=\""];
-    [xml appendString: [self stringFromDate: m_timeStamp]];
-    [xml appendString: @"\""];
+    if ( m_timeStampPresent ) {
+        [xml appendString: @" TimeStamp=\""];
+        [xml appendString: [self stringFromDate: m_timeStamp]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"TimeStamp" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

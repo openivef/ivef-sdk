@@ -7,7 +7,9 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_versionPresent = NO;
         m_version = @"0.1.5";
+        m_msgRefIdPresent = NO;
     }
     return self;
 }
@@ -93,6 +95,7 @@
 
 -(BOOL) setMsgRefId:(NSString *) val {
 
+    m_msgRefIdPresent = YES;
     [m_msgRefId release];
     m_msgRefId = val;
     [m_msgRefId retain];
@@ -132,12 +135,22 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Header"];
-    [xml appendString: @" Version=\""];
-    [xml appendString: [self encode: m_version]];
-    [xml appendString: @"\""];
-    [xml appendString: @" MsgRefId=\""];
-    [xml appendString: [self encode: m_msgRefId]];
-    [xml appendString: @"\""];
+    if ( m_versionPresent ) {
+        [xml appendString: @" Version=\""];
+        [xml appendString: [self encode: m_version]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Version" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_msgRefIdPresent ) {
+        [xml appendString: @" MsgRefId=\""];
+        [xml appendString: [self encode: m_msgRefId]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"MsgRefId" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

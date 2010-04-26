@@ -7,6 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_typePresent = NO;
         m_periodPresent = NO;
     }
     return self;
@@ -91,6 +92,7 @@
          ( val != 3 ) &&
          ( val != 4 ) )
         return NO;
+    m_typePresent = YES;
     m_type = val;
     return YES;
 }
@@ -147,9 +149,14 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Transmission"];
-    [xml appendString: @" Type=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_type]];
-    [xml appendString: @"\""];
+    if ( m_typePresent ) {
+        [xml appendString: @" Type=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_type]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Type" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasPeriod] ) {
         [xml appendString: @" Period=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_period]];

@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_msgIdPresent = NO;
+        m_resultPresent = NO;
         m_reasonPresent = NO;
     }
     return self;
@@ -88,6 +90,7 @@
 
 -(BOOL) setMsgId:(NSString *) val {
 
+    m_msgIdPresent = YES;
     [m_msgId release];
     m_msgId = val;
     [m_msgId retain];
@@ -104,6 +107,7 @@
     if ( ( val != 1 ) &&
          ( val != 2 ) )
         return NO;
+    m_resultPresent = YES;
     m_result = val;
     return YES;
 }
@@ -167,12 +171,22 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<LoginResponse"];
-    [xml appendString: @" MsgId=\""];
-    [xml appendString: [self encode: m_msgId]];
-    [xml appendString: @"\""];
-    [xml appendString: @" Result=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_result]];
-    [xml appendString: @"\""];
+    if ( m_msgIdPresent ) {
+        [xml appendString: @" MsgId=\""];
+        [xml appendString: [self encode: m_msgId]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"MsgId" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_resultPresent ) {
+        [xml appendString: @" Result=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_result]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Result" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasReason] ) {
         [xml appendString: @" Reason=\""];
         [xml appendString: [self encode: m_reason]];

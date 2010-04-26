@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_latPresent = NO;
+        m_longPresent = NO;
     }
     return self;
 }
@@ -89,6 +91,7 @@
         return NO;
     if (val > 90)
         return NO;
+    m_latPresent = YES;
     m_lat = val;
     return YES;
 }
@@ -104,6 +107,7 @@
         return NO;
     if (val > 180)
         return NO;
+    m_longPresent = YES;
     m_long = val;
     return YES;
 }
@@ -143,12 +147,22 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Pos"];
-    [xml appendString: @" Lat=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_lat]];
-    [xml appendString: @"\""];
-    [xml appendString: @" Long=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_long]];
-    [xml appendString: @"\""];
+    if ( m_latPresent ) {
+        [xml appendString: @" Lat=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_lat]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Lat" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_longPresent ) {
+        [xml appendString: @" Long=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_long]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Long" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

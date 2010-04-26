@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_elementPresent = NO;
+        m_fieldPresent = NO;
     }
     return self;
 }
@@ -90,6 +92,7 @@
          ( val != 2 ) &&
          ( val != 3 ) )
         return NO;
+    m_elementPresent = YES;
     m_element = val;
     return YES;
 }
@@ -101,6 +104,7 @@
 
 -(BOOL) setField:(NSString *) val {
 
+    m_fieldPresent = YES;
     [m_field release];
     m_field = val;
     [m_field retain];
@@ -141,12 +145,22 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Item"];
-    [xml appendString: @" Element=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_element]];
-    [xml appendString: @"\""];
-    [xml appendString: @" Field=\""];
-    [xml appendString: [self encode: m_field]];
-    [xml appendString: @"\""];
+    if ( m_elementPresent ) {
+        [xml appendString: @" Element=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_element]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Element" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_fieldPresent ) {
+        [xml appendString: @" Field=\""];
+        [xml appendString: [self encode: m_field]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Field" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

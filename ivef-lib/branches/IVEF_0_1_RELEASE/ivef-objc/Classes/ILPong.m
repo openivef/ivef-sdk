@@ -7,6 +7,9 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_timeStampPresent = NO;
+        m_msgIdPresent = NO;
+        m_sourceIdPresent = NO;
     }
     return self;
 }
@@ -87,6 +90,7 @@
 
 -(BOOL) setTimeStamp:(NSDate *) val {
 
+    m_timeStampPresent = YES;
     [m_timeStamp release];
     m_timeStamp = val;
     [m_timeStamp retain];
@@ -100,6 +104,7 @@
 
 -(BOOL) setMsgId:(NSString *) val {
 
+    m_msgIdPresent = YES;
     [m_msgId release];
     m_msgId = val;
     [m_msgId retain];
@@ -113,6 +118,7 @@
 
 -(BOOL) setSourceId:(int) val {
 
+    m_sourceIdPresent = YES;
     m_sourceId = val;
     return YES;
 }
@@ -158,15 +164,30 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Pong"];
-    [xml appendString: @" TimeStamp=\""];
-    [xml appendString: [self stringFromDate: m_timeStamp]];
-    [xml appendString: @"\""];
-    [xml appendString: @" MsgId=\""];
-    [xml appendString: [self encode: m_msgId]];
-    [xml appendString: @"\""];
-    [xml appendString: @" SourceId=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
-    [xml appendString: @"\""];
+    if ( m_timeStampPresent ) {
+        [xml appendString: @" TimeStamp=\""];
+        [xml appendString: [self stringFromDate: m_timeStamp]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"TimeStamp" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_msgIdPresent ) {
+        [xml appendString: @" MsgId=\""];
+        [xml appendString: [self encode: m_msgId]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"MsgId" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_sourceIdPresent ) {
+        [xml appendString: @" SourceId=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SourceId" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

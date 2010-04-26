@@ -7,6 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_statusPresent = NO;
         m_detailsPresent = NO;
     }
     return self;
@@ -91,6 +92,7 @@
     if ( ( ![val isEqualToString: @"queuefull"] ) &&
          ( ![val isEqualToString: @"ok"] ) )
         return NO;
+    m_statusPresent = YES;
     [m_status release];
     m_status = val;
     [m_status retain];
@@ -149,9 +151,14 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ServerStatus"];
-    [xml appendString: @" Status=\""];
-    [xml appendString: [self encode: m_status]];
-    [xml appendString: @"\""];
+    if ( m_statusPresent ) {
+        [xml appendString: @" Status=\""];
+        [xml appendString: [self encode: m_status]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Status" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasDetails] ) {
         [xml appendString: @" Details=\""];
         [xml appendString: [self encode: m_details]];

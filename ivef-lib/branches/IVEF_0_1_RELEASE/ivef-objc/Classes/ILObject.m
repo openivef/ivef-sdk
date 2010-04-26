@@ -7,6 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_fileNamePresent = NO;
     }
     return self;
 }
@@ -86,6 +87,7 @@
 
 -(BOOL) setFileName:(NSString *) val {
 
+    m_fileNamePresent = YES;
     [m_fileName release];
     m_fileName = val;
     [m_fileName retain];
@@ -119,9 +121,14 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Object"];
-    [xml appendString: @" FileName=\""];
-    [xml appendString: [self encode: m_fileName]];
-    [xml appendString: @"\""];
+    if ( m_fileNamePresent ) {
+        [xml appendString: @" FileName=\""];
+        [xml appendString: [self encode: m_fileName]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"FileName" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

@@ -7,10 +7,18 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_posPresent = NO;
+        m_sensorPresent = NO;
         m_sensors = [[NSMutableArray alloc] init];
+        m_idPresent = NO;
+        m_sourceIdPresent = NO;
+        m_updateTimePresent = NO;
         m_updateTimeRadarPresent = NO;
         m_updateTimeAISPresent = NO;
         m_updateTimeDRPresent = NO;
+        m_SOGPresent = NO;
+        m_COGPresent = NO;
+        m_lostPresent = NO;
         m_rateOfTurnPresent = NO;
         m_orientationPresent = NO;
         m_lengthPresent = NO;
@@ -104,6 +112,7 @@
 
 -(BOOL) setPos:(ILPos *) val {
 
+    m_posPresent = YES;
     [m_pos release];
     m_pos = val;
     [m_pos retain];
@@ -138,6 +147,7 @@
 
 -(BOOL) setIdent:(int) val {
 
+    m_idPresent = YES;
     m_id = val;
     return YES;
 }
@@ -149,6 +159,7 @@
 
 -(BOOL) setSourceId:(int) val {
 
+    m_sourceIdPresent = YES;
     m_sourceId = val;
     return YES;
 }
@@ -160,6 +171,7 @@
 
 -(BOOL) setUpdateTime:(NSDate *) val {
 
+    m_updateTimePresent = YES;
     [m_updateTime release];
     m_updateTime = val;
     [m_updateTime retain];
@@ -232,6 +244,7 @@
 
     if (val < 0)
         return NO;
+    m_SOGPresent = YES;
     m_SOG = val;
     return YES;
 }
@@ -247,6 +260,7 @@
         return NO;
     if (val > 360)
         return NO;
+    m_COGPresent = YES;
     m_COG = val;
     return YES;
 }
@@ -261,6 +275,7 @@
     if ( ( ![val isEqualToString: @"no"] ) &&
          ( ![val isEqualToString: @"yes"] ) )
         return NO;
+    m_lostPresent = YES;
     [m_lost release];
     m_lost = val;
     [m_lost retain];
@@ -587,15 +602,30 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<PosReport"];
-    [xml appendString: @" Id=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
-    [xml appendString: @"\""];
-    [xml appendString: @" SourceId=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
-    [xml appendString: @"\""];
-    [xml appendString: @" UpdateTime=\""];
-    [xml appendString: [self stringFromDate: m_updateTime]];
-    [xml appendString: @"\""];
+    if ( m_idPresent ) {
+        [xml appendString: @" Id=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_id]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Id" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_sourceIdPresent ) {
+        [xml appendString: @" SourceId=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_sourceId]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SourceId" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_updateTimePresent ) {
+        [xml appendString: @" UpdateTime=\""];
+        [xml appendString: [self stringFromDate: m_updateTime]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"UpdateTime" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasUpdateTimeRadar] ) {
         [xml appendString: @" UpdateTimeRadar=\""];
         [xml appendString: [self stringFromDate: m_updateTimeRadar]];
@@ -611,15 +641,30 @@
         [xml appendString: [self stringFromDate: m_updateTimeDR]];
         [xml appendString: @"\""];
     }
-    [xml appendString: @" SOG=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_SOG]];
-    [xml appendString: @"\""];
-    [xml appendString: @" COG=\""];
-    [xml appendString: [NSString stringWithFormat:@"%f", m_COG]];
-    [xml appendString: @"\""];
-    [xml appendString: @" Lost=\""];
-    [xml appendString: [self encode: m_lost]];
-    [xml appendString: @"\""];
+    if ( m_SOGPresent ) {
+        [xml appendString: @" SOG=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_SOG]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SOG" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_COGPresent ) {
+        [xml appendString: @" COG=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_COG]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"COG" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_lostPresent ) {
+        [xml appendString: @" Lost=\""];
+        [xml appendString: [self encode: m_lost]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Lost" forKey: @"description"]];
+        return nil;
+    }
     if ( [self hasRateOfTurn] ) {
         [xml appendString: @" RateOfTurn=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_rateOfTurn]];
@@ -661,7 +706,12 @@
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];
-    [xml appendString: [m_pos XML] ];
+    if ( m_posPresent ) {
+        [xml appendString: [m_pos XML] ];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pos" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_sensors count]; i++ ) {
         ILSensor *attribute = [m_sensors objectAtIndex:i];
         [xml appendString: [attribute XML] ];

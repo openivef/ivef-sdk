@@ -7,8 +7,12 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_areaPresent = NO;
         m_areas = [[NSMutableArray alloc] init];
+        m_transmissionPresent = NO;
+        m_itemPresent = NO;
         m_items = [[NSMutableArray alloc] init];
+        m_objectPresent = NO;
         m_objects = [[NSMutableArray alloc] init];
     }
     return self;
@@ -113,6 +117,7 @@
 
 -(BOOL) setTransmission:(ILTransmission *) val {
 
+    m_transmissionPresent = YES;
     [m_transmission release];
     m_transmission = val;
     [m_transmission retain];
@@ -211,7 +216,12 @@
         ILArea *attribute = [m_areas objectAtIndex:i];
         [xml appendString: [attribute XML] ];
     }
-    [xml appendString: [m_transmission XML] ];
+    if ( m_transmissionPresent ) {
+        [xml appendString: [m_transmission XML] ];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Transmission" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_items count]; i++ ) {
         ILItem *attribute = [m_items objectAtIndex:i];
         [xml appendString: [attribute XML] ];

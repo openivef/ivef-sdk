@@ -7,6 +7,9 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_namePresent = NO;
+        m_passwordPresent = NO;
+        m_encryptionPresent = NO;
     }
     return self;
 }
@@ -87,6 +90,7 @@
 
 -(BOOL) setName:(NSString *) val {
 
+    m_namePresent = YES;
     [m_name release];
     m_name = val;
     [m_name retain];
@@ -100,6 +104,7 @@
 
 -(BOOL) setPassword:(NSString *) val {
 
+    m_passwordPresent = YES;
     [m_password release];
     m_password = val;
     [m_password retain];
@@ -116,6 +121,7 @@
     if ( ( val != 1 ) &&
          ( val != 2 ) )
         return NO;
+    m_encryptionPresent = YES;
     m_encryption = val;
     return YES;
 }
@@ -160,15 +166,30 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<LoginRequest"];
-    [xml appendString: @" Name=\""];
-    [xml appendString: [self encode: m_name]];
-    [xml appendString: @"\""];
-    [xml appendString: @" Password=\""];
-    [xml appendString: [self encode: m_password]];
-    [xml appendString: @"\""];
-    [xml appendString: @" Encryption=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_encryption]];
-    [xml appendString: @"\""];
+    if ( m_namePresent ) {
+        [xml appendString: @" Name=\""];
+        [xml appendString: [self encode: m_name]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Name" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_passwordPresent ) {
+        [xml appendString: @" Password=\""];
+        [xml appendString: [self encode: m_password]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Password" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_encryptionPresent ) {
+        [xml appendString: @" Encryption=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_encryption]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Encryption" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

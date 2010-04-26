@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_senIdPresent = NO;
+        m_trkIdPresent = NO;
     }
     return self;
 }
@@ -89,6 +91,7 @@
         return NO;
     if (val > 65536)
         return NO;
+    m_senIdPresent = YES;
     m_senId = val;
     return YES;
 }
@@ -104,6 +107,7 @@
         return NO;
     if (val > 65536)
         return NO;
+    m_trkIdPresent = YES;
     m_trkId = val;
     return YES;
 }
@@ -143,12 +147,22 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Sensor"];
-    [xml appendString: @" SenId=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_senId]];
-    [xml appendString: @"\""];
-    [xml appendString: @" TrkId=\""];
-    [xml appendString: [NSString stringWithFormat:@"%d", m_trkId]];
-    [xml appendString: @"\""];
+    if ( m_senIdPresent ) {
+        [xml appendString: @" SenId=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_senId]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SenId" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_trkIdPresent ) {
+        [xml appendString: @" TrkId=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_trkId]];
+        [xml appendString: @"\""];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"TrkId" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString:@"/>\n"];
     return xml;
 }

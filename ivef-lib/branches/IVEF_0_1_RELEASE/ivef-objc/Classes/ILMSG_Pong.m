@@ -7,6 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
+        m_headerPresent = NO;
+        m_bodyPresent = NO;
     }
     return self;
 }
@@ -87,6 +89,7 @@
 
 -(BOOL) setHeader:(ILHeader *) val {
 
+    m_headerPresent = YES;
     [m_header release];
     m_header = val;
     [m_header retain];
@@ -100,6 +103,7 @@
 
 -(BOOL) setBody:(ILBody *) val {
 
+    m_bodyPresent = YES;
     [m_body release];
     m_body = val;
     [m_body retain];
@@ -140,8 +144,18 @@
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<MSG_Pong"];
     [xml appendString:@">\n"];
-    [xml appendString: [m_header XML] ];
-    [xml appendString: [m_body XML] ];
+    if ( m_headerPresent ) {
+        [xml appendString: [m_header XML] ];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Header" forKey: @"description"]];
+        return nil;
+    }
+    if ( m_bodyPresent ) {
+        [xml appendString: [m_body XML] ];
+    } else { // required element is missing !
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Body" forKey: @"description"]];
+        return nil;
+    }
     [xml appendString: @"</MSG_Pong>\n"];
     return xml;
 }
