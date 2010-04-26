@@ -246,6 +246,9 @@ void CodeGenQT::go() {
         headerFileOut << "#ifndef __" << upperName << "_H__\n";
         headerFileOut << "#define __" << upperName << "_H__\n\n";
         headerFileOut << "#include <QtCore>\n";  // we generate for Qt types
+        headerFileOut << "#include <cstdlib>\n";  // for the occational debugstring
+        headerFileOut << "#include <iostream>\n"; // for the occational debugstring
+
 
         // include dependend files
         for(int j=0; j < attributes.size(); j++) {
@@ -358,6 +361,7 @@ void CodeGenQT::go() {
         }
         
         headerFileOut << "    //!              generates XML of this object including attributes and child elements\n";
+        headerFileOut << "    //!              returns NULL if not all required elements are available\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    QString toXML() const;\n\n";
@@ -377,6 +381,12 @@ void CodeGenQT::go() {
         headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    QString encode(QString str) const;\n\n"; // issue 19
 
+	// signals 
+        //headerFileOut << "\nsignals:\n";
+        //headerFileOut << "    //!signals fired by the class when validation error has occured\n";
+        //headerFileOut << "    //!\n";
+        //headerFileOut << "    void signalValidationError(QString errorStr);\n";
+
         // private section
         headerFileOut << "\nprivate:\n";
 
@@ -390,9 +400,9 @@ void CodeGenQT::go() {
             } else {
                 headerFileOut << "    " << type << " " << variableName(attr->name()) << ";\n";
             }
-            if (!attr->required() || obj->isMerged()) {
+            //if (!attr->required() || obj->isMerged()) { // issue 21
                 headerFileOut << "    bool " << variableName(attr->name()) << "Present;\n";
-            }
+            //}
         }
 
         // close the header
@@ -441,10 +451,10 @@ void CodeGenQT::go() {
 	    }
 
             // ev: is not used     QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
-            if (!attr->required() || obj->isMerged()) {
-                classFileOut << "    // optional attributes are by default not present\n";
+            //if (!attr->required() || obj->isMerged()) { // issue 21
+                //classFileOut << "    // keep track of all attributes that can be set\n";
                 classFileOut << "    " << variableName(attr->name()) << "Present = false;\n";
-            }
+            //}
         }
         classFileOut << "}\n\n";
 
@@ -455,9 +465,9 @@ void CodeGenQT::go() {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to cpp types
-            if (!attr->required() || obj->isMerged()) {
+            //if (!attr->required() || obj->isMerged()) { //issue 21
                 classFileOut << "    " << variableName(attr->name()) << "Present = val." << variableName(attr->name()) << "Present;\n";
-            }
+            //}
             if (attr->unbounded()) { // there more then one
                 classFileOut << "    " << variableName(attr->name()) << "s = val." << variableName(attr->name()) << "s;\n";
             } else {
@@ -473,9 +483,9 @@ void CodeGenQT::go() {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to cpp types
-            if (!attr->required() || obj->isMerged()) {
+            //if (!attr->required() || obj->isMerged()) { // issue 21
                 classFileOut << "    " << variableName(attr->name()) << "Present = val." << variableName(attr->name()) << "Present;\n";
-            }
+            //}
             if (attr->unbounded()) { // there more then one
                 classFileOut << "    " << variableName(attr->name()) << "s = val." << variableName(attr->name()) << "s;\n";
             } else {
@@ -507,7 +517,7 @@ void CodeGenQT::go() {
                 // setter
                 classFileOut << "// setter for " << className(name) << "\n";
                 classFileOut << "bool " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n";
-                classFileOut << "\n    " << variableName(attr->name()) << "s.append(val);\n";
+                classFileOut << "\n   " << variableName(attr->name()) << "s.append(val);\n";
 		classFileOut << "      return true;\n";
 		classFileOut << "}\n\n";
                 // getter
@@ -552,9 +562,9 @@ void CodeGenQT::go() {
                      classFileOut << "    // check if the new value is within bounds \n";
 		     classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return false;";
 		}
-		if (!attr->required() || obj->isMerged()) {
+		//if (!attr->required() || obj->isMerged()) { // issue 21
 		     classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
-		}
+		//}
 		classFileOut << "\n    " << variableName(attr->name()) << " = val;\n";
 		classFileOut << "      return true;\n";
 		classFileOut << "}\n\n";
@@ -564,7 +574,7 @@ void CodeGenQT::go() {
                 classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "() const {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
 
-                if (!attr->required() || obj->isMerged()) {
+                if (!attr->required() || obj->isMerged()) { // issue 21 present only optional attributes on the interface
                     classFileOut << "// check if optional element " << className(name) << " has been set\n";
                     classFileOut << "bool " << className(name) << "::has" << methodName(attr->name()) << "() const {\n";
                     classFileOut << "\n    return " << variableName(attr->name()) << "Present;\n}\n\n";
@@ -589,6 +599,7 @@ void CodeGenQT::go() {
         classFileOut << "// Get XML Representation\n";
         classFileOut << "QString " << className(name) << "::toXML() const {\n\n";
         classFileOut << "    QString xml = \"<" << name << "\";\n"; // append attributes
+        classFileOut << "    QString dataMember;\n"; // append attributes
 
         // for attributes
         bool hasDataMembers = false;
@@ -611,12 +622,19 @@ void CodeGenQT::go() {
                     varName = "QString::number(" + variableName(attr->name()) + ")";
                 }
                 // check if the attribute exist
-                if (!attr->required() || obj->isMerged()) {
+                if (!attr->required() || obj->isMerged()) { // issue 21
                     classFileOut << "    // check for presence of optional attribute\n";
                     classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "        xml.append(\" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\");\n    }\n";
                 } else {
-                    classFileOut << "    xml.append(\" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\");\n";
+                    classFileOut << "    // check for presence of required  attribute\n";
+                    classFileOut << "    if ( " << variableName(attr->name()) << "Present) {\n";
+                    classFileOut << "        xml.append(\" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\");\n";
+                    classFileOut << "    } else { // required attribute not present\n";
+                    //classFileOut << "        emit signalValidationError( \"Error attribute " << attr->name() << " has not been set\" );\n";
+                    //classFileOut << "        std::cout << \"WARNING1: " << attr->name()<<  " returns NULL\" << std::endl;\n"; // ####
+                    classFileOut << "        return NULL;\n";
+                    classFileOut << "    }\n";
                 }
             } else {
               hasDataMembers = true;
@@ -638,13 +656,40 @@ void CodeGenQT::go() {
 			    classFileOut << "    // add all included data\n";
 			    classFileOut << "    for(int i=0; i < " << variableName(attr->name()) << "s.count(); i++ ) {\n";
 			    classFileOut << "        " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
-			    classFileOut << "        xml.append( attribute.toXML() );\n    }\n";
+                            classFileOut << "        dataMember = attribute.toXML();\n";
+                            classFileOut << "        if (dataMember != NULL) {\n";
+			    classFileOut << "           xml.append( attribute.toXML() );\n";
+                            classFileOut << "        } else {\n";
+                            //classFileOut << "            std::cout << \"WARNING4: " << attr->name()<<  " returns NULL\" << std::endl;\n"; // ####
+                            classFileOut << "            return NULL;\n";
+                            classFileOut << "        }\n";
+                            classFileOut << "    }\n";
 			} else if (!attr->required() || obj->isMerged()) {
 			    classFileOut << "    // add optional data if available\n";
 			    classFileOut << "    if ( has" << methodName(attr->name()) << "() ) {\n";
-			    classFileOut << "        xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n    }\n";
+                            classFileOut << "        dataMember = " << variableName(attr->name()) << ".toXML();\n";
+                            classFileOut << "        if (dataMember != NULL) {\n";
+			    classFileOut << "            xml.append( dataMember );\n";
+                            classFileOut << "        } else {\n";
+                            //classFileOut << "            std::cout << \"WARNING5: " << attr->name()<<  " returns NULL\" << std::endl;\n"; // ####
+                            classFileOut << "            return NULL;\n";
+                            classFileOut << "        }\n";
+                            classFileOut << "    }\n";
 			} else {
-			    classFileOut << "    xml.append(" << " " << variableName(attr->name()) << ".toXML() );\n";
+                            classFileOut << "    // check for presence of required data member\n";
+                            classFileOut << "    if ( " << variableName(attr->name()) << "Present) {\n";
+                            classFileOut << "        dataMember = " << variableName(attr->name()) << ".toXML();\n";
+                            classFileOut << "        if (dataMember != NULL) {\n";
+			    classFileOut << "            xml.append( dataMember );\n";
+                            classFileOut << "        } else {\n";
+                            //classFileOut << "            std::cout << \"WARNING2: " << attr->name()<<  " returns NULL\" << std::endl;\n"; // ####
+                            classFileOut << "            return NULL;\n";
+                            classFileOut << "        }\n";
+                            classFileOut << "    } else {\n";
+                            //classFileOut << "        emit signalValidationError( \"Error attribute " << attr->name() << " has not been set\" );\n";
+                            //classFileOut << "        std::cout << \"WARNING3: " << attr->name()<<  " returns NULL\" << std::endl;\n"; // ####
+                            classFileOut << "        return NULL;\n";
+                            classFileOut << "    }\n";
 			}
 		    }
 		}
