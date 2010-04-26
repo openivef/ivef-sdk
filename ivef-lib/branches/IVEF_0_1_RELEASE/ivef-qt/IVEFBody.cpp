@@ -4,21 +4,13 @@
 // Constructor
 Body::Body() {
 
-    // optional attributes are by default not present
     m_loginRequestPresent = false;
-    // optional attributes are by default not present
     m_loginResponsePresent = false;
-    // optional attributes are by default not present
     m_logoutPresent = false;
-    // optional attributes are by default not present
     m_pingPresent = false;
-    // optional attributes are by default not present
     m_pongPresent = false;
-    // optional attributes are by default not present
     m_serverStatusPresent = false;
-    // optional attributes are by default not present
     m_serviceRequestPresent = false;
-    // optional attributes are by default not present
     m_vesselDataPresent = false;
 }
 
@@ -219,7 +211,7 @@ bool Body::hasServiceRequest() const {
 // setter for Body
 bool Body::addVesselData(VesselData val) {
 
-    m_vesselDatas.append(val);
+   m_vesselDatas.append(val);
       return true;
 }
 
@@ -239,39 +231,80 @@ int Body::countOfVesselDatas() const {
 QString Body::toXML() const {
 
     QString xml = "<Body";
+    QString dataMember;
     xml.append(">\n");
     // add optional data if available
     if ( hasLoginRequest() ) {
-        xml.append( m_loginRequest.toXML() );
+        dataMember = m_loginRequest.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasLoginResponse() ) {
-        xml.append( m_loginResponse.toXML() );
+        dataMember = m_loginResponse.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasLogout() ) {
-        xml.append( m_logout.toXML() );
+        dataMember = m_logout.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasPing() ) {
-        xml.append( m_ping.toXML() );
+        dataMember = m_ping.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasPong() ) {
-        xml.append( m_pong.toXML() );
+        dataMember = m_pong.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasServerStatus() ) {
-        xml.append( m_serverStatus.toXML() );
+        dataMember = m_serverStatus.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasServiceRequest() ) {
-        xml.append( m_serviceRequest.toXML() );
+        dataMember = m_serviceRequest.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add all included data
     for(int i=0; i < m_vesselDatas.count(); i++ ) {
         VesselData attribute = m_vesselDatas.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</Body>\n");
     return xml;

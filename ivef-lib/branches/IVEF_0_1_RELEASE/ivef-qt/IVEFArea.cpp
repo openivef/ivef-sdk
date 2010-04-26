@@ -4,17 +4,20 @@
 // Constructor
 Area::Area() {
 
+    m_posPresent = false;
 }
 
 // copy constructor
 Area::Area(const Area &val) : QObject() {
 
+    m_posPresent = val.m_posPresent;
     m_poss = val.m_poss;
 }
 
 // assignement
 Area & Area::operator=(const Area &val) {
 
+    m_posPresent = val.m_posPresent;
     m_poss = val.m_poss;
     return *this;
 }
@@ -33,7 +36,7 @@ QString Area::encode( QString str) const {
 // setter for Area
 bool Area::addPos(Pos val) {
 
-    m_poss.append(val);
+   m_poss.append(val);
       return true;
 }
 
@@ -53,11 +56,17 @@ int Area::countOfPoss() const {
 QString Area::toXML() const {
 
     QString xml = "<Area";
+    QString dataMember;
     xml.append(">\n");
     // add all included data
     for(int i=0; i < m_poss.count(); i++ ) {
         Pos attribute = m_poss.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</Area>\n");
     return xml;

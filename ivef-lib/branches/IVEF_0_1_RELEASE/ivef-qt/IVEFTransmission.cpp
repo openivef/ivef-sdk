@@ -5,14 +5,15 @@
 Transmission::Transmission() {
 
     m_type = 0;
+    m_typePresent = false;
     m_period = 0.0;
-    // optional attributes are by default not present
     m_periodPresent = false;
 }
 
 // copy constructor
 Transmission::Transmission(const Transmission &val) : QObject() {
 
+    m_typePresent = val.m_typePresent;
     m_type = val.m_type;
     m_periodPresent = val.m_periodPresent;
     m_period = val.m_period;
@@ -21,6 +22,7 @@ Transmission::Transmission(const Transmission &val) : QObject() {
 // assignement
 Transmission & Transmission::operator=(const Transmission &val) {
 
+    m_typePresent = val.m_typePresent;
     m_type = val.m_type;
     m_periodPresent = val.m_periodPresent;
     m_period = val.m_period;
@@ -47,6 +49,7 @@ bool Transmission::setType(int val) {
          ( val != 3 ) &&
          ( val != 4 ) )
         return false;
+    m_typePresent = true;
     m_type = val;
       return true;
 }
@@ -81,7 +84,13 @@ bool Transmission::hasPeriod() const {
 QString Transmission::toXML() const {
 
     QString xml = "<Transmission";
-    xml.append(" Type=\"" + QString::number(m_type) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_typePresent) {
+        xml.append(" Type=\"" + QString::number(m_type) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasPeriod() ) {
         xml.append(" Period=\"" + QString::number(m_period, 'f') + "\"");

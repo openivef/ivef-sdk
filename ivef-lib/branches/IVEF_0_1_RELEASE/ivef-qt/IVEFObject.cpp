@@ -6,17 +6,20 @@ Object::Object() {
 
     // initialize empty string
     m_fileName = "";
+    m_fileNamePresent = false;
 }
 
 // copy constructor
 Object::Object(const Object &val) : QObject() {
 
+    m_fileNamePresent = val.m_fileNamePresent;
     m_fileName = val.m_fileName;
 }
 
 // assignement
 Object & Object::operator=(const Object &val) {
 
+    m_fileNamePresent = val.m_fileNamePresent;
     m_fileName = val.m_fileName;
     return *this;
 }
@@ -35,6 +38,7 @@ QString Object::encode( QString str) const {
 // setter for Object
 bool Object::setFileName(QString val) {
 
+    m_fileNamePresent = true;
     m_fileName = val;
       return true;
 }
@@ -49,7 +53,13 @@ QString Object::getFileName() const {
 QString Object::toXML() const {
 
     QString xml = "<Object";
-    xml.append(" FileName=\"" + encode (m_fileName) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_fileNamePresent) {
+        xml.append(" FileName=\"" + encode (m_fileName) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }

@@ -6,15 +6,16 @@ ServerStatus::ServerStatus() {
 
     // initialize empty string
     m_status = "";
+    m_statusPresent = false;
     // initialize empty string
     m_details = "";
-    // optional attributes are by default not present
     m_detailsPresent = false;
 }
 
 // copy constructor
 ServerStatus::ServerStatus(const ServerStatus &val) : QObject() {
 
+    m_statusPresent = val.m_statusPresent;
     m_status = val.m_status;
     m_detailsPresent = val.m_detailsPresent;
     m_details = val.m_details;
@@ -23,6 +24,7 @@ ServerStatus::ServerStatus(const ServerStatus &val) : QObject() {
 // assignement
 ServerStatus & ServerStatus::operator=(const ServerStatus &val) {
 
+    m_statusPresent = val.m_statusPresent;
     m_status = val.m_status;
     m_detailsPresent = val.m_detailsPresent;
     m_details = val.m_details;
@@ -47,6 +49,7 @@ bool ServerStatus::setStatus(QString val) {
     if ( ( val != "queuefull" ) &&
          ( val != "ok" ) )
         return false;
+    m_statusPresent = true;
     m_status = val;
       return true;
 }
@@ -81,7 +84,13 @@ bool ServerStatus::hasDetails() const {
 QString ServerStatus::toXML() const {
 
     QString xml = "<ServerStatus";
-    xml.append(" Status=\"" + encode (m_status) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_statusPresent) {
+        xml.append(" Status=\"" + encode (m_status) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasDetails() ) {
         xml.append(" Details=\"" + encode (m_details) + "\"");

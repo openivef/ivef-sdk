@@ -6,24 +6,33 @@ LoginRequest::LoginRequest() {
 
     // initialize empty string
     m_name = "";
+    m_namePresent = false;
     // initialize empty string
     m_password = "";
+    m_passwordPresent = false;
     m_encryption = 0;
+    m_encryptionPresent = false;
 }
 
 // copy constructor
 LoginRequest::LoginRequest(const LoginRequest &val) : QObject() {
 
+    m_namePresent = val.m_namePresent;
     m_name = val.m_name;
+    m_passwordPresent = val.m_passwordPresent;
     m_password = val.m_password;
+    m_encryptionPresent = val.m_encryptionPresent;
     m_encryption = val.m_encryption;
 }
 
 // assignement
 LoginRequest & LoginRequest::operator=(const LoginRequest &val) {
 
+    m_namePresent = val.m_namePresent;
     m_name = val.m_name;
+    m_passwordPresent = val.m_passwordPresent;
     m_password = val.m_password;
+    m_encryptionPresent = val.m_encryptionPresent;
     m_encryption = val.m_encryption;
     return *this;
 }
@@ -42,6 +51,7 @@ QString LoginRequest::encode( QString str) const {
 // setter for LoginRequest
 bool LoginRequest::setName(QString val) {
 
+    m_namePresent = true;
     m_name = val;
       return true;
 }
@@ -55,6 +65,7 @@ QString LoginRequest::getName() const {
 // setter for LoginRequest
 bool LoginRequest::setPassword(QString val) {
 
+    m_passwordPresent = true;
     m_password = val;
       return true;
 }
@@ -72,6 +83,7 @@ bool LoginRequest::setEncryption(int val) {
     if ( ( val != 1 ) &&
          ( val != 2 ) )
         return false;
+    m_encryptionPresent = true;
     m_encryption = val;
       return true;
 }
@@ -86,9 +98,25 @@ int LoginRequest::getEncryption() const {
 QString LoginRequest::toXML() const {
 
     QString xml = "<LoginRequest";
-    xml.append(" Name=\"" + encode (m_name) + "\"");
-    xml.append(" Password=\"" + encode (m_password) + "\"");
-    xml.append(" Encryption=\"" + QString::number(m_encryption) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_namePresent) {
+        xml.append(" Name=\"" + encode (m_name) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_passwordPresent) {
+        xml.append(" Password=\"" + encode (m_password) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_encryptionPresent) {
+        xml.append(" Encryption=\"" + QString::number(m_encryption) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }

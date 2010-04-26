@@ -6,77 +6,65 @@ StaticData::StaticData() {
 
     // initialize empty string
     m_id = "";
+    m_idPresent = false;
     // initialize empty string
     m_sourceName = "";
+    m_sourceNamePresent = false;
     m_source = 0;
+    m_sourcePresent = false;
     m_length = 0.0;
-    // optional attributes are by default not present
     m_lengthPresent = false;
     m_breadth = 0.0;
-    // optional attributes are by default not present
     m_breadthPresent = false;
     // initialize empty string
     m_callsign = "";
-    // optional attributes are by default not present
     m_callsignPresent = false;
     // initialize empty string
     m_shipName = "";
-    // optional attributes are by default not present
     m_shipNamePresent = false;
     m_objectType = 0;
-    // optional attributes are by default not present
     m_objectTypePresent = false;
     m_shipType = 0;
-    // optional attributes are by default not present
     m_shipTypePresent = false;
     m_IMO = 0;
-    // optional attributes are by default not present
     m_IMOPresent = false;
     m_MMSI = 0;
-    // optional attributes are by default not present
     m_MMSIPresent = false;
     m_ATONType = 0;
-    // optional attributes are by default not present
     m_ATONTypePresent = false;
     // initialize empty string
     m_ATONName = "";
-    // optional attributes are by default not present
     m_ATONNamePresent = false;
     m_antPosDistFromFront = 0.0;
-    // optional attributes are by default not present
     m_antPosDistFromFrontPresent = false;
     m_antPosDistFromLeft = 0.0;
-    // optional attributes are by default not present
     m_antPosDistFromLeftPresent = false;
     // initialize empty string
     m_natLangShipName = "";
-    // optional attributes are by default not present
     m_natLangShipNamePresent = false;
     // initialize empty string
     m_portOfRegistry = "";
-    // optional attributes are by default not present
     m_portOfRegistryPresent = false;
     // initialize empty string
     m_countryFlag = "";
-    // optional attributes are by default not present
     m_countryFlagPresent = false;
     m_maxAirDraught = 0.0;
-    // optional attributes are by default not present
     m_maxAirDraughtPresent = false;
     m_maxDraught = 0.0;
-    // optional attributes are by default not present
     m_maxDraughtPresent = false;
     // initialize empty string
     m_deepWaterVesselind = "";
-    // optional attributes are by default not present
     m_deepWaterVesselindPresent = false;
 }
 
 // copy constructor
 StaticData::StaticData(const StaticData &val) : QObject() {
 
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
+    m_sourceNamePresent = val.m_sourceNamePresent;
     m_sourceName = val.m_sourceName;
+    m_sourcePresent = val.m_sourcePresent;
     m_source = val.m_source;
     m_lengthPresent = val.m_lengthPresent;
     m_length = val.m_length;
@@ -119,8 +107,11 @@ StaticData::StaticData(const StaticData &val) : QObject() {
 // assignement
 StaticData & StaticData::operator=(const StaticData &val) {
 
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
+    m_sourceNamePresent = val.m_sourceNamePresent;
     m_sourceName = val.m_sourceName;
+    m_sourcePresent = val.m_sourcePresent;
     m_source = val.m_source;
     m_lengthPresent = val.m_lengthPresent;
     m_length = val.m_length;
@@ -175,6 +166,7 @@ QString StaticData::encode( QString str) const {
 // setter for StaticData
 bool StaticData::setId(QString val) {
 
+    m_idPresent = true;
     m_id = val;
       return true;
 }
@@ -188,6 +180,7 @@ QString StaticData::getId() const {
 // setter for StaticData
 bool StaticData::setSourceName(QString val) {
 
+    m_sourceNamePresent = true;
     m_sourceName = val;
       return true;
 }
@@ -206,6 +199,7 @@ bool StaticData::setSource(int val) {
          ( val != 2 ) &&
          ( val != 3 ) )
         return false;
+    m_sourcePresent = true;
     m_source = val;
       return true;
 }
@@ -664,9 +658,25 @@ bool StaticData::hasDeepWaterVesselind() const {
 QString StaticData::toXML() const {
 
     QString xml = "<StaticData";
-    xml.append(" Id=\"" + encode (m_id) + "\"");
-    xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
-    xml.append(" Source=\"" + QString::number(m_source) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_idPresent) {
+        xml.append(" Id=\"" + encode (m_id) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_sourceNamePresent) {
+        xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_sourcePresent) {
+        xml.append(" Source=\"" + QString::number(m_source) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasLength() ) {
         xml.append(" Length=\"" + QString::number(m_length, 'f') + "\"");

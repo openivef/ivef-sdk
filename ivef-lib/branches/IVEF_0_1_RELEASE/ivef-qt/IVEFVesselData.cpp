@@ -4,8 +4,10 @@
 // Constructor
 VesselData::VesselData() {
 
-    // optional attributes are by default not present
     m_posReportPresent = false;
+    m_staticDataPresent = false;
+    m_voyagePresent = false;
+    m_taggedItemPresent = false;
 }
 
 // copy constructor
@@ -13,8 +15,11 @@ VesselData::VesselData(const VesselData &val) : QObject() {
 
     m_posReportPresent = val.m_posReportPresent;
     m_posReport = val.m_posReport;
+    m_staticDataPresent = val.m_staticDataPresent;
     m_staticDatas = val.m_staticDatas;
+    m_voyagePresent = val.m_voyagePresent;
     m_voyages = val.m_voyages;
+    m_taggedItemPresent = val.m_taggedItemPresent;
     m_taggedItems = val.m_taggedItems;
 }
 
@@ -23,8 +28,11 @@ VesselData & VesselData::operator=(const VesselData &val) {
 
     m_posReportPresent = val.m_posReportPresent;
     m_posReport = val.m_posReport;
+    m_staticDataPresent = val.m_staticDataPresent;
     m_staticDatas = val.m_staticDatas;
+    m_voyagePresent = val.m_voyagePresent;
     m_voyages = val.m_voyages;
+    m_taggedItemPresent = val.m_taggedItemPresent;
     m_taggedItems = val.m_taggedItems;
     return *this;
 }
@@ -63,7 +71,7 @@ bool VesselData::hasPosReport() const {
 // setter for VesselData
 bool VesselData::addStaticData(StaticData val) {
 
-    m_staticDatas.append(val);
+   m_staticDatas.append(val);
       return true;
 }
 
@@ -82,7 +90,7 @@ int VesselData::countOfStaticDatas() const {
 // setter for VesselData
 bool VesselData::addVoyage(Voyage val) {
 
-    m_voyages.append(val);
+   m_voyages.append(val);
       return true;
 }
 
@@ -101,7 +109,7 @@ int VesselData::countOfVoyages() const {
 // setter for VesselData
 bool VesselData::addTaggedItem(TaggedItem val) {
 
-    m_taggedItems.append(val);
+   m_taggedItems.append(val);
       return true;
 }
 
@@ -121,25 +129,46 @@ int VesselData::countOfTaggedItems() const {
 QString VesselData::toXML() const {
 
     QString xml = "<VesselData";
+    QString dataMember;
     xml.append(">\n");
     // add optional data if available
     if ( hasPosReport() ) {
-        xml.append( m_posReport.toXML() );
+        dataMember = m_posReport.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add all included data
     for(int i=0; i < m_staticDatas.count(); i++ ) {
         StaticData attribute = m_staticDatas.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     // add all included data
     for(int i=0; i < m_voyages.count(); i++ ) {
         Voyage attribute = m_voyages.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     // add all included data
     for(int i=0; i < m_taggedItems.count(); i++ ) {
         TaggedItem attribute = m_taggedItems.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</VesselData>\n");
     return xml;

@@ -6,24 +6,33 @@ Pong::Pong() {
 
     // initialize with random value
     m_timeStamp = QDateTime();
+    m_timeStampPresent = false;
     // initialize empty string
     m_msgId = "";
+    m_msgIdPresent = false;
     m_sourceId = 0;
+    m_sourceIdPresent = false;
 }
 
 // copy constructor
 Pong::Pong(const Pong &val) : QObject() {
 
+    m_timeStampPresent = val.m_timeStampPresent;
     m_timeStamp = val.m_timeStamp;
+    m_msgIdPresent = val.m_msgIdPresent;
     m_msgId = val.m_msgId;
+    m_sourceIdPresent = val.m_sourceIdPresent;
     m_sourceId = val.m_sourceId;
 }
 
 // assignement
 Pong & Pong::operator=(const Pong &val) {
 
+    m_timeStampPresent = val.m_timeStampPresent;
     m_timeStamp = val.m_timeStamp;
+    m_msgIdPresent = val.m_msgIdPresent;
     m_msgId = val.m_msgId;
+    m_sourceIdPresent = val.m_sourceIdPresent;
     m_sourceId = val.m_sourceId;
     return *this;
 }
@@ -42,6 +51,7 @@ QString Pong::encode( QString str) const {
 // setter for Pong
 bool Pong::setTimeStamp(QDateTime val) {
 
+    m_timeStampPresent = true;
     m_timeStamp = val;
       return true;
 }
@@ -55,6 +65,7 @@ QDateTime Pong::getTimeStamp() const {
 // setter for Pong
 bool Pong::setMsgId(QString val) {
 
+    m_msgIdPresent = true;
     m_msgId = val;
       return true;
 }
@@ -68,6 +79,7 @@ QString Pong::getMsgId() const {
 // setter for Pong
 bool Pong::setSourceId(int val) {
 
+    m_sourceIdPresent = true;
     m_sourceId = val;
       return true;
 }
@@ -82,9 +94,25 @@ int Pong::getSourceId() const {
 QString Pong::toXML() const {
 
     QString xml = "<Pong";
-    xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
-    xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
-    xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_timeStampPresent) {
+        xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_msgIdPresent) {
+        xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_sourceIdPresent) {
+        xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }

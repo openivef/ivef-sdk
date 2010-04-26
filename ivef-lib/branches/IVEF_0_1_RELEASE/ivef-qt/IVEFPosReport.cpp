@@ -4,60 +4,62 @@
 // Constructor
 PosReport::PosReport() {
 
+    m_posPresent = false;
+    m_sensorPresent = false;
     m_id = 0;
+    m_idPresent = false;
     m_sourceId = 0;
+    m_sourceIdPresent = false;
     // initialize with random value
     m_updateTime = QDateTime();
+    m_updateTimePresent = false;
     // initialize with random value
     m_updateTimeRadar = QDateTime();
-    // optional attributes are by default not present
     m_updateTimeRadarPresent = false;
     // initialize with random value
     m_updateTimeAIS = QDateTime();
-    // optional attributes are by default not present
     m_updateTimeAISPresent = false;
     // initialize with random value
     m_updateTimeDR = QDateTime();
-    // optional attributes are by default not present
     m_updateTimeDRPresent = false;
     m_SOG = 0.0;
+    m_SOGPresent = false;
     m_COG = 0.0;
+    m_COGPresent = false;
     // initialize empty string
     m_lost = "";
+    m_lostPresent = false;
     m_rateOfTurn = 0.0;
-    // optional attributes are by default not present
     m_rateOfTurnPresent = false;
     m_orientation = 0.0;
-    // optional attributes are by default not present
     m_orientationPresent = false;
     m_length = 0.0;
-    // optional attributes are by default not present
     m_lengthPresent = false;
     m_breadth = 0.0;
-    // optional attributes are by default not present
     m_breadthPresent = false;
     m_altitude = 0.0;
-    // optional attributes are by default not present
     m_altitudePresent = false;
     m_navStatus = 0;
-    // optional attributes are by default not present
     m_navStatusPresent = false;
     m_updSensorType = 0;
-    // optional attributes are by default not present
     m_updSensorTypePresent = false;
     // initialize defaults to false
     m_ATONOffPos = false;
-    // optional attributes are by default not present
     m_ATONOffPosPresent = false;
 }
 
 // copy constructor
 PosReport::PosReport(const PosReport &val) : QObject() {
 
+    m_posPresent = val.m_posPresent;
     m_pos = val.m_pos;
+    m_sensorPresent = val.m_sensorPresent;
     m_sensors = val.m_sensors;
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
+    m_sourceIdPresent = val.m_sourceIdPresent;
     m_sourceId = val.m_sourceId;
+    m_updateTimePresent = val.m_updateTimePresent;
     m_updateTime = val.m_updateTime;
     m_updateTimeRadarPresent = val.m_updateTimeRadarPresent;
     m_updateTimeRadar = val.m_updateTimeRadar;
@@ -65,8 +67,11 @@ PosReport::PosReport(const PosReport &val) : QObject() {
     m_updateTimeAIS = val.m_updateTimeAIS;
     m_updateTimeDRPresent = val.m_updateTimeDRPresent;
     m_updateTimeDR = val.m_updateTimeDR;
+    m_SOGPresent = val.m_SOGPresent;
     m_SOG = val.m_SOG;
+    m_COGPresent = val.m_COGPresent;
     m_COG = val.m_COG;
+    m_lostPresent = val.m_lostPresent;
     m_lost = val.m_lost;
     m_rateOfTurnPresent = val.m_rateOfTurnPresent;
     m_rateOfTurn = val.m_rateOfTurn;
@@ -89,10 +94,15 @@ PosReport::PosReport(const PosReport &val) : QObject() {
 // assignement
 PosReport & PosReport::operator=(const PosReport &val) {
 
+    m_posPresent = val.m_posPresent;
     m_pos = val.m_pos;
+    m_sensorPresent = val.m_sensorPresent;
     m_sensors = val.m_sensors;
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
+    m_sourceIdPresent = val.m_sourceIdPresent;
     m_sourceId = val.m_sourceId;
+    m_updateTimePresent = val.m_updateTimePresent;
     m_updateTime = val.m_updateTime;
     m_updateTimeRadarPresent = val.m_updateTimeRadarPresent;
     m_updateTimeRadar = val.m_updateTimeRadar;
@@ -100,8 +110,11 @@ PosReport & PosReport::operator=(const PosReport &val) {
     m_updateTimeAIS = val.m_updateTimeAIS;
     m_updateTimeDRPresent = val.m_updateTimeDRPresent;
     m_updateTimeDR = val.m_updateTimeDR;
+    m_SOGPresent = val.m_SOGPresent;
     m_SOG = val.m_SOG;
+    m_COGPresent = val.m_COGPresent;
     m_COG = val.m_COG;
+    m_lostPresent = val.m_lostPresent;
     m_lost = val.m_lost;
     m_rateOfTurnPresent = val.m_rateOfTurnPresent;
     m_rateOfTurn = val.m_rateOfTurn;
@@ -136,6 +149,7 @@ QString PosReport::encode( QString str) const {
 // setter for PosReport
 bool PosReport::setPos(Pos val) {
 
+    m_posPresent = true;
     m_pos = val;
       return true;
 }
@@ -149,7 +163,7 @@ Pos PosReport::getPos() const {
 // setter for PosReport
 bool PosReport::addSensor(Sensor val) {
 
-    m_sensors.append(val);
+   m_sensors.append(val);
       return true;
 }
 
@@ -168,6 +182,7 @@ int PosReport::countOfSensors() const {
 // setter for PosReport
 bool PosReport::setId(int val) {
 
+    m_idPresent = true;
     m_id = val;
       return true;
 }
@@ -181,6 +196,7 @@ int PosReport::getId() const {
 // setter for PosReport
 bool PosReport::setSourceId(int val) {
 
+    m_sourceIdPresent = true;
     m_sourceId = val;
       return true;
 }
@@ -194,6 +210,7 @@ int PosReport::getSourceId() const {
 // setter for PosReport
 bool PosReport::setUpdateTime(QDateTime val) {
 
+    m_updateTimePresent = true;
     m_updateTime = val;
       return true;
 }
@@ -270,6 +287,7 @@ bool PosReport::setSOG(float val) {
 
     if (val < 0)
         return false;
+    m_SOGPresent = true;
     m_SOG = val;
       return true;
 }
@@ -289,6 +307,7 @@ bool PosReport::setCOG(float val) {
 
     if (val > 360)
         return false;
+    m_COGPresent = true;
     m_COG = val;
       return true;
 }
@@ -306,6 +325,7 @@ bool PosReport::setLost(QString val) {
     if ( ( val != "no" ) &&
          ( val != "yes" ) )
         return false;
+    m_lostPresent = true;
     m_lost = val;
       return true;
 }
@@ -517,9 +537,25 @@ bool PosReport::hasATONOffPos() const {
 QString PosReport::toXML() const {
 
     QString xml = "<PosReport";
-    xml.append(" Id=\"" + QString::number(m_id) + "\"");
-    xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
-    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_idPresent) {
+        xml.append(" Id=\"" + QString::number(m_id) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_sourceIdPresent) {
+        xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_updateTimePresent) {
+        xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasUpdateTimeRadar() ) {
         xml.append(" UpdateTimeRadar=\"" + m_updateTimeRadar.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
@@ -532,9 +568,24 @@ QString PosReport::toXML() const {
     if ( hasUpdateTimeDR() ) {
         xml.append(" UpdateTimeDR=\"" + m_updateTimeDR.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
     }
-    xml.append(" SOG=\"" + QString::number(m_SOG, 'f') + "\"");
-    xml.append(" COG=\"" + QString::number(m_COG, 'f') + "\"");
-    xml.append(" Lost=\"" + encode (m_lost) + "\"");
+    // check for presence of required  attribute
+    if ( m_SOGPresent) {
+        xml.append(" SOG=\"" + QString::number(m_SOG, 'f') + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_COGPresent) {
+        xml.append(" COG=\"" + QString::number(m_COG, 'f') + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_lostPresent) {
+        xml.append(" Lost=\"" + encode (m_lost) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasRateOfTurn() ) {
         xml.append(" RateOfTurn=\"" + QString::number(m_rateOfTurn, 'f') + "\"");
@@ -568,11 +619,26 @@ QString PosReport::toXML() const {
         xml.append(" ATONOffPos=\"" + QString(m_ATONOffPos ? "true" : "false" ) + "\"");
     }
     xml.append(">\n");
-    xml.append( m_pos.toXML() );
+    // check for presence of required data member
+    if ( m_posPresent) {
+        dataMember = m_pos.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
     // add all included data
     for(int i=0; i < m_sensors.count(); i++ ) {
         Sensor attribute = m_sensors.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</PosReport>\n");
     return xml;

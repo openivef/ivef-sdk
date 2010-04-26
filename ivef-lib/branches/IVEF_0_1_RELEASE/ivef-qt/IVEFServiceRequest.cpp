@@ -4,23 +4,35 @@
 // Constructor
 ServiceRequest::ServiceRequest() {
 
+    m_areaPresent = false;
+    m_transmissionPresent = false;
+    m_itemPresent = false;
+    m_objectPresent = false;
 }
 
 // copy constructor
 ServiceRequest::ServiceRequest(const ServiceRequest &val) : QObject() {
 
+    m_areaPresent = val.m_areaPresent;
     m_areas = val.m_areas;
+    m_transmissionPresent = val.m_transmissionPresent;
     m_transmission = val.m_transmission;
+    m_itemPresent = val.m_itemPresent;
     m_items = val.m_items;
+    m_objectPresent = val.m_objectPresent;
     m_objects = val.m_objects;
 }
 
 // assignement
 ServiceRequest & ServiceRequest::operator=(const ServiceRequest &val) {
 
+    m_areaPresent = val.m_areaPresent;
     m_areas = val.m_areas;
+    m_transmissionPresent = val.m_transmissionPresent;
     m_transmission = val.m_transmission;
+    m_itemPresent = val.m_itemPresent;
     m_items = val.m_items;
+    m_objectPresent = val.m_objectPresent;
     m_objects = val.m_objects;
     return *this;
 }
@@ -39,7 +51,7 @@ QString ServiceRequest::encode( QString str) const {
 // setter for ServiceRequest
 bool ServiceRequest::addArea(Area val) {
 
-    m_areas.append(val);
+   m_areas.append(val);
       return true;
 }
 
@@ -58,6 +70,7 @@ int ServiceRequest::countOfAreas() const {
 // setter for ServiceRequest
 bool ServiceRequest::setTransmission(Transmission val) {
 
+    m_transmissionPresent = true;
     m_transmission = val;
       return true;
 }
@@ -71,7 +84,7 @@ Transmission ServiceRequest::getTransmission() const {
 // setter for ServiceRequest
 bool ServiceRequest::addItem(Item val) {
 
-    m_items.append(val);
+   m_items.append(val);
       return true;
 }
 
@@ -90,7 +103,7 @@ int ServiceRequest::countOfItems() const {
 // setter for ServiceRequest
 bool ServiceRequest::addObject(Object val) {
 
-    m_objects.append(val);
+   m_objects.append(val);
       return true;
 }
 
@@ -110,22 +123,48 @@ int ServiceRequest::countOfObjects() const {
 QString ServiceRequest::toXML() const {
 
     QString xml = "<ServiceRequest";
+    QString dataMember;
     xml.append(">\n");
     // add all included data
     for(int i=0; i < m_areas.count(); i++ ) {
         Area attribute = m_areas.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
-    xml.append( m_transmission.toXML() );
+    // check for presence of required data member
+    if ( m_transmissionPresent) {
+        dataMember = m_transmission.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
     // add all included data
     for(int i=0; i < m_items.count(); i++ ) {
         Item attribute = m_items.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     // add all included data
     for(int i=0; i < m_objects.count(); i++ ) {
         Object attribute = m_objects.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</ServiceRequest>\n");
     return xml;

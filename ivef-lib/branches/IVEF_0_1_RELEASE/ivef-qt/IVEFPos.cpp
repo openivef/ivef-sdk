@@ -5,20 +5,26 @@
 Pos::Pos() {
 
     m_lat = 0.0;
+    m_latPresent = false;
     m_long = 0.0;
+    m_longPresent = false;
 }
 
 // copy constructor
 Pos::Pos(const Pos &val) : QObject() {
 
+    m_latPresent = val.m_latPresent;
     m_lat = val.m_lat;
+    m_longPresent = val.m_longPresent;
     m_long = val.m_long;
 }
 
 // assignement
 Pos & Pos::operator=(const Pos &val) {
 
+    m_latPresent = val.m_latPresent;
     m_lat = val.m_lat;
+    m_longPresent = val.m_longPresent;
     m_long = val.m_long;
     return *this;
 }
@@ -43,6 +49,7 @@ bool Pos::setLat(float val) {
 
     if (val > 90)
         return false;
+    m_latPresent = true;
     m_lat = val;
       return true;
 }
@@ -62,6 +69,7 @@ bool Pos::setLong(float val) {
 
     if (val > 180)
         return false;
+    m_longPresent = true;
     m_long = val;
       return true;
 }
@@ -76,8 +84,19 @@ float Pos::getLong() const {
 QString Pos::toXML() const {
 
     QString xml = "<Pos";
-    xml.append(" Lat=\"" + QString::number(m_lat, 'f') + "\"");
-    xml.append(" Long=\"" + QString::number(m_long, 'f') + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_latPresent) {
+        xml.append(" Lat=\"" + QString::number(m_lat, 'f') + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_longPresent) {
+        xml.append(" Long=\"" + QString::number(m_long, 'f') + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }

@@ -4,19 +4,25 @@
 // Constructor
 MSG_Logout::MSG_Logout() {
 
+    m_headerPresent = false;
+    m_bodyPresent = false;
 }
 
 // copy constructor
 MSG_Logout::MSG_Logout(const MSG_Logout &val) : QObject() {
 
+    m_headerPresent = val.m_headerPresent;
     m_header = val.m_header;
+    m_bodyPresent = val.m_bodyPresent;
     m_body = val.m_body;
 }
 
 // assignement
 MSG_Logout & MSG_Logout::operator=(const MSG_Logout &val) {
 
+    m_headerPresent = val.m_headerPresent;
     m_header = val.m_header;
+    m_bodyPresent = val.m_bodyPresent;
     m_body = val.m_body;
     return *this;
 }
@@ -35,6 +41,7 @@ QString MSG_Logout::encode( QString str) const {
 // setter for MSG_Logout
 bool MSG_Logout::setHeader(Header val) {
 
+    m_headerPresent = true;
     m_header = val;
       return true;
 }
@@ -48,6 +55,7 @@ Header MSG_Logout::getHeader() const {
 // setter for MSG_Logout
 bool MSG_Logout::setBody(Body val) {
 
+    m_bodyPresent = true;
     m_body = val;
       return true;
 }
@@ -62,9 +70,30 @@ Body MSG_Logout::getBody() const {
 QString MSG_Logout::toXML() const {
 
     QString xml = "<MSG_Logout";
+    QString dataMember;
     xml.append(">\n");
-    xml.append( m_header.toXML() );
-    xml.append( m_body.toXML() );
+    // check for presence of required data member
+    if ( m_headerPresent) {
+        dataMember = m_header.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+    // check for presence of required data member
+    if ( m_bodyPresent) {
+        dataMember = m_body.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
     xml.append( "</MSG_Logout>\n");
     return xml;
 }

@@ -6,17 +6,20 @@ Ping::Ping() {
 
     // initialize with random value
     m_timeStamp = QDateTime();
+    m_timeStampPresent = false;
 }
 
 // copy constructor
 Ping::Ping(const Ping &val) : QObject() {
 
+    m_timeStampPresent = val.m_timeStampPresent;
     m_timeStamp = val.m_timeStamp;
 }
 
 // assignement
 Ping & Ping::operator=(const Ping &val) {
 
+    m_timeStampPresent = val.m_timeStampPresent;
     m_timeStamp = val.m_timeStamp;
     return *this;
 }
@@ -35,6 +38,7 @@ QString Ping::encode( QString str) const {
 // setter for Ping
 bool Ping::setTimeStamp(QDateTime val) {
 
+    m_timeStampPresent = true;
     m_timeStamp = val;
       return true;
 }
@@ -49,7 +53,13 @@ QDateTime Ping::getTimeStamp() const {
 QString Ping::toXML() const {
 
     QString xml = "<Ping";
-    xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_timeStampPresent) {
+        xml.append(" TimeStamp=\"" + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }

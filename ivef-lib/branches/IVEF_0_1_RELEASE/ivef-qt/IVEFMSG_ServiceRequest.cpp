@@ -4,19 +4,25 @@
 // Constructor
 MSG_ServiceRequest::MSG_ServiceRequest() {
 
+    m_headerPresent = false;
+    m_bodyPresent = false;
 }
 
 // copy constructor
 MSG_ServiceRequest::MSG_ServiceRequest(const MSG_ServiceRequest &val) : QObject() {
 
+    m_headerPresent = val.m_headerPresent;
     m_header = val.m_header;
+    m_bodyPresent = val.m_bodyPresent;
     m_body = val.m_body;
 }
 
 // assignement
 MSG_ServiceRequest & MSG_ServiceRequest::operator=(const MSG_ServiceRequest &val) {
 
+    m_headerPresent = val.m_headerPresent;
     m_header = val.m_header;
+    m_bodyPresent = val.m_bodyPresent;
     m_body = val.m_body;
     return *this;
 }
@@ -35,6 +41,7 @@ QString MSG_ServiceRequest::encode( QString str) const {
 // setter for MSG_ServiceRequest
 bool MSG_ServiceRequest::setHeader(Header val) {
 
+    m_headerPresent = true;
     m_header = val;
       return true;
 }
@@ -48,6 +55,7 @@ Header MSG_ServiceRequest::getHeader() const {
 // setter for MSG_ServiceRequest
 bool MSG_ServiceRequest::setBody(Body val) {
 
+    m_bodyPresent = true;
     m_body = val;
       return true;
 }
@@ -62,9 +70,30 @@ Body MSG_ServiceRequest::getBody() const {
 QString MSG_ServiceRequest::toXML() const {
 
     QString xml = "<MSG_ServiceRequest";
+    QString dataMember;
     xml.append(">\n");
-    xml.append( m_header.toXML() );
-    xml.append( m_body.toXML() );
+    // check for presence of required data member
+    if ( m_headerPresent) {
+        dataMember = m_header.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+    // check for presence of required data member
+    if ( m_bodyPresent) {
+        dataMember = m_body.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
     xml.append( "</MSG_ServiceRequest>\n");
     return xml;
 }

@@ -32,6 +32,7 @@ QString Logout::encode( QString str) const {
 QString Logout::toXML() const {
 
     QString xml = "<Logout";
+    QString dataMember;
     xml.append("/>\n");
     return xml;
 }

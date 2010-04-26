@@ -6,40 +6,39 @@ Voyage::Voyage() {
 
     // initialize empty string
     m_id = "";
+    m_idPresent = false;
     // initialize empty string
     m_sourceName = "";
+    m_sourceNamePresent = false;
     m_source = 0;
+    m_sourcePresent = false;
     m_cargoType = 0;
-    // optional attributes are by default not present
     m_cargoTypePresent = false;
     // initialize empty string
     m_destination = "";
-    // optional attributes are by default not present
     m_destinationPresent = false;
     // initialize with random value
     m_ETA = QDateTime();
-    // optional attributes are by default not present
     m_ETAPresent = false;
     // initialize with random value
     m_ATA = QDateTime();
-    // optional attributes are by default not present
     m_ATAPresent = false;
     m_personsOnBoard = 0;
-    // optional attributes are by default not present
     m_personsOnBoardPresent = false;
     m_airDraught = 0.0;
-    // optional attributes are by default not present
     m_airDraughtPresent = false;
     m_draught = 0.0;
-    // optional attributes are by default not present
     m_draughtPresent = false;
 }
 
 // copy constructor
 Voyage::Voyage(const Voyage &val) : QObject() {
 
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
+    m_sourceNamePresent = val.m_sourceNamePresent;
     m_sourceName = val.m_sourceName;
+    m_sourcePresent = val.m_sourcePresent;
     m_source = val.m_source;
     m_cargoTypePresent = val.m_cargoTypePresent;
     m_cargoType = val.m_cargoType;
@@ -60,8 +59,11 @@ Voyage::Voyage(const Voyage &val) : QObject() {
 // assignement
 Voyage & Voyage::operator=(const Voyage &val) {
 
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
+    m_sourceNamePresent = val.m_sourceNamePresent;
     m_sourceName = val.m_sourceName;
+    m_sourcePresent = val.m_sourcePresent;
     m_source = val.m_source;
     m_cargoTypePresent = val.m_cargoTypePresent;
     m_cargoType = val.m_cargoType;
@@ -94,6 +96,7 @@ QString Voyage::encode( QString str) const {
 // setter for Voyage
 bool Voyage::setId(QString val) {
 
+    m_idPresent = true;
     m_id = val;
       return true;
 }
@@ -107,6 +110,7 @@ QString Voyage::getId() const {
 // setter for Voyage
 bool Voyage::setSourceName(QString val) {
 
+    m_sourceNamePresent = true;
     m_sourceName = val;
       return true;
 }
@@ -125,6 +129,7 @@ bool Voyage::setSource(int val) {
          ( val != 2 ) &&
          ( val != 3 ) )
         return false;
+    m_sourcePresent = true;
     m_source = val;
       return true;
 }
@@ -296,9 +301,25 @@ bool Voyage::hasDraught() const {
 QString Voyage::toXML() const {
 
     QString xml = "<Voyage";
-    xml.append(" Id=\"" + encode (m_id) + "\"");
-    xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
-    xml.append(" Source=\"" + QString::number(m_source) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_idPresent) {
+        xml.append(" Id=\"" + encode (m_id) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_sourceNamePresent) {
+        xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_sourcePresent) {
+        xml.append(" Source=\"" + QString::number(m_source) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasCargoType() ) {
         xml.append(" CargoType=\"" + QString::number(m_cargoType) + "\"");

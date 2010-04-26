@@ -44,6 +44,7 @@ QString Schema::getTargetNamespace() const {
 QString Schema::toXML() const {
 
     QString xml = "<Schema";
+    QString dataMember;
     xml.append("/>\n");
     return xml;
 }

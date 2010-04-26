@@ -5,20 +5,26 @@
 Sensor::Sensor() {
 
     m_senId = 0;
+    m_senIdPresent = false;
     m_trkId = 0;
+    m_trkIdPresent = false;
 }
 
 // copy constructor
 Sensor::Sensor(const Sensor &val) : QObject() {
 
+    m_senIdPresent = val.m_senIdPresent;
     m_senId = val.m_senId;
+    m_trkIdPresent = val.m_trkIdPresent;
     m_trkId = val.m_trkId;
 }
 
 // assignement
 Sensor & Sensor::operator=(const Sensor &val) {
 
+    m_senIdPresent = val.m_senIdPresent;
     m_senId = val.m_senId;
+    m_trkIdPresent = val.m_trkIdPresent;
     m_trkId = val.m_trkId;
     return *this;
 }
@@ -43,6 +49,7 @@ bool Sensor::setSenId(int val) {
 
     if (val > 65536)
         return false;
+    m_senIdPresent = true;
     m_senId = val;
       return true;
 }
@@ -62,6 +69,7 @@ bool Sensor::setTrkId(int val) {
 
     if (val > 65536)
         return false;
+    m_trkIdPresent = true;
     m_trkId = val;
       return true;
 }
@@ -76,8 +84,19 @@ int Sensor::getTrkId() const {
 QString Sensor::toXML() const {
 
     QString xml = "<Sensor";
-    xml.append(" SenId=\"" + QString::number(m_senId) + "\"");
-    xml.append(" TrkId=\"" + QString::number(m_trkId) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_senIdPresent) {
+        xml.append(" SenId=\"" + QString::number(m_senId) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_trkIdPresent) {
+        xml.append(" TrkId=\"" + QString::number(m_trkId) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }

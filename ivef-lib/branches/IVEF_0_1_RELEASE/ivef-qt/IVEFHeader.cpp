@@ -6,21 +6,27 @@ Header::Header() {
 
     // initialize fixed value
     m_version = "0.1.5";
+    m_versionPresent = false;
     // initialize empty string
     m_msgRefId = "";
+    m_msgRefIdPresent = false;
 }
 
 // copy constructor
 Header::Header(const Header &val) : QObject() {
 
+    m_versionPresent = val.m_versionPresent;
     m_version = val.m_version;
+    m_msgRefIdPresent = val.m_msgRefIdPresent;
     m_msgRefId = val.m_msgRefId;
 }
 
 // assignement
 Header & Header::operator=(const Header &val) {
 
+    m_versionPresent = val.m_versionPresent;
     m_version = val.m_version;
+    m_msgRefIdPresent = val.m_msgRefIdPresent;
     m_msgRefId = val.m_msgRefId;
     return *this;
 }
@@ -39,6 +45,7 @@ QString Header::encode( QString str) const {
 // setter for Header
 bool Header::setVersion(QString val) {
 
+    m_versionPresent = true;
     m_version = val;
       return true;
 }
@@ -52,6 +59,7 @@ QString Header::getVersion() const {
 // setter for Header
 bool Header::setMsgRefId(QString val) {
 
+    m_msgRefIdPresent = true;
     m_msgRefId = val;
       return true;
 }
@@ -66,8 +74,19 @@ QString Header::getMsgRefId() const {
 QString Header::toXML() const {
 
     QString xml = "<Header";
-    xml.append(" Version=\"" + encode (m_version) + "\"");
-    xml.append(" MsgRefId=\"" + encode (m_msgRefId) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_versionPresent) {
+        xml.append(" Version=\"" + encode (m_version) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_msgRefIdPresent) {
+        xml.append(" MsgRefId=\"" + encode (m_msgRefId) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }

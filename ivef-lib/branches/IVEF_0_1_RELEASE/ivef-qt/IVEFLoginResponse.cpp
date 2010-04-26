@@ -6,17 +6,20 @@ LoginResponse::LoginResponse() {
 
     // initialize empty string
     m_msgId = "";
+    m_msgIdPresent = false;
     m_result = 0;
+    m_resultPresent = false;
     // initialize empty string
     m_reason = "";
-    // optional attributes are by default not present
     m_reasonPresent = false;
 }
 
 // copy constructor
 LoginResponse::LoginResponse(const LoginResponse &val) : QObject() {
 
+    m_msgIdPresent = val.m_msgIdPresent;
     m_msgId = val.m_msgId;
+    m_resultPresent = val.m_resultPresent;
     m_result = val.m_result;
     m_reasonPresent = val.m_reasonPresent;
     m_reason = val.m_reason;
@@ -25,7 +28,9 @@ LoginResponse::LoginResponse(const LoginResponse &val) : QObject() {
 // assignement
 LoginResponse & LoginResponse::operator=(const LoginResponse &val) {
 
+    m_msgIdPresent = val.m_msgIdPresent;
     m_msgId = val.m_msgId;
+    m_resultPresent = val.m_resultPresent;
     m_result = val.m_result;
     m_reasonPresent = val.m_reasonPresent;
     m_reason = val.m_reason;
@@ -46,6 +51,7 @@ QString LoginResponse::encode( QString str) const {
 // setter for LoginResponse
 bool LoginResponse::setMsgId(QString val) {
 
+    m_msgIdPresent = true;
     m_msgId = val;
       return true;
 }
@@ -63,6 +69,7 @@ bool LoginResponse::setResult(int val) {
     if ( ( val != 1 ) &&
          ( val != 2 ) )
         return false;
+    m_resultPresent = true;
     m_result = val;
       return true;
 }
@@ -97,8 +104,19 @@ bool LoginResponse::hasReason() const {
 QString LoginResponse::toXML() const {
 
     QString xml = "<LoginResponse";
-    xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
-    xml.append(" Result=\"" + QString::number(m_result) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_msgIdPresent) {
+        xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_resultPresent) {
+        xml.append(" Result=\"" + QString::number(m_result) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasReason() ) {
         xml.append(" Reason=\"" + encode (m_reason) + "\"");

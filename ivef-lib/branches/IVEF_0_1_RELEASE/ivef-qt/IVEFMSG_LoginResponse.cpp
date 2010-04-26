@@ -4,19 +4,25 @@
 // Constructor
 MSG_LoginResponse::MSG_LoginResponse() {
 
+    m_headerPresent = false;
+    m_bodyPresent = false;
 }
 
 // copy constructor
 MSG_LoginResponse::MSG_LoginResponse(const MSG_LoginResponse &val) : QObject() {
 
+    m_headerPresent = val.m_headerPresent;
     m_header = val.m_header;
+    m_bodyPresent = val.m_bodyPresent;
     m_body = val.m_body;
 }
 
 // assignement
 MSG_LoginResponse & MSG_LoginResponse::operator=(const MSG_LoginResponse &val) {
 
+    m_headerPresent = val.m_headerPresent;
     m_header = val.m_header;
+    m_bodyPresent = val.m_bodyPresent;
     m_body = val.m_body;
     return *this;
 }
@@ -35,6 +41,7 @@ QString MSG_LoginResponse::encode( QString str) const {
 // setter for MSG_LoginResponse
 bool MSG_LoginResponse::setHeader(Header val) {
 
+    m_headerPresent = true;
     m_header = val;
       return true;
 }
@@ -48,6 +55,7 @@ Header MSG_LoginResponse::getHeader() const {
 // setter for MSG_LoginResponse
 bool MSG_LoginResponse::setBody(Body val) {
 
+    m_bodyPresent = true;
     m_body = val;
       return true;
 }
@@ -62,9 +70,30 @@ Body MSG_LoginResponse::getBody() const {
 QString MSG_LoginResponse::toXML() const {
 
     QString xml = "<MSG_LoginResponse";
+    QString dataMember;
     xml.append(">\n");
-    xml.append( m_header.toXML() );
-    xml.append( m_body.toXML() );
+    // check for presence of required data member
+    if ( m_headerPresent) {
+        dataMember = m_header.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+    // check for presence of required data member
+    if ( m_bodyPresent) {
+        dataMember = m_body.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
     xml.append( "</MSG_LoginResponse>\n");
     return xml;
 }
