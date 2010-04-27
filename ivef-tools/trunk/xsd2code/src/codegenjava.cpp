@@ -393,7 +393,7 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toXML() {\n\n";
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
-        classFileOut << "        String dataMember;
+        classFileOut << "        String dataMember;";
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
         classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
 	classFileOut << "\n";
@@ -453,7 +453,7 @@ void CodeGenJava::go() {
                         classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
                         classFileOut << "            dataMember = attribute.toXML();\n"; // issue 21
 			classFileOut << "            if (dataMember != null) {\n";
-                        classFileOut << "               xml += dataMember();\n";
+                        classFileOut << "               xml += dataMember;\n";
 			classFileOut << "            } else {\n";
                         classFileOut << "               return null; // not all required data members have been set \n";
                         classFileOut << "            } \n";
@@ -462,7 +462,7 @@ void CodeGenJava::go() {
                         classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
                         classFileOut << "            dataMember = " << " " << variableName(attr->name()) << ".toXML() ;\n";
 			classFileOut << "            if (dataMember != null) {\n"; // issue 21
-                        classFileOut << "               xml += dataMember();\n";
+                        classFileOut << "               xml += dataMember;\n";
 			classFileOut << "            } else {\n";
                         classFileOut << "               return null; // not all required data members have been set \n";
                         classFileOut << "            } \n";
@@ -471,7 +471,7 @@ void CodeGenJava::go() {
                         classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n"; // issue 21
                         classFileOut << "            dataMember = " << " " << variableName(attr->name()) << ".toXML() ;\n";
 			classFileOut << "            if (dataMember != null) {\n"; // issue 21
-                        classFileOut << "               xml += dataMember();\n";
+                        classFileOut << "               xml += dataMember;\n";
 			classFileOut << "            } else {\n";
                         classFileOut << "               return null; // not all required data members have been set \n";
                         classFileOut << "            } \n";
