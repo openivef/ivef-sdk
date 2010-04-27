@@ -137,9 +137,15 @@
                 if (![self setStatus: val]) {
                    return NO;
                 }
+                if (![self setStatus: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Details"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setDetails: val]) {
+                   return NO;
+                }
                 if (![self setDetails: val]) {
                    return NO;
                 }

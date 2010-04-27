@@ -143,9 +143,15 @@
                 if (![self setTimeStamp: val]) {
                    return NO;
                 }
+                if (![self setTimeStamp: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MsgId"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setMsgId: val]) {
+                   return NO;
+                }
                 if (![self setMsgId: val]) {
                    return NO;
                 }
@@ -153,6 +159,9 @@
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setSourceId: val]) {
+                   return NO;
+                }
                 if (![self setSourceId: val]) {
                    return NO;
                 }

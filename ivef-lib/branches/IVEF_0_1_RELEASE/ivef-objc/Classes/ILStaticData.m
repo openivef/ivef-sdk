@@ -567,9 +567,15 @@
                 if (![self setIdent: val]) {
                    return NO;
                 }
+                if (![self setIdent: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setSourceName: val]) {
+                   return NO;
+                }
                 if (![self setSourceName: val]) {
                    return NO;
                 }
@@ -580,10 +586,16 @@
                 if (![self setSource: val]) {
                    return NO;
                 }
+                if (![self setSource: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Length"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setLength: val]) {
+                   return NO;
+                }
                 if (![self setLength: val]) {
                    return NO;
                 }
@@ -594,15 +606,24 @@
                 if (![self setBreadth: val]) {
                    return NO;
                 }
+                if (![self setBreadth: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Callsign"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setCallsign: val]) {
                    return NO;
                 }
+                if (![self setCallsign: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ShipName"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setShipName: val]) {
+                   return NO;
+                }
                 if (![self setShipName: val]) {
                    return NO;
                 }
@@ -613,10 +634,16 @@
                 if (![self setObjectType: val]) {
                    return NO;
                 }
+                if (![self setObjectType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ShipType"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setShipType: val]) {
+                   return NO;
+                }
                 if (![self setShipType: val]) {
                    return NO;
                 }
@@ -627,10 +654,16 @@
                 if (![self setIMO: val]) {
                    return NO;
                 }
+                if (![self setIMO: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MMSI"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setMMSI: val]) {
+                   return NO;
+                }
                 if (![self setMMSI: val]) {
                    return NO;
                 }
@@ -641,9 +674,15 @@
                 if (![self setATONType: val]) {
                    return NO;
                 }
+                if (![self setATONType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ATONName"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setATONName: val]) {
+                   return NO;
+                }
                 if (![self setATONName: val]) {
                    return NO;
                 }
@@ -654,10 +693,16 @@
                 if (![self setAntPosDistFromFront: val]) {
                    return NO;
                 }
+                if (![self setAntPosDistFromFront: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"AntPosDistFromLeft"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setAntPosDistFromLeft: val]) {
+                   return NO;
+                }
                 if (![self setAntPosDistFromLeft: val]) {
                    return NO;
                 }
@@ -667,15 +712,24 @@
                 if (![self setNatLangShipName: val]) {
                    return NO;
                 }
+                if (![self setNatLangShipName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"PortOfRegistry"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setPortOfRegistry: val]) {
                    return NO;
                 }
+                if (![self setPortOfRegistry: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"CountryFlag"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setCountryFlag: val]) {
+                   return NO;
+                }
                 if (![self setCountryFlag: val]) {
                    return NO;
                 }
@@ -686,6 +740,9 @@
                 if (![self setMaxAirDraught: val]) {
                    return NO;
                 }
+                if (![self setMaxAirDraught: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MaxDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -693,9 +750,15 @@
                 if (![self setMaxDraught: val]) {
                    return NO;
                 }
+                if (![self setMaxDraught: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"DeepWaterVesselind"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setDeepWaterVesselind: val]) {
+                   return NO;
+                }
                 if (![self setDeepWaterVesselind: val]) {
                    return NO;
                 }

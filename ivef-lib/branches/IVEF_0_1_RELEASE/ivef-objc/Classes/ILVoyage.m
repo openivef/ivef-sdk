@@ -294,9 +294,15 @@
                 if (![self setIdent: val]) {
                    return NO;
                 }
+                if (![self setIdent: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setSourceName: val]) {
+                   return NO;
+                }
                 if (![self setSourceName: val]) {
                    return NO;
                 }
@@ -307,6 +313,9 @@
                 if (![self setSource: val]) {
                    return NO;
                 }
+                if (![self setSource: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"CargoType"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -314,9 +323,15 @@
                 if (![self setCargoType: val]) {
                    return NO;
                 }
+                if (![self setCargoType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Destination"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setDestination: val]) {
+                   return NO;
+                }
                 if (![self setDestination: val]) {
                    return NO;
                 }
@@ -327,10 +342,16 @@
                 if (![self setETA: val]) {
                    return NO;
                 }
+                if (![self setETA: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ATA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
+                if (![self setATA: val]) {
+                   return NO;
+                }
                 if (![self setATA: val]) {
                    return NO;
                 }
@@ -341,6 +362,9 @@
                 if (![self setPersonsOnBoard: val]) {
                    return NO;
                 }
+                if (![self setPersonsOnBoard: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"AirDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -348,10 +372,16 @@
                 if (![self setAirDraught: val]) {
                    return NO;
                 }
+                if (![self setAirDraught: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Draught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setDraught: val]) {
+                   return NO;
+                }
                 if (![self setDraught: val]) {
                    return NO;
                 }

@@ -114,6 +114,9 @@
                 if (![self setTimeStamp: val]) {
                    return NO;
                 }
+                if (![self setTimeStamp: val]) {
+                   return NO;
+                }
             }
         }
         return YES;

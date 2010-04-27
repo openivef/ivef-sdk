@@ -178,38 +178,6 @@
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
-#if defined (__clang__)
-        NSEnumerator *enumerator = [attributeDict keyEnumerator];
-        NSString *key;
-        while (key = [enumerator nextObject]) {
-#else
-        for (NSString *key in attributeDict) {
-#endif
-            if ([key isEqualToString: @"PosReport"]) {
-                ILPosReport * val = [attributeDict objectForKey: key];
-                if (![self setPosReport: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"StaticData"]) {
-                ILStaticData * val = [attributeDict objectForKey: key];
-                if (![self addStaticData: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Voyage"]) {
-                ILVoyage * val = [attributeDict objectForKey: key];
-                if (![self addVoyage: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"TaggedItem"]) {
-                ILTaggedItem * val = [attributeDict objectForKey: key];
-                if (![self addTaggedItem: val]) {
-                   return NO;
-                }
-            }
-        }
         return YES;
 }
 

@@ -131,9 +131,15 @@
                 if (![self setElement: val]) {
                    return NO;
                 }
+                if (![self setElement: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Field"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setField: val]) {
+                   return NO;
+                }
                 if (![self setField: val]) {
                    return NO;
                 }

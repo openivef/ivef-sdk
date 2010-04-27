@@ -122,9 +122,16 @@
                 m_version = val; // replace the default versioning number
                 m_versionPresent = YES;
                 [m_version retain]; 
+                [m_version release]; 
+                m_version = val; // replace the default versioning number
+                m_versionPresent = YES;
+                [m_version retain]; 
             }
             else if ([key isEqualToString:@"MsgRefId"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setMsgRefId: val]) {
+                   return NO;
+                }
                 if (![self setMsgRefId: val]) {
                    return NO;
                 }

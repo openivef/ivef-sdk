@@ -173,38 +173,6 @@
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
-#if defined (__clang__)
-        NSEnumerator *enumerator = [attributeDict keyEnumerator];
-        NSString *key;
-        while (key = [enumerator nextObject]) {
-#else
-        for (NSString *key in attributeDict) {
-#endif
-            if ([key isEqualToString: @"Area"]) {
-                ILArea * val = [attributeDict objectForKey: key];
-                if (![self addArea: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Transmission"]) {
-                ILTransmission * val = [attributeDict objectForKey: key];
-                if (![self setTransmission: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Item"]) {
-                ILItem * val = [attributeDict objectForKey: key];
-                if (![self addItem: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Object"]) {
-                ILObject * val = [attributeDict objectForKey: key];
-                if (![self addObject: val]) {
-                   return NO;
-                }
-            }
-        }
         return YES;
 }
 

@@ -132,10 +132,16 @@
                 if (![self setLat: val]) {
                    return NO;
                 }
+                if (![self setLat: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Long"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setLong: val]) {
+                   return NO;
+                }
                 if (![self setLong: val]) {
                    return NO;
                 }

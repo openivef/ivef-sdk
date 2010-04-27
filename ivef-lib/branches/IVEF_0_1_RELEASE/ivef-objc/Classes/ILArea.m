@@ -109,20 +109,6 @@
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
-#if defined (__clang__)
-        NSEnumerator *enumerator = [attributeDict keyEnumerator];
-        NSString *key;
-        while (key = [enumerator nextObject]) {
-#else
-        for (NSString *key in attributeDict) {
-#endif
-            if ([key isEqualToString: @"Pos"]) {
-                ILPos * val = [attributeDict objectForKey: key];
-                if (![self addPos: val]) {
-                   return NO;
-                }
-            }
-        }
         return YES;
 }
 

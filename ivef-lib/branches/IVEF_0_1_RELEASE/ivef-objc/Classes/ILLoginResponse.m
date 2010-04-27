@@ -150,6 +150,9 @@
                 if (![self setMsgId: val]) {
                    return NO;
                 }
+                if (![self setMsgId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Result"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -157,9 +160,15 @@
                 if (![self setResult: val]) {
                    return NO;
                 }
+                if (![self setResult: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Reason"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setReason: val]) {
+                   return NO;
+                }
                 if (![self setReason: val]) {
                    return NO;
                 }

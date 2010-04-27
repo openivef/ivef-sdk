@@ -117,26 +117,6 @@
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
-#if defined (__clang__)
-        NSEnumerator *enumerator = [attributeDict keyEnumerator];
-        NSString *key;
-        while (key = [enumerator nextObject]) {
-#else
-        for (NSString *key in attributeDict) {
-#endif
-            if ([key isEqualToString: @"Header"]) {
-                ILHeader * val = [attributeDict objectForKey: key];
-                if (![self setHeader: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Body"]) {
-                ILBody * val = [attributeDict objectForKey: key];
-                if (![self setBody: val]) {
-                   return NO;
-                }
-            }
-        }
         return YES;
 }
 

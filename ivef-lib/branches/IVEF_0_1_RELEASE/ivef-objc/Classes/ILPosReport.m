@@ -463,21 +463,12 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"Pos"]) {
-                ILPos * val = [attributeDict objectForKey: key];
-                if (![self setPos: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Sensor"]) {
-                ILSensor * val = [attributeDict objectForKey: key];
-                if (![self addSensor: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Id"]) {
+            if ([key isEqualToString: @"Id"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setIdent: val]) {
+                   return NO;
+                }
                 if (![self setIdent: val]) {
                    return NO;
                 }
@@ -488,10 +479,16 @@
                 if (![self setSourceId: val]) {
                    return NO;
                 }
+                if (![self setSourceId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
+                if (![self setUpdateTime: val]) {
+                   return NO;
+                }
                 if (![self setUpdateTime: val]) {
                    return NO;
                 }
@@ -502,10 +499,16 @@
                 if (![self setUpdateTimeRadar: val]) {
                    return NO;
                 }
+                if (![self setUpdateTimeRadar: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"UpdateTimeAIS"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
+                if (![self setUpdateTimeAIS: val]) {
+                   return NO;
+                }
                 if (![self setUpdateTimeAIS: val]) {
                    return NO;
                 }
@@ -516,10 +519,16 @@
                 if (![self setUpdateTimeDR: val]) {
                    return NO;
                 }
+                if (![self setUpdateTimeDR: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setSOG: val]) {
+                   return NO;
+                }
                 if (![self setSOG: val]) {
                    return NO;
                 }
@@ -530,9 +539,15 @@
                 if (![self setCOG: val]) {
                    return NO;
                 }
+                if (![self setCOG: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Lost"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setLost: val]) {
+                   return NO;
+                }
                 if (![self setLost: val]) {
                    return NO;
                 }
@@ -543,10 +558,16 @@
                 if (![self setRateOfTurn: val]) {
                    return NO;
                 }
+                if (![self setRateOfTurn: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Orientation"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setOrientation: val]) {
+                   return NO;
+                }
                 if (![self setOrientation: val]) {
                    return NO;
                 }
@@ -557,10 +578,16 @@
                 if (![self setLength: val]) {
                    return NO;
                 }
+                if (![self setLength: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Breadth"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setBreadth: val]) {
+                   return NO;
+                }
                 if (![self setBreadth: val]) {
                    return NO;
                 }
@@ -571,10 +598,16 @@
                 if (![self setAltitude: val]) {
                    return NO;
                 }
+                if (![self setAltitude: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"NavStatus"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setNavStatus: val]) {
+                   return NO;
+                }
                 if (![self setNavStatus: val]) {
                    return NO;
                 }
@@ -585,12 +618,18 @@
                 if (![self setUpdSensorType: val]) {
                    return NO;
                 }
+                if (![self setUpdSensorType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ATONOffPos"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 BOOL val = ([[value uppercaseString] isEqualToString: @"YES"] || 
                             [[value uppercaseString] isEqualToString: @"TRUE"] ||
                             [[value uppercaseString] isEqualToString: @"1"]);
+                if (![self setATONOffPos: val]) {
+                   return NO;
+                }
                 if (![self setATONOffPos: val]) {
                    return NO;
                 }

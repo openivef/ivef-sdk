@@ -113,6 +113,9 @@
                 if (![self setFileName: val]) {
                    return NO;
                 }
+                if (![self setFileName: val]) {
+                   return NO;
+                }
             }
         }
         return YES;

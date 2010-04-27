@@ -134,10 +134,16 @@
                 if (![self setType: val]) {
                    return NO;
                 }
+                if (![self setType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Period"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setPeriod: val]) {
+                   return NO;
+                }
                 if (![self setPeriod: val]) {
                    return NO;
                 }

@@ -145,9 +145,15 @@
                 if (![self setName: val]) {
                    return NO;
                 }
+                if (![self setName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Password"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setPassword: val]) {
+                   return NO;
+                }
                 if (![self setPassword: val]) {
                    return NO;
                 }
@@ -155,6 +161,9 @@
             else if ([key isEqualToString:@"Encryption"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setEncryption: val]) {
+                   return NO;
+                }
                 if (![self setEncryption: val]) {
                    return NO;
                 }

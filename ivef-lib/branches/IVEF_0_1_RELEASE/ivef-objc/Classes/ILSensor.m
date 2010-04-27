@@ -132,10 +132,16 @@
                 if (![self setSenId: val]) {
                    return NO;
                 }
+                if (![self setSenId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"TrkId"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setTrkId: val]) {
+                   return NO;
+                }
                 if (![self setTrkId: val]) {
                    return NO;
                 }
