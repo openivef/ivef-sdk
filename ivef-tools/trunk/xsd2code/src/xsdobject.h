@@ -26,7 +26,7 @@
 
 class XSDObject : public QObject {
     Q_OBJECT
-
+    
 public:
     XSDObject(QString name);
 	XSDObject();
@@ -35,28 +35,31 @@ public:
 	void addKeyWithValue(QString key, QString value);
 	void setRootObject();	
 	void setMerged();	
+    void setSimpleElement(bool val);
 	void setEmbedded();	
 	void setTypeDefinition(bool val);	
 	void setBaseClass(QString base);	
     void setDocu(const QString& docu);
-
+    
 	QString name();
 	QString baseClass();
-        bool hasBaseClass();
-        bool isMerged();
-        bool isTypeDefinition();
-        bool isEmbedded();
-        bool isRootObject();
+    bool hasBaseClass();
+    bool isMerged();
+    bool isTypeDefinition();
+    bool isEmbedded();
+    bool isSimpleElement();
+    bool isRootObject();
 	QVector<XSDAttribute*>attributes();
 	QMap<QString, QString>fixedValues();
     QString docu();
-
+    
 private:
 	QString m_name;
 	QString m_baseClass;
 	bool m_merged;
 	bool m_hasBaseClass;
 	bool m_type;
+    bool m_simple;
 	bool m_root;
 	bool m_isEmbedded;
 	QVector<XSDAttribute*>m_attributes;

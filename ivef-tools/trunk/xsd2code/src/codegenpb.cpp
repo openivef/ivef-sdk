@@ -197,7 +197,7 @@ void CodeGenPB::go() {
             XSDAttribute *attr = attributes.at(j);
             QString type = localType(attr->type()); // convert to cpp types
             // definition
-            if (attr->unbounded()) { // there more then one
+            if (attr->isScalar()) { // there more then one
                 protoFileOut << "    repeated " << type << " " << variableName(attr->name()) << " = " << tag++ << ";\n";
             } else if (!attr->required() || obj->isMerged()) {
                 protoFileOut << "    optional " << type << " " << variableName(attr->name()) <<  " = " << tag++ << ";\n";

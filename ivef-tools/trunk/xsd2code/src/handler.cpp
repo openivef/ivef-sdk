@@ -29,16 +29,16 @@ QVector<XSDObject*> Handler::objects() {
 
 
 QString Handler::stripNameSpace(QString tag) {
-
+    
     // note: attributes with fields type, ref, base may contain a
     //       namespace like ssn:type, this must be removed
     int i = tag.indexOf(":");
     if (i > 0) {
         QString ns = tag.left(i);
         if (ns != "xs") { // preserve the default namespace or we have to rewrite all code generators
-           QString newTag = tag.right(tag.length() - i -1);
-           //std::cout << QString("processing %1 to %2, %3").arg(tag, ns, newTag).toLatin1().data() << std::endl;
-           return newTag;
+            QString newTag = tag.right(tag.length() - i -1);
+            //std::cout << QString("processing %1 to %2, %3").arg(tag, ns, newTag).toLatin1().data() << std::endl;
+            return newTag;
         }
     }
     return tag;
@@ -46,9 +46,9 @@ QString Handler::stripNameSpace(QString tag) {
 
 void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool isTypeDef) {
     std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
-
+    
     XSDObject *parent = NULL;
-
+    
     if (m_objStack.size() > 0) {
         parent = m_objStack.top();
     }
@@ -74,7 +74,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
                     break;
                 }
             }
-
+            
             if (existingObj == NULL) {
                 obj->setName(value);
                 m_objects.append(obj); // only append new objects, references will be there anyway
@@ -96,7 +96,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
             // parent can have maxOccurs objects of this object
             min = value;
             hasMin = true;
-
+            
         } else if (key == "ref") {
             // not a new object but an reference to an existing one
             name = stripNameSpace( value );
@@ -109,6 +109,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
     }
     XSDAttribute *attr = new XSDAttribute(name, name, true, ""); // keep name and type the same
     attr->setElement(true); // i am sure it is a ellement
+
     if (hasMax) {
         if (max == "unbounded") {
             attr->setUnbounded();
@@ -128,28 +129,28 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
         parent->addAttribute(attr);
     }
     m_attrStack.push(attr);
-
+    
 }
 
 bool Handler::startElement (const QString & /* namespaceURI */,
                             const QString & /* localName */,
                             const QString & qualifiedName,
                             const QXmlAttributes & atts) {
-
+    
     // some xsd use the xsd:<token> style
     QString qName = qualifiedName;
     qName.replace(QString("xsd:"), QString("xs:"));
-
+    
 #if 1
     std::cout << QString("SE: %1").arg(qName).toLatin1().data() << std::endl;
-
+    
     for (int i=0; i < atts.length(); i++) {
         QString key = atts.localName(i);
         QString value = atts.value(i);
         std::cout << QString("AT:    %1 = %2").arg(key, value).toLatin1().data() << std::endl;
     }
 #endif
-
+    
     if (qName == "xs:annotation") {
         // ignore
         // std::cout << QString("ANNOTATION ignoring %1").arg(qName).toLatin1().data() << std::endl;
@@ -179,7 +180,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
         }
         XSDAttribute *attr = new XSDAttribute(name, type, required, fixed);
         m_attrStack.push(attr);
-
+        
         if (m_objStack.size() > 0) { // there can be attributes to the schema
             XSDObject *parent = m_objStack.top();
             parent->addAttribute(attr);
@@ -187,11 +188,11 @@ bool Handler::startElement (const QString & /* namespaceURI */,
             XSDObject *parent = m_objects.first();
             parent->addAttribute(attr);
         }
-
+        
     } else if ((qName == "xs:simpleType") || (qName == "xs:group") || (qName == "xs:complexType")) {
         
         XSDObject *parent = m_objStack.top();
-
+        
         if ((m_objStack.size() == 0) || (parent->isTypeDefinition())) { //  simple types on schema level are other objects used as referal data (or part of a referal)
             std::cout << QString("creating referal type for %1").arg(qName).toLatin1().data() << std::endl;
             QString name = "unknown";
@@ -219,18 +220,18 @@ bool Handler::startElement (const QString & /* namespaceURI */,
             }
         }
         std::cout << QString("extending class with base class %1").arg(base).toLatin1().data() << std::endl;
-
+        
         // get object from stack and add all baseclass attributes also to it
         XSDObject *obj = m_objStack.top();
         obj->setBaseClass(base);
-
+        
     } else if (qName == "xs:documentation") {
         //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
-
+        
     } else if (qName == "xs:element") {
-
+        
         handleStartOfElement(qName, atts, false);
-
+        
     } else if (qName == "xs:enumeration") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
@@ -292,29 +293,29 @@ bool Handler::startElement (const QString & /* namespaceURI */,
         std::cerr << QString("SE: %1 unknown, breaking off parsing routine").arg(qName).toLatin1().data() << std::endl;
         return false;
     }
-
+    
     return true;
 }
 
 bool Handler::characters ( const QString  & ch ) {
-
+    
     //std::cout << QString("CH:        [%1]").arg(ch.trimmed()).toLatin1().data() << std::endl;
     m_doc = ch.trimmed();
     return true;
 }
 
 bool Handler::endElement ( const QString & /* namespaceURI */,
-                           const QString & /* localName */,
-                           const QString & qualifiedName ) {
-
+                          const QString & /* localName */,
+                          const QString & qualifiedName ) {
+    
     // some xsd use the xsd:<token> style
     QString qName = qualifiedName;
     qName.replace(QString("xsd:"), QString("xs:"));
-
+    
 #if 1
     std::cout << QString("EE: %1").arg(qName).toLatin1().data() << std::endl;
 #endif
-
+    
     // pop elements previously been pushed
     if (qName == "xs:attribute") {
         m_attrStack.pop();
@@ -322,10 +323,10 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
         // this was a choice element which means all attributes are optional
         XSDObject *obj = m_objStack.top();
         //std::cout << QString("Choice for %1").arg(obj->name()).toLatin1().data() << std::endl;
-
+        
         for(int j=0; j < obj->attributes().size(); j++) {
             XSDAttribute *attr = obj->attributes().at(j);
-
+            
             // it would be better to set a choice paramater and generate precicely one
             // but 0-x is a reasonable alternative
             attr->setRequired(false);
@@ -335,7 +336,7 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
         if (m_attrStack.size() > 0) {
             XSDAttribute *attr = m_attrStack.top();
             attr->setDocumentation(m_doc);
-
+            
             XSDObject *obj = m_objStack.top();
             if (attr->name() == obj->name())
                 obj->setDocu(m_doc);
@@ -359,18 +360,18 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
         // otherwise we have only one root object.
         //m_objStack.pop();
     }
-
+    
     return true;
 }
 
 bool Handler::endDocument () {
-
+    
     //std::cout << "ED" << std::endl;
     return true;
 }
 
 bool Handler::error ( const QXmlParseException & exception ) {
-
+    
     std::cout << exception.message().toLatin1().data() << std::endl;
     return true;
 }

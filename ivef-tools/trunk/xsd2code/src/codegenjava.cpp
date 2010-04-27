@@ -264,13 +264,14 @@ void CodeGenJava::go() {
             XSDAttribute *attr = attributes.at(j);
             QString type = localType(attr->type()); // convert to java types
             // definition
-            if (attr->unbounded()) { // there more then one
+            if (attr->isScalar()) { // there more then one
                 classFileOut << "    private Vector<" << className(attr->name()) << "> " << variableName(attr->name()) << "s = new Vector<" << className(attr->name()) << ">();\n";
             } else {
                 classFileOut << "    private " << type << " " << variableName(attr->name()) << "; // default value is uninitialized\n";
             }
+
             //if (!attr->required() || obj->isMerged()) { // issue 21
-                classFileOut << "    private boolean " << variableName(attr->name()) << "Present;\n";
+            classFileOut << "    private boolean " << variableName(attr->name()) << "Present;\n";
             //}
         }
         
@@ -288,8 +289,7 @@ void CodeGenJava::go() {
                 classFileOut << "        " << variableName(attr->name()) << "Present = true;\n"; // issue 21
             } else {
                 classFileOut << "        " << variableName(attr->name()) << "Present = false;\n"; // issue 21
- 	    }
-
+            }            
         }
         classFileOut << "    }\n\n";
         
@@ -299,10 +299,11 @@ void CodeGenJava::go() {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to java types
+
             //if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) { // issue 21
             //    classFileOut << "        " << variableName(attr->name()) << "Present = val.has" << methodName(attr->name()) << "();\n";
             //}
-            if (attr->unbounded()) { // there more then one
+            if (attr->isScalar()) { // there more then one
                 classFileOut << "        for(int i=0; i < val.countOf" << methodName(attr->name()) << "s(); i++ ) {\n";
                 classFileOut << "            " << variableName(attr->name()) << "s.add( val.get" << methodName(attr->name()) << "At(i) );\n";
                 classFileOut << "        }\n";
@@ -320,12 +321,18 @@ void CodeGenJava::go() {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to java types
-            if (attr->unbounded()) { // there more then one
+            if (attr->isScalar()) { // there more then one
                 // setter
                 classFileOut << "    public boolean " << "add" << methodName(attr->name()) << "(" << type << " val) {\n";
+                
+                if (attr->hasMax()) { // issue 26
+                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() >= " << attr->max() << ") {\n";                   
+                    classFileOut << "              return false; // scalar already at maxOccurs\n";
+                    classFileOut << "          }\n";
+                }                
                 classFileOut << "\n        " << variableName(attr->name()) << "s.add(val);\n";
-		classFileOut << "          return true;\n";
-		classFileOut << "    }\n\n";
+                classFileOut << "          return true;\n";
+                classFileOut << "    }\n\n";
                 // getter
                 classFileOut << "    public " << type << " " << "get" << methodName(attr->name()) << "At(int i) {\n";
                 classFileOut << "\n        return ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n    }\n\n";
@@ -363,11 +370,11 @@ void CodeGenJava::go() {
                     classFileOut << "\n        if (" << evaluator << " > " << attr->max() << ")\n          return false;";
                 }
                 //if (!attr->required() || obj->isMerged()) {// issue 21
-                    classFileOut << "\n        " << variableName(attr->name()) << "Present = true;";
+                classFileOut << "\n        " << variableName(attr->name()) << "Present = true;";
                 //}
                 classFileOut << "\n        " << variableName(attr->name()) << " = val;\n";
-		classFileOut << "          return true;\n";
-		classFileOut << "    }\n\n";
+                classFileOut << "          return true;\n";
+                classFileOut << "    }\n\n";
                 // getter
                 classFileOut << "    public " << type << " get" << methodName(attr->name()) << "() {\n";
                 classFileOut << "\n        return " << variableName(attr->name()) << ";\n    }\n\n";
@@ -396,7 +403,7 @@ void CodeGenJava::go() {
         classFileOut << "        String dataMember;";
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
         classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
-	classFileOut << "\n";
+        classFileOut << "\n";
         
         // for attributes
         bool hasDataMembers = false;
@@ -410,15 +417,15 @@ void CodeGenJava::go() {
                 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
-		    varName = "df.format(" + variableName(attr->name()) + ")"; 
+                    varName = "df.format(" + variableName(attr->name()) + ")"; 
                 } else if (type == "String") {
                     varName = "encode( " + variableName(attr->name()) + ")";
                 } else if (type == "double") { // issue 63
-		    varName = "nf.format(" + variableName(attr->name()) + ")"; 
+                    varName = "nf.format(" + variableName(attr->name()) + ")"; 
                 }
-                     
+                
                 // check if the attribute exist
-                if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
+                if ((!attr->required() || obj->isMerged()) && !attr->isScalar()) {
                     classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "            xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n        }\n";
                 } else { // issue 21
@@ -443,7 +450,12 @@ void CodeGenJava::go() {
                 
                 if (attrType == attr->name()) {
                     // check if the attribute exist
-                    if (attr->unbounded() ) {
+                    if (attr->isScalar()) {
+                        if (attr->hasMin()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->min() << ") {\n";
+                            classFileOut << "            return null; // not enough values\n";
+                            classFileOut << "        }\n";
+                        }
                         if (attr->hasMin()) { // issue 26
                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->min() << ") {\n";
 			   classFileOut << "            return null; // not enough values\n";
@@ -452,27 +464,27 @@ void CodeGenJava::go() {
                         classFileOut << "        for(int i=0; i < " << variableName(attr->name()) << "s.size(); i++ ) {\n";
                         classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
                         classFileOut << "            dataMember = attribute.toXML();\n"; // issue 21
-			classFileOut << "            if (dataMember != null) {\n";
+                        classFileOut << "            if (dataMember != null) {\n";
                         classFileOut << "               xml += dataMember;\n";
-			classFileOut << "            } else {\n";
+                        classFileOut << "            } else {\n";
                         classFileOut << "               return null; // not all required data members have been set \n";
                         classFileOut << "            } \n";
                         classFileOut << "        } \n";
                     } else if (!attr->required() || obj->isMerged()) {
                         classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
                         classFileOut << "            dataMember = " << " " << variableName(attr->name()) << ".toXML() ;\n";
-			classFileOut << "            if (dataMember != null) {\n"; // issue 21
+                        classFileOut << "            if (dataMember != null) {\n"; // issue 21
                         classFileOut << "               xml += dataMember;\n";
-			classFileOut << "            } else {\n";
+                        classFileOut << "            } else {\n";
                         classFileOut << "               return null; // not all required data members have been set \n";
                         classFileOut << "            } \n";
                         classFileOut << "        } \n";
                     } else {
                         classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n"; // issue 21
                         classFileOut << "            dataMember = " << " " << variableName(attr->name()) << ".toXML() ;\n";
-			classFileOut << "            if (dataMember != null) {\n"; // issue 21
+                        classFileOut << "            if (dataMember != null) {\n"; // issue 21
                         classFileOut << "               xml += dataMember;\n";
-			classFileOut << "            } else {\n";
+                        classFileOut << "            } else {\n";
                         classFileOut << "               return null; // not all required data members have been set \n";
                         classFileOut << "            } \n";
                         classFileOut << "        } else { \n";
@@ -510,14 +522,14 @@ void CodeGenJava::go() {
                 
                 // non-qstring items (ints) may give problems, so convert them
                 if (type == "Date") {
-		    varName = "df.format(" + variableName(attr->name()) + ")"; 
+                    varName = "df.format(" + variableName(attr->name()) + ")"; 
                 } else if (type == "double") { // issue 63
-		    varName = "nf.format(" + variableName(attr->name()) + ")"; 
+                    varName = "nf.format(" + variableName(attr->name()) + ")"; 
                 } /*else  if (type != "String") {
                    varName = "String.number(" + variableName(attr->name()) + ")";
                    } */
                 // check if the attribute exist
-                if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) {
+                if ((!attr->required() || obj->isMerged()) && !attr->isScalar()) {
                     classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "            str +=  lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\";\n        }\n";
                 } else {
@@ -533,7 +545,7 @@ void CodeGenJava::go() {
             
             if (attrType == attr->name()) {
                 // check if the attribute exist
-                if (attr->unbounded() ) {
+                if (attr->isScalar() ) {
                     classFileOut << "        for(int i=0; i < " << variableName(attr->name()) << "s.size(); i++ ) {\n";
                     classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
                     classFileOut << "           str += attribute.toString(lead + \"    \");\n        }\n";
@@ -631,7 +643,6 @@ void CodeGenJava::go() {
     classFileOut << writeHeader( className(name) );
     
     classFileOut << "package " << package << ";\n\n";
-
     classFileOut << "import " << package << "." << fileBaseName("ParserListener") << ";\n";
     classFileOut << "import java.util.*;\n";
     classFileOut << "import java.util.regex.*;\n";
@@ -659,7 +670,7 @@ void CodeGenJava::go() {
     classFileOut << "    private Stack m_objStack = new Stack(); // cannot use a template since it stores different Objects\n";
 	classFileOut << "    private SAXParser m_parser; // init in constructor\n";
     classFileOut << "    private Pattern m_closeTagsPattern; \n";
-
+    
     // count the number of messages
     QStringList closeTags, rootObjects;
     for(int i=0; i < m_objects.size(); i++) {
@@ -669,7 +680,7 @@ void CodeGenJava::go() {
             closeTags.append("</" + obj->name() + ">");
         }
     }
-
+    
     // build a regexp for the rootTags
     QString regExp;
     QString commonPrefix = longestCommonPrefix(rootObjects);
@@ -839,7 +850,7 @@ void CodeGenJava::go() {
                 
                 if (objType == className(obj->name())) { // this object has an attribute of that type
                     classFileOut << "        if ( m_objStack.peek().getClass() == new " << parent->name() << "().getClass() ) {\n";
-                    if (attr->unbounded() ) {
+                    if (attr->isScalar() ) {
                         classFileOut << "                if (! (("<< parent->name() << ") ( m_objStack.peek() ) ).add" << className(obj->name()) << "( obj ) ) {\n";
                         classFileOut << "                   throw new SAXException(\"Validation Exception: \" + qName);\n";
                         classFileOut << "                }\n";

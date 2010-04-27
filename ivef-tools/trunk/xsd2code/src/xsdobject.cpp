@@ -25,6 +25,7 @@ XSDObject::XSDObject() {
 	m_root = false;
 	m_hasBaseClass = false;
 	m_type = false;
+    m_simple = false;
 	m_isEmbedded = false;
 }
 
@@ -57,8 +58,16 @@ void XSDObject::setName(QString name ) {
 	m_name = name;
 }
 
+bool XSDObject::isSimpleElement() {
+	return m_simple;
+}
+
 bool XSDObject::isTypeDefinition() {
 	return m_type;
+}
+
+void XSDObject::setSimpleElement(bool val) {
+	m_simple = val;
 }
 
 void XSDObject::setTypeDefinition(bool val) {

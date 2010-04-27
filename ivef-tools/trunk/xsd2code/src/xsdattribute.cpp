@@ -15,7 +15,7 @@
  *  Copyright 2008
  *
  */
- 
+
 #include <cstdlib>
 
 #include "xsdattribute.h"
@@ -30,14 +30,16 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fi
 	m_hasMax = false;
 	m_maxLength = -1; 
 	m_minLength = -1; 
-        m_digits = 0;
-        m_fixed = fixed;
-        m_isFixed = true;
-        if (fixed == "") {
-          m_isFixed = false;
-        } else {
-	 // std::cout << "XSDAttribute contructor: has fixed [" << fixed.toLatin1().data() << "]" << std::endl;
-        }
+    m_min = -1;
+    m_max = -1;
+    m_digits = 0;
+    m_fixed = fixed;
+    m_isFixed = true;
+    if (fixed == "") {
+        m_isFixed = false;
+    } else {
+        // std::cout << "XSDAttribute contructor: has fixed [" << fixed.toLatin1().data() << "]" << std::endl;
+    }
     //std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
 }
 
@@ -51,7 +53,7 @@ void XSDAttribute::setRequired(bool req) {
 
 void XSDAttribute::setFixed(QString type) {
 	m_fixed = type;
-        m_isFixed = true;
+    m_isFixed = true;
 }
 
 void XSDAttribute::setType(QString type) {
@@ -80,7 +82,7 @@ void XSDAttribute::setMaxLength(int length) {
 }
 
 void XSDAttribute::setUnbounded() {
-	 m_unbounded = true;
+    m_unbounded = true;
 }
 
 QVector<QString> XSDAttribute::enumeration() {
@@ -91,7 +93,13 @@ bool XSDAttribute::hasMin() {
 	return m_hasMin;
 }
 
-bool XSDAttribute::isElement() {
+bool XSDAttribute::isSimpleElement() {
+    // simple elements are elements (data members)
+    // which have a type (like xs:string)
+    return m_element && (m_type != m_name);
+} 
+
+bool XSDAttribute::isElement() {    
 	return m_element;
 }
 
@@ -107,8 +115,13 @@ int XSDAttribute::max() {
 	return m_max;
 }
 
-bool XSDAttribute::unbounded() {
+bool XSDAttribute::isUnbounded() {
 	return m_unbounded;
+}
+
+// create a scalar for unbounded or bounded entries
+bool XSDAttribute::isScalar() {
+	return m_unbounded || ((m_max > 1) && m_element);
 }
 
 void XSDAttribute::setMinOccurs(int min) {

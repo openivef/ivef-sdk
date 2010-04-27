@@ -46,9 +46,11 @@ public:
 	QVector<QString> enumeration();
 	bool required();
 	bool isFixed();
-	bool unbounded();
+	bool isUnbounded();
+    bool isScalar();
 	bool hasMin();
 	bool isElement();
+    bool isSimpleElement();
 	bool hasMax();
 	int min();
 	int max();
