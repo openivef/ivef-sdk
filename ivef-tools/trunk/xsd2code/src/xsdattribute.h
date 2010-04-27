@@ -35,6 +35,7 @@ public:
 	void setType(QString type);
 	void setFixed(QString val);
 	void setUnbounded();
+	void setElement(bool req);
 	void setRequired(bool req);
 	void setDocumentation(QString doc);
 	void appendEnumeration(QString enum1);
@@ -47,6 +48,7 @@ public:
 	bool isFixed();
 	bool unbounded();
 	bool hasMin();
+	bool isElement();
 	bool hasMax();
 	int min();
 	int max();
@@ -57,6 +59,7 @@ private:
 	QString m_type;
 	QString m_fixed;
 	QString m_doc;
+	bool m_element;
 	bool m_required;
 	bool m_unbounded;
 	int m_min;

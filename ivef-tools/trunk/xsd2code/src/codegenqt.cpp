@@ -606,6 +606,10 @@ void CodeGenQT::go() {
             QString type = localType(attr->type()); // convert to cpp types
             QString varName = "encode (" + variableName(attr->name()) + ")"; // default to string, issue 19
 
+            if ((attrType != attr->name()) && attr->isElement()) {
+                std::cout << "ERROR unknown attr :" <<  attr->name().toLatin1().data() <<  " mistaken for attribute" << std::endl;
+            }
+
             if (attrType != attr->name()) {
 
                 // non-qstring items (ints) may give problems, so convert them

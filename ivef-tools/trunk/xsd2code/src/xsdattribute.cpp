@@ -25,6 +25,7 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fi
 	m_type = type;
 	m_required = required;
 	m_unbounded = false;
+	m_element = false;
 	m_hasMin = false;
 	m_hasMax = false;
 	m_maxLength = -1; 
@@ -38,6 +39,10 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fi
 	 // std::cout << "XSDAttribute contructor: has fixed [" << fixed.toLatin1().data() << "]" << std::endl;
         }
     //std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
+}
+
+void XSDAttribute::setElement(bool req) {
+	m_element = req;
 }
 
 void XSDAttribute::setRequired(bool req) {
@@ -84,6 +89,10 @@ QVector<QString> XSDAttribute::enumeration() {
 
 bool XSDAttribute::hasMin() {
 	return m_hasMin;
+}
+
+bool XSDAttribute::isElement() {
+	return m_element;
 }
 
 bool XSDAttribute::hasMax() {
