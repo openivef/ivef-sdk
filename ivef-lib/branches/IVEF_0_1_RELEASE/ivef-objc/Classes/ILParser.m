@@ -8,6 +8,7 @@
     self = [super init];
     if (self != nil) {
         m_dataBuffer = [[NSMutableString alloc] init];
+        m_characterBuffer = [[NSMutableString alloc] init];
         m_objStack = [[NSMutableArray alloc] init];
         m_closeTags = [[NSArray arrayWithObjects:@"</MSG_LoginRequest>", @"</MSG_LoginResponse>", @"</MSG_Logout>", @"</MSG_Ping>", @"</MSG_Pong>", @"</MSG_ServerStatus>", @"</MSG_ServiceRequest>", @"</MSG_VesselData>", nil] retain];
     }
@@ -21,11 +22,18 @@
         [super dealloc];
 }
 
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+    [m_characterBuffer appendString: [string stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+}
+
 - (void)     parser:(NSXMLParser *)parser 
     didStartElement:(NSString *)elementName
        namespaceURI:(NSString *)namespaceURI
       qualifiedName:(NSString *)qualifiedName
          attributes:(NSDictionary *)attributeDict {
+    // clear the character buffer
+    [m_characterBuffer setString: @""];
+
     // check all possible options
     if ([elementName isEqualToString: @"MSG_LoginRequest"]) {
         ILMSG_LoginRequest *obj = [[ILMSG_LoginRequest alloc] init];
