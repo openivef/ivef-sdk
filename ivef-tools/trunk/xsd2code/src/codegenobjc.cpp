@@ -959,6 +959,7 @@ void CodeGenObjC::go() {
     
     // vars section
     headerFileOut << "    NSMutableString *m_dataBuffer;\n";
+    headerFileOut << "    NSMutableString *m_characterBuffer;\n";
     headerFileOut << "    NSMutableArray *m_objStack;\n";
     headerFileOut << "    NSMutableArray *m_closeTags;\n";
     headerFileOut << "}\n\n";
@@ -971,6 +972,9 @@ void CodeGenObjC::go() {
     headerFileOut << "       namespaceURI:(NSString *)namespaceURI\n";
     headerFileOut << "      qualifiedName:(NSString *)qualifiedName\n";
     headerFileOut << "         attributes:(NSDictionary *)attributeDict;\n";
+    headerFileOut << "//!Delegate method for NSXMLParser\n";
+    headerFileOut << "//!\n";
+    headerFileOut << "- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;\n";
     headerFileOut << "//!Delegate method for NSXMLParser\n";
     headerFileOut << "//!\n";
     headerFileOut << "- (void)     parser:(NSXMLParser *)parser \n";
@@ -1006,6 +1010,7 @@ void CodeGenObjC::go() {
     // constructor
     classFileOut << "- (id) init {\n    self = [super init];\n    if (self != nil) {\n";
     classFileOut << "        m_dataBuffer = [[NSMutableString alloc] init];\n";
+    classFileOut << "        m_characterBuffer = [[NSMutableString alloc] init];\n";
     classFileOut << "        m_objStack = [[NSMutableArray alloc] init];\n";
     //classFileOut << "        [self setDelegate: self]; // we are our own delegate\n"; // issue 35
     
@@ -1031,6 +1036,11 @@ void CodeGenObjC::go() {
     classFileOut << "        [super dealloc];\n";
     classFileOut << "}\n\n";
     
+    // maintain a buffer for character data
+    classFileOut << "- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {\n";
+    classFileOut << "    [m_characterBuffer appendString: [string stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];\n";
+    classFileOut << "}\n\n";
+    
     // main parser routine
     classFileOut << "- (void)     parser:(NSXMLParser *)parser \n";
     classFileOut << "    didStartElement:(NSString *)elementName\n";
@@ -1040,6 +1050,10 @@ void CodeGenObjC::go() {
     
     // run through all objects
     bool first = true;
+    
+    classFileOut << "    // clear the character buffer\n";
+    classFileOut << "    [m_characterBuffer setString: @\"\"];\n\n";
+
     classFileOut << "    // check all possible options\n";
     
     for(int i=0; i < m_objects.size(); i++) {
@@ -1081,6 +1095,13 @@ void CodeGenObjC::go() {
     
     // run through all objects
     first = true;
+    
+    classFileOut << "    if ([m_characterBuffer length] > 0) {\n";
+    classFileOut << "        NSLog(@\"found lingering characters [%@] in [%@] these are not supported\", m_characterBuffer, elementName);\n";
+    classFileOut << "        // clear the character buffer\n";
+    classFileOut << "        [m_characterBuffer setString: @\"\"];\n\n";
+    classFileOut << "    }\n\n";
+    
     classFileOut << "    // check all possible options\n";
     
     for(int i=0; i < m_objects.size(); i++) {
