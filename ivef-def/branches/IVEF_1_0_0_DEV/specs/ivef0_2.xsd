@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2" targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.3" targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.3" elementFormDefault="qualified">
 	<xs:element name="MSG_IVEF">
 		<xs:annotation>
 			<xs:documentation>Root MESSAGE</xs:documentation>
@@ -164,7 +164,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.2.2">
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.2.3">
 				<xs:annotation>
 					<xs:documentation>Defines the version of the protocol used. Syntax is major.minor.patch patch releases fix only bugs, minor releases may add functionality but are compatible, major releases are not compatible</xs:documentation>
 				</xs:annotation>
@@ -789,9 +789,29 @@ expressed in degrees</xs:documentation>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
+						<xs:attribute name="DeadWeight" use="optional">
+							<xs:annotation>
+								<xs:documentation>Dead weight in tons</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="GrossWeight" use="optional">
+							<xs:annotation>
+								<xs:documentation>Gross weight in tons</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
 						<xs:attribute name="Length" use="optional">
 							<xs:annotation>
-								<xs:documentation>Length of the target in meter as confirmed by NCA</xs:documentation>
+								<xs:documentation>The overall length of the target in meter as confirmed by NCA</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:decimal">
@@ -804,9 +824,19 @@ expressed in degrees</xs:documentation>
 								<xs:documentation>Number indicating type of vessel </xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
-						<xs:attribute name="MaxKeelHeight" use="optional">
+						<xs:attribute name="YearOfBuild" use="optional">
 							<xs:annotation>
-								<xs:documentation>Maximum height of the object, to be used if voyage data is not available</xs:documentation>
+								<xs:documentation>The year the vessel was build in 4 digits e.g. 2010</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:totalDigits value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="MaxAirDraught" use="optional">
+							<xs:annotation>
+								<xs:documentation>Maximum air draught of the object in meters, to be used if voyage data is not available</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:decimal">
@@ -848,7 +878,7 @@ expressed in degrees</xs:documentation>
 						</xs:attribute>
 						<xs:attribute name="Width" use="optional">
 							<xs:annotation>
-								<xs:documentation>Width of the target in meter as confirmed by the NCA</xs:documentation>
+								<xs:documentation>Overall width of the target in meter as confirmed by the NCA</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:decimal">
@@ -886,6 +916,39 @@ expressed in degrees</xs:documentation>
 						<xs:attribute name="Name" use="optional">
 							<xs:annotation>
 								<xs:documentation>Name of the target</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="FormerName" use="optional">
+							<xs:annotation>
+								<xs:documentation>Previous name of the target</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Flag" use="optional">
+							<xs:annotation>
+								<xs:documentation>The country flag (ISO 3166-1-alpha2)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="2"/>
+									<xs:maxLength value="2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Owner" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name of owner the target</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
@@ -1113,6 +1176,28 @@ expressed in degrees</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
+			<xs:attribute name="DepartCode" use="optional">
+				<xs:annotation>
+					<xs:documentation>Departure of the target (UN/LOCODE)  optionally addended with local location code (e.g. BEANR0170100497 = Antwerp, HANSADOK 497)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DepartName" use="optional">
+				<xs:annotation>
+					<xs:documentation>Departure name of the target e.g. local code for berth/lock/bridge/terminal</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
 			<xs:attribute name="Draught" use="optional">
 				<xs:annotation>
 					<xs:documentation>Actual draught of the vessel in meters</xs:documentation>
@@ -1127,6 +1212,11 @@ expressed in degrees</xs:documentation>
 			<xs:attribute name="ETA" type="xs:dateTime" use="optional">
 				<xs:annotation>
 					<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the Expected Time Of Arrival of the target at the destination</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ATD" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the Actual Time Of Departure of the target</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="ISPSLevel" use="optional">
@@ -1163,17 +1253,7 @@ expressed in degrees</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="NextPort" use="optional">
-				<xs:annotation>
-					<xs:documentation>Next port of the target (UN/LOCODE)</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="5"/>
-						<xs:maxLength value="5"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
+			
 			<xs:attribute name="PersonsOnBoard" use="optional">
 				<xs:annotation>
 					<xs:documentation>The number of persons on board of the object, should equal the sum of crew, passengers and support personel if available</xs:documentation>
@@ -1198,17 +1278,7 @@ expressed in degrees</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="PrevPort" use="optional">
-				<xs:annotation>
-					<xs:documentation>Previous port of the target (UN/LOCODE)</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="5"/>
-						<xs:maxLength value="5"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
+			
 			<xs:attribute name="RouteBound" type="xs:boolean" use="optional">
 				<xs:annotation>
 					<xs:documentation>This object is bound to the route of this voyage</xs:documentation>
