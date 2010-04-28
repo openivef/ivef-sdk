@@ -59,7 +59,7 @@ function genIVEF_0_1 {
 	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
 	genObjC
 	#genQt
-	#genJava
+	genJava
 }
 
 genIVEF_0_1

@@ -792,9 +792,9 @@ void CodeGenJava::go() {
                         classFileOut << "                    }\n";
                         classFileOut << "                }\n";
                     }
-                    else if (type == "double")
-                        classFileOut << "                " << type << " val = Double.parseDouble(value);\n";
-                    
+                    else if (type == "double") {
+                        classFileOut << "                " << type << " val = Double.parseDouble(value.replace(\",\", \".\"));\n";
+                    } 
                     classFileOut << "                if (! obj.set" << methodName(attrName) << "(val) ) {\n";
                     classFileOut << "                   throw new SAXException(\"Validation Exception: \" + key + \" = \" + value );\n";
                     classFileOut << "                }\n";
