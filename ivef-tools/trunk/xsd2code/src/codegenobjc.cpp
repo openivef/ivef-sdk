@@ -178,7 +178,7 @@ void CodeGenObjC::go() {
                     //std::cout << QString("Should i ignore attr: %1 for obj2 %2 obj1 %3?").arg(attr->name(), obj2->name(), obj1->name()).toLatin1().data() << std::endl;
                     obj1->setSimpleElement(true);
                     std::cout << QString("marking class: %1 for skip").arg(className(obj1->name())).toLatin1().data() << std::endl;
-
+                    
                 }
                 
                 if (objType == obj1->name()) {
@@ -1053,7 +1053,7 @@ void CodeGenObjC::go() {
     
     classFileOut << "    // clear the character buffer\n";
     classFileOut << "    [m_characterBuffer setString: @\"\"];\n\n";
-
+    
     classFileOut << "    // check all possible options\n";
     
     for(int i=0; i < m_objects.size(); i++) {
@@ -1072,15 +1072,20 @@ void CodeGenObjC::go() {
         }
         // if the name matches my object
         classFileOut << " ([elementName isEqualToString: @\"" << obj->name() << "\"]) {\n";
-        // create a temp object
-        classFileOut << "        " << className(obj->name()) << " *obj = [[" << className(obj->name()) << " alloc] init];\n";
-        classFileOut << "        if (! [obj setAttributes: attributeDict] ) {\n";
-        classFileOut << "            [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
-        classFileOut << "        };\n";
-        // store in local object (or stack) and signal on end tag
-        // this way we can set obj in objects
-        classFileOut << "        [m_objStack addObject: obj ];\n";
-        classFileOut << "        [obj release];\n";
+        
+        if (!obj->isSimpleElement()) { // a normal sub element
+            // create a temp object
+            classFileOut << "        " << className(obj->name()) << " *obj = [[" << className(obj->name()) << " alloc] init];\n";
+            classFileOut << "        if (! [obj setAttributes: attributeDict] ) {\n";
+            classFileOut << "            [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
+            classFileOut << "        };\n";
+            // store in local object (or stack) and signal on end tag
+            // this way we can set obj in objects
+            classFileOut << "        [m_objStack addObject: obj ];\n";
+            classFileOut << "        [obj release];\n";            
+        } else { // a simple type that is actually a data container
+            classFileOut << "        // data will follow and end up in the m_characterBuffer\n";
+        }
         classFileOut << "    }\n";
     }
     classFileOut << "}\n\n";
@@ -1095,12 +1100,6 @@ void CodeGenObjC::go() {
     
     // run through all objects
     first = true;
-    
-    classFileOut << "    if ([m_characterBuffer length] > 0) {\n";
-    classFileOut << "        NSLog(@\"found lingering characters [%@] in [%@] these are not supported\", m_characterBuffer, elementName);\n";
-    classFileOut << "        // clear the character buffer\n";
-    classFileOut << "        [m_characterBuffer setString: @\"\"];\n\n";
-    classFileOut << "    }\n\n";
     
     classFileOut << "    // check all possible options\n";
     
@@ -1118,39 +1117,68 @@ void CodeGenObjC::go() {
         }
         // if the name matches my object
         classFileOut << " ([elementName isEqualToString: @\"" << obj->name() << "\"]) {\n\n";
-        classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) [m_objStack lastObject];\n";
-        classFileOut << "        [obj retain];\n"; 
-        classFileOut << "        [m_objStack removeLastObject];\n"; 
         
-        // for all objects that could accept such an object
-        for(int i=0; i < m_objects.size(); i++) {
-            XSDObject *parent = m_objects.at(i);
+        if (!obj->isSimpleElement()) { // normal flow
+            classFileOut << "        " << className(obj->name()) << " *obj = (" << className(obj->name()) << "*) [m_objStack lastObject];\n";
+            classFileOut << "        [obj retain];\n"; 
+            classFileOut << "        [m_objStack removeLastObject];\n"; 
             
-            for(int j=0; j < parent->attributes().size(); j++) {
-                XSDAttribute *attr = parent->attributes().at(j);
-                QString objType = attr->type();
-                //std::cout << QString("####: %1").arg(objType).toLatin1().data() << std::endl;
-                //std::cout << QString("##: %1").arg(className(obj->name())).toLatin1().data() << std::endl;
+            // for all objects that could accept such an object
+            for(int i=0; i < m_objects.size(); i++) {
+                XSDObject *parent = m_objects.at(i);
                 
-                if (className(objType) == className(obj->name()) /*&& parent->isRootObject()*/) { // this object has an attribute of that type
-                    classFileOut << "        if ( [[m_objStack lastObject] isKindOfClass: [" << className(parent->name()) << " class]]) {\n";
-                    if (attr->isScalar() ) {
-                        classFileOut << "                if (! [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) add" << methodName(obj->name()) << ": obj ] ) {\n";
-                        classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
-                        classFileOut << "                };\n";
-                    } else {
-                        classFileOut << "                if (! [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) " << setMethodName(obj->name()) << ": obj ] ) {\n";
-                        classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
-                        classFileOut << "                };\n";
+                for(int j=0; j < parent->attributes().size(); j++) {
+                    XSDAttribute *attr = parent->attributes().at(j);
+                    QString objType = attr->type();
+                    //std::cout << QString("####: %1").arg(objType).toLatin1().data() << std::endl;
+                    //std::cout << QString("##: %1").arg(className(obj->name())).toLatin1().data() << std::endl;
+                    
+                    if (className(objType) == className(obj->name()) /*&& parent->isRootObject()*/) { // this object has an attribute of that type
+                        classFileOut << "        if ( [[m_objStack lastObject] isKindOfClass: [" << className(parent->name()) << " class]]) {\n";
+                        if (attr->isScalar() ) {
+                            classFileOut << "                if (! [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) add" << methodName(obj->name()) << ": obj ] ) {\n";
+                            classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
+                            classFileOut << "                };\n";
+                        } else {
+                            classFileOut << "                if (! [(("<< className(parent->name()) << "*) [m_objStack lastObject] ) " << setMethodName(obj->name()) << ": obj ] ) {\n";
+                            classFileOut << "                   [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @\"description\"]];\n";
+                            classFileOut << "                };\n";
+                        }
+                        classFileOut << "        }\n"; // close if
                     }
-                    classFileOut << "        }\n"; // close if
+                }
+            }
+            if ((!obj->isEmbedded())) { // only if this object is not embedded
+                classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"New" << className(obj->name()) << "\" object: self userInfo:[NSDictionary dictionaryWithObject: obj forKey: @\"Data\"]]; \n";
+            }
+            classFileOut << "        [obj release]; \n";
+            
+        } else { // closed element is not an element with properties but a data holder, this is stored at the parent level
+            
+            // for all objects that could accept such an object
+            for(int i=0; i < m_objects.size(); i++) {
+                XSDObject *parent = m_objects.at(i);
+                
+                for(int j=0; j < parent->attributes().size(); j++) {
+                    XSDAttribute *attr = parent->attributes().at(j);
+                    //std::cout << QString("####: %1").arg(attr->name()).toLatin1().data() << std::endl;
+                    //std::cout << QString("##: %1").arg(obj->name()).toLatin1().data() << std::endl;
+                    
+                    if (obj->name() == attr->name() ) { // this object has an datamember of that type
+                        classFileOut << "        if ( [[m_objStack lastObject] isKindOfClass: [" << className(parent->name()) << " class]]) {\n";
+                        classFileOut << "            "<< className(parent->name()) << "* parent = [m_objStack lastObject];\n\n";
+                        classFileOut << "            // add the found characters to the parent\n";
+                        classFileOut << "            [parent " << setMethodName(obj->name()) << ": m_characterBuffer];\n\n"; 
+                        //classFileOut << "            if ([m_characterBuffer length] > 0) {\n";
+                        //classFileOut << "               NSLog(@\"found  characters [%@] in [%@] these are added to parent\", m_characterBuffer, elementName);\n";
+                        //classFileOut << "            }\n\n";
+                        classFileOut << "            // clear the character buffer\n";
+                        classFileOut << "            [m_characterBuffer setString: @\"\"];\n";
+                        classFileOut << "        }\n"; // close if
+                    }
                 }
             }
         }
-        if ((!obj->isEmbedded())) { // only if this object is not embedded
-            classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"New" << className(obj->name()) << "\" object: self userInfo:[NSDictionary dictionaryWithObject: obj forKey: @\"Data\"]]; \n";
-        }
-        classFileOut << "        [obj release]; \n";
         classFileOut << "    }\n"; // close if
     }
     classFileOut << "}\n\n"; // close method
