@@ -1,0 +1,30 @@
+TestApp ready for input
+MSG_VesselData
+    Header
+     Version = 0.1.5
+     MsgRefId = MSG_VesselDataId
+    Body
+     VesselData
+         PosReport
+          Id = 2
+          SourceId = 1
+          UpdateTime = 2010-04-28T15:26:32.250Z
+          SOG = 0.000000
+          COG = 0.000000
+          Lost = yes
+          Length = 10.000000
+             Pos
+              Lat = 0.000000
+              Long = 0.000000
+<MSG_VesselData>
+<Header Version="0.1.5" MsgRefId="MSG_VesselDataId"/>
+<Body>
+<VesselData>
+<PosReport Id="2" SourceId="1" UpdateTime="2010-04-28T15:26:32.250Z" SOG="0.000000" COG="0.000000" Lost="yes" Length="10.000000">
+<Pos Lat="0.000000" Long="0.000000"/>
+</PosReport>
+</VesselData>
+</Body>
+</MSG_VesselData>
+
+TestApp shutting down
