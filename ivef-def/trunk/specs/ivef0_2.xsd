@@ -566,33 +566,36 @@ All objects heading for Antwerp, HANSADOK 497 with a max keelheigth of 20m: //Ob
 			<xs:sequence>
 				<xs:element ref="Pos" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element name="NavStatus" minOccurs="0" maxOccurs="unbounded">
-			            <xs:attribute name="Value" use="required">
-					<xs:annotation>
-						<xs:documentation>Navigation status of the target
-0 = under way using engine
-1 = at anchor
-2 = not under command
-3 = restricted manoeuvrability
-4 = constrained by her draught
-5 = moored
-6 = aground
-7 = engaged in fishing
-8 = under way sailing
-9 = engaged in fishing other than trawling  
-10 = air-cushion vessel in non displacement mode or WIG craft taking off, landing or in flight
-11 = power driven vessel towing astern
-12 = power driven vessel pushing ahead or towing alongside
-13 = in distress or requiring assistance  
-14 = AIS SART, seeking to attract attention
-15 = undefined default</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:integer">
-							<xs:minInclusive value="0"/>
-							<xs:maxInclusive value="15"/>
-						</xs:restriction>
-					</xs:simpleType>
-                                     <xs:attribute>
+					<xs:complexType>
+						<xs:attribute name="Value" use="required">
+						<xs:annotation>
+							<xs:documentation>Navigation status of the target
+								0 = under way using engine
+								1 = at anchor
+								2 = not under command
+								3 = restricted manoeuvrability
+								4 = constrained by her draught
+								5 = moored
+								6 = aground
+								7 = engaged in fishing
+								8 = under way sailing
+								9 = engaged in fishing other than trawling  
+								10 = air-cushion vessel in non displacement mode or WIG craft taking off, landing or in flight
+								11 = power driven vessel towing astern
+								12 = power driven vessel pushing ahead or towing alongside
+								13 = in distress or requiring assistance  
+								14 = AIS SART, seeking to attract attention
+								15 = undefined default
+							</xs:documentation>
+						</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="15"/>
+								</xs:restriction>
+							</xs:simpleType>						
+						</xs:attribute>
+					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="COG" use="required">
