@@ -57,9 +57,9 @@ function genIVEF_0_2 {
 function genIVEF_0_1 {
 	XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
 	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
-	genObjC
-	#genQt
-	genJava
+	#genObjC
+	genQt
+	#genJava
 }
 
 genIVEF_0_1

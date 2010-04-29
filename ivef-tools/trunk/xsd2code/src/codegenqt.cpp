@@ -1022,7 +1022,7 @@ void CodeGenQT::go() {
                         classFileOut << "                QDateTime val = " << dateFromString("value") << ";\n";
                     }
                     else if (type == "float") {
-                        classFileOut << "                float val = value.toFloat();\n";
+                        classFileOut << "                float val = value.replace(\",\", \".\").toFloat();\n";
                     } else  {
                         classFileOut << "                " << type << " val = value;\n";
                     }
