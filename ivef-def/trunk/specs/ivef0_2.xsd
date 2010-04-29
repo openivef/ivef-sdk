@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.3" targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.3" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.3"
+	targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.3"
+	elementFormDefault="qualified">
 	<xs:element name="MSG_IVEF">
 		<xs:annotation>
 			<xs:documentation>Root MESSAGE</xs:documentation>
@@ -561,7 +564,34 @@ All objects heading for Antwerp, HANSADOK 497 with a max keelheigth of 20m: //Ob
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="Pos" maxOccurs="unbounded"/>
+				<xs:element ref="Pos" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="NavStatus" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Navigation status of the target
+0 = under way using engine
+1 = at anchor
+2 = not under command
+3 = restricted manoeuvrability
+4 = constrained by her draught
+5 = moored
+6 = aground
+7 = engaged in fishing
+8 = under way sailing
+9 = engaged in fishing other than trawling  
+10 = air-cushion vessel in non displacement mode or WIG craft taking off, landing or in flight
+11 = power driven vessel towing astern
+12 = power driven vessel pushing ahead or towing alongside
+13 = in distress or requiring assistance  
+14 = AIS SART, seeking to attract attention
+15 = undefined default</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="15"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="COG" use="required">
 				<xs:annotation>
@@ -604,33 +634,7 @@ expressed in degrees</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="NavStatus" use="optional">
-				<xs:annotation>
-					<xs:documentation>Navigation status of the target
-0 = under way using engine
-1 = at anchor
-2 = not under command
-3 = restricted manoeuvrability
-4 = constrained by her draught
-5 = moored
-6 = aground
-7 = engaged in fishing
-8 = under way sailing
-9 = engaged in fishing other than trawling  
-10 = air-cushion vessel in non displacement mode or WIG craft taking off, landing or in flight
-11 = power driven vessel towing astern
-12 = power driven vessel pushing ahead or towing alongside
-13 = in distress or requiring assistance  
-14 = AIS SART, seeking to attract attention
-15 = undefined default</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:integer">
-						<xs:minInclusive value="0"/>
-						<xs:maxInclusive value="15"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
+
 			<xs:attribute name="Heading" use="optional">
 				<xs:annotation>
 					<xs:documentation>Heading of the target in degrees</xs:documentation>
@@ -1253,7 +1257,7 @@ expressed in degrees</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			
+
 			<xs:attribute name="PersonsOnBoard" use="optional">
 				<xs:annotation>
 					<xs:documentation>The number of persons on board of the object, should equal the sum of crew, passengers and support personel if available</xs:documentation>
@@ -1278,7 +1282,7 @@ expressed in degrees</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			
+
 			<xs:attribute name="RouteBound" type="xs:boolean" use="optional">
 				<xs:annotation>
 					<xs:documentation>This object is bound to the route of this voyage</xs:documentation>
