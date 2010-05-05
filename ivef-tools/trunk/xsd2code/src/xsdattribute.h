@@ -49,11 +49,13 @@ public:
 	bool isUnbounded();
     bool isScalar();
 	bool hasMin();
+    bool hasDigits();
 	bool isElement();
     bool isSimpleElement();
 	bool hasMax();
 	int min();
 	int max();
+    int digits();
 	
 private:
 	QVector<QString> m_enums;
@@ -72,6 +74,7 @@ private:
 	bool m_isFixed;
 	bool m_hasMin;
 	bool m_hasMax;
+    bool m_hasDigits;
 };
 
 #endif

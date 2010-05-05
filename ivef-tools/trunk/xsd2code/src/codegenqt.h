@@ -24,6 +24,8 @@
 
 #include "codegen.h"
 
+class XSDAttribute;
+
 class CodeGenQT : public QObject, public CodeGen {
     Q_OBJECT
 
@@ -31,14 +33,15 @@ public:
 	CodeGenQT();
 	void setObjects(QVector<XSDObject*>objects);
 	void setOutputDir(QString outDir);
-        void setPrefix(QString prefix) { m_prefix = prefix; };
+    void setPrefix(QString prefix) { m_prefix = prefix; }
 	void go();
 
 protected:
 	bool knownType(QString type);
         QString sizeEvaluatorForType (QString type, QString varName);
 	QString localType(QString type);
-	QString fileBaseName(QString name);
+    QString localTypeToString(XSDAttribute *attr, QString varName);
+    QString fileBaseName(QString name);
 	QString className(QString name);
 	QString variableName(QString name);
 	QString writeHeader(QString fileName);

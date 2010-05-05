@@ -44,21 +44,6 @@ QString dateFromString(QString varName) {
     return "QDateTime::fromString(" + varName + ", Qt::ISODate)";
 }
 
-QString variableTypeToString(QString attrType, QString varName) {
-
-    if (attrType == "QDateTime") {
-        varName = dateToString( varName );
-    } else if (attrType == "bool" ) {
-        varName = "QString( " + varName + " ? \"true\" : \"false\" )";
-    } else if (attrType == "float") { // issue 63
-        varName = "QString::number( " + varName + ", 'f')";
-    } else if (attrType != "QString") {
-        varName = "QString::number( " + varName + " )";
-    }
-
-    return varName;
-}
-
 QString CodeGenQT::sizeEvaluatorForType (QString type, QString varName) {
     if (type == "xs:string")
         return varName + ".length()";
@@ -106,6 +91,27 @@ bool CodeGenQT::knownType(QString type) {
         return true;
     else
         return false;
+}
+
+QString CodeGenQT::localTypeToString(XSDAttribute *attr, QString varName) {
+
+    QString type = localType(attr->type()); // convert to cpp types
+
+    if (type == "QDateTime") {
+        varName = dateToString( varName );
+    } else if (type == "bool" ) {
+        varName = "QString( " + varName + " ? \"true\" : \"false\" )";
+    } else if (type == "float") { // issue 63
+        if (attr->hasDigits()) {
+            varName = "QString::number(" + variableName(attr->name()) + ", 'f', " + QString::number(attr->digits()) + ")";
+        } else {
+            varName = "QString::number( " + varName + ", 'f')";
+        }
+    } else if (type != "QString") {
+        varName = "QString::number( " + varName + " )";
+    }
+
+    return varName;
 }
 
 QString CodeGenQT::fileBaseName(QString name) {
@@ -647,7 +653,6 @@ void CodeGenQT::go() {
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
-            QString type = localType(attr->type()); // convert to cpp types
             QString varName = "encode (" + variableName(attr->name()) + ")"; // default to string, issue 19
             
             if ((attrType != attr->name()) && attr->isElement()) {
@@ -661,7 +666,7 @@ void CodeGenQT::go() {
             if (!attr->isElement()) {
                 
                 // non-qstring items (ints) may give problems, so convert them
-                varName = variableTypeToString(type, variableName(attr->name()));
+                varName = localTypeToString(attr, variableName(attr->name()));
 
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) { // issue 21
@@ -710,7 +715,7 @@ void CodeGenQT::go() {
 
                         if (attr->isSimpleElement()) {
                             // non-qstring items (ints) may give problems, so convert them
-                            QString varName = variableTypeToString(attrType, "attribute");
+                            QString varName = localTypeToString(attr, "attribute");
                             classFileOut << "        xml.append( \"<" << attr->name() << ">\" + " << varName << " +  \"</" << attr->name() << ">\" );\n";
                         } else {
                             classFileOut << "        dataMember = attribute.toXML();\n";
@@ -792,7 +797,7 @@ void CodeGenQT::go() {
             if (!attr->isElement()) {
                 
                 // non-qstring items (ints) may give problems, so convert them
-                QString varName = variableTypeToString(type, variableName(attr->name()));
+                QString varName = localTypeToString(attr, variableName(attr->name()));
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    // check for presence of optional attribute\n";
@@ -822,7 +827,7 @@ void CodeGenQT::go() {
 
                     if (attr->isSimpleElement()) {
                         // non-qstring items (ints) may give problems, so convert them
-                        QString varName = variableTypeToString(attrType, "attribute");
+                        QString varName = localTypeToString(attr, "attribute");
                         classFileOut << "        str.append( lead + \"    \" + " << varName << " );\n";
                     } else {
                         classFileOut << "        str.append( attribute.toString( lead + \"    \" ) );\n";

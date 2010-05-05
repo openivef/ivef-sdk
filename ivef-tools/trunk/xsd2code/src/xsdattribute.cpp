@@ -28,6 +28,7 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fi
 	m_element = false;
 	m_hasMin = false;
 	m_hasMax = false;
+    m_hasDigits = false;
 	m_maxLength = -1; 
 	m_minLength = -1; 
     m_min = -1;
@@ -67,6 +68,7 @@ void XSDAttribute::appendEnumeration(QString enum1) {
 }
 
 void XSDAttribute::setDigits(int length) {
+    m_hasDigits = true;
 	m_digits = length;
 	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
 }
@@ -93,6 +95,10 @@ bool XSDAttribute::hasMin() {
 	return m_hasMin;
 }
 
+bool XSDAttribute::hasDigits() {
+	return m_hasDigits;
+}
+
 bool XSDAttribute::isSimpleElement() {
     // simple elements are elements (data members)
     // which have a type (like xs:string)
@@ -113,6 +119,10 @@ int XSDAttribute::min() {
 
 int XSDAttribute::max() {
 	return m_max;
+}
+
+int XSDAttribute::digits() {
+	return m_digits;
 }
 
 bool XSDAttribute::isUnbounded() {
