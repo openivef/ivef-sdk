@@ -44,6 +44,21 @@ QString dateFromString(QString varName) {
     return "QDateTime::fromString(" + varName + ", Qt::ISODate)";
 }
 
+QString variableTypeToString(QString attrType, QString varName) {
+
+    if (attrType == "QDateTime") {
+        varName = dateToString( varName );
+    } else if (attrType == "bool" ) {
+        varName = "QString( " + varName + " ? \"true\" : \"false\" )";
+    } else if (attrType == "float") { // issue 63
+        varName = "QString::number( " + varName + ", 'f')";
+    } else if (attrType != "QString") {
+        varName = "QString::number( " + varName + " )";
+    }
+
+    return varName;
+}
+
 QString CodeGenQT::sizeEvaluatorForType (QString type, QString varName) {
     if (type == "xs:string")
         return varName + ".length()";
@@ -646,15 +661,8 @@ void CodeGenQT::go() {
             if (!attr->isElement()) {
                 
                 // non-qstring items (ints) may give problems, so convert them
-                if (type == "QDateTime") {
-                    varName = dateToString(variableName(attr->name()) );
-                } else if (type == "bool" ) {
-                    varName = "QString(" + variableName(attr->name()) + " ? \"true\" : \"false\" )";
-                } else if (type == "float") {
-                    varName = "QString::number(" + variableName(attr->name()) + ", 'f')";
-                } else if (type != "QString") {
-                    varName = "QString::number(" + variableName(attr->name()) + ")";
-                }
+                varName = variableTypeToString(type, variableName(attr->name()));
+
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) { // issue 21
                     classFileOut << "    // check for presence of optional attribute\n";
@@ -701,17 +709,8 @@ void CodeGenQT::go() {
                         classFileOut << "        " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
 
                         if (attr->isSimpleElement()) {
-                            QString varName = "attribute";
-                            if (attrType == "QDateTime") {
-                                varName = dateToString( varName );
-                            } else if (attrType == "bool" ) {
-                                varName = "QString( " + varName + " ? \"true\" : \"false\" )";
-                            } else if (attrType == "float") { // issue 63
-                                varName = "QString::number( " + varName + ", 'f')";
-                            } else if (attrType != "QString") {
-                                varName = "QString::number( " + varName + " )";
-                            }
-
+                            // non-qstring items (ints) may give problems, so convert them
+                            QString varName = variableTypeToString(attrType, "attribute");
                             classFileOut << "        xml.append( \"<" << attr->name() << ">\" + " << varName << " +  \"</" << attr->name() << ">\" );\n";
                         } else {
                             classFileOut << "        dataMember = attribute.toXML();\n";
@@ -785,7 +784,6 @@ void CodeGenQT::go() {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to cpp types
-            QString varName = variableName(attr->name());
             
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR: item assumed to be attribute but is element: " << attr->name().toLatin1().data() << std::endl;
@@ -794,15 +792,7 @@ void CodeGenQT::go() {
             if (!attr->isElement()) {
                 
                 // non-qstring items (ints) may give problems, so convert them
-                if (type == "QDateTime") {
-                    varName = dateToString(variableName(attr->name()) );
-                } else if (type == "bool" ) {
-                    varName = "QString(" + variableName(attr->name()) + " ? \"true\" : \"false\" )";
-                } else if (type == "float") { // issue 63
-                    varName = "QString::number(" + variableName(attr->name()) + ", 'f')";
-                } else if (type != "QString") {
-                    varName = "QString::number(" + variableName(attr->name()) + ")";
-                }
+                QString varName = variableTypeToString(type, variableName(attr->name()));
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    // check for presence of optional attribute\n";
@@ -831,17 +821,8 @@ void CodeGenQT::go() {
                     classFileOut << "        " << attrType << " attribute = " << variableName(attr->name()) << "s.at(i);\n";
 
                     if (attr->isSimpleElement()) {
-                        QString varName = "attribute";
-                        if (attrType == "QDateTime") {
-                            varName = dateToString( varName );
-                        } else if (attrType == "bool" ) {
-                            varName = "QString( " + varName + " ? \"true\" : \"false\" )";
-                        } else if (attrType == "float") { // issue 63
-                            varName = "QString::number( " + varName + ", 'f')";
-                        } else if (attrType != "QString") {
-                            varName = "QString::number( " + varName + " )";
-                        }
-
+                        // non-qstring items (ints) may give problems, so convert them
+                        QString varName = variableTypeToString(attrType, "attribute");
                         classFileOut << "        str.append( lead + \"    \" + " << varName << " );\n";
                     } else {
                         classFileOut << "        str.append( attribute.toString( lead + \"    \" ) );\n";
