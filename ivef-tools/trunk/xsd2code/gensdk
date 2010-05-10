@@ -10,7 +10,7 @@ function genObjC {
         if [ "$OSX" = "darwin" ] 
 	then
             cd $TARGET/ivef-objc
-#    	    xcodebuild -project IVEF.xcodeproj
+    	    xcodebuild -project IVEF.xcodeproj
             cd $HOME
         fi
 }
@@ -57,9 +57,9 @@ function genIVEF_0_2 {
 function genIVEF_0_1 {
 	XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
 	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
-	#genObjC
+	genObjC
 	genQt
-	#genJava
+	genJava
 }
 
 genIVEF_0_1
