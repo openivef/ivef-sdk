@@ -8,10 +8,12 @@ LoginResponse::LoginResponse() {
     m_msgId = "";
     m_msgIdPresent = false;
     m_msgIdPresent = false;
+    m_msgIdPresent = false;
     m_result = 0;
     m_resultPresent = false;
     // initialize empty string
     m_reason = "";
+    m_reasonPresent = false;
     m_reasonPresent = false;
     m_reasonPresent = false;
 }
@@ -109,19 +111,19 @@ QString LoginResponse::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_msgIdPresent) {
-        xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
+        xml.append(" MsgId=\"" + m_msgId + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_resultPresent) {
-        xml.append(" Result=\"" + QString::number(m_result) + "\"");
+        xml.append(" Result=\"" + QString::number( m_result ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of optional attribute
     if ( hasReason() ) {
-        xml.append(" Reason=\"" + encode (m_reason) + "\"");
+        xml.append(" Reason=\"" + m_reason + "\"");
     }
     xml.append("/>\n");
     return xml;
@@ -137,8 +139,8 @@ QString LoginResponse::toString() {
 QString LoginResponse::toString(QString lead) {
 
     QString str = lead + "LoginResponse\n";
-    str.append( lead + "    MsgId = " + m_msgId + "\n");
-    str.append( lead + "    Result = " + QString::number(m_result) + "\n");
+     str.append( lead + "    MsgId = " + m_msgId + "\n");
+     str.append( lead + "    Result = " + QString::number( m_result ) + "\n");
     // check for presence of optional attribute
     if ( hasReason() ) {
         str.append( lead + "    Reason = " + m_reason + "\n");

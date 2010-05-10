@@ -8,6 +8,7 @@ Object::Object() {
     m_fileName = "";
     m_fileNamePresent = false;
     m_fileNamePresent = false;
+    m_fileNamePresent = false;
 }
 
 // copy constructor
@@ -57,7 +58,7 @@ QString Object::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_fileNamePresent) {
-        xml.append(" FileName=\"" + encode (m_fileName) + "\"");
+        xml.append(" FileName=\"" + m_fileName + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -75,7 +76,7 @@ QString Object::toString() {
 QString Object::toString(QString lead) {
 
     QString str = lead + "Object\n";
-    str.append( lead + "    FileName = " + m_fileName + "\n");
+     str.append( lead + "    FileName = " + m_fileName + "\n");
     return str;
 }
 

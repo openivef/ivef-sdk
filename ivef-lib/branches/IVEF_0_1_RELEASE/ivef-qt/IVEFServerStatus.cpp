@@ -8,8 +8,10 @@ ServerStatus::ServerStatus() {
     m_status = "";
     m_statusPresent = false;
     m_statusPresent = false;
+    m_statusPresent = false;
     // initialize empty string
     m_details = "";
+    m_detailsPresent = false;
     m_detailsPresent = false;
     m_detailsPresent = false;
 }
@@ -89,13 +91,13 @@ QString ServerStatus::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_statusPresent) {
-        xml.append(" Status=\"" + encode (m_status) + "\"");
+        xml.append(" Status=\"" + m_status + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of optional attribute
     if ( hasDetails() ) {
-        xml.append(" Details=\"" + encode (m_details) + "\"");
+        xml.append(" Details=\"" + m_details + "\"");
     }
     xml.append("/>\n");
     return xml;
@@ -111,7 +113,7 @@ QString ServerStatus::toString() {
 QString ServerStatus::toString(QString lead) {
 
     QString str = lead + "ServerStatus\n";
-    str.append( lead + "    Status = " + m_status + "\n");
+     str.append( lead + "    Status = " + m_status + "\n");
     // check for presence of optional attribute
     if ( hasDetails() ) {
         str.append( lead + "    Details = " + m_details + "\n");

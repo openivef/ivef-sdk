@@ -29,6 +29,7 @@ PosReport::PosReport() {
     m_lost = "";
     m_lostPresent = false;
     m_lostPresent = false;
+    m_lostPresent = false;
     m_rateOfTurn = 0.0;
     m_rateOfTurnPresent = false;
     m_orientation = 0.0;
@@ -540,13 +541,13 @@ QString PosReport::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_idPresent) {
-        xml.append(" Id=\"" + QString::number(m_id) + "\"");
+        xml.append(" Id=\"" + QString::number( m_id ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_sourceIdPresent) {
-        xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
+        xml.append(" SourceId=\"" + QString::number( m_sourceId ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -570,53 +571,53 @@ QString PosReport::toXML() const {
     }
     // check for presence of required  attribute
     if ( m_SOGPresent) {
-        xml.append(" SOG=\"" + QString::number(m_SOG, 'f') + "\"");
+        xml.append(" SOG=\"" + QString::number( m_SOG, 'f') + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_COGPresent) {
-        xml.append(" COG=\"" + QString::number(m_COG, 'f') + "\"");
+        xml.append(" COG=\"" + QString::number(m_COG, 'f', 1) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_lostPresent) {
-        xml.append(" Lost=\"" + encode (m_lost) + "\"");
+        xml.append(" Lost=\"" + m_lost + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of optional attribute
     if ( hasRateOfTurn() ) {
-        xml.append(" RateOfTurn=\"" + QString::number(m_rateOfTurn, 'f') + "\"");
+        xml.append(" RateOfTurn=\"" + QString::number( m_rateOfTurn, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasOrientation() ) {
-        xml.append(" Orientation=\"" + QString::number(m_orientation, 'f') + "\"");
+        xml.append(" Orientation=\"" + QString::number( m_orientation, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasLength() ) {
-        xml.append(" Length=\"" + QString::number(m_length, 'f') + "\"");
+        xml.append(" Length=\"" + QString::number( m_length, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasBreadth() ) {
-        xml.append(" Breadth=\"" + QString::number(m_breadth, 'f') + "\"");
+        xml.append(" Breadth=\"" + QString::number( m_breadth, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasAltitude() ) {
-        xml.append(" Altitude=\"" + QString::number(m_altitude, 'f') + "\"");
+        xml.append(" Altitude=\"" + QString::number( m_altitude, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasNavStatus() ) {
-        xml.append(" NavStatus=\"" + QString::number(m_navStatus) + "\"");
+        xml.append(" NavStatus=\"" + QString::number( m_navStatus ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasUpdSensorType() ) {
-        xml.append(" UpdSensorType=\"" + QString::number(m_updSensorType) + "\"");
+        xml.append(" UpdSensorType=\"" + QString::number( m_updSensorType ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasATONOffPos() ) {
-        xml.append(" ATONOffPos=\"" + QString(m_ATONOffPos ? "true" : "false" ) + "\"");
+        xml.append(" ATONOffPos=\"" + QString( m_ATONOffPos ? "true" : "false" ) + "\"");
     }
     xml.append(">\n");
     // check for presence of required data member
@@ -657,9 +658,9 @@ QString PosReport::toString() {
 QString PosReport::toString(QString lead) {
 
     QString str = lead + "PosReport\n";
-    str.append( lead + "    Id = " + QString::number(m_id) + "\n");
-    str.append( lead + "    SourceId = " + QString::number(m_sourceId) + "\n");
-    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+     str.append( lead + "    Id = " + QString::number( m_id ) + "\n");
+     str.append( lead + "    SourceId = " + QString::number( m_sourceId ) + "\n");
+     str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     // check for presence of optional attribute
     if ( hasUpdateTimeRadar() ) {
         str.append( lead + "    UpdateTimeRadar = " + m_updateTimeRadar.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
@@ -672,46 +673,46 @@ QString PosReport::toString(QString lead) {
     if ( hasUpdateTimeDR() ) {
         str.append( lead + "    UpdateTimeDR = " + m_updateTimeDR.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     }
-    str.append( lead + "    SOG = " + QString::number(m_SOG, 'f') + "\n");
-    str.append( lead + "    COG = " + QString::number(m_COG, 'f') + "\n");
-    str.append( lead + "    Lost = " + m_lost + "\n");
+     str.append( lead + "    SOG = " + QString::number( m_SOG, 'f') + "\n");
+     str.append( lead + "    COG = " + QString::number(m_COG, 'f', 1) + "\n");
+     str.append( lead + "    Lost = " + m_lost + "\n");
     // check for presence of optional attribute
     if ( hasRateOfTurn() ) {
-        str.append( lead + "    RateOfTurn = " + QString::number(m_rateOfTurn, 'f') + "\n");
+        str.append( lead + "    RateOfTurn = " + QString::number( m_rateOfTurn, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasOrientation() ) {
-        str.append( lead + "    Orientation = " + QString::number(m_orientation, 'f') + "\n");
+        str.append( lead + "    Orientation = " + QString::number( m_orientation, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasLength() ) {
-        str.append( lead + "    Length = " + QString::number(m_length, 'f') + "\n");
+        str.append( lead + "    Length = " + QString::number( m_length, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasBreadth() ) {
-        str.append( lead + "    Breadth = " + QString::number(m_breadth, 'f') + "\n");
+        str.append( lead + "    Breadth = " + QString::number( m_breadth, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasAltitude() ) {
-        str.append( lead + "    Altitude = " + QString::number(m_altitude, 'f') + "\n");
+        str.append( lead + "    Altitude = " + QString::number( m_altitude, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasNavStatus() ) {
-        str.append( lead + "    NavStatus = " + QString::number(m_navStatus) + "\n");
+        str.append( lead + "    NavStatus = " + QString::number( m_navStatus ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasUpdSensorType() ) {
-        str.append( lead + "    UpdSensorType = " + QString::number(m_updSensorType) + "\n");
+        str.append( lead + "    UpdSensorType = " + QString::number( m_updSensorType ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasATONOffPos() ) {
-        str.append( lead + "    ATONOffPos = " + QString(m_ATONOffPos ? "true" : "false" ) + "\n");
+        str.append( lead + "    ATONOffPos = " + QString( m_ATONOffPos ? "true" : "false" ) + "\n");
     }
     str.append( m_pos.toString(lead + "    ") );
     // add all included data
     for(int i=0; i < m_sensors.count(); i++ ) {
-       Sensor attribute = m_sensors.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        Sensor attribute = m_sensors.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     return str;
 }

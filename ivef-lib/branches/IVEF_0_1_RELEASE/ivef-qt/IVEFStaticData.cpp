@@ -8,8 +8,10 @@ StaticData::StaticData() {
     m_id = "";
     m_idPresent = false;
     m_idPresent = false;
+    m_idPresent = false;
     // initialize empty string
     m_sourceName = "";
+    m_sourceNamePresent = false;
     m_sourceNamePresent = false;
     m_sourceNamePresent = false;
     m_source = 0;
@@ -22,8 +24,10 @@ StaticData::StaticData() {
     m_callsign = "";
     m_callsignPresent = false;
     m_callsignPresent = false;
+    m_callsignPresent = false;
     // initialize empty string
     m_shipName = "";
+    m_shipNamePresent = false;
     m_shipNamePresent = false;
     m_shipNamePresent = false;
     m_objectType = 0;
@@ -40,6 +44,7 @@ StaticData::StaticData() {
     m_ATONName = "";
     m_ATONNamePresent = false;
     m_ATONNamePresent = false;
+    m_ATONNamePresent = false;
     m_antPosDistFromFront = 0.0;
     m_antPosDistFromFrontPresent = false;
     m_antPosDistFromLeft = 0.0;
@@ -48,12 +53,15 @@ StaticData::StaticData() {
     m_natLangShipName = "";
     m_natLangShipNamePresent = false;
     m_natLangShipNamePresent = false;
+    m_natLangShipNamePresent = false;
     // initialize empty string
     m_portOfRegistry = "";
     m_portOfRegistryPresent = false;
     m_portOfRegistryPresent = false;
+    m_portOfRegistryPresent = false;
     // initialize empty string
     m_countryFlag = "";
+    m_countryFlagPresent = false;
     m_countryFlagPresent = false;
     m_countryFlagPresent = false;
     m_maxAirDraught = 0.0;
@@ -62,6 +70,7 @@ StaticData::StaticData() {
     m_maxDraughtPresent = false;
     // initialize empty string
     m_deepWaterVesselind = "";
+    m_deepWaterVesselindPresent = false;
     m_deepWaterVesselindPresent = false;
     m_deepWaterVesselindPresent = false;
 }
@@ -670,93 +679,93 @@ QString StaticData::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_idPresent) {
-        xml.append(" Id=\"" + encode (m_id) + "\"");
+        xml.append(" Id=\"" + m_id + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_sourceNamePresent) {
-        xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
+        xml.append(" SourceName=\"" + m_sourceName + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_sourcePresent) {
-        xml.append(" Source=\"" + QString::number(m_source) + "\"");
+        xml.append(" Source=\"" + QString::number( m_source ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of optional attribute
     if ( hasLength() ) {
-        xml.append(" Length=\"" + QString::number(m_length, 'f') + "\"");
+        xml.append(" Length=\"" + QString::number( m_length, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasBreadth() ) {
-        xml.append(" Breadth=\"" + QString::number(m_breadth, 'f') + "\"");
+        xml.append(" Breadth=\"" + QString::number( m_breadth, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasCallsign() ) {
-        xml.append(" Callsign=\"" + encode (m_callsign) + "\"");
+        xml.append(" Callsign=\"" + m_callsign + "\"");
     }
     // check for presence of optional attribute
     if ( hasShipName() ) {
-        xml.append(" ShipName=\"" + encode (m_shipName) + "\"");
+        xml.append(" ShipName=\"" + m_shipName + "\"");
     }
     // check for presence of optional attribute
     if ( hasObjectType() ) {
-        xml.append(" ObjectType=\"" + QString::number(m_objectType) + "\"");
+        xml.append(" ObjectType=\"" + QString::number( m_objectType ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasShipType() ) {
-        xml.append(" ShipType=\"" + QString::number(m_shipType) + "\"");
+        xml.append(" ShipType=\"" + QString::number( m_shipType ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasIMO() ) {
-        xml.append(" IMO=\"" + QString::number(m_IMO) + "\"");
+        xml.append(" IMO=\"" + QString::number( m_IMO ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasMMSI() ) {
-        xml.append(" MMSI=\"" + QString::number(m_MMSI) + "\"");
+        xml.append(" MMSI=\"" + QString::number( m_MMSI ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasATONType() ) {
-        xml.append(" ATONType=\"" + QString::number(m_ATONType) + "\"");
+        xml.append(" ATONType=\"" + QString::number( m_ATONType ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasATONName() ) {
-        xml.append(" ATONName=\"" + encode (m_ATONName) + "\"");
+        xml.append(" ATONName=\"" + m_ATONName + "\"");
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromFront() ) {
-        xml.append(" AntPosDistFromFront=\"" + QString::number(m_antPosDistFromFront, 'f') + "\"");
+        xml.append(" AntPosDistFromFront=\"" + QString::number( m_antPosDistFromFront, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromLeft() ) {
-        xml.append(" AntPosDistFromLeft=\"" + QString::number(m_antPosDistFromLeft, 'f') + "\"");
+        xml.append(" AntPosDistFromLeft=\"" + QString::number( m_antPosDistFromLeft, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasNatLangShipName() ) {
-        xml.append(" NatLangShipName=\"" + encode (m_natLangShipName) + "\"");
+        xml.append(" NatLangShipName=\"" + m_natLangShipName + "\"");
     }
     // check for presence of optional attribute
     if ( hasPortOfRegistry() ) {
-        xml.append(" PortOfRegistry=\"" + encode (m_portOfRegistry) + "\"");
+        xml.append(" PortOfRegistry=\"" + m_portOfRegistry + "\"");
     }
     // check for presence of optional attribute
     if ( hasCountryFlag() ) {
-        xml.append(" CountryFlag=\"" + encode (m_countryFlag) + "\"");
+        xml.append(" CountryFlag=\"" + m_countryFlag + "\"");
     }
     // check for presence of optional attribute
     if ( hasMaxAirDraught() ) {
-        xml.append(" MaxAirDraught=\"" + QString::number(m_maxAirDraught, 'f') + "\"");
+        xml.append(" MaxAirDraught=\"" + QString::number( m_maxAirDraught, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasMaxDraught() ) {
-        xml.append(" MaxDraught=\"" + QString::number(m_maxDraught, 'f') + "\"");
+        xml.append(" MaxDraught=\"" + QString::number( m_maxDraught, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasDeepWaterVesselind() ) {
-        xml.append(" DeepWaterVesselind=\"" + encode (m_deepWaterVesselind) + "\"");
+        xml.append(" DeepWaterVesselind=\"" + m_deepWaterVesselind + "\"");
     }
     xml.append("/>\n");
     return xml;
@@ -772,16 +781,16 @@ QString StaticData::toString() {
 QString StaticData::toString(QString lead) {
 
     QString str = lead + "StaticData\n";
-    str.append( lead + "    Id = " + m_id + "\n");
-    str.append( lead + "    SourceName = " + m_sourceName + "\n");
-    str.append( lead + "    Source = " + QString::number(m_source) + "\n");
+     str.append( lead + "    Id = " + m_id + "\n");
+     str.append( lead + "    SourceName = " + m_sourceName + "\n");
+     str.append( lead + "    Source = " + QString::number( m_source ) + "\n");
     // check for presence of optional attribute
     if ( hasLength() ) {
-        str.append( lead + "    Length = " + QString::number(m_length, 'f') + "\n");
+        str.append( lead + "    Length = " + QString::number( m_length, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasBreadth() ) {
-        str.append( lead + "    Breadth = " + QString::number(m_breadth, 'f') + "\n");
+        str.append( lead + "    Breadth = " + QString::number( m_breadth, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasCallsign() ) {
@@ -793,23 +802,23 @@ QString StaticData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasObjectType() ) {
-        str.append( lead + "    ObjectType = " + QString::number(m_objectType) + "\n");
+        str.append( lead + "    ObjectType = " + QString::number( m_objectType ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasShipType() ) {
-        str.append( lead + "    ShipType = " + QString::number(m_shipType) + "\n");
+        str.append( lead + "    ShipType = " + QString::number( m_shipType ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasIMO() ) {
-        str.append( lead + "    IMO = " + QString::number(m_IMO) + "\n");
+        str.append( lead + "    IMO = " + QString::number( m_IMO ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasMMSI() ) {
-        str.append( lead + "    MMSI = " + QString::number(m_MMSI) + "\n");
+        str.append( lead + "    MMSI = " + QString::number( m_MMSI ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasATONType() ) {
-        str.append( lead + "    ATONType = " + QString::number(m_ATONType) + "\n");
+        str.append( lead + "    ATONType = " + QString::number( m_ATONType ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasATONName() ) {
@@ -817,11 +826,11 @@ QString StaticData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromFront() ) {
-        str.append( lead + "    AntPosDistFromFront = " + QString::number(m_antPosDistFromFront, 'f') + "\n");
+        str.append( lead + "    AntPosDistFromFront = " + QString::number( m_antPosDistFromFront, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromLeft() ) {
-        str.append( lead + "    AntPosDistFromLeft = " + QString::number(m_antPosDistFromLeft, 'f') + "\n");
+        str.append( lead + "    AntPosDistFromLeft = " + QString::number( m_antPosDistFromLeft, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasNatLangShipName() ) {
@@ -837,11 +846,11 @@ QString StaticData::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasMaxAirDraught() ) {
-        str.append( lead + "    MaxAirDraught = " + QString::number(m_maxAirDraught, 'f') + "\n");
+        str.append( lead + "    MaxAirDraught = " + QString::number( m_maxAirDraught, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasMaxDraught() ) {
-        str.append( lead + "    MaxDraught = " + QString::number(m_maxDraught, 'f') + "\n");
+        str.append( lead + "    MaxDraught = " + QString::number( m_maxDraught, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasDeepWaterVesselind() ) {

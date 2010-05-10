@@ -349,8 +349,8 @@ QString Body::toString(QString lead) {
     }
     // add all included data
     for(int i=0; i < m_vesselDatas.count(); i++ ) {
-       VesselData attribute = m_vesselDatas.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        VesselData attribute = m_vesselDatas.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     return str;
 }

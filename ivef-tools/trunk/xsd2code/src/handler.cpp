@@ -45,7 +45,7 @@ QString Handler::stripNameSpace(QString tag) {
 }
 
 void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool isTypeDef) {
-    std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
+    //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
     
     XSDObject *parent = NULL;
     
@@ -64,7 +64,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
     for (int i=0; i < atts.length(); i++) {
         QString key = atts.localName(i);
         QString value = atts.value(i);
-        std::cout << QString("Attr key %1 val %2").arg(key, value).toLatin1().data() << std::endl;
+        //std::cout << QString("Attr key %1 val %2").arg(key, value).toLatin1().data() << std::endl;
         if (key == "name") {
             // new object (but name could occur multiple times)
             XSDObject *existingObj = NULL;
@@ -141,7 +141,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
     QString qName = qualifiedName;
     qName.replace(QString("xsd:"), QString("xs:"));
     
-#if 1
+#if 0
     std::cout << QString("SE: %1").arg(qName).toLatin1().data() << std::endl;
     
     for (int i=0; i < atts.length(); i++) {
@@ -312,7 +312,7 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
     QString qName = qualifiedName;
     qName.replace(QString("xsd:"), QString("xs:"));
     
-#if 1
+#if 0
     std::cout << QString("EE: %1").arg(qName).toLatin1().data() << std::endl;
 #endif
     

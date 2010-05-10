@@ -74,7 +74,7 @@ QString Ping::toString() {
 QString Ping::toString(QString lead) {
 
     QString str = lead + "Ping\n";
-    str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+     str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     return str;
 }
 

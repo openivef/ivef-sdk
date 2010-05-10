@@ -87,13 +87,13 @@ QString Pos::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_latPresent) {
-        xml.append(" Lat=\"" + QString::number(m_lat, 'f') + "\"");
+        xml.append(" Lat=\"" + QString::number( m_lat, 'f') + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_longPresent) {
-        xml.append(" Long=\"" + QString::number(m_long, 'f') + "\"");
+        xml.append(" Long=\"" + QString::number( m_long, 'f') + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -111,8 +111,8 @@ QString Pos::toString() {
 QString Pos::toString(QString lead) {
 
     QString str = lead + "Pos\n";
-    str.append( lead + "    Lat = " + QString::number(m_lat, 'f') + "\n");
-    str.append( lead + "    Long = " + QString::number(m_long, 'f') + "\n");
+     str.append( lead + "    Lat = " + QString::number( m_lat, 'f') + "\n");
+     str.append( lead + "    Long = " + QString::number( m_long, 'f') + "\n");
     return str;
 }
 

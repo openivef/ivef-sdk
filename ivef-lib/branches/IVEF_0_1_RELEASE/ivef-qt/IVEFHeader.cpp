@@ -7,9 +7,11 @@ Header::Header() {
     // initialize fixed value
     m_version = "0.1.5";
     m_versionPresent = true;
+    m_versionPresent = true;
     m_versionPresent = false;
     // initialize empty string
     m_msgRefId = "";
+    m_msgRefIdPresent = false;
     m_msgRefIdPresent = false;
     m_msgRefIdPresent = false;
 }
@@ -79,13 +81,13 @@ QString Header::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_versionPresent) {
-        xml.append(" Version=\"" + encode (m_version) + "\"");
+        xml.append(" Version=\"" + m_version + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_msgRefIdPresent) {
-        xml.append(" MsgRefId=\"" + encode (m_msgRefId) + "\"");
+        xml.append(" MsgRefId=\"" + m_msgRefId + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -103,8 +105,8 @@ QString Header::toString() {
 QString Header::toString(QString lead) {
 
     QString str = lead + "Header\n";
-    str.append( lead + "    Version = " + m_version + "\n");
-    str.append( lead + "    MsgRefId = " + m_msgRefId + "\n");
+     str.append( lead + "    Version = " + m_version + "\n");
+     str.append( lead + "    MsgRefId = " + m_msgRefId + "\n");
     return str;
 }
 

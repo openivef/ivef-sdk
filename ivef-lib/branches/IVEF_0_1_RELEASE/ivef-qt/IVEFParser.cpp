@@ -9,11 +9,18 @@ Parser::Parser() {
     setErrorHandler(this);
 }
 
+// Character buffer routine
+bool Parser::characters(const QString &ch) {
+     m_characterBuffer.append(ch);
+     return true;
+};
 // Parser delegate routine
 bool Parser::startElement(const QString &,
      const QString &,
      const QString & qName,
      const QXmlAttributes & atts) {
+
+    m_characterBuffer.clear();
 
     // check all possible options
     if (qName == "MSG_LoginRequest") {
@@ -248,13 +255,13 @@ bool Parser::startElement(const QString &,
 
             // and add them if we know them
             if (key == "Lat") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setLat(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "Long") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setLong(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
@@ -330,13 +337,13 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "SOG") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setSOG(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "COG") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setCOG(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
@@ -348,31 +355,31 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "RateOfTurn") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setRateOfTurn(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "Orientation") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setOrientation(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "Length") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setLength(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "Breadth") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setBreadth(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "Altitude") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setAltitude(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
@@ -457,13 +464,13 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "Length") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setLength(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "Breadth") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setBreadth(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
@@ -517,13 +524,13 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "AntPosDistFromFront") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setAntPosDistFromFront(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "AntPosDistFromLeft") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setAntPosDistFromLeft(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
@@ -547,13 +554,13 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "MaxAirDraught") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setMaxAirDraught(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "MaxDraught") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setMaxDraught(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
@@ -651,7 +658,7 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "Period") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setPeriod(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
@@ -782,13 +789,13 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "AirDraught") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setAirDraught(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "Draught") {
-                float val = value.toFloat();
+                float val = value.replace(",", ".").toFloat();
                 if (! (obj->setDraught(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }

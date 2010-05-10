@@ -8,8 +8,10 @@ TaggedItem::TaggedItem() {
     m_key = "";
     m_keyPresent = false;
     m_keyPresent = false;
+    m_keyPresent = false;
     // initialize empty string
     m_value = "";
+    m_valuePresent = false;
     m_valuePresent = false;
     m_valuePresent = false;
 }
@@ -79,13 +81,13 @@ QString TaggedItem::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_keyPresent) {
-        xml.append(" Key=\"" + encode (m_key) + "\"");
+        xml.append(" Key=\"" + m_key + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_valuePresent) {
-        xml.append(" Value=\"" + encode (m_value) + "\"");
+        xml.append(" Value=\"" + m_value + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -103,8 +105,8 @@ QString TaggedItem::toString() {
 QString TaggedItem::toString(QString lead) {
 
     QString str = lead + "TaggedItem\n";
-    str.append( lead + "    Key = " + m_key + "\n");
-    str.append( lead + "    Value = " + m_value + "\n");
+     str.append( lead + "    Key = " + m_key + "\n");
+     str.append( lead + "    Value = " + m_value + "\n");
     return str;
 }
 

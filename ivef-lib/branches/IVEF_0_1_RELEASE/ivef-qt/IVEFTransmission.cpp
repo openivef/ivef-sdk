@@ -87,13 +87,13 @@ QString Transmission::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_typePresent) {
-        xml.append(" Type=\"" + QString::number(m_type) + "\"");
+        xml.append(" Type=\"" + QString::number( m_type ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of optional attribute
     if ( hasPeriod() ) {
-        xml.append(" Period=\"" + QString::number(m_period, 'f') + "\"");
+        xml.append(" Period=\"" + QString::number( m_period, 'f') + "\"");
     }
     xml.append("/>\n");
     return xml;
@@ -109,10 +109,10 @@ QString Transmission::toString() {
 QString Transmission::toString(QString lead) {
 
     QString str = lead + "Transmission\n";
-    str.append( lead + "    Type = " + QString::number(m_type) + "\n");
+     str.append( lead + "    Type = " + QString::number( m_type ) + "\n");
     // check for presence of optional attribute
     if ( hasPeriod() ) {
-        str.append( lead + "    Period = " + QString::number(m_period, 'f') + "\n");
+        str.append( lead + "    Period = " + QString::number( m_period, 'f') + "\n");
     }
     return str;
 }

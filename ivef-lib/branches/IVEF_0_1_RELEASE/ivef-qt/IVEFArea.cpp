@@ -86,8 +86,8 @@ QString Area::toString(QString lead) {
     QString str = lead + "Area\n";
     // add all included data
     for(int i=0; i < m_poss.count(); i++ ) {
-       Pos attribute = m_poss.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        Pos attribute = m_poss.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     return str;
 }

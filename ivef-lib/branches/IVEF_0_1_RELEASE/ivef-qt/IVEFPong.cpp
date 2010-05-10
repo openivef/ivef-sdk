@@ -11,6 +11,7 @@ Pong::Pong() {
     m_msgId = "";
     m_msgIdPresent = false;
     m_msgIdPresent = false;
+    m_msgIdPresent = false;
     m_sourceId = 0;
     m_sourceIdPresent = false;
 }
@@ -104,13 +105,13 @@ QString Pong::toXML() const {
     }
     // check for presence of required  attribute
     if ( m_msgIdPresent) {
-        xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
+        xml.append(" MsgId=\"" + m_msgId + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_sourceIdPresent) {
-        xml.append(" SourceId=\"" + QString::number(m_sourceId) + "\"");
+        xml.append(" SourceId=\"" + QString::number( m_sourceId ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -128,9 +129,9 @@ QString Pong::toString() {
 QString Pong::toString(QString lead) {
 
     QString str = lead + "Pong\n";
-    str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
-    str.append( lead + "    MsgId = " + m_msgId + "\n");
-    str.append( lead + "    SourceId = " + QString::number(m_sourceId) + "\n");
+     str.append( lead + "    TimeStamp = " + m_timeStamp.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+     str.append( lead + "    MsgId = " + m_msgId + "\n");
+     str.append( lead + "    SourceId = " + QString::number( m_sourceId ) + "\n");
     return str;
 }
 

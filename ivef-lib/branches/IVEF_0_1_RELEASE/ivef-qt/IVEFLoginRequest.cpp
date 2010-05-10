@@ -8,8 +8,10 @@ LoginRequest::LoginRequest() {
     m_name = "";
     m_namePresent = false;
     m_namePresent = false;
+    m_namePresent = false;
     // initialize empty string
     m_password = "";
+    m_passwordPresent = false;
     m_passwordPresent = false;
     m_passwordPresent = false;
     m_encryption = 0;
@@ -103,19 +105,19 @@ QString LoginRequest::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_namePresent) {
-        xml.append(" Name=\"" + encode (m_name) + "\"");
+        xml.append(" Name=\"" + m_name + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_passwordPresent) {
-        xml.append(" Password=\"" + encode (m_password) + "\"");
+        xml.append(" Password=\"" + m_password + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_encryptionPresent) {
-        xml.append(" Encryption=\"" + QString::number(m_encryption) + "\"");
+        xml.append(" Encryption=\"" + QString::number( m_encryption ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -133,9 +135,9 @@ QString LoginRequest::toString() {
 QString LoginRequest::toString(QString lead) {
 
     QString str = lead + "LoginRequest\n";
-    str.append( lead + "    Name = " + m_name + "\n");
-    str.append( lead + "    Password = " + m_password + "\n");
-    str.append( lead + "    Encryption = " + QString::number(m_encryption) + "\n");
+     str.append( lead + "    Name = " + m_name + "\n");
+     str.append( lead + "    Password = " + m_password + "\n");
+     str.append( lead + "    Encryption = " + QString::number( m_encryption ) + "\n");
     return str;
 }
 

@@ -87,13 +87,13 @@ QString Sensor::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_senIdPresent) {
-        xml.append(" SenId=\"" + QString::number(m_senId) + "\"");
+        xml.append(" SenId=\"" + QString::number( m_senId ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_trkIdPresent) {
-        xml.append(" TrkId=\"" + QString::number(m_trkId) + "\"");
+        xml.append(" TrkId=\"" + QString::number( m_trkId ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -111,8 +111,8 @@ QString Sensor::toString() {
 QString Sensor::toString(QString lead) {
 
     QString str = lead + "Sensor\n";
-    str.append( lead + "    SenId = " + QString::number(m_senId) + "\n");
-    str.append( lead + "    TrkId = " + QString::number(m_trkId) + "\n");
+     str.append( lead + "    SenId = " + QString::number( m_senId ) + "\n");
+     str.append( lead + "    TrkId = " + QString::number( m_trkId ) + "\n");
     return str;
 }
 

@@ -54,6 +54,7 @@ public:
     bool endElement(const QString &,
                       const QString &,
                       const QString & qName);
+    bool characters(const QString &);
     //!the actual parse routine
     //!
     bool parseXMLString(QString data, bool cont);
@@ -82,6 +83,7 @@ protected:
 
 private:
     QString m_dataBuffer;
+    QString m_characterBuffer;
     QXmlInputSource m_inputForParser;
     QStack<QObject *> m_objStack;
     QStack<QString> m_typeStack;

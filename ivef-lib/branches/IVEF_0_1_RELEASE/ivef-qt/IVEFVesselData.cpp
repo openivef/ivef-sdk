@@ -196,18 +196,18 @@ QString VesselData::toString(QString lead) {
     }
     // add all included data
     for(int i=0; i < m_staticDatas.count(); i++ ) {
-       StaticData attribute = m_staticDatas.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        StaticData attribute = m_staticDatas.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     // add all included data
     for(int i=0; i < m_voyages.count(); i++ ) {
-       Voyage attribute = m_voyages.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        Voyage attribute = m_voyages.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     // add all included data
     for(int i=0; i < m_taggedItems.count(); i++ ) {
-       TaggedItem attribute = m_taggedItems.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        TaggedItem attribute = m_taggedItems.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     return str;
 }

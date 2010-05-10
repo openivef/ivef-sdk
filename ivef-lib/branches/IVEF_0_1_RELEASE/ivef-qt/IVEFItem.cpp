@@ -10,6 +10,7 @@ Item::Item() {
     m_field = "";
     m_fieldPresent = false;
     m_fieldPresent = false;
+    m_fieldPresent = false;
 }
 
 // copy constructor
@@ -82,13 +83,13 @@ QString Item::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_elementPresent) {
-        xml.append(" Element=\"" + QString::number(m_element) + "\"");
+        xml.append(" Element=\"" + QString::number( m_element ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_fieldPresent) {
-        xml.append(" Field=\"" + encode (m_field) + "\"");
+        xml.append(" Field=\"" + m_field + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -106,8 +107,8 @@ QString Item::toString() {
 QString Item::toString(QString lead) {
 
     QString str = lead + "Item\n";
-    str.append( lead + "    Element = " + QString::number(m_element) + "\n");
-    str.append( lead + "    Field = " + m_field + "\n");
+     str.append( lead + "    Element = " + QString::number( m_element ) + "\n");
+     str.append( lead + "    Field = " + m_field + "\n");
     return str;
 }
 

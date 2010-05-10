@@ -182,19 +182,19 @@ QString ServiceRequest::toString(QString lead) {
     QString str = lead + "ServiceRequest\n";
     // add all included data
     for(int i=0; i < m_areas.count(); i++ ) {
-       Area attribute = m_areas.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        Area attribute = m_areas.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     str.append( m_transmission.toString(lead + "    ") );
     // add all included data
     for(int i=0; i < m_items.count(); i++ ) {
-       Item attribute = m_items.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        Item attribute = m_items.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     // add all included data
     for(int i=0; i < m_objects.count(); i++ ) {
-       Object attribute = m_objects.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        Object attribute = m_objects.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     return str;
 }

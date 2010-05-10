@@ -18,10 +18,13 @@ SOURCES += ./src/testqt.cpp \
 
 # include the CPP library
 INCLUDEPATH += ../ivef-qt
-LIBS += -L ../ivef-qt/bin -Bstatic -livef
 
 CONFIG += warn_on stl qt release console
 QT += network xml
 macx {
    CONFIG -= app_bundle
+   LIBS += -F../ivef-qt/bin -framework ivef
+} else {
+   LIBS += -L../ivef-qt/bin -Bstatic -livef
+
 }

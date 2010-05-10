@@ -10,6 +10,7 @@ function genObjC {
         if [ "$OSX" = "darwin" ] 
 	then
             cd $TARGET/ivef-objc
+            export EXECUTABLE_NAME=IVEF
     	    xcodebuild -project IVEF.xcodeproj
             cd $HOME
         fi
@@ -24,6 +25,7 @@ function genQt {
 
         if [ "$OSX" = "darwin" ] 
 	then
+	    qmake ivef.pro
     	    xcodebuild -project ivef.xcodeproj
         else
 	    qmake ivef.pro
@@ -57,9 +59,15 @@ function genIVEF_0_2 {
 function genIVEF_0_1 {
 	XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
 	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
-	genObjC
-	genQt
+	#genObjC
+	#genQt
 	genJava
+}
+
+function testIVEF_0_1 {
+	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
+        cd $TARGET/test-cases
+	./run_all_tests.sh all
 }
 
 genIVEF_0_1

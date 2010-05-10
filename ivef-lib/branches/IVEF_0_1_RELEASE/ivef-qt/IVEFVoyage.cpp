@@ -8,8 +8,10 @@ Voyage::Voyage() {
     m_id = "";
     m_idPresent = false;
     m_idPresent = false;
+    m_idPresent = false;
     // initialize empty string
     m_sourceName = "";
+    m_sourceNamePresent = false;
     m_sourceNamePresent = false;
     m_sourceNamePresent = false;
     m_source = 0;
@@ -18,6 +20,7 @@ Voyage::Voyage() {
     m_cargoTypePresent = false;
     // initialize empty string
     m_destination = "";
+    m_destinationPresent = false;
     m_destinationPresent = false;
     m_destinationPresent = false;
     // initialize with random value
@@ -307,29 +310,29 @@ QString Voyage::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_idPresent) {
-        xml.append(" Id=\"" + encode (m_id) + "\"");
+        xml.append(" Id=\"" + m_id + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_sourceNamePresent) {
-        xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
+        xml.append(" SourceName=\"" + m_sourceName + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_sourcePresent) {
-        xml.append(" Source=\"" + QString::number(m_source) + "\"");
+        xml.append(" Source=\"" + QString::number( m_source ) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of optional attribute
     if ( hasCargoType() ) {
-        xml.append(" CargoType=\"" + QString::number(m_cargoType) + "\"");
+        xml.append(" CargoType=\"" + QString::number( m_cargoType ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasDestination() ) {
-        xml.append(" Destination=\"" + encode (m_destination) + "\"");
+        xml.append(" Destination=\"" + m_destination + "\"");
     }
     // check for presence of optional attribute
     if ( hasETA() ) {
@@ -341,15 +344,15 @@ QString Voyage::toXML() const {
     }
     // check for presence of optional attribute
     if ( hasPersonsOnBoard() ) {
-        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard) + "\"");
+        xml.append(" PersonsOnBoard=\"" + QString::number( m_personsOnBoard ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
-        xml.append(" AirDraught=\"" + QString::number(m_airDraught, 'f') + "\"");
+        xml.append(" AirDraught=\"" + QString::number( m_airDraught, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasDraught() ) {
-        xml.append(" Draught=\"" + QString::number(m_draught, 'f') + "\"");
+        xml.append(" Draught=\"" + QString::number( m_draught, 'f') + "\"");
     }
     xml.append("/>\n");
     return xml;
@@ -365,12 +368,12 @@ QString Voyage::toString() {
 QString Voyage::toString(QString lead) {
 
     QString str = lead + "Voyage\n";
-    str.append( lead + "    Id = " + m_id + "\n");
-    str.append( lead + "    SourceName = " + m_sourceName + "\n");
-    str.append( lead + "    Source = " + QString::number(m_source) + "\n");
+     str.append( lead + "    Id = " + m_id + "\n");
+     str.append( lead + "    SourceName = " + m_sourceName + "\n");
+     str.append( lead + "    Source = " + QString::number( m_source ) + "\n");
     // check for presence of optional attribute
     if ( hasCargoType() ) {
-        str.append( lead + "    CargoType = " + QString::number(m_cargoType) + "\n");
+        str.append( lead + "    CargoType = " + QString::number( m_cargoType ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasDestination() ) {
@@ -386,15 +389,15 @@ QString Voyage::toString(QString lead) {
     }
     // check for presence of optional attribute
     if ( hasPersonsOnBoard() ) {
-        str.append( lead + "    PersonsOnBoard = " + QString::number(m_personsOnBoard) + "\n");
+        str.append( lead + "    PersonsOnBoard = " + QString::number( m_personsOnBoard ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
-        str.append( lead + "    AirDraught = " + QString::number(m_airDraught, 'f') + "\n");
+        str.append( lead + "    AirDraught = " + QString::number( m_airDraught, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasDraught() ) {
-        str.append( lead + "    Draught = " + QString::number(m_draught, 'f') + "\n");
+        str.append( lead + "    Draught = " + QString::number( m_draught, 'f') + "\n");
     }
     return str;
 }
