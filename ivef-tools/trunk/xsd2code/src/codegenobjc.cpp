@@ -675,7 +675,7 @@ void CodeGenObjC::go() {
                 } else if (type == localType("xs:boolean")) {
                     varName = "(" + variableName(attr->name()) + "?@\"true\":@\"false\")";
                 } else if (type != localType("xs:string")) {
-                    varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
+                    varName = "[NSString stringWithFormat:@\"%f." + QString::number(attr->digits()) + "\", " + variableName(attr->name()) + "]";
                 } else { // String, issue 19
                     varName = "[self encode: " + variableName(attr->name()) + "]"; 
                 }
@@ -813,7 +813,7 @@ void CodeGenObjC::go() {
                 } else if (type == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (type != localType("xs:string")) {
-                    varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
+                    varName = "[NSString stringWithFormat:@\"%f." + QString::number(attr->digits()) + "\", " + variableName(attr->name()) + "]";
                 }
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
@@ -885,7 +885,7 @@ void CodeGenObjC::go() {
                 } else if (myType == localType("xs:integer")) {
                     varName = "[NSString stringWithFormat:@\"%d\", " + variableName(attr->name()) + "]";
                 } else if (myType != localType("xs:string")) {
-                    varName = "[NSString stringWithFormat:@\"%f\", " + variableName(attr->name()) + "]";
+                    varName = "[NSString stringWithFormat:@\"%f." + QString::number(attr->digits()) + "\", " + variableName(attr->name()) + "]";
                 }
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {

@@ -412,6 +412,7 @@ void CodeGenJava::go() {
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to java types
             QString varName = variableName(attr->name());
+            QString formatDefinition;
             
             if (attrType != attr->name()) {
                 
@@ -421,15 +422,27 @@ void CodeGenJava::go() {
                 } else if (type == "String") {
                     varName = "encode( " + variableName(attr->name()) + ")";
                 } else if (type == "double") { // issue 63
-                    varName = "nf.format(" + variableName(attr->name()) + ")"; 
+                    if (attr->hasDigits()) {
+                        formatDefinition = "DecimalFormat nf" + variableName(attr->name()) + " = new DecimalFormat(\"" + QString::number(0.0, 'f', attr->digits()) + "\");";
+                        varName = "nf" + variableName(attr->name()) + ".format(" + variableName(attr->name()) + ")";
+                    } else {
+                        varName = "nf.format(" + variableName(attr->name()) + ")";
+                    }
                 }
                 
                 // check if the attribute exist
                 if ((!attr->required() || obj->isMerged()) && !attr->isScalar()) {
                     classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "            xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n        }\n";
+                    if (!formatDefinition.isEmpty()) {
+                        classFileOut << "            " + formatDefinition + "\n";
+                    }
+                    classFileOut << "            xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n";
+                    classFileOut << "        }\n";
                 } else { // issue 21
                     classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n";
+                    if (!formatDefinition.isEmpty()) {
+                        classFileOut << "            " + formatDefinition + "\n";
+                    }
                     classFileOut << "            xml += \" " << attr->name() << "=\\\"\" + " << varName << " + \"\\\"\";\n";
                     classFileOut << "        } else { \n";
                     classFileOut << "            return null; // not all required attributes have been set \n";
@@ -457,9 +470,9 @@ void CodeGenJava::go() {
                             classFileOut << "        }\n";
                         }
                         if (attr->hasMin()) { // issue 26
-                           classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->min() << ") {\n";
-			   classFileOut << "            return null; // not enough values\n";
-			   classFileOut << "        }\n";
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->min() << ") {\n";
+                            classFileOut << "            return null; // not enough values\n";
+                            classFileOut << "        }\n";
                         }
                         classFileOut << "        for(int i=0; i < " << variableName(attr->name()) << "s.size(); i++ ) {\n";
                         classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
@@ -509,7 +522,7 @@ void CodeGenJava::go() {
         classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
         classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
-		classFileOut << "\n";
+        classFileOut << "\n";
         
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -517,6 +530,7 @@ void CodeGenJava::go() {
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to java types
             QString varName = variableName(attr->name());
+            QString formatDefinition;
             
             if (attrType != attr->name()) {
                 
@@ -524,15 +538,27 @@ void CodeGenJava::go() {
                 if (type == "Date") {
                     varName = "df.format(" + variableName(attr->name()) + ")"; 
                 } else if (type == "double") { // issue 63
-                    varName = "nf.format(" + variableName(attr->name()) + ")"; 
+                    if (attr->hasDigits()) {
+                        formatDefinition = "DecimalFormat nf" + variableName(attr->name()) + " = new DecimalFormat(\"" + QString::number(0.0, 'f', attr->digits()) + "\");";
+                        varName = "nf" + variableName(attr->name()) + ".format(" + variableName(attr->name()) + ")";
+                    } else {
+                        varName = "nf.format(" + variableName(attr->name()) + ")";
+                    }
                 } /*else  if (type != "String") {
                    varName = "String.number(" + variableName(attr->name()) + ")";
                    } */
                 // check if the attribute exist
                 if ((!attr->required() || obj->isMerged()) && !attr->isScalar()) {
                     classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
-                    classFileOut << "            str +=  lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\";\n        }\n";
+                    if (!formatDefinition.isEmpty()) {
+                        classFileOut << "            " + formatDefinition + "\n";
+                    }
+                    classFileOut << "            str +=  lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\";\n";
+                    classFileOut << "        }\n";
                 } else {
+                    if (!formatDefinition.isEmpty()) {
+                        classFileOut << "        " + formatDefinition + "\n";
+                    }
                     classFileOut << "        str +=  lead + \"    " << attr->name() << " = \" + " << varName << " + \"\\n\";\n";
                 }
             }
