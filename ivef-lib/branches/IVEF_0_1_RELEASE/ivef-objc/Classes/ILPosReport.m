@@ -691,7 +691,7 @@
     }
     if ( m_COGPresent ) {
         [xml appendString: @" COG=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_COG]];
+        [xml appendString: [NSString stringWithFormat:@"%.1f", m_COG]];
         [xml appendString: @"\""];
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"COG" forKey: @"description"]];
@@ -840,7 +840,7 @@
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"COG = "];
-    [str appendString: [NSString stringWithFormat:@"%f", m_COG]];
+    [str appendString: [NSString stringWithFormat:@"%.1f", m_COG]];
     [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
@@ -928,7 +928,7 @@
         [attr setObject: [self stringFromDate: m_updateTimeDR] forKey: @"UpdateTimeDR"];
     }
     [attr setObject: [NSString stringWithFormat:@"%f", m_SOG] forKey: @"SOG"];
-    [attr setObject: [NSString stringWithFormat:@"%f", m_COG] forKey: @"COG"];
+    [attr setObject: [NSString stringWithFormat:@"%.1f", m_COG] forKey: @"COG"];
     [attr setObject: m_lost forKey: @"Lost"];
     if ( [self hasRateOfTurn] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_rateOfTurn] forKey: @"RateOfTurn"];

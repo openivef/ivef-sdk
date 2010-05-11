@@ -58,7 +58,7 @@ QString Object::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_fileNamePresent) {
-        xml.append(" FileName=\"" + m_fileName + "\"");
+        xml.append(" FileName=\"" + encode (m_fileName) + "\"");
     } else { // required attribute not present
         return NULL;
     }

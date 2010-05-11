@@ -81,13 +81,13 @@ QString TaggedItem::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_keyPresent) {
-        xml.append(" Key=\"" + m_key + "\"");
+        xml.append(" Key=\"" + encode (m_key) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_valuePresent) {
-        xml.append(" Value=\"" + m_value + "\"");
+        xml.append(" Value=\"" + encode (m_value) + "\"");
     } else { // required attribute not present
         return NULL;
     }

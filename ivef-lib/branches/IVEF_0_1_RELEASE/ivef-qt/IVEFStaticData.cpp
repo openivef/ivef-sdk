@@ -679,13 +679,13 @@ QString StaticData::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_idPresent) {
-        xml.append(" Id=\"" + m_id + "\"");
+        xml.append(" Id=\"" + encode (m_id) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_sourceNamePresent) {
-        xml.append(" SourceName=\"" + m_sourceName + "\"");
+        xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -705,11 +705,11 @@ QString StaticData::toXML() const {
     }
     // check for presence of optional attribute
     if ( hasCallsign() ) {
-        xml.append(" Callsign=\"" + m_callsign + "\"");
+        xml.append(" Callsign=\"" + encode (m_callsign) + "\"");
     }
     // check for presence of optional attribute
     if ( hasShipName() ) {
-        xml.append(" ShipName=\"" + m_shipName + "\"");
+        xml.append(" ShipName=\"" + encode (m_shipName) + "\"");
     }
     // check for presence of optional attribute
     if ( hasObjectType() ) {
@@ -733,7 +733,7 @@ QString StaticData::toXML() const {
     }
     // check for presence of optional attribute
     if ( hasATONName() ) {
-        xml.append(" ATONName=\"" + m_ATONName + "\"");
+        xml.append(" ATONName=\"" + encode (m_ATONName) + "\"");
     }
     // check for presence of optional attribute
     if ( hasAntPosDistFromFront() ) {
@@ -745,15 +745,15 @@ QString StaticData::toXML() const {
     }
     // check for presence of optional attribute
     if ( hasNatLangShipName() ) {
-        xml.append(" NatLangShipName=\"" + m_natLangShipName + "\"");
+        xml.append(" NatLangShipName=\"" + encode (m_natLangShipName) + "\"");
     }
     // check for presence of optional attribute
     if ( hasPortOfRegistry() ) {
-        xml.append(" PortOfRegistry=\"" + m_portOfRegistry + "\"");
+        xml.append(" PortOfRegistry=\"" + encode (m_portOfRegistry) + "\"");
     }
     // check for presence of optional attribute
     if ( hasCountryFlag() ) {
-        xml.append(" CountryFlag=\"" + m_countryFlag + "\"");
+        xml.append(" CountryFlag=\"" + encode (m_countryFlag) + "\"");
     }
     // check for presence of optional attribute
     if ( hasMaxAirDraught() ) {
@@ -765,7 +765,7 @@ QString StaticData::toXML() const {
     }
     // check for presence of optional attribute
     if ( hasDeepWaterVesselind() ) {
-        xml.append(" DeepWaterVesselind=\"" + m_deepWaterVesselind + "\"");
+        xml.append(" DeepWaterVesselind=\"" + encode (m_deepWaterVesselind) + "\"");
     }
     xml.append("/>\n");
     return xml;

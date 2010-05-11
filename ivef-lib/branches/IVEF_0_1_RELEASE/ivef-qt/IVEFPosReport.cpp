@@ -583,7 +583,7 @@ QString PosReport::toXML() const {
     }
     // check for presence of required  attribute
     if ( m_lostPresent) {
-        xml.append(" Lost=\"" + m_lost + "\"");
+        xml.append(" Lost=\"" + encode (m_lost) + "\"");
     } else { // required attribute not present
         return NULL;
     }

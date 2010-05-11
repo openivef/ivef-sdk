@@ -105,7 +105,7 @@ QString Pong::toXML() const {
     }
     // check for presence of required  attribute
     if ( m_msgIdPresent) {
-        xml.append(" MsgId=\"" + m_msgId + "\"");
+        xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
     } else { // required attribute not present
         return NULL;
     }

@@ -105,13 +105,13 @@ QString LoginRequest::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_namePresent) {
-        xml.append(" Name=\"" + m_name + "\"");
+        xml.append(" Name=\"" + encode (m_name) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_passwordPresent) {
-        xml.append(" Password=\"" + m_password + "\"");
+        xml.append(" Password=\"" + encode (m_password) + "\"");
     } else { // required attribute not present
         return NULL;
     }

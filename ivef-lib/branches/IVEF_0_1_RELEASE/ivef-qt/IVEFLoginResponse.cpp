@@ -111,7 +111,7 @@ QString LoginResponse::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_msgIdPresent) {
-        xml.append(" MsgId=\"" + m_msgId + "\"");
+        xml.append(" MsgId=\"" + encode (m_msgId) + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -123,7 +123,7 @@ QString LoginResponse::toXML() const {
     }
     // check for presence of optional attribute
     if ( hasReason() ) {
-        xml.append(" Reason=\"" + m_reason + "\"");
+        xml.append(" Reason=\"" + encode (m_reason) + "\"");
     }
     xml.append("/>\n");
     return xml;

@@ -89,7 +89,7 @@ QString Item::toXML() const {
     }
     // check for presence of required  attribute
     if ( m_fieldPresent) {
-        xml.append(" Field=\"" + m_field + "\"");
+        xml.append(" Field=\"" + encode (m_field) + "\"");
     } else { // required attribute not present
         return NULL;
     }

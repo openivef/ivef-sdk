@@ -81,13 +81,13 @@ QString Header::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_versionPresent) {
-        xml.append(" Version=\"" + m_version + "\"");
+        xml.append(" Version=\"" + encode (m_version) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_msgRefIdPresent) {
-        xml.append(" MsgRefId=\"" + m_msgRefId + "\"");
+        xml.append(" MsgRefId=\"" + encode (m_msgRefId) + "\"");
     } else { // required attribute not present
         return NULL;
     }

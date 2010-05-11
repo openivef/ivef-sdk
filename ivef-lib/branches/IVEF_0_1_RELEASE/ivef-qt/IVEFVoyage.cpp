@@ -310,13 +310,13 @@ QString Voyage::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_idPresent) {
-        xml.append(" Id=\"" + m_id + "\"");
+        xml.append(" Id=\"" + encode (m_id) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of required  attribute
     if ( m_sourceNamePresent) {
-        xml.append(" SourceName=\"" + m_sourceName + "\"");
+        xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
     } else { // required attribute not present
         return NULL;
     }
@@ -332,7 +332,7 @@ QString Voyage::toXML() const {
     }
     // check for presence of optional attribute
     if ( hasDestination() ) {
-        xml.append(" Destination=\"" + m_destination + "\"");
+        xml.append(" Destination=\"" + encode (m_destination) + "\"");
     }
     // check for presence of optional attribute
     if ( hasETA() ) {

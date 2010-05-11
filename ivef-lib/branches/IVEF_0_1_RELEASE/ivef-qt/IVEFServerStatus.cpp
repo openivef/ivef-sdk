@@ -91,13 +91,13 @@ QString ServerStatus::toXML() const {
     QString dataMember;
     // check for presence of required  attribute
     if ( m_statusPresent) {
-        xml.append(" Status=\"" + m_status + "\"");
+        xml.append(" Status=\"" + encode (m_status) + "\"");
     } else { // required attribute not present
         return NULL;
     }
     // check for presence of optional attribute
     if ( hasDetails() ) {
-        xml.append(" Details=\"" + m_details + "\"");
+        xml.append(" Details=\"" + encode (m_details) + "\"");
     }
     xml.append("/>\n");
     return xml;
