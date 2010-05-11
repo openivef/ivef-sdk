@@ -1,0 +1,15 @@
+mkdir -p tmp/IVEF
+cd tmp
+rm -Rf *
+mkdir -p IVEF
+echo installing library
+cp ../../ivef-objc/Classes/*.h IVEF/
+for i in ../*.m
+do
+   echo compiling: $i
+   clang -fPIC -c $i -I.
+done
+echo linking /usr/lib64/libgnustep-base.so and ../../ivef-objc/tmp/libivef.o
+clang *.o -otestivef -L/usr/lib64 -lgnustep-base -L../../ivef-objc/tmp/ -livef
+cd ..
+

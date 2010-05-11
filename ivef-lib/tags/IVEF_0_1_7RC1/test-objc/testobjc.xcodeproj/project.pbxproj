@@ -1,0 +1,432 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5200ABCA118611B60055B340 /* ILTaggedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB8F118611B60055B340 /* ILTaggedItem.m */; };
+		5200ABCB118611B60055B340 /* ILVoyage.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB90118611B60055B340 /* ILVoyage.m */; };
+		5200ABCC118611B60055B340 /* ILVesselData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB92118611B60055B340 /* ILVesselData.m */; };
+		5200ABCD118611B60055B340 /* ILTransmission.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB94118611B60055B340 /* ILTransmission.m */; };
+		5200ABCE118611B60055B340 /* ILStaticData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB96118611B60055B340 /* ILStaticData.m */; };
+		5200ABCF118611B60055B340 /* ILServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB98118611B60055B340 /* ILServiceRequest.m */; };
+		5200ABD0118611B60055B340 /* ILServerStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB9A118611B60055B340 /* ILServerStatus.m */; };
+		5200ABD1118611B60055B340 /* ILItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB9B118611B60055B340 /* ILItem.m */; };
+		5200ABD2118611B60055B340 /* ILMSG_LoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200AB9C118611B60055B340 /* ILMSG_LoginRequest.m */; };
+		5200ABD3118611B60055B340 /* ILMSG_Ping.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABA0118611B60055B340 /* ILMSG_Ping.m */; };
+		5200ABD4118611B60055B340 /* ILLoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABA4118611B60055B340 /* ILLoginResponse.m */; };
+		5200ABD5118611B60055B340 /* ILLogout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABA5118611B60055B340 /* ILLogout.m */; };
+		5200ABD6118611B60055B340 /* ILPos.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABA6118611B60055B340 /* ILPos.m */; };
+		5200ABD7118611B60055B340 /* ILLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABA8118611B60055B340 /* ILLoginRequest.m */; };
+		5200ABD8118611B60055B340 /* ILMSG_Logout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABAA118611B60055B340 /* ILMSG_Logout.m */; };
+		5200ABD9118611B60055B340 /* ILMSG_LoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABAC118611B60055B340 /* ILMSG_LoginResponse.m */; };
+		5200ABDA118611B60055B340 /* ILPing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABAD118611B60055B340 /* ILPing.m */; };
+		5200ABDB118611B60055B340 /* ILMSG_ServerStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABB0118611B60055B340 /* ILMSG_ServerStatus.m */; };
+		5200ABDC118611B60055B340 /* ILParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABB2118611B60055B340 /* ILParser.m */; };
+		5200ABDD118611B60055B340 /* ILMSG_Pong.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABB4118611B60055B340 /* ILMSG_Pong.m */; };
+		5200ABDE118611B60055B340 /* ILPosReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABB5118611B60055B340 /* ILPosReport.m */; };
+		5200ABDF118611B60055B340 /* ILSchema.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABB7118611B60055B340 /* ILSchema.m */; };
+		5200ABE0118611B60055B340 /* ILSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABBA118611B60055B340 /* ILSensor.m */; };
+		5200ABE1118611B60055B340 /* ILPong.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABBD118611B60055B340 /* ILPong.m */; };
+		5200ABE2118611B60055B340 /* ILMSG_VesselData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABBF118611B60055B340 /* ILMSG_VesselData.m */; };
+		5200ABE3118611B60055B340 /* ILMSG_ServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABC1118611B60055B340 /* ILMSG_ServiceRequest.m */; };
+		5200ABE4118611B60055B340 /* ILArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABC2118611B60055B340 /* ILArea.m */; };
+		5200ABE5118611B60055B340 /* ILBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABC3118611B60055B340 /* ILBody.m */; };
+		5200ABE6118611B60055B340 /* ILObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABC4118611B60055B340 /* ILObject.m */; };
+		5200ABE7118611B60055B340 /* ILHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5200ABC6118611B60055B340 /* ILHeader.m */; };
+		52D924AC11724C0F00BAD334 /* Handler.m in Sources */ = {isa = PBXBuildFile; fileRef = 52D924AB11724C0F00BAD334 /* Handler.m */; };
+		8DD76F9A0486AA7600D96B5E /* testobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* testobjc.m */; settings = {ATTRIBUTES = (); }; };
+		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
+		8DD76F9F0486AA7600D96B5E /* testobjc.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* testobjc.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76F9E0486AA7600D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				8DD76F9F0486AA7600D96B5E /* testobjc.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		08FB7796FE84155DC02AAC07 /* testobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testobjc.m; sourceTree = "<group>"; };
+		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32A70AAB03705E1F00C91783 /* testobjc_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testobjc_Prefix.pch; sourceTree = "<group>"; };
+		5200AB8E118611B60055B340 /* ILTaggedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILTaggedItem.h; path = "../ivef-objc/Classes/ILTaggedItem.h"; sourceTree = SOURCE_ROOT; };
+		5200AB8F118611B60055B340 /* ILTaggedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILTaggedItem.m; path = "../ivef-objc/Classes/ILTaggedItem.m"; sourceTree = SOURCE_ROOT; };
+		5200AB90118611B60055B340 /* ILVoyage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILVoyage.m; path = "../ivef-objc/Classes/ILVoyage.m"; sourceTree = SOURCE_ROOT; };
+		5200AB91118611B60055B340 /* ILVoyage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILVoyage.h; path = "../ivef-objc/Classes/ILVoyage.h"; sourceTree = SOURCE_ROOT; };
+		5200AB92118611B60055B340 /* ILVesselData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILVesselData.m; path = "../ivef-objc/Classes/ILVesselData.m"; sourceTree = SOURCE_ROOT; };
+		5200AB93118611B60055B340 /* ILVesselData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILVesselData.h; path = "../ivef-objc/Classes/ILVesselData.h"; sourceTree = SOURCE_ROOT; };
+		5200AB94118611B60055B340 /* ILTransmission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILTransmission.m; path = "../ivef-objc/Classes/ILTransmission.m"; sourceTree = SOURCE_ROOT; };
+		5200AB95118611B60055B340 /* ILTransmission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILTransmission.h; path = "../ivef-objc/Classes/ILTransmission.h"; sourceTree = SOURCE_ROOT; };
+		5200AB96118611B60055B340 /* ILStaticData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILStaticData.m; path = "../ivef-objc/Classes/ILStaticData.m"; sourceTree = SOURCE_ROOT; };
+		5200AB97118611B60055B340 /* ILStaticData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILStaticData.h; path = "../ivef-objc/Classes/ILStaticData.h"; sourceTree = SOURCE_ROOT; };
+		5200AB98118611B60055B340 /* ILServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILServiceRequest.m; path = "../ivef-objc/Classes/ILServiceRequest.m"; sourceTree = SOURCE_ROOT; };
+		5200AB99118611B60055B340 /* ILServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILServiceRequest.h; path = "../ivef-objc/Classes/ILServiceRequest.h"; sourceTree = SOURCE_ROOT; };
+		5200AB9A118611B60055B340 /* ILServerStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILServerStatus.m; path = "../ivef-objc/Classes/ILServerStatus.m"; sourceTree = SOURCE_ROOT; };
+		5200AB9B118611B60055B340 /* ILItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILItem.m; path = "../ivef-objc/Classes/ILItem.m"; sourceTree = SOURCE_ROOT; };
+		5200AB9C118611B60055B340 /* ILMSG_LoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILMSG_LoginRequest.m; path = "../ivef-objc/Classes/ILMSG_LoginRequest.m"; sourceTree = SOURCE_ROOT; };
+		5200AB9D118611B60055B340 /* ILMSG_Pong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILMSG_Pong.h; path = "../ivef-objc/Classes/ILMSG_Pong.h"; sourceTree = SOURCE_ROOT; };
+		5200AB9E118611B60055B340 /* ILMSG_LoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILMSG_LoginRequest.h; path = "../ivef-objc/Classes/ILMSG_LoginRequest.h"; sourceTree = SOURCE_ROOT; };
+		5200AB9F118611B60055B340 /* ILLogout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILLogout.h; path = "../ivef-objc/Classes/ILLogout.h"; sourceTree = SOURCE_ROOT; };
+		5200ABA0118611B60055B340 /* ILMSG_Ping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILMSG_Ping.m; path = "../ivef-objc/Classes/ILMSG_Ping.m"; sourceTree = SOURCE_ROOT; };
+		5200ABA1118611B60055B340 /* ILMSG_ServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILMSG_ServiceRequest.h; path = "../ivef-objc/Classes/ILMSG_ServiceRequest.h"; sourceTree = SOURCE_ROOT; };
+		5200ABA2118611B60055B340 /* ILMSG_Ping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILMSG_Ping.h; path = "../ivef-objc/Classes/ILMSG_Ping.h"; sourceTree = SOURCE_ROOT; };
+		5200ABA3118611B60055B340 /* ILMSG_ServerStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILMSG_ServerStatus.h; path = "../ivef-objc/Classes/ILMSG_ServerStatus.h"; sourceTree = SOURCE_ROOT; };
+		5200ABA4118611B60055B340 /* ILLoginResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILLoginResponse.m; path = "../ivef-objc/Classes/ILLoginResponse.m"; sourceTree = SOURCE_ROOT; };
+		5200ABA5118611B60055B340 /* ILLogout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILLogout.m; path = "../ivef-objc/Classes/ILLogout.m"; sourceTree = SOURCE_ROOT; };
+		5200ABA6118611B60055B340 /* ILPos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPos.m; path = "../ivef-objc/Classes/ILPos.m"; sourceTree = SOURCE_ROOT; };
+		5200ABA7118611B60055B340 /* ILPos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPos.h; path = "../ivef-objc/Classes/ILPos.h"; sourceTree = SOURCE_ROOT; };
+		5200ABA8118611B60055B340 /* ILLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILLoginRequest.m; path = "../ivef-objc/Classes/ILLoginRequest.m"; sourceTree = SOURCE_ROOT; };
+		5200ABA9118611B60055B340 /* ILLoginResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILLoginResponse.h; path = "../ivef-objc/Classes/ILLoginResponse.h"; sourceTree = SOURCE_ROOT; };
+		5200ABAA118611B60055B340 /* ILMSG_Logout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILMSG_Logout.m; path = "../ivef-objc/Classes/ILMSG_Logout.m"; sourceTree = SOURCE_ROOT; };
+		5200ABAB118611B60055B340 /* ILMSG_Logout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILMSG_Logout.h; path = "../ivef-objc/Classes/ILMSG_Logout.h"; sourceTree = SOURCE_ROOT; };
+		5200ABAC118611B60055B340 /* ILMSG_LoginResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILMSG_LoginResponse.m; path = "../ivef-objc/Classes/ILMSG_LoginResponse.m"; sourceTree = SOURCE_ROOT; };
+		5200ABAD118611B60055B340 /* ILPing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPing.m; path = "../ivef-objc/Classes/ILPing.m"; sourceTree = SOURCE_ROOT; };
+		5200ABAE118611B60055B340 /* ILPing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPing.h; path = "../ivef-objc/Classes/ILPing.h"; sourceTree = SOURCE_ROOT; };
+		5200ABAF118611B60055B340 /* ILMSG_LoginResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILMSG_LoginResponse.h; path = "../ivef-objc/Classes/ILMSG_LoginResponse.h"; sourceTree = SOURCE_ROOT; };
+		5200ABB0118611B60055B340 /* ILMSG_ServerStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILMSG_ServerStatus.m; path = "../ivef-objc/Classes/ILMSG_ServerStatus.m"; sourceTree = SOURCE_ROOT; };
+		5200ABB1118611B60055B340 /* ILMSG_VesselData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILMSG_VesselData.h; path = "../ivef-objc/Classes/ILMSG_VesselData.h"; sourceTree = SOURCE_ROOT; };
+		5200ABB2118611B60055B340 /* ILParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILParser.m; path = "../ivef-objc/Classes/ILParser.m"; sourceTree = SOURCE_ROOT; };
+		5200ABB3118611B60055B340 /* ILParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILParser.h; path = "../ivef-objc/Classes/ILParser.h"; sourceTree = SOURCE_ROOT; };
+		5200ABB4118611B60055B340 /* ILMSG_Pong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILMSG_Pong.m; path = "../ivef-objc/Classes/ILMSG_Pong.m"; sourceTree = SOURCE_ROOT; };
+		5200ABB5118611B60055B340 /* ILPosReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPosReport.m; path = "../ivef-objc/Classes/ILPosReport.m"; sourceTree = SOURCE_ROOT; };
+		5200ABB6118611B60055B340 /* ILPosReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPosReport.h; path = "../ivef-objc/Classes/ILPosReport.h"; sourceTree = SOURCE_ROOT; };
+		5200ABB7118611B60055B340 /* ILSchema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILSchema.m; path = "../ivef-objc/Classes/ILSchema.m"; sourceTree = SOURCE_ROOT; };
+		5200ABB8118611B60055B340 /* ILSchema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILSchema.h; path = "../ivef-objc/Classes/ILSchema.h"; sourceTree = SOURCE_ROOT; };
+		5200ABB9118611B60055B340 /* ILServerStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILServerStatus.h; path = "../ivef-objc/Classes/ILServerStatus.h"; sourceTree = SOURCE_ROOT; };
+		5200ABBA118611B60055B340 /* ILSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILSensor.m; path = "../ivef-objc/Classes/ILSensor.m"; sourceTree = SOURCE_ROOT; };
+		5200ABBB118611B60055B340 /* ILSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILSensor.h; path = "../ivef-objc/Classes/ILSensor.h"; sourceTree = SOURCE_ROOT; };
+		5200ABBC118611B60055B340 /* ILLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILLoginRequest.h; path = "../ivef-objc/Classes/ILLoginRequest.h"; sourceTree = SOURCE_ROOT; };
+		5200ABBD118611B60055B340 /* ILPong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILPong.m; path = "../ivef-objc/Classes/ILPong.m"; sourceTree = SOURCE_ROOT; };
+		5200ABBE118611B60055B340 /* ILPong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILPong.h; path = "../ivef-objc/Classes/ILPong.h"; sourceTree = SOURCE_ROOT; };
+		5200ABBF118611B60055B340 /* ILMSG_VesselData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILMSG_VesselData.m; path = "../ivef-objc/Classes/ILMSG_VesselData.m"; sourceTree = SOURCE_ROOT; };
+		5200ABC0118611B60055B340 /* ILItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILItem.h; path = "../ivef-objc/Classes/ILItem.h"; sourceTree = SOURCE_ROOT; };
+		5200ABC1118611B60055B340 /* ILMSG_ServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILMSG_ServiceRequest.m; path = "../ivef-objc/Classes/ILMSG_ServiceRequest.m"; sourceTree = SOURCE_ROOT; };
+		5200ABC2118611B60055B340 /* ILArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILArea.m; path = "../ivef-objc/Classes/ILArea.m"; sourceTree = SOURCE_ROOT; };
+		5200ABC3118611B60055B340 /* ILBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILBody.m; path = "../ivef-objc/Classes/ILBody.m"; sourceTree = SOURCE_ROOT; };
+		5200ABC4118611B60055B340 /* ILObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILObject.m; path = "../ivef-objc/Classes/ILObject.m"; sourceTree = SOURCE_ROOT; };
+		5200ABC5118611B60055B340 /* ILObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILObject.h; path = "../ivef-objc/Classes/ILObject.h"; sourceTree = SOURCE_ROOT; };
+		5200ABC6118611B60055B340 /* ILHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILHeader.m; path = "../ivef-objc/Classes/ILHeader.m"; sourceTree = SOURCE_ROOT; };
+		5200ABC7118611B60055B340 /* ILBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILBody.h; path = "../ivef-objc/Classes/ILBody.h"; sourceTree = SOURCE_ROOT; };
+		5200ABC8118611B60055B340 /* ILHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILHeader.h; path = "../ivef-objc/Classes/ILHeader.h"; sourceTree = SOURCE_ROOT; };
+		5200ABC9118611B60055B340 /* ILArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILArea.h; path = "../ivef-objc/Classes/ILArea.h"; sourceTree = SOURCE_ROOT; };
+		52D924AA11724C0F00BAD334 /* Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Handler.h; sourceTree = "<group>"; };
+		52D924AB11724C0F00BAD334 /* Handler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Handler.m; sourceTree = "<group>"; };
+		8DD76FA10486AA7600D96B5E /* testobjc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = testobjc; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6859EA3029092ED04C91782 /* testobjc.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = testobjc.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76F9B0486AA7600D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* testobjc */ = {
+			isa = PBXGroup;
+			children = (
+				5200AB8D118611B60055B340 /* Classes */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6859EA2029092E104C91782 /* Documentation */,
+				08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = testobjc;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				32A70AAB03705E1F00C91783 /* testobjc_Prefix.pch */,
+				08FB7796FE84155DC02AAC07 /* testobjc.m */,
+				52D924AA11724C0F00BAD334 /* Handler.h */,
+				52D924AB11724C0F00BAD334 /* Handler.m */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76FA10486AA7600D96B5E /* testobjc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5200AB8D118611B60055B340 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5200AB8E118611B60055B340 /* ILTaggedItem.h */,
+				5200AB8F118611B60055B340 /* ILTaggedItem.m */,
+				5200AB90118611B60055B340 /* ILVoyage.m */,
+				5200AB91118611B60055B340 /* ILVoyage.h */,
+				5200AB92118611B60055B340 /* ILVesselData.m */,
+				5200AB93118611B60055B340 /* ILVesselData.h */,
+				5200AB94118611B60055B340 /* ILTransmission.m */,
+				5200AB95118611B60055B340 /* ILTransmission.h */,
+				5200AB96118611B60055B340 /* ILStaticData.m */,
+				5200AB97118611B60055B340 /* ILStaticData.h */,
+				5200AB98118611B60055B340 /* ILServiceRequest.m */,
+				5200AB99118611B60055B340 /* ILServiceRequest.h */,
+				5200AB9A118611B60055B340 /* ILServerStatus.m */,
+				5200AB9B118611B60055B340 /* ILItem.m */,
+				5200AB9C118611B60055B340 /* ILMSG_LoginRequest.m */,
+				5200AB9D118611B60055B340 /* ILMSG_Pong.h */,
+				5200AB9E118611B60055B340 /* ILMSG_LoginRequest.h */,
+				5200AB9F118611B60055B340 /* ILLogout.h */,
+				5200ABA0118611B60055B340 /* ILMSG_Ping.m */,
+				5200ABA1118611B60055B340 /* ILMSG_ServiceRequest.h */,
+				5200ABA2118611B60055B340 /* ILMSG_Ping.h */,
+				5200ABA3118611B60055B340 /* ILMSG_ServerStatus.h */,
+				5200ABA4118611B60055B340 /* ILLoginResponse.m */,
+				5200ABA5118611B60055B340 /* ILLogout.m */,
+				5200ABA6118611B60055B340 /* ILPos.m */,
+				5200ABA7118611B60055B340 /* ILPos.h */,
+				5200ABA8118611B60055B340 /* ILLoginRequest.m */,
+				5200ABA9118611B60055B340 /* ILLoginResponse.h */,
+				5200ABAA118611B60055B340 /* ILMSG_Logout.m */,
+				5200ABAB118611B60055B340 /* ILMSG_Logout.h */,
+				5200ABAC118611B60055B340 /* ILMSG_LoginResponse.m */,
+				5200ABAD118611B60055B340 /* ILPing.m */,
+				5200ABAE118611B60055B340 /* ILPing.h */,
+				5200ABAF118611B60055B340 /* ILMSG_LoginResponse.h */,
+				5200ABB0118611B60055B340 /* ILMSG_ServerStatus.m */,
+				5200ABB1118611B60055B340 /* ILMSG_VesselData.h */,
+				5200ABB2118611B60055B340 /* ILParser.m */,
+				5200ABB3118611B60055B340 /* ILParser.h */,
+				5200ABB4118611B60055B340 /* ILMSG_Pong.m */,
+				5200ABB5118611B60055B340 /* ILPosReport.m */,
+				5200ABB6118611B60055B340 /* ILPosReport.h */,
+				5200ABB7118611B60055B340 /* ILSchema.m */,
+				5200ABB8118611B60055B340 /* ILSchema.h */,
+				5200ABB9118611B60055B340 /* ILServerStatus.h */,
+				5200ABBA118611B60055B340 /* ILSensor.m */,
+				5200ABBB118611B60055B340 /* ILSensor.h */,
+				5200ABBC118611B60055B340 /* ILLoginRequest.h */,
+				5200ABBD118611B60055B340 /* ILPong.m */,
+				5200ABBE118611B60055B340 /* ILPong.h */,
+				5200ABBF118611B60055B340 /* ILMSG_VesselData.m */,
+				5200ABC0118611B60055B340 /* ILItem.h */,
+				5200ABC1118611B60055B340 /* ILMSG_ServiceRequest.m */,
+				5200ABC2118611B60055B340 /* ILArea.m */,
+				5200ABC3118611B60055B340 /* ILBody.m */,
+				5200ABC4118611B60055B340 /* ILObject.m */,
+				5200ABC5118611B60055B340 /* ILObject.h */,
+				5200ABC6118611B60055B340 /* ILHeader.m */,
+				5200ABC7118611B60055B340 /* ILBody.h */,
+				5200ABC8118611B60055B340 /* ILHeader.h */,
+				5200ABC9118611B60055B340 /* ILArea.h */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		C6859EA2029092E104C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				C6859EA3029092ED04C91782 /* testobjc.1 */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76F960486AA7600D96B5E /* testobjc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB927408733DD40010E9CD /* Build configuration list for PBXNativeTarget "testobjc" */;
+			buildPhases = (
+				8DD76F990486AA7600D96B5E /* Sources */,
+				8DD76F9B0486AA7600D96B5E /* Frameworks */,
+				8DD76F9E0486AA7600D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = testobjc;
+			productInstallPath = "$(HOME)/bin";
+			productName = testobjc;
+			productReference = 8DD76FA10486AA7600D96B5E /* testobjc */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB927808733DD40010E9CD /* Build configuration list for PBXProject "testobjc" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* testobjc */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76F960486AA7600D96B5E /* testobjc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76F990486AA7600D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DD76F9A0486AA7600D96B5E /* testobjc.m in Sources */,
+				52D924AC11724C0F00BAD334 /* Handler.m in Sources */,
+				5200ABCA118611B60055B340 /* ILTaggedItem.m in Sources */,
+				5200ABCB118611B60055B340 /* ILVoyage.m in Sources */,
+				5200ABCC118611B60055B340 /* ILVesselData.m in Sources */,
+				5200ABCD118611B60055B340 /* ILTransmission.m in Sources */,
+				5200ABCE118611B60055B340 /* ILStaticData.m in Sources */,
+				5200ABCF118611B60055B340 /* ILServiceRequest.m in Sources */,
+				5200ABD0118611B60055B340 /* ILServerStatus.m in Sources */,
+				5200ABD1118611B60055B340 /* ILItem.m in Sources */,
+				5200ABD2118611B60055B340 /* ILMSG_LoginRequest.m in Sources */,
+				5200ABD3118611B60055B340 /* ILMSG_Ping.m in Sources */,
+				5200ABD4118611B60055B340 /* ILLoginResponse.m in Sources */,
+				5200ABD5118611B60055B340 /* ILLogout.m in Sources */,
+				5200ABD6118611B60055B340 /* ILPos.m in Sources */,
+				5200ABD7118611B60055B340 /* ILLoginRequest.m in Sources */,
+				5200ABD8118611B60055B340 /* ILMSG_Logout.m in Sources */,
+				5200ABD9118611B60055B340 /* ILMSG_LoginResponse.m in Sources */,
+				5200ABDA118611B60055B340 /* ILPing.m in Sources */,
+				5200ABDB118611B60055B340 /* ILMSG_ServerStatus.m in Sources */,
+				5200ABDC118611B60055B340 /* ILParser.m in Sources */,
+				5200ABDD118611B60055B340 /* ILMSG_Pong.m in Sources */,
+				5200ABDE118611B60055B340 /* ILPosReport.m in Sources */,
+				5200ABDF118611B60055B340 /* ILSchema.m in Sources */,
+				5200ABE0118611B60055B340 /* ILSensor.m in Sources */,
+				5200ABE1118611B60055B340 /* ILPong.m in Sources */,
+				5200ABE2118611B60055B340 /* ILMSG_VesselData.m in Sources */,
+				5200ABE3118611B60055B340 /* ILMSG_ServiceRequest.m in Sources */,
+				5200ABE4118611B60055B340 /* ILArea.m in Sources */,
+				5200ABE5118611B60055B340 /* ILBody.m in Sources */,
+				5200ABE6118611B60055B340 /* ILObject.m in Sources */,
+				5200ABE7118611B60055B340 /* ILHeader.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB927508733DD40010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../../Library/Frameworks\"",
+					"\"$(SRCROOT)/../../ivef-objc/build/Release\"",
+					"\"$(SRCROOT)/../ivef-objc/build/Release\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = testobjc_Prefix.pch;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = testobjc;
+			};
+			name = Debug;
+		};
+		1DEB927608733DD40010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../../Library/Frameworks\"",
+					"\"$(SRCROOT)/../../ivef-objc/build/Release\"",
+					"\"$(SRCROOT)/../ivef-objc/build/Release\"",
+				);
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = testobjc_Prefix.pch;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = testobjc;
+			};
+			name = Release;
+		};
+		1DEB927908733DD40010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = NO;
+				GCC_WARN_UNUSED_VARIABLE = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB927A08733DD40010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = NO;
+				GCC_WARN_UNUSED_VARIABLE = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB927408733DD40010E9CD /* Build configuration list for PBXNativeTarget "testobjc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB927508733DD40010E9CD /* Debug */,
+				1DEB927608733DD40010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB927808733DD40010E9CD /* Build configuration list for PBXProject "testobjc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB927908733DD40010E9CD /* Debug */,
+				1DEB927A08733DD40010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
