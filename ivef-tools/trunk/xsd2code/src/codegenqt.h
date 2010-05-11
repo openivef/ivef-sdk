@@ -40,7 +40,7 @@ protected:
 	bool knownType(QString type);
         QString sizeEvaluatorForType (QString type, QString varName);
 	QString localType(QString type);
-    QString localTypeToString(XSDAttribute *attr, QString varName);
+    QString localTypeToString(XSDAttribute *attr, QString varName, bool encode = true);
     QString fileBaseName(QString name);
 	QString className(QString name);
 	QString variableName(QString name);

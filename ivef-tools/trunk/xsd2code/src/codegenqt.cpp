@@ -93,7 +93,7 @@ bool CodeGenQT::knownType(QString type) {
         return false;
 }
 
-QString CodeGenQT::localTypeToString(XSDAttribute *attr, QString varName) {
+QString CodeGenQT::localTypeToString(XSDAttribute *attr, QString varName, bool encode) {
 
     QString type = localType(attr->type()); // convert to cpp types
 
@@ -109,6 +109,8 @@ QString CodeGenQT::localTypeToString(XSDAttribute *attr, QString varName) {
         }
     } else if (type != "QString") {
         varName = "QString::number( " + varName + " )";
+    } else if (encode) {
+        varName = "encode (" + variableName(attr->name()) + ")"; // default to string, issue 19
     }
 
     return varName;
@@ -653,7 +655,6 @@ void CodeGenQT::go() {
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
-            QString varName = "encode (" + variableName(attr->name()) + ")"; // default to string, issue 19
             
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR: item assumed to be attribute but is element: " << attr->name().toLatin1().data() << std::endl;
@@ -666,7 +667,7 @@ void CodeGenQT::go() {
             if (!attr->isElement()) {
                 
                 // non-qstring items (ints) may give problems, so convert them
-                varName = localTypeToString(attr, variableName(attr->name()));
+                QString varName = localTypeToString(attr, variableName(attr->name()));
 
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) { // issue 21
@@ -797,7 +798,7 @@ void CodeGenQT::go() {
             if (!attr->isElement()) {
                 
                 // non-qstring items (ints) may give problems, so convert them
-                QString varName = localTypeToString(attr, variableName(attr->name()));
+                QString varName = localTypeToString(attr, variableName(attr->name()), false);
                 // check if the attribute exist
                 if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    // check for presence of optional attribute\n";
@@ -827,7 +828,7 @@ void CodeGenQT::go() {
 
                     if (attr->isSimpleElement()) {
                         // non-qstring items (ints) may give problems, so convert them
-                        QString varName = localTypeToString(attr, "attribute");
+                        QString varName = localTypeToString(attr, "attribute", false);
                         classFileOut << "        str.append( lead + \"    \" + " << varName << " );\n";
                     } else {
                         classFileOut << "        str.append( attribute.toString( lead + \"    \" ) );\n";
