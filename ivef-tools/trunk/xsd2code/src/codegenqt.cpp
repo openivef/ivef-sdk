@@ -103,14 +103,14 @@ QString CodeGenQT::localTypeToString(XSDAttribute *attr, QString varName, bool e
         varName = "QString( " + varName + " ? \"true\" : \"false\" )";
     } else if (type == "float") { // issue 63
         if (attr->hasDigits()) {
-            varName = "QString::number(" + variableName(attr->name()) + ", 'f', " + QString::number(attr->digits()) + ")";
+            varName = "QString::number(" + varName + ", 'f', " + QString::number(attr->digits()) + ")";
         } else {
             varName = "QString::number( " + varName + ", 'f')";
         }
     } else if (type != "QString") {
         varName = "QString::number( " + varName + " )";
     } else if (encode) {
-        varName = "encode (" + variableName(attr->name()) + ")"; // default to string, issue 19
+        varName = "encode (" + varName + ")"; // default to string, issue 19
     }
 
     return varName;
