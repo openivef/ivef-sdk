@@ -653,7 +653,7 @@ void CodeGenQT::go() {
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
-            
+           /* 
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR: item assumed to be attribute but is element: " << attr->name().toLatin1().data() << std::endl;
             }
@@ -661,7 +661,7 @@ void CodeGenQT::go() {
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR unknown attr :" <<  attr->name().toLatin1().data() <<  " mistaken for attribute" << std::endl;
             }
-
+            */
             if (!attr->isElement()) {
                 
                 // non-qstring items (ints) may give problems, so convert them
@@ -725,7 +725,6 @@ void CodeGenQT::go() {
                             classFileOut << "            return NULL;\n";
                             classFileOut << "        }\n";
                         }
-
                         classFileOut << "    }\n";
                     } else if (!attr->required() || obj->isMerged()) {
                         classFileOut << "    // add optional data if available\n";
