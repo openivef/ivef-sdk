@@ -1,2 +1,0 @@
-java -classpath target/testjava.jar:../ivef-java/ivef/ivef.jar testjava/testjava
-
