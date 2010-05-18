@@ -1,0 +1,24 @@
+TestApp ready for input
+MSG_ServiceRequest
+    Header
+        Version = String
+        MsgRefId = String
+    Body
+        ServiceRequest
+            Area
+                Pos
+                    Lat = 3.141593
+                    Long = 3.141593
+                Pos
+                    Lat = 3.141593
+                    Long = 3.141593
+            Transmission
+                Type = 1
+                Period = 3.141593
+            Item
+                Element = 1
+                Field = String
+            Object
+                FileName = Text
+
+TestApp shutting down

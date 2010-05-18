@@ -1,0 +1,15 @@
+<MSG_VesselData xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:http://www.ivef.org/XMLSchema/IVEF/1.1
+\\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
+	<Header MsgRefId="String" Version="String"/>
+	<Body>
+		<VesselData>
+			<StaticData CountryFlag="String" ATONType="0" Breadth="3.1415926535897932384626433832795" Length="3.1415926535897932384626433832795" AntPosDistFromLeft="3.1415926535897932384626433832795" ShipType="20" ShipName="String" PortOfRegistry="String" ObjectType="1" SourceName="String" Callsign="String" MMSI="-0" AntPosDistFromFront="3.1415926535897932384626433832795" Id="String" NatLangShipName="String" IMO="-0" MaxDraught="3.1415926535897932384626433832795" ATONName="String" Source="1" MaxAirDraught="3.1415926535897932384626433832795" DeepWaterVesselind="no"/>
+			<StaticData CountryFlag="String" ATONType="0" Breadth="3.1415926535897932384626433832795" Length="3.1415926535897932384626433832795" AntPosDistFromLeft="3.1415926535897932384626433832795" ShipType="20" ShipName="String" PortOfRegistry="String" ObjectType="1" SourceName="String" Callsign="String" MMSI="-0" AntPosDistFromFront="3.1415926535897932384626433832795" Id="String" NatLangShipName="String" IMO="-0" MaxDraught="3.1415926535897932384626433832795" ATONName="String" Source="1" MaxAirDraught="3.1415926535897932384626433832795" DeepWaterVesselind="yes"/>
+			<StaticData CountryFlag="String" ATONType="0" Breadth="3.1415926535897932384626433832795" Length="3.1415926535897932384626433832795" AntPosDistFromLeft="3.1415926535897932384626433832795" ShipType="20" ShipName="String" PortOfRegistry="String" ObjectType="1" SourceName="String" Callsign="String" MMSI="-0" AntPosDistFromFront="3.1415926535897932384626433832795" Id="String" NatLangShipName="String" IMO="-0" MaxDraught="3.1415926535897932384626433832795" ATONName="String" Source="1" MaxAirDraught="3.1415926535897932384626433832795" DeepWaterVesselind="no"/>
+			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="String" ATA="2001-12-17T09:30:47.123" Id="String" Destination="String" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47.123"/>
+			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="String" ATA="2001-12-17T09:30:47.123" Id="String" Destination="String" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47.123"/>
+			<Voyage CargoType="0" AirDraught="3.1415926535897932384626433832795" SourceName="String" ATA="2001-12-17T09:30:47.123" Id="String" Destination="String" Source="1" Draught="3.1415926535897932384626433832795" ETA="2001-12-17T09:30:47.123"/>
+		</VesselData>
+	</Body>
+</MSG_VesselData>
+
