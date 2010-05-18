@@ -90,7 +90,7 @@
 
 -(NSString *) targetNamespace {
 
-    return @"urn:http://www.ivef.org/XMLSchema/IVEF/0.1.5";
+    return @"urn:http://www.ivef.org/XMLSchema/IVEF/0.1.6";
 }
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {

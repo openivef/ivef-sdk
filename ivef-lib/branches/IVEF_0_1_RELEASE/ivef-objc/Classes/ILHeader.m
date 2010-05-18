@@ -7,7 +7,7 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_version = @"0.1.5";
+        m_version = @"0.1.6";
         m_versionPresent = YES;
         m_msgRefIdPresent = NO;
     }
