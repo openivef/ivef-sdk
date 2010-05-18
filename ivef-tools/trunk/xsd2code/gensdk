@@ -58,24 +58,6 @@ function genJava {
 	cd $HOME
 }
 
-function genIVEF_0_2 {
-	#XSDFILE=../../../ivef-def/trunk/specs/ivef0_2.xsd
-	XSDFILE=../../../ivef-def/tags/IVEF_0_2_3/specs/ivef0_2.xsd
-	TARGET=../../../ivef-lib/branches/IVEF_0_2_RELEASE
-	genObjC
-	genQt
-	genJava
-}
-
-function genIVEF_0_1 {
-	#XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
-	XSDFILE=../../../ivef-def/tags/IVEF_0_1_6/specs/ivef0_1.xsd
-	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
-	genObjC
-	genQt
-	genJava
-}
-
 function testIVEF_0_1 {
 	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
         
@@ -113,7 +95,25 @@ function testIVEF_0_1 {
 	./run_all_tests.sh java
 }
 
+function genIVEF_0_2 {
+	#XSDFILE=../../../ivef-def/trunk/specs/ivef0_2.xsd
+	XSDFILE=../../../ivef-def/tags/IVEF_0_2_3/specs/ivef0_2.xsd
+	TARGET=../../../ivef-lib/branches/IVEF_0_2_RELEASE
+	#genObjC
+	genQt
+	genJava
+}
+
+function genIVEF_0_1 {
+	#XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
+	XSDFILE=../../../ivef-def/tags/IVEF_0_1_6/specs/ivef0_1.xsd
+	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
+	genObjC
+	genQt
+	genJava
+}
+
 buildGenerator
-genIVEF_0_1
-testIVEF_0_1
+#genIVEF_0_1
+#testIVEF_0_1
 genIVEF_0_2

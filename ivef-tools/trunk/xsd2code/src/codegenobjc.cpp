@@ -655,10 +655,20 @@ void CodeGenObjC::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "-(NSString *) XML {\n\n";
         classFileOut << "    NSMutableString *xml = [NSMutableString stringWithString:@\"<" << name << "\"];\n"; // append attributes
-        classFileOut << "    NSString *dataMember;\n"; // append attributes
+
+        // check for dataMembers before generating a useless variable
+        bool hasDataMembers = false;
+        for(int j=0; j < attributes.size(); j++) {
+            XSDAttribute *attr = attributes.at(j);
+            if (attr->isElement()) {
+                hasDataMembers = true;
+            } 
+        }
+        if (hasDataMembers) {
+            classFileOut << "    NSString *dataMember;\n"; // append attributes
+        }
         
         // for attributes
-        bool hasDataMembers = false;
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
@@ -701,8 +711,6 @@ void CodeGenObjC::go() {
                     classFileOut << "        return nil;\n";
                     classFileOut << "    }\n";
                 }
-            } else {
-                hasDataMembers = true;
             } 
         }
         
@@ -963,11 +971,7 @@ void CodeGenObjC::go() {
     headerFileOut << "//!\n";
     
     // define the classa
-    headerFileOut << "\n#if defined (__clang__)\n"; 
-    headerFileOut << "@interface " << className(name) << " : NSObject { // defintion is missing in GNUStep \n"; // added suport for clang
-    headerFileOut << "#else\n"; 
-    headerFileOut << "@interface " << className(name) << " : NSObject <NSXMLParserDelegate> { \n"; // issue 35, added interface for 10.6
-    headerFileOut << "#endif\n"; 
+    headerFileOut << "@interface " << className(name) << " : NSObject { \n"; // added suport for clang
     
     // vars section
     headerFileOut << "    NSMutableString *m_dataBuffer;\n";

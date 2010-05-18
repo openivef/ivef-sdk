@@ -283,6 +283,9 @@ bool Handler::startElement (const QString & /* namespaceURI */,
             QString value = atts.value(i);
             obj->addKeyWithValue(key, value);
         }
+    } else if (qName == "xs:totalDigits") {
+        // ignore
+        std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
     } else if (qName == "xs:choice") {
         // ignore
         //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
@@ -291,6 +294,7 @@ bool Handler::startElement (const QString & /* namespaceURI */,
         //std::cout << QString("ignoring %1").arg(qName).toLatin1().data() << std::endl;
     } else {
         std::cerr << QString("SE: %1 unknown, breaking off parsing routine").arg(qName).toLatin1().data() << std::endl;
+        exit(1); // this is a very bad situation, stop the generation completely to avoid half libraries
         return false;
     }
     
