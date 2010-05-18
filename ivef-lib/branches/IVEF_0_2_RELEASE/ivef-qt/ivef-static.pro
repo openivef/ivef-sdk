@@ -22,6 +22,7 @@ macx {
 	IVEFLoginResponse.h \
 	IVEFLogout.h \
 	IVEFMSG_IVEF.h \
+        IVEFNavStatus.h \
 	IVEFObjectData.h \
 	IVEFObjectDatas.h \
 	IVEFOtherId.h \
@@ -61,6 +62,7 @@ HEADERS += \
 	IVEFLoginResponse.h \
 	IVEFLogout.h \
 	IVEFMSG_IVEF.h \
+        IVEFNavStatus.h \
 	IVEFObjectData.h \
 	IVEFObjectDatas.h \
 	IVEFOtherId.h \
@@ -93,6 +95,7 @@ SOURCES += \
 	IVEFLoginResponse.cpp \
 	IVEFLogout.cpp \
 	IVEFMSG_IVEF.cpp \
+        IVEFNavStatus.cpp \
 	IVEFObjectData.cpp \
 	IVEFObjectDatas.cpp \
 	IVEFOtherId.cpp \

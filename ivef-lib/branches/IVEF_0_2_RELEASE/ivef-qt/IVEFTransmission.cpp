@@ -5,14 +5,15 @@
 Transmission::Transmission() {
 
     m_type = 0;
+    m_typePresent = false;
     m_period = 0.0;
-    // optional attributes are by default not present
     m_periodPresent = false;
 }
 
 // copy constructor
 Transmission::Transmission(const Transmission &val) : QObject() {
 
+    m_typePresent = val.m_typePresent;
     m_type = val.m_type;
     m_periodPresent = val.m_periodPresent;
     m_period = val.m_period;
@@ -21,6 +22,7 @@ Transmission::Transmission(const Transmission &val) : QObject() {
 // assignement
 Transmission & Transmission::operator=(const Transmission &val) {
 
+    m_typePresent = val.m_typePresent;
     m_type = val.m_type;
     m_periodPresent = val.m_periodPresent;
     m_period = val.m_period;
@@ -28,7 +30,7 @@ Transmission & Transmission::operator=(const Transmission &val) {
 }
 
 // String encoder
-QString Transmission::encode( QString str) {
+QString Transmission::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -39,14 +41,16 @@ QString Transmission::encode( QString str) {
 }
 
 // setter for Transmission
-void Transmission::setType(int val) {
+bool Transmission::setType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return false;
+    m_typePresent = true;
     m_type = val;
+      return true;
 }
 
 // getter for Transmission
@@ -56,10 +60,11 @@ int Transmission::getType() const {
 }
 
 // setter for Transmission
-void Transmission::setPeriod(float val) {
+bool Transmission::setPeriod(float val) {
 
     m_periodPresent = true;
     m_period = val;
+      return true;
 }
 
 // getter for Transmission
@@ -75,13 +80,19 @@ bool Transmission::hasPeriod() const {
 }
 
 // Get XML Representation
-QString Transmission::toXML() {
+QString Transmission::toXML() const {
 
     QString xml = "<Transmission";
-    xml.append(" Type=\"" + QString::number(m_type) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_typePresent) {
+        xml.append(" Type=\"" + QString::number( m_type ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasPeriod() ) {
-        xml.append(" Period=\"" + QString::number(m_period, 'f') + "\"");
+        xml.append(" Period=\"" + QString::number( m_period, 'f') + "\"");
     }
     xml.append("/>\n");
     return xml;
@@ -97,10 +108,10 @@ QString Transmission::toString() {
 QString Transmission::toString(QString lead) {
 
     QString str = lead + "Transmission\n";
-    str.append( lead + "    Type = " + QString::number(m_type) + "\n");
+     str.append( lead + "    Type = " + QString::number( m_type ) + "\n");
     // check for presence of optional attribute
     if ( hasPeriod() ) {
-        str.append( lead + "    Period = " + QString::number(m_period, 'f') + "\n");
+        str.append( lead + "    Period = " + QString::number( m_period, 'f') + "\n");
     }
     return str;
 }

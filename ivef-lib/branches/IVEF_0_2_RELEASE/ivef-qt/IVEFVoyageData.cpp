@@ -5,82 +5,73 @@
 VoyageData::VoyageData() {
 
     m_airDraught = 0.0;
-    // optional attributes are by default not present
     m_airDraughtPresent = false;
     m_id = 0;
+    m_idPresent = false;
     m_cargoTypeIMO = 0;
-    // optional attributes are by default not present
     m_cargoTypeIMOPresent = false;
     // initialize empty string
     m_contactIdentity = "";
-    // optional attributes are by default not present
     m_contactIdentityPresent = false;
     // initialize empty string
     m_destCode = "";
-    // optional attributes are by default not present
     m_destCodePresent = false;
     // initialize empty string
     m_destName = "";
-    // optional attributes are by default not present
     m_destNamePresent = false;
+    // initialize empty string
+    m_departCode = "";
+    m_departCodePresent = false;
+    // initialize empty string
+    m_departName = "";
+    m_departNamePresent = false;
     m_draught = 0.0;
-    // optional attributes are by default not present
     m_draughtPresent = false;
     // initialize with random value
     m_ETA = QDateTime();
-    // optional attributes are by default not present
     m_ETAPresent = false;
+    // initialize with random value
+    m_ATD = QDateTime();
+    m_ATDPresent = false;
     m_ISPSLevel = 0.0;
-    // optional attributes are by default not present
     m_ISPSLevelPresent = false;
     m_overSizedLength = 0.0;
-    // optional attributes are by default not present
     m_overSizedLengthPresent = false;
     m_overSizedWidth = 0.0;
-    // optional attributes are by default not present
     m_overSizedWidthPresent = false;
-    // initialize empty string
-    m_nextPort = "";
-    // optional attributes are by default not present
-    m_nextPortPresent = false;
-    m_personsOnBoard = 0.0;
-    // optional attributes are by default not present
+    m_personsOnBoard = 0;
     m_personsOnBoardPresent = false;
     m_pilots = 0.0;
-    // optional attributes are by default not present
     m_pilotsPresent = false;
-    // initialize empty string
-    m_prevPort = "";
-    // optional attributes are by default not present
-    m_prevPortPresent = false;
     // initialize defaults to false
     m_routeBound = false;
-    // optional attributes are by default not present
     m_routeBoundPresent = false;
     // initialize empty string
     m_sourceId = "";
-    // optional attributes are by default not present
     m_sourceIdPresent = false;
     // initialize empty string
     m_sourceName = "";
+    m_sourceNamePresent = false;
     m_sourceType = 0;
+    m_sourceTypePresent = false;
     m_tankerStatus = 0;
-    // optional attributes are by default not present
     m_tankerStatusPresent = false;
     // initialize defaults to false
     m_tugs = false;
-    // optional attributes are by default not present
     m_tugsPresent = false;
     // initialize with random value
     m_updateTime = QDateTime();
+    m_updateTimePresent = false;
 }
 
 // copy constructor
 VoyageData::VoyageData(const VoyageData &val) : QObject() {
 
+    m_waypointPresent = val.m_waypointPresent;
     m_waypoints = val.m_waypoints;
     m_airDraughtPresent = val.m_airDraughtPresent;
     m_airDraught = val.m_airDraught;
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
     m_cargoTypeIMOPresent = val.m_cargoTypeIMOPresent;
     m_cargoTypeIMO = val.m_cargoTypeIMO;
@@ -90,43 +81,50 @@ VoyageData::VoyageData(const VoyageData &val) : QObject() {
     m_destCode = val.m_destCode;
     m_destNamePresent = val.m_destNamePresent;
     m_destName = val.m_destName;
+    m_departCodePresent = val.m_departCodePresent;
+    m_departCode = val.m_departCode;
+    m_departNamePresent = val.m_departNamePresent;
+    m_departName = val.m_departName;
     m_draughtPresent = val.m_draughtPresent;
     m_draught = val.m_draught;
     m_ETAPresent = val.m_ETAPresent;
     m_ETA = val.m_ETA;
+    m_ATDPresent = val.m_ATDPresent;
+    m_ATD = val.m_ATD;
     m_ISPSLevelPresent = val.m_ISPSLevelPresent;
     m_ISPSLevel = val.m_ISPSLevel;
     m_overSizedLengthPresent = val.m_overSizedLengthPresent;
     m_overSizedLength = val.m_overSizedLength;
     m_overSizedWidthPresent = val.m_overSizedWidthPresent;
     m_overSizedWidth = val.m_overSizedWidth;
-    m_nextPortPresent = val.m_nextPortPresent;
-    m_nextPort = val.m_nextPort;
     m_personsOnBoardPresent = val.m_personsOnBoardPresent;
     m_personsOnBoard = val.m_personsOnBoard;
     m_pilotsPresent = val.m_pilotsPresent;
     m_pilots = val.m_pilots;
-    m_prevPortPresent = val.m_prevPortPresent;
-    m_prevPort = val.m_prevPort;
     m_routeBoundPresent = val.m_routeBoundPresent;
     m_routeBound = val.m_routeBound;
     m_sourceIdPresent = val.m_sourceIdPresent;
     m_sourceId = val.m_sourceId;
+    m_sourceNamePresent = val.m_sourceNamePresent;
     m_sourceName = val.m_sourceName;
+    m_sourceTypePresent = val.m_sourceTypePresent;
     m_sourceType = val.m_sourceType;
     m_tankerStatusPresent = val.m_tankerStatusPresent;
     m_tankerStatus = val.m_tankerStatus;
     m_tugsPresent = val.m_tugsPresent;
     m_tugs = val.m_tugs;
+    m_updateTimePresent = val.m_updateTimePresent;
     m_updateTime = val.m_updateTime;
 }
 
 // assignement
 VoyageData & VoyageData::operator=(const VoyageData &val) {
 
+    m_waypointPresent = val.m_waypointPresent;
     m_waypoints = val.m_waypoints;
     m_airDraughtPresent = val.m_airDraughtPresent;
     m_airDraught = val.m_airDraught;
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
     m_cargoTypeIMOPresent = val.m_cargoTypeIMOPresent;
     m_cargoTypeIMO = val.m_cargoTypeIMO;
@@ -136,40 +134,45 @@ VoyageData & VoyageData::operator=(const VoyageData &val) {
     m_destCode = val.m_destCode;
     m_destNamePresent = val.m_destNamePresent;
     m_destName = val.m_destName;
+    m_departCodePresent = val.m_departCodePresent;
+    m_departCode = val.m_departCode;
+    m_departNamePresent = val.m_departNamePresent;
+    m_departName = val.m_departName;
     m_draughtPresent = val.m_draughtPresent;
     m_draught = val.m_draught;
     m_ETAPresent = val.m_ETAPresent;
     m_ETA = val.m_ETA;
+    m_ATDPresent = val.m_ATDPresent;
+    m_ATD = val.m_ATD;
     m_ISPSLevelPresent = val.m_ISPSLevelPresent;
     m_ISPSLevel = val.m_ISPSLevel;
     m_overSizedLengthPresent = val.m_overSizedLengthPresent;
     m_overSizedLength = val.m_overSizedLength;
     m_overSizedWidthPresent = val.m_overSizedWidthPresent;
     m_overSizedWidth = val.m_overSizedWidth;
-    m_nextPortPresent = val.m_nextPortPresent;
-    m_nextPort = val.m_nextPort;
     m_personsOnBoardPresent = val.m_personsOnBoardPresent;
     m_personsOnBoard = val.m_personsOnBoard;
     m_pilotsPresent = val.m_pilotsPresent;
     m_pilots = val.m_pilots;
-    m_prevPortPresent = val.m_prevPortPresent;
-    m_prevPort = val.m_prevPort;
     m_routeBoundPresent = val.m_routeBoundPresent;
     m_routeBound = val.m_routeBound;
     m_sourceIdPresent = val.m_sourceIdPresent;
     m_sourceId = val.m_sourceId;
+    m_sourceNamePresent = val.m_sourceNamePresent;
     m_sourceName = val.m_sourceName;
+    m_sourceTypePresent = val.m_sourceTypePresent;
     m_sourceType = val.m_sourceType;
     m_tankerStatusPresent = val.m_tankerStatusPresent;
     m_tankerStatus = val.m_tankerStatus;
     m_tugsPresent = val.m_tugsPresent;
     m_tugs = val.m_tugs;
+    m_updateTimePresent = val.m_updateTimePresent;
     m_updateTime = val.m_updateTime;
     return *this;
 }
 
 // String encoder
-QString VoyageData::encode( QString str) {
+QString VoyageData::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -180,9 +183,10 @@ QString VoyageData::encode( QString str) {
 }
 
 // setter for VoyageData
-void VoyageData::addWaypoint(Waypoint val) {
+bool VoyageData::addWaypoint(Waypoint val) {
 
-    m_waypoints.append(val);
+   m_waypoints.append(val);
+      return true;
 }
 
 // getter for VoyageData
@@ -198,13 +202,14 @@ int VoyageData::countOfWaypoints() const {
 }
 
 // setter for VoyageData
-void VoyageData::setAirDraught(float val) {
+bool VoyageData::setAirDraught(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_airDraughtPresent = true;
     m_airDraught = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -220,9 +225,11 @@ bool VoyageData::hasAirDraught() const {
 }
 
 // setter for VoyageData
-void VoyageData::setId(int val) {
+bool VoyageData::setId(int val) {
 
+    m_idPresent = true;
     m_id = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -232,7 +239,7 @@ int VoyageData::getId() const {
 }
 
 // setter for VoyageData
-void VoyageData::setCargoTypeIMO(int val) {
+bool VoyageData::setCargoTypeIMO(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 0 ) &&
@@ -241,9 +248,10 @@ void VoyageData::setCargoTypeIMO(int val) {
          ( val != 3 ) &&
          ( val != 4 ) &&
          ( val != 5 ) )
-        return;
+        return false;
     m_cargoTypeIMOPresent = true;
     m_cargoTypeIMO = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -259,10 +267,11 @@ bool VoyageData::hasCargoTypeIMO() const {
 }
 
 // setter for VoyageData
-void VoyageData::setContactIdentity(QString val) {
+bool VoyageData::setContactIdentity(QString val) {
 
     m_contactIdentityPresent = true;
     m_contactIdentity = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -278,10 +287,11 @@ bool VoyageData::hasContactIdentity() const {
 }
 
 // setter for VoyageData
-void VoyageData::setDestCode(QString val) {
+bool VoyageData::setDestCode(QString val) {
 
     m_destCodePresent = true;
     m_destCode = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -297,10 +307,11 @@ bool VoyageData::hasDestCode() const {
 }
 
 // setter for VoyageData
-void VoyageData::setDestName(QString val) {
+bool VoyageData::setDestName(QString val) {
 
     m_destNamePresent = true;
     m_destName = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -316,13 +327,54 @@ bool VoyageData::hasDestName() const {
 }
 
 // setter for VoyageData
-void VoyageData::setDraught(float val) {
+bool VoyageData::setDepartCode(QString val) {
+
+    m_departCodePresent = true;
+    m_departCode = val;
+      return true;
+}
+
+// getter for VoyageData
+QString VoyageData::getDepartCode() const {
+
+    return m_departCode;
+}
+
+// check if optional element VoyageData has been set
+bool VoyageData::hasDepartCode() const {
+
+    return m_departCodePresent;
+}
+
+// setter for VoyageData
+bool VoyageData::setDepartName(QString val) {
+
+    m_departNamePresent = true;
+    m_departName = val;
+      return true;
+}
+
+// getter for VoyageData
+QString VoyageData::getDepartName() const {
+
+    return m_departName;
+}
+
+// check if optional element VoyageData has been set
+bool VoyageData::hasDepartName() const {
+
+    return m_departNamePresent;
+}
+
+// setter for VoyageData
+bool VoyageData::setDraught(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_draughtPresent = true;
     m_draught = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -338,10 +390,11 @@ bool VoyageData::hasDraught() const {
 }
 
 // setter for VoyageData
-void VoyageData::setETA(QDateTime val) {
+bool VoyageData::setETA(QDateTime val) {
 
     m_ETAPresent = true;
     m_ETA = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -357,15 +410,36 @@ bool VoyageData::hasETA() const {
 }
 
 // setter for VoyageData
-void VoyageData::setISPSLevel(float val) {
+bool VoyageData::setATD(QDateTime val) {
+
+    m_ATDPresent = true;
+    m_ATD = val;
+      return true;
+}
+
+// getter for VoyageData
+QDateTime VoyageData::getATD() const {
+
+    return m_ATD;
+}
+
+// check if optional element VoyageData has been set
+bool VoyageData::hasATD() const {
+
+    return m_ATDPresent;
+}
+
+// setter for VoyageData
+bool VoyageData::setISPSLevel(float val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return false;
     m_ISPSLevelPresent = true;
     m_ISPSLevel = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -381,13 +455,14 @@ bool VoyageData::hasISPSLevel() const {
 }
 
 // setter for VoyageData
-void VoyageData::setOverSizedLength(float val) {
+bool VoyageData::setOverSizedLength(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_overSizedLengthPresent = true;
     m_overSizedLength = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -403,13 +478,14 @@ bool VoyageData::hasOverSizedLength() const {
 }
 
 // setter for VoyageData
-void VoyageData::setOverSizedWidth(float val) {
+bool VoyageData::setOverSizedWidth(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_overSizedWidthPresent = true;
     m_overSizedWidth = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -425,36 +501,18 @@ bool VoyageData::hasOverSizedWidth() const {
 }
 
 // setter for VoyageData
-void VoyageData::setNextPort(QString val) {
-
-    m_nextPortPresent = true;
-    m_nextPort = val;
-}
-
-// getter for VoyageData
-QString VoyageData::getNextPort() const {
-
-    return m_nextPort;
-}
-
-// check if optional element VoyageData has been set
-bool VoyageData::hasNextPort() const {
-
-    return m_nextPortPresent;
-}
-
-// setter for VoyageData
-void VoyageData::setPersonsOnBoard(float val) {
+bool VoyageData::setPersonsOnBoard(int val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_personsOnBoardPresent = true;
     m_personsOnBoard = val;
+      return true;
 }
 
 // getter for VoyageData
-float VoyageData::getPersonsOnBoard() const {
+int VoyageData::getPersonsOnBoard() const {
 
     return m_personsOnBoard;
 }
@@ -466,13 +524,14 @@ bool VoyageData::hasPersonsOnBoard() const {
 }
 
 // setter for VoyageData
-void VoyageData::setPilots(float val) {
+bool VoyageData::setPilots(float val) {
     // check if the new value is within bounds 
 
     if (val < 0)
-        return;
+        return false;
     m_pilotsPresent = true;
     m_pilots = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -488,29 +547,11 @@ bool VoyageData::hasPilots() const {
 }
 
 // setter for VoyageData
-void VoyageData::setPrevPort(QString val) {
-
-    m_prevPortPresent = true;
-    m_prevPort = val;
-}
-
-// getter for VoyageData
-QString VoyageData::getPrevPort() const {
-
-    return m_prevPort;
-}
-
-// check if optional element VoyageData has been set
-bool VoyageData::hasPrevPort() const {
-
-    return m_prevPortPresent;
-}
-
-// setter for VoyageData
-void VoyageData::setRouteBound(bool val) {
+bool VoyageData::setRouteBound(bool val) {
 
     m_routeBoundPresent = true;
     m_routeBound = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -526,10 +567,11 @@ bool VoyageData::hasRouteBound() const {
 }
 
 // setter for VoyageData
-void VoyageData::setSourceId(QString val) {
+bool VoyageData::setSourceId(QString val) {
 
     m_sourceIdPresent = true;
     m_sourceId = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -545,9 +587,11 @@ bool VoyageData::hasSourceId() const {
 }
 
 // setter for VoyageData
-void VoyageData::setSourceName(QString val) {
+bool VoyageData::setSourceName(QString val) {
 
+    m_sourceNamePresent = true;
     m_sourceName = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -557,7 +601,7 @@ QString VoyageData::getSourceName() const {
 }
 
 // setter for VoyageData
-void VoyageData::setSourceType(int val) {
+bool VoyageData::setSourceType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
@@ -565,8 +609,10 @@ void VoyageData::setSourceType(int val) {
          ( val != 3 ) &&
          ( val != 4 ) &&
          ( val != 5 ) )
-        return;
+        return false;
+    m_sourceTypePresent = true;
     m_sourceType = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -576,15 +622,16 @@ int VoyageData::getSourceType() const {
 }
 
 // setter for VoyageData
-void VoyageData::setTankerStatus(int val) {
+bool VoyageData::setTankerStatus(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
          ( val != 2 ) )
-        return;
+        return false;
     m_tankerStatusPresent = true;
     m_tankerStatus = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -600,10 +647,11 @@ bool VoyageData::hasTankerStatus() const {
 }
 
 // setter for VoyageData
-void VoyageData::setTugs(bool val) {
+bool VoyageData::setTugs(bool val) {
 
     m_tugsPresent = true;
     m_tugs = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -619,9 +667,11 @@ bool VoyageData::hasTugs() const {
 }
 
 // setter for VoyageData
-void VoyageData::setUpdateTime(QDateTime val) {
+bool VoyageData::setUpdateTime(QDateTime val) {
 
+    m_updateTimePresent = true;
     m_updateTime = val;
+      return true;
 }
 
 // getter for VoyageData
@@ -631,17 +681,23 @@ QDateTime VoyageData::getUpdateTime() const {
 }
 
 // Get XML Representation
-QString VoyageData::toXML() {
+QString VoyageData::toXML() const {
 
     QString xml = "<VoyageData";
+    QString dataMember;
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
-        xml.append(" AirDraught=\"" + QString::number(m_airDraught, 'f') + "\"");
+        xml.append(" AirDraught=\"" + QString::number(m_airDraught, 'f', 2) + "\"");
     }
-    xml.append(" Id=\"" + QString::number(m_id) + "\"");
+    // check for presence of required  attribute
+    if ( m_idPresent) {
+        xml.append(" Id=\"" + QString::number( m_id ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasCargoTypeIMO() ) {
-        xml.append(" CargoTypeIMO=\"" + QString::number(m_cargoTypeIMO) + "\"");
+        xml.append(" CargoTypeIMO=\"" + QString::number( m_cargoTypeIMO ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasContactIdentity() ) {
@@ -656,65 +712,92 @@ QString VoyageData::toXML() {
         xml.append(" DestName=\"" + encode (m_destName) + "\"");
     }
     // check for presence of optional attribute
+    if ( hasDepartCode() ) {
+        xml.append(" DepartCode=\"" + encode (m_departCode) + "\"");
+    }
+    // check for presence of optional attribute
+    if ( hasDepartName() ) {
+        xml.append(" DepartName=\"" + encode (m_departName) + "\"");
+    }
+    // check for presence of optional attribute
     if ( hasDraught() ) {
-        xml.append(" Draught=\"" + QString::number(m_draught, 'f') + "\"");
+        xml.append(" Draught=\"" + QString::number(m_draught, 'f', 2) + "\"");
     }
     // check for presence of optional attribute
     if ( hasETA() ) {
         xml.append(" ETA=\"" + m_ETA.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
     }
     // check for presence of optional attribute
+    if ( hasATD() ) {
+        xml.append(" ATD=\"" + m_ATD.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    }
+    // check for presence of optional attribute
     if ( hasISPSLevel() ) {
-        xml.append(" ISPSLevel=\"" + QString::number(m_ISPSLevel, 'f') + "\"");
+        xml.append(" ISPSLevel=\"" + QString::number( m_ISPSLevel, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasOverSizedLength() ) {
-        xml.append(" OverSizedLength=\"" + QString::number(m_overSizedLength, 'f') + "\"");
+        xml.append(" OverSizedLength=\"" + QString::number(m_overSizedLength, 'f', 1) + "\"");
     }
     // check for presence of optional attribute
     if ( hasOverSizedWidth() ) {
-        xml.append(" OverSizedWidth=\"" + QString::number(m_overSizedWidth, 'f') + "\"");
-    }
-    // check for presence of optional attribute
-    if ( hasNextPort() ) {
-        xml.append(" NextPort=\"" + encode (m_nextPort) + "\"");
+        xml.append(" OverSizedWidth=\"" + QString::number(m_overSizedWidth, 'f', 1) + "\"");
     }
     // check for presence of optional attribute
     if ( hasPersonsOnBoard() ) {
-        xml.append(" PersonsOnBoard=\"" + QString::number(m_personsOnBoard, 'f') + "\"");
+        xml.append(" PersonsOnBoard=\"" + QString::number( m_personsOnBoard ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasPilots() ) {
-        xml.append(" Pilots=\"" + QString::number(m_pilots, 'f') + "\"");
-    }
-    // check for presence of optional attribute
-    if ( hasPrevPort() ) {
-        xml.append(" PrevPort=\"" + encode (m_prevPort) + "\"");
+        xml.append(" Pilots=\"" + QString::number( m_pilots, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasRouteBound() ) {
-        xml.append(" RouteBound=\"" + QString(m_routeBound ? "true" : "false" ) + "\"");
+        xml.append(" RouteBound=\"" + QString( m_routeBound ? "true" : "false" ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasSourceId() ) {
         xml.append(" SourceId=\"" + encode (m_sourceId) + "\"");
     }
-    xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
-    xml.append(" SourceType=\"" + QString::number(m_sourceType) + "\"");
+    // check for presence of required  attribute
+    if ( m_sourceNamePresent) {
+        xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_sourceTypePresent) {
+        xml.append(" SourceType=\"" + QString::number( m_sourceType ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasTankerStatus() ) {
-        xml.append(" TankerStatus=\"" + QString::number(m_tankerStatus) + "\"");
+        xml.append(" TankerStatus=\"" + QString::number( m_tankerStatus ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasTugs() ) {
-        xml.append(" Tugs=\"" + QString(m_tugs ? "true" : "false" ) + "\"");
+        xml.append(" Tugs=\"" + QString( m_tugs ? "true" : "false" ) + "\"");
     }
-    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    // check for presence of required  attribute
+    if ( m_updateTimePresent) {
+        xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append(">\n");
+    if (m_waypoints.count() < 0) {
+        return NULL; // not enough values
+    }
     // add all included data
     for(int i=0; i < m_waypoints.count(); i++ ) {
         Waypoint attribute = m_waypoints.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</VoyageData>\n");
     return xml;
@@ -732,12 +815,12 @@ QString VoyageData::toString(QString lead) {
     QString str = lead + "VoyageData\n";
     // check for presence of optional attribute
     if ( hasAirDraught() ) {
-        str.append( lead + "    AirDraught = " + QString::number(m_airDraught, 'f') + "\n");
+        str.append( lead + "    AirDraught = " + QString::number(m_airDraught, 'f', 2) + "\n");
     }
-    str.append( lead + "    Id = " + QString::number(m_id) + "\n");
+     str.append( lead + "    Id = " + QString::number( m_id ) + "\n");
     // check for presence of optional attribute
     if ( hasCargoTypeIMO() ) {
-        str.append( lead + "    CargoTypeIMO = " + QString::number(m_cargoTypeIMO) + "\n");
+        str.append( lead + "    CargoTypeIMO = " + QString::number( m_cargoTypeIMO ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasContactIdentity() ) {
@@ -752,64 +835,68 @@ QString VoyageData::toString(QString lead) {
         str.append( lead + "    DestName = " + m_destName + "\n");
     }
     // check for presence of optional attribute
+    if ( hasDepartCode() ) {
+        str.append( lead + "    DepartCode = " + m_departCode + "\n");
+    }
+    // check for presence of optional attribute
+    if ( hasDepartName() ) {
+        str.append( lead + "    DepartName = " + m_departName + "\n");
+    }
+    // check for presence of optional attribute
     if ( hasDraught() ) {
-        str.append( lead + "    Draught = " + QString::number(m_draught, 'f') + "\n");
+        str.append( lead + "    Draught = " + QString::number(m_draught, 'f', 2) + "\n");
     }
     // check for presence of optional attribute
     if ( hasETA() ) {
         str.append( lead + "    ETA = " + m_ETA.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     }
     // check for presence of optional attribute
+    if ( hasATD() ) {
+        str.append( lead + "    ATD = " + m_ATD.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+    }
+    // check for presence of optional attribute
     if ( hasISPSLevel() ) {
-        str.append( lead + "    ISPSLevel = " + QString::number(m_ISPSLevel, 'f') + "\n");
+        str.append( lead + "    ISPSLevel = " + QString::number( m_ISPSLevel, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasOverSizedLength() ) {
-        str.append( lead + "    OverSizedLength = " + QString::number(m_overSizedLength, 'f') + "\n");
+        str.append( lead + "    OverSizedLength = " + QString::number(m_overSizedLength, 'f', 1) + "\n");
     }
     // check for presence of optional attribute
     if ( hasOverSizedWidth() ) {
-        str.append( lead + "    OverSizedWidth = " + QString::number(m_overSizedWidth, 'f') + "\n");
-    }
-    // check for presence of optional attribute
-    if ( hasNextPort() ) {
-        str.append( lead + "    NextPort = " + m_nextPort + "\n");
+        str.append( lead + "    OverSizedWidth = " + QString::number(m_overSizedWidth, 'f', 1) + "\n");
     }
     // check for presence of optional attribute
     if ( hasPersonsOnBoard() ) {
-        str.append( lead + "    PersonsOnBoard = " + QString::number(m_personsOnBoard, 'f') + "\n");
+        str.append( lead + "    PersonsOnBoard = " + QString::number( m_personsOnBoard ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasPilots() ) {
-        str.append( lead + "    Pilots = " + QString::number(m_pilots, 'f') + "\n");
-    }
-    // check for presence of optional attribute
-    if ( hasPrevPort() ) {
-        str.append( lead + "    PrevPort = " + m_prevPort + "\n");
+        str.append( lead + "    Pilots = " + QString::number( m_pilots, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasRouteBound() ) {
-        str.append( lead + "    RouteBound = " + QString(m_routeBound ? "true" : "false" ) + "\n");
+        str.append( lead + "    RouteBound = " + QString( m_routeBound ? "true" : "false" ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasSourceId() ) {
         str.append( lead + "    SourceId = " + m_sourceId + "\n");
     }
-    str.append( lead + "    SourceName = " + m_sourceName + "\n");
-    str.append( lead + "    SourceType = " + QString::number(m_sourceType) + "\n");
+     str.append( lead + "    SourceName = " + m_sourceName + "\n");
+     str.append( lead + "    SourceType = " + QString::number( m_sourceType ) + "\n");
     // check for presence of optional attribute
     if ( hasTankerStatus() ) {
-        str.append( lead + "    TankerStatus = " + QString::number(m_tankerStatus) + "\n");
+        str.append( lead + "    TankerStatus = " + QString::number( m_tankerStatus ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasTugs() ) {
-        str.append( lead + "    Tugs = " + QString(m_tugs ? "true" : "false" ) + "\n");
+        str.append( lead + "    Tugs = " + QString( m_tugs ? "true" : "false" ) + "\n");
     }
-    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+     str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     // add all included data
     for(int i=0; i < m_waypoints.count(); i++ ) {
-       Waypoint attribute = m_waypoints.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        Waypoint attribute = m_waypoints.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     return str;
 }

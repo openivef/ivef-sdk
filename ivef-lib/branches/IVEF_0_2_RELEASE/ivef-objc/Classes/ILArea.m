@@ -7,8 +7,8 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_posPresent = NO;
         m_poss = [[NSMutableArray alloc] init];
+        m_posPresent = NO;
         m_namePresent = NO;
     }
     return self;
@@ -29,7 +29,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -50,15 +50,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -137,14 +137,11 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"Pos"]) {
-                ILPos * val = [attributeDict objectForKey: key];
-                if (![self addPos: val]) {
+            if ([key isEqualToString: @"Name"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                if (![self setName: val]) {
                    return NO;
                 }
-            }
-            else if ([key isEqualToString:@"Name"]) {
-                NSString *val = [attributeDict objectForKey: key];
                 if (![self setName: val]) {
                    return NO;
                 }
@@ -156,6 +153,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Area"];
+    NSString *dataMember;
     if ( [self hasName] ) {
         [xml appendString: @" Name=\""];
         [xml appendString: [self encode: m_name]];
@@ -168,7 +166,13 @@
     }
     for(int i=0; i < [m_poss count]; i++ ) {
         ILPos *attribute = [m_poss objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pos" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</Area>\n"];
     return xml;

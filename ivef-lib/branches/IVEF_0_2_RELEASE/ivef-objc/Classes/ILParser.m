@@ -8,6 +8,7 @@
     self = [super init];
     if (self != nil) {
         m_dataBuffer = [[NSMutableString alloc] init];
+        m_characterBuffer = [[NSMutableString alloc] init];
         m_objStack = [[NSMutableArray alloc] init];
         m_closeTags = [[NSArray arrayWithObjects:@"</MSG_IVEF>", nil] retain];
     }
@@ -21,11 +22,18 @@
         [super dealloc];
 }
 
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+    [m_characterBuffer appendString: [string stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+}
+
 - (void)     parser:(NSXMLParser *)parser 
     didStartElement:(NSString *)elementName
        namespaceURI:(NSString *)namespaceURI
       qualifiedName:(NSString *)qualifiedName
          attributes:(NSDictionary *)attributeDict {
+    // clear the character buffer
+    [m_characterBuffer setString: @""];
+
     // check all possible options
     if ([elementName isEqualToString: @"MSG_IVEF"]) {
         ILMSG_IVEF *obj = [[ILMSG_IVEF alloc] init];
@@ -197,6 +205,14 @@
     }
     else if ([elementName isEqualToString: @"TrackData"]) {
         ILTrackData *obj = [[ILTrackData alloc] init];
+        if (! [obj setAttributes: attributeDict] ) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @"description"]];
+        };
+        [m_objStack addObject: obj ];
+        [obj release];
+    }
+    else if ([elementName isEqualToString: @"NavStatus"]) {
+        ILNavStatus *obj = [[ILNavStatus alloc] init];
         if (! [obj setAttributes: attributeDict] ) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @"description"]];
         };
@@ -523,6 +539,18 @@
         [m_objStack removeLastObject];
         if ( [[m_objStack lastObject] isKindOfClass: [ILObjectData class]]) {
                 if (! [((ILObjectData*) [m_objStack lastObject] ) setTrackData: obj ] ) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @"description"]];
+                };
+        }
+        [obj release]; 
+    }
+    else if ([elementName isEqualToString: @"NavStatus"]) {
+
+        ILNavStatus *obj = (ILNavStatus*) [m_objStack lastObject];
+        [obj retain];
+        [m_objStack removeLastObject];
+        if ( [[m_objStack lastObject] isKindOfClass: [ILTrackData class]]) {
+                if (! [((ILTrackData*) [m_objStack lastObject] ) addNavStatus: obj ] ) {
                    [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: elementName forKey: @"description"]];
                 };
         }

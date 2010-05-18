@@ -1,8 +1,0 @@
-<MSG_IVEF xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:http://www.ivef.org/XMLSchema/IVEF/1.1
-\\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
-	<Header MsgRefId="String" Version="String"/>
-	<Body>
-		<Logout/>
-	</Body>
-</MSG_IVEF>
-

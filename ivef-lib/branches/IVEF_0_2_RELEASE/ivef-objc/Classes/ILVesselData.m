@@ -40,7 +40,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -61,15 +61,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -278,21 +278,12 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"Construction"]) {
-                ILConstruction * val = [attributeDict objectForKey: key];
-                if (![self setConstruction: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Identifier"]) {
-                ILIdentifier * val = [attributeDict objectForKey: key];
-                if (![self setIdentifier: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Class"]) {
+            if ([key isEqualToString: @"Class"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setClass: val]) {
+                   return NO;
+                }
                 if (![self setClass: val]) {
                    return NO;
                 }
@@ -305,10 +296,16 @@
                 if (![self setBlackListed: val]) {
                    return NO;
                 }
+                if (![self setBlackListed: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Id"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setIdent: val]) {
+                   return NO;
+                }
                 if (![self setIdent: val]) {
                    return NO;
                 }
@@ -318,15 +315,24 @@
                 if (![self setSpecialAttention: val]) {
                    return NO;
                 }
+                if (![self setSpecialAttention: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setSourceId: val]) {
                    return NO;
                 }
+                if (![self setSourceId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setSourceName: val]) {
+                   return NO;
+                }
                 if (![self setSourceName: val]) {
                    return NO;
                 }
@@ -337,10 +343,16 @@
                 if (![self setSourceType: val]) {
                    return NO;
                 }
+                if (![self setSourceType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
+                if (![self setUpdateTime: val]) {
+                   return NO;
+                }
                 if (![self setUpdateTime: val]) {
                    return NO;
                 }
@@ -352,6 +364,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VesselData"];
+    NSString *dataMember;
     if ( [self hasClass] ) {
         [xml appendString: @" Class=\""];
         [xml appendString: [NSString stringWithFormat:@"%d", m_class]];
@@ -406,10 +419,22 @@
     }
     [xml appendString:@">\n"];
     if ( [self hasConstruction] ) {
-        [xml appendString: [m_construction XML] ];
+        dataMember = [m_construction XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Construction" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasIdentifier] ) {
-        [xml appendString: [m_identifier XML] ];
+        dataMember = [m_identifier XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Identifier" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</VesselData>\n"];
     return xml;

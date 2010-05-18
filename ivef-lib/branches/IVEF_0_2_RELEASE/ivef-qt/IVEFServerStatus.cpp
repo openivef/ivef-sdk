@@ -6,14 +6,13 @@ ServerStatus::ServerStatus() {
 
     // initialize empty string
     m_contactIdentity = "";
-    // optional attributes are by default not present
     m_contactIdentityPresent = false;
     // initialize empty string
     m_details = "";
-    // optional attributes are by default not present
     m_detailsPresent = false;
     // initialize defaults to false
     m_status = false;
+    m_statusPresent = false;
 }
 
 // copy constructor
@@ -23,6 +22,7 @@ ServerStatus::ServerStatus(const ServerStatus &val) : QObject() {
     m_contactIdentity = val.m_contactIdentity;
     m_detailsPresent = val.m_detailsPresent;
     m_details = val.m_details;
+    m_statusPresent = val.m_statusPresent;
     m_status = val.m_status;
 }
 
@@ -33,12 +33,13 @@ ServerStatus & ServerStatus::operator=(const ServerStatus &val) {
     m_contactIdentity = val.m_contactIdentity;
     m_detailsPresent = val.m_detailsPresent;
     m_details = val.m_details;
+    m_statusPresent = val.m_statusPresent;
     m_status = val.m_status;
     return *this;
 }
 
 // String encoder
-QString ServerStatus::encode( QString str) {
+QString ServerStatus::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -49,10 +50,11 @@ QString ServerStatus::encode( QString str) {
 }
 
 // setter for ServerStatus
-void ServerStatus::setContactIdentity(QString val) {
+bool ServerStatus::setContactIdentity(QString val) {
 
     m_contactIdentityPresent = true;
     m_contactIdentity = val;
+      return true;
 }
 
 // getter for ServerStatus
@@ -68,10 +70,11 @@ bool ServerStatus::hasContactIdentity() const {
 }
 
 // setter for ServerStatus
-void ServerStatus::setDetails(QString val) {
+bool ServerStatus::setDetails(QString val) {
 
     m_detailsPresent = true;
     m_details = val;
+      return true;
 }
 
 // getter for ServerStatus
@@ -87,9 +90,11 @@ bool ServerStatus::hasDetails() const {
 }
 
 // setter for ServerStatus
-void ServerStatus::setStatus(bool val) {
+bool ServerStatus::setStatus(bool val) {
 
+    m_statusPresent = true;
     m_status = val;
+      return true;
 }
 
 // getter for ServerStatus
@@ -99,9 +104,10 @@ bool ServerStatus::getStatus() const {
 }
 
 // Get XML Representation
-QString ServerStatus::toXML() {
+QString ServerStatus::toXML() const {
 
     QString xml = "<ServerStatus";
+    QString dataMember;
     // check for presence of optional attribute
     if ( hasContactIdentity() ) {
         xml.append(" ContactIdentity=\"" + encode (m_contactIdentity) + "\"");
@@ -110,7 +116,12 @@ QString ServerStatus::toXML() {
     if ( hasDetails() ) {
         xml.append(" Details=\"" + encode (m_details) + "\"");
     }
-    xml.append(" Status=\"" + QString(m_status ? "true" : "false" ) + "\"");
+    // check for presence of required  attribute
+    if ( m_statusPresent) {
+        xml.append(" Status=\"" + QString( m_status ? "true" : "false" ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }
@@ -133,7 +144,7 @@ QString ServerStatus::toString(QString lead) {
     if ( hasDetails() ) {
         str.append( lead + "    Details = " + m_details + "\n");
     }
-    str.append( lead + "    Status = " + QString(m_status ? "true" : "false" ) + "\n");
+     str.append( lead + "    Status = " + QString( m_status ? "true" : "false" ) + "\n");
     return str;
 }
 

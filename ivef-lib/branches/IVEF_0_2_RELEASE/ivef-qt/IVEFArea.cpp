@@ -6,13 +6,13 @@ Area::Area() {
 
     // initialize empty string
     m_name = "";
-    // optional attributes are by default not present
     m_namePresent = false;
 }
 
 // copy constructor
 Area::Area(const Area &val) : QObject() {
 
+    m_posPresent = val.m_posPresent;
     m_poss = val.m_poss;
     m_namePresent = val.m_namePresent;
     m_name = val.m_name;
@@ -21,6 +21,7 @@ Area::Area(const Area &val) : QObject() {
 // assignement
 Area & Area::operator=(const Area &val) {
 
+    m_posPresent = val.m_posPresent;
     m_poss = val.m_poss;
     m_namePresent = val.m_namePresent;
     m_name = val.m_name;
@@ -28,7 +29,7 @@ Area & Area::operator=(const Area &val) {
 }
 
 // String encoder
-QString Area::encode( QString str) {
+QString Area::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -39,9 +40,10 @@ QString Area::encode( QString str) {
 }
 
 // setter for Area
-void Area::addPos(Pos val) {
+bool Area::addPos(Pos val) {
 
-    m_poss.append(val);
+   m_poss.append(val);
+      return true;
 }
 
 // getter for Area
@@ -57,10 +59,11 @@ int Area::countOfPoss() const {
 }
 
 // setter for Area
-void Area::setName(QString val) {
+bool Area::setName(QString val) {
 
     m_namePresent = true;
     m_name = val;
+      return true;
 }
 
 // getter for Area
@@ -76,18 +79,27 @@ bool Area::hasName() const {
 }
 
 // Get XML Representation
-QString Area::toXML() {
+QString Area::toXML() const {
 
     QString xml = "<Area";
+    QString dataMember;
     // check for presence of optional attribute
     if ( hasName() ) {
         xml.append(" Name=\"" + encode (m_name) + "\"");
     }
     xml.append(">\n");
+    if (m_poss.count() < 3) {
+        return NULL; // not enough values
+    }
     // add all included data
     for(int i=0; i < m_poss.count(); i++ ) {
         Pos attribute = m_poss.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</Area>\n");
     return xml;
@@ -109,8 +121,8 @@ QString Area::toString(QString lead) {
     }
     // add all included data
     for(int i=0; i < m_poss.count(); i++ ) {
-       Pos attribute = m_poss.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        Pos attribute = m_poss.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     return str;
 }

@@ -7,13 +7,16 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_otherIdPresent = NO;
         m_otherIds = [[NSMutableArray alloc] init];
-        m_otherNamePresent = NO;
+        m_otherIdPresent = NO;
         m_otherNames = [[NSMutableArray alloc] init];
+        m_otherNamePresent = NO;
         m_callsignPresent = NO;
         m_IMOPresent = NO;
         m_namePresent = NO;
+        m_formerNamePresent = NO;
+        m_flagPresent = NO;
+        m_ownerPresent = NO;
         m_MMSIPresent = NO;
         m_LRITPresent = NO;
     }
@@ -26,6 +29,9 @@
     [m_otherNames release];
     [m_callsign release];
     [m_name release];
+    [m_formerName release];
+    [m_flag release];
+    [m_owner release];
     [m_LRIT release];
     [super dealloc];
 }
@@ -38,7 +44,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -59,15 +65,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -194,6 +200,63 @@
     return m_namePresent;
 }
 
+-(BOOL) setFormerName:(NSString *) val {
+
+    m_formerNamePresent = YES;
+    [m_formerName release];
+    m_formerName = val;
+    [m_formerName retain];
+    return YES;
+}
+
+- (NSString *) formerName {
+
+    return m_formerName;
+}
+
+-(BOOL) hasFormerName {
+
+    return m_formerNamePresent;
+}
+
+-(BOOL) setFlag:(NSString *) val {
+
+    m_flagPresent = YES;
+    [m_flag release];
+    m_flag = val;
+    [m_flag retain];
+    return YES;
+}
+
+- (NSString *) flag {
+
+    return m_flag;
+}
+
+-(BOOL) hasFlag {
+
+    return m_flagPresent;
+}
+
+-(BOOL) setOwner:(NSString *) val {
+
+    m_ownerPresent = YES;
+    [m_owner release];
+    m_owner = val;
+    [m_owner retain];
+    return YES;
+}
+
+- (NSString *) owner {
+
+    return m_owner;
+}
+
+-(BOOL) hasOwner {
+
+    return m_ownerPresent;
+}
+
 -(BOOL) setMMSI:(int) val {
 
     m_MMSIPresent = YES;
@@ -239,20 +302,11 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"OtherId"]) {
-                ILOtherId * val = [attributeDict objectForKey: key];
-                if (![self addOtherId: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"OtherName"]) {
-                ILOtherName * val = [attributeDict objectForKey: key];
-                if (![self addOtherName: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Callsign"]) {
+            if ([key isEqualToString: @"Callsign"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setCallsign: val]) {
+                   return NO;
+                }
                 if (![self setCallsign: val]) {
                    return NO;
                 }
@@ -263,10 +317,43 @@
                 if (![self setIMO: val]) {
                    return NO;
                 }
+                if (![self setIMO: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Name"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setName: val]) {
+                   return NO;
+                }
+                if (![self setName: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"FormerName"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                if (![self setFormerName: val]) {
+                   return NO;
+                }
+                if (![self setFormerName: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"Flag"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                if (![self setFlag: val]) {
+                   return NO;
+                }
+                if (![self setFlag: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"Owner"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                if (![self setOwner: val]) {
+                   return NO;
+                }
+                if (![self setOwner: val]) {
                    return NO;
                 }
             }
@@ -276,9 +363,15 @@
                 if (![self setMMSI: val]) {
                    return NO;
                 }
+                if (![self setMMSI: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"LRIT"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setLRIT: val]) {
+                   return NO;
+                }
                 if (![self setLRIT: val]) {
                    return NO;
                 }
@@ -290,6 +383,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Identifier"];
+    NSString *dataMember;
     if ( [self hasCallsign] ) {
         [xml appendString: @" Callsign=\""];
         [xml appendString: [self encode: m_callsign]];
@@ -303,6 +397,21 @@
     if ( [self hasName] ) {
         [xml appendString: @" Name=\""];
         [xml appendString: [self encode: m_name]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasFormerName] ) {
+        [xml appendString: @" FormerName=\""];
+        [xml appendString: [self encode: m_formerName]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasFlag] ) {
+        [xml appendString: @" Flag=\""];
+        [xml appendString: [self encode: m_flag]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasOwner] ) {
+        [xml appendString: @" Owner=\""];
+        [xml appendString: [self encode: m_owner]];
         [xml appendString: @"\""];
     }
     if ( [self hasMMSI] ) {
@@ -322,7 +431,13 @@
     }
     for(int i=0; i < [m_otherIds count]; i++ ) {
         ILOtherId *attribute = [m_otherIds objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"OtherId" forKey: @"description"]];
+            return nil;
+        }
     }
     if ([m_otherNames count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of OtherName" forKey: @"description"]];
@@ -330,7 +445,13 @@
     }
     for(int i=0; i < [m_otherNames count]; i++ ) {
         ILOtherName *attribute = [m_otherNames objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"OtherName" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</Identifier>\n"];
     return xml;
@@ -378,6 +499,27 @@
         [str appendString: @"\n"];
 
     }
+    if ( [self hasFormerName] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"FormerName = "];
+        [str appendString: m_formerName];
+        [str appendString: @"\n"];
+
+    }
+    if ( [self hasFlag] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"Flag = "];
+        [str appendString: m_flag];
+        [str appendString: @"\n"];
+
+    }
+    if ( [self hasOwner] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"Owner = "];
+        [str appendString: m_owner];
+        [str appendString: @"\n"];
+
+    }
     if ( [self hasMMSI] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"MMSI = "];
@@ -414,6 +556,15 @@
     }
     if ( [self hasName] ) {
         [attr setObject: m_name forKey: @"Name"];
+    }
+    if ( [self hasFormerName] ) {
+        [attr setObject: m_formerName forKey: @"FormerName"];
+    }
+    if ( [self hasFlag] ) {
+        [attr setObject: m_flag forKey: @"Flag"];
+    }
+    if ( [self hasOwner] ) {
+        [attr setObject: m_owner forKey: @"Owner"];
     }
     if ( [self hasMMSI] ) {
         [attr setObject: [NSString stringWithFormat:@"%d", m_MMSI] forKey: @"MMSI"];

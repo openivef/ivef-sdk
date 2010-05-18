@@ -8,12 +8,12 @@
     self = [super init];
     if (self != nil) {
         m_trackDataPresent = NO;
-        m_vesselDataPresent = NO;
         m_vesselDatas = [[NSMutableArray alloc] init];
-        m_voyageDataPresent = NO;
+        m_vesselDataPresent = NO;
         m_voyageDatas = [[NSMutableArray alloc] init];
-        m_taggedItemPresent = NO;
+        m_voyageDataPresent = NO;
         m_taggedItems = [[NSMutableArray alloc] init];
+        m_taggedItemPresent = NO;
     }
     return self;
 }
@@ -35,7 +35,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -56,15 +56,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -178,47 +178,22 @@
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
-#if defined (__clang__)
-        NSEnumerator *enumerator = [attributeDict keyEnumerator];
-        NSString *key;
-        while (key = [enumerator nextObject]) {
-#else
-        for (NSString *key in attributeDict) {
-#endif
-            if ([key isEqualToString: @"TrackData"]) {
-                ILTrackData * val = [attributeDict objectForKey: key];
-                if (![self setTrackData: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"VesselData"]) {
-                ILVesselData * val = [attributeDict objectForKey: key];
-                if (![self addVesselData: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"VoyageData"]) {
-                ILVoyageData * val = [attributeDict objectForKey: key];
-                if (![self addVoyageData: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"TaggedItem"]) {
-                ILTaggedItem * val = [attributeDict objectForKey: key];
-                if (![self addTaggedItem: val]) {
-                   return NO;
-                }
-            }
-        }
         return YES;
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ObjectData"];
+    NSString *dataMember;
     [xml appendString:@">\n"];
     if ( [self hasTrackData] ) {
-        [xml appendString: [m_trackData XML] ];
+        dataMember = [m_trackData XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"TrackData" forKey: @"description"]];
+            return nil;
+        }
     }
     if ([m_vesselDatas count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of VesselData" forKey: @"description"]];
@@ -226,7 +201,13 @@
     }
     for(int i=0; i < [m_vesselDatas count]; i++ ) {
         ILVesselData *attribute = [m_vesselDatas objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"VesselData" forKey: @"description"]];
+            return nil;
+        }
     }
     if ([m_voyageDatas count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of VoyageData" forKey: @"description"]];
@@ -234,7 +215,13 @@
     }
     for(int i=0; i < [m_voyageDatas count]; i++ ) {
         ILVoyageData *attribute = [m_voyageDatas objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"VoyageData" forKey: @"description"]];
+            return nil;
+        }
     }
     if ([m_taggedItems count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of TaggedItem" forKey: @"description"]];
@@ -242,7 +229,13 @@
     }
     for(int i=0; i < [m_taggedItems count]; i++ ) {
         ILTaggedItem *attribute = [m_taggedItems objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"TaggedItem" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</ObjectData>\n"];
     return xml;

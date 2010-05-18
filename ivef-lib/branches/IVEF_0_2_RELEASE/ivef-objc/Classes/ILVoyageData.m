@@ -7,23 +7,24 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_waypointPresent = NO;
         m_waypoints = [[NSMutableArray alloc] init];
+        m_waypointPresent = NO;
         m_airDraughtPresent = NO;
         m_idPresent = NO;
         m_cargoTypeIMOPresent = NO;
         m_contactIdentityPresent = NO;
         m_destCodePresent = NO;
         m_destNamePresent = NO;
+        m_departCodePresent = NO;
+        m_departNamePresent = NO;
         m_draughtPresent = NO;
         m_ETAPresent = NO;
+        m_ATDPresent = NO;
         m_ISPSLevelPresent = NO;
         m_overSizedLengthPresent = NO;
         m_overSizedWidthPresent = NO;
-        m_nextPortPresent = NO;
         m_personsOnBoardPresent = NO;
         m_pilotsPresent = NO;
-        m_prevPortPresent = NO;
         m_routeBoundPresent = NO;
         m_sourceIdPresent = NO;
         m_sourceNamePresent = NO;
@@ -41,9 +42,10 @@
     [m_contactIdentity release];
     [m_destCode release];
     [m_destName release];
+    [m_departCode release];
+    [m_departName release];
     [m_ETA release];
-    [m_nextPort release];
-    [m_prevPort release];
+    [m_ATD release];
     [m_sourceId release];
     [m_sourceName release];
     [m_updateTime release];
@@ -58,7 +60,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -79,15 +81,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -250,6 +252,44 @@
     return m_destNamePresent;
 }
 
+-(BOOL) setDepartCode:(NSString *) val {
+
+    m_departCodePresent = YES;
+    [m_departCode release];
+    m_departCode = val;
+    [m_departCode retain];
+    return YES;
+}
+
+- (NSString *) departCode {
+
+    return m_departCode;
+}
+
+-(BOOL) hasDepartCode {
+
+    return m_departCodePresent;
+}
+
+-(BOOL) setDepartName:(NSString *) val {
+
+    m_departNamePresent = YES;
+    [m_departName release];
+    m_departName = val;
+    [m_departName retain];
+    return YES;
+}
+
+- (NSString *) departName {
+
+    return m_departName;
+}
+
+-(BOOL) hasDepartName {
+
+    return m_departNamePresent;
+}
+
 -(BOOL) setDraught:(float) val {
 
     if (val < 0)
@@ -286,6 +326,25 @@
 -(BOOL) hasETA {
 
     return m_ETAPresent;
+}
+
+-(BOOL) setATD:(NSDate *) val {
+
+    m_ATDPresent = YES;
+    [m_ATD release];
+    m_ATD = val;
+    [m_ATD retain];
+    return YES;
+}
+
+- (NSDate *) ATD {
+
+    return m_ATD;
+}
+
+-(BOOL) hasATD {
+
+    return m_ATDPresent;
 }
 
 -(BOOL) setISPSLevel:(float) val {
@@ -347,25 +406,6 @@
     return m_overSizedWidthPresent;
 }
 
--(BOOL) setNextPort:(NSString *) val {
-
-    m_nextPortPresent = YES;
-    [m_nextPort release];
-    m_nextPort = val;
-    [m_nextPort retain];
-    return YES;
-}
-
-- (NSString *) nextPort {
-
-    return m_nextPort;
-}
-
--(BOOL) hasNextPort {
-
-    return m_nextPortPresent;
-}
-
 -(BOOL) setPersonsOnBoard:(int) val {
 
     if (val < 0)
@@ -402,25 +442,6 @@
 -(BOOL) hasPilots {
 
     return m_pilotsPresent;
-}
-
--(BOOL) setPrevPort:(NSString *) val {
-
-    m_prevPortPresent = YES;
-    [m_prevPort release];
-    m_prevPort = val;
-    [m_prevPort retain];
-    return YES;
-}
-
-- (NSString *) prevPort {
-
-    return m_prevPort;
-}
-
--(BOOL) hasPrevPort {
-
-    return m_prevPortPresent;
 }
 
 -(BOOL) setRouteBound:(BOOL) val {
@@ -552,15 +573,12 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"Waypoint"]) {
-                ILWaypoint * val = [attributeDict objectForKey: key];
-                if (![self addWaypoint: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"AirDraught"]) {
+            if ([key isEqualToString: @"AirDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setAirDraught: val]) {
+                   return NO;
+                }
                 if (![self setAirDraught: val]) {
                    return NO;
                 }
@@ -571,10 +589,16 @@
                 if (![self setIdent: val]) {
                    return NO;
                 }
+                if (![self setIdent: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"CargoTypeIMO"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setCargoTypeIMO: val]) {
+                   return NO;
+                }
                 if (![self setCargoTypeIMO: val]) {
                    return NO;
                 }
@@ -584,9 +608,15 @@
                 if (![self setContactIdentity: val]) {
                    return NO;
                 }
+                if (![self setContactIdentity: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"DestCode"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setDestCode: val]) {
+                   return NO;
+                }
                 if (![self setDestCode: val]) {
                    return NO;
                 }
@@ -596,10 +626,34 @@
                 if (![self setDestName: val]) {
                    return NO;
                 }
+                if (![self setDestName: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"DepartCode"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                if (![self setDepartCode: val]) {
+                   return NO;
+                }
+                if (![self setDepartCode: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"DepartName"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                if (![self setDepartName: val]) {
+                   return NO;
+                }
+                if (![self setDepartName: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Draught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setDraught: val]) {
+                   return NO;
+                }
                 if (![self setDraught: val]) {
                    return NO;
                 }
@@ -610,10 +664,26 @@
                 if (![self setETA: val]) {
                    return NO;
                 }
+                if (![self setETA: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"ATD"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [self dateFromString: value];
+                if (![self setATD: val]) {
+                   return NO;
+                }
+                if (![self setATD: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"ISPSLevel"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setISPSLevel: val]) {
+                   return NO;
+                }
                 if (![self setISPSLevel: val]) {
                    return NO;
                 }
@@ -624,6 +694,9 @@
                 if (![self setOverSizedLength: val]) {
                    return NO;
                 }
+                if (![self setOverSizedLength: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"OverSizedWidth"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -631,16 +704,16 @@
                 if (![self setOverSizedWidth: val]) {
                    return NO;
                 }
-            }
-            else if ([key isEqualToString:@"NextPort"]) {
-                NSString *val = [attributeDict objectForKey: key];
-                if (![self setNextPort: val]) {
+                if (![self setOverSizedWidth: val]) {
                    return NO;
                 }
             }
             else if ([key isEqualToString:@"PersonsOnBoard"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setPersonsOnBoard: val]) {
+                   return NO;
+                }
                 if (![self setPersonsOnBoard: val]) {
                    return NO;
                 }
@@ -651,10 +724,7 @@
                 if (![self setPilots: val]) {
                    return NO;
                 }
-            }
-            else if ([key isEqualToString:@"PrevPort"]) {
-                NSString *val = [attributeDict objectForKey: key];
-                if (![self setPrevPort: val]) {
+                if (![self setPilots: val]) {
                    return NO;
                 }
             }
@@ -666,15 +736,24 @@
                 if (![self setRouteBound: val]) {
                    return NO;
                 }
+                if (![self setRouteBound: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceId"]) {
                 NSString *val = [attributeDict objectForKey: key];
                 if (![self setSourceId: val]) {
                    return NO;
                 }
+                if (![self setSourceId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setSourceName: val]) {
+                   return NO;
+                }
                 if (![self setSourceName: val]) {
                    return NO;
                 }
@@ -685,10 +764,16 @@
                 if (![self setSourceType: val]) {
                    return NO;
                 }
+                if (![self setSourceType: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"TankerStatus"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 int val = [value intValue];
+                if (![self setTankerStatus: val]) {
+                   return NO;
+                }
                 if (![self setTankerStatus: val]) {
                    return NO;
                 }
@@ -701,10 +786,16 @@
                 if (![self setTugs: val]) {
                    return NO;
                 }
+                if (![self setTugs: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"UpdateTime"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
+                if (![self setUpdateTime: val]) {
+                   return NO;
+                }
                 if (![self setUpdateTime: val]) {
                    return NO;
                 }
@@ -716,9 +807,10 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<VoyageData"];
+    NSString *dataMember;
     if ( [self hasAirDraught] ) {
         [xml appendString: @" AirDraught=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_airDraught]];
+        [xml appendString: [NSString stringWithFormat:@"%.2f", m_airDraught]];
         [xml appendString: @"\""];
     }
     if ( m_idPresent ) {
@@ -749,14 +841,29 @@
         [xml appendString: [self encode: m_destName]];
         [xml appendString: @"\""];
     }
+    if ( [self hasDepartCode] ) {
+        [xml appendString: @" DepartCode=\""];
+        [xml appendString: [self encode: m_departCode]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasDepartName] ) {
+        [xml appendString: @" DepartName=\""];
+        [xml appendString: [self encode: m_departName]];
+        [xml appendString: @"\""];
+    }
     if ( [self hasDraught] ) {
         [xml appendString: @" Draught=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_draught]];
+        [xml appendString: [NSString stringWithFormat:@"%.2f", m_draught]];
         [xml appendString: @"\""];
     }
     if ( [self hasETA] ) {
         [xml appendString: @" ETA=\""];
         [xml appendString: [self stringFromDate: m_ETA]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasATD] ) {
+        [xml appendString: @" ATD=\""];
+        [xml appendString: [self stringFromDate: m_ATD]];
         [xml appendString: @"\""];
     }
     if ( [self hasISPSLevel] ) {
@@ -766,17 +873,12 @@
     }
     if ( [self hasOverSizedLength] ) {
         [xml appendString: @" OverSizedLength=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_overSizedLength]];
+        [xml appendString: [NSString stringWithFormat:@"%.1f", m_overSizedLength]];
         [xml appendString: @"\""];
     }
     if ( [self hasOverSizedWidth] ) {
         [xml appendString: @" OverSizedWidth=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_overSizedWidth]];
-        [xml appendString: @"\""];
-    }
-    if ( [self hasNextPort] ) {
-        [xml appendString: @" NextPort=\""];
-        [xml appendString: [self encode: m_nextPort]];
+        [xml appendString: [NSString stringWithFormat:@"%.1f", m_overSizedWidth]];
         [xml appendString: @"\""];
     }
     if ( [self hasPersonsOnBoard] ) {
@@ -787,11 +889,6 @@
     if ( [self hasPilots] ) {
         [xml appendString: @" Pilots=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_pilots]];
-        [xml appendString: @"\""];
-    }
-    if ( [self hasPrevPort] ) {
-        [xml appendString: @" PrevPort=\""];
-        [xml appendString: [self encode: m_prevPort]];
         [xml appendString: @"\""];
     }
     if ( [self hasRouteBound] ) {
@@ -845,7 +942,13 @@
     }
     for(int i=0; i < [m_waypoints count]; i++ ) {
         ILWaypoint *attribute = [m_waypoints objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Waypoint" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</VoyageData>\n"];
     return xml;
@@ -875,7 +978,7 @@
     if ( [self hasAirDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"AirDraught = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_airDraught]];
+        [str appendString: [NSString stringWithFormat:@"%.2f", m_airDraught]];
         [str appendString: @"\n"];
 
     }
@@ -912,10 +1015,24 @@
         [str appendString: @"\n"];
 
     }
+    if ( [self hasDepartCode] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"DepartCode = "];
+        [str appendString: m_departCode];
+        [str appendString: @"\n"];
+
+    }
+    if ( [self hasDepartName] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"DepartName = "];
+        [str appendString: m_departName];
+        [str appendString: @"\n"];
+
+    }
     if ( [self hasDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"Draught = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_draught]];
+        [str appendString: [NSString stringWithFormat:@"%.2f", m_draught]];
         [str appendString: @"\n"];
 
     }
@@ -923,6 +1040,13 @@
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ETA = "];
         [str appendString: [self stringFromDate: m_ETA]];
+        [str appendString: @"\n"];
+
+    }
+    if ( [self hasATD] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"ATD = "];
+        [str appendString: [self stringFromDate: m_ATD]];
         [str appendString: @"\n"];
 
     }
@@ -936,21 +1060,14 @@
     if ( [self hasOverSizedLength] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"OverSizedLength = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_overSizedLength]];
+        [str appendString: [NSString stringWithFormat:@"%.1f", m_overSizedLength]];
         [str appendString: @"\n"];
 
     }
     if ( [self hasOverSizedWidth] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"OverSizedWidth = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_overSizedWidth]];
-        [str appendString: @"\n"];
-
-    }
-    if ( [self hasNextPort] ) {
-        [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"NextPort = "];
-        [str appendString: m_nextPort];
+        [str appendString: [NSString stringWithFormat:@"%.1f", m_overSizedWidth]];
         [str appendString: @"\n"];
 
     }
@@ -965,13 +1082,6 @@
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"Pilots = "];
         [str appendString: [NSString stringWithFormat:@"%f", m_pilots]];
-        [str appendString: @"\n"];
-
-    }
-    if ( [self hasPrevPort] ) {
-        [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"PrevPort = "];
-        [str appendString: m_prevPort];
         [str appendString: @"\n"];
 
     }
@@ -1029,7 +1139,7 @@
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
     if ( [self hasAirDraught] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_airDraught] forKey: @"AirDraught"];
+        [attr setObject: [NSString stringWithFormat:@"%.2f", m_airDraught] forKey: @"AirDraught"];
     }
     [attr setObject: [NSString stringWithFormat:@"%d", m_id] forKey: @"Id"];
     if ( [self hasCargoTypeIMO] ) {
@@ -1044,32 +1154,35 @@
     if ( [self hasDestName] ) {
         [attr setObject: m_destName forKey: @"DestName"];
     }
+    if ( [self hasDepartCode] ) {
+        [attr setObject: m_departCode forKey: @"DepartCode"];
+    }
+    if ( [self hasDepartName] ) {
+        [attr setObject: m_departName forKey: @"DepartName"];
+    }
     if ( [self hasDraught] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_draught] forKey: @"Draught"];
+        [attr setObject: [NSString stringWithFormat:@"%.2f", m_draught] forKey: @"Draught"];
     }
     if ( [self hasETA] ) {
         [attr setObject: [self stringFromDate: m_ETA] forKey: @"ETA"];
+    }
+    if ( [self hasATD] ) {
+        [attr setObject: [self stringFromDate: m_ATD] forKey: @"ATD"];
     }
     if ( [self hasISPSLevel] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_ISPSLevel] forKey: @"ISPSLevel"];
     }
     if ( [self hasOverSizedLength] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_overSizedLength] forKey: @"OverSizedLength"];
+        [attr setObject: [NSString stringWithFormat:@"%.1f", m_overSizedLength] forKey: @"OverSizedLength"];
     }
     if ( [self hasOverSizedWidth] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_overSizedWidth] forKey: @"OverSizedWidth"];
-    }
-    if ( [self hasNextPort] ) {
-        [attr setObject: m_nextPort forKey: @"NextPort"];
+        [attr setObject: [NSString stringWithFormat:@"%.1f", m_overSizedWidth] forKey: @"OverSizedWidth"];
     }
     if ( [self hasPersonsOnBoard] ) {
         [attr setObject: [NSString stringWithFormat:@"%d", m_personsOnBoard] forKey: @"PersonsOnBoard"];
     }
     if ( [self hasPilots] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_pilots] forKey: @"Pilots"];
-    }
-    if ( [self hasPrevPort] ) {
-        [attr setObject: m_prevPort forKey: @"PrevPort"];
     }
     if ( [self hasRouteBound] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_routeBound] forKey: @"RouteBound"];

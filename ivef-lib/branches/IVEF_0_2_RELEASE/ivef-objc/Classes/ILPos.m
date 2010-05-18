@@ -30,7 +30,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -51,15 +51,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -204,10 +204,16 @@
                 if (![self setAltitude: val]) {
                    return NO;
                 }
+                if (![self setAltitude: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"EstAccAlt"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setEstAccAlt: val]) {
+                   return NO;
+                }
                 if (![self setEstAccAlt: val]) {
                    return NO;
                 }
@@ -218,10 +224,16 @@
                 if (![self setEstAccLat: val]) {
                    return NO;
                 }
+                if (![self setEstAccLat: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"EstAccLong"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setEstAccLong: val]) {
+                   return NO;
+                }
                 if (![self setEstAccLong: val]) {
                    return NO;
                 }
@@ -232,10 +244,16 @@
                 if (![self setLat: val]) {
                    return NO;
                 }
+                if (![self setLat: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Long"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setLong: val]) {
+                   return NO;
+                }
                 if (![self setLong: val]) {
                    return NO;
                 }
@@ -269,7 +287,7 @@
     }
     if ( m_latPresent ) {
         [xml appendString: @" Lat=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_lat]];
+        [xml appendString: [NSString stringWithFormat:@"%.5f", m_lat]];
         [xml appendString: @"\""];
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Lat" forKey: @"description"]];
@@ -277,7 +295,7 @@
     }
     if ( m_longPresent ) {
         [xml appendString: @" Long=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_long]];
+        [xml appendString: [NSString stringWithFormat:@"%.5f", m_long]];
         [xml appendString: @"\""];
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Long" forKey: @"description"]];
@@ -338,12 +356,12 @@
     }
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Lat = "];
-    [str appendString: [NSString stringWithFormat:@"%f", m_lat]];
+    [str appendString: [NSString stringWithFormat:@"%.5f", m_lat]];
     [str appendString: @"\n"];
 
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"Long = "];
-    [str appendString: [NSString stringWithFormat:@"%f", m_long]];
+    [str appendString: [NSString stringWithFormat:@"%.5f", m_long]];
     [str appendString: @"\n"];
 
     return str;
@@ -364,8 +382,8 @@
     if ( [self hasEstAccLong] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_estAccLong] forKey: @"EstAccLong"];
     }
-    [attr setObject: [NSString stringWithFormat:@"%f", m_lat] forKey: @"Lat"];
-    [attr setObject: [NSString stringWithFormat:@"%f", m_long] forKey: @"Long"];
+    [attr setObject: [NSString stringWithFormat:@"%.5f", m_lat] forKey: @"Lat"];
+    [attr setObject: [NSString stringWithFormat:@"%.5f", m_long] forKey: @"Long"];
 
     return attr;
 }

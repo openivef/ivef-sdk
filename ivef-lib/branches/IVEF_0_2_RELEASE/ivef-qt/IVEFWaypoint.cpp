@@ -4,26 +4,22 @@
 // Constructor
 Waypoint::Waypoint() {
 
-    // optional attributes are by default not present
     m_posPresent = false;
     // initialize with random value
     m_ATA = QDateTime();
-    // optional attributes are by default not present
     m_ATAPresent = false;
     // initialize with random value
     m_ETA = QDateTime();
-    // optional attributes are by default not present
     m_ETAPresent = false;
     // initialize with random value
     m_RTA = QDateTime();
-    // optional attributes are by default not present
     m_RTAPresent = false;
     // initialize empty string
     m_loCode = "";
-    // optional attributes are by default not present
     m_loCodePresent = false;
     // initialize empty string
     m_name = "";
+    m_namePresent = false;
 }
 
 // copy constructor
@@ -39,6 +35,7 @@ Waypoint::Waypoint(const Waypoint &val) : QObject() {
     m_RTA = val.m_RTA;
     m_loCodePresent = val.m_loCodePresent;
     m_loCode = val.m_loCode;
+    m_namePresent = val.m_namePresent;
     m_name = val.m_name;
 }
 
@@ -55,12 +52,13 @@ Waypoint & Waypoint::operator=(const Waypoint &val) {
     m_RTA = val.m_RTA;
     m_loCodePresent = val.m_loCodePresent;
     m_loCode = val.m_loCode;
+    m_namePresent = val.m_namePresent;
     m_name = val.m_name;
     return *this;
 }
 
 // String encoder
-QString Waypoint::encode( QString str) {
+QString Waypoint::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -71,10 +69,11 @@ QString Waypoint::encode( QString str) {
 }
 
 // setter for Waypoint
-void Waypoint::setPos(Pos val) {
+bool Waypoint::setPos(Pos val) {
 
     m_posPresent = true;
     m_pos = val;
+      return true;
 }
 
 // getter for Waypoint
@@ -90,10 +89,11 @@ bool Waypoint::hasPos() const {
 }
 
 // setter for Waypoint
-void Waypoint::setATA(QDateTime val) {
+bool Waypoint::setATA(QDateTime val) {
 
     m_ATAPresent = true;
     m_ATA = val;
+      return true;
 }
 
 // getter for Waypoint
@@ -109,10 +109,11 @@ bool Waypoint::hasATA() const {
 }
 
 // setter for Waypoint
-void Waypoint::setETA(QDateTime val) {
+bool Waypoint::setETA(QDateTime val) {
 
     m_ETAPresent = true;
     m_ETA = val;
+      return true;
 }
 
 // getter for Waypoint
@@ -128,10 +129,11 @@ bool Waypoint::hasETA() const {
 }
 
 // setter for Waypoint
-void Waypoint::setRTA(QDateTime val) {
+bool Waypoint::setRTA(QDateTime val) {
 
     m_RTAPresent = true;
     m_RTA = val;
+      return true;
 }
 
 // getter for Waypoint
@@ -147,10 +149,11 @@ bool Waypoint::hasRTA() const {
 }
 
 // setter for Waypoint
-void Waypoint::setLoCode(QString val) {
+bool Waypoint::setLoCode(QString val) {
 
     m_loCodePresent = true;
     m_loCode = val;
+      return true;
 }
 
 // getter for Waypoint
@@ -166,9 +169,11 @@ bool Waypoint::hasLoCode() const {
 }
 
 // setter for Waypoint
-void Waypoint::setName(QString val) {
+bool Waypoint::setName(QString val) {
 
+    m_namePresent = true;
     m_name = val;
+      return true;
 }
 
 // getter for Waypoint
@@ -178,9 +183,10 @@ QString Waypoint::getName() const {
 }
 
 // Get XML Representation
-QString Waypoint::toXML() {
+QString Waypoint::toXML() const {
 
     QString xml = "<Waypoint";
+    QString dataMember;
     // check for presence of optional attribute
     if ( hasATA() ) {
         xml.append(" ATA=\"" + m_ATA.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
@@ -197,11 +203,21 @@ QString Waypoint::toXML() {
     if ( hasLoCode() ) {
         xml.append(" LoCode=\"" + encode (m_loCode) + "\"");
     }
-    xml.append(" Name=\"" + encode (m_name) + "\"");
+    // check for presence of required  attribute
+    if ( m_namePresent) {
+        xml.append(" Name=\"" + encode (m_name) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append(">\n");
     // add optional data if available
     if ( hasPos() ) {
-        xml.append( m_pos.toXML() );
+        dataMember = m_pos.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</Waypoint>\n");
     return xml;
@@ -233,7 +249,7 @@ QString Waypoint::toString(QString lead) {
     if ( hasLoCode() ) {
         str.append( lead + "    LoCode = " + m_loCode + "\n");
     }
-    str.append( lead + "    Name = " + m_name + "\n");
+     str.append( lead + "    Name = " + m_name + "\n");
     // add all optional data if present
     if ( hasPos() ) {
         str.append( m_pos.toString(lead + "    ") );

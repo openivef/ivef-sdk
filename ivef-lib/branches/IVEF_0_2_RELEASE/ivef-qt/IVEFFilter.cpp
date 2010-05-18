@@ -6,23 +6,26 @@ Filter::Filter() {
 
     // initialize empty string
     m_predicate = "";
+    m_predicatePresent = false;
 }
 
 // copy constructor
 Filter::Filter(const Filter &val) : QObject() {
 
+    m_predicatePresent = val.m_predicatePresent;
     m_predicate = val.m_predicate;
 }
 
 // assignement
 Filter & Filter::operator=(const Filter &val) {
 
+    m_predicatePresent = val.m_predicatePresent;
     m_predicate = val.m_predicate;
     return *this;
 }
 
 // String encoder
-QString Filter::encode( QString str) {
+QString Filter::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +36,11 @@ QString Filter::encode( QString str) {
 }
 
 // setter for Filter
-void Filter::setPredicate(QString val) {
+bool Filter::setPredicate(QString val) {
 
+    m_predicatePresent = true;
     m_predicate = val;
+      return true;
 }
 
 // getter for Filter
@@ -45,10 +50,16 @@ QString Filter::getPredicate() const {
 }
 
 // Get XML Representation
-QString Filter::toXML() {
+QString Filter::toXML() const {
 
     QString xml = "<Filter";
-    xml.append(" Predicate=\"" + encode (m_predicate) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_predicatePresent) {
+        xml.append(" Predicate=\"" + encode (m_predicate) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }
@@ -63,7 +74,7 @@ QString Filter::toString() {
 QString Filter::toString(QString lead) {
 
     QString str = lead + "Filter\n";
-    str.append( lead + "    Predicate = " + m_predicate + "\n");
+     str.append( lead + "    Predicate = " + m_predicate + "\n");
     return str;
 }
 

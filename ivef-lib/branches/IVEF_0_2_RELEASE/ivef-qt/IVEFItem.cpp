@@ -5,27 +5,33 @@
 Item::Item() {
 
     m_dataSelector = 0;
+    m_dataSelectorPresent = false;
     // initialize empty string
     m_fieldSelector = "";
+    m_fieldSelectorPresent = false;
 }
 
 // copy constructor
 Item::Item(const Item &val) : QObject() {
 
+    m_dataSelectorPresent = val.m_dataSelectorPresent;
     m_dataSelector = val.m_dataSelector;
+    m_fieldSelectorPresent = val.m_fieldSelectorPresent;
     m_fieldSelector = val.m_fieldSelector;
 }
 
 // assignement
 Item & Item::operator=(const Item &val) {
 
+    m_dataSelectorPresent = val.m_dataSelectorPresent;
     m_dataSelector = val.m_dataSelector;
+    m_fieldSelectorPresent = val.m_fieldSelectorPresent;
     m_fieldSelector = val.m_fieldSelector;
     return *this;
 }
 
 // String encoder
-QString Item::encode( QString str) {
+QString Item::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -36,14 +42,16 @@ QString Item::encode( QString str) {
 }
 
 // setter for Item
-void Item::setDataSelector(int val) {
+bool Item::setDataSelector(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return false;
+    m_dataSelectorPresent = true;
     m_dataSelector = val;
+      return true;
 }
 
 // getter for Item
@@ -53,9 +61,11 @@ int Item::getDataSelector() const {
 }
 
 // setter for Item
-void Item::setFieldSelector(QString val) {
+bool Item::setFieldSelector(QString val) {
 
+    m_fieldSelectorPresent = true;
     m_fieldSelector = val;
+      return true;
 }
 
 // getter for Item
@@ -65,11 +75,22 @@ QString Item::getFieldSelector() const {
 }
 
 // Get XML Representation
-QString Item::toXML() {
+QString Item::toXML() const {
 
     QString xml = "<Item";
-    xml.append(" DataSelector=\"" + QString::number(m_dataSelector) + "\"");
-    xml.append(" FieldSelector=\"" + encode (m_fieldSelector) + "\"");
+    QString dataMember;
+    // check for presence of required  attribute
+    if ( m_dataSelectorPresent) {
+        xml.append(" DataSelector=\"" + QString::number( m_dataSelector ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_fieldSelectorPresent) {
+        xml.append(" FieldSelector=\"" + encode (m_fieldSelector) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }
@@ -84,8 +105,8 @@ QString Item::toString() {
 QString Item::toString(QString lead) {
 
     QString str = lead + "Item\n";
-    str.append( lead + "    DataSelector = " + QString::number(m_dataSelector) + "\n");
-    str.append( lead + "    FieldSelector = " + m_fieldSelector + "\n");
+     str.append( lead + "    DataSelector = " + QString::number( m_dataSelector ) + "\n");
+     str.append( lead + "    FieldSelector = " + m_fieldSelector + "\n");
     return str;
 }
 

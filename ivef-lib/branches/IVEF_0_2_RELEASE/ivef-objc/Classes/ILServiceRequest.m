@@ -7,11 +7,11 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_areaPresent = NO;
         m_areas = [[NSMutableArray alloc] init];
+        m_areaPresent = NO;
         m_transmissionPresent = NO;
-        m_itemPresent = NO;
         m_items = [[NSMutableArray alloc] init];
+        m_itemPresent = NO;
         m_filterPresent = NO;
     }
     return self;
@@ -34,7 +34,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -55,15 +55,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -170,44 +170,13 @@
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
-#if defined (__clang__)
-        NSEnumerator *enumerator = [attributeDict keyEnumerator];
-        NSString *key;
-        while (key = [enumerator nextObject]) {
-#else
-        for (NSString *key in attributeDict) {
-#endif
-            if ([key isEqualToString: @"Area"]) {
-                ILArea * val = [attributeDict objectForKey: key];
-                if (![self addArea: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Transmission"]) {
-                ILTransmission * val = [attributeDict objectForKey: key];
-                if (![self setTransmission: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Item"]) {
-                ILItem * val = [attributeDict objectForKey: key];
-                if (![self addItem: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Filter"]) {
-                ILFilter * val = [attributeDict objectForKey: key];
-                if (![self setFilter: val]) {
-                   return NO;
-                }
-            }
-        }
         return YES;
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<ServiceRequest"];
+    NSString *dataMember;
     [xml appendString:@">\n"];
     if ([m_areas count] < 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Area" forKey: @"description"]];
@@ -215,10 +184,22 @@
     }
     for(int i=0; i < [m_areas count]; i++ ) {
         ILArea *attribute = [m_areas objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Area" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( m_transmissionPresent ) {
-        [xml appendString: [m_transmission XML] ];
+        dataMember = [m_transmission XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Transmission" forKey: @"description"]];
+            return nil;
+        }
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Transmission" forKey: @"description"]];
         return nil;
@@ -229,10 +210,22 @@
     }
     for(int i=0; i < [m_items count]; i++ ) {
         ILItem *attribute = [m_items objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Item" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasFilter] ) {
-        [xml appendString: [m_filter XML] ];
+        dataMember = [m_filter XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Filter" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</ServiceRequest>\n"];
     return xml;

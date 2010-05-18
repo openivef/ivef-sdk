@@ -1,7 +1,7 @@
 /* 
- *  ILUnType
+ *  ILNavStatus
  *
- *  ILUnType is free software: you can redistribute it and/or modify
+ *  ILNavStatus is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -22,38 +22,41 @@
 #import <Foundation/Foundation.h>
 
 //-----------------------------------------------------------
-//! \brief       Class definition of ILUnType
+//! \brief       Class definition of ILNavStatus
 //!
-//! Object type according to CODES FOR TYPES OF MEANS OF TRANSPORT Revision 2 (UNECE CEFACT Trade Facilitation Recommendation No. 28 edition 2007) Check latest version
+//! 
 //!
 
-@interface ILUnType : NSObject { 
-    int m_codeA;
-    BOOL m_codeAPresent;
-    int m_codeB;
-    BOOL m_codeBPresent;
-    int m_mode;
-    BOOL m_modePresent;
+@interface ILNavStatus : NSObject { 
+    int m_value;
+    BOOL m_valuePresent;
 }
 
-//!Setter for CodeA
+
+/* Value:
+   Navigation status of the target
+   								0 = under way using engine
+   								1 = at anchor
+   								2 = not under command
+   								3 = restricted manoeuvrability
+   								4 = constrained by her draught
+   								5 = moored
+   								6 = aground
+   								7 = engaged in fishing
+   								8 = under way sailing
+   								9 = engaged in fishing other than trawling  
+   								10 = air-cushion vessel in non displacement mode or WIG craft taking off, landing or in flight
+   								11 = power driven vessel towing astern
+   								12 = power driven vessel pushing ahead or towing alongside
+   								13 = in distress or requiring assistance  
+   								14 = AIS SART, seeking to attract attention
+   								15 = undefined default */
+//!Setter for Value
 //!
--(BOOL) setCodeA:(int) val;
-//!Getter for CodeA
+-(BOOL) setValue:(int) val;
+//!Getter for Value
 //!
--(int) codeA;
-//!Setter for CodeB
-//!
--(BOOL) setCodeB:(int) val;
-//!Getter for CodeB
-//!
--(int) codeB;
-//!Setter for Mode
-//!
--(BOOL) setMode:(int) val;
-//!Getter for Mode
-//!
--(int) mode;
+-(int) value;
 //!Set attributes by providing a key/value dictionary
 //!
 

@@ -4,25 +4,31 @@
 // Constructor
 MSG_IVEF::MSG_IVEF() {
 
+    m_headerPresent = false;
+    m_bodyPresent = false;
 }
 
 // copy constructor
 MSG_IVEF::MSG_IVEF(const MSG_IVEF &val) : QObject() {
 
+    m_headerPresent = val.m_headerPresent;
     m_header = val.m_header;
+    m_bodyPresent = val.m_bodyPresent;
     m_body = val.m_body;
 }
 
 // assignement
 MSG_IVEF & MSG_IVEF::operator=(const MSG_IVEF &val) {
 
+    m_headerPresent = val.m_headerPresent;
     m_header = val.m_header;
+    m_bodyPresent = val.m_bodyPresent;
     m_body = val.m_body;
     return *this;
 }
 
 // String encoder
-QString MSG_IVEF::encode( QString str) {
+QString MSG_IVEF::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -33,9 +39,11 @@ QString MSG_IVEF::encode( QString str) {
 }
 
 // setter for MSG_IVEF
-void MSG_IVEF::setHeader(Header val) {
+bool MSG_IVEF::setHeader(Header val) {
 
+    m_headerPresent = true;
     m_header = val;
+      return true;
 }
 
 // getter for MSG_IVEF
@@ -45,9 +53,11 @@ Header MSG_IVEF::getHeader() const {
 }
 
 // setter for MSG_IVEF
-void MSG_IVEF::setBody(Body val) {
+bool MSG_IVEF::setBody(Body val) {
 
+    m_bodyPresent = true;
     m_body = val;
+      return true;
 }
 
 // getter for MSG_IVEF
@@ -57,12 +67,33 @@ Body MSG_IVEF::getBody() const {
 }
 
 // Get XML Representation
-QString MSG_IVEF::toXML() {
+QString MSG_IVEF::toXML() const {
 
     QString xml = "<MSG_IVEF";
+    QString dataMember;
     xml.append(">\n");
-    xml.append( m_header.toXML() );
-    xml.append( m_body.toXML() );
+    // check for presence of required data member
+    if ( m_headerPresent) {
+        dataMember = m_header.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
+    // check for presence of required data member
+    if ( m_bodyPresent) {
+        dataMember = m_body.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    } else {
+        return NULL;
+    }
     xml.append( "</MSG_IVEF>\n");
     return xml;
 }

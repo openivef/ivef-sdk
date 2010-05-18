@@ -10,9 +10,12 @@
         m_unTypePresent = NO;
         m_hullColorPresent = NO;
         m_hullTypePresent = NO;
+        m_deadWeightPresent = NO;
+        m_grossWeightPresent = NO;
         m_lengthPresent = NO;
         m_lloydsShipTypePresent = NO;
-        m_maxKeelHeightPresent = NO;
+        m_yearOfBuildPresent = NO;
+        m_maxAirDraughtPresent = NO;
         m_maxDraughtPresent = NO;
         m_maxPersonsOnBoardPresent = NO;
         m_maxSpeedPresent = NO;
@@ -36,7 +39,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -57,15 +60,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -154,6 +157,44 @@
     return m_hullTypePresent;
 }
 
+-(BOOL) setDeadWeight:(float) val {
+
+    if (val < 0)
+        return NO;
+    m_deadWeightPresent = YES;
+    m_deadWeight = val;
+    return YES;
+}
+
+- (float) deadWeight {
+
+    return m_deadWeight;
+}
+
+-(BOOL) hasDeadWeight {
+
+    return m_deadWeightPresent;
+}
+
+-(BOOL) setGrossWeight:(float) val {
+
+    if (val < 0)
+        return NO;
+    m_grossWeightPresent = YES;
+    m_grossWeight = val;
+    return YES;
+}
+
+- (float) grossWeight {
+
+    return m_grossWeight;
+}
+
+-(BOOL) hasGrossWeight {
+
+    return m_grossWeightPresent;
+}
+
 -(BOOL) setLength:(float) val {
 
     if (val < 0)
@@ -190,23 +231,40 @@
     return m_lloydsShipTypePresent;
 }
 
--(BOOL) setMaxKeelHeight:(float) val {
+-(BOOL) setYearOfBuild:(int) val {
 
-    if (val < 0)
-        return NO;
-    m_maxKeelHeightPresent = YES;
-    m_maxKeelHeight = val;
+    m_yearOfBuildPresent = YES;
+    m_yearOfBuild = val;
     return YES;
 }
 
-- (float) maxKeelHeight {
+- (int) yearOfBuild {
 
-    return m_maxKeelHeight;
+    return m_yearOfBuild;
 }
 
--(BOOL) hasMaxKeelHeight {
+-(BOOL) hasYearOfBuild {
 
-    return m_maxKeelHeightPresent;
+    return m_yearOfBuildPresent;
+}
+
+-(BOOL) setMaxAirDraught:(float) val {
+
+    if (val < 0)
+        return NO;
+    m_maxAirDraughtPresent = YES;
+    m_maxAirDraught = val;
+    return YES;
+}
+
+- (float) maxAirDraught {
+
+    return m_maxAirDraught;
+}
+
+-(BOOL) hasMaxAirDraught {
+
+    return m_maxAirDraughtPresent;
 }
 
 -(BOOL) setMaxDraught:(float) val {
@@ -294,14 +352,11 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"UnType"]) {
-                ILUnType * val = [attributeDict objectForKey: key];
-                if (![self setUnType: val]) {
+            if ([key isEqualToString: @"HullColor"]) {
+                NSString *val = [attributeDict objectForKey: key];
+                if (![self setHullColor: val]) {
                    return NO;
                 }
-            }
-            else if ([key isEqualToString:@"HullColor"]) {
-                NSString *val = [attributeDict objectForKey: key];
                 if (![self setHullColor: val]) {
                    return NO;
                 }
@@ -312,10 +367,36 @@
                 if (![self setHullType: val]) {
                    return NO;
                 }
+                if (![self setHullType: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"DeadWeight"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                float val = [value floatValue];
+                if (![self setDeadWeight: val]) {
+                   return NO;
+                }
+                if (![self setDeadWeight: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"GrossWeight"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                float val = [value floatValue];
+                if (![self setGrossWeight: val]) {
+                   return NO;
+                }
+                if (![self setGrossWeight: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Length"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setLength: val]) {
+                   return NO;
+                }
                 if (![self setLength: val]) {
                    return NO;
                 }
@@ -326,17 +407,36 @@
                 if (![self setLloydsShipType: val]) {
                    return NO;
                 }
+                if (![self setLloydsShipType: val]) {
+                   return NO;
+                }
             }
-            else if ([key isEqualToString:@"MaxKeelHeight"]) {
+            else if ([key isEqualToString:@"YearOfBuild"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                int val = [value intValue];
+                if (![self setYearOfBuild: val]) {
+                   return NO;
+                }
+                if (![self setYearOfBuild: val]) {
+                   return NO;
+                }
+            }
+            else if ([key isEqualToString:@"MaxAirDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
-                if (![self setMaxKeelHeight: val]) {
+                if (![self setMaxAirDraught: val]) {
+                   return NO;
+                }
+                if (![self setMaxAirDraught: val]) {
                    return NO;
                 }
             }
             else if ([key isEqualToString:@"MaxDraught"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setMaxDraught: val]) {
+                   return NO;
+                }
                 if (![self setMaxDraught: val]) {
                    return NO;
                 }
@@ -347,6 +447,9 @@
                 if (![self setMaxPersonsOnBoard: val]) {
                    return NO;
                 }
+                if (![self setMaxPersonsOnBoard: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"MaxSpeed"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -354,10 +457,16 @@
                 if (![self setMaxSpeed: val]) {
                    return NO;
                 }
+                if (![self setMaxSpeed: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Width"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setWidth: val]) {
+                   return NO;
+                }
                 if (![self setWidth: val]) {
                    return NO;
                 }
@@ -369,6 +478,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Construction"];
+    NSString *dataMember;
     if ( [self hasHullColor] ) {
         [xml appendString: @" HullColor=\""];
         [xml appendString: [self encode: m_hullColor]];
@@ -377,6 +487,16 @@
     if ( [self hasHullType] ) {
         [xml appendString: @" HullType=\""];
         [xml appendString: [NSString stringWithFormat:@"%d", m_hullType]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasDeadWeight] ) {
+        [xml appendString: @" DeadWeight=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_deadWeight]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasGrossWeight] ) {
+        [xml appendString: @" GrossWeight=\""];
+        [xml appendString: [NSString stringWithFormat:@"%f", m_grossWeight]];
         [xml appendString: @"\""];
     }
     if ( [self hasLength] ) {
@@ -389,14 +509,19 @@
         [xml appendString: [NSString stringWithFormat:@"%d", m_lloydsShipType]];
         [xml appendString: @"\""];
     }
-    if ( [self hasMaxKeelHeight] ) {
-        [xml appendString: @" MaxKeelHeight=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_maxKeelHeight]];
+    if ( [self hasYearOfBuild] ) {
+        [xml appendString: @" YearOfBuild=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_yearOfBuild]];
+        [xml appendString: @"\""];
+    }
+    if ( [self hasMaxAirDraught] ) {
+        [xml appendString: @" MaxAirDraught=\""];
+        [xml appendString: [NSString stringWithFormat:@"%.1f", m_maxAirDraught]];
         [xml appendString: @"\""];
     }
     if ( [self hasMaxDraught] ) {
         [xml appendString: @" MaxDraught=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_maxDraught]];
+        [xml appendString: [NSString stringWithFormat:@"%.1f", m_maxDraught]];
         [xml appendString: @"\""];
     }
     if ( [self hasMaxPersonsOnBoard] ) {
@@ -416,7 +541,13 @@
     }
     [xml appendString:@">\n"];
     if ( [self hasUnType] ) {
-        [xml appendString: [m_unType XML] ];
+        dataMember = [m_unType XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"UnType" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</Construction>\n"];
     return xml;
@@ -457,6 +588,20 @@
         [str appendString: @"\n"];
 
     }
+    if ( [self hasDeadWeight] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"DeadWeight = "];
+        [str appendString: [NSString stringWithFormat:@"%f", m_deadWeight]];
+        [str appendString: @"\n"];
+
+    }
+    if ( [self hasGrossWeight] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"GrossWeight = "];
+        [str appendString: [NSString stringWithFormat:@"%f", m_grossWeight]];
+        [str appendString: @"\n"];
+
+    }
     if ( [self hasLength] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"Length = "];
@@ -471,17 +616,24 @@
         [str appendString: @"\n"];
 
     }
-    if ( [self hasMaxKeelHeight] ) {
+    if ( [self hasYearOfBuild] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"MaxKeelHeight = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_maxKeelHeight]];
+        [str appendString: @"YearOfBuild = "];
+        [str appendString: [NSString stringWithFormat:@"%d", m_yearOfBuild]];
+        [str appendString: @"\n"];
+
+    }
+    if ( [self hasMaxAirDraught] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"MaxAirDraught = "];
+        [str appendString: [NSString stringWithFormat:@"%.1f", m_maxAirDraught]];
         [str appendString: @"\n"];
 
     }
     if ( [self hasMaxDraught] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"MaxDraught = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_maxDraught]];
+        [str appendString: [NSString stringWithFormat:@"%.1f", m_maxDraught]];
         [str appendString: @"\n"];
 
     }
@@ -521,17 +673,26 @@
     if ( [self hasHullType] ) {
         [attr setObject: [NSString stringWithFormat:@"%d", m_hullType] forKey: @"HullType"];
     }
+    if ( [self hasDeadWeight] ) {
+        [attr setObject: [NSString stringWithFormat:@"%f", m_deadWeight] forKey: @"DeadWeight"];
+    }
+    if ( [self hasGrossWeight] ) {
+        [attr setObject: [NSString stringWithFormat:@"%f", m_grossWeight] forKey: @"GrossWeight"];
+    }
     if ( [self hasLength] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_length] forKey: @"Length"];
     }
     if ( [self hasLloydsShipType] ) {
         [attr setObject: [NSString stringWithFormat:@"%d", m_lloydsShipType] forKey: @"LloydsShipType"];
     }
-    if ( [self hasMaxKeelHeight] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_maxKeelHeight] forKey: @"MaxKeelHeight"];
+    if ( [self hasYearOfBuild] ) {
+        [attr setObject: [NSString stringWithFormat:@"%d", m_yearOfBuild] forKey: @"YearOfBuild"];
+    }
+    if ( [self hasMaxAirDraught] ) {
+        [attr setObject: [NSString stringWithFormat:@"%.1f", m_maxAirDraught] forKey: @"MaxAirDraught"];
     }
     if ( [self hasMaxDraught] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_maxDraught] forKey: @"MaxDraught"];
+        [attr setObject: [NSString stringWithFormat:@"%.1f", m_maxDraught] forKey: @"MaxDraught"];
     }
     if ( [self hasMaxPersonsOnBoard] ) {
         [attr setObject: [NSString stringWithFormat:@"%d", m_maxPersonsOnBoard] forKey: @"MaxPersonsOnBoard"];

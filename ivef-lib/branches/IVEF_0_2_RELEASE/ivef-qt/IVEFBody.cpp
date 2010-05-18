@@ -4,23 +4,14 @@
 // Constructor
 Body::Body() {
 
-    // optional attributes are by default not present
     m_loginRequestPresent = false;
-    // optional attributes are by default not present
     m_loginResponsePresent = false;
-    // optional attributes are by default not present
     m_logoutPresent = false;
-    // optional attributes are by default not present
     m_objectDatasPresent = false;
-    // optional attributes are by default not present
     m_pingPresent = false;
-    // optional attributes are by default not present
     m_pongPresent = false;
-    // optional attributes are by default not present
     m_serverStatusPresent = false;
-    // optional attributes are by default not present
     m_serviceRequestPresent = false;
-    // optional attributes are by default not present
     m_serviceRequestResponsePresent = false;
 }
 
@@ -72,7 +63,7 @@ Body & Body::operator=(const Body &val) {
 }
 
 // String encoder
-QString Body::encode( QString str) {
+QString Body::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -83,10 +74,11 @@ QString Body::encode( QString str) {
 }
 
 // setter for Body
-void Body::setLoginRequest(LoginRequest val) {
+bool Body::setLoginRequest(LoginRequest val) {
 
     m_loginRequestPresent = true;
     m_loginRequest = val;
+      return true;
 }
 
 // getter for Body
@@ -102,10 +94,11 @@ bool Body::hasLoginRequest() const {
 }
 
 // setter for Body
-void Body::setLoginResponse(LoginResponse val) {
+bool Body::setLoginResponse(LoginResponse val) {
 
     m_loginResponsePresent = true;
     m_loginResponse = val;
+      return true;
 }
 
 // getter for Body
@@ -121,10 +114,11 @@ bool Body::hasLoginResponse() const {
 }
 
 // setter for Body
-void Body::setLogout(Logout val) {
+bool Body::setLogout(Logout val) {
 
     m_logoutPresent = true;
     m_logout = val;
+      return true;
 }
 
 // getter for Body
@@ -140,10 +134,11 @@ bool Body::hasLogout() const {
 }
 
 // setter for Body
-void Body::setObjectDatas(ObjectDatas val) {
+bool Body::setObjectDatas(ObjectDatas val) {
 
     m_objectDatasPresent = true;
     m_objectDatas = val;
+      return true;
 }
 
 // getter for Body
@@ -159,10 +154,11 @@ bool Body::hasObjectDatas() const {
 }
 
 // setter for Body
-void Body::setPing(Ping val) {
+bool Body::setPing(Ping val) {
 
     m_pingPresent = true;
     m_ping = val;
+      return true;
 }
 
 // getter for Body
@@ -178,10 +174,11 @@ bool Body::hasPing() const {
 }
 
 // setter for Body
-void Body::setPong(Pong val) {
+bool Body::setPong(Pong val) {
 
     m_pongPresent = true;
     m_pong = val;
+      return true;
 }
 
 // getter for Body
@@ -197,10 +194,11 @@ bool Body::hasPong() const {
 }
 
 // setter for Body
-void Body::setServerStatus(ServerStatus val) {
+bool Body::setServerStatus(ServerStatus val) {
 
     m_serverStatusPresent = true;
     m_serverStatus = val;
+      return true;
 }
 
 // getter for Body
@@ -216,10 +214,11 @@ bool Body::hasServerStatus() const {
 }
 
 // setter for Body
-void Body::setServiceRequest(ServiceRequest val) {
+bool Body::setServiceRequest(ServiceRequest val) {
 
     m_serviceRequestPresent = true;
     m_serviceRequest = val;
+      return true;
 }
 
 // getter for Body
@@ -235,10 +234,11 @@ bool Body::hasServiceRequest() const {
 }
 
 // setter for Body
-void Body::setServiceRequestResponse(ServiceRequestResponse val) {
+bool Body::setServiceRequestResponse(ServiceRequestResponse val) {
 
     m_serviceRequestResponsePresent = true;
     m_serviceRequestResponse = val;
+      return true;
 }
 
 // getter for Body
@@ -254,45 +254,91 @@ bool Body::hasServiceRequestResponse() const {
 }
 
 // Get XML Representation
-QString Body::toXML() {
+QString Body::toXML() const {
 
     QString xml = "<Body";
+    QString dataMember;
     xml.append(">\n");
     // add optional data if available
     if ( hasLoginRequest() ) {
-        xml.append( m_loginRequest.toXML() );
+        dataMember = m_loginRequest.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasLoginResponse() ) {
-        xml.append( m_loginResponse.toXML() );
+        dataMember = m_loginResponse.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasLogout() ) {
-        xml.append( m_logout.toXML() );
+        dataMember = m_logout.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasObjectDatas() ) {
-        xml.append( m_objectDatas.toXML() );
+        dataMember = m_objectDatas.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasPing() ) {
-        xml.append( m_ping.toXML() );
+        dataMember = m_ping.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasPong() ) {
-        xml.append( m_pong.toXML() );
+        dataMember = m_pong.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasServerStatus() ) {
-        xml.append( m_serverStatus.toXML() );
+        dataMember = m_serverStatus.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasServiceRequest() ) {
-        xml.append( m_serviceRequest.toXML() );
+        dataMember = m_serviceRequest.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasServiceRequestResponse() ) {
-        xml.append( m_serviceRequestResponse.toXML() );
+        dataMember = m_serviceRequestResponse.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</Body>\n");
     return xml;

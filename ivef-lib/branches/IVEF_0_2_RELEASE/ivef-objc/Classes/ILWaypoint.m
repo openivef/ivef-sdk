@@ -36,7 +36,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -57,15 +57,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -213,15 +213,12 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"Pos"]) {
-                ILPos * val = [attributeDict objectForKey: key];
-                if (![self setPos: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"ATA"]) {
+            if ([key isEqualToString: @"ATA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
+                if (![self setATA: val]) {
+                   return NO;
+                }
                 if (![self setATA: val]) {
                    return NO;
                 }
@@ -232,10 +229,16 @@
                 if (![self setETA: val]) {
                    return NO;
                 }
+                if (![self setETA: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"RTA"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 NSDate *val = [self dateFromString: value];
+                if (![self setRTA: val]) {
+                   return NO;
+                }
                 if (![self setRTA: val]) {
                    return NO;
                 }
@@ -245,9 +248,15 @@
                 if (![self setLoCode: val]) {
                    return NO;
                 }
+                if (![self setLoCode: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Name"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setName: val]) {
+                   return NO;
+                }
                 if (![self setName: val]) {
                    return NO;
                 }
@@ -259,6 +268,7 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Waypoint"];
+    NSString *dataMember;
     if ( [self hasATA] ) {
         [xml appendString: @" ATA=\""];
         [xml appendString: [self stringFromDate: m_ATA]];
@@ -289,7 +299,13 @@
     }
     [xml appendString:@">\n"];
     if ( [self hasPos] ) {
-        [xml appendString: [m_pos XML] ];
+        dataMember = [m_pos XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pos" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</Waypoint>\n"];
     return xml;

@@ -27,6 +27,7 @@
 #include "IVEFServiceRequestResponse.h"
 #include "IVEFTaggedItem.h"
 #include "IVEFTrackData.h"
+#include "IVEFNavStatus.h"
 #include "IVEFVesselData.h"
 #include "IVEFConstruction.h"
 #include "IVEFUnType.h"
@@ -54,6 +55,7 @@ public:
     bool endElement(const QString &,
                       const QString &,
                       const QString & qName);
+    bool characters(const QString &);
     //!the actual parse routine
     //!
     bool parseXMLString(QString data, bool cont);
@@ -66,6 +68,7 @@ signals:
     //!
     void signalError(QString errorStr);
     void signalWarning(QString errorStr);
+    void signalValidationError(QString errorStr);
 protected:
     virtual QString composeMessage( const QXmlParseException& exception );
     virtual bool    error( const QXmlParseException& exception );
@@ -74,6 +77,7 @@ protected:
 
 private:
     QString m_dataBuffer;
+    QString m_characterBuffer;
     QXmlInputSource m_inputForParser;
     QStack<QObject *> m_objStack;
     QStack<QString> m_typeStack;

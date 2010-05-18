@@ -18,7 +18,7 @@ Schema & Schema::operator=(const Schema &val) {
 }
 
 // String encoder
-QString Schema::encode( QString str) {
+QString Schema::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -37,13 +37,14 @@ QString Schema::getElementFormDefault() const {
 // getter for Schema
 QString Schema::getTargetNamespace() const {
 
-    return "http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.2";
+    return "http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.3";
 }
 
 // Get XML Representation
-QString Schema::toXML() {
+QString Schema::toXML() const {
 
     QString xml = "<Schema";
+    QString dataMember;
     xml.append("/>\n");
     return xml;
 }

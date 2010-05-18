@@ -4,31 +4,29 @@
 // Constructor
 VesselData::VesselData() {
 
-    // optional attributes are by default not present
     m_constructionPresent = false;
-    // optional attributes are by default not present
     m_identifierPresent = false;
     m_class = 0;
-    // optional attributes are by default not present
     m_classPresent = false;
     // initialize defaults to false
     m_blackListed = false;
-    // optional attributes are by default not present
     m_blackListedPresent = false;
     m_id = 0;
+    m_idPresent = false;
     // initialize empty string
     m_specialAttention = "";
-    // optional attributes are by default not present
     m_specialAttentionPresent = false;
     // initialize empty string
     m_sourceId = "";
-    // optional attributes are by default not present
     m_sourceIdPresent = false;
     // initialize empty string
     m_sourceName = "";
+    m_sourceNamePresent = false;
     m_sourceType = 0;
+    m_sourceTypePresent = false;
     // initialize with random value
     m_updateTime = QDateTime();
+    m_updateTimePresent = false;
 }
 
 // copy constructor
@@ -42,13 +40,17 @@ VesselData::VesselData(const VesselData &val) : QObject() {
     m_class = val.m_class;
     m_blackListedPresent = val.m_blackListedPresent;
     m_blackListed = val.m_blackListed;
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
     m_specialAttentionPresent = val.m_specialAttentionPresent;
     m_specialAttention = val.m_specialAttention;
     m_sourceIdPresent = val.m_sourceIdPresent;
     m_sourceId = val.m_sourceId;
+    m_sourceNamePresent = val.m_sourceNamePresent;
     m_sourceName = val.m_sourceName;
+    m_sourceTypePresent = val.m_sourceTypePresent;
     m_sourceType = val.m_sourceType;
+    m_updateTimePresent = val.m_updateTimePresent;
     m_updateTime = val.m_updateTime;
 }
 
@@ -63,19 +65,23 @@ VesselData & VesselData::operator=(const VesselData &val) {
     m_class = val.m_class;
     m_blackListedPresent = val.m_blackListedPresent;
     m_blackListed = val.m_blackListed;
+    m_idPresent = val.m_idPresent;
     m_id = val.m_id;
     m_specialAttentionPresent = val.m_specialAttentionPresent;
     m_specialAttention = val.m_specialAttention;
     m_sourceIdPresent = val.m_sourceIdPresent;
     m_sourceId = val.m_sourceId;
+    m_sourceNamePresent = val.m_sourceNamePresent;
     m_sourceName = val.m_sourceName;
+    m_sourceTypePresent = val.m_sourceTypePresent;
     m_sourceType = val.m_sourceType;
+    m_updateTimePresent = val.m_updateTimePresent;
     m_updateTime = val.m_updateTime;
     return *this;
 }
 
 // String encoder
-QString VesselData::encode( QString str) {
+QString VesselData::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -86,10 +92,11 @@ QString VesselData::encode( QString str) {
 }
 
 // setter for VesselData
-void VesselData::setConstruction(Construction val) {
+bool VesselData::setConstruction(Construction val) {
 
     m_constructionPresent = true;
     m_construction = val;
+      return true;
 }
 
 // getter for VesselData
@@ -105,10 +112,11 @@ bool VesselData::hasConstruction() const {
 }
 
 // setter for VesselData
-void VesselData::setIdentifier(Identifier val) {
+bool VesselData::setIdentifier(Identifier val) {
 
     m_identifierPresent = true;
     m_identifier = val;
+      return true;
 }
 
 // getter for VesselData
@@ -124,15 +132,16 @@ bool VesselData::hasIdentifier() const {
 }
 
 // setter for VesselData
-void VesselData::setClass(int val) {
+bool VesselData::setClass(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 0 ) &&
          ( val != 1 ) &&
          ( val != 2 ) )
-        return;
+        return false;
     m_classPresent = true;
     m_class = val;
+      return true;
 }
 
 // getter for VesselData
@@ -148,10 +157,11 @@ bool VesselData::hasClass() const {
 }
 
 // setter for VesselData
-void VesselData::setBlackListed(bool val) {
+bool VesselData::setBlackListed(bool val) {
 
     m_blackListedPresent = true;
     m_blackListed = val;
+      return true;
 }
 
 // getter for VesselData
@@ -167,9 +177,11 @@ bool VesselData::hasBlackListed() const {
 }
 
 // setter for VesselData
-void VesselData::setId(int val) {
+bool VesselData::setId(int val) {
 
+    m_idPresent = true;
     m_id = val;
+      return true;
 }
 
 // getter for VesselData
@@ -179,10 +191,11 @@ int VesselData::getId() const {
 }
 
 // setter for VesselData
-void VesselData::setSpecialAttention(QString val) {
+bool VesselData::setSpecialAttention(QString val) {
 
     m_specialAttentionPresent = true;
     m_specialAttention = val;
+      return true;
 }
 
 // getter for VesselData
@@ -198,10 +211,11 @@ bool VesselData::hasSpecialAttention() const {
 }
 
 // setter for VesselData
-void VesselData::setSourceId(QString val) {
+bool VesselData::setSourceId(QString val) {
 
     m_sourceIdPresent = true;
     m_sourceId = val;
+      return true;
 }
 
 // getter for VesselData
@@ -217,9 +231,11 @@ bool VesselData::hasSourceId() const {
 }
 
 // setter for VesselData
-void VesselData::setSourceName(QString val) {
+bool VesselData::setSourceName(QString val) {
 
+    m_sourceNamePresent = true;
     m_sourceName = val;
+      return true;
 }
 
 // getter for VesselData
@@ -229,14 +245,16 @@ QString VesselData::getSourceName() const {
 }
 
 // setter for VesselData
-void VesselData::setSourceType(int val) {
+bool VesselData::setSourceType(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return false;
+    m_sourceTypePresent = true;
     m_sourceType = val;
+      return true;
 }
 
 // getter for VesselData
@@ -246,9 +264,11 @@ int VesselData::getSourceType() const {
 }
 
 // setter for VesselData
-void VesselData::setUpdateTime(QDateTime val) {
+bool VesselData::setUpdateTime(QDateTime val) {
 
+    m_updateTimePresent = true;
     m_updateTime = val;
+      return true;
 }
 
 // getter for VesselData
@@ -258,18 +278,24 @@ QDateTime VesselData::getUpdateTime() const {
 }
 
 // Get XML Representation
-QString VesselData::toXML() {
+QString VesselData::toXML() const {
 
     QString xml = "<VesselData";
+    QString dataMember;
     // check for presence of optional attribute
     if ( hasClass() ) {
-        xml.append(" Class=\"" + QString::number(m_class) + "\"");
+        xml.append(" Class=\"" + QString::number( m_class ) + "\"");
     }
     // check for presence of optional attribute
     if ( hasBlackListed() ) {
-        xml.append(" BlackListed=\"" + QString(m_blackListed ? "true" : "false" ) + "\"");
+        xml.append(" BlackListed=\"" + QString( m_blackListed ? "true" : "false" ) + "\"");
     }
-    xml.append(" Id=\"" + QString::number(m_id) + "\"");
+    // check for presence of required  attribute
+    if ( m_idPresent) {
+        xml.append(" Id=\"" + QString::number( m_id ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     // check for presence of optional attribute
     if ( hasSpecialAttention() ) {
         xml.append(" SpecialAttention=\"" + encode (m_specialAttention) + "\"");
@@ -278,17 +304,42 @@ QString VesselData::toXML() {
     if ( hasSourceId() ) {
         xml.append(" SourceId=\"" + encode (m_sourceId) + "\"");
     }
-    xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
-    xml.append(" SourceType=\"" + QString::number(m_sourceType) + "\"");
-    xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    // check for presence of required  attribute
+    if ( m_sourceNamePresent) {
+        xml.append(" SourceName=\"" + encode (m_sourceName) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_sourceTypePresent) {
+        xml.append(" SourceType=\"" + QString::number( m_sourceType ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_updateTimePresent) {
+        xml.append(" UpdateTime=\"" + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append(">\n");
     // add optional data if available
     if ( hasConstruction() ) {
-        xml.append( m_construction.toXML() );
+        dataMember = m_construction.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     // add optional data if available
     if ( hasIdentifier() ) {
-        xml.append( m_identifier.toXML() );
+        dataMember = m_identifier.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</VesselData>\n");
     return xml;
@@ -306,13 +357,13 @@ QString VesselData::toString(QString lead) {
     QString str = lead + "VesselData\n";
     // check for presence of optional attribute
     if ( hasClass() ) {
-        str.append( lead + "    Class = " + QString::number(m_class) + "\n");
+        str.append( lead + "    Class = " + QString::number( m_class ) + "\n");
     }
     // check for presence of optional attribute
     if ( hasBlackListed() ) {
-        str.append( lead + "    BlackListed = " + QString(m_blackListed ? "true" : "false" ) + "\n");
+        str.append( lead + "    BlackListed = " + QString( m_blackListed ? "true" : "false" ) + "\n");
     }
-    str.append( lead + "    Id = " + QString::number(m_id) + "\n");
+     str.append( lead + "    Id = " + QString::number( m_id ) + "\n");
     // check for presence of optional attribute
     if ( hasSpecialAttention() ) {
         str.append( lead + "    SpecialAttention = " + m_specialAttention + "\n");
@@ -321,9 +372,9 @@ QString VesselData::toString(QString lead) {
     if ( hasSourceId() ) {
         str.append( lead + "    SourceId = " + m_sourceId + "\n");
     }
-    str.append( lead + "    SourceName = " + m_sourceName + "\n");
-    str.append( lead + "    SourceType = " + QString::number(m_sourceType) + "\n");
-    str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+     str.append( lead + "    SourceName = " + m_sourceName + "\n");
+     str.append( lead + "    SourceType = " + QString::number( m_sourceType ) + "\n");
+     str.append( lead + "    UpdateTime = " + m_updateTime.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     // add all optional data if present
     if ( hasConstruction() ) {
         str.append( m_construction.toString(lead + "    ") );

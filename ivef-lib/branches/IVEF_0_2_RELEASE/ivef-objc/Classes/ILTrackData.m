@@ -7,14 +7,15 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_posPresent = NO;
         m_poss = [[NSMutableArray alloc] init];
+        m_posPresent = NO;
+        m_navStatuss = [[NSMutableArray alloc] init];
+        m_navStatusPresent = NO;
         m_COGPresent = NO;
         m_estAccSOGPresent = NO;
         m_estAccCOGPresent = NO;
         m_idPresent = NO;
         m_lengthPresent = NO;
-        m_navStatusPresent = NO;
         m_headingPresent = NO;
         m_ROTPresent = NO;
         m_SOGPresent = NO;
@@ -30,6 +31,7 @@
 - (void) dealloc {
 
     [m_poss release];
+    [m_navStatuss release];
     [m_sourceId release];
     [m_sourceName release];
     [m_updateTime release];
@@ -44,7 +46,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -65,15 +67,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -122,6 +124,27 @@
 -(NSArray *) poss {
 
     return m_poss;
+}
+
+-(BOOL) addNavStatus:(ILNavStatus *) val {
+
+    [m_navStatuss addObject: val];
+     return YES;
+}
+
+-(ILNavStatus *) navStatusAt:(int) i {
+
+    return [m_navStatuss objectAtIndex: i];
+}
+
+-(int) countOfNavStatuss {
+
+    return [m_navStatuss count];
+}
+
+-(NSArray *) navStatuss {
+
+    return m_navStatuss;
 }
 
 -(BOOL) setCOG:(float) val {
@@ -203,27 +226,6 @@
 -(BOOL) hasLength {
 
     return m_lengthPresent;
-}
-
--(BOOL) setNavStatus:(int) val {
-
-    if (val < 0)
-        return NO;
-    if (val > 15)
-        return NO;
-    m_navStatusPresent = YES;
-    m_navStatus = val;
-    return YES;
-}
-
-- (int) navStatus {
-
-    return m_navStatus;
-}
-
--(BOOL) hasNavStatus {
-
-    return m_navStatusPresent;
 }
 
 -(BOOL) setHeading:(float) val {
@@ -373,15 +375,12 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"Pos"]) {
-                ILPos * val = [attributeDict objectForKey: key];
-                if (![self addPos: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"COG"]) {
+            if ([key isEqualToString: @"COG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setCOG: val]) {
+                   return NO;
+                }
                 if (![self setCOG: val]) {
                    return NO;
                 }
@@ -392,10 +391,16 @@
                 if (![self setEstAccSOG: val]) {
                    return NO;
                 }
+                if (![self setEstAccSOG: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"EstAccCOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setEstAccCOG: val]) {
+                   return NO;
+                }
                 if (![self setEstAccCOG: val]) {
                    return NO;
                 }
@@ -406,6 +411,9 @@
                 if (![self setIdent: val]) {
                    return NO;
                 }
+                if (![self setIdent: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Length"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -413,17 +421,16 @@
                 if (![self setLength: val]) {
                    return NO;
                 }
-            }
-            else if ([key isEqualToString:@"NavStatus"]) {
-                NSString *value = [attributeDict objectForKey: key];
-                int val = [value intValue];
-                if (![self setNavStatus: val]) {
+                if (![self setLength: val]) {
                    return NO;
                 }
             }
             else if ([key isEqualToString:@"Heading"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setHeading: val]) {
+                   return NO;
+                }
                 if (![self setHeading: val]) {
                    return NO;
                 }
@@ -434,10 +441,16 @@
                 if (![self setROT: val]) {
                    return NO;
                 }
+                if (![self setROT: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setSOG: val]) {
+                   return NO;
+                }
                 if (![self setSOG: val]) {
                    return NO;
                 }
@@ -447,9 +460,15 @@
                 if (![self setSourceId: val]) {
                    return NO;
                 }
+                if (![self setSourceId: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"SourceName"]) {
                 NSString *val = [attributeDict objectForKey: key];
+                if (![self setSourceName: val]) {
+                   return NO;
+                }
                 if (![self setSourceName: val]) {
                    return NO;
                 }
@@ -460,6 +479,9 @@
                 if (![self setUpdateTime: val]) {
                    return NO;
                 }
+                if (![self setUpdateTime: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"TrackStatus"]) {
                 NSString *value = [attributeDict objectForKey: key];
@@ -467,10 +489,16 @@
                 if (![self setTrackStatus: val]) {
                    return NO;
                 }
+                if (![self setTrackStatus: val]) {
+                   return NO;
+                }
             }
             else if ([key isEqualToString:@"Width"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
+                if (![self setWidth: val]) {
+                   return NO;
+                }
                 if (![self setWidth: val]) {
                    return NO;
                 }
@@ -482,9 +510,10 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<TrackData"];
+    NSString *dataMember;
     if ( m_COGPresent ) {
         [xml appendString: @" COG=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_COG]];
+        [xml appendString: [NSString stringWithFormat:@"%.1f", m_COG]];
         [xml appendString: @"\""];
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"COG" forKey: @"description"]];
@@ -513,11 +542,6 @@
         [xml appendString: [NSString stringWithFormat:@"%f", m_length]];
         [xml appendString: @"\""];
     }
-    if ( [self hasNavStatus] ) {
-        [xml appendString: @" NavStatus=\""];
-        [xml appendString: [NSString stringWithFormat:@"%d", m_navStatus]];
-        [xml appendString: @"\""];
-    }
     if ( [self hasHeading] ) {
         [xml appendString: @" Heading=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_heading]];
@@ -525,12 +549,12 @@
     }
     if ( [self hasROT] ) {
         [xml appendString: @" ROT=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_ROT]];
+        [xml appendString: [NSString stringWithFormat:@"%.1f", m_ROT]];
         [xml appendString: @"\""];
     }
     if ( m_SOGPresent ) {
         [xml appendString: @" SOG=\""];
-        [xml appendString: [NSString stringWithFormat:@"%f", m_SOG]];
+        [xml appendString: [NSString stringWithFormat:@"%.1f", m_SOG]];
         [xml appendString: @"\""];
     } else { // required element is missing !
         [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"SOG" forKey: @"description"]];
@@ -571,9 +595,33 @@
         [xml appendString: @"\""];
     }
     [xml appendString:@">\n"];
+    if ([m_poss count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of Pos" forKey: @"description"]];
+        return nil;
+    }
     for(int i=0; i < [m_poss count]; i++ ) {
         ILPos *attribute = [m_poss objectAtIndex:i];
-        [xml appendString: [attribute XML] ];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pos" forKey: @"description"]];
+            return nil;
+        }
+    }
+    if ([m_navStatuss count] < 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Not enough entries of NavStatus" forKey: @"description"]];
+        return nil;
+    }
+    for(int i=0; i < [m_navStatuss count]; i++ ) {
+        ILNavStatus *attribute = [m_navStatuss objectAtIndex:i];
+        dataMember = [attribute XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"NavStatus" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</TrackData>\n"];
     return xml;
@@ -602,7 +650,7 @@
     [str setString: [lead stringByAppendingString:@"TrackData\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"COG = "];
-    [str appendString: [NSString stringWithFormat:@"%f", m_COG]];
+    [str appendString: [NSString stringWithFormat:@"%.1f", m_COG]];
     [str appendString: @"\n"];
 
     if ( [self hasEstAccSOG] ) {
@@ -631,13 +679,6 @@
         [str appendString: @"\n"];
 
     }
-    if ( [self hasNavStatus] ) {
-        [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"NavStatus = "];
-        [str appendString: [NSString stringWithFormat:@"%d", m_navStatus]];
-        [str appendString: @"\n"];
-
-    }
     if ( [self hasHeading] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"Heading = "];
@@ -648,13 +689,13 @@
     if ( [self hasROT] ) {
         [str appendString: [lead stringByAppendingString: @" "]];
         [str appendString: @"ROT = "];
-        [str appendString: [NSString stringWithFormat:@"%f", m_ROT]];
+        [str appendString: [NSString stringWithFormat:@"%.1f", m_ROT]];
         [str appendString: @"\n"];
 
     }
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"SOG = "];
-    [str appendString: [NSString stringWithFormat:@"%f", m_SOG]];
+    [str appendString: [NSString stringWithFormat:@"%.1f", m_SOG]];
     [str appendString: @"\n"];
 
     if ( [self hasSourceId] ) {
@@ -690,13 +731,17 @@
         ILPos *attribute = [m_poss objectAtIndex:i];
         [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @" "]] ];
     }
+    for(int i=0; i < [m_navStatuss count]; i++ ) {
+        ILNavStatus *attribute = [m_navStatuss objectAtIndex:i];
+        [str appendString: [attribute stringValueWithLead: [lead stringByAppendingString: @" "]] ];
+    }
     return str;
 }
 
 -(NSDictionary *) attributes {
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
-    [attr setObject: [NSString stringWithFormat:@"%f", m_COG] forKey: @"COG"];
+    [attr setObject: [NSString stringWithFormat:@"%.1f", m_COG] forKey: @"COG"];
     if ( [self hasEstAccSOG] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_estAccSOG] forKey: @"EstAccSOG"];
     }
@@ -707,16 +752,13 @@
     if ( [self hasLength] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_length] forKey: @"Length"];
     }
-    if ( [self hasNavStatus] ) {
-        [attr setObject: [NSString stringWithFormat:@"%d", m_navStatus] forKey: @"NavStatus"];
-    }
     if ( [self hasHeading] ) {
         [attr setObject: [NSString stringWithFormat:@"%f", m_heading] forKey: @"Heading"];
     }
     if ( [self hasROT] ) {
-        [attr setObject: [NSString stringWithFormat:@"%f", m_ROT] forKey: @"ROT"];
+        [attr setObject: [NSString stringWithFormat:@"%.1f", m_ROT] forKey: @"ROT"];
     }
-    [attr setObject: [NSString stringWithFormat:@"%f", m_SOG] forKey: @"SOG"];
+    [attr setObject: [NSString stringWithFormat:@"%.1f", m_SOG] forKey: @"SOG"];
     if ( [self hasSourceId] ) {
         [attr setObject: m_sourceId forKey: @"SourceId"];
     }

@@ -6,11 +6,12 @@ ServiceRequestResponse::ServiceRequestResponse() {
 
     // initialize empty string
     m_reason = "";
-    // optional attributes are by default not present
     m_reasonPresent = false;
     // initialize empty string
     m_responseOn = "";
+    m_responseOnPresent = false;
     m_result = 0;
+    m_resultPresent = false;
 }
 
 // copy constructor
@@ -18,7 +19,9 @@ ServiceRequestResponse::ServiceRequestResponse(const ServiceRequestResponse &val
 
     m_reasonPresent = val.m_reasonPresent;
     m_reason = val.m_reason;
+    m_responseOnPresent = val.m_responseOnPresent;
     m_responseOn = val.m_responseOn;
+    m_resultPresent = val.m_resultPresent;
     m_result = val.m_result;
 }
 
@@ -27,13 +30,15 @@ ServiceRequestResponse & ServiceRequestResponse::operator=(const ServiceRequestR
 
     m_reasonPresent = val.m_reasonPresent;
     m_reason = val.m_reason;
+    m_responseOnPresent = val.m_responseOnPresent;
     m_responseOn = val.m_responseOn;
+    m_resultPresent = val.m_resultPresent;
     m_result = val.m_result;
     return *this;
 }
 
 // String encoder
-QString ServiceRequestResponse::encode( QString str) {
+QString ServiceRequestResponse::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -44,10 +49,11 @@ QString ServiceRequestResponse::encode( QString str) {
 }
 
 // setter for ServiceRequestResponse
-void ServiceRequestResponse::setReason(QString val) {
+bool ServiceRequestResponse::setReason(QString val) {
 
     m_reasonPresent = true;
     m_reason = val;
+      return true;
 }
 
 // getter for ServiceRequestResponse
@@ -63,9 +69,11 @@ bool ServiceRequestResponse::hasReason() const {
 }
 
 // setter for ServiceRequestResponse
-void ServiceRequestResponse::setResponseOn(QString val) {
+bool ServiceRequestResponse::setResponseOn(QString val) {
 
+    m_responseOnPresent = true;
     m_responseOn = val;
+      return true;
 }
 
 // getter for ServiceRequestResponse
@@ -75,14 +83,16 @@ QString ServiceRequestResponse::getResponseOn() const {
 }
 
 // setter for ServiceRequestResponse
-void ServiceRequestResponse::setResult(int val) {
+bool ServiceRequestResponse::setResult(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) &&
          ( val != 3 ) )
-        return;
+        return false;
+    m_resultPresent = true;
     m_result = val;
+      return true;
 }
 
 // getter for ServiceRequestResponse
@@ -92,15 +102,26 @@ int ServiceRequestResponse::getResult() const {
 }
 
 // Get XML Representation
-QString ServiceRequestResponse::toXML() {
+QString ServiceRequestResponse::toXML() const {
 
     QString xml = "<ServiceRequestResponse";
+    QString dataMember;
     // check for presence of optional attribute
     if ( hasReason() ) {
         xml.append(" Reason=\"" + encode (m_reason) + "\"");
     }
-    xml.append(" ResponseOn=\"" + encode (m_responseOn) + "\"");
-    xml.append(" Result=\"" + QString::number(m_result) + "\"");
+    // check for presence of required  attribute
+    if ( m_responseOnPresent) {
+        xml.append(" ResponseOn=\"" + encode (m_responseOn) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_resultPresent) {
+        xml.append(" Result=\"" + QString::number( m_result ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }
@@ -119,8 +140,8 @@ QString ServiceRequestResponse::toString(QString lead) {
     if ( hasReason() ) {
         str.append( lead + "    Reason = " + m_reason + "\n");
     }
-    str.append( lead + "    ResponseOn = " + m_responseOn + "\n");
-    str.append( lead + "    Result = " + QString::number(m_result) + "\n");
+     str.append( lead + "    ResponseOn = " + m_responseOn + "\n");
+     str.append( lead + "    Result = " + QString::number( m_result ) + "\n");
     return str;
 }
 

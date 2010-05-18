@@ -6,11 +6,12 @@ LoginResponse::LoginResponse() {
 
     // initialize empty string
     m_reason = "";
-    // optional attributes are by default not present
     m_reasonPresent = false;
     // initialize empty string
     m_responseOn = "";
+    m_responseOnPresent = false;
     m_result = 0;
+    m_resultPresent = false;
 }
 
 // copy constructor
@@ -18,7 +19,9 @@ LoginResponse::LoginResponse(const LoginResponse &val) : QObject() {
 
     m_reasonPresent = val.m_reasonPresent;
     m_reason = val.m_reason;
+    m_responseOnPresent = val.m_responseOnPresent;
     m_responseOn = val.m_responseOn;
+    m_resultPresent = val.m_resultPresent;
     m_result = val.m_result;
 }
 
@@ -27,13 +30,15 @@ LoginResponse & LoginResponse::operator=(const LoginResponse &val) {
 
     m_reasonPresent = val.m_reasonPresent;
     m_reason = val.m_reason;
+    m_responseOnPresent = val.m_responseOnPresent;
     m_responseOn = val.m_responseOn;
+    m_resultPresent = val.m_resultPresent;
     m_result = val.m_result;
     return *this;
 }
 
 // String encoder
-QString LoginResponse::encode( QString str) {
+QString LoginResponse::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -44,10 +49,11 @@ QString LoginResponse::encode( QString str) {
 }
 
 // setter for LoginResponse
-void LoginResponse::setReason(QString val) {
+bool LoginResponse::setReason(QString val) {
 
     m_reasonPresent = true;
     m_reason = val;
+      return true;
 }
 
 // getter for LoginResponse
@@ -63,9 +69,11 @@ bool LoginResponse::hasReason() const {
 }
 
 // setter for LoginResponse
-void LoginResponse::setResponseOn(QString val) {
+bool LoginResponse::setResponseOn(QString val) {
 
+    m_responseOnPresent = true;
     m_responseOn = val;
+      return true;
 }
 
 // getter for LoginResponse
@@ -75,13 +83,15 @@ QString LoginResponse::getResponseOn() const {
 }
 
 // setter for LoginResponse
-void LoginResponse::setResult(int val) {
+bool LoginResponse::setResult(int val) {
 // check if the new value is an approved value 
 
     if ( ( val != 1 ) &&
          ( val != 2 ) )
-        return;
+        return false;
+    m_resultPresent = true;
     m_result = val;
+      return true;
 }
 
 // getter for LoginResponse
@@ -91,15 +101,26 @@ int LoginResponse::getResult() const {
 }
 
 // Get XML Representation
-QString LoginResponse::toXML() {
+QString LoginResponse::toXML() const {
 
     QString xml = "<LoginResponse";
+    QString dataMember;
     // check for presence of optional attribute
     if ( hasReason() ) {
         xml.append(" Reason=\"" + encode (m_reason) + "\"");
     }
-    xml.append(" ResponseOn=\"" + encode (m_responseOn) + "\"");
-    xml.append(" Result=\"" + QString::number(m_result) + "\"");
+    // check for presence of required  attribute
+    if ( m_responseOnPresent) {
+        xml.append(" ResponseOn=\"" + encode (m_responseOn) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_resultPresent) {
+        xml.append(" Result=\"" + QString::number( m_result ) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }
@@ -118,8 +139,8 @@ QString LoginResponse::toString(QString lead) {
     if ( hasReason() ) {
         str.append( lead + "    Reason = " + m_reason + "\n");
     }
-    str.append( lead + "    ResponseOn = " + m_responseOn + "\n");
-    str.append( lead + "    Result = " + QString::number(m_result) + "\n");
+     str.append( lead + "    ResponseOn = " + m_responseOn + "\n");
+     str.append( lead + "    Result = " + QString::number( m_result ) + "\n");
     return str;
 }
 

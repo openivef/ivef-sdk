@@ -5,19 +5,17 @@
 Pos::Pos() {
 
     m_altitude = 0.0;
-    // optional attributes are by default not present
     m_altitudePresent = false;
     m_estAccAlt = 0.0;
-    // optional attributes are by default not present
     m_estAccAltPresent = false;
     m_estAccLat = 0.0;
-    // optional attributes are by default not present
     m_estAccLatPresent = false;
     m_estAccLong = 0.0;
-    // optional attributes are by default not present
     m_estAccLongPresent = false;
     m_lat = 0.0;
+    m_latPresent = false;
     m_long = 0.0;
+    m_longPresent = false;
 }
 
 // copy constructor
@@ -31,7 +29,9 @@ Pos::Pos(const Pos &val) : QObject() {
     m_estAccLat = val.m_estAccLat;
     m_estAccLongPresent = val.m_estAccLongPresent;
     m_estAccLong = val.m_estAccLong;
+    m_latPresent = val.m_latPresent;
     m_lat = val.m_lat;
+    m_longPresent = val.m_longPresent;
     m_long = val.m_long;
 }
 
@@ -46,13 +46,15 @@ Pos & Pos::operator=(const Pos &val) {
     m_estAccLat = val.m_estAccLat;
     m_estAccLongPresent = val.m_estAccLongPresent;
     m_estAccLong = val.m_estAccLong;
+    m_latPresent = val.m_latPresent;
     m_lat = val.m_lat;
+    m_longPresent = val.m_longPresent;
     m_long = val.m_long;
     return *this;
 }
 
 // String encoder
-QString Pos::encode( QString str) {
+QString Pos::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -63,10 +65,11 @@ QString Pos::encode( QString str) {
 }
 
 // setter for Pos
-void Pos::setAltitude(float val) {
+bool Pos::setAltitude(float val) {
 
     m_altitudePresent = true;
     m_altitude = val;
+      return true;
 }
 
 // getter for Pos
@@ -82,10 +85,11 @@ bool Pos::hasAltitude() const {
 }
 
 // setter for Pos
-void Pos::setEstAccAlt(float val) {
+bool Pos::setEstAccAlt(float val) {
 
     m_estAccAltPresent = true;
     m_estAccAlt = val;
+      return true;
 }
 
 // getter for Pos
@@ -101,10 +105,11 @@ bool Pos::hasEstAccAlt() const {
 }
 
 // setter for Pos
-void Pos::setEstAccLat(float val) {
+bool Pos::setEstAccLat(float val) {
 
     m_estAccLatPresent = true;
     m_estAccLat = val;
+      return true;
 }
 
 // getter for Pos
@@ -120,10 +125,11 @@ bool Pos::hasEstAccLat() const {
 }
 
 // setter for Pos
-void Pos::setEstAccLong(float val) {
+bool Pos::setEstAccLong(float val) {
 
     m_estAccLongPresent = true;
     m_estAccLong = val;
+      return true;
 }
 
 // getter for Pos
@@ -139,15 +145,17 @@ bool Pos::hasEstAccLong() const {
 }
 
 // setter for Pos
-void Pos::setLat(float val) {
+bool Pos::setLat(float val) {
     // check if the new value is within bounds 
 
     if (val < -90)
-        return;    // check if the new value is within bounds 
+        return false;    // check if the new value is within bounds 
 
     if (val > 90)
-        return;
+        return false;
+    m_latPresent = true;
     m_lat = val;
+      return true;
 }
 
 // getter for Pos
@@ -157,15 +165,17 @@ float Pos::getLat() const {
 }
 
 // setter for Pos
-void Pos::setLong(float val) {
+bool Pos::setLong(float val) {
     // check if the new value is within bounds 
 
     if (val < -180)
-        return;    // check if the new value is within bounds 
+        return false;    // check if the new value is within bounds 
 
     if (val > 180)
-        return;
+        return false;
+    m_longPresent = true;
     m_long = val;
+      return true;
 }
 
 // getter for Pos
@@ -175,27 +185,38 @@ float Pos::getLong() const {
 }
 
 // Get XML Representation
-QString Pos::toXML() {
+QString Pos::toXML() const {
 
     QString xml = "<Pos";
+    QString dataMember;
     // check for presence of optional attribute
     if ( hasAltitude() ) {
-        xml.append(" Altitude=\"" + QString::number(m_altitude, 'f') + "\"");
+        xml.append(" Altitude=\"" + QString::number( m_altitude, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasEstAccAlt() ) {
-        xml.append(" EstAccAlt=\"" + QString::number(m_estAccAlt, 'f') + "\"");
+        xml.append(" EstAccAlt=\"" + QString::number( m_estAccAlt, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasEstAccLat() ) {
-        xml.append(" EstAccLat=\"" + QString::number(m_estAccLat, 'f') + "\"");
+        xml.append(" EstAccLat=\"" + QString::number( m_estAccLat, 'f') + "\"");
     }
     // check for presence of optional attribute
     if ( hasEstAccLong() ) {
-        xml.append(" EstAccLong=\"" + QString::number(m_estAccLong, 'f') + "\"");
+        xml.append(" EstAccLong=\"" + QString::number( m_estAccLong, 'f') + "\"");
     }
-    xml.append(" Lat=\"" + QString::number(m_lat, 'f') + "\"");
-    xml.append(" Long=\"" + QString::number(m_long, 'f') + "\"");
+    // check for presence of required  attribute
+    if ( m_latPresent) {
+        xml.append(" Lat=\"" + QString::number(m_lat, 'f', 5) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
+    // check for presence of required  attribute
+    if ( m_longPresent) {
+        xml.append(" Long=\"" + QString::number(m_long, 'f', 5) + "\"");
+    } else { // required attribute not present
+        return NULL;
+    }
     xml.append("/>\n");
     return xml;
 }
@@ -212,22 +233,22 @@ QString Pos::toString(QString lead) {
     QString str = lead + "Pos\n";
     // check for presence of optional attribute
     if ( hasAltitude() ) {
-        str.append( lead + "    Altitude = " + QString::number(m_altitude, 'f') + "\n");
+        str.append( lead + "    Altitude = " + QString::number( m_altitude, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasEstAccAlt() ) {
-        str.append( lead + "    EstAccAlt = " + QString::number(m_estAccAlt, 'f') + "\n");
+        str.append( lead + "    EstAccAlt = " + QString::number( m_estAccAlt, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasEstAccLat() ) {
-        str.append( lead + "    EstAccLat = " + QString::number(m_estAccLat, 'f') + "\n");
+        str.append( lead + "    EstAccLat = " + QString::number( m_estAccLat, 'f') + "\n");
     }
     // check for presence of optional attribute
     if ( hasEstAccLong() ) {
-        str.append( lead + "    EstAccLong = " + QString::number(m_estAccLong, 'f') + "\n");
+        str.append( lead + "    EstAccLong = " + QString::number( m_estAccLong, 'f') + "\n");
     }
-    str.append( lead + "    Lat = " + QString::number(m_lat, 'f') + "\n");
-    str.append( lead + "    Long = " + QString::number(m_long, 'f') + "\n");
+     str.append( lead + "    Lat = " + QString::number(m_lat, 'f', 5) + "\n");
+     str.append( lead + "    Long = " + QString::number(m_long, 'f', 5) + "\n");
     return str;
 }
 

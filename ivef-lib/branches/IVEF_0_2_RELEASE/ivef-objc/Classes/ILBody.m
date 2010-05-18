@@ -42,7 +42,7 @@
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
@@ -63,15 +63,15 @@
 #endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
-         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss.SSS" allowNaturalLanguage:NO];
+         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithSeconds = nil;
      if (formatterWithSeconds == nil) {
-         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm:ss" allowNaturalLanguage:NO];
+         formatterWithSeconds = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S" allowNaturalLanguage:NO];
      }
      static NSDateFormatter *formatterWithMinutes = nil;
      if (formatterWithMinutes == nil) {
-         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"yyyy-MM-dd'T'HH:mm" allowNaturalLanguage:NO];
+         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
 #if defined (__clang__)
      NSDate *val;
@@ -274,101 +274,94 @@
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
 
-#if defined (__clang__)
-        NSEnumerator *enumerator = [attributeDict keyEnumerator];
-        NSString *key;
-        while (key = [enumerator nextObject]) {
-#else
-        for (NSString *key in attributeDict) {
-#endif
-            if ([key isEqualToString: @"LoginRequest"]) {
-                ILLoginRequest * val = [attributeDict objectForKey: key];
-                if (![self setLoginRequest: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"LoginResponse"]) {
-                ILLoginResponse * val = [attributeDict objectForKey: key];
-                if (![self setLoginResponse: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Logout"]) {
-                ILLogout * val = [attributeDict objectForKey: key];
-                if (![self setLogout: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"ObjectDatas"]) {
-                ILObjectDatas * val = [attributeDict objectForKey: key];
-                if (![self setObjectDatas: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Ping"]) {
-                ILPing * val = [attributeDict objectForKey: key];
-                if (![self setPing: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Pong"]) {
-                ILPong * val = [attributeDict objectForKey: key];
-                if (![self setPong: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"ServerStatus"]) {
-                ILServerStatus * val = [attributeDict objectForKey: key];
-                if (![self setServerStatus: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"ServiceRequest"]) {
-                ILServiceRequest * val = [attributeDict objectForKey: key];
-                if (![self setServiceRequest: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"ServiceRequestResponse"]) {
-                ILServiceRequestResponse * val = [attributeDict objectForKey: key];
-                if (![self setServiceRequestResponse: val]) {
-                   return NO;
-                }
-            }
-        }
         return YES;
 }
 
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Body"];
+    NSString *dataMember;
     [xml appendString:@">\n"];
     if ( [self hasLoginRequest] ) {
-        [xml appendString: [m_loginRequest XML] ];
+        dataMember = [m_loginRequest XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"LoginRequest" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasLoginResponse] ) {
-        [xml appendString: [m_loginResponse XML] ];
+        dataMember = [m_loginResponse XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"LoginResponse" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasLogout] ) {
-        [xml appendString: [m_logout XML] ];
+        dataMember = [m_logout XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Logout" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasObjectDatas] ) {
-        [xml appendString: [m_objectDatas XML] ];
+        dataMember = [m_objectDatas XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"ObjectDatas" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasPing] ) {
-        [xml appendString: [m_ping XML] ];
+        dataMember = [m_ping XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Ping" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasPong] ) {
-        [xml appendString: [m_pong XML] ];
+        dataMember = [m_pong XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Pong" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasServerStatus] ) {
-        [xml appendString: [m_serverStatus XML] ];
+        dataMember = [m_serverStatus XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"ServerStatus" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasServiceRequest] ) {
-        [xml appendString: [m_serviceRequest XML] ];
+        dataMember = [m_serviceRequest XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"ServiceRequest" forKey: @"description"]];
+            return nil;
+        }
     }
     if ( [self hasServiceRequestResponse] ) {
-        [xml appendString: [m_serviceRequestResponse XML] ];
+        dataMember = [m_serviceRequestResponse XML];
+        if (dataMember != nil) {
+            [xml appendString: dataMember];
+        } else { 
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"ServiceRequestResponse" forKey: @"description"]];
+            return nil;
+        }
     }
     [xml appendString: @"</Body>\n"];
     return xml;

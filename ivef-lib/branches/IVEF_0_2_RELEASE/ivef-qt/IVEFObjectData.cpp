@@ -4,7 +4,6 @@
 // Constructor
 ObjectData::ObjectData() {
 
-    // optional attributes are by default not present
     m_trackDataPresent = false;
 }
 
@@ -13,8 +12,11 @@ ObjectData::ObjectData(const ObjectData &val) : QObject() {
 
     m_trackDataPresent = val.m_trackDataPresent;
     m_trackData = val.m_trackData;
+    m_vesselDataPresent = val.m_vesselDataPresent;
     m_vesselDatas = val.m_vesselDatas;
+    m_voyageDataPresent = val.m_voyageDataPresent;
     m_voyageDatas = val.m_voyageDatas;
+    m_taggedItemPresent = val.m_taggedItemPresent;
     m_taggedItems = val.m_taggedItems;
 }
 
@@ -23,14 +25,17 @@ ObjectData & ObjectData::operator=(const ObjectData &val) {
 
     m_trackDataPresent = val.m_trackDataPresent;
     m_trackData = val.m_trackData;
+    m_vesselDataPresent = val.m_vesselDataPresent;
     m_vesselDatas = val.m_vesselDatas;
+    m_voyageDataPresent = val.m_voyageDataPresent;
     m_voyageDatas = val.m_voyageDatas;
+    m_taggedItemPresent = val.m_taggedItemPresent;
     m_taggedItems = val.m_taggedItems;
     return *this;
 }
 
 // String encoder
-QString ObjectData::encode( QString str) {
+QString ObjectData::encode( QString str) const {
 
     // replace characters that are illigal in XML with their encodings
     str.replace('&', "&amp;");
@@ -41,10 +46,11 @@ QString ObjectData::encode( QString str) {
 }
 
 // setter for ObjectData
-void ObjectData::setTrackData(TrackData val) {
+bool ObjectData::setTrackData(TrackData val) {
 
     m_trackDataPresent = true;
     m_trackData = val;
+      return true;
 }
 
 // getter for ObjectData
@@ -60,9 +66,10 @@ bool ObjectData::hasTrackData() const {
 }
 
 // setter for ObjectData
-void ObjectData::addVesselData(VesselData val) {
+bool ObjectData::addVesselData(VesselData val) {
 
-    m_vesselDatas.append(val);
+   m_vesselDatas.append(val);
+      return true;
 }
 
 // getter for ObjectData
@@ -78,9 +85,10 @@ int ObjectData::countOfVesselDatas() const {
 }
 
 // setter for ObjectData
-void ObjectData::addVoyageData(VoyageData val) {
+bool ObjectData::addVoyageData(VoyageData val) {
 
-    m_voyageDatas.append(val);
+   m_voyageDatas.append(val);
+      return true;
 }
 
 // getter for ObjectData
@@ -96,9 +104,10 @@ int ObjectData::countOfVoyageDatas() const {
 }
 
 // setter for ObjectData
-void ObjectData::addTaggedItem(TaggedItem val) {
+bool ObjectData::addTaggedItem(TaggedItem val) {
 
-    m_taggedItems.append(val);
+   m_taggedItems.append(val);
+      return true;
 }
 
 // getter for ObjectData
@@ -114,28 +123,58 @@ int ObjectData::countOfTaggedItems() const {
 }
 
 // Get XML Representation
-QString ObjectData::toXML() {
+QString ObjectData::toXML() const {
 
     QString xml = "<ObjectData";
+    QString dataMember;
     xml.append(">\n");
     // add optional data if available
     if ( hasTrackData() ) {
-        xml.append( m_trackData.toXML() );
+        dataMember = m_trackData.toXML();
+        if (dataMember != NULL) {
+            xml.append( dataMember );
+        } else {
+            return NULL;
+        }
+    }
+    if (m_vesselDatas.count() < 0) {
+        return NULL; // not enough values
     }
     // add all included data
     for(int i=0; i < m_vesselDatas.count(); i++ ) {
         VesselData attribute = m_vesselDatas.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
+    }
+    if (m_voyageDatas.count() < 0) {
+        return NULL; // not enough values
     }
     // add all included data
     for(int i=0; i < m_voyageDatas.count(); i++ ) {
         VoyageData attribute = m_voyageDatas.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
+    }
+    if (m_taggedItems.count() < 0) {
+        return NULL; // not enough values
     }
     // add all included data
     for(int i=0; i < m_taggedItems.count(); i++ ) {
         TaggedItem attribute = m_taggedItems.at(i);
-        xml.append( attribute.toXML() );
+        dataMember = attribute.toXML();
+        if (dataMember != NULL) {
+           xml.append( attribute.toXML() );
+        } else {
+            return NULL;
+        }
     }
     xml.append( "</ObjectData>\n");
     return xml;
@@ -157,18 +196,18 @@ QString ObjectData::toString(QString lead) {
     }
     // add all included data
     for(int i=0; i < m_vesselDatas.count(); i++ ) {
-       VesselData attribute = m_vesselDatas.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        VesselData attribute = m_vesselDatas.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     // add all included data
     for(int i=0; i < m_voyageDatas.count(); i++ ) {
-       VoyageData attribute = m_voyageDatas.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        VoyageData attribute = m_voyageDatas.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     // add all included data
     for(int i=0; i < m_taggedItems.count(); i++ ) {
-       TaggedItem attribute = m_taggedItems.at(i);
-       str.append( attribute.toString(lead + "    ") );
+        TaggedItem attribute = m_taggedItems.at(i);
+        str.append( attribute.toString( lead + "    " ) );
     }
     return str;
 }

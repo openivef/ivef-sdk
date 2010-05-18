@@ -10,36 +10,37 @@ macx {
    CONFIG += lib_bundle 
    FRAMEWORK_HEADERS.version = VERSION
    FRAMEWORK_HEADERS.files = \
-	IVEFArea.h \
-	IVEFBody.h \
-	IVEFConstruction.h \
-	IVEFFilter.h \
-	IVEFHeader.h \
-	IVEFIdentifier.h \
-	IVEFItem.h \
-	IVEFLoginRequest.h \
-	IVEFLoginResponse.h \
-	IVEFLogout.h \
-	IVEFMSG_IVEF.h \
-	IVEFObjectData.h \
-	IVEFObjectDatas.h \
-	IVEFOtherId.h \
-	IVEFOtherName.h \
-	IVEFParser.h \
-	IVEFPing.h \
-	IVEFPong.h \
-	IVEFPos.h \
-	IVEFSchema.h \
-	IVEFServerStatus.h \
-	IVEFServiceRequest.h \
-	IVEFServiceRequestResponse.h \
-	IVEFTaggedItem.h \
-	IVEFTrackData.h \
-	IVEFTransmission.h \
-	IVEFUnType.h \
-	IVEFVesselData.h \
-	IVEFVoyageData.h \
-	IVEFWaypoint.h
+IVEFArea.h \
+IVEFBody.h \
+IVEFConstruction.h \
+IVEFFilter.h \
+IVEFHeader.h \
+IVEFIdentifier.h \
+IVEFItem.h \
+IVEFLoginRequest.h \
+IVEFLoginResponse.h \
+IVEFLogout.h \
+IVEFMSG_IVEF.h \
+IVEFNavStatus.h \
+IVEFObjectData.h \
+IVEFObjectDatas.h \
+IVEFOtherId.h \
+IVEFOtherName.h \
+IVEFParser.h \
+IVEFPing.h \
+IVEFPong.h \
+IVEFPos.h \
+IVEFSchema.h \
+IVEFServerStatus.h \
+IVEFServiceRequest.h \
+IVEFServiceRequestResponse.h \
+IVEFTaggedItem.h \
+IVEFTrackData.h \
+IVEFTransmission.h \
+IVEFUnType.h \
+IVEFVesselData.h \
+IVEFVoyageData.h \
+IVEFWaypoint.h
 
    QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 }
@@ -60,6 +61,7 @@ HEADERS += \
 	IVEFLoginResponse.h \
 	IVEFLogout.h \
 	IVEFMSG_IVEF.h \
+        IVEFNavStatus.h \
 	IVEFObjectData.h \
 	IVEFObjectDatas.h \
 	IVEFOtherId.h \
@@ -92,6 +94,7 @@ SOURCES += \
 	IVEFLoginResponse.cpp \
 	IVEFLogout.cpp \
 	IVEFMSG_IVEF.cpp \
+        IVEFNavStatus.cpp \
 	IVEFObjectData.cpp \
 	IVEFObjectDatas.cpp \
 	IVEFOtherId.cpp \

@@ -1,23 +1,19 @@
 
-#import "ILServerStatus.h"
+#import "ILNavStatus.h"
 
 
-@implementation ILServerStatus
+@implementation ILNavStatus
 
 - (id) init {
     self = [super init];
     if (self != nil) {
-        m_contactIdentityPresent = NO;
-        m_detailsPresent = NO;
-        m_statusPresent = NO;
+        m_valuePresent = NO;
     }
     return self;
 }
 
 - (void) dealloc {
 
-    [m_contactIdentity release];
-    [m_details release];
     [super dealloc];
 }
 
@@ -88,54 +84,20 @@
      return nil; // invalid date
 }
 
--(BOOL) setContactIdentity:(NSString *) val {
+-(BOOL) setValue:(int) val {
 
-    m_contactIdentityPresent = YES;
-    [m_contactIdentity release];
-    m_contactIdentity = val;
-    [m_contactIdentity retain];
+    if (val < 0)
+        return NO;
+    if (val > 15)
+        return NO;
+    m_valuePresent = YES;
+    m_value = val;
     return YES;
 }
 
-- (NSString *) contactIdentity {
+- (int) value {
 
-    return m_contactIdentity;
-}
-
--(BOOL) hasContactIdentity {
-
-    return m_contactIdentityPresent;
-}
-
--(BOOL) setDetails:(NSString *) val {
-
-    m_detailsPresent = YES;
-    [m_details release];
-    m_details = val;
-    [m_details retain];
-    return YES;
-}
-
-- (NSString *) details {
-
-    return m_details;
-}
-
--(BOOL) hasDetails {
-
-    return m_detailsPresent;
-}
-
--(BOOL) setStatus:(BOOL) val {
-
-    m_statusPresent = YES;
-    m_status = val;
-    return YES;
-}
-
-- (BOOL) status {
-
-    return m_status;
+    return m_value;
 }
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
@@ -147,33 +109,13 @@
 #else
         for (NSString *key in attributeDict) {
 #endif
-            if ([key isEqualToString: @"ContactIdentity"]) {
-                NSString *val = [attributeDict objectForKey: key];
-                if (![self setContactIdentity: val]) {
-                   return NO;
-                }
-                if (![self setContactIdentity: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Details"]) {
-                NSString *val = [attributeDict objectForKey: key];
-                if (![self setDetails: val]) {
-                   return NO;
-                }
-                if (![self setDetails: val]) {
-                   return NO;
-                }
-            }
-            else if ([key isEqualToString:@"Status"]) {
+            if ([key isEqualToString: @"Value"]) {
                 NSString *value = [attributeDict objectForKey: key];
-                BOOL val = ([[value uppercaseString] isEqualToString: @"YES"] || 
-                            [[value uppercaseString] isEqualToString: @"TRUE"] ||
-                            [[value uppercaseString] isEqualToString: @"1"]);
-                if (![self setStatus: val]) {
+                int val = [value intValue];
+                if (![self setValue: val]) {
                    return NO;
                 }
-                if (![self setStatus: val]) {
+                if (![self setValue: val]) {
                    return NO;
                 }
             }
@@ -183,23 +125,13 @@
 
 -(NSString *) XML {
 
-    NSMutableString *xml = [NSMutableString stringWithString:@"<ServerStatus"];
-    if ( [self hasContactIdentity] ) {
-        [xml appendString: @" ContactIdentity=\""];
-        [xml appendString: [self encode: m_contactIdentity]];
-        [xml appendString: @"\""];
-    }
-    if ( [self hasDetails] ) {
-        [xml appendString: @" Details=\""];
-        [xml appendString: [self encode: m_details]];
-        [xml appendString: @"\""];
-    }
-    if ( m_statusPresent ) {
-        [xml appendString: @" Status=\""];
-        [xml appendString: (m_status?@"true":@"false")];
+    NSMutableString *xml = [NSMutableString stringWithString:@"<NavStatus"];
+    if ( m_valuePresent ) {
+        [xml appendString: @" Value=\""];
+        [xml appendString: [NSString stringWithFormat:@"%d", m_value]];
         [xml appendString: @"\""];
     } else { // required element is missing !
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Status" forKey: @"description"]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ILValidationError" object: self userInfo: [NSDictionary dictionaryWithObject: @"Value" forKey: @"description"]];
         return nil;
     }
     [xml appendString:@"/>\n"];
@@ -226,24 +158,10 @@
 -(NSString *) stringValueWithLead: (NSString *) lead {
 
     NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
-    [str setString: [lead stringByAppendingString:@"ServerStatus\n"]];
-    if ( [self hasContactIdentity] ) {
-        [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"ContactIdentity = "];
-        [str appendString: m_contactIdentity];
-        [str appendString: @"\n"];
-
-    }
-    if ( [self hasDetails] ) {
-        [str appendString: [lead stringByAppendingString: @" "]];
-        [str appendString: @"Details = "];
-        [str appendString: m_details];
-        [str appendString: @"\n"];
-
-    }
+    [str setString: [lead stringByAppendingString:@"NavStatus\n"]];
     [str appendString: [lead stringByAppendingString: @" "]];
-    [str appendString: @"Status = "];
-    [str appendString: (m_status?@"true":@"false")];
+    [str appendString: @"Value = "];
+    [str appendString: [NSString stringWithFormat:@"%d", m_value]];
     [str appendString: @"\n"];
 
     return str;
@@ -252,13 +170,7 @@
 -(NSDictionary *) attributes {
 
     NSMutableDictionary *attr = [[[NSMutableDictionary alloc] init] autorelease];
-    if ( [self hasContactIdentity] ) {
-        [attr setObject: m_contactIdentity forKey: @"ContactIdentity"];
-    }
-    if ( [self hasDetails] ) {
-        [attr setObject: m_details forKey: @"Details"];
-    }
-    [attr setObject: [NSString stringWithFormat:@"%f", m_status] forKey: @"Status"];
+    [attr setObject: [NSString stringWithFormat:@"%d", m_value] forKey: @"Value"];
 
     return attr;
 }
