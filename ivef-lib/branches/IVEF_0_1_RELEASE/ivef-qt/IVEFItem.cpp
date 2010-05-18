@@ -9,8 +9,6 @@ Item::Item() {
     // initialize empty string
     m_field = "";
     m_fieldPresent = false;
-    m_fieldPresent = false;
-    m_fieldPresent = false;
 }
 
 // copy constructor

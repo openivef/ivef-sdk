@@ -473,12 +473,10 @@ void CodeGenQT::go() {
                         classFileOut << "    // initialize fixed value\n";
                         classFileOut << "    " << variableName(attr->name()) << " = \"" << attr->fixed()  << "\";\n";
                         classFileOut << "    " << variableName(attr->name()) << "Present = true;\n"; // issue 21
-                       classFileOut << "    " << variableName(attr->name()) << "Present = true;\n"; // issue 21
                     } else {
                         classFileOut << "    // initialize empty string\n";
                         classFileOut << "    " << variableName(attr->name()) << " = \"\";\n";
                         classFileOut << "    " << variableName(attr->name()) << "Present = false;\n"; // issue 21
-                       classFileOut << "    " << variableName(attr->name()) << "Present = false;\n"; // issue 21
                     }
                 }
                 else {
@@ -493,8 +491,8 @@ void CodeGenQT::go() {
                     } else if (type=="float") {
                         classFileOut << "    " << variableName(attr->name()) << " = 0.0;\n";
                     }
-                }
-                classFileOut << "    " << variableName(attr->name()) << "Present = false;\n"; // issue 21
+                    classFileOut << "    " << variableName(attr->name()) << "Present = false;\n"; // issue 21
+                } 
             }
         }
         classFileOut << "}\n\n";

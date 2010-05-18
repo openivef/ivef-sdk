@@ -28,8 +28,6 @@ PosReport::PosReport() {
     // initialize empty string
     m_lost = "";
     m_lostPresent = false;
-    m_lostPresent = false;
-    m_lostPresent = false;
     m_rateOfTurn = 0.0;
     m_rateOfTurnPresent = false;
     m_orientation = 0.0;

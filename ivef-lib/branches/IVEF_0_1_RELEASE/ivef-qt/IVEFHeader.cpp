@@ -5,14 +5,10 @@
 Header::Header() {
 
     // initialize fixed value
-    m_version = "0.1.5";
+    m_version = "0.1.6";
     m_versionPresent = true;
-    m_versionPresent = true;
-    m_versionPresent = false;
     // initialize empty string
     m_msgRefId = "";
-    m_msgRefIdPresent = false;
-    m_msgRefIdPresent = false;
     m_msgRefIdPresent = false;
 }
 

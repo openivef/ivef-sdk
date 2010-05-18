@@ -7,14 +7,10 @@ LoginResponse::LoginResponse() {
     // initialize empty string
     m_msgId = "";
     m_msgIdPresent = false;
-    m_msgIdPresent = false;
-    m_msgIdPresent = false;
     m_result = 0;
     m_resultPresent = false;
     // initialize empty string
     m_reason = "";
-    m_reasonPresent = false;
-    m_reasonPresent = false;
     m_reasonPresent = false;
 }
 

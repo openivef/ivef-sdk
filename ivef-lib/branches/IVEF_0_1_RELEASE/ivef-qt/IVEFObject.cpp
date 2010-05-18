@@ -7,8 +7,6 @@ Object::Object() {
     // initialize empty string
     m_fileName = "";
     m_fileNamePresent = false;
-    m_fileNamePresent = false;
-    m_fileNamePresent = false;
 }
 
 // copy constructor

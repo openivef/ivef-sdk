@@ -10,8 +10,6 @@ Pong::Pong() {
     // initialize empty string
     m_msgId = "";
     m_msgIdPresent = false;
-    m_msgIdPresent = false;
-    m_msgIdPresent = false;
     m_sourceId = 0;
     m_sourceIdPresent = false;
 }
