@@ -120,10 +120,10 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
     if (hasMin) {
         attr->setMinOccurs(min.toInt());
     }
-    if ((min == "0") &&  // default is 1
-        ((!hasMax || max == "1"))) { // default max is 1  
+    if ((min == "0")){  // default is 1
+        // && ((!hasMax || max == "1"))) { // default max is 1  
         attr->setRequired(false);   // means the attribute is optional
-        std::cout << QString("detected optional attribute due to minOccurs").toLatin1().data() << std::endl;
+        std::cout << QString("detected optional attribute %1 due to minOccurs").arg(name).toLatin1().data() << std::endl;
     }
     if (parent != NULL) {
         parent->addAttribute(attr);
