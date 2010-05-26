@@ -40,7 +40,7 @@ public:
 	void setTypeDefinition(bool val);	
 	void setBaseClass(QString base);	
     void setDocu(const QString& docu);
-    
+    void dump(); 
 	QString name();
 	QString baseClass();
     bool hasBaseClass();

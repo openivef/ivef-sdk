@@ -56,6 +56,7 @@ public:
 	int min();
 	int max();
     int digits();
+    void dump();
 	
 private:
 	QVector<QString> m_enums;

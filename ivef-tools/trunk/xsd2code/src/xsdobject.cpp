@@ -25,8 +25,31 @@ XSDObject::XSDObject() {
 	m_root = false;
 	m_hasBaseClass = false;
 	m_type = false;
-    m_simple = false;
+        m_simple = false;
 	m_isEmbedded = false;
+}
+
+void XSDObject::dump() {
+        std::cout << "-----------------------------------------------------" << std::endl;
+	std::cout << "object name         " << QString(m_name).toLatin1().data() << std::endl;
+	std::cout << "object hasBaseClass " << QString((m_hasBaseClass ? "true" : "false")).toLatin1().data() << std::endl;
+	if (m_hasBaseClass) {
+		std::cout << "object baseClass         " << QString(m_baseClass).toLatin1().data() << std::endl;
+        }
+	std::cout << "object document     " << QString(m_docu).toLatin1().data() << std::endl;
+	std::cout << "object isMerged     " << QString(m_merged).toLatin1().data() << std::endl;
+	std::cout << "object isType       " << QString(m_type).toLatin1().data() << std::endl;
+        std::cout << "object isSimple     " << QString(m_simple).toLatin1().data() << std::endl;
+	std::cout << "object isRoot       " << QString(m_root).toLatin1().data() << std::endl;
+	std::cout << "object isEmbedded   " << QString(m_isEmbedded).toLatin1().data() << std::endl;
+        for (int h=0; h < m_attributes.size(); h++) {
+		std::cout << "object attribute    " << QString(m_attributes.at(h)->name()).toLatin1().data() << std::endl;
+        }
+        for (int h=0; h < m_fixedValues.keys().size(); h++) {
+		std::cout << "object fixed key    " << QString(m_fixedValues.keys().at(h)).toLatin1().data();
+		std::cout << "    value " << QString(m_fixedValues[(m_fixedValues.keys().at(h))]).toLatin1().data()  << std::endl;
+        }
+        std::cout << "-----------------------------------------------------" << std::endl;
 }
 
 XSDObject::XSDObject(QString name ) {

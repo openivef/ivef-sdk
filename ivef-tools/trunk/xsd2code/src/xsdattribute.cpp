@@ -44,6 +44,38 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fi
     //std::cout << QString("XSDAttribute created: %1 of type %2").arg(name, type).toLatin1().data() << std::endl;
 }
 
+void XSDAttribute::dump() {
+        std::cout << "-----------------------------------------------------" << std::endl;
+	std::cout << "attribute name      " << QString(m_name).toLatin1().data() << std::endl;
+	std::cout << "attribute type      " << QString(m_type).toLatin1().data() << std::endl;
+	std::cout << "attribute isFixed   " << QString((m_isFixed ? "true" : "false")).toLatin1().data() << std::endl;
+	if (m_isFixed) {
+		std::cout << "attribute fixedVal  " << QString(m_fixed).toLatin1().data() << std::endl;
+	}
+	std::cout << "attribute doc       " << QString(m_doc).toLatin1().data() << std::endl;
+	std::cout << "attribute isElement " << QString((m_element ? "true" : "false")).toLatin1().data() << std::endl;
+	std::cout << "attribute required  " << QString((m_required ? "true" : "false")).toLatin1().data() << std::endl;
+	std::cout << "attribute unbound   " << QString((m_unbounded ? "true" : "false")).toLatin1().data() << std::endl;
+	std::cout << "attribute hasMin    " << QString((m_hasMin ? "true" : "false")).toLatin1().data() << std::endl;
+	if (m_hasMin) {
+		std::cout << "attribute min       " << QString::number(m_min).toLatin1().data() << std::endl;
+	}
+	std::cout << "attribute minLength " << QString(m_minLength).toLatin1().data() << std::endl;
+	std::cout << "attribute hasMax    " << QString((m_hasMax ? "true" : "false")).toLatin1().data() << std::endl;
+	std::cout << "attribute maxLength " << QString(m_maxLength).toLatin1().data() << std::endl;
+	if (m_hasMax) {
+		std::cout << "attribute max       " << QString::number(m_max).toLatin1().data() << std::endl;
+	}
+        std::cout << "attribute hasDigits " << QString((m_hasDigits ? "true" : "false")).toLatin1().data() << std::endl;
+	if (m_hasDigits) {
+		std::cout << "attribute digits    " << QString::number(m_digits).toLatin1().data() << std::endl;
+	}
+        for (int h=0; h < m_enums.size(); h++) {
+	    std::cout << "attribute enum      " << QString(m_enums.at(h)).toLatin1().data() << std::endl;
+        }
+        std::cout << "-----------------------------------------------------" << std::endl;
+}
+
 void XSDAttribute::setElement(bool req) {
 	m_element = req;
 }
