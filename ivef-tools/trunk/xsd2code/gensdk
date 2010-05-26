@@ -48,7 +48,8 @@ function genQt {
 
 function genPHP {
 	rm $TARGET/ivef-php/* 2>/dev/null
-	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-php/ --prefix=IVEF --php
+ 	mkdir -p $TARGET/ivef-php/ivef
+	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-php --prefix=IVEF --php
 }
 
 function genJava {
