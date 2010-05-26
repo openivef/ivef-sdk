@@ -31,6 +31,7 @@ MainApp::MainApp( int & argc, char ** argv )
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "version",  "show version information and exit." ) );
     m_options.append( CmdLineOption( CmdLineOption::TEXT,    "prefix",   "a prefix for the classes" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "qt",       "generate qt cpp files (default)." ) );
+    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "php",       "generate php files." ) );
 //    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "cpp",      "generate cpp files" ) );
 //    m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "cs",       "generate c# files" ) );
     m_options.append( CmdLineOption( CmdLineOption::BOOLEAN, "java",     "generate java files" ) );
@@ -43,7 +44,7 @@ MainApp::MainApp( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n xsd2code 0.1.0\n----------------------------------------\n\nCopyright 2009\n"  << std::endl;
+        std::cout << "\n xsd2code 0.1.10\n----------------------------------------\n\nCopyright 2009\n"  << std::endl;
         std::exit(0);
     }
 
@@ -95,6 +96,11 @@ void MainApp::slotStart( void ) {
                         std::cout <<   "Generating Objective-C sources \n"  << std::endl;
                         std::cout <<   "---------------------------------------------------------------------\n"  << std::endl;
 		        generator = new CodeGenObjC(); 
+		} else if ( m_options.getBoolean( "php" ) ) {
+                        std::cout << "\n---------------------------------------------------------------------\n"  << std::endl;
+                        std::cout <<   "Generating PHP5 sources \n"  << std::endl;
+                        std::cout <<   "---------------------------------------------------------------------\n"  << std::endl;
+		        generator = new CodeGenPHP(); 
 		} else if ( m_options.getBoolean( "proto" ) ) {
                         std::cout << "\n---------------------------------------------------------------------\n"  << std::endl;
                         std::cout <<   "Generating Protocol Buffer file \n"  << std::endl;

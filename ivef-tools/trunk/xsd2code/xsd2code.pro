@@ -19,6 +19,7 @@ HEADERS += src/cmdlineoption.h \
 		   src/codegen.h \
 		   src/codegenpb.h \
 		   src/codegenqt.h \
+		   src/codegenphp.h\
 		   src/codegenobjc.h\
 		   src/codegenjava.h
 SOURCES += src/cmdlineoption.cpp \
@@ -27,6 +28,7 @@ SOURCES += src/cmdlineoption.cpp \
 		   src/xsdobject.cpp \
 		   src/xsdattribute.cpp \
 		   src/codegenpb.cpp \
+		   src/codegenphp.cpp\
 		   src/codegenqt.cpp \
 		   src/codegenobjc.cpp \
 		   src/codegenjava.cpp \

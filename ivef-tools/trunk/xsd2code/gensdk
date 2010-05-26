@@ -46,6 +46,11 @@ function genQt {
 	cd $HOME
 }
 
+function genPHP {
+	rm $TARGET/ivef-php/* 2>/dev/null
+	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-php/ --prefix=IVEF --php
+}
+
 function genJava {
 	rm $TARGET/ivef-java/ivef/* 2>/dev/null
 	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-java/ --prefix=IVEF --java
@@ -108,12 +113,13 @@ function genIVEF_0_1 {
 	#XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
 	XSDFILE=../../../ivef-def/tags/IVEF_0_1_6/specs/ivef0_1.xsd
 	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
-	genObjC
-	genQt
-	genJava
+	genPHP
+	#genObjC
+	#genQt
+	#genJava
 }
 
 buildGenerator
-#genIVEF_0_1
+genIVEF_0_1
 #testIVEF_0_1
-genIVEF_0_2
+#genIVEF_0_2

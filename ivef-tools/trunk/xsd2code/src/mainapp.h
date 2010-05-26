@@ -26,6 +26,7 @@
 #include "handler.h"
 #include "codegenqt.h"
 #include "codegenpb.h"
+#include "codegenphp.h"
 #include "codegenjava.h"
 #include "codegenobjc.h"
 
