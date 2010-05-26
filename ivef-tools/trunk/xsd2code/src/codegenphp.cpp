@@ -89,7 +89,7 @@ QString CodeGenPHP::stringConversionForAttribute(XSDAttribute *attr) {
         varName = "date(\"Y-m-d\\TH:i:sZ\" ," + variableName(attr->name()) + ")";
     } else if (type == "double") { 
         if (attr->hasDigits()) {
-            varName = "number_format(" + variableName(attr->name()) + ", " + attr->digits() + ")"; 
+            varName = "number_format(" + variableName(attr->name()) + ", " + QString::number(attr->digits()) + ")"; 
         } else {
             varName = "number_format(" + variableName(attr->name()) + ", 6)"; // default
         }
@@ -228,13 +228,6 @@ void CodeGenPHP::go() {
         }
     }
 
-    QString package = "xsd2code";
-    if (m_prefix != "") {
-        package =  m_prefix.toLower();
-    } else {
-        m_prefix = "XSD";
-    }
-
     for (int i=0; i < m_objects.size(); i++) {
         // get a class
         XSDObject *obj = m_objects.at(i);
@@ -256,7 +249,7 @@ void CodeGenPHP::go() {
         std::cout << QString("creating class: %1").arg(className(name)).toLatin1().data() << std::endl;
 
         // and the class file
-        QString baseName = m_outDir + "/" + package + "/" + fileBaseName(name);
+        QString baseName = m_outDir + "/" + fileBaseName(name);
         QFile classFile(baseName + ".php");
         if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
             std::cerr << QString("cannot create file: %1").arg(baseName + ".php").toLatin1().data() << std::endl;
@@ -565,7 +558,7 @@ void CodeGenPHP::go() {
 
     // generate the parser file
     QString name = "Parser";
-    QString fileName = m_outDir + "/" +  package + "/" + fileBaseName(name) + ".php";
+    QString fileName = m_outDir + "/" +  fileBaseName(name) + ".php";
     QFile classFile(fileName);
     if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
         std::cerr << QString("cannot create file: %1").arg(fileName).toLatin1().data() << std::endl;
@@ -573,6 +566,7 @@ void CodeGenPHP::go() {
     }
     QTextStream classFileOut(&classFile);
     std::cout << QString("creating class: %1").arg(className(name)).toLatin1().data() << std::endl;
+
 
     // count the number of messages
     QStringList closeTags, rootObjects;
@@ -584,6 +578,7 @@ void CodeGenPHP::go() {
         }
     }
 
+    /* may be usefull in future version
     // build a regexp for the rootTags
     QString regExp;
     QString commonPrefix = longestCommonPrefix(rootObjects);
@@ -592,6 +587,7 @@ void CodeGenPHP::go() {
     } else {
         regExp = closeTags.join("|");
     }
+    */
 
     //-----------------------------------------------------------------------------------------------
     // generate the declaration
@@ -607,22 +603,124 @@ void CodeGenPHP::go() {
     // define the class
     classFileOut << "\nclass " << className(name) << " { \n\n";
 
-    // variables
-    classFileOut << "    var $m_closeTagsPattern; \n";
-    classFileOut << "\n";
-
     // constructor
 
     // name finder routine
-    classFileOut << "    public function messageNameOfXMLString($data) { \n";
+    classFileOut << "    public function messageNameOfXMLString($data) { \n\n";
     classFileOut << "        $xml = new SimpleXMLElement($data);\n";
     classFileOut << "        return $xml->getName();\n";
     classFileOut << "    }\n\n";
 
-    // parser routines
+    // main parser routine
+    classFileOut << "    public function parseXMLMessage($data) { \n\n";
+    classFileOut << "        $tag = $this->messageNameOfXMLString($data);\n\n";
+    
+    bool first = true;
     for (int i=0; i < rootObjects.size(); i++) {
-        classFileOut << "    public function handle" << className(rootObjects.at(i)) << "( $obj ) {\n\n";
-        classFileOut << "    }\n\n";
+        if (first) {
+            classFileOut << "        if";
+            first = false;
+        } else {
+            classFileOut << " else if";
+        }
+	classFileOut << " ($tag == \"" << className(rootObjects.at(i)) << "\") {\n";
+        classFileOut << "            $xml = new SimpleXMLElement($data);\n";
+        classFileOut << "            return $this->parse"<< className(rootObjects.at(i)) << "($xml);\n";
+        classFileOut << "        } ";
+    }
+    classFileOut << "\n        return; // error no root message found\n";
+    classFileOut << "    }\n\n";
+
+    // helper routine
+    classFileOut << "    private function hasAttribute($object, $attribute) { \n";
+    classFileOut << "        foreach($object->attributes() as $a => $b) { \n";
+    classFileOut << "            if ($a == $attribute) { \n";
+    classFileOut << "                return true; \n";
+    classFileOut << "            }     \n";
+    classFileOut << "        } \n";
+    classFileOut << "        return false; \n";
+    classFileOut << "    }\n\n";
+
+    classFileOut << "    private function hasChild($object, $child) { \n";
+    classFileOut << "        foreach($object->children() as $a => $b) { \n";
+    classFileOut << "            if ($a == $child) { \n";
+    classFileOut << "                return true; \n";
+    classFileOut << "            }     \n";
+    classFileOut << "        } \n";
+    classFileOut << "        return false; \n";
+    classFileOut << "    }\n\n";
+
+    classFileOut << "    private function countOfChild($object, $child) { \n";
+    classFileOut << "        $count = 0;\n";
+    classFileOut << "        foreach($object->children() as $a => $b) { \n";
+    classFileOut << "            if ($a == $child) { \n";
+    classFileOut << "                $count++; \n";
+    classFileOut << "            }     \n";
+    classFileOut << "        } \n";
+    classFileOut << "        return $count; \n";
+    classFileOut << "    }\n\n";
+
+    // parser routines
+    for (int i=0; i < m_objects.size(); i++) {
+        XSDObject *obj = m_objects.at(i);
+        if (obj->name() != "Schema") { // ignore this object, it will never be sent
+           QString scope = "private";
+           if (!obj->isEmbedded()) {  // root object
+		scope = "public";
+	   }
+           classFileOut << "    "<< scope <<" function parse" << className(obj->name()) << "( $simplexml ) {\n\n";
+           classFileOut << "        $element = new "<< className(obj->name()) << "();\n\n";
+
+	   // parse all attributes of this object
+           QVector<XSDAttribute*>attributes = obj->attributes();
+           QMap<QString, QString>fixedValues = obj->fixedValues();
+
+	   // check for the presence of fixed values
+           for (int j=0; j < fixedValues.size(); j++) { 
+                QString name = (fixedValues.keys().at(j));
+		classFileOut << "        $element->set" << name << "((string) $simplexml[\"" << name << "\"]);\n";
+           }
+ 
+	   // check for the presence of sub elements and attributes 
+           for (int j=0; j < attributes.size(); j++) {
+                XSDAttribute *attr = attributes.at(j);
+		QString name = attr->name();
+		if (attr->isElement()) {   // its an embedded subelement
+		   if(attr->isScalar()) {
+			classFileOut << "        for ($i = 0; $i < $this->countOfChild($simplexml, \"" << name << "\"); $i++) { \n";
+                	classFileOut << "            $child = $this->parse"<< name << "($simplexml->"<< name <<"[$i]);\n";
+			classFileOut << "            $element->add" << name << "($child);\n";
+                        classFileOut << "        }\n";
+                   } else {
+			classFileOut << "        if ($this->hasChild($simplexml, \"" << name << "\")) { \n";
+                	classFileOut << "            $child = $this->parse"<< name << "($simplexml->"<< name <<");\n";
+			classFileOut << "            $element->set" << name << "($child);\n";
+                        classFileOut << "        }";
+			if (attr->required() && !obj->isMerged()) { // merged objects have weak refernces due to merge
+                            classFileOut << " else { \n";
+			    classFileOut << "            // required element is missing\n";
+                            classFileOut << "        }\n";
+                        } else {
+                            classFileOut << "\n";
+			}
+                  }
+		} else {                   // its an attribute
+			classFileOut << "        if ($this->hasAttribute($simplexml, \"" << name << "\")) { \n";
+			classFileOut << "            $element->set" << name << "((string) $simplexml[\"" << name << "\"]);\n";
+                        classFileOut << "        }";
+			if (attr->required() && !obj->isMerged()) {
+                            classFileOut << " else { \n";
+			    classFileOut << "            // required attribute is missing\n";
+                            classFileOut << "        }\n";
+                        } else {
+                            classFileOut << "\n";
+			}
+		}	
+	   }
+
+           classFileOut << "        return $element;\n";
+           classFileOut << "    }\n\n";
+	} // ignore schema
     }
 
     // round up
