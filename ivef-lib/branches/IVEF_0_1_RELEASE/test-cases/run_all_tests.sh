@@ -16,22 +16,26 @@ then
 elif [ "$1" == "java" ]
 then
     COMMAND='java -classpath ../test-java/target/testjava.jar:../ivef-java/ivef/ivef.jar testjava/testjava'
+elif [ "$1" == "php" ]
+then
+    COMMAND='php5 ../test-php/test.php'
 elif [ "$1" == "all" ]
 then
     # recursive call of ourselfs
+    $0 php
     $0 qt
     $0 obj-c
     $0 java
     exit 0
 else
-    echo "syntax $0 [qt | objc | java | all]"
+    echo "syntax $0 [qt | objc | java | php | all]"
     exit 1
 fi
 
 mkdir -p $TMPDIR
 rm -Rf $TMPDIR/*
 
-for INPUTFILE in `ls ${DATADIR}/*.xml.in ${DATADIR}/*.xml-$1.in` 
+for INPUTFILE in `ls ${DATADIR}/*.xml.in ${DATADIR}/*.xml-$1.in 2>/dev/null` 
 do
    STCASE=`echo $INPUTFILE | cut -d - -f 1`
    TESTNAME=`echo $INPUTFILE | cut -d . -f 1`
@@ -46,7 +50,7 @@ do
       echo ERROR i have no reference for test: data/$OUTNAME
       exit 1
    else
-      if [ "`diff -b data/$OUTNAME ${TMPDIR}/$OUTNAME`" == "" ] 
+      if [ "`diff -w data/$OUTNAME ${TMPDIR}/$OUTNAME`" == "" ] 
       then 
           echo OK
       else
@@ -54,7 +58,7 @@ do
           echo ---
           echo Difference: ${TMPDIR}/$OUTNAME data/$OUTNAME
           echo ---
-          diff -b ${TMPDIR}/$OUTNAME data/$OUTNAME
+          sdiff -W ${TMPDIR}/$OUTNAME data/$OUTNAME
           echo ---
           exit 1
       fi

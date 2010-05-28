@@ -2,6 +2,7 @@
 \\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
 	<Header MsgRefId="String" Version="String"/>
 	<Body>
-		<Ping TimeStamp="2001-12-17T15:30:47.000Z"/>
+		<Ping/>
 	</Body>
 </MSG_Ping>
+

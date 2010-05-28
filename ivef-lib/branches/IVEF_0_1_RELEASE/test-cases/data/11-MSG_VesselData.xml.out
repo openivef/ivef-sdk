@@ -105,8 +105,6 @@ MSG_VesselData
                 Source = 1
                 CargoType = 0
                 Destination = <
-                ETA = 2001-12-17T09:30:47.000Z
-                ATA = 2001-12-17T09:30:47.000Z
                 AirDraught = 3.141593
                 Draught = 3.141593
             Voyage
@@ -130,7 +128,7 @@ MSG_VesselData
 <StaticData Id="&lt;" SourceName="&lt;" Source="1" Length="3.141593" Breadth="3.141593" Callsign="&lt;" ShipName="&lt;" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="&lt;" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="&lt;" PortOfRegistry="&lt;" CountryFlag="&lt;" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes"/>
 <StaticData Id="&lt;" SourceName="&lt;" Source="1" Length="3.141593" Breadth="3.141593" Callsign="&lt;" ShipName="&lt;" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="&lt;" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="&lt;" PortOfRegistry="&lt;" CountryFlag="&lt;" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes"/>
 <Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.123Z" ATA="2001-12-17T09:30:47.123Z" AirDraught="3.141593" Draught="3.141593"/>
-<Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.000Z" ATA="2001-12-17T09:30:47.000Z" AirDraught="3.141593" Draught="3.141593"/>
+<Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" AirDraught="3.141593" Draught="3.141593"/>
 <Voyage Id="&lt;" SourceName="&lt;" Source="1" CargoType="0" Destination="&lt;" ETA="2001-12-17T09:30:47.123Z" ATA="2001-12-17T09:30:47.123Z" AirDraught="3.141593" Draught="3.141593"/>
 </VesselData>
 </Body>

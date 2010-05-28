@@ -2,7 +2,7 @@
 \\projsrvr\isis\develop\ivef-sdk\trunk\doc\ivef1.xsd">
 	<Header MsgRefId="String" Version="String"/>
 	<Body>
-		<Pong MsgId="String" TimeStamp="2001-12-17T09:30:47.001Z" SourceId="0"/>
+		<Pong MsgId="String" TimeStamp="2001-12-17T09:30:47.001" SourceId="-0"/>
 	</Body>
 </MSG_Pong>
 
