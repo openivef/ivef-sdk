@@ -48,7 +48,7 @@ QString CodeGenPHP::localType(QString type) {
     else if (type == "xs:integer")
         return "int";
     else if (type == "xs:dateTime")
-        return "int"; // dates are stored as ints
+        return "string"; // dates are stored as strings
     else if (type == "xs:hexBinary")
         return "String";
     else if (type == "unknown") {
@@ -85,9 +85,10 @@ QString CodeGenPHP::stringConversionForAttribute(XSDAttribute *attr) {
     QString type = localType(attr->type()); // convert to php types
     QString varName = variableName(attr->name());
 
-    if (attrType == "xs:dateTime") {
+    // dates are stored in strings
+    /*if (attrType == "xs:dateTime") {
         varName = "date(\"Y-m-d\\TH:i:sZ\" ," + variableName(attr->name()) + ")";
-    } else if (type == "double") { 
+    } else */if (type == "double") { 
         if (attr->hasDigits()) {
             varName = "number_format(" + variableName(attr->name()) + ", " + QString::number(attr->digits()) + ")"; 
         } else {
@@ -108,11 +109,11 @@ QString CodeGenPHP::methodName(QString name) {
 }
 
 QString CodeGenPHP::className(QString name) {
-    return m_prefix + name.replace(0, 1, name.left(1).toUpper());
+    return /*m_prefix +*/ name.replace(0, 1, name.left(1).toUpper());
 }
 
 QString CodeGenPHP::fileBaseName(QString name) {
-    return className(name);
+    return m_prefix + className(name);
 }
 
 QString CodeGenPHP::variableNameDef(QString name) {
@@ -401,7 +402,7 @@ void CodeGenPHP::go() {
 
                 // check if the attribute exist
                 if ((!attr->required() || obj->isMerged()) && !attr->isScalar()) {
-                    classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "        if ( $this->has" << methodName(attr->name()) << "() ) {\n";
 	            classFileOut << "            $xml->addAttribute('"<< attr->name()<<"', " << varName << ");\n";
                     classFileOut << "        }\n";
                 } else { 
@@ -451,7 +452,7 @@ void CodeGenPHP::go() {
                         }
                         classFileOut << "        } \n";
                     } else if (!attr->required() || obj->isMerged()) {  // optional test for it
-                        classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
+                        classFileOut << "        if ( $this->has" << methodName(attr->name()) << "() ) {\n";
                         if (attr->isSimpleElement()) {
 		            QString varName = stringConversionForAttribute(attr);
                             classFileOut << "            $xml->addChild('" << attr->name() << "', " << varName << ");\n";
@@ -504,7 +505,7 @@ void CodeGenPHP::go() {
 
                 // check if the attribute exist
                 if ((!attr->required() || obj->isMerged()) && !attr->isScalar()) {
-                    classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "        if ( $this->has" << methodName(attr->name()) << "() ) {\n";
                     classFileOut << "            $str .= $lead . \"    " << attr->name() << " = \" . " << varName << " . \"\\n\";\n";
                     classFileOut << "        }\n";
                 } else {
@@ -522,9 +523,9 @@ void CodeGenPHP::go() {
                 // check if the attribute exist
                 if (attr->isScalar() ) {
                     classFileOut << "        foreach("<<  variableName(attr->name())<<"s as $attribute) {\n";
-                    classFileOut << "           $str .= $attribute->toStringWithLead($lead + \"    \");\n        }\n";
+                    classFileOut << "           $str .= $attribute->toStringWithLead($lead . \"    \");\n        }\n";
                 } else if (!attr->required() || obj->isMerged()) {
-                    classFileOut << "        if ( has" << methodName(attr->name()) << "() ) {\n";
+                    classFileOut << "        if ( $this->has" << methodName(attr->name()) << "() ) {\n";
                     if (attr->isSimpleElement()) {
                         classFileOut << "            $str .= $lead . \" \" ;\n";
                         classFileOut << "            $str .= \"" << attr->name() << " = \" ;\n";
