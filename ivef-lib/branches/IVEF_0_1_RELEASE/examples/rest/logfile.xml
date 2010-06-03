@@ -1,0 +1,623 @@
+<MSG_VesselData>
+<Header MsgRefId="{6109aaee-0000-4000-878a-3b970f9d5d68}" Version="1.0" />
+<Body>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="348.3" Length="36.1" Breadth="4.4" UpdSensorType="1" Orientation="328.8" Id="10255">
+<Pos Long="122.47453" Lat="30.67200"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.5" COG="36.7" Length="239.0" Breadth="32.0" UpdSensorType="2" Orientation="314.0" Id="10256">
+<Pos Long="122.05623" Lat="30.62544"/>
+</PosReport>
+<StaticData Callsign="V7KX5" ShipName="ITAL FIDUCIA" ATONName="ITAL FIDUCIA" Length="239.0" Breadth="32.0" ShipType="70" MMSI="538003104" IMO="9308027" AntPosDistFromFront="167.0" AntPosDistFromLeft="11.0" Id="538003104" Source="1" SourceName="AIS" />
+<Voyage Id="538003104" Source="1" SourceName="AIS" ETA="2009-01-07T08:00:00" CargoType="0" Destination="SHANG HAI" Draught="9" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="5.5" COG="186.2" Length="104.9" Breadth="16.2" UpdSensorType="3" Orientation="185.9" Id="10258">
+<Pos Long="122.61561" Lat="30.43558"/>
+</PosReport>
+<StaticData Callsign="BAEA4" ShipName="JIN MIN" ATONName="JIN MIN" Length="108.0" Breadth="15.0" ShipType="70" MMSI="412204620" AntPosDistFromFront="80.0" AntPosDistFromLeft="10.0" Id="412204620" Source="1" SourceName="AIS" />
+<Voyage Id="412204620" Source="1" SourceName="AIS" ETA="2009-01-13T13:00:00" CargoType="0" Destination="FUZHOU" Draught="7" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="206.8" Length="163.5" Breadth="29.6" UpdSensorType="3" Orientation="295.8" Id="10286">
+<Pos Long="122.57559" Lat="30.63072"/>
+</PosReport>
+<StaticData Callsign="BBMD9" ShipName="HONG WEI 198" ATONName="HONG WEI 198" Length="147.0" Breadth="21.0" ShipType="70" MMSI="413322910" AntPosDistFromFront="122.0" AntPosDistFromLeft="5.0" Id="413322910" Source="1" SourceName="AIS" />
+<Voyage Id="413322910" Source="1" SourceName="AIS" ETA="2009-01-14T07:00:00" CargoType="0" Destination="HUANGHUA" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="178.7" Length="22.6" Breadth="3.5" UpdSensorType="1" Orientation="156.3" Id="10295">
+<Pos Long="122.05990" Lat="30.62012"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="301.0" Length="3.0" Breadth="1.0" UpdSensorType="1" Orientation="25.8" Id="10299">
+<Pos Long="121.97981" Lat="31.09337"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="16.2" Length="11.5" Breadth="2.8" UpdSensorType="1" Orientation="216.8" Id="10307">
+<Pos Long="122.10204" Lat="30.61321"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="277.0" Length="54.2" Breadth="6.8" UpdSensorType="1" Orientation="20.1" Id="10312">
+<Pos Long="122.11971" Lat="30.60955"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="61.0" Length="75.0" Breadth="12.0" UpdSensorType="2" Orientation="322.0" Id="10332">
+<Pos Long="121.99706" Lat="30.01569"/>
+</PosReport>
+<StaticData Callsign="BWYH" ShipName="NAN YOU   11" ATONName="NAN YOU   11" Length="75.0" Breadth="12.0" ShipType="80" MMSI="412442770" AntPosDistFromFront="60.0" AntPosDistFromLeft="6.0" Id="412442770" Source="1" SourceName="AIS" />
+<Voyage Id="412442770" Source="1" SourceName="AIS" ETA="2009-01-11T10:30:00" CargoType="0" Destination="NING.BO.BEI.LUN" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.0" COG="28.8" Length="4.5" Breadth="1.4" UpdSensorType="1" Orientation="246.3" Id="10343">
+<Pos Long="121.73035" Lat="30.81412"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.1" COG="302.0" Length="63.1" Breadth="8.1" UpdSensorType="1" Orientation="253.8" Id="10350">
+<Pos Long="121.70099" Lat="30.55951"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.3" COG="62.5" Length="96.0" Breadth="16.0" UpdSensorType="2" Orientation="337.0" Id="10360">
+<Pos Long="122.65610" Lat="31.01363"/>
+</PosReport>
+<StaticData Callsign="3EEK7" ShipName="M/T BUENA VENUS" ATONName="M/T BUENA VENUS" Length="96.0" Breadth="16.0" ShipType="80" MMSI="371928000" IMO="9375460" AntPosDistFromFront="80.0" AntPosDistFromLeft="4.0" Id="371928000" Source="1" SourceName="AIS" />
+<Voyage Id="371928000" Source="1" SourceName="AIS" ETA="2009-01-11T00:25:00" CargoType="0" Destination="CJK/GAOQIAO,CHINA" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="70.1" Length="196.5" Breadth="38.1" UpdSensorType="3" Orientation="289.1" Id="10368">
+<Pos Long="122.54944" Lat="30.60975"/>
+</PosReport>
+<StaticData Callsign="BVED5" ShipName="XINWANFENG8" ATONName="XINWANFENG8" Length="134.0" Breadth="19.0" ShipType="70" MMSI="413577000" AntPosDistFromFront="116.0" AntPosDistFromLeft="14.0" Id="413577000" Source="1" SourceName="AIS" />
+<Voyage Id="413577000" Source="1" SourceName="AIS" ETA="2009-01-14T16:00:00" CargoType="0" Destination="BAYUQUAN" Draught="4" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.0" COG="351.2" Length="85.4" Breadth="18.5" UpdSensorType="1" Orientation="327.9" Id="10400">
+<Pos Long="122.00192" Lat="30.78042"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.1" COG="64.9" Length="274.0" Breadth="46.8" UpdSensorType="3" Orientation="314.0" Id="10404">
+<Pos Long="121.91041" Lat="30.27230"/>
+</PosReport>
+<StaticData Callsign="VRCM7" ShipName="SKY JUPITER" ATONName="SKY JUPITER" Length="242.0" Breadth="32.0" ShipType="70" MMSI="477656200" IMO="8308719" AntPosDistFromFront="196.0" AntPosDistFromLeft="22.0" Id="477656200" Source="1" SourceName="AIS" />
+<Voyage Id="477656200" Source="1" SourceName="AIS" ETA="2009-10-08T17:00:00" CargoType="0" Destination="ZHOUSHAN" Draught="1e+01" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="0.1" COG="71.7" Length="24.3" Breadth="1.8" UpdSensorType="1" Orientation="14.8" Id="10415">
+<Pos Long="122.32892" Lat="30.98182"/>
+</PosReport>
+<StaticData Callsign="BVAM8" ShipName="LI PENG 11" ATONName="LI PENG 11" ShipType="70" MMSI="412458810" Id="412458810" Source="1" SourceName="AIS" />
+<Voyage Id="412458810" Source="1" SourceName="AIS" ETA="2009-01-13T10:00:00" CargoType="0" Destination="SHANGHAI&lt;=&gt;JINGTANG" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="6.2" COG="128.7" Length="10.5" Breadth="2.4" UpdSensorType="1" Orientation="128.7" Id="10419">
+<Pos Long="121.96876" Lat="31.09349"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.2" COG="279.6" Length="311.5" Breadth="54.4" UpdSensorType="3" Orientation="147.7" Id="10430">
+<Pos Long="122.77103" Lat="30.42629"/>
+</PosReport>
+<StaticData Callsign="ZCDW8" ShipName="OSLO EXPRESS" ATONName="OSLO EXPRESS" Length="259.0" Breadth="32.0" ShipType="70" MMSI="310548000" IMO="8413289" AntPosDistFromFront="25.0" AntPosDistFromLeft="10.0" Id="310548000" Source="1" SourceName="AIS" />
+<Voyage Id="310548000" Source="1" SourceName="AIS" ETA="2009-01-10T19:00:00" CargoType="4" Destination="SHANGHAI" Draught="8" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.0" COG="0.1" Length="48.0" Breadth="7.0" UpdSensorType="2" Orientation="142.9" Id="10432">
+<Pos Long="122.46080" Lat="30.73246"/>
+</PosReport>
+<StaticData Callsign="BKNS" ShipName="MAO SHENG 2" ATONName="MAO SHENG 2" Length="48.0" Breadth="7.0" ShipType="60" MMSI="412413170" IMO="1310720" AntPosDistFromFront="15.0" AntPosDistFromLeft="2.0" Id="412413170" Source="1" SourceName="AIS" />
+<Voyage Id="412413170" Source="1" SourceName="AIS" ETA="2009-01-04T09:45:00" CargoType="0" Destination="SAN_JIANG" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="6.5" COG="94.0" Length="38.7" Breadth="4.9" UpdSensorType="3" Orientation="93.9" Id="10457">
+<Pos Long="122.21648" Lat="31.03461"/>
+</PosReport>
+<StaticData Callsign="BUUY" ShipName="CHANGHANGMINGHAI" ATONName="CHANGHANGMINGHAI" Length="164.0" Breadth="22.0" ShipType="70" MMSI="412079260" AntPosDistFromFront="129.0" AntPosDistFromLeft="5.0" Id="412079260" Source="1" SourceName="AIS" />
+<Voyage Id="412079260" Source="1" SourceName="AIS" ETA="2009-01-10T12:00:00" CargoType="0" Destination="LIAN YUN GANG" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.1" COG="141.0" Length="14.8" Breadth="2.2" UpdSensorType="1" Orientation="336.7" Id="10458">
+<Pos Long="122.08789" Lat="30.58779"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.5" COG="40.1" Length="32.3" Breadth="4.5" UpdSensorType="1" Orientation="189.9" Id="10488">
+<Pos Long="121.99963" Lat="30.15603"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.0" COG="359.6" Length="0.0" Breadth="0.0" UpdSensorType="2" Orientation="0.0" Id="10493">
+<Pos Long="121.34584" Lat="30.71333"/>
+</PosReport>
+<StaticData MMSI="4132208" Id="4132208" Source="1" SourceName="AIS" />
+<Voyage Id="4132208" Source="1" SourceName="AIS" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.4" COG="210.2" Length="73.0" Breadth="12.0" UpdSensorType="2" Orientation="209.9" Id="10497">
+<Pos Long="122.62222" Lat="30.79483"/>
+</PosReport>
+<StaticData Callsign="XUUG9" ShipName="EASTERN SUN" ATONName="EASTERN SUN" Length="73.0" Breadth="12.0" ShipType="70" MMSI="515055000" IMO="8904604" AntPosDistFromFront="61.0" AntPosDistFromLeft="6.0" Id="515055000" Source="1" SourceName="AIS" />
+<Voyage Id="515055000" Source="1" SourceName="AIS" ETA="2009-01-04T09:00:00" CargoType="0" Destination="HAIMEN" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="2.8" COG="147.1" Length="2.6" Breadth="1.0" UpdSensorType="1" Orientation="146.9" Id="10503">
+<Pos Long="122.64532" Lat="30.72167"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="5.4" COG="241.5" Length="132.9" Breadth="29.5" UpdSensorType="3" Orientation="241.5" Id="10514">
+<Pos Long="121.96029" Lat="30.42707"/>
+</PosReport>
+<StaticData Callsign="S6AG6" ShipName="FATMARINI" ATONName="FATMARINI" Length="111.0" Breadth="20.0" ShipType="80" MMSI="563556000" IMO="9274006" AntPosDistFromFront="89.0" AntPosDistFromLeft="10.0" Id="563556000" Source="1" SourceName="AIS" />
+<Voyage Id="563556000" Source="1" SourceName="AIS" ETA="2009-01-12T12:00:00" CargoType="2" Destination="NINGBO" Draught="8" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="7.0" COG="99.5" Length="5.0" Breadth="1.1" UpdSensorType="3" Orientation="99.4" Id="10518">
+<Pos Long="122.29377" Lat="31.02959"/>
+</PosReport>
+<StaticData Callsign="BPLQ" ShipName="BAO HAI TUN" ATONName="BAO HAI TUN" Length="96.0" Breadth="15.0" ShipType="80" MMSI="412373550" IMO="9400227" AntPosDistFromFront="83.0" AntPosDistFromLeft="11.0" Id="412373550" Source="1" SourceName="AIS" />
+<Voyage Id="412373550" Source="1" SourceName="AIS" ETA="2009-01-10T08:00:00" CargoType="3" Destination="ZHEN_JIANG" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="203.9" Length="55.7" Breadth="8.3" UpdSensorType="3" Orientation="325.8" Id="10519">
+<Pos Long="122.53803" Lat="30.63171"/>
+</PosReport>
+<StaticData Callsign="BLEM" ShipName="YI HAI 2" ATONName="YI HAI 2" Length="93.0" Breadth="13.0" ShipType="70" MMSI="412402120" AntPosDistFromFront="26.0" AntPosDistFromLeft="6.0" Id="412402120" Source="1" SourceName="AIS" />
+<Voyage Id="412402120" Source="1" SourceName="AIS" ETA="2009-01-15T10:00:00" CargoType="0" Destination="LIDAOGANG" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="305.4" Length="3.3" Breadth="1.2" UpdSensorType="3" Orientation="349.4" Id="10539">
+<Pos Long="122.09546" Lat="30.60861"/>
+</PosReport>
+<StaticData ShipName="HAI GANG 107" ATONName="HAI GANG 107" Length="30.0" Breadth="11.0" ShipType="52" MMSI="413373750" AntPosDistFromFront="11.0" AntPosDistFromLeft="6.0" Id="413373750" Source="1" SourceName="AIS" />
+<Voyage Id="413373750" Source="1" SourceName="AIS" CargoType="0" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.1" COG="21.6" Length="135.9" Breadth="17.5" UpdSensorType="3" Orientation="145.2" Id="10546">
+<Pos Long="121.76166" Lat="30.22113"/>
+</PosReport>
+<StaticData Callsign="BLGO" ShipName="ZHE HAI323" ATONName="ZHE HAI323" Length="160.0" Breadth="22.0" ShipType="70" MMSI="412411430" AntPosDistFromFront="125.0" AntPosDistFromLeft="6.0" Id="412411430" Source="1" SourceName="AIS" />
+<Voyage Id="412411430" Source="1" SourceName="AIS" ETA="2009-01-11T23:00:00" CargoType="0" Destination="NINGBO" Draught="9" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.3" COG="75.3" Length="244.0" Breadth="32.0" UpdSensorType="2" Orientation="75.0" Id="10549">
+<Pos Long="122.67667" Lat="31.04106"/>
+</PosReport>
+<StaticData Callsign="A8OT7" ShipName="APOSTOLOS D" ATONName="APOSTOLOS D" Length="244.0" Breadth="32.0" ShipType="70" MMSI="636013706" IMO="8214683" AntPosDistFromFront="207.0" AntPosDistFromLeft="18.0" Id="636013706" Source="1" SourceName="AIS" />
+<Voyage Id="636013706" Source="1" SourceName="AIS" CargoType="0" Draught="7" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.3" COG="47.6" Length="140.0" Breadth="20.0" UpdSensorType="2" Orientation="333.9" Id="10560">
+<Pos Long="122.63905" Lat="30.80665"/>
+</PosReport>
+<StaticData Callsign="3EQW4" ShipName="HE FENG" ATONName="HE FENG" Length="140.0" Breadth="20.0" ShipType="70" MMSI="351429000" IMO="7640354" AntPosDistFromFront="100.0" AntPosDistFromLeft="10.0" Id="351429000" Source="1" SourceName="AIS" />
+<Voyage Id="351429000" Source="1" SourceName="AIS" ETA="2009-11-29T21:00:00" CargoType="0" Destination="LUHUASAN" Draught="4" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="0.0" Length="48.0" Breadth="6.0" UpdSensorType="2" Orientation="301.9" Id="10571">
+<Pos Long="122.14109" Lat="30.11862"/>
+</PosReport>
+<StaticData Callsign="BKTL4" ShipName="FEI ZHOU 12" ATONName="FEI ZHOU 12" Length="48.0" Breadth="6.0" ShipType="60" MMSI="412751850" AntPosDistFromFront="32.0" AntPosDistFromLeft="3.0" Id="412751850" Source="1" SourceName="AIS" />
+<Voyage Id="412751850" Source="1" SourceName="AIS" ETA="2009-11-22T10:00:00" CargoType="0" Destination="XIAOYANGSHANXIMATOU" Draught="2" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="6.0" COG="173.8" Length="72.0" Breadth="12.0" UpdSensorType="2" Orientation="250.0" Id="10572">
+<Pos Long="122.60093" Lat="30.11258"/>
+</PosReport>
+<StaticData Callsign="BAHB" ShipName="GANGTONGHAI  1" ATONName="GANGTONGHAI  1" Length="72.0" Breadth="12.0" ShipType="70" MMSI="412206390" AntPosDistFromFront="50.0" AntPosDistFromLeft="5.0" Id="412206390" Source="1" SourceName="AIS" />
+<Voyage Id="412206390" Source="1" SourceName="AIS" ETA="2009-01-13T08:00:00" CargoType="0" Destination="DALIAN TO JIAOJIANG" Draught="2" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="3.4" COG="329.1" Length="31.3" Breadth="4.5" UpdSensorType="3" Orientation="329.1" Id="10574">
+<Pos Long="122.19939" Lat="31.00685"/>
+</PosReport>
+<StaticData Callsign="BMMH" ShipName="XINBIHAI1" ATONName="XINBIHAI1" MMSI="412450960" Id="412450960" Source="1" SourceName="AIS" />
+<Voyage Id="412450960" Source="1" SourceName="AIS" Destination="SHANGHEI___GUANGZHOU" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="356.1" Length="24.6" Breadth="6.0" UpdSensorType="1" Orientation="109.5" Id="10578">
+<Pos Long="122.12396" Lat="30.62042"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.1" COG="146.6" Length="92.0" Breadth="14.0" UpdSensorType="2" Orientation="26.9" Id="10579">
+<Pos Long="122.65100" Lat="30.79529"/>
+</PosReport>
+<StaticData Callsign="T2WY2" ShipName="PROK" ATONName="PROK" Length="92.0" Breadth="14.0" ShipType="70" MMSI="572525000" IMO="8911035" AntPosDistFromFront="78.0" AntPosDistFromLeft="4.0" Id="572525000" Source="1" SourceName="AIS" />
+<Voyage Id="572525000" Source="1" SourceName="AIS" ETA="2009-01-20T08:00:00" CargoType="0" Destination="VLADIVOSTOK" Draught="4" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="149.3" Length="125.2" Breadth="22.7" UpdSensorType="3" Orientation="298.9" Id="10581">
+<Pos Long="122.54738" Lat="30.61762"/>
+</PosReport>
+<StaticData Callsign="BHSJ" ShipName="HONG YUN YOU  19" ATONName="HONG YUN YOU  19" Length="108.0" Breadth="16.0" MMSI="412350720" IMO="123456688" AntPosDistFromFront="80.0" AntPosDistFromLeft="10.0" Id="412350720" Source="1" SourceName="AIS" />
+<Voyage Id="412350720" Source="1" SourceName="AIS" ETA="2009-01-12T19:00:00" Destination="QING DAO" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.1" COG="96.8" Length="38.4" Breadth="10.9" UpdSensorType="1" Orientation="92.0" Id="10587">
+<Pos Long="122.10197" Lat="30.60997"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.0" COG="359.9" Length="0.0" Breadth="0.0" UpdSensorType="2" Orientation="0.0" Id="10595">
+<Pos Long="122.04075" Lat="30.17000"/>
+</PosReport>
+<StaticData ShipName="ZHOU HAI JING 9" ATONName="ZHOU HAI JING 9" ShipType="60" MMSI="412419450" Id="412419450" Source="1" SourceName="AIS" />
+<Voyage Id="412419450" Source="1" SourceName="AIS" CargoType="0" Destination="CHANG BAI--HAI FEN" Draught="2" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.4" COG="230.2" Length="124.0" Breadth="19.0" UpdSensorType="2" Orientation="311.9" Id="10603">
+<Pos Long="122.45114" Lat="30.36794"/>
+</PosReport>
+<StaticData Callsign="H3QK" ShipName="THOUSANDSUNNY" ATONName="THOUSANDSUNNY" Length="124.0" Breadth="19.0" ShipType="70" MMSI="7723443" IMO="351118000" Id="7723443" Source="1" SourceName="AIS" />
+<Voyage Id="7723443" Source="1" SourceName="AIS" ETA="2009-01-14T16:00:00" CargoType="0" Destination="PENGLAI" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="0.0" COG="0.1" Length="0.0" Breadth="0.0" UpdSensorType="2" Orientation="0.0" Id="10607">
+<Pos Long="122.28398" Lat="30.25117"/>
+</PosReport>
+<StaticData MMSI="900410247" Id="900410247" Source="1" SourceName="AIS" />
+<Voyage Id="900410247" Source="1" SourceName="AIS" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.1" COG="185.2" Length="98.0" Breadth="16.0" UpdSensorType="2" Orientation="325.0" Id="10627">
+<Pos Long="122.61757" Lat="30.85105"/>
+</PosReport>
+<StaticData Callsign="3EEQ3" ShipName="ORIENTAL MIHO" ATONName="ORIENTAL MIHO" Length="98.0" Breadth="16.0" ShipType="80" MMSI="353808000" IMO="9371165" AntPosDistFromFront="77.0" AntPosDistFromLeft="12.0" Id="353808000" Source="1" SourceName="AIS" />
+<Voyage Id="353808000" Source="1" SourceName="AIS" ETA="2009-12-30T06:00:00" CargoType="0" Destination="CJKOPL" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="0.0" COG="212.1" Length="1.3" Breadth="1.0" UpdSensorType="1" Orientation="101.7" Id="10633">
+<Pos Long="122.32100" Lat="30.51595"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.1" COG="121.5" Length="7.5" Breadth="1.5" UpdSensorType="1" Orientation="129.7" Id="10637">
+<Pos Long="122.08934" Lat="30.58575"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="157.2" Length="128.9" Breadth="48.6" UpdSensorType="3" Orientation="16.4" Id="10642">
+<Pos Long="122.04167" Lat="30.61330"/>
+</PosReport>
+<StaticData Callsign="BUUJ" ShipName="CHANGHANG YANGSHAN 1" ATONName="CHANGHANG YANGSHAN 1" Length="123.0" Breadth="18.0" ShipType="70" MMSI="413303000" AntPosDistFromFront="110.0" AntPosDistFromLeft="15.0" Id="413303000" Source="1" SourceName="AIS" />
+<Voyage Id="413303000" Source="1" SourceName="AIS" ETA="2009-01-10T23:30:00" CargoType="0" Destination="WAIGAOQIAO-YANGSHAN" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="0.0" COG="0.1" Length="80.0" Breadth="12.0" UpdSensorType="2" Orientation="310.0" Id="10648">
+<Pos Long="122.29187" Lat="30.24763"/>
+</PosReport>
+<StaticData Callsign="BKUT3" ShipName="HUA SHENG HAI 16" ATONName="HUA SHENG HAI 16" Length="80.0" Breadth="12.0" ShipType="70" MMSI="412430710" AntPosDistFromFront="60.0" AntPosDistFromLeft="6.0" Id="412430710" Source="1" SourceName="AIS" />
+<Voyage Id="412430710" Source="1" SourceName="AIS" ETA="2009-10-03T05:00:00" CargoType="0" Destination="SHIPU" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.0" COG="0.1" Length="0.0" Breadth="0.0" UpdSensorType="2" Orientation="0.0" Id="10675">
+<Pos Long="122.45522" Lat="30.73649"/>
+</PosReport>
+<StaticData MMSI="900303110" Id="900303110" Source="1" SourceName="AIS" />
+<Voyage Id="900303110" Source="1" SourceName="AIS" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="5.1" COG="186.6" Length="34.8" Breadth="10.7" UpdSensorType="1" Orientation="186.6" Id="10698">
+<Pos Long="122.05421" Lat="30.81394"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="3.2" COG="288.5" Length="140.0" Breadth="20.0" UpdSensorType="2" Orientation="288.3" Id="10707">
+<Pos Long="122.53588" Lat="31.12441"/>
+</PosReport>
+<StaticData Callsign="BAON" ShipName="LI FENG NAN HAI" ATONName="LI FENG NAN HAI" Length="140.0" Breadth="20.0" ShipType="70" MMSI="412206190" IMO="9377080" AntPosDistFromFront="120.0" AntPosDistFromLeft="7.0" Id="412206190" Source="1" SourceName="AIS" />
+<Voyage Id="412206190" Source="1" SourceName="AIS" ETA="2009-01-12T11:00:00" CargoType="0" Destination="TAI CANG" Draught="8" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.0" COG="0.1" Length="32.0" Breadth="6.0" UpdSensorType="2" Orientation="212.9" Id="10719">
+<Pos Long="122.46045" Lat="30.73219"/>
+</PosReport>
+<StaticData Callsign="AT(PD" ShipName="ZHEGANG HANGXUN 1108" ATONName="ZHEGANG HANGXUN 1108" Length="32.0" Breadth="6.0" MMSI="413666666" AntPosDistFromFront="10.0" AntPosDistFromLeft="3.0" Id="413666666" Source="1" SourceName="AIS" />
+<Voyage Id="413666666" Source="1" SourceName="AIS" Draught="1" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="295.0" Length="73.0" Breadth="15.0" UpdSensorType="2" Orientation="294.9" Id="10724">
+<Pos Long="122.42085" Lat="30.74014"/>
+</PosReport>
+<StaticData Callsign="BLXC" ShipName="ZHOU QIAO 2" ATONName="ZHOU QIAO 2" Length="73.0" Breadth="15.0" ShipType="40" MMSI="412413440" AntPosDistFromFront="14.0" AntPosDistFromLeft="1.0" Id="412413440" Source="1" SourceName="AIS" />
+<Voyage Id="412413440" Source="1" SourceName="AIS" ETA="2009-11-01T11:30:00" CargoType="4" Destination="LU CHAO GANG" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.1" COG="30.1" Length="44.2" Breadth="5.8" UpdSensorType="1" Orientation="257.8" Id="10725">
+<Pos Long="121.56810" Lat="30.78936"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.1" COG="208.9" Length="5.9" Breadth="1.5" UpdSensorType="1" Orientation="271.4" Id="10733">
+<Pos Long="121.84201" Lat="30.63016"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.0" COG="53.9" Length="2.5" Breadth="1.1" UpdSensorType="1" Orientation="156.7" Id="10743">
+<Pos Long="121.97908" Lat="30.79279"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="249.1" Length="143.1" Breadth="17.5" UpdSensorType="1" Orientation="142.6" Id="10750">
+<Pos Long="122.40348" Lat="30.67162"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.2" COG="282.4" Length="1.4" Breadth="1.0" UpdSensorType="1" Orientation="13.8" Id="10753">
+<Pos Long="122.15696" Lat="30.97641"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.0" COG="90.8" Length="57.7" Breadth="7.7" UpdSensorType="1" Orientation="43.2" Id="10758">
+<Pos Long="122.06627" Lat="30.64255"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.0" COG="353.1" Length="14.6" Breadth="4.0" UpdSensorType="1" Orientation="83.1" Id="10768">
+<Pos Long="121.70150" Lat="30.84318"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.1" COG="67.2" Length="83.0" Breadth="13.0" UpdSensorType="2" Orientation="352.0" Id="10774">
+<Pos Long="122.64582" Lat="30.80294"/>
+</PosReport>
+<StaticData Callsign="BEMB2" ShipName="XIAN HE" ATONName="XIAN HE" Length="83.0" Breadth="13.0" ShipType="80" MMSI="412590180" IMO="8960426" AntPosDistFromFront="62.0" AntPosDistFromLeft="6.0" Id="412590180" Source="1" SourceName="AIS" />
+<Voyage Id="412590180" Source="1" SourceName="AIS" ETA="2009-01-10T10:00:00" CargoType="0" Destination="ULSAN" Draught="4" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="341.8" Length="100.1" Breadth="12.6" UpdSensorType="3" Orientation="291.2" Id="10783">
+<Pos Long="121.97486" Lat="30.26374"/>
+</PosReport>
+<StaticData Callsign="BKPM4" ShipName="HAO XIANG  9" ATONName="HAO XIANG  9" Length="98.0" Breadth="16.0" ShipType="70" MMSI="413419980" AntPosDistFromFront="60.0" AntPosDistFromLeft="8.0" Id="413419980" Source="1" SourceName="AIS" />
+<Voyage Id="413419980" Source="1" SourceName="AIS" ETA="2009-01-09T11:00:00" CargoType="0" Destination="BA YU QUAN&lt;=&gt;NING BO" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.5" COG="57.8" Length="118.0" Breadth="19.0" UpdSensorType="2" Orientation="350.9" Id="10795">
+<Pos Long="122.65276" Lat="31.02236"/>
+</PosReport>
+<StaticData Callsign="HPQR" ShipName="POSEIDON TRIUMPH" ATONName="POSEIDON TRIUMPH" Length="118.0" Breadth="19.0" ShipType="70" MMSI="355421000" IMO="9284673" AntPosDistFromFront="97.0" AntPosDistFromLeft="15.0" Id="355421000" Source="1" SourceName="AIS" />
+<Voyage Id="355421000" Source="1" SourceName="AIS" ETA="2009-01-05T20:00:00" CargoType="0" Destination="SHANGHAI" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="4.2" COG="16.5" Length="87.3" Breadth="19.4" UpdSensorType="3" Orientation="16.2" Id="10814">
+<Pos Long="122.63829" Lat="30.32883"/>
+</PosReport>
+<StaticData Callsign="BIPD" ShipName="XIAO YUN" ATONName="XIAO YUN" Length="93.0" Breadth="18.0" ShipType="70" MMSI="413371280" IMO="9141601" AntPosDistFromFront="73.0" AntPosDistFromLeft="5.0" Id="413371280" Source="1" SourceName="AIS" />
+<Voyage Id="413371280" Source="1" SourceName="AIS" ETA="2009-12-01T13:00:00" CargoType="0" Destination="SHANGHAI" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.1" COG="63.7" Length="44.5" Breadth="5.8" UpdSensorType="1" Orientation="54.5" Id="10816">
+<Pos Long="121.60436" Lat="30.61569"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.1" COG="28.3" Length="102.0" Breadth="16.0" UpdSensorType="2" Orientation="330.9" Id="10826">
+<Pos Long="122.64994" Lat="30.78827"/>
+</PosReport>
+<StaticData Callsign="BUVW" ShipName="JING HAI" ATONName="JING HAI" Length="102.0" Breadth="16.0" ShipType="70" MMSI="412079090" IMO="8607608" AntPosDistFromFront="81.0" AntPosDistFromLeft="1.0" Id="412079090" Source="1" SourceName="AIS" />
+<Voyage Id="412079090" Source="1" SourceName="AIS" ETA="2009-01-15T03:30:00" CargoType="0" Destination="YATSUSHIRO" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="86.3" Length="116.6" Breadth="25.4" UpdSensorType="3" Orientation="280.0" Id="10828">
+<Pos Long="122.01896" Lat="30.61397"/>
+</PosReport>
+<StaticData Callsign="BKXG3" ShipName="FEI YANG   2" ATONName="FEI YANG   2" Length="85.0" Breadth="16.0" MMSI="413406960" AntPosDistFromFront="10.0" AntPosDistFromLeft="8.0" Id="413406960" Source="1" SourceName="AIS" />
+<Voyage Id="413406960" Source="1" SourceName="AIS" ETA="2009-01-11T12:00:00" Destination="SHANG HAI*YANG SHAN" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.1" COG="264.7" Length="140.0" Breadth="25.0" UpdSensorType="2" Orientation="344.0" Id="10838">
+<Pos Long="122.64854" Lat="31.06178"/>
+</PosReport>
+<StaticData Callsign="V2CQ3" ShipName="BELUGA FANTASTIC" ATONName="BELUGA FANTASTIC" Length="140.0" Breadth="25.0" ShipType="70" MMSI="305078000" IMO="9402043" AntPosDistFromFront="120.0" AntPosDistFromLeft="12.0" Id="305078000" Source="1" SourceName="AIS" />
+<Voyage Id="305078000" Source="1" SourceName="AIS" ETA="2009-01-11T21:30:00" CargoType="0" Destination="SHANGHAI" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="5.0" COG="178.7" Length="25.0" Breadth="4.2" UpdSensorType="1" Orientation="178.6" Id="10850">
+<Pos Long="122.06100" Lat="30.94925"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="300.8" Length="34.0" Breadth="4.5" UpdSensorType="1" Orientation="262.5" Id="10871">
+<Pos Long="122.06438" Lat="30.59858"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="112.8" Length="16.5" Breadth="2.2" UpdSensorType="3" Orientation="273.8" Id="10882">
+<Pos Long="122.54922" Lat="30.79528"/>
+</PosReport>
+<StaticData Callsign="H3PM" ShipName="HANJIN ELIZABETH" ATONName="HANJIN ELIZABETH" Length="290.0" Breadth="32.0" ShipType="90" MMSI="357971000" IMO="9015539" AntPosDistFromFront="219.0" AntPosDistFromLeft="13.0" Id="357971000" Source="1" SourceName="AIS" />
+<Voyage Id="357971000" Source="1" SourceName="AIS" ETA="2009-11-03T14:00:00" CargoType="0" Destination="ZHOUSHAN" Draught="7" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.0" COG="133.9" Length="29.6" Breadth="4.4" UpdSensorType="1" Orientation="231.0" Id="10884">
+<Pos Long="121.93958" Lat="30.82786"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.1" COG="141.6" Length="106.0" Breadth="19.0" UpdSensorType="2" Orientation="141.4" Id="10886">
+<Pos Long="122.61862" Lat="31.04206"/>
+</PosReport>
+<StaticData Callsign="BHQK" ShipName="BAO JIN 1" ATONName="BAO JIN 1" Length="106.0" Breadth="19.0" ShipType="70" MMSI="413350290" AntPosDistFromFront="83.0" AntPosDistFromLeft="9.0" Id="413350290" Source="1" SourceName="AIS" />
+<Voyage Id="413350290" Source="1" SourceName="AIS" ETA="2009-10-22T20:00:00" CargoType="0" Destination="SHANGHAI=RIZHAO" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="5.9" COG="149.1" Length="6.4" Breadth="1.2" UpdSensorType="3" Orientation="149.0" Id="10891">
+<Pos Long="122.25057" Lat="30.91559"/>
+</PosReport>
+<StaticData Callsign="BMYC" ShipName="YUAN SHUN LI" ATONName="YUAN SHUN LI" Length="80.0" Breadth="13.0" ShipType="70" MMSI="413500550" AntPosDistFromFront="60.0" AntPosDistFromLeft="8.0" Id="413500550" Source="1" SourceName="AIS" />
+<Voyage Id="413500550" Source="1" SourceName="AIS" CargoType="0" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="33.9" Length="120.2" Breadth="31.5" UpdSensorType="3" Orientation="77.9" Id="10894">
+<Pos Long="122.02371" Lat="30.62000"/>
+</PosReport>
+<StaticData Callsign="BHQD" ShipName="JING BO 1" ATONName="JING BO 1" Length="85.0" Breadth="16.0" ShipType="90" MMSI="413350110" AntPosDistFromFront="70.0" AntPosDistFromLeft="8.0" Id="413350110" Source="1" SourceName="AIS" />
+<Voyage Id="413350110" Source="1" SourceName="AIS" ETA="2009-10-30T12:04:00" CargoType="2" Destination="SHANGHAI   YAMGSHAN" Draught="4" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.1" COG="283.3" Length="95.0" Breadth="14.0" UpdSensorType="2" Orientation="324.9" Id="10898">
+<Pos Long="122.00234" Lat="30.00222"/>
+</PosReport>
+<StaticData Callsign="BKSU2" ShipName="YONG.LONG.79" ATONName="YONG.LONG.79" Length="95.0" Breadth="14.0" ShipType="70" MMSI="412430970" AntPosDistFromFront="70.0" AntPosDistFromLeft="8.0" Id="412430970" Source="1" SourceName="AIS" />
+<Voyage Id="412430970" Source="1" SourceName="AIS" ETA="2009-01-09T08:00:00" CargoType="0" Destination="NINGBO" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.2" COG="303.7" Length="134.4" Breadth="31.3" UpdSensorType="3" Orientation="133.3" Id="10915">
+<Pos Long="122.09455" Lat="30.58371"/>
+</PosReport>
+<StaticData Callsign="BPRG" ShipName="JI HAI ZHI KUN" ATONName="JI HAI ZHI KUN" Length="75.0" Breadth="16.0" ShipType="70" MMSI="413306000" AntPosDistFromFront="5.0" AntPosDistFromLeft="5.0" Id="413306000" Source="1" SourceName="AIS" />
+<Voyage Id="413306000" Source="1" SourceName="AIS" ETA="2009-01-11T10:00:00" CargoType="1" Destination="YANGSHAN" Draught="4" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="0.0" COG="30.8" Length="1.0" Breadth="1.0" UpdSensorType="1" Orientation="119.3" Id="10918">
+<Pos Long="121.96395" Lat="30.65278"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="354.8" Length="2.5" Breadth="1.0" UpdSensorType="1" Orientation="81.4" Id="10931">
+<Pos Long="122.13642" Lat="30.89610"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.0" COG="255.5" Length="2.0" Breadth="1.0" UpdSensorType="1" Orientation="156.9" Id="10943">
+<Pos Long="121.98295" Lat="30.78657"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="2.4" COG="300.0" Length="5.8" Breadth="1.6" UpdSensorType="1" Orientation="300.0" Id="10957">
+<Pos Long="122.09767" Lat="31.03003"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="2.8" COG="357.2" Length="118.5" Breadth="17.1" UpdSensorType="3" Orientation="357.2" Id="10966">
+<Pos Long="122.20821" Lat="30.91079"/>
+</PosReport>
+<StaticData Callsign="BHHF" ShipName="FU TAI" ATONName="FU TAI" Length="78.0" Breadth="16.0" ShipType="70" MMSI="412355820" AntPosDistFromFront="22.0" AntPosDistFromLeft="7.0" Id="412355820" Source="1" SourceName="AIS" />
+<Voyage Id="412355820" Source="1" SourceName="AIS" ETA="2009-01-13T23:00:00" CargoType="0" Destination="YANGSHAN/JIANGYIN" Draught="4" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="149.7" Length="55.9" Breadth="12.3" UpdSensorType="3" Orientation="22.9" Id="10983">
+<Pos Long="122.37475" Lat="30.74878"/>
+</PosReport>
+<StaticData Callsign="BLGC3" ShipName="FENG.YUAN.10" ATONName="FENG.YUAN.10" Length="97.0" Breadth="16.0" ShipType="70" MMSI="412848000" AntPosDistFromFront="75.0" AntPosDistFromLeft="10.0" Id="412848000" Source="1" SourceName="AIS" />
+<Voyage Id="412848000" Source="1" SourceName="AIS" ETA="2009-01-13T06:00:00" CargoType="0" Destination="YAN TAI" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.0" COG="135.3" Length="1.6" Breadth="1.1" UpdSensorType="1" Orientation="137.3" Id="10985">
+<Pos Long="121.98248" Lat="30.67392"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="30.8" Length="135.6" Breadth="24.4" UpdSensorType="3" Orientation="312.4" Id="10987">
+<Pos Long="122.08375" Lat="30.55623"/>
+</PosReport>
+<StaticData Callsign="BAMK" ShipName="JIN SHENG HAI" ATONName="JIN SHENG HAI" Length="120.0" Breadth="17.0" ShipType="70" MMSI="412206050" AntPosDistFromFront="112.0" AntPosDistFromLeft="13.0" Id="412206050" Source="1" SourceName="AIS" />
+<Voyage Id="412206050" Source="1" SourceName="AIS" ETA="2009-01-14T12:00:00" CargoType="0" Destination="DA LIAN" Draught="7" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.0" COG="207.1" Length="76.3" Breadth="14.8" UpdSensorType="3" Orientation="296.0" Id="10998">
+<Pos Long="122.45306" Lat="30.58603"/>
+</PosReport>
+<StaticData Callsign="BPLH" ShipName="BAO TONG HAI 2" ATONName="BAO TONG HAI 2" Length="74.0" Breadth="12.0" ShipType="70" MMSI="412371840" AntPosDistFromFront="50.0" AntPosDistFromLeft="6.0" Id="412371840" Source="1" SourceName="AIS" />
+<Voyage Id="412371840" Source="1" SourceName="AIS" ETA="2009-01-12T13:00:00" CargoType="9" Destination="CHANGSHU" Draught="5" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.030" SOG="1.2" COG="120.0" Length="2.3" Breadth="1.0" UpdSensorType="1" Orientation="199.1" Id="11001">
+<Pos Long="121.94651" Lat="31.10477"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.1" COG="226.6" Length="48.0" Breadth="10.0" UpdSensorType="2" Orientation="92.9" Id="11006">
+<Pos Long="122.11514" Lat="30.14238"/>
+</PosReport>
+<StaticData ShipName="DAI.DU.5" ATONName="DAI.DU.5" Length="48.0" Breadth="10.0" ShipType="60" MMSI="412412740" AntPosDistFromFront="24.0" AntPosDistFromLeft="6.0" Id="412412740" Source="1" SourceName="AIS" />
+<Voyage Id="412412740" Source="1" SourceName="AIS" ETA="2009-01-10T08:00:00" CargoType="0" Destination="SAN JIANG/CHANG TU" Draught="3" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.0" COG="72.4" Length="78.8" Breadth="13.1" UpdSensorType="1" Orientation="23.5" Id="11015">
+<Pos Long="122.40941" Lat="30.73152"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="4.5" COG="354.8" Length="100.3" Breadth="15.0" UpdSensorType="1" Orientation="354.5" Id="11027">
+<Pos Long="122.65718" Lat="30.50105"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.9" COG="299.8" Length="165.1" Breadth="21.6" UpdSensorType="1" Orientation="320.3" Id="11040">
+<Pos Long="122.54684" Lat="30.63568"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="137.9" Length="2.7" Breadth="1.2" UpdSensorType="1" Orientation="43.2" Id="11049">
+<Pos Long="122.09706" Lat="30.61210"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="5.8" COG="176.8" Length="25.7" Breadth="7.0" UpdSensorType="1" Orientation="180.1" Id="11051">
+<Pos Long="122.24103" Lat="30.52251"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:44.527" SOG="0.0" COG="0.1" Length="0.0" Breadth="0.0" UpdSensorType="2" Orientation="0.0" Id="11053">
+<Pos Long="122.28461" Lat="30.25084"/>
+</PosReport>
+<StaticData MMSI="900410002" Id="900410002" Source="1" SourceName="AIS" />
+<Voyage Id="900410002" Source="1" SourceName="AIS" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.1" COG="257.3" Length="115.1" Breadth="15.1" UpdSensorType="1" Orientation="125.9" Id="11064">
+<Pos Long="122.07362" Lat="30.28661"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.0" COG="6.0" Length="123.3" Breadth="18.3" UpdSensorType="3" Orientation="312.2" Id="11077">
+<Pos Long="122.02046" Lat="30.62387"/>
+</PosReport>
+<StaticData Callsign="BRVJ" ShipName="TAO YUAN" ATONName="TAO YUAN" Length="123.0" Breadth="21.0" ShipType="70" MMSI="412051430" IMO="9108893" AntPosDistFromFront="105.0" AntPosDistFromLeft="16.0" Id="412051430" Source="1" SourceName="AIS" />
+<Voyage Id="412051430" Source="1" SourceName="AIS" ETA="2009-01-11T13:00:00" CargoType="0" Destination="SHANGHAI" Draught="8" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.2" COG="345.6" Length="181.3" Breadth="43.0" UpdSensorType="3" Orientation="313.0" Id="11081">
+<Pos Long="122.54528" Lat="30.63022"/>
+</PosReport>
+<StaticData Callsign="J8VP9" ShipName="VENUZS" ATONName="VENUZS" Length="160.0" Breadth="25.0" ShipType="70" MMSI="376728000" IMO="8217219" AntPosDistFromFront="135.0" AntPosDistFromLeft="10.0" Id="376728000" Source="1" SourceName="AIS" />
+<Voyage Id="376728000" Source="1" SourceName="AIS" ETA="2009-01-02T14:30:00" CargoType="0" Destination="JIANGYIN CHINA" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:46.527" SOG="0.0" COG="36.4" Length="8.3" Breadth="1.7" UpdSensorType="1" Orientation="34.4" Id="11095">
+<Pos Long="122.06564" Lat="30.59667"/>
+</PosReport>
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.527" SOG="0.0" COG="143.8" Length="251.8" Breadth="38.2" UpdSensorType="3" Orientation="315.2" Id="11106">
+<Pos Long="122.60531" Lat="30.45293"/>
+</PosReport>
+<StaticData Callsign="5BEW2" ShipName="NORDWINTER" ATONName="NORDWINTER" Length="246.0" Breadth="30.0" ShipType="70" MMSI="210242000" IMO="9323041" AntPosDistFromFront="178.0" AntPosDistFromLeft="14.0" Id="210242000" Source="1" SourceName="AIS" />
+<Voyage Id="210242000" Source="1" SourceName="AIS" ETA="2009-12-18T10:00:00" CargoType="0" Destination="SHANGHAG" Draught="8" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:45.027" SOG="0.1" COG="170.5" Length="7.1" Breadth="1.9" UpdSensorType="3" Orientation="176.1" Id="11109">
+<Pos Long="122.55225" Lat="30.63180"/>
+</PosReport>
+<StaticData Callsign="BMUG" ShipName="WEI LONG 11" ATONName="WEI LONG 11" Length="90.0" Breadth="13.0" ShipType="70" MMSI="413501240" AntPosDistFromFront="55.0" AntPosDistFromLeft="6.0" Id="413501240" Source="1" SourceName="AIS" />
+<Voyage Id="413501240" Source="1" SourceName="AIS" CargoType="0" Draught="6" />
+</VesselData>
+<VesselData>
+<PosReport SourceId="99" Lost="no" UpdateTime="2009-01-11T19:01:47.027" SOG="0.0" COG="0.0" Length="120.0" Breadth="18.0" UpdSensorType="2" Orientation="297.9" Id="11110">
+<Pos Long="122.12166" Lat="30.24011"/>
+</PosReport>
+<StaticData Callsign="VREL8" ShipName="GL LAN XIU" ATONName="GL LAN XIU" Length="120.0" Breadth="18.0" ShipType="70" MMSI="477173700" IMO="9115377" AntPosDistFromFront="95.0" AntPosDistFromLeft="9.0" Id="477173700" Source="1" SourceName="AIS" />
+<Voyage Id="477173700" Source="1" SourceName="AIS" ETA="2009-12-20T12:00:00" CargoType="0" Destination="ZHOU_SHAN" Draught="6" />
+</VesselData>
+</Body>
+</MSG_VesselData>
