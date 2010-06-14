@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by Chris Lukassen (HITT Traffic) -->
 <!-- Prepared by IALA Industrial Members Special Interest Group -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.4" targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.4" elementFormDefault="qualified">
 	<xs:element name="MSG_IVEF">
@@ -737,22 +738,20 @@ expressed in degrees</xs:documentation>
 						<xs:sequence minOccurs="0">
 							<xs:element name="UnType" minOccurs="0">
 								<xs:annotation>
-									<xs:documentation>Object type according to CODES FOR TYPES OF MEANS OF TRANSPORT Revision 2 (UNECE CEFACT Trade Facilitation Recommendation No. 28 edition 2007) Check latest version</xs:documentation>
+									<xs:documentation>Object type according to CODES FOR TYPES OF MEANS OF TRANSPORT Revision 2 (UNECE CEFACT Trade Facilitation Recommendation No. 28 edition 2007) </xs:documentation>
 								</xs:annotation>
 								<xs:complexType>
 									<xs:attribute name="CodeA" use="required">
 										<xs:simpleType>
-											<xs:restriction base="xs:integer">
-												<xs:minInclusive value="0"/>
-												<xs:maxInclusive value="138"/>
+											<xs:restriction base="xs:string">
+												<xs:pattern value="[0-9A-Z]{2,3}"/>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:attribute>
-									<xs:attribute name="CodeB" use="required">
+									<xs:attribute name="CodeB" use="optional">
 										<xs:simpleType>
-											<xs:restriction base="xs:integer">
-												<xs:minInclusive value="0"/>
-												<xs:maxInclusive value="9"/>
+											<xs:restriction base="xs:string">
+												<xs:pattern value="[1-9A-Z]"/>
 											</xs:restriction>
 										</xs:simpleType>
 									</xs:attribute>
@@ -762,6 +761,7 @@ expressed in degrees</xs:documentation>
 												<xs:enumeration value="1"/>
 												<xs:enumeration value="2"/>
 												<xs:enumeration value="3"/>
+												<xs:enumeration value="4"/>
 												<xs:enumeration value="6"/>
 												<xs:enumeration value="7"/>
 												<xs:enumeration value="8"/>
