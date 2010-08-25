@@ -1,0 +1,237 @@
+// !$*UTF8*$!
+{
+	256AC3D80F4B6AC300CF3369 /* ShipListAppDelegate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1012, 427}}";
+			sepNavSelRange = "{0, 491}";
+			sepNavVisRange = "{0, 491}";
+		};
+	};
+	256AC3D90F4B6AC300CF3369 /* ShipListAppDelegate.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1012, 1248}}";
+			sepNavSelRange = "{0, 3455}";
+			sepNavVisRange = "{2072, 1378}";
+		};
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = 521C6494118AB80900B6425D /* ShipList */;
+		activeTarget = 8D1107260486CEB800E47090 /* ShipList */;
+		addToTargets = (
+			8D1107260486CEB800E47090 /* ShipList */,
+		);
+		breakpoints = (
+		);
+		codeSenseManager = 521C64A3118AB82800B6425D /* Code sense */;
+		executables = (
+			521C6494118AB80900B6425D /* ShipList */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					834,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 303253863;
+			PBXWorkspaceStateSaveDate = 303253863;
+		};
+		perUserProjectItems = {
+			52A8C335118AD0D700B97C4D /* PBXTextBookmark */ = 52A8C335118AD0D700B97C4D /* PBXTextBookmark */;
+			52A8C337118AD0D700B97C4D /* PBXTextBookmark */ = 52A8C337118AD0D700B97C4D /* PBXTextBookmark */;
+			52A8C339118AD0D700B97C4D /* PBXTextBookmark */ = 52A8C339118AD0D700B97C4D /* PBXTextBookmark */;
+			52A8C33B118AD0D700B97C4D /* PBXTextBookmark */ = 52A8C33B118AD0D700B97C4D /* PBXTextBookmark */;
+			52A8C33D118AD0D700B97C4D /* PBXTextBookmark */ = 52A8C33D118AD0D700B97C4D /* PBXTextBookmark */;
+			52F00D381213496C0011EC5C /* PBXTextBookmark */ = 52F00D381213496C0011EC5C /* PBXTextBookmark */;
+			52F00D391213496C0011EC5C /* PBXTextBookmark */ = 52F00D391213496C0011EC5C /* PBXTextBookmark */;
+			52F00D3A1213496C0011EC5C /* PBXTextBookmark */ = 52F00D3A1213496C0011EC5C /* PBXTextBookmark */;
+		};
+		sourceControlManager = 521C64A2118AB82800B6425D /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	521C6494118AB80900B6425D /* ShipList */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = ShipList;
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+		variableFormatDictionary = {
+		};
+	};
+	521C64A2118AB82800B6425D /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	521C64A3118AB82800B6425D /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	52A8C335118AD0D700B97C4D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A8C336118AD0D700B97C4D /* ILParser.h */;
+		name = "ILParser.h: 95";
+		rLen = 19;
+		rLoc = 3210;
+		rType = 0;
+		vrLen = 910;
+		vrLoc = 1273;
+	};
+	52A8C336118AD0D700B97C4D /* ILParser.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = ILParser.h;
+		path = /Users/aqua/Library/Frameworks/IVEF.framework/Headers/ILParser.h;
+		sourceTree = "<absolute>";
+	};
+	52A8C337118AD0D700B97C4D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A8C338118AD0D700B97C4D /* ILParser.m */;
+		name = "ILParser.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1591;
+		vrLoc = 20130;
+	};
+	52A8C338118AD0D700B97C4D /* ILParser.m */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.objc;
+		name = ILParser.m;
+		path = /Users/aqua/Documents/Code/Artemis/trunk/artemis/Classes/IVEF/ILParser.m;
+		sourceTree = "<absolute>";
+	};
+	52A8C339118AD0D700B97C4D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A8C33A118AD0D700B97C4D /* ILVesselData.h */;
+		name = "ILVesselData.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1282;
+		vrLoc = 0;
+	};
+	52A8C33A118AD0D700B97C4D /* ILVesselData.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = ILVesselData.h;
+		path = /Users/aqua/Library/Frameworks/IVEF.framework/Headers/ILVesselData.h;
+		sourceTree = "<absolute>";
+	};
+	52A8C33B118AD0D700B97C4D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A8C33C118AD0D700B97C4D /* ILStaticData.h */;
+		name = "ILStaticData.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 816;
+		vrLoc = 1015;
+	};
+	52A8C33C118AD0D700B97C4D /* ILStaticData.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = ILStaticData.h;
+		path = /Users/aqua/Library/Frameworks/IVEF.framework/Headers/ILStaticData.h;
+		sourceTree = "<absolute>";
+	};
+	52A8C33D118AD0D700B97C4D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 52A8C33E118AD0D700B97C4D /* ILVoyage.h */;
+		name = "ILVoyage.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 721;
+		vrLoc = 3301;
+	};
+	52A8C33E118AD0D700B97C4D /* ILVoyage.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = ILVoyage.h;
+		path = /Users/aqua/Library/Frameworks/IVEF.framework/Headers/ILVoyage.h;
+		sourceTree = "<absolute>";
+	};
+	52F00D381213496C0011EC5C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 256AC3D80F4B6AC300CF3369 /* ShipListAppDelegate.h */;
+		name = "ShipListAppDelegate.h: 1";
+		rLen = 491;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 491;
+		vrLoc = 0;
+	};
+	52F00D391213496C0011EC5C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 256AC3D90F4B6AC300CF3369 /* ShipListAppDelegate.m */;
+		name = "ShipListAppDelegate.m: 1";
+		rLen = 3455;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1378;
+		vrLoc = 2072;
+	};
+	52F00D3A1213496C0011EC5C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 256AC3D90F4B6AC300CF3369 /* ShipListAppDelegate.m */;
+		name = "ShipListAppDelegate.m: 1";
+		rLen = 3455;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1378;
+		vrLoc = 2072;
+	};
+	8D1107260486CEB800E47090 /* ShipList */ = {
+		activeExec = 0;
+		executables = (
+			521C6494118AB80900B6425D /* ShipList */,
+		);
+	};
+}
