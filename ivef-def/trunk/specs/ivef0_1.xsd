@@ -363,6 +363,11 @@ North = positive; South = negative) Examples:
 					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ)  this position was updated by dead reckoning</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="ExpectedTimeForNextUpdate" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>Date and time in ISO 8601 UTC format (YYYY-MM-DDThh:mm:ss.sssZ) the next update is expected, this can be used to detect low updating tracks.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 			<xs:attribute name="SOG" use="required">
 				<xs:annotation>
 					<xs:documentation>Speed over ground in meters per second</xs:documentation>
