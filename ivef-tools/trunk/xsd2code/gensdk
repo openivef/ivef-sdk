@@ -114,9 +114,9 @@ function genIVEF_0_1 {
 	#XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
 	XSDFILE=../../../ivef-def/tags/IVEF_0_1_6/specs/ivef0_1.xsd
 	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
-	genPHP
+	#genPHP
 	#genObjC
-	#genQt
+	genQt
 	#genJava
 }
 

@@ -517,6 +517,16 @@ void CodeGenObjC::go() {
                         }
                         classFileOut <<    ")\n        return NO;";
                     }
+		    // issue 72 start
+                    if (attr->hasMinLength() && knownType(attr->type()) ) {
+                        QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+                        classFileOut << "\n    if (" << evaluator << " < " << attr->minLength() << ")\n        return NO;";
+                    }
+                    if (attr->hasMaxLength() && knownType(attr->type()) ) {
+                        QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+                        classFileOut << "\n    if (" << evaluator << " > " << attr->maxLength() << ")\n        return NO;";
+                    }
+		    // issue 72 stop
                     if (attr->hasMin() && knownType(attr->type()) ) {
                         QString evaluator = sizeEvaluatorForType(attr->type(), "val");
                         classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return NO;";

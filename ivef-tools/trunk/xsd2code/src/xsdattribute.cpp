@@ -26,6 +26,8 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fi
 	m_required = required;
 	m_unbounded = false;
 	m_element = false;
+	m_hasMinLength = false;
+	m_hasMaxLength = false;
 	m_hasMin = false;
 	m_hasMax = false;
     m_hasDigits = false;
@@ -60,9 +62,15 @@ void XSDAttribute::dump() {
 	if (m_hasMin) {
 		std::cout << "attribute min       " << QString::number(m_min).toLatin1().data() << std::endl;
 	}
-	std::cout << "attribute minLength " << QString(m_minLength).toLatin1().data() << std::endl;
+	std::cout << "attribute hasMinLength " << QString((m_hasMinLength ? "true" : "false")).toLatin1().data() << std::endl;
+	if (m_hasMinLength) {
+	    	std::cout << "attribute minLength " << QString(m_minLength).toLatin1().data() << std::endl;
+        }
+	std::cout << "attribute hasMaxLength " << QString((m_hasMaxLength ? "true" : "false")).toLatin1().data() << std::endl;
+	if (m_hasMaxLength) {
+		std::cout << "attribute maxLength " << QString(m_maxLength).toLatin1().data() << std::endl;
+	}
 	std::cout << "attribute hasMax    " << QString((m_hasMax ? "true" : "false")).toLatin1().data() << std::endl;
-	std::cout << "attribute maxLength " << QString(m_maxLength).toLatin1().data() << std::endl;
 	if (m_hasMax) {
 		std::cout << "attribute max       " << QString::number(m_max).toLatin1().data() << std::endl;
 	}
@@ -106,11 +114,13 @@ void XSDAttribute::setDigits(int length) {
 }
 
 void XSDAttribute::setMinLength(int length) {
+	m_hasMinLength = true;
 	m_minLength = length;
 	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
 }
 
 void XSDAttribute::setMaxLength(int length) {
+	m_hasMaxLength = true;
 	m_maxLength = length;
 	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
 }
@@ -121,6 +131,10 @@ void XSDAttribute::setUnbounded() {
 
 QVector<QString> XSDAttribute::enumeration() {
 	return m_enums;
+}
+
+bool XSDAttribute::hasMinLength() {
+	return m_hasMinLength;
 }
 
 bool XSDAttribute::hasMin() {
@@ -141,8 +155,20 @@ bool XSDAttribute::isElement() {
 	return m_element;
 }
 
+bool XSDAttribute::hasMaxLength() {
+	return m_hasMaxLength;
+}
+
 bool XSDAttribute::hasMax() {
 	return m_hasMax;
+}
+
+int XSDAttribute::minLength() {
+	return m_minLength;
+}
+
+int XSDAttribute::maxLength() {
+	return m_maxLength;
 }
 
 int XSDAttribute::min() {

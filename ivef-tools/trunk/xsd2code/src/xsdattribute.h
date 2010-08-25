@@ -47,16 +47,20 @@ public:
 	bool required();
 	bool isFixed();
 	bool isUnbounded();
-    bool isScalar();
-	bool hasMin();
-    bool hasDigits();
+	bool isScalar();
+        bool hasDigits();
 	bool isElement();
-    bool isSimpleElement();
+    	bool isSimpleElement();
+	bool hasMinLength();
+	bool hasMaxLength();
+	bool hasMin();
 	bool hasMax();
 	int min();
 	int max();
-    int digits();
-    void dump();
+	int minLength();
+	int maxLength();
+    	int digits();
+    	void dump();
 	
 private:
 	QVector<QString> m_enums;
@@ -75,6 +79,8 @@ private:
 	bool m_isFixed;
 	bool m_hasMin;
 	bool m_hasMax;
+	bool m_hasMinLength;
+	bool m_hasMaxLength;
     bool m_hasDigits;
 };
 

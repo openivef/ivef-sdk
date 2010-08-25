@@ -595,6 +595,24 @@ void CodeGenQT::go() {
                     }
                     classFileOut <<    ")\n        return false;";
                 }
+		/////////////issue 72 start
+		// check for strings too! you never have a min and a minLength!
+                if (attr->hasMinLength() && knownType(attr->type())) {
+                    
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+                    
+                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    if (" << evaluator << " < " << attr->minLength() << ")\n        return false;";
+                }
+		// check for strings too!
+                if (attr->hasMaxLength() && knownType(attr->type())) {
+                    
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+                    
+                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    if (" << evaluator << " > " << attr->maxLength() << ")\n        return false;";
+                }
+		/////////////issue 72 end
                 if (attr->hasMin() && knownType(attr->type())) {
                     
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");

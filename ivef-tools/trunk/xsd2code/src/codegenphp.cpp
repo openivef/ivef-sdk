@@ -351,6 +351,16 @@ void CodeGenPHP::go() {
                     }
                     classFileOut <<    ")\n            return false;";
                 }
+		// issue 72
+                if (attr->hasMinLength() && knownType(attr->type()) ) {
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
+                    classFileOut << "\n        if (" << evaluator << " < " << attr->minLength() << ")\n          return false;";
+                }
+                if (attr->hasMaxLength() && knownType(attr->type()) ) {
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
+                    classFileOut << "\n        if (" << evaluator << " > " << attr->maxLength() << ")\n          return false;";
+                }
+		// issue 72
                 if (attr->hasMin() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
                     classFileOut << "\n        if (" << evaluator << " < " << attr->min() << ")\n          return false;";
