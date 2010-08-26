@@ -3,6 +3,9 @@ HOME=`pwd`
 OSX=`echo $OSTYPE | cut -c -6`
 
 function buildGenerator {
+	echo "======================================================================================"
+        echo " Building code generator"
+	echo "======================================================================================"
 	qmake xsd2code.pro
         if [ "$OSX" = "darwin" ] 
 	then
@@ -13,6 +16,9 @@ function buildGenerator {
 }
 
 function genObjC {
+	echo "======================================================================================"
+        echo " Generating Objective C "
+	echo "======================================================================================"
    	rm $TARGET/ivef-objc/Classes/*.m 2>/dev/null
 	rm $TARGET/ivef-objc/Classes/*.h 2>/dev/null
 	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-objc/Classes --prefix=IL --objc
@@ -27,6 +33,9 @@ function genObjC {
 }
 
 function genQt {
+	echo "======================================================================================"
+        echo " Generating Qt C++ "
+	echo "======================================================================================"
 	rm $TARGET/ivef-qt/*.cpp 2>/dev/null
 	rm $TARGET/ivef-qt/*.o 2>/dev/null
 	rm $TARGET/ivef-qt/*.h 2>/dev/null
@@ -47,12 +56,18 @@ function genQt {
 }
 
 function genPHP {
+	echo "======================================================================================"
+        echo " Generating PHP "
+	echo "======================================================================================"
 	rm $TARGET/ivef-php/* 2>/dev/null
  	mkdir -p $TARGET/ivef-php
 	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-php --prefix=IVEF --php
 }
 
 function genJava {
+	echo "======================================================================================"
+        echo " Generating JAVA "
+	echo "======================================================================================"
 	rm $TARGET/ivef-java/ivef/* 2>/dev/null
 	bin/xsd2code --file=$XSDFILE --out=$TARGET/ivef-java/ --prefix=IVEF --java
 	cd $TARGET/ivef-java/ivef/
@@ -69,36 +84,61 @@ function testIVEF_0_1 {
         
         if [ "$OSX" = "darwin" ] 
 	then
-            cd $TARGET/testobjc
-            echo "building test application objc"
+            cd $TARGET/test-objc
+	    echo "======================================================================================"
+            echo " Building test application objc"
+	    echo "======================================================================================"
     	    xcodebuild -project testobjc.xcodeproj >/dev/null
-            cd $TARGET/test-cases
-            echo "running test application"
-	    ./run_all_tests.sh objc
+            cd $HOME
         else
             echo "cannot test objc on non-darwin plaftform"
         fi
 
-        cd $TARGET/testqt
+        cd $TARGET/test-qt
         qmake testqt.pro
-        echo "building test application qt"
+	echo "======================================================================================"
+        echo " Building test application qt"
+	echo "======================================================================================"
         if [ "$OSX" = "darwin" ] 
 	then
     	    xcodebuild -project testqt.xcodeproj
             ./localize.sh
         else
+	    make clean
 	    make -j 12
         fi
-        echo "running test application"
-        cd $TARGET/test-cases
-	./run_all_tests.sh qt
+        cd $HOME
 
-        cd $TARGET/testjava
-        echo "building test application java"
+        cd $TARGET/test-java
+	echo "======================================================================================"
+        echo " Building test application java"
+	echo "======================================================================================"
 	./mk
+        cd $HOME
+
         cd $TARGET/test-cases
-        echo "running test application"
+	echo "======================================================================================"
+        echo " Running Java Tests"
+	echo "======================================================================================"
 	./run_all_tests.sh java
+	echo "======================================================================================"
+        echo " Running Qt Tests"
+	echo "======================================================================================"
+	./run_all_tests.sh qt
+	echo "======================================================================================"
+        echo " Running PHP Tests"
+	echo "======================================================================================"
+	./run_all_tests.sh php
+        if [ "$OSX" = "darwin" ] 
+	then
+	    echo "======================================================================================"
+            echo " Running Obj-C Tests"
+	    echo "======================================================================================"
+	    ./run_all_tests.sh objc
+            cd $HOME
+        else
+            echo "cannot test objc on non-darwin plaftform"
+        fi
 }
 
 function genIVEF_0_2 {
@@ -111,16 +151,20 @@ function genIVEF_0_2 {
 }
 
 function genIVEF_0_1 {
-	#XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
-	XSDFILE=../../../ivef-def/tags/IVEF_0_1_6/specs/ivef0_1.xsd
+	XSDFILE=../../../ivef-def/trunk/specs/ivef0_1.xsd
+	#XSDFILE=../../../ivef-def/tags/IVEF_0_1_6/specs/ivef0_1.xsd
 	TARGET=../../../ivef-lib/branches/IVEF_0_1_RELEASE
-	#genPHP
-	#genObjC
+	genPHP
+	genObjC
 	genQt
-	#genJava
+	genJava
 }
 
 buildGenerator
 genIVEF_0_1
-#testIVEF_0_1
-#genIVEF_0_2
+testIVEF_0_1
+genIVEF_0_2
+
+echo "======================================================================================"
+echo " SUCCESS "
+echo "======================================================================================"

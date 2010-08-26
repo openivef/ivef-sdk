@@ -313,6 +313,21 @@ void CodeGenPHP::go() {
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to php types
             if (attr->isScalar()) { // there more then one
+                // remover issue 70
+                classFileOut << "    public function " << "remove" << methodName(attr->name()) << "(" << type << " $val ) {\n";
+
+                if (attr->hasMax()) { 
+                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) <= " << attr->min() << ") {\n";
+                    classFileOut << "              return false; // scalar already at minOccurs\n";
+                    classFileOut << "          }\n";
+                }
+		classFileOut << "          for($i=0; $i< count(" << variableName(attr->name()) << "s); $i++) {\n";
+                classFileOut << "             if(" << variableName(attr->name()) << "s[i] == $val) {\n";
+                classFileOut << "                 unset(" << variableName(attr->name()) << "s[i]);\n";
+                classFileOut << "             }\n";
+                classFileOut << "          }\n";
+                classFileOut << "        return true;\n";
+                classFileOut << "    }\n\n";
                 // setter
                 classFileOut << "    public function " << "add" << methodName(attr->name()) << "(" << type << " $val ) {\n";
 

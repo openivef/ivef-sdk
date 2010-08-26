@@ -334,6 +334,17 @@ void CodeGenJava::go() {
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to java types
             if (attr->isScalar()) { // there more then one
+                // remover
+                classFileOut << "    public boolean " << "remove" << methodName(attr->name()) << "(" << type << " val) {\n";
+
+                if (attr->hasMin()) { 
+                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() <= " << attr->min() << ") {\n";
+                    classFileOut << "              return false; // scalar already at minOccurs\n";
+                    classFileOut << "          }\n";
+                }
+                classFileOut << "\n        " << variableName(attr->name()) << "s.remove(val);\n";
+                classFileOut << "          return true;\n";
+                classFileOut << "    }\n\n";
                 // setter
                 classFileOut << "    public boolean " << "add" << methodName(attr->name()) << "(" << type << " val) {\n";
 
@@ -884,9 +895,7 @@ void CodeGenJava::go() {
                         } else if (type == "int")
                             classFileOut << "                " << type << " val = Integer.parseInt(value);\n";
                         else if (type == "Date") {
-                            classFileOut << "                if (value.endsWith(\"Z\")) { \n"; // issue 28
-                            classFileOut << "                    value = value.substring(0, value.length() - 1);\n";
-                            classFileOut << "                } \n";
+                            classFileOut << "                // if the time ends on a Z it is UTC, else localtime \n"; // isssue 80
                             classFileOut << "                Date val = new Date(); // starts since the epoch\n";
                             classFileOut << "                try { \n";
                             classFileOut << "                    DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS\");\n";

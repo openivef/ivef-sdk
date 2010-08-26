@@ -328,6 +328,10 @@ void CodeGenQT::go() {
         headerFileOut << "    //!\n";
         headerFileOut << "    " << className(name) << " & operator=(const " << className(name) << "&/*val*/);\n"; // = operator
         
+        headerFileOut << "    //!== operator\n";
+        headerFileOut << "    //!\n";
+        headerFileOut << "    bool operator==(const " << className(name) << "&/*val*/);\n"; // = operator
+        
         // all attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -340,6 +344,10 @@ void CodeGenQT::go() {
             }
             
             if (attr->isScalar()) { // there more then one
+                // issue 72 delete
+                headerFileOut << "    //!              removes a " << methodName(attr->name()) << ".\n";
+                headerFileOut << "    //!\n";
+                headerFileOut << "    bool remove" << methodName(attr->name()) << "(" << type << " val);\n\n";
                 // setter
                 headerFileOut << "    //!              adds a " << methodName(attr->name()) << ".\n";
                 headerFileOut << "    //!\n";
@@ -438,7 +446,7 @@ void CodeGenQT::go() {
             QString type = localType(attr->type()); // convert to cpp types
             // definition
             if (attr->isScalar()) { // there more then one
-                headerFileOut << "    QVector<" << type << "> " << variableName(attr->name()) << "s;\n";
+                headerFileOut << "    QList<" << type << "> " << variableName(attr->name()) << "s;\n";
             } else {
                 headerFileOut << "    " << type << " " << variableName(attr->name()) << ";\n";
             }
@@ -515,6 +523,23 @@ void CodeGenQT::go() {
         }
         classFileOut << "}\n\n";
         
+        // == operator
+        classFileOut << "// compare\n";
+        classFileOut << "bool " << className(name) << "::operator==(const " << className(name) << " &val) {\n\n";
+        for(int j=0; j < attributes.size(); j++) {
+            XSDAttribute *attr = attributes.at(j);
+            QString attrType = attr->type();
+            QString type = localType(attr->type()); // convert to cpp types
+            classFileOut << "    if (!(" << variableName(attr->name()) << "Present == val." << variableName(attr->name()) << "Present)) return false;\n";
+            if (attr->isScalar()) { // there more then one
+                classFileOut << "    if (!(" << variableName(attr->name()) << "s == val." << variableName(attr->name()) << "s)) return false;\n";
+            } else {
+                classFileOut << "    if (!(" << variableName(attr->name()) << " == val." << variableName(attr->name()) << ")) return false;\n";
+            }
+        }
+        classFileOut << "    return true;\n";
+        classFileOut << "}\n\n";
+        
         // = operator
         classFileOut << "// assignement\n";
         classFileOut << className(name) << " & " << className(name) << "::operator=(const " << className(name) << " &val) {\n\n";
@@ -553,6 +578,18 @@ void CodeGenQT::go() {
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to cpp types
             if (attr->isScalar()) { // there more then one
+                // deleter issue 70
+                classFileOut << "// remover for " << className(name) << "\n";
+                classFileOut << "bool " << className(name) << "::remove" << methodName(attr->name()) << "(" << type << " val) {\n\n";
+                
+                if (attr->hasMin()) { 
+                    classFileOut << "    if ("<< variableName(attr->name()) << "s.count() <= " << attr->min() << ") {\n";                   
+                    classFileOut << "        return false; // scalar already at minOccurs\n";
+                    classFileOut << "    }\n";
+                }
+                classFileOut << "    return "<< variableName(attr->name()) << "s.removeOne(val);\n";
+                classFileOut << "}\n\n";
+
                 // setter
                 classFileOut << "// setter for " << className(name) << "\n";
                 classFileOut << "bool " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n\n";
@@ -1086,12 +1123,14 @@ void CodeGenQT::go() {
                         } else if (type == "int") {
                             classFileOut << "                int val = value.toInt();\n";
                         } else if (type == "QDateTime") {
+			    /* was removed with issue 80
                             // timea may have a leading Z (issue 28)
                             classFileOut << "                // date encoding should end on a Z, but some suppliers may exclude it\n";
                             classFileOut << "                // we can be robust by checking for it\n";
                             classFileOut << "                if (value.right(1) != \"Z\") { // new time encoding\n";
                             classFileOut << "                     value.append(\"Z\");\n";
                             classFileOut << "                }\n";
+			    */
                             classFileOut << "                QDateTime val = " << dateFromString("value") << ";\n";
                         }
                         else if (type == "float") {

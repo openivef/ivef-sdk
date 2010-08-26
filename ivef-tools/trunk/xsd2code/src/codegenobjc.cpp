@@ -290,6 +290,11 @@ void CodeGenObjC::go() {
                 headerFileOut << "\n/* " << methodName(attr->name()) << ":\n   " << doc << " */\n";
             }
             if (attr->isScalar()) { // there more then one
+                // remover issue 70
+                headerFileOut << "//!Remover for " << methodName(attr->name()) << "\n";
+                headerFileOut << "//!\n";
+                headerFileOut << "-(BOOL) remove" << methodName(attr->name()) << ":(" << attrType << ") val;\n";
+                
                 // setter
                 headerFileOut << "//!Setter for " << methodName(attr->name()) << "\n";
                 headerFileOut << "//!\n";
@@ -403,6 +408,7 @@ void CodeGenObjC::go() {
         classFileOut << "- (NSString*) stringFromDate:(NSDate *)date {\n\n";
         classFileOut << "     // new date strings can be in Zulu time\n";
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
+	classFileOut << "     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@\"UTC\"];\n";
         classFileOut << "     if (date == nil) {\n";
         classFileOut << "         return @\"\"; // illigal date\n";
         classFileOut << "     }\n";
@@ -410,6 +416,7 @@ void CodeGenObjC::go() {
         classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"%Y-%m-%dT%H:%M:%S.%F\" allowNaturalLanguage:NO];\n";
         //classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm:ss.SSS\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
+	classFileOut << "     [formatterWithMillies setTimeZone:timeZone];\n";
         classFileOut << "#if defined (__clang__)\n"; 
         classFileOut << "     return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@\"Z\"]; // always zulu time\n";
         classFileOut << "#else\n"; 
@@ -418,12 +425,6 @@ void CodeGenObjC::go() {
         classFileOut << "}\n\n";
         
         classFileOut << "- (NSDate*) dateFromString:(NSString *)str {\n\n";
-        classFileOut << "     // new date strings can be in Zulu time\n";
-        classFileOut << "#if defined (__clang__)\n"; 
-        classFileOut << "     str = [str stringByReplacingString:@\"Z\" withString:@\"\"];\n\n";
-        classFileOut << "#else\n"; 
-        classFileOut << "     str = [str stringByReplacingOccurrencesOfString:@\"Z\" withString:@\"\"];\n\n";
-        classFileOut << "#endif\n"; 
         classFileOut << "     static NSDateFormatter *formatterWithMillies = nil;\n";
         classFileOut << "     if (formatterWithMillies == nil) {\n";
         classFileOut << "         formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @\"%Y-%m-%dT%H:%M:%S.%F\" allowNaturalLanguage:NO];\n";
@@ -439,6 +440,19 @@ void CodeGenObjC::go() {
         classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @\"%Y-%m-%dT%H:%M\" allowNaturalLanguage:NO];\n";
         //classFileOut << "         formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @\"yyyy-MM-dd'T'HH:mm\" allowNaturalLanguage:NO];\n";
         classFileOut << "     }\n";
+        classFileOut << "     // new date strings can be in Zulu time\n";
+	classFileOut << "     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@\"UTC\"];\n";
+	classFileOut << "     if ([str characterAtIndex: [str length] - 1] == 'Z') {\n";
+	classFileOut << "         [formatterWithMillies setTimeZone:timeZone]; // localtime is default\n";
+	classFileOut << "         [formatterWithSeconds setTimeZone:timeZone]; // localtime is default\n";
+	classFileOut << "         [formatterWithMinutes setTimeZone:timeZone]; // localtime is default\n";
+        classFileOut << "#if defined (__clang__)\n"; 
+        classFileOut << "         str = [str stringByReplacingString:@\"Z\" withString:@\"\"];\n\n";
+        classFileOut << "#else\n"; 
+        classFileOut << "         str = [str stringByReplacingOccurrencesOfString:@\"Z\" withString:@\"\"];\n\n";
+        classFileOut << "#endif\n"; 
+	classFileOut << "     }\n";
+	classFileOut << "     // convert\n";
         classFileOut << "#if defined (__clang__)\n"; 
         classFileOut << "     NSDate *val;\n";
         classFileOut << "     [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];\n";
@@ -473,6 +487,19 @@ void CodeGenObjC::go() {
             QString attrType = attr->type();
             QString myType = localType(attr->type()); // convert to cpp types
             if (attr->isScalar()) { // there more then one
+                // remover issue 70
+                classFileOut << "-(BOOL) remove" << methodName(attr->name()) << ":(" << myType << ") val {\n";
+                
+                if (attr->hasMax()) { 
+                    classFileOut << "          if ([" << variableName(attr->name()) << "s count] <= " << attr->min() << ") {\n";                   
+                    classFileOut << "              return NO; // scalar already at minOccurs\n";
+                    classFileOut << "          }\n";
+                }                
+                
+                classFileOut << "\n    [" << variableName(attr->name()) << "s removeObject: val];\n";
+                classFileOut << "     return YES;\n";
+                classFileOut << "}\n\n";
+                
                 // setter
                 classFileOut << "-(BOOL) add" << methodName(attr->name()) << ":(" << myType << ") val {\n";
                 
