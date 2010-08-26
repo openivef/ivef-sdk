@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.6" targetNamespace="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.6" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.7" targetNamespace="urn:http://www.ivef.org/XMLSchema/IVEF/0.1.7" elementFormDefault="qualified">
 	<xs:element name="MSG_LoginRequest">
 		<xs:annotation>
 			<xs:documentation>MESSAGE sent by the user to identify oneselfs and request the default service</xs:documentation>
@@ -139,7 +139,7 @@
 	</xs:element>
 	<xs:element name="Header">
 		<xs:complexType>
-			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.1.6"/>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.1.7"/>
 			<xs:attribute name="MsgRefId" use="required">
 				<xs:annotation>
 					<xs:documentation>Must be an Universally Unique Identifier for each message  (TU-T Rec. X.667 | ISO/IEC 9834-8.) Reply messages refer to this id to identify the message they are replying to. In its canonical form, a UUID consists of 32 hexadecimal digits, displayed in 5 groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters, enclosed by brackets. For example:
