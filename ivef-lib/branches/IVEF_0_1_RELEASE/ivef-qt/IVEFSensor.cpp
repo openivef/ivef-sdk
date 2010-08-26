@@ -19,6 +19,16 @@ Sensor::Sensor(const Sensor &val) : QObject() {
     m_trkId = val.m_trkId;
 }
 
+// compare
+bool Sensor::operator==(const Sensor &val) {
+
+    if (!(m_senIdPresent == val.m_senIdPresent)) return false;
+    if (!(m_senId == val.m_senId)) return false;
+    if (!(m_trkIdPresent == val.m_trkIdPresent)) return false;
+    if (!(m_trkId == val.m_trkId)) return false;
+    return true;
+}
+
 // assignement
 Sensor & Sensor::operator=(const Sensor &val) {
 

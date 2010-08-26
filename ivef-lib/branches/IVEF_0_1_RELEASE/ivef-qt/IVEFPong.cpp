@@ -25,6 +25,18 @@ Pong::Pong(const Pong &val) : QObject() {
     m_sourceId = val.m_sourceId;
 }
 
+// compare
+bool Pong::operator==(const Pong &val) {
+
+    if (!(m_timeStampPresent == val.m_timeStampPresent)) return false;
+    if (!(m_timeStamp == val.m_timeStamp)) return false;
+    if (!(m_msgIdPresent == val.m_msgIdPresent)) return false;
+    if (!(m_msgId == val.m_msgId)) return false;
+    if (!(m_sourceIdPresent == val.m_sourceIdPresent)) return false;
+    if (!(m_sourceId == val.m_sourceId)) return false;
+    return true;
+}
+
 // assignement
 Pong & Pong::operator=(const Pong &val) {
 
@@ -64,7 +76,10 @@ QDateTime Pong::getTimeStamp() const {
 
 // setter for Pong
 bool Pong::setMsgId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 36)
+        return false;
     m_msgIdPresent = true;
     m_msgId = val;
       return true;

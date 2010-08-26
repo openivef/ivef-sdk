@@ -5,7 +5,7 @@
 Header::Header() {
 
     // initialize fixed value
-    m_version = "0.1.6";
+    m_version = "0.1.7";
     m_versionPresent = true;
     // initialize empty string
     m_msgRefId = "";
@@ -19,6 +19,16 @@ Header::Header(const Header &val) : QObject() {
     m_version = val.m_version;
     m_msgRefIdPresent = val.m_msgRefIdPresent;
     m_msgRefId = val.m_msgRefId;
+}
+
+// compare
+bool Header::operator==(const Header &val) {
+
+    if (!(m_versionPresent == val.m_versionPresent)) return false;
+    if (!(m_version == val.m_version)) return false;
+    if (!(m_msgRefIdPresent == val.m_msgRefIdPresent)) return false;
+    if (!(m_msgRefId == val.m_msgRefId)) return false;
+    return true;
 }
 
 // assignement

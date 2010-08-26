@@ -21,6 +21,16 @@ ServerStatus::ServerStatus(const ServerStatus &val) : QObject() {
     m_details = val.m_details;
 }
 
+// compare
+bool ServerStatus::operator==(const ServerStatus &val) {
+
+    if (!(m_statusPresent == val.m_statusPresent)) return false;
+    if (!(m_status == val.m_status)) return false;
+    if (!(m_detailsPresent == val.m_detailsPresent)) return false;
+    if (!(m_details == val.m_details)) return false;
+    return true;
+}
+
 // assignement
 ServerStatus & ServerStatus::operator=(const ServerStatus &val) {
 
@@ -62,7 +72,10 @@ QString ServerStatus::getStatus() const {
 
 // setter for ServerStatus
 bool ServerStatus::setDetails(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 50)
+        return false;
     m_detailsPresent = true;
     m_details = val;
       return true;

@@ -19,6 +19,16 @@ Pos::Pos(const Pos &val) : QObject() {
     m_long = val.m_long;
 }
 
+// compare
+bool Pos::operator==(const Pos &val) {
+
+    if (!(m_latPresent == val.m_latPresent)) return false;
+    if (!(m_lat == val.m_lat)) return false;
+    if (!(m_longPresent == val.m_longPresent)) return false;
+    if (!(m_long == val.m_long)) return false;
+    return true;
+}
+
 // assignement
 Pos & Pos::operator=(const Pos &val) {
 

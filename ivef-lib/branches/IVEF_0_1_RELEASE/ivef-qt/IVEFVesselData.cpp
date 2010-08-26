@@ -20,6 +20,20 @@ VesselData::VesselData(const VesselData &val) : QObject() {
     m_taggedItems = val.m_taggedItems;
 }
 
+// compare
+bool VesselData::operator==(const VesselData &val) {
+
+    if (!(m_posReportPresent == val.m_posReportPresent)) return false;
+    if (!(m_posReport == val.m_posReport)) return false;
+    if (!(m_staticDataPresent == val.m_staticDataPresent)) return false;
+    if (!(m_staticDatas == val.m_staticDatas)) return false;
+    if (!(m_voyagePresent == val.m_voyagePresent)) return false;
+    if (!(m_voyages == val.m_voyages)) return false;
+    if (!(m_taggedItemPresent == val.m_taggedItemPresent)) return false;
+    if (!(m_taggedItems == val.m_taggedItems)) return false;
+    return true;
+}
+
 // assignement
 VesselData & VesselData::operator=(const VesselData &val) {
 
@@ -65,6 +79,15 @@ bool VesselData::hasPosReport() const {
     return m_posReportPresent;
 }
 
+// remover for VesselData
+bool VesselData::removeStaticData(StaticData val) {
+
+    if (m_staticDatas.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_staticDatas.removeOne(val);
+}
+
 // setter for VesselData
 bool VesselData::addStaticData(StaticData val) {
 
@@ -84,6 +107,15 @@ int VesselData::countOfStaticDatas() const {
     return m_staticDatas.count();
 }
 
+// remover for VesselData
+bool VesselData::removeVoyage(Voyage val) {
+
+    if (m_voyages.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_voyages.removeOne(val);
+}
+
 // setter for VesselData
 bool VesselData::addVoyage(Voyage val) {
 
@@ -101,6 +133,15 @@ Voyage VesselData::getVoyageAt(int i) const {
 int VesselData::countOfVoyages() const {
 
     return m_voyages.count();
+}
+
+// remover for VesselData
+bool VesselData::removeTaggedItem(TaggedItem val) {
+
+    if (m_taggedItems.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_taggedItems.removeOne(val);
 }
 
 // setter for VesselData

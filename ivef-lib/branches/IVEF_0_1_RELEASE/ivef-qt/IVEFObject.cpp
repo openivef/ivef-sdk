@@ -16,6 +16,14 @@ Object::Object(const Object &val) : QObject() {
     m_fileName = val.m_fileName;
 }
 
+// compare
+bool Object::operator==(const Object &val) {
+
+    if (!(m_fileNamePresent == val.m_fileNamePresent)) return false;
+    if (!(m_fileName == val.m_fileName)) return false;
+    return true;
+}
+
 // assignement
 Object & Object::operator=(const Object &val) {
 

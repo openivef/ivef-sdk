@@ -34,6 +34,28 @@ Body::Body(const Body &val) : QObject() {
     m_vesselDatas = val.m_vesselDatas;
 }
 
+// compare
+bool Body::operator==(const Body &val) {
+
+    if (!(m_loginRequestPresent == val.m_loginRequestPresent)) return false;
+    if (!(m_loginRequest == val.m_loginRequest)) return false;
+    if (!(m_loginResponsePresent == val.m_loginResponsePresent)) return false;
+    if (!(m_loginResponse == val.m_loginResponse)) return false;
+    if (!(m_logoutPresent == val.m_logoutPresent)) return false;
+    if (!(m_logout == val.m_logout)) return false;
+    if (!(m_pingPresent == val.m_pingPresent)) return false;
+    if (!(m_ping == val.m_ping)) return false;
+    if (!(m_pongPresent == val.m_pongPresent)) return false;
+    if (!(m_pong == val.m_pong)) return false;
+    if (!(m_serverStatusPresent == val.m_serverStatusPresent)) return false;
+    if (!(m_serverStatus == val.m_serverStatus)) return false;
+    if (!(m_serviceRequestPresent == val.m_serviceRequestPresent)) return false;
+    if (!(m_serviceRequest == val.m_serviceRequest)) return false;
+    if (!(m_vesselDataPresent == val.m_vesselDataPresent)) return false;
+    if (!(m_vesselDatas == val.m_vesselDatas)) return false;
+    return true;
+}
+
 // assignement
 Body & Body::operator=(const Body &val) {
 
@@ -205,6 +227,12 @@ ServiceRequest Body::getServiceRequest() const {
 bool Body::hasServiceRequest() const {
 
     return m_serviceRequestPresent;
+}
+
+// remover for Body
+bool Body::removeVesselData(VesselData val) {
+
+    return m_vesselDatas.removeOne(val);
 }
 
 // setter for Body

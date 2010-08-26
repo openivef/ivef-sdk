@@ -13,6 +13,14 @@ Area::Area(const Area &val) : QObject() {
     m_poss = val.m_poss;
 }
 
+// compare
+bool Area::operator==(const Area &val) {
+
+    if (!(m_posPresent == val.m_posPresent)) return false;
+    if (!(m_poss == val.m_poss)) return false;
+    return true;
+}
+
 // assignement
 Area & Area::operator=(const Area &val) {
 
@@ -30,6 +38,15 @@ QString Area::encode( QString str) const {
     str.replace('>', "&gt;");
     str.replace('"', "&quot;");
     return str;
+}
+
+// remover for Area
+bool Area::removePos(Pos val) {
+
+    if (m_poss.count() <= 3) {
+        return false; // scalar already at minOccurs
+    }
+    return m_poss.removeOne(val);
 }
 
 // setter for Area

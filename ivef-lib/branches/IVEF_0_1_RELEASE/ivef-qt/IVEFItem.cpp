@@ -20,6 +20,16 @@ Item::Item(const Item &val) : QObject() {
     m_field = val.m_field;
 }
 
+// compare
+bool Item::operator==(const Item &val) {
+
+    if (!(m_elementPresent == val.m_elementPresent)) return false;
+    if (!(m_element == val.m_element)) return false;
+    if (!(m_fieldPresent == val.m_fieldPresent)) return false;
+    if (!(m_field == val.m_field)) return false;
+    return true;
+}
+
 // assignement
 Item & Item::operator=(const Item &val) {
 

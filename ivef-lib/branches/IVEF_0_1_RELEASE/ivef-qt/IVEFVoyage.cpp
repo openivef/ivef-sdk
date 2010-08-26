@@ -56,6 +56,32 @@ Voyage::Voyage(const Voyage &val) : QObject() {
     m_draught = val.m_draught;
 }
 
+// compare
+bool Voyage::operator==(const Voyage &val) {
+
+    if (!(m_idPresent == val.m_idPresent)) return false;
+    if (!(m_id == val.m_id)) return false;
+    if (!(m_sourceNamePresent == val.m_sourceNamePresent)) return false;
+    if (!(m_sourceName == val.m_sourceName)) return false;
+    if (!(m_sourcePresent == val.m_sourcePresent)) return false;
+    if (!(m_source == val.m_source)) return false;
+    if (!(m_cargoTypePresent == val.m_cargoTypePresent)) return false;
+    if (!(m_cargoType == val.m_cargoType)) return false;
+    if (!(m_destinationPresent == val.m_destinationPresent)) return false;
+    if (!(m_destination == val.m_destination)) return false;
+    if (!(m_ETAPresent == val.m_ETAPresent)) return false;
+    if (!(m_ETA == val.m_ETA)) return false;
+    if (!(m_ATAPresent == val.m_ATAPresent)) return false;
+    if (!(m_ATA == val.m_ATA)) return false;
+    if (!(m_personsOnBoardPresent == val.m_personsOnBoardPresent)) return false;
+    if (!(m_personsOnBoard == val.m_personsOnBoard)) return false;
+    if (!(m_airDraughtPresent == val.m_airDraughtPresent)) return false;
+    if (!(m_airDraught == val.m_airDraught)) return false;
+    if (!(m_draughtPresent == val.m_draughtPresent)) return false;
+    if (!(m_draught == val.m_draught)) return false;
+    return true;
+}
+
 // assignement
 Voyage & Voyage::operator=(const Voyage &val) {
 
@@ -95,7 +121,10 @@ QString Voyage::encode( QString str) const {
 
 // setter for Voyage
 bool Voyage::setId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 40)
+        return false;
     m_idPresent = true;
     m_id = val;
       return true;

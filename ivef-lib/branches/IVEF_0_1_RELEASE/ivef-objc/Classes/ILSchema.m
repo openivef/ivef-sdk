@@ -20,12 +20,14 @@
 
      // new date strings can be in Zulu time
      static NSDateFormatter *formatterWithMillies = nil;
+     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
      if (date == nil) {
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
+     [formatterWithMillies setTimeZone:timeZone];
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
 #else
@@ -35,14 +37,6 @@
 
 - (NSDate*) dateFromString:(NSString *)str {
 
-     // new date strings can be in Zulu time
-#if defined (__clang__)
-     str = [str stringByReplacingString:@"Z" withString:@""];
-
-#else
-     str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
-
-#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
@@ -55,6 +49,21 @@
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
+     // new date strings can be in Zulu time
+     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+     if ([str characterAtIndex: [str length] - 1] == 'Z') {
+         [formatterWithMillies setTimeZone:timeZone]; // localtime is default
+         [formatterWithSeconds setTimeZone:timeZone]; // localtime is default
+         [formatterWithMinutes setTimeZone:timeZone]; // localtime is default
+#if defined (__clang__)
+         str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
+         str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
+
+#endif
+     }
+     // convert
 #if defined (__clang__)
      NSDate *val;
      [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
@@ -90,7 +99,7 @@
 
 -(NSString *) targetNamespace {
 
-    return @"urn:http://www.ivef.org/XMLSchema/IVEF/0.1.6";
+    return @"urn:http://www.ivef.org/XMLSchema/IVEF/0.1.7";
 }
 
 -(BOOL) setAttributes:(NSDictionary *)attributeDict {
@@ -101,7 +110,6 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<Schema"];
-    NSString *dataMember;
     [xml appendString:@"/>\n"];
     return xml;
 }

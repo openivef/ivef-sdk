@@ -19,6 +19,16 @@ Transmission::Transmission(const Transmission &val) : QObject() {
     m_period = val.m_period;
 }
 
+// compare
+bool Transmission::operator==(const Transmission &val) {
+
+    if (!(m_typePresent == val.m_typePresent)) return false;
+    if (!(m_type == val.m_type)) return false;
+    if (!(m_periodPresent == val.m_periodPresent)) return false;
+    if (!(m_period == val.m_period)) return false;
+    return true;
+}
+
 // assignement
 Transmission & Transmission::operator=(const Transmission &val) {
 

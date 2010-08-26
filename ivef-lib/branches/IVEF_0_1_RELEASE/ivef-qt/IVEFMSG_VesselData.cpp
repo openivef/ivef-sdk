@@ -17,6 +17,16 @@ MSG_VesselData::MSG_VesselData(const MSG_VesselData &val) : QObject() {
     m_body = val.m_body;
 }
 
+// compare
+bool MSG_VesselData::operator==(const MSG_VesselData &val) {
+
+    if (!(m_headerPresent == val.m_headerPresent)) return false;
+    if (!(m_header == val.m_header)) return false;
+    if (!(m_bodyPresent == val.m_bodyPresent)) return false;
+    if (!(m_body == val.m_body)) return false;
+    return true;
+}
+
 // assignement
 MSG_VesselData & MSG_VesselData::operator=(const MSG_VesselData &val) {
 

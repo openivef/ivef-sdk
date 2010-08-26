@@ -25,12 +25,14 @@
 
      // new date strings can be in Zulu time
      static NSDateFormatter *formatterWithMillies = nil;
+     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
      if (date == nil) {
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
+     [formatterWithMillies setTimeZone:timeZone];
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
 #else
@@ -40,14 +42,6 @@
 
 - (NSDate*) dateFromString:(NSString *)str {
 
-     // new date strings can be in Zulu time
-#if defined (__clang__)
-     str = [str stringByReplacingString:@"Z" withString:@""];
-
-#else
-     str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
-
-#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
@@ -60,6 +54,21 @@
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
+     // new date strings can be in Zulu time
+     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+     if ([str characterAtIndex: [str length] - 1] == 'Z') {
+         [formatterWithMillies setTimeZone:timeZone]; // localtime is default
+         [formatterWithSeconds setTimeZone:timeZone]; // localtime is default
+         [formatterWithMinutes setTimeZone:timeZone]; // localtime is default
+#if defined (__clang__)
+         str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
+         str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
+
+#endif
+     }
+     // convert
 #if defined (__clang__)
      NSDate *val;
      [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
@@ -90,6 +99,8 @@
 
 -(BOOL) setName:(NSString *) val {
 
+    if ([val length] > 256)
+        return NO;
     m_namePresent = YES;
     [m_name release];
     m_name = val;
@@ -104,6 +115,8 @@
 
 -(BOOL) setPassword:(NSString *) val {
 
+    if ([val length] > 256)
+        return NO;
     m_passwordPresent = YES;
     [m_password release];
     m_password = val;
@@ -175,7 +188,6 @@
 -(NSString *) XML {
 
     NSMutableString *xml = [NSMutableString stringWithString:@"<LoginRequest"];
-    NSString *dataMember;
     if ( m_namePresent ) {
         [xml appendString: @" Name=\""];
         [xml appendString: [self encode: m_name]];

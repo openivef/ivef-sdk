@@ -104,6 +104,54 @@ StaticData::StaticData(const StaticData &val) : QObject() {
     m_deepWaterVesselind = val.m_deepWaterVesselind;
 }
 
+// compare
+bool StaticData::operator==(const StaticData &val) {
+
+    if (!(m_idPresent == val.m_idPresent)) return false;
+    if (!(m_id == val.m_id)) return false;
+    if (!(m_sourceNamePresent == val.m_sourceNamePresent)) return false;
+    if (!(m_sourceName == val.m_sourceName)) return false;
+    if (!(m_sourcePresent == val.m_sourcePresent)) return false;
+    if (!(m_source == val.m_source)) return false;
+    if (!(m_lengthPresent == val.m_lengthPresent)) return false;
+    if (!(m_length == val.m_length)) return false;
+    if (!(m_breadthPresent == val.m_breadthPresent)) return false;
+    if (!(m_breadth == val.m_breadth)) return false;
+    if (!(m_callsignPresent == val.m_callsignPresent)) return false;
+    if (!(m_callsign == val.m_callsign)) return false;
+    if (!(m_shipNamePresent == val.m_shipNamePresent)) return false;
+    if (!(m_shipName == val.m_shipName)) return false;
+    if (!(m_objectTypePresent == val.m_objectTypePresent)) return false;
+    if (!(m_objectType == val.m_objectType)) return false;
+    if (!(m_shipTypePresent == val.m_shipTypePresent)) return false;
+    if (!(m_shipType == val.m_shipType)) return false;
+    if (!(m_IMOPresent == val.m_IMOPresent)) return false;
+    if (!(m_IMO == val.m_IMO)) return false;
+    if (!(m_MMSIPresent == val.m_MMSIPresent)) return false;
+    if (!(m_MMSI == val.m_MMSI)) return false;
+    if (!(m_ATONTypePresent == val.m_ATONTypePresent)) return false;
+    if (!(m_ATONType == val.m_ATONType)) return false;
+    if (!(m_ATONNamePresent == val.m_ATONNamePresent)) return false;
+    if (!(m_ATONName == val.m_ATONName)) return false;
+    if (!(m_antPosDistFromFrontPresent == val.m_antPosDistFromFrontPresent)) return false;
+    if (!(m_antPosDistFromFront == val.m_antPosDistFromFront)) return false;
+    if (!(m_antPosDistFromLeftPresent == val.m_antPosDistFromLeftPresent)) return false;
+    if (!(m_antPosDistFromLeft == val.m_antPosDistFromLeft)) return false;
+    if (!(m_natLangShipNamePresent == val.m_natLangShipNamePresent)) return false;
+    if (!(m_natLangShipName == val.m_natLangShipName)) return false;
+    if (!(m_portOfRegistryPresent == val.m_portOfRegistryPresent)) return false;
+    if (!(m_portOfRegistry == val.m_portOfRegistry)) return false;
+    if (!(m_countryFlagPresent == val.m_countryFlagPresent)) return false;
+    if (!(m_countryFlag == val.m_countryFlag)) return false;
+    if (!(m_maxAirDraughtPresent == val.m_maxAirDraughtPresent)) return false;
+    if (!(m_maxAirDraught == val.m_maxAirDraught)) return false;
+    if (!(m_maxDraughtPresent == val.m_maxDraughtPresent)) return false;
+    if (!(m_maxDraught == val.m_maxDraught)) return false;
+    if (!(m_deepWaterVesselindPresent == val.m_deepWaterVesselindPresent)) return false;
+    if (!(m_deepWaterVesselind == val.m_deepWaterVesselind)) return false;
+    return true;
+}
+
 // assignement
 StaticData & StaticData::operator=(const StaticData &val) {
 
@@ -165,7 +213,10 @@ QString StaticData::encode( QString str) const {
 
 // setter for StaticData
 bool StaticData::setId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 40)
+        return false;
     m_idPresent = true;
     m_id = val;
       return true;

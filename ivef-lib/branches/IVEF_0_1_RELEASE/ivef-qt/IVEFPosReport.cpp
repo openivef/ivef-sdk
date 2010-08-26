@@ -21,6 +21,9 @@ PosReport::PosReport() {
     // initialize with random value
     m_updateTimeDR = QDateTime();
     m_updateTimeDRPresent = false;
+    // initialize with random value
+    m_expectedTimeForNextUpdate = QDateTime();
+    m_expectedTimeForNextUpdatePresent = false;
     m_SOG = 0.0;
     m_SOGPresent = false;
     m_COG = 0.0;
@@ -66,6 +69,8 @@ PosReport::PosReport(const PosReport &val) : QObject() {
     m_updateTimeAIS = val.m_updateTimeAIS;
     m_updateTimeDRPresent = val.m_updateTimeDRPresent;
     m_updateTimeDR = val.m_updateTimeDR;
+    m_expectedTimeForNextUpdatePresent = val.m_expectedTimeForNextUpdatePresent;
+    m_expectedTimeForNextUpdate = val.m_expectedTimeForNextUpdate;
     m_SOGPresent = val.m_SOGPresent;
     m_SOG = val.m_SOG;
     m_COGPresent = val.m_COGPresent;
@@ -90,6 +95,52 @@ PosReport::PosReport(const PosReport &val) : QObject() {
     m_ATONOffPos = val.m_ATONOffPos;
 }
 
+// compare
+bool PosReport::operator==(const PosReport &val) {
+
+    if (!(m_posPresent == val.m_posPresent)) return false;
+    if (!(m_pos == val.m_pos)) return false;
+    if (!(m_sensorPresent == val.m_sensorPresent)) return false;
+    if (!(m_sensors == val.m_sensors)) return false;
+    if (!(m_idPresent == val.m_idPresent)) return false;
+    if (!(m_id == val.m_id)) return false;
+    if (!(m_sourceIdPresent == val.m_sourceIdPresent)) return false;
+    if (!(m_sourceId == val.m_sourceId)) return false;
+    if (!(m_updateTimePresent == val.m_updateTimePresent)) return false;
+    if (!(m_updateTime == val.m_updateTime)) return false;
+    if (!(m_updateTimeRadarPresent == val.m_updateTimeRadarPresent)) return false;
+    if (!(m_updateTimeRadar == val.m_updateTimeRadar)) return false;
+    if (!(m_updateTimeAISPresent == val.m_updateTimeAISPresent)) return false;
+    if (!(m_updateTimeAIS == val.m_updateTimeAIS)) return false;
+    if (!(m_updateTimeDRPresent == val.m_updateTimeDRPresent)) return false;
+    if (!(m_updateTimeDR == val.m_updateTimeDR)) return false;
+    if (!(m_expectedTimeForNextUpdatePresent == val.m_expectedTimeForNextUpdatePresent)) return false;
+    if (!(m_expectedTimeForNextUpdate == val.m_expectedTimeForNextUpdate)) return false;
+    if (!(m_SOGPresent == val.m_SOGPresent)) return false;
+    if (!(m_SOG == val.m_SOG)) return false;
+    if (!(m_COGPresent == val.m_COGPresent)) return false;
+    if (!(m_COG == val.m_COG)) return false;
+    if (!(m_lostPresent == val.m_lostPresent)) return false;
+    if (!(m_lost == val.m_lost)) return false;
+    if (!(m_rateOfTurnPresent == val.m_rateOfTurnPresent)) return false;
+    if (!(m_rateOfTurn == val.m_rateOfTurn)) return false;
+    if (!(m_orientationPresent == val.m_orientationPresent)) return false;
+    if (!(m_orientation == val.m_orientation)) return false;
+    if (!(m_lengthPresent == val.m_lengthPresent)) return false;
+    if (!(m_length == val.m_length)) return false;
+    if (!(m_breadthPresent == val.m_breadthPresent)) return false;
+    if (!(m_breadth == val.m_breadth)) return false;
+    if (!(m_altitudePresent == val.m_altitudePresent)) return false;
+    if (!(m_altitude == val.m_altitude)) return false;
+    if (!(m_navStatusPresent == val.m_navStatusPresent)) return false;
+    if (!(m_navStatus == val.m_navStatus)) return false;
+    if (!(m_updSensorTypePresent == val.m_updSensorTypePresent)) return false;
+    if (!(m_updSensorType == val.m_updSensorType)) return false;
+    if (!(m_ATONOffPosPresent == val.m_ATONOffPosPresent)) return false;
+    if (!(m_ATONOffPos == val.m_ATONOffPos)) return false;
+    return true;
+}
+
 // assignement
 PosReport & PosReport::operator=(const PosReport &val) {
 
@@ -109,6 +160,8 @@ PosReport & PosReport::operator=(const PosReport &val) {
     m_updateTimeAIS = val.m_updateTimeAIS;
     m_updateTimeDRPresent = val.m_updateTimeDRPresent;
     m_updateTimeDR = val.m_updateTimeDR;
+    m_expectedTimeForNextUpdatePresent = val.m_expectedTimeForNextUpdatePresent;
+    m_expectedTimeForNextUpdate = val.m_expectedTimeForNextUpdate;
     m_SOGPresent = val.m_SOGPresent;
     m_SOG = val.m_SOG;
     m_COGPresent = val.m_COGPresent;
@@ -157,6 +210,15 @@ bool PosReport::setPos(Pos val) {
 Pos PosReport::getPos() const {
 
     return m_pos;
+}
+
+// remover for PosReport
+bool PosReport::removeSensor(Sensor val) {
+
+    if (m_sensors.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_sensors.removeOne(val);
 }
 
 // setter for PosReport
@@ -278,6 +340,26 @@ QDateTime PosReport::getUpdateTimeDR() const {
 bool PosReport::hasUpdateTimeDR() const {
 
     return m_updateTimeDRPresent;
+}
+
+// setter for PosReport
+bool PosReport::setExpectedTimeForNextUpdate(QDateTime val) {
+
+    m_expectedTimeForNextUpdatePresent = true;
+    m_expectedTimeForNextUpdate = val;
+      return true;
+}
+
+// getter for PosReport
+QDateTime PosReport::getExpectedTimeForNextUpdate() const {
+
+    return m_expectedTimeForNextUpdate;
+}
+
+// check if optional element PosReport has been set
+bool PosReport::hasExpectedTimeForNextUpdate() const {
+
+    return m_expectedTimeForNextUpdatePresent;
 }
 
 // setter for PosReport
@@ -567,6 +649,10 @@ QString PosReport::toXML() const {
     if ( hasUpdateTimeDR() ) {
         xml.append(" UpdateTimeDR=\"" + m_updateTimeDR.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
     }
+    // check for presence of optional attribute
+    if ( hasExpectedTimeForNextUpdate() ) {
+        xml.append(" ExpectedTimeForNextUpdate=\"" + m_expectedTimeForNextUpdate.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\"");
+    }
     // check for presence of required  attribute
     if ( m_SOGPresent) {
         xml.append(" SOG=\"" + QString::number( m_SOG, 'f') + "\"");
@@ -670,6 +756,10 @@ QString PosReport::toString(QString lead) {
     // check for presence of optional attribute
     if ( hasUpdateTimeDR() ) {
         str.append( lead + "    UpdateTimeDR = " + m_updateTimeDR.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
+    }
+    // check for presence of optional attribute
+    if ( hasExpectedTimeForNextUpdate() ) {
+        str.append( lead + "    ExpectedTimeForNextUpdate = " + m_expectedTimeForNextUpdate.toString("yyyy-MM-dd'T'HH:mm:ss.zzzZ") + "\n");
     }
      str.append( lead + "    SOG = " + QString::number( m_SOG, 'f') + "\n");
      str.append( lead + "    COG = " + QString::number(m_COG, 'f', 1) + "\n");

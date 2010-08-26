@@ -17,6 +17,16 @@ MSG_LoginResponse::MSG_LoginResponse(const MSG_LoginResponse &val) : QObject() {
     m_body = val.m_body;
 }
 
+// compare
+bool MSG_LoginResponse::operator==(const MSG_LoginResponse &val) {
+
+    if (!(m_headerPresent == val.m_headerPresent)) return false;
+    if (!(m_header == val.m_header)) return false;
+    if (!(m_bodyPresent == val.m_bodyPresent)) return false;
+    if (!(m_body == val.m_body)) return false;
+    return true;
+}
+
 // assignement
 MSG_LoginResponse & MSG_LoginResponse::operator=(const MSG_LoginResponse &val) {
 

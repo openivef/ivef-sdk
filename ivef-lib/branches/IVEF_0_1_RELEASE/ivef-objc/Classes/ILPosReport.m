@@ -16,6 +16,7 @@
         m_updateTimeRadarPresent = NO;
         m_updateTimeAISPresent = NO;
         m_updateTimeDRPresent = NO;
+        m_expectedTimeForNextUpdatePresent = NO;
         m_SOGPresent = NO;
         m_COGPresent = NO;
         m_lostPresent = NO;
@@ -39,6 +40,7 @@
     [m_updateTimeRadar release];
     [m_updateTimeAIS release];
     [m_updateTimeDR release];
+    [m_expectedTimeForNextUpdate release];
     [m_lost release];
     [super dealloc];
 }
@@ -47,12 +49,14 @@
 
      // new date strings can be in Zulu time
      static NSDateFormatter *formatterWithMillies = nil;
+     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
      if (date == nil) {
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
+     [formatterWithMillies setTimeZone:timeZone];
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
 #else
@@ -62,14 +66,6 @@
 
 - (NSDate*) dateFromString:(NSString *)str {
 
-     // new date strings can be in Zulu time
-#if defined (__clang__)
-     str = [str stringByReplacingString:@"Z" withString:@""];
-
-#else
-     str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
-
-#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
@@ -82,6 +78,21 @@
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
+     // new date strings can be in Zulu time
+     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+     if ([str characterAtIndex: [str length] - 1] == 'Z') {
+         [formatterWithMillies setTimeZone:timeZone]; // localtime is default
+         [formatterWithSeconds setTimeZone:timeZone]; // localtime is default
+         [formatterWithMinutes setTimeZone:timeZone]; // localtime is default
+#if defined (__clang__)
+         str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
+         str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
+
+#endif
+     }
+     // convert
 #if defined (__clang__)
      NSDate *val;
      [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
@@ -122,6 +133,12 @@
 - (ILPos *) pos {
 
     return m_pos;
+}
+
+-(BOOL) removeSensor:(ILSensor *) val {
+
+    [m_sensors removeObject: val];
+     return YES;
 }
 
 -(BOOL) addSensor:(ILSensor *) val {
@@ -238,6 +255,25 @@
 -(BOOL) hasUpdateTimeDR {
 
     return m_updateTimeDRPresent;
+}
+
+-(BOOL) setExpectedTimeForNextUpdate:(NSDate *) val {
+
+    m_expectedTimeForNextUpdatePresent = YES;
+    [m_expectedTimeForNextUpdate release];
+    m_expectedTimeForNextUpdate = val;
+    [m_expectedTimeForNextUpdate retain];
+    return YES;
+}
+
+- (NSDate *) expectedTimeForNextUpdate {
+
+    return m_expectedTimeForNextUpdate;
+}
+
+-(BOOL) hasExpectedTimeForNextUpdate {
+
+    return m_expectedTimeForNextUpdatePresent;
 }
 
 -(BOOL) setSOG:(float) val {
@@ -523,6 +559,16 @@
                    return NO;
                 }
             }
+            else if ([key isEqualToString:@"ExpectedTimeForNextUpdate"]) {
+                NSString *value = [attributeDict objectForKey: key];
+                NSDate *val = [self dateFromString: value];
+                if (![self setExpectedTimeForNextUpdate: val]) {
+                   return NO;
+                }
+                if (![self setExpectedTimeForNextUpdate: val]) {
+                   return NO;
+                }
+            }
             else if ([key isEqualToString:@"SOG"]) {
                 NSString *value = [attributeDict objectForKey: key];
                 float val = [value floatValue];
@@ -681,6 +727,11 @@
         [xml appendString: [self stringFromDate: m_updateTimeDR]];
         [xml appendString: @"\""];
     }
+    if ( [self hasExpectedTimeForNextUpdate] ) {
+        [xml appendString: @" ExpectedTimeForNextUpdate=\""];
+        [xml appendString: [self stringFromDate: m_expectedTimeForNextUpdate]];
+        [xml appendString: @"\""];
+    }
     if ( m_SOGPresent ) {
         [xml appendString: @" SOG=\""];
         [xml appendString: [NSString stringWithFormat:@"%f", m_SOG]];
@@ -833,6 +884,13 @@
         [str appendString: @"\n"];
 
     }
+    if ( [self hasExpectedTimeForNextUpdate] ) {
+        [str appendString: [lead stringByAppendingString: @" "]];
+        [str appendString: @"ExpectedTimeForNextUpdate = "];
+        [str appendString: [self stringFromDate: m_expectedTimeForNextUpdate]];
+        [str appendString: @"\n"];
+
+    }
     [str appendString: [lead stringByAppendingString: @" "]];
     [str appendString: @"SOG = "];
     [str appendString: [NSString stringWithFormat:@"%f", m_SOG]];
@@ -926,6 +984,9 @@
     }
     if ( [self hasUpdateTimeDR] ) {
         [attr setObject: [self stringFromDate: m_updateTimeDR] forKey: @"UpdateTimeDR"];
+    }
+    if ( [self hasExpectedTimeForNextUpdate] ) {
+        [attr setObject: [self stringFromDate: m_expectedTimeForNextUpdate] forKey: @"ExpectedTimeForNextUpdate"];
     }
     [attr setObject: [NSString stringWithFormat:@"%f", m_SOG] forKey: @"SOG"];
     [attr setObject: [NSString stringWithFormat:@"%.1f", m_COG] forKey: @"COG"];

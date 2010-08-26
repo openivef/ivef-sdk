@@ -25,6 +25,18 @@ LoginResponse::LoginResponse(const LoginResponse &val) : QObject() {
     m_reason = val.m_reason;
 }
 
+// compare
+bool LoginResponse::operator==(const LoginResponse &val) {
+
+    if (!(m_msgIdPresent == val.m_msgIdPresent)) return false;
+    if (!(m_msgId == val.m_msgId)) return false;
+    if (!(m_resultPresent == val.m_resultPresent)) return false;
+    if (!(m_result == val.m_result)) return false;
+    if (!(m_reasonPresent == val.m_reasonPresent)) return false;
+    if (!(m_reason == val.m_reason)) return false;
+    return true;
+}
+
 // assignement
 LoginResponse & LoginResponse::operator=(const LoginResponse &val) {
 
@@ -50,7 +62,10 @@ QString LoginResponse::encode( QString str) const {
 
 // setter for LoginResponse
 bool LoginResponse::setMsgId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 36)
+        return false;
     m_msgIdPresent = true;
     m_msgId = val;
       return true;
@@ -82,7 +97,10 @@ int LoginResponse::getResult() const {
 
 // setter for LoginResponse
 bool LoginResponse::setReason(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 256)
+        return false;
     m_reasonPresent = true;
     m_reason = val;
       return true;

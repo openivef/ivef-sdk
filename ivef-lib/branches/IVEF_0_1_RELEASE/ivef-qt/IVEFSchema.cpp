@@ -11,6 +11,12 @@ Schema::Schema(const Schema &val) : QObject() {
 
 }
 
+// compare
+bool Schema::operator==(const Schema &val) {
+
+    return true;
+}
+
 // assignement
 Schema & Schema::operator=(const Schema &val) {
 
@@ -37,7 +43,7 @@ QString Schema::getElementFormDefault() const {
 // getter for Schema
 QString Schema::getTargetNamespace() const {
 
-    return "urn:http://www.ivef.org/XMLSchema/IVEF/0.1.6";
+    return "urn:http://www.ivef.org/XMLSchema/IVEF/0.1.7";
 }
 
 // Get XML Representation
