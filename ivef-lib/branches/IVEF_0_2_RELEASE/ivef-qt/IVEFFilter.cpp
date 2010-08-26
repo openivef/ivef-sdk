@@ -16,6 +16,14 @@ Filter::Filter(const Filter &val) : QObject() {
     m_predicate = val.m_predicate;
 }
 
+// compare
+bool Filter::operator==(const Filter &val) {
+
+    if (!(m_predicatePresent == val.m_predicatePresent)) return false;
+    if (!(m_predicate == val.m_predicate)) return false;
+    return true;
+}
+
 // assignement
 Filter & Filter::operator=(const Filter &val) {
 
@@ -37,7 +45,13 @@ QString Filter::encode( QString str) const {
 
 // setter for Filter
 bool Filter::setPredicate(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 1024)
+        return false;
     m_predicatePresent = true;
     m_predicate = val;
       return true;

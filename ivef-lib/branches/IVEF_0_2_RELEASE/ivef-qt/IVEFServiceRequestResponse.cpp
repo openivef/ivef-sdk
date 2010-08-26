@@ -25,6 +25,18 @@ ServiceRequestResponse::ServiceRequestResponse(const ServiceRequestResponse &val
     m_result = val.m_result;
 }
 
+// compare
+bool ServiceRequestResponse::operator==(const ServiceRequestResponse &val) {
+
+    if (!(m_reasonPresent == val.m_reasonPresent)) return false;
+    if (!(m_reason == val.m_reason)) return false;
+    if (!(m_responseOnPresent == val.m_responseOnPresent)) return false;
+    if (!(m_responseOn == val.m_responseOn)) return false;
+    if (!(m_resultPresent == val.m_resultPresent)) return false;
+    if (!(m_result == val.m_result)) return false;
+    return true;
+}
+
 // assignement
 ServiceRequestResponse & ServiceRequestResponse::operator=(const ServiceRequestResponse &val) {
 
@@ -50,7 +62,10 @@ QString ServiceRequestResponse::encode( QString str) const {
 
 // setter for ServiceRequestResponse
 bool ServiceRequestResponse::setReason(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 256)
+        return false;
     m_reasonPresent = true;
     m_reason = val;
       return true;
@@ -70,7 +85,13 @@ bool ServiceRequestResponse::hasReason() const {
 
 // setter for ServiceRequestResponse
 bool ServiceRequestResponse::setResponseOn(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 36)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_responseOnPresent = true;
     m_responseOn = val;
       return true;

@@ -15,6 +15,14 @@ NavStatus::NavStatus(const NavStatus &val) : QObject() {
     m_value = val.m_value;
 }
 
+// compare
+bool NavStatus::operator==(const NavStatus &val) {
+
+    if (!(m_valuePresent == val.m_valuePresent)) return false;
+    if (!(m_value == val.m_value)) return false;
+    return true;
+}
+
 // assignement
 NavStatus & NavStatus::operator=(const NavStatus &val) {
 

@@ -63,6 +63,38 @@ Construction::Construction(const Construction &val) : QObject() {
     m_width = val.m_width;
 }
 
+// compare
+bool Construction::operator==(const Construction &val) {
+
+    if (!(m_unTypePresent == val.m_unTypePresent)) return false;
+    if (!(m_unType == val.m_unType)) return false;
+    if (!(m_hullColorPresent == val.m_hullColorPresent)) return false;
+    if (!(m_hullColor == val.m_hullColor)) return false;
+    if (!(m_hullTypePresent == val.m_hullTypePresent)) return false;
+    if (!(m_hullType == val.m_hullType)) return false;
+    if (!(m_deadWeightPresent == val.m_deadWeightPresent)) return false;
+    if (!(m_deadWeight == val.m_deadWeight)) return false;
+    if (!(m_grossWeightPresent == val.m_grossWeightPresent)) return false;
+    if (!(m_grossWeight == val.m_grossWeight)) return false;
+    if (!(m_lengthPresent == val.m_lengthPresent)) return false;
+    if (!(m_length == val.m_length)) return false;
+    if (!(m_lloydsShipTypePresent == val.m_lloydsShipTypePresent)) return false;
+    if (!(m_lloydsShipType == val.m_lloydsShipType)) return false;
+    if (!(m_yearOfBuildPresent == val.m_yearOfBuildPresent)) return false;
+    if (!(m_yearOfBuild == val.m_yearOfBuild)) return false;
+    if (!(m_maxAirDraughtPresent == val.m_maxAirDraughtPresent)) return false;
+    if (!(m_maxAirDraught == val.m_maxAirDraught)) return false;
+    if (!(m_maxDraughtPresent == val.m_maxDraughtPresent)) return false;
+    if (!(m_maxDraught == val.m_maxDraught)) return false;
+    if (!(m_maxPersonsOnBoardPresent == val.m_maxPersonsOnBoardPresent)) return false;
+    if (!(m_maxPersonsOnBoard == val.m_maxPersonsOnBoard)) return false;
+    if (!(m_maxSpeedPresent == val.m_maxSpeedPresent)) return false;
+    if (!(m_maxSpeed == val.m_maxSpeed)) return false;
+    if (!(m_widthPresent == val.m_widthPresent)) return false;
+    if (!(m_width == val.m_width)) return false;
+    return true;
+}
+
 // assignement
 Construction & Construction::operator=(const Construction &val) {
 
@@ -128,7 +160,13 @@ bool Construction::hasUnType() const {
 
 // setter for Construction
 bool Construction::setHullColor(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 6)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 6)
+        return false;
     m_hullColorPresent = true;
     m_hullColor = val;
       return true;

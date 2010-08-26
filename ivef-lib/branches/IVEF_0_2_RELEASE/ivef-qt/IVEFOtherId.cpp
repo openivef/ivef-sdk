@@ -21,6 +21,16 @@ OtherId::OtherId(const OtherId &val) : QObject() {
     m_value = val.m_value;
 }
 
+// compare
+bool OtherId::operator==(const OtherId &val) {
+
+    if (!(m_idPresent == val.m_idPresent)) return false;
+    if (!(m_id == val.m_id)) return false;
+    if (!(m_valuePresent == val.m_valuePresent)) return false;
+    if (!(m_value == val.m_value)) return false;
+    return true;
+}
+
 // assignement
 OtherId & OtherId::operator=(const OtherId &val) {
 
@@ -44,7 +54,13 @@ QString OtherId::encode( QString str) const {
 
 // setter for OtherId
 bool OtherId::setId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_idPresent = true;
     m_id = val;
       return true;
@@ -58,7 +74,13 @@ QString OtherId::getId() const {
 
 // setter for OtherId
 bool OtherId::setValue(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_valuePresent = true;
     m_value = val;
       return true;

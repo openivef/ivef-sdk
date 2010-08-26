@@ -20,6 +20,20 @@ ObjectData::ObjectData(const ObjectData &val) : QObject() {
     m_taggedItems = val.m_taggedItems;
 }
 
+// compare
+bool ObjectData::operator==(const ObjectData &val) {
+
+    if (!(m_trackDataPresent == val.m_trackDataPresent)) return false;
+    if (!(m_trackData == val.m_trackData)) return false;
+    if (!(m_vesselDataPresent == val.m_vesselDataPresent)) return false;
+    if (!(m_vesselDatas == val.m_vesselDatas)) return false;
+    if (!(m_voyageDataPresent == val.m_voyageDataPresent)) return false;
+    if (!(m_voyageDatas == val.m_voyageDatas)) return false;
+    if (!(m_taggedItemPresent == val.m_taggedItemPresent)) return false;
+    if (!(m_taggedItems == val.m_taggedItems)) return false;
+    return true;
+}
+
 // assignement
 ObjectData & ObjectData::operator=(const ObjectData &val) {
 
@@ -65,6 +79,15 @@ bool ObjectData::hasTrackData() const {
     return m_trackDataPresent;
 }
 
+// remover for ObjectData
+bool ObjectData::removeVesselData(VesselData val) {
+
+    if (m_vesselDatas.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_vesselDatas.removeOne(val);
+}
+
 // setter for ObjectData
 bool ObjectData::addVesselData(VesselData val) {
 
@@ -84,6 +107,15 @@ int ObjectData::countOfVesselDatas() const {
     return m_vesselDatas.count();
 }
 
+// remover for ObjectData
+bool ObjectData::removeVoyageData(VoyageData val) {
+
+    if (m_voyageDatas.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_voyageDatas.removeOne(val);
+}
+
 // setter for ObjectData
 bool ObjectData::addVoyageData(VoyageData val) {
 
@@ -101,6 +133,15 @@ VoyageData ObjectData::getVoyageDataAt(int i) const {
 int ObjectData::countOfVoyageDatas() const {
 
     return m_voyageDatas.count();
+}
+
+// remover for ObjectData
+bool ObjectData::removeTaggedItem(TaggedItem val) {
+
+    if (m_taggedItems.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_taggedItems.removeOne(val);
 }
 
 // setter for ObjectData

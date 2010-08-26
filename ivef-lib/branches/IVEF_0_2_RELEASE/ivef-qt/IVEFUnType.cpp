@@ -23,6 +23,18 @@ UnType::UnType(const UnType &val) : QObject() {
     m_mode = val.m_mode;
 }
 
+// compare
+bool UnType::operator==(const UnType &val) {
+
+    if (!(m_codeAPresent == val.m_codeAPresent)) return false;
+    if (!(m_codeA == val.m_codeA)) return false;
+    if (!(m_codeBPresent == val.m_codeBPresent)) return false;
+    if (!(m_codeB == val.m_codeB)) return false;
+    if (!(m_modePresent == val.m_modePresent)) return false;
+    if (!(m_mode == val.m_mode)) return false;
+    return true;
+}
+
 // assignement
 UnType & UnType::operator=(const UnType &val) {
 

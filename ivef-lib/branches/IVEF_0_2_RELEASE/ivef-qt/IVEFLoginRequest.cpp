@@ -25,6 +25,18 @@ LoginRequest::LoginRequest(const LoginRequest &val) : QObject() {
     m_password = val.m_password;
 }
 
+// compare
+bool LoginRequest::operator==(const LoginRequest &val) {
+
+    if (!(m_encryptionPresent == val.m_encryptionPresent)) return false;
+    if (!(m_encryption == val.m_encryption)) return false;
+    if (!(m_namePresent == val.m_namePresent)) return false;
+    if (!(m_name == val.m_name)) return false;
+    if (!(m_passwordPresent == val.m_passwordPresent)) return false;
+    if (!(m_password == val.m_password)) return false;
+    return true;
+}
+
 // assignement
 LoginRequest & LoginRequest::operator=(const LoginRequest &val) {
 
@@ -68,7 +80,10 @@ int LoginRequest::getEncryption() const {
 
 // setter for LoginRequest
 bool LoginRequest::setName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 256)
+        return false;
     m_namePresent = true;
     m_name = val;
       return true;
@@ -82,7 +97,10 @@ QString LoginRequest::getName() const {
 
 // setter for LoginRequest
 bool LoginRequest::setPassword(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 256)
+        return false;
     m_passwordPresent = true;
     m_password = val;
       return true;

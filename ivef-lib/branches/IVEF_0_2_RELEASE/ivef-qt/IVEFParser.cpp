@@ -230,11 +230,6 @@ bool Parser::startElement(const QString &,
 
             // and add them if we know them
             if (key == "TimeStamp") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setTimeStamp(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
@@ -267,11 +262,6 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "TimeStamp") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setTimeStamp(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
@@ -574,11 +564,6 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "UpdateTime") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setUpdateTime(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
@@ -676,11 +661,6 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "UpdateTime") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setUpdateTime(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
@@ -935,22 +915,12 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "ETA") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setETA(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "ATD") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setATD(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
@@ -1029,11 +999,6 @@ bool Parser::startElement(const QString &,
                 }
             }
             else if (key == "UpdateTime") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setUpdateTime(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
@@ -1054,33 +1019,18 @@ bool Parser::startElement(const QString &,
 
             // and add them if we know them
             if (key == "ATA") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setATA(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "ETA") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setETA(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );
                 }
             }
             else if (key == "RTA") {
-                // date encoding should end on a Z, but some suppliers may exclude it
-                // we can be robust by checking for it
-                if (value.right(1) != "Z") { // new time encoding
-                     value.append("Z");
-                }
                 QDateTime val = QDateTime::fromString(value, Qt::ISODate);
                 if (! (obj->setRTA(val) )) {
                     emit signalValidationError( "Error for " + key + " = " + value );

@@ -21,6 +21,16 @@ OtherName::OtherName(const OtherName &val) : QObject() {
     m_name = val.m_name;
 }
 
+// compare
+bool OtherName::operator==(const OtherName &val) {
+
+    if (!(m_langPresent == val.m_langPresent)) return false;
+    if (!(m_lang == val.m_lang)) return false;
+    if (!(m_namePresent == val.m_namePresent)) return false;
+    if (!(m_name == val.m_name)) return false;
+    return true;
+}
+
 // assignement
 OtherName & OtherName::operator=(const OtherName &val) {
 
@@ -44,7 +54,13 @@ QString OtherName::encode( QString str) const {
 
 // setter for OtherName
 bool OtherName::setLang(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 2)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 2)
+        return false;
     m_langPresent = true;
     m_lang = val;
       return true;
@@ -58,7 +74,13 @@ QString OtherName::getLang() const {
 
 // setter for OtherName
 bool OtherName::setName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_namePresent = true;
     m_name = val;
       return true;

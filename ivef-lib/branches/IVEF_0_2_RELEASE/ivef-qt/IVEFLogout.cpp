@@ -11,6 +11,12 @@ Logout::Logout(const Logout &val) : QObject() {
 
 }
 
+// compare
+bool Logout::operator==(const Logout &val) {
+
+    return true;
+}
+
 // assignement
 Logout & Logout::operator=(const Logout &val) {
 

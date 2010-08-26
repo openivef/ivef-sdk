@@ -26,6 +26,18 @@ ServerStatus::ServerStatus(const ServerStatus &val) : QObject() {
     m_status = val.m_status;
 }
 
+// compare
+bool ServerStatus::operator==(const ServerStatus &val) {
+
+    if (!(m_contactIdentityPresent == val.m_contactIdentityPresent)) return false;
+    if (!(m_contactIdentity == val.m_contactIdentity)) return false;
+    if (!(m_detailsPresent == val.m_detailsPresent)) return false;
+    if (!(m_details == val.m_details)) return false;
+    if (!(m_statusPresent == val.m_statusPresent)) return false;
+    if (!(m_status == val.m_status)) return false;
+    return true;
+}
+
 // assignement
 ServerStatus & ServerStatus::operator=(const ServerStatus &val) {
 
@@ -51,7 +63,13 @@ QString ServerStatus::encode( QString str) const {
 
 // setter for ServerStatus
 bool ServerStatus::setContactIdentity(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 254)
+        return false;
     m_contactIdentityPresent = true;
     m_contactIdentity = val;
       return true;
@@ -71,7 +89,10 @@ bool ServerStatus::hasContactIdentity() const {
 
 // setter for ServerStatus
 bool ServerStatus::setDetails(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 50)
+        return false;
     m_detailsPresent = true;
     m_details = val;
       return true;

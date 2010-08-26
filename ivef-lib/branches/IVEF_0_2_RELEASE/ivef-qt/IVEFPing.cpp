@@ -16,6 +16,14 @@ Ping::Ping(const Ping &val) : QObject() {
     m_timeStamp = val.m_timeStamp;
 }
 
+// compare
+bool Ping::operator==(const Ping &val) {
+
+    if (!(m_timeStampPresent == val.m_timeStampPresent)) return false;
+    if (!(m_timeStamp == val.m_timeStamp)) return false;
+    return true;
+}
+
 // assignement
 Ping & Ping::operator=(const Ping &val) {
 

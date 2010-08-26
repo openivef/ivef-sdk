@@ -21,6 +21,16 @@ Header::Header(const Header &val) : QObject() {
     m_version = val.m_version;
 }
 
+// compare
+bool Header::operator==(const Header &val) {
+
+    if (!(m_msgRefIdPresent == val.m_msgRefIdPresent)) return false;
+    if (!(m_msgRefId == val.m_msgRefId)) return false;
+    if (!(m_versionPresent == val.m_versionPresent)) return false;
+    if (!(m_version == val.m_version)) return false;
+    return true;
+}
+
 // assignement
 Header & Header::operator=(const Header &val) {
 
@@ -44,7 +54,13 @@ QString Header::encode( QString str) const {
 
 // setter for Header
 bool Header::setMsgRefId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 36)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_msgRefIdPresent = true;
     m_msgRefId = val;
       return true;

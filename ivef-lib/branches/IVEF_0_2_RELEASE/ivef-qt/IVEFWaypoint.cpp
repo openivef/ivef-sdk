@@ -39,6 +39,24 @@ Waypoint::Waypoint(const Waypoint &val) : QObject() {
     m_name = val.m_name;
 }
 
+// compare
+bool Waypoint::operator==(const Waypoint &val) {
+
+    if (!(m_posPresent == val.m_posPresent)) return false;
+    if (!(m_pos == val.m_pos)) return false;
+    if (!(m_ATAPresent == val.m_ATAPresent)) return false;
+    if (!(m_ATA == val.m_ATA)) return false;
+    if (!(m_ETAPresent == val.m_ETAPresent)) return false;
+    if (!(m_ETA == val.m_ETA)) return false;
+    if (!(m_RTAPresent == val.m_RTAPresent)) return false;
+    if (!(m_RTA == val.m_RTA)) return false;
+    if (!(m_loCodePresent == val.m_loCodePresent)) return false;
+    if (!(m_loCode == val.m_loCode)) return false;
+    if (!(m_namePresent == val.m_namePresent)) return false;
+    if (!(m_name == val.m_name)) return false;
+    return true;
+}
+
 // assignement
 Waypoint & Waypoint::operator=(const Waypoint &val) {
 
@@ -150,7 +168,13 @@ bool Waypoint::hasRTA() const {
 
 // setter for Waypoint
 bool Waypoint::setLoCode(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 5)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 15)
+        return false;
     m_loCodePresent = true;
     m_loCode = val;
       return true;
@@ -170,7 +194,13 @@ bool Waypoint::hasLoCode() const {
 
 // setter for Waypoint
 bool Waypoint::setName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_namePresent = true;
     m_name = val;
       return true;

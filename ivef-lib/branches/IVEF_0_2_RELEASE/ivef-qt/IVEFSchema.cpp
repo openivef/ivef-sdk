@@ -11,6 +11,12 @@ Schema::Schema(const Schema &val) : QObject() {
 
 }
 
+// compare
+bool Schema::operator==(const Schema &val) {
+
+    return true;
+}
+
 // assignement
 Schema & Schema::operator=(const Schema &val) {
 

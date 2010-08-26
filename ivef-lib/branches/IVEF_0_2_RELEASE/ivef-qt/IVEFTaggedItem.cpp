@@ -21,6 +21,16 @@ TaggedItem::TaggedItem(const TaggedItem &val) : QObject() {
     m_value = val.m_value;
 }
 
+// compare
+bool TaggedItem::operator==(const TaggedItem &val) {
+
+    if (!(m_keyPresent == val.m_keyPresent)) return false;
+    if (!(m_key == val.m_key)) return false;
+    if (!(m_valuePresent == val.m_valuePresent)) return false;
+    if (!(m_value == val.m_value)) return false;
+    return true;
+}
+
 // assignement
 TaggedItem & TaggedItem::operator=(const TaggedItem &val) {
 
@@ -44,7 +54,13 @@ QString TaggedItem::encode( QString str) const {
 
 // setter for TaggedItem
 bool TaggedItem::setKey(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_keyPresent = true;
     m_key = val;
       return true;

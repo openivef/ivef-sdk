@@ -54,6 +54,32 @@ VesselData::VesselData(const VesselData &val) : QObject() {
     m_updateTime = val.m_updateTime;
 }
 
+// compare
+bool VesselData::operator==(const VesselData &val) {
+
+    if (!(m_constructionPresent == val.m_constructionPresent)) return false;
+    if (!(m_construction == val.m_construction)) return false;
+    if (!(m_identifierPresent == val.m_identifierPresent)) return false;
+    if (!(m_identifier == val.m_identifier)) return false;
+    if (!(m_classPresent == val.m_classPresent)) return false;
+    if (!(m_class == val.m_class)) return false;
+    if (!(m_blackListedPresent == val.m_blackListedPresent)) return false;
+    if (!(m_blackListed == val.m_blackListed)) return false;
+    if (!(m_idPresent == val.m_idPresent)) return false;
+    if (!(m_id == val.m_id)) return false;
+    if (!(m_specialAttentionPresent == val.m_specialAttentionPresent)) return false;
+    if (!(m_specialAttention == val.m_specialAttention)) return false;
+    if (!(m_sourceIdPresent == val.m_sourceIdPresent)) return false;
+    if (!(m_sourceId == val.m_sourceId)) return false;
+    if (!(m_sourceNamePresent == val.m_sourceNamePresent)) return false;
+    if (!(m_sourceName == val.m_sourceName)) return false;
+    if (!(m_sourceTypePresent == val.m_sourceTypePresent)) return false;
+    if (!(m_sourceType == val.m_sourceType)) return false;
+    if (!(m_updateTimePresent == val.m_updateTimePresent)) return false;
+    if (!(m_updateTime == val.m_updateTime)) return false;
+    return true;
+}
+
 // assignement
 VesselData & VesselData::operator=(const VesselData &val) {
 
@@ -192,7 +218,10 @@ int VesselData::getId() const {
 
 // setter for VesselData
 bool VesselData::setSpecialAttention(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() > 20)
+        return false;
     m_specialAttentionPresent = true;
     m_specialAttention = val;
       return true;
@@ -212,7 +241,13 @@ bool VesselData::hasSpecialAttention() const {
 
 // setter for VesselData
 bool VesselData::setSourceId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 5)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 15)
+        return false;
     m_sourceIdPresent = true;
     m_sourceId = val;
       return true;
@@ -232,7 +267,13 @@ bool VesselData::hasSourceId() const {
 
 // setter for VesselData
 bool VesselData::setSourceName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_sourceNamePresent = true;
     m_sourceName = val;
       return true;

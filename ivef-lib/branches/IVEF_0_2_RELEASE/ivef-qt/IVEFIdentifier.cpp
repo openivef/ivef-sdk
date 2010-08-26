@@ -53,6 +53,32 @@ Identifier::Identifier(const Identifier &val) : QObject() {
     m_LRIT = val.m_LRIT;
 }
 
+// compare
+bool Identifier::operator==(const Identifier &val) {
+
+    if (!(m_otherIdPresent == val.m_otherIdPresent)) return false;
+    if (!(m_otherIds == val.m_otherIds)) return false;
+    if (!(m_otherNamePresent == val.m_otherNamePresent)) return false;
+    if (!(m_otherNames == val.m_otherNames)) return false;
+    if (!(m_callsignPresent == val.m_callsignPresent)) return false;
+    if (!(m_callsign == val.m_callsign)) return false;
+    if (!(m_IMOPresent == val.m_IMOPresent)) return false;
+    if (!(m_IMO == val.m_IMO)) return false;
+    if (!(m_namePresent == val.m_namePresent)) return false;
+    if (!(m_name == val.m_name)) return false;
+    if (!(m_formerNamePresent == val.m_formerNamePresent)) return false;
+    if (!(m_formerName == val.m_formerName)) return false;
+    if (!(m_flagPresent == val.m_flagPresent)) return false;
+    if (!(m_flag == val.m_flag)) return false;
+    if (!(m_ownerPresent == val.m_ownerPresent)) return false;
+    if (!(m_owner == val.m_owner)) return false;
+    if (!(m_MMSIPresent == val.m_MMSIPresent)) return false;
+    if (!(m_MMSI == val.m_MMSI)) return false;
+    if (!(m_LRITPresent == val.m_LRITPresent)) return false;
+    if (!(m_LRIT == val.m_LRIT)) return false;
+    return true;
+}
+
 // assignement
 Identifier & Identifier::operator=(const Identifier &val) {
 
@@ -90,6 +116,15 @@ QString Identifier::encode( QString str) const {
     return str;
 }
 
+// remover for Identifier
+bool Identifier::removeOtherId(OtherId val) {
+
+    if (m_otherIds.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_otherIds.removeOne(val);
+}
+
 // setter for Identifier
 bool Identifier::addOtherId(OtherId val) {
 
@@ -107,6 +142,15 @@ OtherId Identifier::getOtherIdAt(int i) const {
 int Identifier::countOfOtherIds() const {
 
     return m_otherIds.count();
+}
+
+// remover for Identifier
+bool Identifier::removeOtherName(OtherName val) {
+
+    if (m_otherNames.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_otherNames.removeOne(val);
 }
 
 // setter for Identifier
@@ -130,7 +174,13 @@ int Identifier::countOfOtherNames() const {
 
 // setter for Identifier
 bool Identifier::setCallsign(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 0)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 9)
+        return false;
     m_callsignPresent = true;
     m_callsign = val;
       return true;
@@ -170,7 +220,13 @@ bool Identifier::hasIMO() const {
 
 // setter for Identifier
 bool Identifier::setName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_namePresent = true;
     m_name = val;
       return true;
@@ -190,7 +246,13 @@ bool Identifier::hasName() const {
 
 // setter for Identifier
 bool Identifier::setFormerName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_formerNamePresent = true;
     m_formerName = val;
       return true;
@@ -210,7 +272,13 @@ bool Identifier::hasFormerName() const {
 
 // setter for Identifier
 bool Identifier::setFlag(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 2)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 2)
+        return false;
     m_flagPresent = true;
     m_flag = val;
       return true;
@@ -230,7 +298,13 @@ bool Identifier::hasFlag() const {
 
 // setter for Identifier
 bool Identifier::setOwner(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_ownerPresent = true;
     m_owner = val;
       return true;
@@ -270,7 +344,13 @@ bool Identifier::hasMMSI() const {
 
 // setter for Identifier
 bool Identifier::setLRIT(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_LRITPresent = true;
     m_LRIT = val;
       return true;

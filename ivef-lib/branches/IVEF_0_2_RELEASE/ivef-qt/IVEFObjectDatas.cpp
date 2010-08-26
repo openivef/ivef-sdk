@@ -13,6 +13,14 @@ ObjectDatas::ObjectDatas(const ObjectDatas &val) : QObject() {
     m_objectDatas = val.m_objectDatas;
 }
 
+// compare
+bool ObjectDatas::operator==(const ObjectDatas &val) {
+
+    if (!(m_objectDataPresent == val.m_objectDataPresent)) return false;
+    if (!(m_objectDatas == val.m_objectDatas)) return false;
+    return true;
+}
+
 // assignement
 ObjectDatas & ObjectDatas::operator=(const ObjectDatas &val) {
 
@@ -30,6 +38,12 @@ QString ObjectDatas::encode( QString str) const {
     str.replace('>', "&gt;");
     str.replace('"', "&quot;");
     return str;
+}
+
+// remover for ObjectDatas
+bool ObjectDatas::removeObjectData(ObjectData val) {
+
+    return m_objectDatas.removeOne(val);
 }
 
 // setter for ObjectDatas

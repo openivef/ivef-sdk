@@ -117,6 +117,60 @@ VoyageData::VoyageData(const VoyageData &val) : QObject() {
     m_updateTime = val.m_updateTime;
 }
 
+// compare
+bool VoyageData::operator==(const VoyageData &val) {
+
+    if (!(m_waypointPresent == val.m_waypointPresent)) return false;
+    if (!(m_waypoints == val.m_waypoints)) return false;
+    if (!(m_airDraughtPresent == val.m_airDraughtPresent)) return false;
+    if (!(m_airDraught == val.m_airDraught)) return false;
+    if (!(m_idPresent == val.m_idPresent)) return false;
+    if (!(m_id == val.m_id)) return false;
+    if (!(m_cargoTypeIMOPresent == val.m_cargoTypeIMOPresent)) return false;
+    if (!(m_cargoTypeIMO == val.m_cargoTypeIMO)) return false;
+    if (!(m_contactIdentityPresent == val.m_contactIdentityPresent)) return false;
+    if (!(m_contactIdentity == val.m_contactIdentity)) return false;
+    if (!(m_destCodePresent == val.m_destCodePresent)) return false;
+    if (!(m_destCode == val.m_destCode)) return false;
+    if (!(m_destNamePresent == val.m_destNamePresent)) return false;
+    if (!(m_destName == val.m_destName)) return false;
+    if (!(m_departCodePresent == val.m_departCodePresent)) return false;
+    if (!(m_departCode == val.m_departCode)) return false;
+    if (!(m_departNamePresent == val.m_departNamePresent)) return false;
+    if (!(m_departName == val.m_departName)) return false;
+    if (!(m_draughtPresent == val.m_draughtPresent)) return false;
+    if (!(m_draught == val.m_draught)) return false;
+    if (!(m_ETAPresent == val.m_ETAPresent)) return false;
+    if (!(m_ETA == val.m_ETA)) return false;
+    if (!(m_ATDPresent == val.m_ATDPresent)) return false;
+    if (!(m_ATD == val.m_ATD)) return false;
+    if (!(m_ISPSLevelPresent == val.m_ISPSLevelPresent)) return false;
+    if (!(m_ISPSLevel == val.m_ISPSLevel)) return false;
+    if (!(m_overSizedLengthPresent == val.m_overSizedLengthPresent)) return false;
+    if (!(m_overSizedLength == val.m_overSizedLength)) return false;
+    if (!(m_overSizedWidthPresent == val.m_overSizedWidthPresent)) return false;
+    if (!(m_overSizedWidth == val.m_overSizedWidth)) return false;
+    if (!(m_personsOnBoardPresent == val.m_personsOnBoardPresent)) return false;
+    if (!(m_personsOnBoard == val.m_personsOnBoard)) return false;
+    if (!(m_pilotsPresent == val.m_pilotsPresent)) return false;
+    if (!(m_pilots == val.m_pilots)) return false;
+    if (!(m_routeBoundPresent == val.m_routeBoundPresent)) return false;
+    if (!(m_routeBound == val.m_routeBound)) return false;
+    if (!(m_sourceIdPresent == val.m_sourceIdPresent)) return false;
+    if (!(m_sourceId == val.m_sourceId)) return false;
+    if (!(m_sourceNamePresent == val.m_sourceNamePresent)) return false;
+    if (!(m_sourceName == val.m_sourceName)) return false;
+    if (!(m_sourceTypePresent == val.m_sourceTypePresent)) return false;
+    if (!(m_sourceType == val.m_sourceType)) return false;
+    if (!(m_tankerStatusPresent == val.m_tankerStatusPresent)) return false;
+    if (!(m_tankerStatus == val.m_tankerStatus)) return false;
+    if (!(m_tugsPresent == val.m_tugsPresent)) return false;
+    if (!(m_tugs == val.m_tugs)) return false;
+    if (!(m_updateTimePresent == val.m_updateTimePresent)) return false;
+    if (!(m_updateTime == val.m_updateTime)) return false;
+    return true;
+}
+
 // assignement
 VoyageData & VoyageData::operator=(const VoyageData &val) {
 
@@ -180,6 +234,15 @@ QString VoyageData::encode( QString str) const {
     str.replace('>', "&gt;");
     str.replace('"', "&quot;");
     return str;
+}
+
+// remover for VoyageData
+bool VoyageData::removeWaypoint(Waypoint val) {
+
+    if (m_waypoints.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_waypoints.removeOne(val);
 }
 
 // setter for VoyageData
@@ -268,7 +331,13 @@ bool VoyageData::hasCargoTypeIMO() const {
 
 // setter for VoyageData
 bool VoyageData::setContactIdentity(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 254)
+        return false;
     m_contactIdentityPresent = true;
     m_contactIdentity = val;
       return true;
@@ -288,7 +357,13 @@ bool VoyageData::hasContactIdentity() const {
 
 // setter for VoyageData
 bool VoyageData::setDestCode(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 5)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 15)
+        return false;
     m_destCodePresent = true;
     m_destCode = val;
       return true;
@@ -308,7 +383,13 @@ bool VoyageData::hasDestCode() const {
 
 // setter for VoyageData
 bool VoyageData::setDestName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_destNamePresent = true;
     m_destName = val;
       return true;
@@ -328,7 +409,13 @@ bool VoyageData::hasDestName() const {
 
 // setter for VoyageData
 bool VoyageData::setDepartCode(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 5)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 15)
+        return false;
     m_departCodePresent = true;
     m_departCode = val;
       return true;
@@ -348,7 +435,13 @@ bool VoyageData::hasDepartCode() const {
 
 // setter for VoyageData
 bool VoyageData::setDepartName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_departNamePresent = true;
     m_departName = val;
       return true;
@@ -568,7 +661,13 @@ bool VoyageData::hasRouteBound() const {
 
 // setter for VoyageData
 bool VoyageData::setSourceId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 5)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 15)
+        return false;
     m_sourceIdPresent = true;
     m_sourceId = val;
       return true;
@@ -588,7 +687,13 @@ bool VoyageData::hasSourceId() const {
 
 // setter for VoyageData
 bool VoyageData::setSourceName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_sourceNamePresent = true;
     m_sourceName = val;
       return true;

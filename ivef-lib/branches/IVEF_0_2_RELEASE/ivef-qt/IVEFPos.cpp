@@ -35,6 +35,24 @@ Pos::Pos(const Pos &val) : QObject() {
     m_long = val.m_long;
 }
 
+// compare
+bool Pos::operator==(const Pos &val) {
+
+    if (!(m_altitudePresent == val.m_altitudePresent)) return false;
+    if (!(m_altitude == val.m_altitude)) return false;
+    if (!(m_estAccAltPresent == val.m_estAccAltPresent)) return false;
+    if (!(m_estAccAlt == val.m_estAccAlt)) return false;
+    if (!(m_estAccLatPresent == val.m_estAccLatPresent)) return false;
+    if (!(m_estAccLat == val.m_estAccLat)) return false;
+    if (!(m_estAccLongPresent == val.m_estAccLongPresent)) return false;
+    if (!(m_estAccLong == val.m_estAccLong)) return false;
+    if (!(m_latPresent == val.m_latPresent)) return false;
+    if (!(m_lat == val.m_lat)) return false;
+    if (!(m_longPresent == val.m_longPresent)) return false;
+    if (!(m_long == val.m_long)) return false;
+    return true;
+}
+
 // assignement
 Pos & Pos::operator=(const Pos &val) {
 

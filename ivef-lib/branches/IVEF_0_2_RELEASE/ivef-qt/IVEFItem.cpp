@@ -20,6 +20,16 @@ Item::Item(const Item &val) : QObject() {
     m_fieldSelector = val.m_fieldSelector;
 }
 
+// compare
+bool Item::operator==(const Item &val) {
+
+    if (!(m_dataSelectorPresent == val.m_dataSelectorPresent)) return false;
+    if (!(m_dataSelector == val.m_dataSelector)) return false;
+    if (!(m_fieldSelectorPresent == val.m_fieldSelectorPresent)) return false;
+    if (!(m_fieldSelector == val.m_fieldSelector)) return false;
+    return true;
+}
+
 // assignement
 Item & Item::operator=(const Item &val) {
 
@@ -62,7 +72,13 @@ int Item::getDataSelector() const {
 
 // setter for Item
 bool Item::setFieldSelector(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_fieldSelectorPresent = true;
     m_fieldSelector = val;
       return true;

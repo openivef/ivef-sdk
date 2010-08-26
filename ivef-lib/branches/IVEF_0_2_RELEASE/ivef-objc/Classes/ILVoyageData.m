@@ -56,12 +56,14 @@
 
      // new date strings can be in Zulu time
      static NSDateFormatter *formatterWithMillies = nil;
+     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
      if (date == nil) {
          return @""; // illigal date
      }
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
      }
+     [formatterWithMillies setTimeZone:timeZone];
 #if defined (__clang__)
      return [[formatterWithMillies stringForObjectValue:date] stringByAppendingString:@"Z"]; // always zulu time
 #else
@@ -71,14 +73,6 @@
 
 - (NSDate*) dateFromString:(NSString *)str {
 
-     // new date strings can be in Zulu time
-#if defined (__clang__)
-     str = [str stringByReplacingString:@"Z" withString:@""];
-
-#else
-     str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
-
-#endif
      static NSDateFormatter *formatterWithMillies = nil;
      if (formatterWithMillies == nil) {
          formatterWithMillies = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M:%S.%F" allowNaturalLanguage:NO];
@@ -91,6 +85,21 @@
      if (formatterWithMinutes == nil) {
          formatterWithMinutes = [[NSDateFormatter alloc] initWithDateFormat: @"%Y-%m-%dT%H:%M" allowNaturalLanguage:NO];
      }
+     // new date strings can be in Zulu time
+     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+     if ([str characterAtIndex: [str length] - 1] == 'Z') {
+         [formatterWithMillies setTimeZone:timeZone]; // localtime is default
+         [formatterWithSeconds setTimeZone:timeZone]; // localtime is default
+         [formatterWithMinutes setTimeZone:timeZone]; // localtime is default
+#if defined (__clang__)
+         str = [str stringByReplacingString:@"Z" withString:@""];
+
+#else
+         str = [str stringByReplacingOccurrencesOfString:@"Z" withString:@""];
+
+#endif
+     }
+     // convert
 #if defined (__clang__)
      NSDate *val;
      [formatterWithMillies getObjectValue: &val forString: str errorDescription: nil];
@@ -117,6 +126,12 @@
          return val;
      }
      return nil; // invalid date
+}
+
+-(BOOL) removeWaypoint:(ILWaypoint *) val {
+
+    [m_waypoints removeObject: val];
+     return YES;
 }
 
 -(BOOL) addWaypoint:(ILWaypoint *) val {
@@ -197,6 +212,10 @@
 
 -(BOOL) setContactIdentity:(NSString *) val {
 
+    if ([val length] < 1)
+        return NO;
+    if ([val length] > 254)
+        return NO;
     m_contactIdentityPresent = YES;
     [m_contactIdentity release];
     m_contactIdentity = val;
@@ -216,6 +235,10 @@
 
 -(BOOL) setDestCode:(NSString *) val {
 
+    if ([val length] < 5)
+        return NO;
+    if ([val length] > 15)
+        return NO;
     m_destCodePresent = YES;
     [m_destCode release];
     m_destCode = val;
@@ -235,6 +258,10 @@
 
 -(BOOL) setDestName:(NSString *) val {
 
+    if ([val length] < 1)
+        return NO;
+    if ([val length] > 42)
+        return NO;
     m_destNamePresent = YES;
     [m_destName release];
     m_destName = val;
@@ -254,6 +281,10 @@
 
 -(BOOL) setDepartCode:(NSString *) val {
 
+    if ([val length] < 5)
+        return NO;
+    if ([val length] > 15)
+        return NO;
     m_departCodePresent = YES;
     [m_departCode release];
     m_departCode = val;
@@ -273,6 +304,10 @@
 
 -(BOOL) setDepartName:(NSString *) val {
 
+    if ([val length] < 1)
+        return NO;
+    if ([val length] > 42)
+        return NO;
     m_departNamePresent = YES;
     [m_departName release];
     m_departName = val;
@@ -463,6 +498,10 @@
 
 -(BOOL) setSourceId:(NSString *) val {
 
+    if ([val length] < 5)
+        return NO;
+    if ([val length] > 15)
+        return NO;
     m_sourceIdPresent = YES;
     [m_sourceId release];
     m_sourceId = val;
@@ -482,6 +521,10 @@
 
 -(BOOL) setSourceName:(NSString *) val {
 
+    if ([val length] < 1)
+        return NO;
+    if ([val length] > 42)
+        return NO;
     m_sourceNamePresent = YES;
     [m_sourceName release];
     m_sourceName = val;

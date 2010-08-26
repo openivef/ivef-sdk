@@ -21,6 +21,20 @@ ServiceRequest::ServiceRequest(const ServiceRequest &val) : QObject() {
     m_filter = val.m_filter;
 }
 
+// compare
+bool ServiceRequest::operator==(const ServiceRequest &val) {
+
+    if (!(m_areaPresent == val.m_areaPresent)) return false;
+    if (!(m_areas == val.m_areas)) return false;
+    if (!(m_transmissionPresent == val.m_transmissionPresent)) return false;
+    if (!(m_transmission == val.m_transmission)) return false;
+    if (!(m_itemPresent == val.m_itemPresent)) return false;
+    if (!(m_items == val.m_items)) return false;
+    if (!(m_filterPresent == val.m_filterPresent)) return false;
+    if (!(m_filter == val.m_filter)) return false;
+    return true;
+}
+
 // assignement
 ServiceRequest & ServiceRequest::operator=(const ServiceRequest &val) {
 
@@ -44,6 +58,15 @@ QString ServiceRequest::encode( QString str) const {
     str.replace('>', "&gt;");
     str.replace('"', "&quot;");
     return str;
+}
+
+// remover for ServiceRequest
+bool ServiceRequest::removeArea(Area val) {
+
+    if (m_areas.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_areas.removeOne(val);
 }
 
 // setter for ServiceRequest
@@ -77,6 +100,15 @@ bool ServiceRequest::setTransmission(Transmission val) {
 Transmission ServiceRequest::getTransmission() const {
 
     return m_transmission;
+}
+
+// remover for ServiceRequest
+bool ServiceRequest::removeItem(Item val) {
+
+    if (m_items.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_items.removeOne(val);
 }
 
 // setter for ServiceRequest

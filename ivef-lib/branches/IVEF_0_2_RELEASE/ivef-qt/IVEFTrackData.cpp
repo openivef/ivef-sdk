@@ -70,6 +70,42 @@ TrackData::TrackData(const TrackData &val) : QObject() {
     m_width = val.m_width;
 }
 
+// compare
+bool TrackData::operator==(const TrackData &val) {
+
+    if (!(m_posPresent == val.m_posPresent)) return false;
+    if (!(m_poss == val.m_poss)) return false;
+    if (!(m_navStatusPresent == val.m_navStatusPresent)) return false;
+    if (!(m_navStatuss == val.m_navStatuss)) return false;
+    if (!(m_COGPresent == val.m_COGPresent)) return false;
+    if (!(m_COG == val.m_COG)) return false;
+    if (!(m_estAccSOGPresent == val.m_estAccSOGPresent)) return false;
+    if (!(m_estAccSOG == val.m_estAccSOG)) return false;
+    if (!(m_estAccCOGPresent == val.m_estAccCOGPresent)) return false;
+    if (!(m_estAccCOG == val.m_estAccCOG)) return false;
+    if (!(m_idPresent == val.m_idPresent)) return false;
+    if (!(m_id == val.m_id)) return false;
+    if (!(m_lengthPresent == val.m_lengthPresent)) return false;
+    if (!(m_length == val.m_length)) return false;
+    if (!(m_headingPresent == val.m_headingPresent)) return false;
+    if (!(m_heading == val.m_heading)) return false;
+    if (!(m_ROTPresent == val.m_ROTPresent)) return false;
+    if (!(m_ROT == val.m_ROT)) return false;
+    if (!(m_SOGPresent == val.m_SOGPresent)) return false;
+    if (!(m_SOG == val.m_SOG)) return false;
+    if (!(m_sourceIdPresent == val.m_sourceIdPresent)) return false;
+    if (!(m_sourceId == val.m_sourceId)) return false;
+    if (!(m_sourceNamePresent == val.m_sourceNamePresent)) return false;
+    if (!(m_sourceName == val.m_sourceName)) return false;
+    if (!(m_updateTimePresent == val.m_updateTimePresent)) return false;
+    if (!(m_updateTime == val.m_updateTime)) return false;
+    if (!(m_trackStatusPresent == val.m_trackStatusPresent)) return false;
+    if (!(m_trackStatus == val.m_trackStatus)) return false;
+    if (!(m_widthPresent == val.m_widthPresent)) return false;
+    if (!(m_width == val.m_width)) return false;
+    return true;
+}
+
 // assignement
 TrackData & TrackData::operator=(const TrackData &val) {
 
@@ -117,6 +153,15 @@ QString TrackData::encode( QString str) const {
     return str;
 }
 
+// remover for TrackData
+bool TrackData::removePos(Pos val) {
+
+    if (m_poss.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_poss.removeOne(val);
+}
+
 // setter for TrackData
 bool TrackData::addPos(Pos val) {
 
@@ -134,6 +179,15 @@ Pos TrackData::getPosAt(int i) const {
 int TrackData::countOfPoss() const {
 
     return m_poss.count();
+}
+
+// remover for TrackData
+bool TrackData::removeNavStatus(NavStatus val) {
+
+    if (m_navStatuss.count() <= 0) {
+        return false; // scalar already at minOccurs
+    }
+    return m_navStatuss.removeOne(val);
 }
 
 // setter for TrackData
@@ -323,7 +377,13 @@ float TrackData::getSOG() const {
 
 // setter for TrackData
 bool TrackData::setSourceId(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 5)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 15)
+        return false;
     m_sourceIdPresent = true;
     m_sourceId = val;
       return true;
@@ -343,7 +403,13 @@ bool TrackData::hasSourceId() const {
 
 // setter for TrackData
 bool TrackData::setSourceName(QString val) {
+    // check if the new value is within bounds 
 
+    if (val.length() < 1)
+        return false;    // check if the new value is within bounds 
+
+    if (val.length() > 42)
+        return false;
     m_sourceNamePresent = true;
     m_sourceName = val;
       return true;
