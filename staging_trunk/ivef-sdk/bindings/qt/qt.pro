@@ -1,4 +1,4 @@
-include(../targets.pri)
+include(../bindings.pri)
 
 INPUT_DIR=../$$GENERATOR_TARGET_DIR/qt/src
 MOC_DIR = ../$$GENERATOR_TARGET_DIR/qt/moc
