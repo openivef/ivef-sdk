@@ -30,28 +30,32 @@ class CodeGenQT : public QObject, public CodeGen {
     Q_OBJECT
 
 public:
-	CodeGenQT();
-	void setObjects(QVector<XSDObject*>objects);
-	void setOutputDir(QString outDir);
+    CodeGenQT();
+    void setObjects(QVector<XSDObject*>objects);
+    void setOutputDir(QString outDir);
     void setPrefix(QString prefix) { m_prefix = prefix; }
-	void go();
+    void go();
 
 protected:
-	bool knownType(QString type);
-        QString sizeEvaluatorForType (QString type, QString varName);
-	QString localType(QString type);
+    bool knownType(QString type);
+    QString sizeEvaluatorForType (QString type, QString varName);
+    QString localType(QString type);
     QString localTypeToString(XSDAttribute *attr, QString varName, bool encode = true);
     QString fileBaseName(QString name);
-	QString className(QString name);
-	QString variableName(QString name);
-	QString writeHeader(QString fileName);
-	QString methodName(QString name);
-	QString longestCommonPrefix(QStringList);
+    QString className(QString name);
+    QString variableName(QString name);
+    QString writeHeader(QString fileName);
+    QString methodName(QString name);
+    QString longestCommonPrefix(QStringList);
+    QString attributeConstructor(QVector<XSDAttribute*>&);
+    void classFiles();
+    void parserFile();
+    void functionsFile();
 
 private:
-        QString m_prefix;
-	QString m_outDir;
-	QVector<XSDObject*>m_objects;
+    QString m_prefix;
+    QString m_outDir;
+    QVector<XSDObject*>m_objects;
 };
 
 #endif

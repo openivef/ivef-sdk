@@ -1,0 +1,4 @@
+TestApp ready for input
+error set ATONType = -1 at line 9 (column 563)
+tag mismatch MSG_VesselData at line 16 (column 17)
+TestApp shutting down

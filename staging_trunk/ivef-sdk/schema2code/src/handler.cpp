@@ -47,7 +47,7 @@ QString Handler::stripNameSpace(QString tag) {
 void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool isTypeDef) {
     //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
     
-    XSDObject *parent = NULL;
+    XSDObject *parent = 0;
     
     if (m_objStack.size() > 0) {
         parent = m_objStack.top();
@@ -67,7 +67,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
         //std::cout << QString("Attr key %1 val %2").arg(key, value).toLatin1().data() << std::endl;
         if (key == "name") {
             // new object (but name could occur multiple times)
-            XSDObject *existingObj = NULL;
+            XSDObject *existingObj = 0;
             for(int i=0; i < m_objects.size(); i++) {
                 if (m_objects.at(i)->name() == value) {
                     existingObj = m_objects.at(i); // append attributes to the old object, just as with a ref
@@ -75,7 +75,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
                 }
             }
             
-            if (existingObj == NULL) {
+            if (existingObj == 0) {
                 obj->setName(value);
                 m_objects.append(obj); // only append new objects, references will be there anyway
             } else {
@@ -125,7 +125,7 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
         attr->setRequired(false);   // means the attribute is optional
         std::cout << QString("detected optional attribute %1 due to minOccurs").arg(name).toLatin1().data() << std::endl;
     }
-    if (parent != NULL) {
+    if (parent != 0) {
         parent->addAttribute(attr);
     }
     m_attrStack.push(attr);
