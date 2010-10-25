@@ -1,7 +1,7 @@
 /*
  *  CmdLineOption.cpp
  *
- *  xsd2code is free software: you can redistribute it and/or modify
+ *  schema2code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -123,7 +123,7 @@ void CmdLineOptions::parse( int &argc, char **argv ) {
     }
 
     if ( arglist.count() > 0 ) {
-        std::cout << "Unknown option! Use xsd2code --help' for more information." << std::endl;
+        std::cout << "Unknown option! Use schema2code --help' for more information." << std::endl;
         std::exit(1);
     }
 
@@ -164,7 +164,7 @@ bool CmdLineOptions::getInteger( const QString &var, int &val ) {
 void CmdLineOptions::printHelp( void ) {
     QMap<QString, CmdLineOption>::iterator it;
 
-    std::cout << "Usage: xsd2code [ options ]" << std::endl << std::endl;
+    std::cout << "Usage: schema2code [ options ]" << std::endl << std::endl;
     std::cout << "Available options:" << std::endl;
 
     for ( it = m_Options.begin(); it != m_Options.end(); ++it ) {

@@ -9,7 +9,7 @@ OBJECTS_DIR = $$TMP_DIR/obj
 TEMPLATE = app
 TARGET = $$IVEF_GENERATOR_BIN
 DEPENDPATH += . src
-INCLUDEPATH += . src
+INCLUDEPATH += . include
 
 CONFIG += warn_on stl qt release console
 QT += network xml
@@ -17,27 +17,27 @@ macx {
    CONFIG -= app_bundle
 }
 
-HEADERS += src/cmdlineoption.h \
-           src/mainapp.h \
-           src/handler.h \
-	   src/xsdobject.h \
-	   src/xsdattribute.h \
-	   src/codegen.h \
-	   src/codegenpb.h \
-	   src/codegenqt.h \
-	   src/codegenphp.h\
-	   src/codegenobjc.h\
-	   src/codegenjava.h
+HEADERS += ./include/cmdlineoption.h \
+           ./include/mainapp.h \
+           ./include/handler.h \
+           ./include/xsdobject.h \
+           ./include/xsdattribute.h \
+           ./include/codegen.h \
+           ./include/codegenpb.h \
+           ./include/codegenqt.h \
+           ./include/codegenphp.h \
+           ./include/codegenobjc.h \
+           ./include/codegenjava.h
 
-SOURCES += src/cmdlineoption.cpp \
-           src/mainapp.cpp \
-           src/handler.cpp \
-	   src/xsdobject.cpp \
-	   src/xsdattribute.cpp \
-	   src/codegenpb.cpp \
-	   src/codegenphp.cpp\
-	   src/codegenqt.cpp \
-	   src/codegenobjc.cpp \
-	   src/codegenjava.cpp \
-           src/main.cpp
+SOURCES += ./src/cmdlineoption.cpp \
+           ./src/mainapp.cpp \
+           ./src/handler.cpp \
+           ./src/xsdobject.cpp \
+           ./src/xsdattribute.cpp \
+           ./src/codegenpb.cpp \
+           ./src/codegenphp.cpp\
+           ./src/codegenqt.cpp \
+           ./src/codegenobjc.cpp \
+           ./src/codegenjava.cpp \
+           ./src/main.cpp
 

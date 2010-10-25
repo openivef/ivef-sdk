@@ -1,12 +1,12 @@
 /*
  *  MainApp.cpp
  *
- *  xsd2code is free software: you can redistribute it and/or modify
+ *  schema2code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  xsd2code is distributed in the hope that it will be useful,
+ *  schema2code is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
@@ -44,7 +44,7 @@ MainApp::MainApp( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n xsd2code 0.1.10\n----------------------------------------\n\nCopyright 2009\n"  << std::endl;
+        std::cout << "\n schema2code 0.2.0\n----------------------------------------\n\nCopyright 2009\n"  << std::endl;
         std::exit(0);
     }
 
@@ -65,7 +65,7 @@ MainApp::MainApp( int & argc, char ** argv )
 }
 
 void MainApp::slotStart( void ) {
-    std::cout << "xsd2code started" << std::endl;
+    std::cout << "schema2code started" << std::endl;
 
     QString fileName("");
     if (m_options.getText("file", fileName)) {
@@ -74,7 +74,7 @@ void MainApp::slotStart( void ) {
 
         // test if we can read it
         if (!file->open(QIODevice::ReadOnly | QIODevice::Text)) {
-            std::cout << QString("xsd2code error opening file: %1").arg(fileName).toLatin1().data() << std::endl;
+            std::cout << QString("schema2code error opening file: %1").arg(fileName).toLatin1().data() << std::endl;
             std::exit(-1);
         }
 
@@ -89,7 +89,7 @@ void MainApp::slotStart( void ) {
                         std::cout <<   "---------------------------------------------------------------------\n"  << std::endl;
 			generator = new CodeGenJava();
 		} else if ( m_options.getBoolean( "cs" ) ) {
-			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
+                        std::cout << "schema2code: sorry not implemented yet" << std::endl;
                         std::exit(-1);
 		} else if ( m_options.getBoolean( "objc" ) ) {
                         std::cout << "\n---------------------------------------------------------------------\n"  << std::endl;
@@ -107,7 +107,7 @@ void MainApp::slotStart( void ) {
                         std::cout <<   "---------------------------------------------------------------------\n"  << std::endl;
 		        generator = new CodeGenPB(); 
 		} else if ( m_options.getBoolean( "cpp" ) ) {
-			std::cout << "xsd2code: sorry not implemented yet" << std::endl;
+                        std::cout << "schema2code: sorry not implemented yet" << std::endl;
                         std::exit(-1);
 		} else {
                         std::cout << "\n---------------------------------------------------------------------\n"  << std::endl;

@@ -1,7 +1,7 @@
 /*
  *  codegenqt.h
  *
- *  xsd2code is free software: you can redistribute it and/or modify
+ *  schema2code is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
@@ -16,19 +16,19 @@
  *
  */
 
-#ifndef __CODEGENOBJC_H__
-#define __CODEGENOBJC_H__
+#ifndef __CODEGENPB_H__
+#define __CODEGENPB_H__
 
 #include <iostream>
 #include <QtCore>
 
 #include "codegen.h"
 
-class CodeGenObjC : public QObject, public CodeGen {
+class CodeGenPB : public QObject, public CodeGen {
     Q_OBJECT
 
 public:
-	CodeGenObjC();
+	CodeGenPB();
 	void setObjects(QVector<XSDObject*>objects);
 	void setOutputDir(QString outDir);
         void setPrefix(QString prefix) { m_prefix = prefix; };
@@ -36,15 +36,12 @@ public:
 
 protected:
 	bool knownType(QString type);
-        QString sizeEvaluatorForType (QString type, QString varName);
 	QString localType(QString type);
 	QString fileBaseName(QString name);
 	QString className(QString name);
 	QString variableName(QString name);
 	QString writeHeader(QString fileName);
 	QString methodName(QString name);
-	QString getMethodName(QString name);
-	QString setMethodName(QString name);
 	
 private:
         QString m_prefix;
