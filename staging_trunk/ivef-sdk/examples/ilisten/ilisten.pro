@@ -1,33 +1,36 @@
-#
-# ilisten QMake pro file
-#
+######################################################################
+# ilisten example
+######################################################################
+include(../examples.pri)
+
+DESTDIR = ../$$EXAMPLE_DEST_DIR
+MOC_DIR = ./tmp/moc
+OBJECTS_DIR = ./tmp/obj
 
 TEMPLATE = app
-TARGET = ilisten 
-LIBS += -Bstatic
-DEPENDPATH += ./src
-INCLUDEPATH += ./include
+TARGET = ilisten
+DEPENDPATH += . include src
+INCLUDEPATH += . include
 
-DESTDIR = bin
-MOC_DIR = tmp/moc
-OBJECTS_DIR = tmp/objects
-
-HEADERS += ./include/cmdlineoption.h \
-           ./include/ilistenapplication.h \
-           ./include/ivefstreamhandler.h \
-           ./include/iveffilehandler.h 
-SOURCES += ./src/cmdlineoption.cpp \
-           ./src/ilistenapplication.cpp \
-           ./src/ivefstreamhandler.cpp \
-           ./src/iveffilehandler.cpp \
-           ./src/main.cpp
-
-# include the CPP library
-INCLUDEPATH += ../../build/targets/qt/src
-LIBS += -L ../../build/targets/qt/lib	 -Bstatic -livef
+# include the IVEF Qt library
+INCLUDEPATH += ../../$$IVEF_BUILD_DIR/targets/qt/src
 
 CONFIG += warn_on stl qt release console
 QT += network xml
 macx {
    CONFIG -= app_bundle
+   LIBS += -F../../$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
+} else {
+   LIBS += -L../../$$IVEF_BUILD_DIR/targets/qt/lib -Bstatic -livef
 }
+
+# Input
+HEADERS += include/cmdlineoption.h \
+           include/ilistenapplication.h \
+           include/iveffilehandler.h \
+           include/ivefstreamhandler.h
+SOURCES += src/cmdlineoption.cpp \
+           src/ilistenapplication.cpp \
+           src/iveffilehandler.cpp \
+           src/ivefstreamhandler.cpp \
+           src/main.cpp

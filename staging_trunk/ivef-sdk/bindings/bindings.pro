@@ -1,23 +1,29 @@
+######################################################################
+# Create several bindings libraries
+######################################################################
 include(bindings.pri)
 
-# now create the code
 SCHEMA = ../$$IVEF_SCHEMA
 GENERATOR = $$GENERATOR_BIN
-TARGETDIR_QT = $$GENERATOR_TARGET_DIR/qt
 
-# first only for Qt
-message(Create Qt target...)
-system(mkdir -p $$TARGETDIR_QT/src; $$GENERATOR --file=$$SCHEMA --out=$$TARGETDIR_QT/src --prefix=IVEF)
-system(mkdir -p $$GENERATOR_TARGET_DIR/qt/moc)
-system(mkdir -p $$GENERATOR_TARGET_DIR/qt/obj)
+message(Create build target dir)
+! exists( $$GENERATOR_TARGET_DIR ) {
+    system( mkdir $$GENERATOR_TARGET_DIR )
+}
+
+# create Qt code -----------------------------------------------------
+TARGET_QT_DIR = $$GENERATOR_TARGET_DIR/qt
+TARGET_QT_SRC_DIR = $$TARGET_QT_DIR/src
+
+! exists( $$TARGET_QT_DIR ) {
+    system( mkdir $$TARGET_QT_DIR )
+}
+! exists( $$TARGET_QT_SRC_DIR ) {
+    system( mkdir $$TARGET_QT_SRC_DIR )
+}
+
+system( $$GENERATOR --file=$$SCHEMA --qt --out=$$TARGET_QT_SRC_DIR --prefix=IVEF)
+
+SUBDIRS += qt
+
 TEMPLATE = subdirs
-SUBDIRS = qt
-
-#mytarget.target = .buildfile
-#mytarget.commands = touch $$mytarget.target
-#mytarget.depends = mytarget2
-
-#mytarget2.commands = echo "hallo dan!"
-
-#QMAKE_EXTRA_TARGETS += mytarget2
-#PRE_TARGETDEPS += mytarget2

@@ -1,14 +1,16 @@
+######################################################################
+# Create the code generator
+######################################################################
 include(../ivef-sdk.pri)
 
 BUILD_DIR = ../$$IVEF_BUILD_DIR
-TMP_DIR = ../$$IVEF_BUILD_DIR/tmp
 DESTDIR = $$BUILD_DIR/bin
-MOC_DIR = $$TMP_DIR/moc
-OBJECTS_DIR = $$TMP_DIR/obj
+MOC_DIR = ./tmp/moc
+OBJECTS_DIR = ./tmp/obj
 
 TEMPLATE = app
 TARGET = $$IVEF_GENERATOR_BIN
-DEPENDPATH += . src
+DEPENDPATH += . include src
 INCLUDEPATH += . include
 
 CONFIG += warn_on stl qt release console
