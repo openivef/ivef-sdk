@@ -13,7 +13,7 @@ DEPENDPATH += . include src
 INCLUDEPATH += . include
 
 # include the IVEF Qt library
-INCLUDEPATH += ../../$$IVEF_BUILD_DIR/targets/qt/src
+INCLUDEPATH += ../../$$IVEF_BUILD_DIR/targets/qt/include
 
 CONFIG += warn_on stl qt release console
 QT += network xml
@@ -21,7 +21,7 @@ macx {
    CONFIG -= app_bundle
    LIBS += -F../../$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
 } else {
-   LIBS += -L../../$$IVEF_BUILD_DIR/targets/qt/lib -Bstatic -livef
+   LIBS += -L../../$$IVEF_BUILD_DIR/targets/qt/lib -livef
 }
 
 # Input

@@ -194,6 +194,25 @@ QString CodeGenQT::writeHeader(QString fileName) {
 
 void CodeGenQT::go() {
     
+    QDir outDir( m_outDir );
+    if ( !outDir.exists() )
+    {
+        std::cerr << QString("output dir does not exist: %1").arg(m_outDir).toLatin1().data() << std::endl;
+        std::exit(1);
+    }
+    if ( !outDir.exists( "include" ) &&
+         !outDir.mkdir( "include" ) )
+    {
+        std::cerr << QString("can not create output dir: %1/include").arg(outDir.path()).toLatin1().data() << std::endl;
+        std::exit(2);
+    }
+    if ( !outDir.exists( "src" ) &&
+         !outDir.mkdir( "src" ) )
+    {
+        std::cerr << QString("can not create output dir: %1/src").arg(outDir.path()).toLatin1().data() << std::endl;
+        std::exit(2);
+    }
+
     functionsFile();
     classFiles();
     parserFile();
@@ -301,19 +320,18 @@ void CodeGenQT::classFiles() {
         std::cout << QString("creating class: %1").arg(className(name)).toLatin1().data() << std::endl;
         
         // open the header file
-        QString baseName = m_outDir + "/" + fileBaseName(name);
-        QFile headerFile(baseName + ".h");
+        QFile headerFile(m_outDir + "/include/" + fileBaseName(name) + ".h");
         if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            std::cerr << QString("cannot create file: %1").arg(baseName + ".h").toLatin1().data() << std::endl;
-            std::exit(-1);
+            std::cerr << QString("cannot create file: %1").arg(headerFile.fileName()).toLatin1().data() << std::endl;
+            std::exit(3);
         }
         QTextStream headerFileOut(&headerFile);
         
         // and the class file
-        QFile classFile(baseName + ".cpp");
+        QFile classFile(m_outDir + "/src/" + fileBaseName(name) + ".cpp");
         if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            std::cerr << QString("cannot create file: %1").arg(baseName + ".cpp").toLatin1().data() << std::endl;
-            std::exit(-1);
+            std::cerr << QString("cannot create file: %1").arg(classFile.fileName()).toLatin1().data() << std::endl;
+            std::exit(3);
         }
         QTextStream classFileOut(&classFile);
         
@@ -1087,18 +1105,18 @@ void CodeGenQT::parserFile() {
     // open the header file
     QString name = "Parser";
     
-    QFile headerFile(m_outDir + "/" + fileBaseName(name) + ".h");
+    QFile headerFile(m_outDir + "/include/" + fileBaseName(name) + ".h");
     if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".h").toLatin1().data() << std::endl;
-        std::exit(-1);
+        std::cerr << QString("cannot create file: %1").arg(headerFile.fileName()).toLatin1().data() << std::endl;
+        std::exit(3);
     }
     QTextStream headerFileOut(&headerFile);
     
     // and the parser file
-    QFile classFile(m_outDir + "/" +  fileBaseName(name) + ".cpp");
+    QFile classFile(m_outDir + "/src/" +  fileBaseName(name) + ".cpp");
     if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".cpp").toLatin1().data() << std::endl;
-        std::exit(-1);
+        std::cerr << QString("cannot create file: %1").arg(classFile.fileName()).toLatin1().data() << std::endl;
+        std::exit(3);
     }
     QTextStream classFileOut(&classFile);
     
@@ -1305,17 +1323,17 @@ void CodeGenQT::functionsFile()
     // open the header file
     QString name = "Functions";
 
-    QFile headerFile(m_outDir + "/" + fileBaseName(name) + ".h");
+    QFile headerFile(m_outDir + "/include/" + fileBaseName(name) + ".h");
     if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".h").toLatin1().data() << std::endl;
+        std::cerr << QString("cannot create file: %1").arg(headerFile.fileName()).toLatin1().data() << std::endl;
         std::exit(-1);
     }
     QTextStream headerFileOut(&headerFile);
 
     // and the source file
-    QFile classFile(m_outDir + "/" +  fileBaseName(name) + ".cpp");
+    QFile classFile(m_outDir + "/src/" +  fileBaseName(name) + ".cpp");
     if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        std::cerr << QString("cannot create file: %1").arg(m_outDir + "/" +  fileBaseName(name) + ".cpp").toLatin1().data() << std::endl;
+        std::cerr << QString("cannot create file: %1").arg(classFile.fileName()).toLatin1().data() << std::endl;
         std::exit(-1);
     }
     QTextStream classFileOut(&classFile);

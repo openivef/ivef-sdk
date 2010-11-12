@@ -235,10 +235,22 @@ void CodeGenJava::go() {
 
         // and the class file
         QString baseName = m_outDir + "/" + package + "/" + fileBaseName(name);
+        QDir outDir( m_outDir );
+        if ( !outDir.exists() )
+        {
+            std::cerr << QString("output dir does not exist: %1").arg(m_outDir).toLatin1().data() << std::endl;
+            std::exit(1);
+        }
+        if ( !outDir.exists( package ) &&
+             !outDir.mkdir( package ) )
+        {
+            std::cerr << QString("can not create output dir: %1/%2").arg(outDir.path(),package).toLatin1().data() << std::endl;
+            std::exit(2);
+        }
         QFile classFile(baseName + ".java");
         if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            std::cerr << QString("cannot create file: %1").arg(baseName + ".java").toLatin1().data() << std::endl;
-            std::exit(-1);
+            std::cerr << QString("cannot create file: %1").arg(classFile.fileName()).toLatin1().data() << std::endl;
+            std::exit(3);
         }
         QTextStream classFileOut(&classFile);
 
