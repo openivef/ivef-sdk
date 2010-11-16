@@ -36,14 +36,14 @@ public:
 
 private:
     CmdLineOptions m_options;
-    Parser m_parser;
+    ivef::Parser m_parser;
     IVEFStreamHandler *m_streamHandler;
     QString m_filter;
 
 private slots:
     void slotStart( void );
-    void printVesselData( MSG_VesselData obj );
-    void printLoginResponse( MSG_LoginResponse obj );
+    void printVesselData( ivef::MSG_VesselData obj );
+    void printLoginResponse( ivef::MSG_LoginResponse obj );
     void printError( QString errorStr );
 
 

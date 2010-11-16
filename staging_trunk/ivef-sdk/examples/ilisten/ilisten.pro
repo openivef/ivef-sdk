@@ -15,6 +15,8 @@ INCLUDEPATH += . include
 # include the IVEF Qt library
 INCLUDEPATH += ../../$$IVEF_BUILD_DIR/targets/qt/include
 
+DEFINES += VERSION=$$IVEF_VERSION
+
 CONFIG += warn_on stl qt release console
 QT += network xml
 macx {

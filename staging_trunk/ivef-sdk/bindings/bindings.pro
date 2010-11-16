@@ -22,7 +22,7 @@ TARGET_QT_DIR = $$GENERATOR_TARGET_DIR/qt
     system( mkdir $$TARGET_QT_SRC_DIR )
 }
 
-system( $$GENERATOR --file=$$SCHEMA --qt --out=$$TARGET_QT_DIR --prefix=IVEF)
+system( $$GENERATOR --file=$$SCHEMA --qt --out=$$TARGET_QT_DIR --prefix=IVEF )
 
 SUBDIRS += qt
 

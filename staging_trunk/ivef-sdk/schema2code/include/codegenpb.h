@@ -32,7 +32,8 @@ public:
 	void setObjects(QVector<XSDObject*>objects);
 	void setOutputDir(QString outDir);
         void setPrefix(QString prefix) { m_prefix = prefix; };
-	void go();
+        void setNamespace(bool /*ns*/){}
+        void go();
 
 protected:
 	bool knownType(QString type);

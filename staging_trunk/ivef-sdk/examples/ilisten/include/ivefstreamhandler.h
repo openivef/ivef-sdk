@@ -39,7 +39,7 @@ class IVEFStreamHandler : public QObject {
     Q_OBJECT
 
 public:
-    IVEFStreamHandler(Parser *parser);
+    IVEFStreamHandler(ivef::Parser *parser);
     ~IVEFStreamHandler();
 
     void connectToServer(QString host, int port, QString user, QString password, QString logFileName, bool slipstream, bool statistics);
@@ -71,7 +71,7 @@ private:
     long m_bytesOut;
 
 
-    Parser *m_parser;
+    ivef::Parser *m_parser;
 };
 
 #endif

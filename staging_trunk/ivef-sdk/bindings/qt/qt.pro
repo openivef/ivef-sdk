@@ -14,7 +14,7 @@ TARGET = ivef
 INCLUDEPATH += $$INPUT_DIR/include
 
 QT += xml
-VERSION = 1.3.86
+VERSION = $$IVEF_VERSION
 
 # Input
 MY_SOURCES = $$system( ls $$INPUT_DIR/src/*.cpp )

@@ -22,7 +22,7 @@
 
 #define TIMER_INTERVAL 10
 
-IVEFStreamHandler::IVEFStreamHandler(Parser *parser) {
+IVEFStreamHandler::IVEFStreamHandler(ivef::Parser *parser) {
 
     // clear user/password
     m_user = "john doe";
@@ -146,17 +146,17 @@ void IVEFStreamHandler::slotConnected() {
     // we are connected, send the login first
 
     // create a message
-    MSG_LoginRequest msg;
+    ivef::MSG_LoginRequest msg;
 
     // every message has a header
-    Header header;
+    ivef::Header header;
     header.setMsgRefId(QUuid::createUuid());
-    header.setVersion("1.0");
+    //header.setVersion("1.0");
     msg.setHeader(header);
 
     // and a body with the request
-    Body body;
-    LoginRequest request;
+    ivef::Body body;
+    ivef::LoginRequest request;
     request.setName(m_user);
     request.setPassword(m_password);
     request.setEncryption(1); // plain

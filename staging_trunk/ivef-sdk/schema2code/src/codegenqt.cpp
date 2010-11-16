@@ -21,9 +21,10 @@
 #include "codegenqt.h"
 
 CodeGenQT::CodeGenQT()
-: CodeGen()
+: CodeGen(),
+  m_prefix(),
+  m_namespace( true )
 {
-    m_prefix = "";
 }
 
 void CodeGenQT::setObjects(QVector<XSDObject*>objects) {
@@ -32,6 +33,10 @@ void CodeGenQT::setObjects(QVector<XSDObject*>objects) {
 
 void CodeGenQT::setOutputDir(QString outDir) {
     m_outDir = outDir;
+}
+
+QString CodeGenQT::nameSpaceName() {
+    return m_prefix.toLower();
 }
 
 QString dateToString(QString varName) {
@@ -117,13 +122,10 @@ QString CodeGenQT::localTypeToString(XSDAttribute *attr, QString varName, bool e
 }
 
 QString CodeGenQT::fileBaseName(QString name) {
-    //if (m_prefix != "") { 
     return m_prefix + name.replace(0, 1, name.left(1).toUpper());
-    //}
 }
 
 QString CodeGenQT::className(QString name) {
-    //return name.replace(0, 1, name.left(1).toUpper());
     return name.replace(0, 1, name.left(1).toUpper());
 }
 
@@ -258,7 +260,7 @@ void CodeGenQT::classFiles() {
     // first analyse the objects if they are embedded objects
     // for all objects that could accept such an object
     QString nameSpace = "none";
-    bool useNameSpace = false;
+    // bool useNameSpace = false;
     for(int i=0; i < m_objects.size(); i++) {
         // for all objects
         XSDObject *obj1 = m_objects.at(i);
@@ -294,7 +296,7 @@ void CodeGenQT::classFiles() {
                 if (attrName == "targetNamespace") {
                     nameSpace = obj1->fixedValues().values().at(j);
                     std::cout << "Using namespace: " << nameSpace.toLatin1().data() << std::endl;
-                    useNameSpace = true;
+                    // useNameSpace = true;
                 }
             }
         }
@@ -355,6 +357,10 @@ void CodeGenQT::classFiles() {
         }
 
         headerFileOut << "\nclass XmlStreamReader;\n";
+
+        if ( m_namespace ) {
+            headerFileOut << "\nnamespace " << nameSpaceName() << " {\n";
+        }
 
         QString docu = obj->docu();
         if (docu != "") { // there is documentation
@@ -532,7 +538,11 @@ void CodeGenQT::classFiles() {
         }
         
         // close the header
-        headerFileOut << "\n}; \n\n#endif\n\n";
+        headerFileOut << "\n}; \n";
+        if ( m_namespace ) {
+            headerFileOut << "} //end ns\n";
+        }
+        headerFileOut << "\n#endif\n";
         
         // close and flush
         headerFileOut.flush();
@@ -547,6 +557,10 @@ void CodeGenQT::classFiles() {
 
         classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
         
+        if ( m_namespace ) {
+            classFileOut << "namespace " << nameSpaceName() << " {\n\n";
+        }
+
         // constructor
         classFileOut << "// Constructor\n";
         classFileOut << className(name) << "::" << className(name) << "()";
@@ -1088,7 +1102,10 @@ void CodeGenQT::classFiles() {
         classFileOut << "}\n";
         
         // round up
-        classFileOut << "\n"; // make sure there is a newline at the end of the source
+        if ( m_namespace ) {
+            classFileOut << "\n} //end ns";
+        }
+        classFileOut << "\n";
         
         // close and flush
         classFileOut.flush();
@@ -1134,6 +1151,9 @@ void CodeGenQT::parserFile() {
     }
     headerFileOut << "class XmlStreamReader;\n";
 
+    if ( m_namespace ) {
+        headerFileOut << "\nnamespace " << nameSpaceName() << " {\n";
+    }
     headerFileOut << "\n//-----------------------------------------------------------\n";
     headerFileOut << "//! \\brief       Class definition of " << className(name) << "\n";
     headerFileOut << "//!\n";
@@ -1158,7 +1178,11 @@ void CodeGenQT::parserFile() {
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ( !obj->isEmbedded() && (obj->name() != "Schema") && !obj->isSimpleElement() ) {
-            headerFileOut << "    void signal" << className(obj->name()) << "( const " << className(obj->name()) << "& obj );\n";
+            headerFileOut << "    void signal" << className(obj->name()) << "( const ";
+            if ( m_namespace ) {
+                headerFileOut << "" << nameSpaceName() << "::";
+            }
+            headerFileOut << className(obj->name()) << "& obj );\n";
         }
     }
     // issue 24
@@ -1176,7 +1200,12 @@ void CodeGenQT::parserFile() {
     headerFileOut << "    XmlStreamReader* m_xml;\n";
     
     // close the header
-    headerFileOut << "\n}; \n\n#endif\n\n";
+    headerFileOut << "\n};\n";
+    if ( m_namespace ) {
+        headerFileOut << "} //end ns\n";
+    }
+
+    headerFileOut << "\n#endif\n";
     
     // close and flush
     headerFileOut.flush();
@@ -1187,6 +1216,9 @@ void CodeGenQT::parserFile() {
     classFileOut << "\n#include \"" << fileBaseName("Functions") << ".h\"\n\n";
     classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
     
+    if ( m_namespace ) {
+        classFileOut << "namespace " << nameSpaceName() << " {\n\n";
+    }
     // constructor
     classFileOut << "// Constructor\n";
     classFileOut << className(name) << "::" << className(name) << "() {\n\n";
@@ -1305,13 +1337,15 @@ void CodeGenQT::parserFile() {
     classFileOut << "            break;\n";
     classFileOut << "        case QXmlStreamReader::NoError:\n";
     classFileOut << "            break;\n";
-    classFileOut << "        }\n    }\n}\n";
+    classFileOut << "        }\n    }\n}\n\n";
 
     if ( !element ) {
         std::cout << "ERROR: No base element found" << std::endl;
     }
     // round up
-    classFileOut << "\n"; // make sure there is a newline at the end of the source
+    if ( m_namespace ) {
+        classFileOut << "} //end ns\n";
+    }
     
     // close and flush
     classFileOut.flush();
@@ -1339,10 +1373,16 @@ void CodeGenQT::functionsFile()
     QTextStream classFileOut(&classFile);
 
     headerFileOut << writeHeader( className(name) );
+    headerFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
+    headerFileOut << "#define __" << name.toUpper() << "_H__\n\n";
+
     headerFileOut << "#include <QObject>\n";
     headerFileOut << "#include <QXmlStreamReader>\n";
     headerFileOut << "#include <QString>\n";
     headerFileOut << "#include <QDateTime>\n\n";
+    if ( m_namespace ) {
+        headerFileOut << "namespace " << nameSpaceName() << " {\n\n";
+    }
     headerFileOut << "//! replace characters that are illigal in XML with their encodings\n";
     headerFileOut << "//!\n";
     headerFileOut << "//! \\return     QString\n";
@@ -1366,9 +1406,16 @@ void CodeGenQT::functionsFile()
     headerFileOut << "    void validationError(const QString& errorStr);\n\n";
     headerFileOut << "signals:\n";
     headerFileOut << "    void signalValidationError(const QString& errorStr);\n";
-    headerFileOut << "};\n\n";
+    headerFileOut << "};\n";
+    if ( m_namespace ) {
+        headerFileOut << "} //end ns\n";
+    }
+    headerFileOut << "\n#endif\n";
 
     classFileOut << "#include \"" << fileBaseName(name) << ".h\"\n\n";
+    if ( m_namespace ) {
+        classFileOut << "namespace " << nameSpaceName() << " {\n\n";
+    }
     classFileOut << "QString encode( const QString& str ) {\n\n";
     classFileOut << "    QString result( str );\n";
     classFileOut << "    const static QString  amp(\"&amp;\");\n";
@@ -1410,7 +1457,12 @@ void CodeGenQT::functionsFile()
     classFileOut << "    error += \" (column \" + QString::number(columnNumber());\n";
     classFileOut << "    error += \")\";\n";
     classFileOut << "    emit( signalValidationError( error ) );\n";
-    classFileOut << "}\n\n";
+    classFileOut << "}\n";
+    // round up
+    if ( m_namespace ) {
+        classFileOut << "\n} //end ns";
+    }
+    classFileOut << "\n";
 
     // close and flush
     headerFileOut.flush();

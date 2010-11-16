@@ -34,6 +34,7 @@ public:
     void setObjects(QVector<XSDObject*>objects);
     void setOutputDir(QString outDir);
     void setPrefix(QString prefix) { m_prefix = prefix; }
+    void setNamespace(bool ns){ m_namespace = ns; }
     void go();
 
 protected:
@@ -41,6 +42,7 @@ protected:
     QString sizeEvaluatorForType (QString type, QString varName);
     QString localType(QString type);
     QString localTypeToString(XSDAttribute *attr, QString varName, bool encode = true);
+    QString nameSpaceName();
     QString fileBaseName(QString name);
     QString className(QString name);
     QString variableName(QString name);
@@ -55,6 +57,7 @@ protected:
 private:
     QString m_prefix;
     QString m_outDir;
+    bool    m_namespace;
     QVector<XSDObject*>m_objects;
 };
 

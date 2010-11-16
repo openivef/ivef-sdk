@@ -13,6 +13,8 @@ TARGET = $$IVEF_GENERATOR_BIN
 DEPENDPATH += . include src
 INCLUDEPATH += . include
 
+DEFINES += VERSION=$$IVEF_VERSION
+
 CONFIG += warn_on stl qt release console
 QT += network xml
 macx {

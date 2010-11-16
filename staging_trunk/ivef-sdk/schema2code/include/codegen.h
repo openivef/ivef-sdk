@@ -24,12 +24,12 @@
 class CodeGen {
 
 public:
-	virtual ~CodeGen() {};
-	virtual void setObjects(QVector<XSDObject*>objects) = 0;
-	virtual void setOutputDir(QString outDir) = 0;
-        virtual void setPrefix(QString prefix) = 0;
-	virtual void go() = 0;
-
+    virtual ~CodeGen() {};
+    virtual void setObjects(QVector<XSDObject*>objects) = 0;
+    virtual void setOutputDir(QString outDir) = 0;
+    virtual void setPrefix(QString prefix) = 0;
+    virtual void setNamespace(bool ns) = 0;
+    virtual void go() = 0;
 };
 
 #endif

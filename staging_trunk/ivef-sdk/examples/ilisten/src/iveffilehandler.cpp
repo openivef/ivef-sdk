@@ -18,7 +18,7 @@
 
 #include "iveffilehandler.h"
 
-IVEFFileHandler::IVEFFileHandler(Parser *parser) {
+IVEFFileHandler::IVEFFileHandler(ivef::Parser *parser) {
     m_parser = parser;
 }
 
