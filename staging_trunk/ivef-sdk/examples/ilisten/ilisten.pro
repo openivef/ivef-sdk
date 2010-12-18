@@ -3,7 +3,7 @@
 ######################################################################
 include(../examples.pri)
 
-DESTDIR = ../$$EXAMPLE_DEST_DIR
+DESTDIR = $$IVEF_EXAMPLES_DIR
 MOC_DIR = ./tmp/moc
 OBJECTS_DIR = ./tmp/obj
 
@@ -13,17 +13,18 @@ DEPENDPATH += . include src
 INCLUDEPATH += . include
 
 # include the IVEF Qt library
-INCLUDEPATH += ../../$$IVEF_BUILD_DIR/targets/qt/include
+INCLUDEPATH += $$IVEF_BUILD_DIR/targets/qt/include
 
 DEFINES += VERSION=$$IVEF_VERSION
+unix:DEFINES += HAVE_ZLIB
 
 CONFIG += warn_on stl qt release console
 QT += network xml
 macx {
    CONFIG -= app_bundle
-   LIBS += -F../../$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
+   LIBS += -F$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
 } else {
-   LIBS += -L../../$$IVEF_BUILD_DIR/targets/qt/lib -livef
+   LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef0
 }
 
 # Input

@@ -3,7 +3,12 @@
 # Where using a 'out-of-tree' building structure.
 ######################################################################
 
-IVEF_BUILD_DIR = build
+IVEF_BUILD_DIR = $$PWD/build
+IVEF_GENERATOR_DIR = $$IVEF_BUILD_DIR/bin
+IVEF_TARGETS_DIR   = $$IVEF_BUILD_DIR/targets
+IVEF_EXAMPLES_DIR  = $$IVEF_BUILD_DIR/examples
+
 IVEF_GENERATOR_BIN = schema2code
-IVEF_SCHEMA = spec/ivef.xsd
+IVEF_SCHEMA = $$PWD/spec/ivef.xsd
+
 IVEF_VERSION = 0.3.0

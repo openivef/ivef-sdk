@@ -1,7 +1,8 @@
+######################################################################
+# Create some tests
+######################################################################
 include(tests.pri)
 
-# IListen
-message(Create ilisten...)
-TEMPLATE = subdirs
 SUBDIRS = qt
 
+TEMPLATE = subdirs

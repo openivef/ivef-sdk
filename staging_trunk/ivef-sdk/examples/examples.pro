@@ -3,9 +3,9 @@
 ######################################################################
 include(examples.pri)
 
-message(Create destination for exampels)
-!exists( $$EXAMPLE_DEST_DIR ) {
-    system(mkdir $$EXAMPLE_DEST_DIR)
+! exists( $$IVEF_EXAMPLES_DIR ) {
+    message(Create build examples dir: $$IVEF_EXAMPLES_DIR)
+    system( mkdir $$IVEF_EXAMPLES_DIR )
 }
 
 TEMPLATE = subdirs

@@ -3,23 +3,32 @@
 ######################################################################
 include(../bindings.pri)
 
-INPUT_DIR=../$$GENERATOR_TARGET_DIR/qt
+TARGET_QT_DIR = $$IVEF_TARGETS_DIR/qt
 
-DESTDIR = ../$$GENERATOR_TARGET_DIR/qt/lib
+! exists( $$TARGET_QT_DIR ) {
+    message(Create build target dir: $$TARGET_QT_DIR)
+    unix:system( mkdir $$TARGET_JAVA_DIR )
+    win32:system( mkdir ..\\..\\build\\targets\\qt )
+}
+
+gentarget.commands = $$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN --file=$$IVEF_SCHEMA --qt --out=$$TARGET_QT_DIR --prefix=IVEF
+# This makes the command run before anything else
+gentarget.CONFIG += target_predeps
+
+PRE_TARGETDEPS += gentarget
+QMAKE_EXTRA_TARGETS += gentarget
+
+DESTDIR = $$TARGET_QT_DIR/lib
 MOC_DIR = ./tmp/moc
 OBJECTS_DIR = ./tmp/obj
 
 TEMPLATE = lib
 TARGET = ivef
-INCLUDEPATH += $$INPUT_DIR/include
+INCLUDEPATH += $$TARGET_QT_DIR/include
 
 QT += xml
 VERSION = $$IVEF_VERSION
 
-# Input
-MY_SOURCES = $$system( ls $$INPUT_DIR/src/*.cpp )
-MY_HEADERS = $$system( ls $$INPUT_DIR/include/*.h )
-
-SOURCES += $$MY_SOURCES
-HEADERS += $$MY_HEADERS
+SOURCES += $$TARGET_QT_DIR/src/*.cpp
+HEADERS += $$TARGET_QT_DIR/include/*.h
 

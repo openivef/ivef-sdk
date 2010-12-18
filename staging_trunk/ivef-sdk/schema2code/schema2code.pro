@@ -3,8 +3,7 @@
 ######################################################################
 include(../ivef-sdk.pri)
 
-BUILD_DIR = ../$$IVEF_BUILD_DIR
-DESTDIR = $$BUILD_DIR/bin
+DESTDIR = $$IVEF_BUILD_DIR/bin
 MOC_DIR = ./tmp/moc
 OBJECTS_DIR = ./tmp/obj
 
@@ -15,7 +14,7 @@ INCLUDEPATH += . include
 
 DEFINES += VERSION=$$IVEF_VERSION
 
-CONFIG += warn_on stl qt release console
+#CONFIG += warn_on stl qt release console
 QT += network xml
 macx {
    CONFIG -= app_bundle
@@ -44,4 +43,3 @@ SOURCES += ./src/cmdlineoption.cpp \
            ./src/codegenobjc.cpp \
            ./src/codegenjava.cpp \
            ./src/main.cpp
-
