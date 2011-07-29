@@ -7,7 +7,7 @@ TARGET_QT_DIR = $$IVEF_TARGETS_DIR/qt
 
 ! exists( $$TARGET_QT_DIR ) {
     message(Create build target dir: $$TARGET_QT_DIR)
-    unix:system( mkdir $$TARGET_JAVA_DIR )
+    unix:system( mkdir $$TARGET_QT_DIR )
     win32:system( mkdir ..\\..\\build\\targets\\qt )
 }
 

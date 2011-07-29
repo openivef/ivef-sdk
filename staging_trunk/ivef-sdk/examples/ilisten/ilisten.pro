@@ -18,13 +18,14 @@ INCLUDEPATH += $$IVEF_BUILD_DIR/targets/qt/include
 DEFINES += VERSION=$$IVEF_VERSION
 unix:DEFINES += HAVE_ZLIB
 
-CONFIG += warn_on stl qt release console
+#CONFIG += warn_on stl qt release console
 QT += network xml
 macx {
    CONFIG -= app_bundle
    LIBS += -F$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
 } else {
-   LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef0
+   win32:LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef0
+   unix:LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef
 }
 
 # Input
