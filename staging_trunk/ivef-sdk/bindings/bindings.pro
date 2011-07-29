@@ -8,7 +8,7 @@ include(bindings.pri)
     system( mkdir $$IVEF_TARGETS_DIR )
 }
 
-SUBDIRS += qt
-SUBDIRS += java
+SUBDIRS += build generate
+build.depends = generate
 
 TEMPLATE = subdirs
