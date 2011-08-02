@@ -18,7 +18,6 @@ INCLUDEPATH += $$IVEF_BUILD_DIR/targets/qt/include
 DEFINES += VERSION=$$IVEF_VERSION
 unix:DEFINES += HAVE_ZLIB
 
-#CONFIG += warn_on stl qt release console
 QT += network xml
 macx {
    CONFIG -= app_bundle
@@ -38,3 +37,11 @@ SOURCES += src/cmdlineoption.cpp \
            src/iveffilehandler.cpp \
            src/ivefstreamhandler.cpp \
            src/main.cpp
+
+run.commands = \
+        echo "export LD_LIBRARY_PATH=$$IVEF_BUILD_DIR/targets/qt/lib" > $$IVEF_EXAMPLES_DIR/run_ilisten;\
+        echo "ilisten" >> $$IVEF_EXAMPLES_DIR/run_ilisten;\
+        chmod +x $$IVEF_EXAMPLES_DIR/run_ilisten
+
+QMAKE_EXTRA_TARGETS += run
+POST_TARGETDEPS += run
