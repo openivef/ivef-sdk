@@ -3,6 +3,6 @@
 ######################################################################
 include(tests.pri)
 
-SUBDIRS = qt
+SUBDIRS = qt java
 
 TEMPLATE = subdirs

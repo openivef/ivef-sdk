@@ -14,7 +14,7 @@ then
     fi
 elif [ "$1" == "java" ]
 then
-    COMMAND='java -classpath ../test-java/target/testjava.jar:../ivef-java/ivef/ivef.jar testjava/testjava'
+    COMMAND='java -classpath ../java/target/testjava.jar:../../build/targets/java/ivef/ivef.jar testjava/testjava'
 elif [ "$1" == "php" ]
 then
     COMMAND='php5 ../php/test.php'
