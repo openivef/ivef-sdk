@@ -46,6 +46,20 @@ PRE_TARGETDEPS += gentarget3
 QMAKE_CLEAN += $$TARGET_PHP_DIR/*
 
 
+TARGET_OBJC_DIR = $$IVEF_TARGETS_DIR/objc
+
+! exists( $$TARGET_OBJC_DIR ) {
+    message(Create build target dir: $$TARGET_OBJC_DIR)
+    unix:system( mkdir $$TARGET_OBJC_DIR )
+    win32:system( mkdir ..\\..\\build\\targets\\objc )
+}
+
+gentarget4.commands = $$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN --file=$$IVEF_SCHEMA --objc --out=$$TARGET_OBJC_DIR --prefix=IL
+QMAKE_EXTRA_TARGETS += gentarget4
+PRE_TARGETDEPS += gentarget4
+QMAKE_CLEAN += $$TARGET_OBJC_DIR/*
+
+
 MOC_DIR = ./tmp/moc
 OBJECTS_DIR = ./tmp/obj
 

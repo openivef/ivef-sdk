@@ -5,11 +5,20 @@ include(../tests.pri)
 
 TARGET_JAVA_DIR = $$IVEF_TARGETS_DIR/java
 
-jar.commands = \
-        mkdir -p classes target;\
-        javac -d classes -classpath $$TARGET_JAVA_DIR/ivef/ivef.jar src/*java;\
-        cd classes;\
-        jar cMf ../target/testjava.jar *
+! exists( classes ) {
+    system( mkdir classes )
+}
+! exists( target ) {
+    system( mkdir target )
+}
+
+jar.commands += javac -d classes -classpath $$TARGET_JAVA_DIR/ivef/ivef.jar src/*java
+win32:jar.commands += &
+unix:jar.commands += ;
+jar.commands += cd classes
+win32:jar.commands += &
+unix:jar.commands += ;
+jar.commands += jar cMf ../target/testjava.jar *
 
 QMAKE_EXTRA_TARGETS += jar
 PRE_TARGETDEPS += jar
