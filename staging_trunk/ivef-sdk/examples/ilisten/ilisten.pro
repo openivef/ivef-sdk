@@ -38,10 +38,11 @@ SOURCES += src/cmdlineoption.cpp \
            src/ivefstreamhandler.cpp \
            src/main.cpp
 
-run.commands = \
-        echo "export LD_LIBRARY_PATH=$$IVEF_BUILD_DIR/targets/qt/lib" > $$IVEF_EXAMPLES_DIR/run_ilisten;\
-        echo "ilisten" >> $$IVEF_EXAMPLES_DIR/run_ilisten;\
-        chmod +x $$IVEF_EXAMPLES_DIR/run_ilisten
+run.commands += echo "export LD_LIBRARY_PATH=$$IVEF_BUILD_DIR/targets/qt/lib" > $$IVEF_EXAMPLES_DIR/run_ilisten
+ win32:run.commands += &
+  unix:run.commands += ;
+run.commands += echo "ilisten" >> $$IVEF_EXAMPLES_DIR/run_ilisten
+unix:; run.commands += chmod +x $$IVEF_EXAMPLES_DIR/run_ilisten
 
 QMAKE_EXTRA_TARGETS += run
 POST_TARGETDEPS += run

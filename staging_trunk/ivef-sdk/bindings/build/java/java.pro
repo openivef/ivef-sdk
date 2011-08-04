@@ -5,11 +5,16 @@ include(../../bindings.pri)
 
 TARGET_JAVA_DIR = $$IVEF_TARGETS_DIR/java
 
-jar.commands = \
-        mkdir -p classes;\
-        javac -d classes $$TARGET_JAVA_DIR/ivef/*java;\
-        cd classes;\
-        jar cf $$TARGET_JAVA_DIR/ivef/ivef.jar ivef/*
+! exists( classes ) {
+    system( mkdir classes )
+}
+jar.commands += javac -d classes $$TARGET_JAVA_DIR/ivef/*java
+ win32:jar.commands += &
+  unix:jar.commands += ;
+jar.commands += cd classes
+ win32:jar.commands += &
+  unix:jar.commands += ;
+jar.commands += jar cf $$TARGET_JAVA_DIR/ivef/ivef.jar ivef/*
 
 QMAKE_EXTRA_TARGETS += jar
 PRE_TARGETDEPS += jar
