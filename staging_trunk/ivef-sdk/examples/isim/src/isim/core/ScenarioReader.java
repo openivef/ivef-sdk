@@ -40,20 +40,14 @@ public class ScenarioReader implements ParserListener {
         return movements;
     }
 
-    public void handleMSG_VesselData(MSG_VesselData obj) {
+    public void handleMSG_IVEF(MSG_IVEF obj) {
         Body body = obj.getBody();
-        for (int i=0; i < body.countOfVesselDatas();i++) {
+        if ( body.hasObjectDatas() ) {
+            for (int i=0; i < body.getObjectDatas().countOfObjectDatas();i++) {
 
-            VesselData vessel = body.getVesselDataAt(i);
-            movements.add(vessel);
+                ObjectData vessel = body.getObjectDatas().getObjectDataAt(i);
+                movements.add(vessel);
+            }
         }
     };
-    public void handleMSG_LoginRequest(MSG_LoginRequest obj) {};
-    public void handleMSG_LoginResponse(MSG_LoginResponse obj) {};
-    public void handleMSG_Ping(MSG_Ping obj) {};
-    public void handleMSG_Pong(MSG_Pong obj) {};
-    public void handleMSG_ServerStatus(MSG_ServerStatus obj) {};
-    public void handleMSG_Logout(MSG_Logout obj) {};
-    public void handleMSG_ServiceRequest(MSG_ServiceRequest obj) {};
-
 }

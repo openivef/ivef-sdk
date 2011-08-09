@@ -111,15 +111,28 @@ void iListenApplication::slotStart( void ) {
     }
 }
 
-void iListenApplication::printVesselData( ivef::MSG_VesselData obj ) {
+void iListenApplication::printMsgIvef( ivef::MSG_IVEF obj ) {
 
     //std::cout << "----------------------------------------\n";
 
     if ( ! m_options.getBoolean( "silent" ) ) {
 
-        for (int i=0; i < obj.getBody().countOfVesselDatas();i++) {
-            ivef::VesselData vessel = obj.getBody().getVesselDataAt(i);
-            QString str = vessel.toString("");
+        if ( obj.getBody().hasObjectDatas() )
+        {
+            for (int i=0; i < obj.getBody().getObjectDatas().countOfObjectDatas();i++) {
+                ivef::ObjectData vessel = obj.getBody().getObjectDatas().getObjectDataAt(i);
+                QString str = vessel.toString("");
+
+                if ((m_filter == "") || (str.contains(m_filter))) {
+                    std::cout << str.toLatin1().data() << std::endl;
+                }
+            }
+        }
+
+        if ( obj.getBody().hasLoginResponse() )
+        {
+            ivef::LoginResponse response = obj.getBody().getLoginResponse();
+            QString str = response.toString("");
 
             if ((m_filter == "") || (str.contains(m_filter))) {
                 std::cout << str.toLatin1().data() << std::endl;
@@ -132,17 +145,3 @@ void iListenApplication::printError( QString errorStr ) {
     std::cerr << errorStr.toUtf8().data() << std::endl;
 }
 
-void iListenApplication::printLoginResponse( ivef::MSG_LoginResponse obj ) {
-
-    //std::cout << "----------------------------------------\n";
-
-    if ( ! m_options.getBoolean( "silent" ) ) {
-
-            ivef::LoginResponse response = obj.getBody().getLoginResponse();
-            QString str = response.toString("");
-
-            if ((m_filter == "") || (str.contains(m_filter))) {
-                std::cout << str.toLatin1().data() << std::endl;
-            }
-    }
-}

@@ -21,8 +21,7 @@ macx {
    CONFIG -= app_bundle
    LIBS += -F$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
 } else {
-   win32:LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef0
-   unix:LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef
+   LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef1
 }
 
 # Input

@@ -42,8 +42,8 @@ private:
 
 private slots:
     void slotStart( void );
-    void printVesselData( ivef::MSG_VesselData obj );
-    void printLoginResponse( ivef::MSG_LoginResponse obj );
+    void printMsgIvef( ivef::MSG_IVEF obj );
+    //void printLoginResponse( ivef::MSG_LoginResponse obj );
     void printError( QString errorStr );
 
 

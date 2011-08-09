@@ -35,14 +35,7 @@ private:
     ivef::Parser m_parser;
 
 private slots:
-    void slotMSG_VesselData( ivef::MSG_VesselData obj );
-    void slotMSG_LoginRequest( ivef::MSG_LoginRequest obj );
-    void slotMSG_LoginResponse( ivef::MSG_LoginResponse obj );
-    void slotMSG_Ping( ivef::MSG_Ping obj );
-    void slotMSG_Pong( ivef::MSG_Pong obj );
-    void slotMSG_ServerStatus( ivef::MSG_ServerStatus obj );
-    void slotMSG_Logout( ivef::MSG_Logout obj );
-    void slotMSG_ServiceRequest( ivef::MSG_ServiceRequest obj );
+    void slotMSG_IVEF( ivef::MSG_IVEF obj );
     void slotPrintError( QString errorStr );
 
 private:

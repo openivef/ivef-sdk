@@ -24,14 +24,7 @@ testqt::testqt( int & argc, char ** argv )
         :QApplication(argc, argv, false) {
 
     // connect to the events from the parser
-    connect( &m_parser, SIGNAL( signalMSG_VesselData(ivef::MSG_VesselData)),         this, SLOT( slotMSG_VesselData(ivef::MSG_VesselData) ));
-    connect( &m_parser, SIGNAL( signalMSG_LoginRequest(ivef::MSG_LoginRequest)),     this, SLOT( slotMSG_LoginRequest(ivef::MSG_LoginRequest)));
-    connect( &m_parser, SIGNAL( signalMSG_LoginResponse(ivef::MSG_LoginResponse)),   this, SLOT( slotMSG_LoginResponse(ivef::MSG_LoginResponse)));
-    connect( &m_parser, SIGNAL( signalMSG_Ping(ivef::MSG_Ping)),                     this, SLOT( slotMSG_Ping(ivef::MSG_Ping)));
-    connect( &m_parser, SIGNAL( signalMSG_Pong(ivef::MSG_Pong)),                     this, SLOT( slotMSG_Pong(ivef::MSG_Pong)));
-    connect( &m_parser, SIGNAL( signalMSG_ServerStatus(ivef::MSG_ServerStatus)),     this, SLOT( slotMSG_ServerStatus(ivef::MSG_ServerStatus)));
-    connect( &m_parser, SIGNAL( signalMSG_Logout(ivef::MSG_Logout)),                 this, SLOT( slotMSG_Logout(ivef::MSG_Logout)));
-    connect( &m_parser, SIGNAL( signalMSG_ServiceRequest(ivef::MSG_ServiceRequest)), this, SLOT( slotMSG_ServiceRequest(ivef::MSG_ServiceRequest)));
+    connect( &m_parser, SIGNAL( signalMSG_IVEF(ivef::MSG_IVEF)),         this, SLOT( slotMSG_IVEF(ivef::MSG_IVEF) ));
     // Issue 24
     connect( &m_parser, SIGNAL( signalError(QString)), this, SLOT( slotPrintError(QString) ));
     connect( &m_parser, SIGNAL( signalWarning(QString)), this, SLOT( slotPrintError(QString) ));
@@ -51,14 +44,7 @@ testqt::testqt( int & argc, char ** argv )
     std::exit(0);
 }
 
-void testqt::slotMSG_VesselData( ivef::MSG_VesselData obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_LoginRequest( ivef::MSG_LoginRequest obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_LoginResponse( ivef::MSG_LoginResponse obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Ping( ivef::MSG_Ping obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Pong( ivef::MSG_Pong obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_ServerStatus( ivef::MSG_ServerStatus obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_Logout( ivef::MSG_Logout obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
-void testqt::slotMSG_ServiceRequest( ivef::MSG_ServiceRequest obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_IVEF( ivef::MSG_IVEF obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
 // Issue 24
 void testqt::slotPrintError( QString errorStr ) { std::cout << errorStr.toUtf8().data() << std::endl; }
 // End Issue 24

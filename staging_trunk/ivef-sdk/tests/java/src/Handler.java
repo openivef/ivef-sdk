@@ -37,42 +37,7 @@ public class Handler implements ivef.ParserListener {
     }
     
     /**************************************************************************/
-    public void handleMSG_VesselData(MSG_VesselData obj) {
-        printMessage(obj.toString(""), obj.toXML());
-    };
-
-    /**************************************************************************/
-    public void handleMSG_LoginRequest(MSG_LoginRequest obj) {
-        printMessage(obj.toString(""), obj.toXML());
-    };
-
-    /**************************************************************************/
-    public void handleMSG_LoginResponse(MSG_LoginResponse obj) {
-        printMessage(obj.toString(""), obj.toXML());
-    };
-
-    /**************************************************************************/
-    public void handleMSG_Ping(MSG_Ping obj) {
-        printMessage(obj.toString(""), obj.toXML());
-    };
-
-    /**************************************************************************/
-    public void handleMSG_Pong(MSG_Pong obj) {
-        printMessage(obj.toString(""), obj.toXML());
-    };
-
-    /**************************************************************************/
-    public void handleMSG_ServerStatus(MSG_ServerStatus obj) {
-        printMessage(obj.toString(""), obj.toXML());
-    };
-
-    /**************************************************************************/
-    public void handleMSG_Logout(MSG_Logout obj) {
-        printMessage(obj.toString(""), obj.toXML());
-    };
-
-    /**************************************************************************/
-    public void handleMSG_ServiceRequest(MSG_ServiceRequest obj) {
+    public void handleMSG_IVEF(MSG_IVEF obj) {
         printMessage(obj.toString(""), obj.toXML());
     };
 }

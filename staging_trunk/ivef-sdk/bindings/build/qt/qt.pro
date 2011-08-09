@@ -10,7 +10,8 @@ MOC_DIR = ./tmp/moc
 OBJECTS_DIR = ./tmp/obj
 
 TEMPLATE = lib
-TARGET = ivef
+ win32:TARGET = ivef
+  unix:TARGET = ivef1
 INCLUDEPATH += $$TARGET_QT_DIR/include
 
 QT += xml

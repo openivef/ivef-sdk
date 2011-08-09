@@ -1,18 +1,18 @@
 TestApp ready for input
-MSG_LoginRequest
+MSG_IVEF
     Header
+        MsgRefId = StringUntilLengthIs36CharactersLongOrLonge
         Version = String
-        MsgRefId = String
     Body
         LoginRequest
+            Encryption = 2
             Name = String
             Password = String
-            Encryption = 2
-<MSG_LoginRequest>
-<Header Version="String" MsgRefId="String"/>
+<MSG_IVEF>
+<Header MsgRefId="StringUntilLengthIs36CharactersLongOrLonge" Version="String"/>
 <Body>
-<LoginRequest Name="String" Password="String" Encryption="2"/>
+<LoginRequest Encryption="2" Name="String" Password="String"/>
 </Body>
-</MSG_LoginRequest>
+</MSG_IVEF>
 
 TestApp shutting down
