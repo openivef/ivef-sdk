@@ -19,7 +19,7 @@
 				<Pos Lat="3.1415926535897932384626433832795" Long="3.1415926535897932384626433832795"/>
 			</Area>
 			<Transmission Type="1" Period="3.1415926535897932384626433832795"/>
-			<Item Field="String" Element="1"/>
+			<Item FieldSelector="all" DataSelector="1"/>
 			<Filter Predicate="Text"/>
 		</ServiceRequest>
 	</Body>

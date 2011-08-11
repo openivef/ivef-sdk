@@ -1,139 +1,219 @@
 TestApp ready for input
-MSG_VesselData
+MSG_IVEF
     Header
-        Version = String
-        MsgRefId = String
+        MsgRefId = 1234567890123456789012345678901234567890
+        Version = 0.2.5
     Body
-        VesselData
-            PosReport
-                Id = 0
-                SourceId = 0
-                UpdateTime = 2001-12-17T09:30:47.123
-                SOG = 3.141593
-                COG = 3.1
-                Lost = no
-                RateOfTurn = 3.141593
-                Orientation = 3.141593
-                Length = 3.141593
-                Breadth = 3.141593
-                Altitude = 3.141593
-                NavStatus = 0
-                UpdSensorType = 1
-                ATONOffPos = yes
-                Pos
-                    Lat = 3.141593
-                    Long = 3.141593
-            StaticData
-                Id = String
-                SourceName = String
-                Source = 1
-                Length = 3.141593
-                Breadth = 3.141593
-                Callsign = String
-                ShipName = String
-                ObjectType = 1
-                ShipType = 20
-                IMO = 0
-                MMSI = 0
-                ATONType = 0
-                ATONName = String
-                AntPosDistFromFront = 3.141593
-                AntPosDistFromLeft = 3.141593
-                NatLangShipName = String
-                PortOfRegistry = String
-                CountryFlag = String
-                MaxAirDraught = 3.141593
-                MaxDraught = 3.141593
-                DeepWaterVesselind = no
-            StaticData
-                Id = String
-                SourceName = String
-                Source = 1
-                Length = 3.141593
-                Breadth = 3.141593
-                Callsign = String
-                ShipName = String
-                ObjectType = 1
-                ShipType = 20
-                IMO = 0
-                MMSI = 0
-                ATONType = 0
-                ATONName = String
-                AntPosDistFromFront = 3.141593
-                AntPosDistFromLeft = 3.141593
-                NatLangShipName = String
-                PortOfRegistry = String
-                CountryFlag = String
-                MaxAirDraught = 3.141593
-                MaxDraught = 3.141593
-                DeepWaterVesselind = yes
-            StaticData
-                Id = String
-                SourceName = String
-                Source = 1
-                Length = 3.141593
-                Breadth = 3.141593
-                Callsign = String
-                ShipName = String
-                ObjectType = 1
-                ShipType = 20
-                IMO = 0
-                MMSI = 0
-                ATONType = 0
-                ATONName = String
-                AntPosDistFromFront = 3.141593
-                AntPosDistFromLeft = 3.141593
-                NatLangShipName = String
-                PortOfRegistry = String
-                CountryFlag = String
-                MaxAirDraught = 3.141593
-                MaxDraught = 3.141593
-                DeepWaterVesselind = no
-            Voyage
-                Id = String
-                SourceName = String
-                Source = 1
-                CargoType = 0
-                Destination = String
-                ETA = 2001-12-17T09:30:47.123
-                ATA = 2001-12-17T09:30:47.123
-                AirDraught = 3.141593
-                Draught = 3.141593
-            Voyage
-                Id = String
-                SourceName = String
-                Source = 1
-                CargoType = 0
-                Destination = String
-                ETA = 2001-12-17T09:30:47.123
-                ATA = 2001-12-17T09:30:47.123
-                AirDraught = 3.141593
-                Draught = 3.141593
-            Voyage
-                Id = String
-                SourceName = String
-                Source = 1
-                CargoType = 0
-                Destination = String
-                ETA = 2001-12-17T09:30:47.123
-                ATA = 2001-12-17T09:30:47.123
-                AirDraught = 3.141593
-                Draught = 3.141593
-<MSG_VesselData>
-  <Header Version="String" MsgRefId="String"/>
+        ObjectDatas
+            ObjectData
+                TrackData
+                    COG = 3.1
+                    Id = 0
+                    Length = 3.100000
+                    SOG = 3.1
+                    SourceId = sensor1
+                    SourceName = vts1
+                    UpdateTime = 2001-12-17T09:30:47.123
+                    TrackStatus = 1
+                    Width = 3.100000
+                    Pos
+                        Altitude = 3.141593
+                        Lat = 3.14159
+                        Long = 3.14159
+                    NavStatus
+                        Value = 8
+                VesselData
+                    Class = 0
+                    BlackListed = true
+                    Id = 593470843
+                    SpecialAttention = XImFO6
+                    SourceId = Kbd_1kCNEj.41
+                    SourceName = bd
+                    SourceType = 5
+                    UpdateTime = 2011-12-29T17:14:46Z
+                    Construction
+                        HullColor = UFSu_U
+                        HullType = 3
+                        DeadWeight = 1,304,798,128.493000
+                        GrossWeight = 709,210,134.979000
+                        Length = 323,750,795.934000
+                        LloydsShipType = 1427749124
+                        YearOfBuild = 2011
+                        MaxAirDraught = 713,254,240.8
+                        MaxDraught = 2,120,763,853.2
+                        MaxPersonsOnBoard = 508512354
+                        MaxSpeed = 878,581,722.570000
+                        Width = 72,479,462.640000
+                    Identifier
+                        Callsign = d4CCq4
+                        IMO = -403178342
+                        Name = Y
+                        FormerName = dpgnOSUdEhEx7xhpt
+                        Flag = zX
+                        Owner = LBMtqOaliRZOP23MyISqVo33d
+                        MMSI = 740102918
+                        LRIT = PPY5oTVGtVHTCg
+                VesselData
+                    Class = 0
+                    BlackListed = true
+                    Id = 593470843
+                    SpecialAttention = XImFO6
+                    SourceId = Kbd_1kCNEj.41
+                    SourceName = bd
+                    SourceType = 5
+                    UpdateTime = 2011-12-29T17:14:46Z
+                    Construction
+                        HullColor = UFSu_U
+                        HullType = 3
+                        DeadWeight = 1,304,798,128.493000
+                        GrossWeight = 709,210,134.979000
+                        Length = 323,750,795.934000
+                        LloydsShipType = 1427749124
+                        YearOfBuild = 2011
+                        MaxAirDraught = 713,254,240.8
+                        MaxDraught = 2,120,763,853.2
+                        MaxPersonsOnBoard = 508512354
+                        MaxSpeed = 878,581,722.570000
+                        Width = 72,479,462.640000
+                    Identifier
+                        Callsign = d4CCq4
+                        IMO = -403178342
+                        Name = Y
+                        FormerName = dpgnOSUdEhEx7xhpt
+                        Flag = zX
+                        Owner = LBMtqOaliRZOP23MyISqVo33d
+                        MMSI = 740102918
+                        LRIT = PPY5oTVGtVHTCg
+                VesselData
+                    Class = 0
+                    BlackListed = true
+                    Id = 593470843
+                    SpecialAttention = XImFO6
+                    SourceId = Kbd_1kCNEj.41
+                    SourceName = bd
+                    SourceType = 5
+                    UpdateTime = 2011-12-29T17:14:46Z
+                    Construction
+                        HullColor = UFSu_U
+                        HullType = 3
+                        DeadWeight = 1,304,798,128.493000
+                        GrossWeight = 709,210,134.979000
+                        Length = 323,750,795.934000
+                        LloydsShipType = 1427749124
+                        YearOfBuild = 2011
+                        MaxAirDraught = 713,254,240.8
+                        MaxDraught = 2,120,763,853.2
+                        MaxPersonsOnBoard = 508512354
+                        MaxSpeed = 878,581,722.570000
+                        Width = 72,479,462.640000
+                    Identifier
+                        Callsign = d4CCq4
+                        IMO = -403178342
+                        Name = Y
+                        FormerName = dpgnOSUdEhEx7xhpt
+                        Flag = zX
+                        Owner = LBMtqOaliRZOP23MyISqVo33d
+                        MMSI = 740102918
+                        LRIT = PPY5oTVGtVHTCg
+                VoyageData
+                    AirDraught = 992,572,601.78
+                    Id = -1641240363
+                    CargoTypeIMO = 5
+                    ContactIdentity = YAlTpgn9Fw
+                    DestCode = adHeF8qKi
+                    DestName = dgWX6nPgylq
+                    DepartCode = lD.XTEPRm
+                    DepartName = huMKX99qxFv6fuqZW
+                    Draught = 2,003,303,337.46
+                    ETA = 2013-07-04T17:14:46
+                    ATD = 2011-12-04T17:14:46
+                    ISPSLevel = 1.000000
+                    OverSizedLength = 1,790,629,738.2
+                    OverSizedWidth = 1,637,154,450.0
+                    PersonsOnBoard = 945279249
+                    Pilots = 418,784,089.315000
+                    RouteBound = 0
+                    SourceId = s5ZcWVv5.Gnz3g1
+                    SourceName = EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB
+                    SourceType = 4
+                    TankerStatus = 0
+                    Tugs = true
+                    UpdateTime = 2012-07-11T17:14:46
+                VoyageData
+                    AirDraught = 992,572,601.78
+                    Id = -1641240363
+                    CargoTypeIMO = 5
+                    ContactIdentity = YAlTpgn9Fw
+                    DestCode = adHeF8qKi
+                    DestName = dgWX6nPgylq
+                    DepartCode = lD.XTEPRm
+                    DepartName = huMKX99qxFv6fuqZW
+                    Draught = 2,003,303,337.46
+                    ETA = 2013-07-04T17:14:46
+                    ATD = 2011-12-04T17:14:46
+                    ISPSLevel = 1.000000
+                    OverSizedLength = 1,790,629,738.2
+                    OverSizedWidth = 1,637,154,450.0
+                    PersonsOnBoard = 945279249
+                    Pilots = 418,784,089.315000
+                    RouteBound = 0
+                    SourceId = s5ZcWVv5.Gnz3g1
+                    SourceName = EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB
+                    SourceType = 4
+                    TankerStatus = 0
+                    Tugs = true
+                    UpdateTime = 2012-07-11T17:14:46
+                VoyageData
+                    AirDraught = 992,572,601.78
+                    Id = -1641240363
+                    CargoTypeIMO = 5
+                    ContactIdentity = YAlTpgn9Fw
+                    DestCode = adHeF8qKi
+                    DestName = dgWX6nPgylq
+                    DepartCode = lD.XTEPRm
+                    DepartName = huMKX99qxFv6fuqZW
+                    Draught = 2,003,303,337.46
+                    ETA = 2013-07-04T17:14:46
+                    ATD = 2011-12-04T17:14:46
+                    ISPSLevel = 1.000000
+                    OverSizedLength = 1,790,629,738.2
+                    OverSizedWidth = 1,637,154,450.0
+                    PersonsOnBoard = 945279249
+                    Pilots = 418,784,089.315000
+                    RouteBound = 0
+                    SourceId = s5ZcWVv5.Gnz3g1
+                    SourceName = EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB
+                    SourceType = 4
+                    TankerStatus = 0
+                    Tugs = true
+                    UpdateTime = 2012-07-11T17:14:46
+<MSG_IVEF>
+  <Header MsgRefId="1234567890123456789012345678901234567890" Version="0.2.5"/>
   <Body>
-    <VesselData>
-      <PosReport Id="0" SourceId="0" UpdateTime="2001-12-17T09:30:47.123" SOG="3.141593" COG="3.1" Lost="no" RateOfTurn="3.141593" Orientation="3.141593" Length="3.141593" Breadth="3.141593" Altitude="3.141593" NavStatus="0" UpdSensorType="1" ATONOffPos="yes">
-        <Pos Lat="3.141593" Long="3.141593"/>
-      </PosReport>
-      <StaticData Id="String" SourceName="String" Source="1" Length="3.141593" Breadth="3.141593" Callsign="String" ShipName="String" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="String" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="String" PortOfRegistry="String" CountryFlag="String" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="no"/>
-      <StaticData Id="String" SourceName="String" Source="1" Length="3.141593" Breadth="3.141593" Callsign="String" ShipName="String" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="String" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="String" PortOfRegistry="String" CountryFlag="String" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="yes"/>
-      <StaticData Id="String" SourceName="String" Source="1" Length="3.141593" Breadth="3.141593" Callsign="String" ShipName="String" ObjectType="1" ShipType="20" IMO="0" MMSI="0" ATONType="0" ATONName="String" AntPosDistFromFront="3.141593" AntPosDistFromLeft="3.141593" NatLangShipName="String" PortOfRegistry="String" CountryFlag="String" MaxAirDraught="3.141593" MaxDraught="3.141593" DeepWaterVesselind="no"/>
-      <Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.123" ATA="2001-12-17T09:30:47.123" AirDraught="3.141593" Draught="3.141593"/>
-      <Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.123" ATA="2001-12-17T09:30:47.123" AirDraught="3.141593" Draught="3.141593"/>
-      <Voyage Id="String" SourceName="String" Source="1" CargoType="0" Destination="String" ETA="2001-12-17T09:30:47.123" ATA="2001-12-17T09:30:47.123" AirDraught="3.141593" Draught="3.141593"/>
-    </VesselData>
+    <ObjectDatas>
+      <ObjectData>
+        <TrackData COG="3.1" Id="0" Length="3.100000" SOG="3.1" SourceId="sensor1" SourceName="vts1" UpdateTime="2001-12-17T09:30:47.123" TrackStatus="1" Width="3.100000">
+          <Pos Altitude="3.141593" Lat="3.14159" Long="3.14159"/>
+          <NavStatus Value="8"/>
+        </TrackData>
+        <VesselData Class="0" BlackListed="true" Id="593470843" SpecialAttention="XImFO6" SourceId="Kbd_1kCNEj.41" SourceName="bd" SourceType="5" UpdateTime="2011-12-29T17:14:46Z">
+          <Construction HullColor="UFSu_U" HullType="3" DeadWeight="1,304,798,128.493000" GrossWeight="709,210,134.979000" Length="323,750,795.934000" LloydsShipType="1427749124" YearOfBuild="2011" MaxAirDraught="713,254,240.8" MaxDraught="2,120,763,853.2" MaxPersonsOnBoard="508512354" MaxSpeed="878,581,722.570000" Width="72,479,462.640000"/>
+          <Identifier Callsign="d4CCq4" IMO="-403178342" Name="Y" FormerName="dpgnOSUdEhEx7xhpt" Flag="zX" Owner="LBMtqOaliRZOP23MyISqVo33d" MMSI="740102918" LRIT="PPY5oTVGtVHTCg"/>
+        </VesselData>
+        <VesselData Class="0" BlackListed="true" Id="593470843" SpecialAttention="XImFO6" SourceId="Kbd_1kCNEj.41" SourceName="bd" SourceType="5" UpdateTime="2011-12-29T17:14:46Z">
+          <Construction HullColor="UFSu_U" HullType="3" DeadWeight="1,304,798,128.493000" GrossWeight="709,210,134.979000" Length="323,750,795.934000" LloydsShipType="1427749124" YearOfBuild="2011" MaxAirDraught="713,254,240.8" MaxDraught="2,120,763,853.2" MaxPersonsOnBoard="508512354" MaxSpeed="878,581,722.570000" Width="72,479,462.640000"/>
+          <Identifier Callsign="d4CCq4" IMO="-403178342" Name="Y" FormerName="dpgnOSUdEhEx7xhpt" Flag="zX" Owner="LBMtqOaliRZOP23MyISqVo33d" MMSI="740102918" LRIT="PPY5oTVGtVHTCg"/>
+        </VesselData>
+        <VesselData Class="0" BlackListed="true" Id="593470843" SpecialAttention="XImFO6" SourceId="Kbd_1kCNEj.41" SourceName="bd" SourceType="5" UpdateTime="2011-12-29T17:14:46Z">
+          <Construction HullColor="UFSu_U" HullType="3" DeadWeight="1,304,798,128.493000" GrossWeight="709,210,134.979000" Length="323,750,795.934000" LloydsShipType="1427749124" YearOfBuild="2011" MaxAirDraught="713,254,240.8" MaxDraught="2,120,763,853.2" MaxPersonsOnBoard="508512354" MaxSpeed="878,581,722.570000" Width="72,479,462.640000"/>
+          <Identifier Callsign="d4CCq4" IMO="-403178342" Name="Y" FormerName="dpgnOSUdEhEx7xhpt" Flag="zX" Owner="LBMtqOaliRZOP23MyISqVo33d" MMSI="740102918" LRIT="PPY5oTVGtVHTCg"/>
+        </VesselData>
+        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46" ATD="2011-12-04T17:14:46" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46"/>
+        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46" ATD="2011-12-04T17:14:46" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46"/>
+        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46" ATD="2011-12-04T17:14:46" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46"/>
+      </ObjectData>
+    </ObjectDatas>
   </Body>
-</MSG_VesselData>
+</MSG_IVEF>
 
 TestApp shutting down
