@@ -1,0 +1,17 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 123456789012345678901234567890123456789
+        Version = String
+    Body
+        ServerStatus
+            Details = we had a party
+            Status = false
+<MSG_IVEF>
+<Header MsgRefId="123456789012345678901234567890123456789" Version="String"/>
+<Body>
+<ServerStatus Details="we had a party" Status="false"/>
+</Body>
+</MSG_IVEF>
+
+TestApp shutting down

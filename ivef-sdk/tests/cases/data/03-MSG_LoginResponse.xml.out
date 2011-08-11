@@ -1,0 +1,18 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 123456789012345678901234567890123456789
+        Version = String
+    Body
+        LoginResponse
+            Reason = String
+            ResponseOn = 123456789012345678901234567890123456789
+            Result = 1
+<MSG_IVEF>
+<Header MsgRefId="123456789012345678901234567890123456789" Version="String"/>
+<Body>
+<LoginResponse Reason="String" ResponseOn="123456789012345678901234567890123456789" Result="1"/>
+</Body>
+</MSG_IVEF>
+
+TestApp shutting down

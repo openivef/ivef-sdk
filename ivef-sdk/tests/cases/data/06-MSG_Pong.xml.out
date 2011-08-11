@@ -1,0 +1,18 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 123456789012345678901234567890123456789
+        Version = String
+    Body
+        Pong
+            ResponseOn = 123456789012345678901234567890123456789
+            SourceId = 0
+            TimeStamp = 2001-12-17T09:30:47.001Z
+<MSG_IVEF>
+<Header MsgRefId="123456789012345678901234567890123456789" Version="String"/>
+<Body>
+<Pong ResponseOn="123456789012345678901234567890123456789" SourceId="0" TimeStamp="2001-12-17T09:30:47.001Z"/>
+</Body>
+</MSG_IVEF>
+
+TestApp shutting down

@@ -1,0 +1,18 @@
+TestApp ready for input
+MSG_Pong
+    Header
+        Version = String
+        MsgRefId = String
+    Body
+        Pong
+            TimeStamp = 2001-12-17T09:30:47.001Z
+            MsgId = String
+            SourceId = 0
+<MSG_Pong>
+<Header Version="String" MsgRefId="String"/>
+<Body>
+<Pong TimeStamp="2001-12-17T09:30:47.001Z" MsgId="String" SourceId="0"/>
+</Body>
+</MSG_Pong>
+
+TestApp shutting down

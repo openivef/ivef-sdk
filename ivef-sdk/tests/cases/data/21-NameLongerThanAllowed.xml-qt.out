@@ -1,0 +1,13 @@
+TestApp ready for input
+error set Name = lotsOfCharactersThatGoWayBeyondTheAllowed256Characters__Whhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh at line 5 (column 351)
+MSG_LoginRequest
+    Header
+        Version = 1.2
+        MsgRefId = 1224-5667-8901-1234
+    Body
+        LoginRequest
+            Name = 
+            Password = Very Secret
+            Encryption = 1
+
+TestApp shutting down
