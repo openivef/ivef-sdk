@@ -654,7 +654,14 @@ void CodeGenQT::classFiles() {
                     classFileOut << "            else if ( xml.name() == \"" << attr->name() <<"\" )\n";
                 }
                 classFileOut << "            {\n";
-                classFileOut << "                " << attr->name() << " val( xml );\n";
+                if ( attr->isSimpleElement() )
+                {
+                    classFileOut << "                " << localType(attr->type()) <<" val = xml.readElementText();\n";
+                }
+                else
+                {
+                    classFileOut << "                " << attr->name() << " val( xml );\n";
+                }
                 classFileOut << "                if ( xml.name() != \"" << attr->name() << "\" )\n";
                 classFileOut << "                    xml.raiseError( \"tag mismatch " << attr->name() << "\" );\n";
                 if ( attr->isScalar() )
@@ -1299,7 +1306,7 @@ void CodeGenQT::parserFile() {
     bool element( false );
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
-        if ( !obj->isEmbedded() && (obj->name() != "Schema") ) {
+        if ( !obj->isEmbedded() && (obj->name() != "Schema") && !obj->isSimpleElement()) {
             if ( !element )
             {
                 classFileOut << "            if( m_xml->name()==\"" << className(obj->name()) << "\" )\n";
