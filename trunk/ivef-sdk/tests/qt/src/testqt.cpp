@@ -41,10 +41,18 @@ testqt::testqt( int & argc, char ** argv )
         m_parser.parseXMLString(QString(input_line.c_str()), true);
     };
     std::cout << "TestApp shutting down" << std::endl;
-    std::exit(0);
+    // QCoreApplication::exit(0);
 }
 
-void testqt::slotMSG_IVEF( ivef::MSG_IVEF obj ) { std::cout << obj.toString("").toLatin1().data() << obj.toXML().toLatin1().data() << std::endl; }
+void testqt::slotMSG_IVEF( ivef::MSG_IVEF obj ) {
+    std::cout << obj.toString("").toUtf8().data();
+    QString xml = obj.toXML();
+    if ( xml == QString::null )
+        std::cout << obj.lastError().toUtf8().data();
+    else
+        std::cout << xml.toUtf8().data();
+    std::cout << std::endl;
+}
 // Issue 24
 void testqt::slotPrintError( QString errorStr ) { std::cout << errorStr.toUtf8().data() << std::endl; }
 // End Issue 24

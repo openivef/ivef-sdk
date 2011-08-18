@@ -22,5 +22,5 @@ int main(int argc, char *argv[]) {
 
     testqt app(argc, argv);
 
-    return app.exec();
+    // return app.exec();
 }

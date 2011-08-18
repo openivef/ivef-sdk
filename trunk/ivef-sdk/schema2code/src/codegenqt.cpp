@@ -493,32 +493,26 @@ void CodeGenQT::classFiles() {
         
         headerFileOut << "    //! generates XML of this object including attributes and child elements\n";
         headerFileOut << "    //! returns QString::null if not all required elements are available\n";
+        headerFileOut << "    //! If null returned check lastError() for problem description\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
-        headerFileOut << "    QString toXML() const;\n\n";
+        headerFileOut << "    QString toXML();\n\n";
         
         headerFileOut << "    //! generates output of this object including attributes and child elements\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
-        headerFileOut << "    QString toString();\n\n";
+        headerFileOut << "    QString toString() const;\n\n";
         
         headerFileOut << "    //! generates output of this object including attributes and child elements\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
-        headerFileOut << "    QString toString(QString lead);\n\n";
-        
-        // signals 
-        //headerFileOut << "\nsignals:\n";
-        //headerFileOut << "    //!signals fired by the class when validation error has occured\n";
-        //headerFileOut << "    //!\n";
-        //headerFileOut << "    void signalValidationError(QString errorStr);\n";
-        
-        // signals
-        //headerFileOut << "\nsignals:\n";
-        //headerFileOut << "    //!signals fired by the class when validation error has occured\n";
-        //headerFileOut << "    //!\n";
-        //headerFileOut << "    void signalValidationError(QString errorStr);\n";
-
+        headerFileOut << "    QString toString(QString lead) const;\n\n";
+       
+        headerFileOut << "    //! return last error found in toXML function\n";
+        headerFileOut << "    //!\n";
+        headerFileOut << "    //! \\return     QString\n";
+        headerFileOut << "    const QString& lastError() const;\n\n";
+ 
         // private section
         headerFileOut << "\nprivate:\n";
         
@@ -538,7 +532,7 @@ void CodeGenQT::classFiles() {
         }
         
         // close the header
-        headerFileOut << "\n}; \n";
+        headerFileOut << "    QString m_lastError;\n}; \n";
         if ( m_namespace ) {
             headerFileOut << "} //end ns\n";
         }
@@ -710,6 +704,7 @@ void CodeGenQT::classFiles() {
                 //}
             }
         }
+        classFileOut << ",\n    m_lastError()";
         classFileOut << "\n{\n}\n\n";
         
         // == operator
@@ -896,7 +891,7 @@ void CodeGenQT::classFiles() {
         // xml generator
         // if attribute name and type are the same it means it was data
         classFileOut << "// Get XML Representation\n";
-        classFileOut << "QString " << className(name) << "::toXML() const {\n\n";
+        classFileOut << "QString " << className(name) << "::toXML() {\n\n";
         classFileOut << "    const static QString endAttr( \"\\\"\" );\n";
         classFileOut << "    QString xml = \"<" << name << "\";\n"; // append attributes
         classFileOut << "    QString dataMember;\n"; // append attributes
@@ -930,8 +925,7 @@ void CodeGenQT::classFiles() {
                     classFileOut << "    if ( " << variableName(attr->name()) << "Present) {\n";
                     classFileOut << "        xml.append(\" " << attr->name() << "=\\\"\" + " << varName << " + endAttr);\n";
                     classFileOut << "    } else { // required attribute not present\n";
-                    //classFileOut << "        emit signalValidationError( \"error attribute " << attr->name() << " has not been set\" );\n";
-                    //classFileOut << "        std::cout << \"WARNING1: " << attr->name()<<  " returns QString::null\" << std::endl;\n"; // ####
+                    classFileOut << "        m_lastError = \"" << attr->name() << " not set\";\n";
                     classFileOut << "        return QString::null;\n";
                     classFileOut << "    }\n";
                 }
@@ -958,7 +952,8 @@ void CodeGenQT::classFiles() {
                     if (attr->isScalar() ) {
                         if (attr->hasMin()) { // issue 26
                             classFileOut << "    if (" << variableName(attr->name()) << "s.count() < " << attr->min() << ") {\n";
-                            classFileOut << "        return QString::null; // not enough values\n";
+                            classFileOut << "        m_lastError = \"not enough " << attr->name() << " values\";\n";
+                            classFileOut << "        return QString::null;\n";
                             classFileOut << "    }\n";
                         }
                         classFileOut << "    // add all included data\n";
@@ -974,7 +969,7 @@ void CodeGenQT::classFiles() {
                             classFileOut << "        if (dataMember != QString::null) {\n";
                             classFileOut << "           xml.append( attribute.toXML() );\n";
                             classFileOut << "        } else {\n";
-                            //classFileOut << "            std::cout << \"WARNING4: " << attr->name()<<  " returns QString::null" << std::endl;\n"; // ####
+                            classFileOut << "            m_lastError = \"" << attr->name() << ":\" + attribute.lastError();\n";
                             classFileOut << "            return QString::null;\n";
                             classFileOut << "        }\n";
                         }
@@ -991,7 +986,7 @@ void CodeGenQT::classFiles() {
                             classFileOut << "        if (dataMember != QString::null) {\n";
                             classFileOut << "            xml.append( dataMember );\n";
                             classFileOut << "        } else {\n";
-                            //classFileOut << "            std::cout << \"WARNING5: " << attr->name()<<  " returns QString::null\" << std::endl;\n"; // ####
+                            classFileOut << "            m_lastError = \"" << attr->name() << ":\" + " << variableName(attr->name()) << ".lastError();\n";
                             classFileOut << "            return QString::null;\n";
                             classFileOut << "        }\n";
                         }
@@ -1003,12 +998,11 @@ void CodeGenQT::classFiles() {
                         classFileOut << "        if (dataMember != QString::null) {\n";
                         classFileOut << "            xml.append( dataMember );\n";
                         classFileOut << "        } else {\n";
-                        //classFileOut << "            std::cout << \"WARNING2: " << attr->name()<<  " returns QString::null\" << std::endl;\n"; // ####
+                        classFileOut << "            m_lastError = \"" << attr->name() << ":\" + " << variableName(attr->name()) << ".lastError();\n";
                         classFileOut << "            return QString::null;\n";
                         classFileOut << "        }\n";
                         classFileOut << "    } else {\n";
-                        //classFileOut << "        emit signalValidationError( \"error attribute " << attr->name() << " has not been set\" );\n";
-                        //classFileOut << "        std::cout << \"WARNING3: " << attr->name()<<  " returns QString::null\" << std::endl;\n"; // ####
+                        classFileOut << "        m_lastError = \"" << attr->name() << " not set\";\n";
                         classFileOut << "        return QString::null;\n";
                         classFileOut << "    }\n";
                     }
@@ -1027,12 +1021,12 @@ void CodeGenQT::classFiles() {
         // string generator
         // if attribute name and type are the same it means it was data
         classFileOut << "// Get String Representation\n";
-        classFileOut << "QString " << className(name) << "::toString() {\n\n";
+        classFileOut << "QString " << className(name) << "::toString() const{\n\n";
         classFileOut << "    return toString(\"\");\n";
         classFileOut << "}\n\n";
         
         classFileOut << "// Get String Representation with a lead\n";
-        classFileOut << "QString " << className(name) << "::toString(QString lead) {\n\n";
+        classFileOut << "QString " << className(name) << "::toString(QString lead) const{\n\n";
         classFileOut << "    const static QString endAttr( \"\\n\" );\n";
         classFileOut << "    QString str = lead + \"" << name << "\\n\";\n"; // append attributes
         
@@ -1106,7 +1100,10 @@ void CodeGenQT::classFiles() {
         
         // close up
         classFileOut << "    return str;\n";
-        classFileOut << "}\n";
+        classFileOut << "}\n\n";
+
+        classFileOut << "const QString& " << className(name) <<"::lastError() const {\n";
+        classFileOut << "    return m_lastError;\n}\n\n";
         
         // round up
         if ( m_namespace ) {
