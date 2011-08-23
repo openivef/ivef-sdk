@@ -1,0 +1,8 @@
+TestApp ready for input
+MSG_Ping
+    Header
+        Version = String
+        MsgRefId = String
+    Body
+        Ping
+            TimeStamp = 

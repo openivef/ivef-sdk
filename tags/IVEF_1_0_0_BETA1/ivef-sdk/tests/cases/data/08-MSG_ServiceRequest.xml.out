@@ -1,0 +1,72 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 123456789012345678901234567890123456789
+        Version = String
+    Body
+        ServiceRequest
+            Area
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+            Area
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+            Area
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+                Pos
+                    Lat = 3.14159
+                    Long = 3.14159
+            Transmission
+                Type = 1
+                Period = 3.141593
+            Item
+                DataSelector = 1
+                FieldSelector = all
+            Filter
+                Predicate = Text
+<MSG_IVEF>
+<Header MsgRefId="123456789012345678901234567890123456789" Version="String"/>
+<Body>
+<ServiceRequest>
+<Area>
+<Pos Lat="3.14159" Long="3.14159"/>
+<Pos Lat="3.14159" Long="3.14159"/>
+<Pos Lat="3.14159" Long="3.14159"/>
+</Area>
+<Area>
+<Pos Lat="3.14159" Long="3.14159"/>
+<Pos Lat="3.14159" Long="3.14159"/>
+<Pos Lat="3.14159" Long="3.14159"/>
+</Area>
+<Area>
+<Pos Lat="3.14159" Long="3.14159"/>
+<Pos Lat="3.14159" Long="3.14159"/>
+<Pos Lat="3.14159" Long="3.14159"/>
+</Area>
+<Transmission Type="1" Period="3.141593"/>
+<Item DataSelector="1" FieldSelector="all"/>
+<Filter Predicate="Text"/>
+</ServiceRequest>
+</Body>
+</MSG_IVEF>
+
+TestApp shutting down

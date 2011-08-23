@@ -1,0 +1,18 @@
+<MSG_IVEF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="urn:http://www.ivef.org/XMLSchema/IVEF/1.1 ../../../spec/ivef.xsd"
+ xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5">
+	<Header MsgRefId="1234567890123456789012345678901234567890" Version="0.2.5"/>
+	<Body><ObjectDatas>
+		<ObjectData>
+			<TrackData SOG="3.1" Width="3.1" Length="3.1" Id="0" COG="3.1" SourceId="sensor1" SourceName="vts1" TrackStatus="1" UpdateTime="2001-12-17T09:30:47.123" Orientation="3.1">
+				<Pos Lat="3.14159" Long="3.14159" Altitude="3.14"/>
+				<NavStatus Value="8"/>
+			</TrackData>
+			<VesselData Class="0" BlackListed="true" Id="593470843" SpecialAttention="XImFO6" SourceId="Kbd_1kCNEj.41" SourceName="bd" SourceType="5" UpdateTime="2011-12-29T17:14:46Z">
+				<Construction HullColor="UFSu_U" HullType="3" DeadWeight="1301" GrossWeight="7092" Length="32" LloydsShipType="14124" YearOfBuild="2011" MaxAirDraught="71.8" MaxDraught="21.2" MaxPersonsOnBoard="50" MaxSpeed="87.5" Width="72"/>
+				<Identifier Callsign="d4CCq4" IMO="-403178342" Name="Y" FormerName="dpgnOSUdEhEx7xhpt" Flag="zX" Owner="LBM" MMSI="740102918" LRIT="PPY5og"/>
+			</VesselData>
+			<VoyageData AirDraught="99.78" Id="1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="20.46" ETA="2013-07-04T17:14:46" ATD="2011-12-04T17:14:46" ISPSLevel="1.0" OverSizedLength="179.2" OverSizedWidth="163.0" PersonsOnBoard="945" Pilots="41" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46"/>			
+		</ObjectData>
+	</ObjectDatas></Body>
+</MSG_IVEF>
