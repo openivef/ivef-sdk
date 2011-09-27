@@ -1,18 +1,18 @@
 TestApp ready for input
-MSG_Pong
+MSG_IVEF
     Header
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = String
-        MsgRefId = String
     Body
         Pong
-            TimeStamp = 2001-12-17T09:30:47.001Z
-            MsgId = String
-            SourceId = 0
-<MSG_Pong>
-<Header Version="String" MsgRefId="String"/>
+            ResponseOn = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+            SourceId = 12345
+            TimeStamp = 
+<MSG_IVEF>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
 <Body>
-<Pong TimeStamp="2001-12-17T09:30:47.001Z" MsgId="String" SourceId="0"/>
+<Pong ResponseOn="6289936C-DFAC-11E0-B7BA-B2E24824019B" SourceId="12345" TimeStamp=""/>
 </Body>
-</MSG_Pong>
+</MSG_IVEF>
 
 TestApp shutting down

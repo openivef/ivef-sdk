@@ -1,18 +1,18 @@
 TestApp ready for input
-MSG_LoginRequest
+MSG_IVEF
     Header
+     MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
      Version = 1.2
-     MsgRefId = 1224-5667-8901-1234
     Body
         LoginRequest
-         Name = John Doe
-         Password = Very Secret
-         Encryption = 1
-<MSG_LoginRequest>
-<Header Version="1.2" MsgRefId="1224-5667-8901-1234"/>
+		Encryption = 1
+         	Name = John Doe
+         	Password = Very Secret
+<MSG_IVEF>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="1.2"/>
 <Body>
-<LoginRequest Name="John Doe" Password="Very Secret" Encryption="1"/>
+<LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>
-</MSG_LoginRequest>
+</MSG_IVEF>
 
 TestApp shutting down

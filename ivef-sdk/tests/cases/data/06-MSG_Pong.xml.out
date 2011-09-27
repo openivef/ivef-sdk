@@ -1,17 +1,17 @@
 TestApp ready for input
 MSG_IVEF
     Header
-        MsgRefId = 123456789012345678901234567890123456789
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = String
     Body
         Pong
-            ResponseOn = 123456789012345678901234567890123456789
+            ResponseOn = 6289936C-DFAC-11E0-B7BA-B2E24824019B
             SourceId = 0
             TimeStamp = 2001-12-17T09:30:47.001Z
 <MSG_IVEF>
-<Header MsgRefId="123456789012345678901234567890123456789" Version="String"/>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
 <Body>
-<Pong ResponseOn="123456789012345678901234567890123456789" SourceId="0" TimeStamp="2001-12-17T09:30:47.001Z"/>
+<Pong ResponseOn="6289936C-DFAC-11E0-B7BA-B2E24824019B" SourceId="0" TimeStamp="2001-12-17T09:30:47.001Z"/>
 </Body>
 </MSG_IVEF>
 

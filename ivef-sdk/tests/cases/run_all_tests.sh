@@ -34,15 +34,15 @@ fi
 mkdir -p $TMPDIR
 rm -Rf $TMPDIR/*
 
-for INPUTFILE in $(ls ${DATADIR}/*.xml.in 2>/dev/null)
+for INPUTFILE in $(ls ${DATADIR}/*.xml.in 2>/dev/null) $(ls ${DATADIR}/*.xml-$1.in 2>/dev/null)
 do
    STCASE=$(echo $INPUTFILE | cut -d - -f 1)
    TESTNAME=$(echo $INPUTFILE | cut -d . -f 1)
-   OUTNAME=$(echo $INPUTFILE | cut -d . -f -2 | cut -d / -f 2-).out
+   OUTNAME=$(echo $INPUTFILE | cut -d . -f -2 | cut -d / -f 2-)-$1.out
 
    if [ ! -f data/$OUTNAME ]
    then
-      OUTNAME=$(echo $INPUTFILE | cut -d . -f -2 | cut -d / -f 2-)-$1.out
+      OUTNAME=$(echo $INPUTFILE | cut -d . -f -2 | cut -d / -f 2-).out
       if [ ! -f data/$OUTNAME ]
       then
          echo ERROR i have no reference for test: data/$OUTNAME

@@ -1,13 +1,13 @@
 TestApp ready for input
 error set Name = lotsOfCharactersThatGoWayBeyondTheAllowed256Characters__Whhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh at line 5 (column 351)
-MSG_LoginRequest
+MSG_IVEF
     Header
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = 1.2
-        MsgRefId = 1224-5667-8901-1234
     Body
         LoginRequest
+            Encryption = 1
             Name = 
             Password = Very Secret
-            Encryption = 1
-
+Body:LoginRequest:Name not set
 TestApp shutting down
