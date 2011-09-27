@@ -1,13 +1,13 @@
 TestApp ready for input
 MSG_IVEF
     Header
-        MsgRefId = 1234567890123456789012345678901234567890
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = String
     Body
         Ping
             TimeStamp = 2001-12-17T15:30:47.000Z
 <MSG_IVEF>
-<Header MsgRefId="1234567890123456789012345678901234567890" Version="String"/>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
 <Body>
 <Ping TimeStamp="2001-12-17T15:30:47.000Z"/>
 </Body>

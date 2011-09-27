@@ -1,7 +1,7 @@
 TestApp ready for input
 MSG_IVEF
     Header
-        MsgRefId = 1234567890123456789012345678901234567890
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = 0.2.5
     Body
         ObjectDatas
@@ -188,7 +188,7 @@ MSG_IVEF
                     Tugs = true
                     UpdateTime = 2012-07-11T17:14:46.000Z
 <MSG_IVEF>
-<Header MsgRefId="1234567890123456789012345678901234567890" Version="0.2.5"/>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="0.2.5"/>
 <Body>
 <ObjectDatas>
 <ObjectData>

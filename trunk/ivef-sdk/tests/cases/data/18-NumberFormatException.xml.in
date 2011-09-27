@@ -1,10 +1,12 @@
-<MSG_VesselData>
-<Header Version="0.1.5" MsgRefId="MSG_VesselDataId"/>
+<MSG_IVEF>
+<Header Version="0.1.5" MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B"/>
 <Body>
-<VesselData>
-<PosReport Id="2" SourceId="1" UpdateTime="2010-04-28T15:26:32.250Z" SOG="0,000000" COG="0,000000" Lost="yes" Length="10,000000">
-<Pos Lat="0,000000" Long="0,000000"/>
-</PosReport>
-</VesselData>
+<ObjectDatas>
+<ObjectData>
+<TrackData Id="2" SourceId="12345" SourceName="abc" UpdateTime="2010-04-28T15:26:32.250Z" SOG="0,000000" COG="0,000000" Length="10,000000" TrackStatus="3">
+<Pos Lat="0,000000" Long="0,000000" Altitude="10.0000"/>
+</TrackData>
+</ObjectData>
+</ObjectDatas>
 </Body>
-</MSG_VesselData>
+</MSG_IVEF>

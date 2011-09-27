@@ -1,24 +1,22 @@
 TestApp ready for input
-MSG_ServiceRequest
+MSG_IVEF
     Header
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = String
-        MsgRefId = String
     Body
         ServiceRequest
             Area
                 Pos
-                    Lat = 3.141593
-                    Long = 3.141593
+                    Lat = 3.14159
+                    Long = 3.14159
                 Pos
-                    Lat = 3.141593
-                    Long = 3.141593
-            Transmission
+                    Lat = 3.15159
+                    Long = 3.15159
+           Transmission
                 Type = 1
                 Period = 3.141593
             Item
-                Element = 1
-                Field = String
-            Object
-                FileName = Text
-
+                DataSelector = 1
+                FieldSelector = String
+Body:ServiceRequest:Area:not enough Pos values
 TestApp shutting down

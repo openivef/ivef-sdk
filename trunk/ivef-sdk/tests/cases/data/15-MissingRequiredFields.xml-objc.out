@@ -1,8 +1,8 @@
 TestApp ready for input
-MSG_Ping
+MSG_IVEF
     Header
      Version = String
-     MsgRefId = String
+     MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
     Body
         Ping
          TimeStamp = 

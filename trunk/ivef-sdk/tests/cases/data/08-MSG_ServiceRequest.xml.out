@@ -1,7 +1,7 @@
 TestApp ready for input
 MSG_IVEF
     Header
-        MsgRefId = 123456789012345678901234567890123456789
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = String
     Body
         ServiceRequest
@@ -44,7 +44,7 @@ MSG_IVEF
             Filter
                 Predicate = Text
 <MSG_IVEF>
-<Header MsgRefId="123456789012345678901234567890123456789" Version="String"/>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
 <Body>
 <ServiceRequest>
 <Area>

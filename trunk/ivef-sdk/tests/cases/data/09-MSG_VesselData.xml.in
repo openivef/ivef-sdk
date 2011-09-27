@@ -1,7 +1,7 @@
 <MSG_IVEF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="urn:http://www.ivef.org/XMLSchema/IVEF/1.1 ../../../spec/ivef.xsd"
  xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5">
-	<Header MsgRefId="1234567890123456789012345678901234567890" Version="0.2.5"/>
+	<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="0.2.5"/>
 	<Body><ObjectDatas>
 		<ObjectData>
 			<TrackData SOG="3.1" Width="3.1" Length="3.1" Id="0" COG="3.1" SourceId="sensor1" SourceName="vts1" TrackStatus="1" UpdateTime="2001-12-17T09:30:47.123" Orientation="3.1415926535897932384626433832795">

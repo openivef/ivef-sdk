@@ -1,17 +1,17 @@
 TestApp ready for input
 MSG_IVEF
     Header
-        MsgRefId = 123456789012345678901234567890123456789
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = String
     Body
         LoginResponse
             Reason = String
-            ResponseOn = 123456789012345678901234567890123456789
+            ResponseOn = 6289936C-DFAC-11E0-B7BA-B2E24824019B
             Result = 1
 <MSG_IVEF>
-<Header MsgRefId="123456789012345678901234567890123456789" Version="String"/>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
 <Body>
-<LoginResponse Reason="String" ResponseOn="123456789012345678901234567890123456789" Result="1"/>
+<LoginResponse Reason="String" ResponseOn="6289936C-DFAC-11E0-B7BA-B2E24824019B" Result="1"/>
 </Body>
 </MSG_IVEF>
 

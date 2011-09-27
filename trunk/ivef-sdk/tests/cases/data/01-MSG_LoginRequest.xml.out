@@ -1,7 +1,7 @@
 TestApp ready for input
 MSG_IVEF
     Header
-        MsgRefId = 1224-5667-8901-1234-5345-8725-3233-6
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = 1.2
     Body
         LoginRequest
@@ -9,7 +9,7 @@ MSG_IVEF
             Name = John Doe
             Password = Very Secret
 <MSG_IVEF>
-<Header MsgRefId="1224-5667-8901-1234-5345-8725-3233-6" Version="1.2"/>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="1.2"/>
 <Body>
 <LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>
 </Body>

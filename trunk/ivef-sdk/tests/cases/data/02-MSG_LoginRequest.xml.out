@@ -1,7 +1,7 @@
 TestApp ready for input
 MSG_IVEF
     Header
-        MsgRefId = StringUntilLengthIs36CharactersLongOrLonge
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = String
     Body
         LoginRequest
@@ -9,7 +9,7 @@ MSG_IVEF
             Name = String
             Password = String
 <MSG_IVEF>
-<Header MsgRefId="StringUntilLengthIs36CharactersLongOrLonge" Version="String"/>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
 <Body>
 <LoginRequest Encryption="2" Name="String" Password="String"/>
 </Body>
