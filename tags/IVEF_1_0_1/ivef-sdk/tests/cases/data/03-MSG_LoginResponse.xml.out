@@ -1,0 +1,18 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+        Version = String
+    Body
+        LoginResponse
+            Reason = String
+            ResponseOn = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+            Result = 1
+<MSG_IVEF>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
+<Body>
+<LoginResponse Reason="String" ResponseOn="6289936C-DFAC-11E0-B7BA-B2E24824019B" Result="1"/>
+</Body>
+</MSG_IVEF>
+
+TestApp shutting down
