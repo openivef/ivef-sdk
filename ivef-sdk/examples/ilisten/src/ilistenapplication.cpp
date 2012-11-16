@@ -56,10 +56,10 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
     // setup the parser
     m_streamHandler = new IVEFStreamHandler(&m_parser);
     // and the printers
-    connect( &m_parser, SIGNAL( signalMSG_VesselData(ivef::MSG_VesselData)), this, SLOT( printVesselData(ivef::MSG_VesselData) ));
-    connect( &m_parser, SIGNAL( signalMSG_LoginResponse(ivef::MSG_LoginResponse)), this, SLOT( printLoginResponse(ivef::MSG_LoginResponse) ));
+    connect( &m_parser, SIGNAL( signalMSG_IVEF(ivef::MSG_IVEF)), this, SLOT( printMsgIvef(ivef::MSG_IVEF) ));
     connect( &m_parser, SIGNAL( signalError(QString)), this, SLOT( printError(QString) ));
     connect( &m_parser, SIGNAL( signalWarning(QString)), this, SLOT( printError(QString) ));
+    connect( &m_parser, SIGNAL( signalValidationError(QString)), this, SLOT( printError(QString) ));
 
     // startup timer, to allow the event loop to start
     QTimer *timer = new QTimer( 0 ); // we leak one timer here, is acceptable
