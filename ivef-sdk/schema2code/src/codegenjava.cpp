@@ -447,6 +447,7 @@ void CodeGenJava::go() {
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
         classFileOut << "        String dataMember;";
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
+        classFileOut << "        df.setTimeZone(TimeZone.getTimeZone(\"UTC\"));\n";
         classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
         classFileOut << "\n";
 
