@@ -20,24 +20,29 @@
 
 #include "xsdattribute.h"
 
-XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fixed) {
-	m_name = name;
-	m_type = type;
-	m_required = required;
-	m_unbounded = false;
-	m_element = false;
-	m_hasMinLength = false;
-	m_hasMaxLength = false;
-	m_hasMin = false;
-	m_hasMax = false;
-    m_hasDigits = false;
-	m_maxLength = -1; 
-	m_minLength = -1; 
-    m_min = -1;
-    m_max = -1;
-    m_digits = 0;
-    m_fixed = fixed;
-    m_isFixed = true;
+XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fixed) :
+    m_name(name),
+    m_type(type),
+    m_isFixed(true),
+    m_fixed(fixed),
+    m_required(required),
+    m_element(false),
+    m_hasMinLength(false),
+    m_minLength(-1),
+    m_hasMaxLength(false),
+    m_maxLength(-1),
+    m_unbounded(false),
+    m_hasDigits(false),
+    m_digits(0),
+    m_hasMinExclusive(false),
+    m_minExclusive(-1),
+    m_hasMaxExclusive(false),
+    m_maxExclusive(-1),
+    m_hasMinInclusive(false),
+    m_minInclusive(-1),
+    m_hasMaxInclusive(false),
+    m_maxInclusive(-1)
+{
     if (fixed == "") {
         m_isFixed = false;
     } else {
@@ -48,186 +53,224 @@ XSDAttribute::XSDAttribute(QString name, QString type, bool required, QString fi
 
 void XSDAttribute::dump() {
         std::cout << "-----------------------------------------------------" << std::endl;
-	std::cout << "attribute name      " << QString(m_name).toLatin1().data() << std::endl;
-	std::cout << "attribute type      " << QString(m_type).toLatin1().data() << std::endl;
-	std::cout << "attribute isFixed   " << QString((m_isFixed ? "true" : "false")).toLatin1().data() << std::endl;
-	if (m_isFixed) {
-		std::cout << "attribute fixedVal  " << QString(m_fixed).toLatin1().data() << std::endl;
-	}
-	std::cout << "attribute doc       " << QString(m_doc).toLatin1().data() << std::endl;
-	std::cout << "attribute isElement " << QString((m_element ? "true" : "false")).toLatin1().data() << std::endl;
-	std::cout << "attribute required  " << QString((m_required ? "true" : "false")).toLatin1().data() << std::endl;
-	std::cout << "attribute unbound   " << QString((m_unbounded ? "true" : "false")).toLatin1().data() << std::endl;
-	std::cout << "attribute hasMin    " << QString((m_hasMin ? "true" : "false")).toLatin1().data() << std::endl;
-	if (m_hasMin) {
-		std::cout << "attribute min       " << QString::number(m_min).toLatin1().data() << std::endl;
-	}
-	std::cout << "attribute hasMinLength " << QString((m_hasMinLength ? "true" : "false")).toLatin1().data() << std::endl;
-	if (m_hasMinLength) {
-	    	std::cout << "attribute minLength " << QString(m_minLength).toLatin1().data() << std::endl;
-        }
-	std::cout << "attribute hasMaxLength " << QString((m_hasMaxLength ? "true" : "false")).toLatin1().data() << std::endl;
-	if (m_hasMaxLength) {
-		std::cout << "attribute maxLength " << QString(m_maxLength).toLatin1().data() << std::endl;
-	}
-	std::cout << "attribute hasMax    " << QString((m_hasMax ? "true" : "false")).toLatin1().data() << std::endl;
-	if (m_hasMax) {
-		std::cout << "attribute max       " << QString::number(m_max).toLatin1().data() << std::endl;
-	}
-        std::cout << "attribute hasDigits " << QString((m_hasDigits ? "true" : "false")).toLatin1().data() << std::endl;
-	if (m_hasDigits) {
-		std::cout << "attribute digits    " << QString::number(m_digits).toLatin1().data() << std::endl;
-	}
-        for (int h=0; h < m_enums.size(); h++) {
-	    std::cout << "attribute enum      " << QString(m_enums.at(h)).toLatin1().data() << std::endl;
-        }
-        std::cout << "-----------------------------------------------------" << std::endl;
+    std::cout << "attribute name      " << m_name.toLatin1().data() << std::endl;
+    std::cout << "attribute type      " << m_type.toLatin1().data() << std::endl;
+    std::cout << "attribute isFixed   " << (m_isFixed ? "true" : "false") << std::endl;
+    if (m_isFixed) {
+        std::cout << "attribute fixedVal  " << m_fixed.toLatin1().data() << std::endl;
+    }
+    std::cout << "attribute required  " << (m_required ? "true" : "false") << std::endl;
+    std::cout << "attribute doc       " << m_doc.toLatin1().data() << std::endl;
+    std::cout << "attribute isElement " << (m_element ? "true" : "false") << std::endl;
+    for (int h=0; h < m_enums.size(); h++) {
+        std::cout << "attribute enum      " << m_enums.at(h).toLatin1().data() << std::endl;
+    }
+    std::cout << "attribute hasMinLength " << (m_hasMinLength ? "true" : "false") << std::endl;
+    if (m_hasMinLength) {
+        std::cout << "attribute minLength " << m_minLength << std::endl;
+    }
+    std::cout << "attribute hasMaxLength " << (m_hasMaxLength ? "true" : "false") << std::endl;
+    if (m_hasMaxLength) {
+        std::cout << "attribute maxLength " << m_maxLength << std::endl;
+    }
+    std::cout << "attribute unbounded " << (m_unbounded ? "true" : "false") << std::endl;
+    std::cout << "attribute hasDigits " << (m_hasDigits ? "true" : "false") << std::endl;
+    if (m_hasDigits) {
+        std::cout << "attribute digits    " << m_digits << std::endl;
+    }
+    std::cout << "attribute hasMinExc " << (m_hasMinExclusive ? "true" : "false") << std::endl;
+    if (m_hasMinExclusive) {
+        std::cout << "attribute minExc    " << m_minExclusive << std::endl;
+    }
+    std::cout << "attribute hasMaxExc " << (m_hasMaxExclusive ? "true" : "false") << std::endl;
+    if (m_hasMaxExclusive) {
+        std::cout << "attribute maxExc    " << m_maxExclusive << std::endl;
+    }
+    std::cout << "attribute hasMinInc " << (m_hasMinInclusive ? "true" : "false") << std::endl;
+    if (m_hasMinInclusive) {
+        std::cout << "attribute minInc    " << m_minInclusive << std::endl;
+    }
+    std::cout << "attribute hasMaxInc " << (m_hasMaxInclusive ? "true" : "false") << std::endl;
+    if (m_hasMaxInclusive) {
+        std::cout << "attribute maxInc    " << m_maxInclusive << std::endl;
+    }
+    std::cout << "-----------------------------------------------------" << std::endl;
 }
 
-void XSDAttribute::setElement(bool req) {
-	m_element = req;
-}
-
-void XSDAttribute::setRequired(bool req) {
-	m_required = req;
-}
-
-void XSDAttribute::setFixed(QString type) {
-	m_fixed = type;
-    m_isFixed = true;
+QString XSDAttribute::name() {
+    return m_name;
 }
 
 void XSDAttribute::setType(QString type) {
     //std::cout << QString("XSDAttribute %1: type: %2").arg(m_name, type).toLatin1().data() << std::endl;
-	m_type = type;
+    m_type = type;
 }
 
-void XSDAttribute::appendEnumeration(QString enum1) {
-    //std::cout << QString("XSDAttribute %1: enum: %2").arg(m_name, enum1).toLatin1().data() << std::endl;
-	m_enums.append(enum1);
+QString XSDAttribute::type() {
+    return m_type;
 }
 
-void XSDAttribute::setDigits(int length) {
-    m_hasDigits = true;
-	m_digits = length;
-	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
+void XSDAttribute::setFixed(QString type) {
+    m_fixed = type;
+    m_isFixed = true;
 }
 
-void XSDAttribute::setMinLength(int length) {
-	m_hasMinLength = true;
-	m_minLength = length;
-	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
+bool XSDAttribute::isFixed() {
+    return m_isFixed;
 }
 
-void XSDAttribute::setMaxLength(int length) {
-	m_hasMaxLength = true;
-	m_maxLength = length;
-	//std::cout << QString("XSDAttribute %1: maxLength: %2").arg(m_name, ""+length).toLatin1().data() << std::endl;
+QString XSDAttribute::fixed() {
+    return m_fixed;
 }
 
-void XSDAttribute::setUnbounded() {
-    m_unbounded = true;
+void XSDAttribute::setRequired(bool req) {
+    m_required = req;
 }
 
-QVector<QString> XSDAttribute::enumeration() {
-	return m_enums;
+bool XSDAttribute::required() {
+    return m_required;
 }
 
-bool XSDAttribute::hasMinLength() {
-	return m_hasMinLength;
+void XSDAttribute::setDocumentation(QString doc) {
+    m_doc = doc;
 }
 
-bool XSDAttribute::hasMin() {
-	return m_hasMin;
+QString XSDAttribute::doc() {
+    return m_doc;
 }
 
-bool XSDAttribute::hasDigits() {
-	return m_hasDigits;
+void XSDAttribute::setElement(bool req) {
+    m_element = req;
+}
+
+// create a scalar for unbounded or bounded entries
+bool XSDAttribute::isScalar() {
+    return m_unbounded || ((m_maxLength > 1) && m_element);
 }
 
 bool XSDAttribute::isSimpleElement() {
     // simple elements are elements (data members)
     // which have a type (like xs:string)
     return m_element && (m_type != m_name);
-} 
-
-bool XSDAttribute::isElement() {    
-	return m_element;
 }
 
-bool XSDAttribute::hasMaxLength() {
-	return m_hasMaxLength;
+bool XSDAttribute::isElement() {
+    return m_element;
 }
 
-bool XSDAttribute::hasMax() {
-	return m_hasMax;
+void XSDAttribute::appendEnumeration(QString enum1) {
+    m_enums.append(enum1);
 }
 
-int XSDAttribute::minLength() {
-	return m_minLength;
+QVector<QString> XSDAttribute::enumeration() {
+    return m_enums;
 }
 
-int XSDAttribute::maxLength() {
-	return m_maxLength;
+void XSDAttribute::setMinLength(int length) {
+    m_hasMinLength = true;
+    m_minLength = length;
 }
 
-int XSDAttribute::min() {
-	return m_min;
-}
-
-int XSDAttribute::max() {
-	return m_max;
-}
-
-int XSDAttribute::digits() {
-	return m_digits;
-}
-
-bool XSDAttribute::isUnbounded() {
-	return m_unbounded;
-}
-
-// create a scalar for unbounded or bounded entries
-bool XSDAttribute::isScalar() {
-	return m_unbounded || ((m_max > 1) && m_element);
+bool XSDAttribute::hasMinLength() {
+    return m_hasMinLength;
 }
 
 void XSDAttribute::setMinOccurs(int min) {
-	m_hasMin = true;
-	m_min = min;
-	//std::cout << QString("XSDAttribute %1: min: %2").arg(m_name, ""+min).toLatin1().data() << std::endl;
+    m_hasMinLength = true;
+    m_minLength = min;
 }
 
-bool XSDAttribute::required() {
-	return m_required;
+int XSDAttribute::minLength() {
+    return m_minLength;
 }
 
-bool XSDAttribute::isFixed() {
-	return m_isFixed;
-}
-
-QString XSDAttribute::fixed() {
-	return m_fixed;
-}
-
-QString XSDAttribute::doc() {
-	return m_doc;
-}
-
-void XSDAttribute::setDocumentation(QString doc) {
-	m_doc = doc;
-}
-
-QString XSDAttribute::name() {
-	return m_name;
-}
-
-QString XSDAttribute::type() {
-	return m_type;
+void XSDAttribute::setMaxLength(int length) {
+    m_hasMaxLength = true;
+    m_maxLength = length;
 }
 
 void XSDAttribute::setMaxOccurs(int max) {
-	m_hasMax = true;
-	m_max = max;
-	//std::cout << QString("XSDAttribute %1: max: %2").arg(m_name, ""+max).toLatin1().data() << std::endl;
+    m_hasMaxLength = true;
+    m_maxLength = max;
+}
+
+bool XSDAttribute::hasMaxLength() {
+    return m_hasMaxLength;
+}
+
+int XSDAttribute::maxLength() {
+    return m_maxLength;
+}
+
+void XSDAttribute::setUnbounded() {
+    m_unbounded = true;
+}
+
+bool XSDAttribute::isUnbounded() {
+    return m_unbounded;
+}
+
+void XSDAttribute::setDigits(int length) {
+    m_hasDigits = true;
+    m_digits = length;
+}
+
+bool XSDAttribute::hasDigits() {
+    return m_hasDigits;
+}
+
+int XSDAttribute::digits() {
+    return m_digits;
+}
+
+void XSDAttribute::setMinExclusive(double min) {
+    m_hasMinExclusive = true;
+    m_minExclusive = min;
+}
+
+bool XSDAttribute::hasMinExclusive() {
+    return m_hasMinExclusive;
+}
+
+double XSDAttribute::minExclusive() {
+    return m_minExclusive;
+}
+
+void XSDAttribute::setMaxExclusive(double max) {
+    m_hasMaxExclusive = true;
+    m_maxExclusive = max;
+}
+
+bool XSDAttribute::hasMaxExclusive() {
+    return m_hasMaxExclusive;
+}
+
+double XSDAttribute::maxExclusive() {
+    return m_maxExclusive;
+}
+
+void XSDAttribute::setMinInclusive(double min) {
+    m_hasMinInclusive = true;
+    m_minInclusive = min;
+}
+
+bool XSDAttribute::hasMinInclusive() {
+    return m_hasMinInclusive;
+}
+
+double XSDAttribute::minInclusive() {
+    return m_minInclusive;
+}
+
+void XSDAttribute::setMaxInclusive(double max) {
+    m_hasMaxInclusive = true;
+    m_maxInclusive = max;
+}
+
+bool XSDAttribute::hasMaxInclusive() {
+    return m_hasMaxInclusive;
+}
+
+double XSDAttribute::maxInclusive() {
+    return m_maxInclusive;
 }
