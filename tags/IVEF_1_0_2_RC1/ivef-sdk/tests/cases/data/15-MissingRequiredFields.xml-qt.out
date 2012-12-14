@@ -1,0 +1,10 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+        Version = String
+    Body
+        Ping
+            TimeStamp =    
+Body:Ping:TimeStamp not set
+TestApp shutting down
