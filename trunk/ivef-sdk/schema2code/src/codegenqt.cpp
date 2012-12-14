@@ -45,7 +45,7 @@ QString dateToString(QString varName) {
 }
 
 QString dateFromString(QString varName) {
-    
+
     return "QDateTime::fromString(" + varName + ", Qt::ISODate)";
 }
 
@@ -54,8 +54,8 @@ QString CodeGenQT::sizeEvaluatorForType (QString type, QString varName) {
         return varName + ".length()";
     else if (type == "xs:hexBinary") // or should it by a QByteArray?
         return varName + ".size()";
-    else 
-        return varName; 
+    else
+        return varName;
 }
 
 QString CodeGenQT::localType(QString type) {
@@ -82,7 +82,7 @@ QString CodeGenQT::localType(QString type) {
 bool CodeGenQT::knownType(QString type) {
     if (type == "xs:string")
         return true;
-    else if (type == "xs:hexBinary") 
+    else if (type == "xs:hexBinary")
         return true;
     else if (type == "xs:boolean")
         return true;
@@ -134,7 +134,7 @@ QString CodeGenQT::methodName(QString name) {
 }
 
 QString CodeGenQT::variableName(QString name) {
-    
+
     if (name.mid(1,1).toUpper() == name.mid(1,1)) { // if second char is uppercase
         return "m_" + name;
     } else {
@@ -143,7 +143,7 @@ QString CodeGenQT::variableName(QString name) {
 }
 
 QString CodeGenQT::longestCommonPrefix(QStringList strings) {
-    
+
     if (strings.size() < 1) {
         return ""; // not good
     }
@@ -153,7 +153,7 @@ QString CodeGenQT::longestCommonPrefix(QStringList strings) {
     // take the first item as initial prefix
     QString prefix = strings.at(0);
     int length = prefix.length();
-    
+
     // compare the current prefix with the prefix of the same length of the other items
     foreach(QString item, strings) {
         // check if there is a match; if not, decrease the prefix by one character at a time
@@ -162,13 +162,13 @@ QString CodeGenQT::longestCommonPrefix(QStringList strings) {
             prefix = prefix.left(length);
         }
     }
-    
+
     // if no common prefix, return value will be ""
     return prefix;
 }
 
 QString CodeGenQT::writeHeader(QString fileName) {
-    
+
     QString header;
     header.append( "/* \n" );
     header.append( " *  " + fileName + "\n" );
@@ -190,12 +190,12 @@ QString CodeGenQT::writeHeader(QString fileName) {
     header.append( " *  Copyright 2010\n" );
     header.append( " *\n" );
     header.append( " */\n\n" );
-    
+
     return header;
 }
 
 void CodeGenQT::go() {
-    
+
     QDir outDir( m_outDir );
     if ( !outDir.exists() )
     {
@@ -266,17 +266,17 @@ void CodeGenQT::classFiles() {
         // for all objects
         XSDObject *obj1 = m_objects.at(i);
         obj1->setSimpleElement(false); // assume not a simple element
-        
+
         // find if there is another object that refers to the obj
         for(int h=0; h < m_objects.size(); h++) {
-            
+
             XSDObject *obj2 = m_objects.at(h);
-            
+
             // refers means obj2 has an attribute of type obj1
             for(int j=0; j < obj2->attributes().size(); j++) {
                 XSDAttribute *attr = obj2->attributes().at(j);
                 QString objType = attr->type();
-                
+
                 // if obj1 is a simple element of obj2 we don't need to generate a class for it
                 if (attr->isSimpleElement() && attr->name() == obj1->name()) {
                     //std::cout << QString("Should i ignore attr: %1 for obj2 %2 obj1 %3?").arg(attr->name(), obj2->name(), obj1->name()).toLatin1().data() << std::endl;
@@ -289,7 +289,7 @@ void CodeGenQT::classFiles() {
                 }
             }
         }
-        
+
         // find out what our namespace is
         if (obj1->name() == "Schema") {
             for(int j=0; j < obj1->fixedValues().size(); j++) {
@@ -302,11 +302,11 @@ void CodeGenQT::classFiles() {
             }
         }
     }
-    
+
     for(int i=0; i < m_objects.size(); i++) {
         // get a class
         XSDObject *obj = m_objects.at(i);
-        
+
         // get some vars we frequently use
         QString name = obj->name();
         QString upperName = name.toUpper();
@@ -318,10 +318,10 @@ void CodeGenQT::classFiles() {
             std::cout << QString("skipping class: %1").arg(className(name)).toLatin1().data() << std::endl;
             continue;
         }
-        
+
         // report
         std::cout << QString("creating class: %1").arg(className(name)).toLatin1().data() << std::endl;
-        
+
         // open the header file
         QFile headerFile(m_outDir + "/include/" + fileBaseName(name) + ".h");
         if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -329,7 +329,7 @@ void CodeGenQT::classFiles() {
             std::exit(3);
         }
         QTextStream headerFileOut(&headerFile);
-        
+
         // and the class file
         QFile classFile(m_outDir + "/src/" + fileBaseName(name) + ".cpp");
         if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -337,12 +337,12 @@ void CodeGenQT::classFiles() {
             std::exit(3);
         }
         QTextStream classFileOut(&classFile);
-        
+
         //-----------------------------------------------------------------------------------------------
         // generate the header
         //-----------------------------------------------------------------------------------------------
         headerFileOut << writeHeader( className(name) );
-        
+
         headerFileOut << "#ifndef __" << upperName << "_H__\n";
         headerFileOut << "#define __" << upperName << "_H__\n\n";
         headerFileOut << "#include <QObject>\n";
@@ -368,13 +368,13 @@ void CodeGenQT::classFiles() {
             docu.replace("\n", "\\n\n//! ");
             docu.replace("\r", "");
         }
-        
+
         headerFileOut << "\n//-----------------------------------------------------------\n";
         headerFileOut << "//! \\brief       Class definition of " << className(name) << "\n";
         headerFileOut << "//!\n";
         headerFileOut << "//! " << docu << "\n";
         headerFileOut << "//!\n";
-        
+
         // define the class
         QString baseClass = "QObject";
         if (obj->hasBaseClass()) {
@@ -382,13 +382,13 @@ void CodeGenQT::classFiles() {
         }
         headerFileOut << "class " << className(name) << " : public " << baseClass << " { \n";
         headerFileOut << "    Q_OBJECT\n\n";
-        
+
         // public section
         headerFileOut << "public:\n";
         headerFileOut << "    //! constructor\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    " << className(name) << "();\n";
-        
+
         headerFileOut << "    //! constructor for parser function\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    " << className(name) << "(XmlStreamReader&);\n";
@@ -396,26 +396,26 @@ void CodeGenQT::classFiles() {
         headerFileOut << "    //! copy constructor\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    " << className(name) << "(const " << className(name) << "&);\n";
-        
+
         headerFileOut << "    //! = operator\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    " << className(name) << " & operator=(const " << className(name) << "& val);\n"; // = operator
-        
+
         headerFileOut << "    //! == operator\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    bool operator==(const " << className(name) << "& val);\n"; // = operator
-        
+
         // all attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString type = localType(attr->type()); // convert to cpp types
             QString doc = attr->doc();
-            
+
             if (doc != "") { // there is documentation
                 doc.replace("\n", "\\n\n    //! ");
                 doc.replace("\r", "");
             }
-            
+
             if (attr->isScalar()) { // there more then one
                 // issue 72 delete
                 headerFileOut << "    //! removes a " << methodName(attr->name()) << ".\n";
@@ -444,7 +444,7 @@ void CodeGenQT::classFiles() {
                 headerFileOut << "    //! \\return     int\n";
                 headerFileOut << "    int countOf" << methodName(attr->name()) << "s() const;\n\n";
             } else {
-                
+
                 // setter
                 if (doc != "")
                     headerFileOut << "    //! sets the " << methodName(attr->name()) << ": " << doc << "\n";
@@ -481,9 +481,9 @@ void CodeGenQT::classFiles() {
         for(int j=0; j < fixedValues.size(); j++) {
             QString attrName = fixedValues.keys().at(j);
             QString type = "QString"; // always a string
-            
-            
-            
+
+
+
             // getter
             headerFileOut << "    //! gets the " << methodName(attrName) << "\n";
             headerFileOut << "    //!\n";
@@ -491,29 +491,29 @@ void CodeGenQT::classFiles() {
             headerFileOut << "    //!\n";
             headerFileOut << "    " << type << " get" << methodName(attrName) << "() const;\n";
         }
-        
+
         headerFileOut << "    //! generates XML of this object including attributes and child elements\n";
         headerFileOut << "    //! returns QString::null if not all required elements are available\n";
         headerFileOut << "    //! If null returned check lastError() for problem description\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    const QString& toXML();\n\n";
-        
+
         headerFileOut << "    //! generates output of this object including attributes and child elements\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    QString toString() const;\n\n";
-        
+
         headerFileOut << "    //! generates output of this object including attributes and child elements\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    QString toString(QString lead) const;\n\n";
-       
+
         headerFileOut << "    //! return last error found in toXML function\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    const QString& lastError() const;\n\n";
- 
+
         headerFileOut << "    //! return changed \n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     bool\n";
@@ -527,7 +527,7 @@ void CodeGenQT::classFiles() {
 
         // private section
         headerFileOut << "\nprivate:\n";
-        
+
         // all attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -542,7 +542,7 @@ void CodeGenQT::classFiles() {
                 //}
             }
         }
-        
+
         // close the header
         headerFileOut << "    QString m_lastError; \n";
         headerFileOut << "    bool m_changed; \n";
@@ -552,11 +552,11 @@ void CodeGenQT::classFiles() {
             headerFileOut << "} //end ns\n";
         }
         headerFileOut << "\n#endif\n";
-        
+
         // close and flush
         headerFileOut.flush();
         headerFile.close();
-        
+
         //-----------------------------------------------------------------------------------------------
         // create the class file
         //-----------------------------------------------------------------------------------------------
@@ -565,7 +565,7 @@ void CodeGenQT::classFiles() {
         classFileOut << "#include \"" << fileBaseName("Functions") << ".h\"\n";
 
         classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
-        
+
         if ( m_namespace ) {
             classFileOut << "namespace " << nameSpaceName() << " {\n\n";
         }
@@ -575,7 +575,7 @@ void CodeGenQT::classFiles() {
         classFileOut << className(name) << "::" << className(name) << "()";
         classFileOut << attributeConstructor( attributes );
         classFileOut << "\n{\n}\n\n";
-        
+
         // constructor for parser function
         classFileOut << "// Constructor for parser function\n";
         classFileOut << className(name) << "::" << className(name) << "(XmlStreamReader& xml)";
@@ -721,7 +721,7 @@ void CodeGenQT::classFiles() {
         classFileOut << ",\n    m_store(val.m_store )";
 
         classFileOut << "\n{\n}\n\n";
-        
+
         // == operator
         classFileOut << "// compare\n";
         classFileOut << "bool " << className(name) << "::operator==(const " << className(name) << " &val) {\n\n";
@@ -738,7 +738,7 @@ void CodeGenQT::classFiles() {
         }
         classFileOut << "    return true;\n";
         classFileOut << "}\n\n";
-        
+
         // = operator
         classFileOut << "// assignement\n";
         classFileOut << className(name) << " & " << className(name) << "::operator=(const " << className(name) << " &val) {\n\n";
@@ -759,7 +759,7 @@ void CodeGenQT::classFiles() {
         classFileOut << "    m_store = val.m_store;\n";
         classFileOut << "    return *this;\n";
         classFileOut << "}\n\n";
-        
+
         // methods for attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -773,8 +773,8 @@ void CodeGenQT::classFiles() {
                 else
                     classFileOut << "bool " << className(name) << "::remove" << methodName(attr->name()) << "(" << type << " val) {\n\n";
 
-                if (attr->hasMin()) { 
-                    classFileOut << "    if ("<< variableName(attr->name()) << "s.count() <= " << attr->min() << ") {\n";                   
+                if (attr->hasMinLength()) {
+                    classFileOut << "    if ("<< variableName(attr->name()) << "s.count() <= " << attr->minLength() << ") {\n";
                     classFileOut << "        return false; // scalar already at minOccurs\n";
                     classFileOut << "    }\n";
                 }
@@ -789,13 +789,12 @@ void CodeGenQT::classFiles() {
                 else
                     classFileOut << "bool " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n\n";
 
-                if (attr->hasMax()) { // issue 26
-                    classFileOut << "          if ("<< variableName(attr->name()) << "s.count() >= " << attr->max() << ") {\n";                   
-                    classFileOut << "              m_changed = true;\n";
+                if (attr->hasMaxLength()) { // issue 26
+                    classFileOut << "          if ("<< variableName(attr->name()) << "s.count() >= " << attr->maxLength() << ") {\n";
                     classFileOut << "              return false; // scalar already at maxOccurs\n";
                     classFileOut << "          }\n";
                 }
-                
+
                 classFileOut << "    " << variableName(attr->name()) << "s.append(val);\n";
                 classFileOut << "    m_changed = true;\n";
                 classFileOut << "    return true;\n";
@@ -821,13 +820,13 @@ void CodeGenQT::classFiles() {
                     classFileOut << "bool " << className(name) << "::set" << methodName(attr->name()) << "(" << type << " val) {\n";
                 QVector<QString> enums = attr->enumeration();
                 if (enums.size() > 0) { // there are enumeration constraints for this item
-                    
+
                     // strings should be between quotes, numbers not
                     QString quote;
                     if (type == "QString") {
                         quote = "\"";
                     }
-                    
+
                     classFileOut << "// check if the new value is an approved value \n";
                     classFileOut << "\n    if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
                     for (int h=1; h < enums.size(); h++) {
@@ -838,34 +837,48 @@ void CodeGenQT::classFiles() {
                 /////////////issue 72 start
                 // check for strings too! you never have a min and a minLength!
                 if (attr->hasMinLength() && knownType(attr->type())) {
-                    
+
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-                    
+
                     classFileOut << "    // check if the new value is within bounds \n";
                     classFileOut << "\n    if (" << evaluator << " < " << attr->minLength() << ")\n        return false;";
                 }
                 // check for strings too!
                 if (attr->hasMaxLength() && knownType(attr->type())) {
-                    
+
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-                    
+
                     classFileOut << "    // check if the new value is within bounds \n";
                     classFileOut << "\n    if (" << evaluator << " > " << attr->maxLength() << ")\n        return false;";
                 }
                 /////////////issue 72 end
-                if (attr->hasMin() && knownType(attr->type())) {
-                    
+                if (attr->hasMinExclusive() && knownType(attr->type())) {
+
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-                    
+
                     classFileOut << "    // check if the new value is within bounds \n";
-                    classFileOut << "\n    if (" << evaluator << " < " << attr->min() << ")\n        return false;";
+                    classFileOut << "\n    if (" << evaluator << " <= " << attr->minExclusive() << ")\n        return false;";
                 }
-                if (attr->hasMax() && knownType(attr->type())) {
-                    
+                if (attr->hasMaxExclusive() && knownType(attr->type())) {
+
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-                    
+
                     classFileOut << "    // check if the new value is within bounds \n";
-                    classFileOut << "\n    if (" << evaluator << " > " << attr->max() << ")\n        return false;";
+                    classFileOut << "\n    if (" << evaluator << " >= " << attr->maxExclusive() << ")\n        return false;";
+                }
+                if (attr->hasMinInclusive() && knownType(attr->type())) {
+
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+
+                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    if (" << evaluator << " < " << attr->minInclusive() << ")\n        return false;";
+                }
+                if (attr->hasMaxInclusive() && knownType(attr->type())) {
+
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+
+                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    if (" << evaluator << " > " << attr->maxInclusive() << ")\n        return false;";
                 }
                 //if (!attr->required() || obj->isMerged()) { // issue 21
                 classFileOut << "\n    " << variableName(attr->name()) << "Present = true;";
@@ -874,7 +887,7 @@ void CodeGenQT::classFiles() {
                 classFileOut << "    m_changed = true;\n";
                 classFileOut << "    return true;\n";
                 classFileOut << "}\n\n";
-                
+
                 // getter
                 classFileOut << "// getter for " << className(name) << "\n";
                 if ( attr->isElement() )
@@ -882,7 +895,7 @@ void CodeGenQT::classFiles() {
                 else
                     classFileOut << type << " " << className(name) << "::get" << methodName(attr->name()) << "() const {\n";
                 classFileOut << "\n    return " << variableName(attr->name()) << ";\n}\n\n";
-                
+
                 if (!attr->required() || obj->isMerged()) { // issue 21 present only optional attributes on the interface
                     classFileOut << "// check if optional element " << className(name) << " has been set\n";
                     classFileOut << "bool " << className(name) << "::has" << methodName(attr->name()) << "() const {\n";
@@ -890,19 +903,19 @@ void CodeGenQT::classFiles() {
                 }
             }
         }
-        
+
         // and fixed values
         for(int j=0; j < fixedValues.size(); j++) {
             QString attrName = fixedValues.keys().at(j);
             QString attrValue = fixedValues.values().at(j);
             QString type = "QString"; // always a string
-            
+
             // getter
             classFileOut << "// getter for " << className(name) << "\n";
             classFileOut << type << " " << className(name) << "::get" << methodName(attrName) << "() const {\n";
             classFileOut << "\n    return \"" << attrValue << "\";\n}\n\n";
         }
-        
+
         // xml generator
         // if attribute name and type are the same it means it was data
         classFileOut << "// Get XML Representation\n";
@@ -911,23 +924,23 @@ void CodeGenQT::classFiles() {
         classFileOut << "        const static QString endAttr( \"\\\"\" );\n";
         classFileOut << "        QString xml = \"<" << name << "\";\n"; // append attributes
         classFileOut << "        QString dataMember;\n"; // append attributes
-        
+
         // for attributes
         bool hasDataMembers = false;
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
-           /* 
+           /*
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR: item assumed to be attribute but is element: " << attr->name().toLatin1().data() << std::endl;
             }
-            
+
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR unknown attr :" <<  attr->name().toLatin1().data() <<  " mistaken for attribute" << std::endl;
             }
             */
             if (!attr->isElement()) {
-                
+
                 // non-qstring items (ints) may give problems, so convert them
                 QString varName = localTypeToString(attr, variableName(attr->name()), attr->enumeration().empty() && !attr->isFixed() );
 
@@ -948,28 +961,35 @@ void CodeGenQT::classFiles() {
                 }
             } else {
                 hasDataMembers = true;
-            } 
+            }
         }
-        
+
         // check for data members
         if (hasDataMembers) {
             classFileOut << "        xml.append(\">\\n\");\n"; // close the statement
-            
+
             // for data members
             for(int j=0; j < attributes.size(); j++) {
                 XSDAttribute *attr = attributes.at(j);
                 QString attrType = localType (attr->type());
-                
+
                 if ((attrType != attr->name()) && attr->isElement()) {
                     std::cout << "ERROR: item assumed to be attribute but is element: " << attr->name().toLatin1().data() << std::endl;
-                }                
-                
+                }
+
                 if (attr->isElement()) {
                     // check if the attribute exist
                     if (attr->isScalar() ) {
-                        if (attr->hasMin()) { // issue 26
-                            classFileOut << "        if (" << variableName(attr->name()) << "s.count() < " << attr->min() << ") {\n";
+                        if (attr->hasMinLength()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.count() < " << attr->minLength() << ") {\n";
                             classFileOut << "            m_lastError = \"not enough " << attr->name() << " values\";\n";
+                            classFileOut << "            m_store  = QString::null;\n";
+                            classFileOut << "            return m_store;\n";
+                            classFileOut << "        }\n";
+                        }
+                        if (attr->hasMaxLength()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.count() > " << attr->maxLength() << ") {\n";
+                            classFileOut << "            m_lastError = \"too much " << attr->name() << " values\";\n";
                             classFileOut << "            m_store  = QString::null;\n";
                             classFileOut << "            return m_store;\n";
                             classFileOut << "        }\n";
@@ -1035,37 +1055,37 @@ void CodeGenQT::classFiles() {
         else {
             classFileOut << "        xml.append(\"/>\\n\");\n"; // close the statement
         }
-        
+
         // close up
         classFileOut << "        m_store = xml;\n";
         classFileOut << "        m_changed = false;\n    }\n";
         classFileOut << "    return m_store;\n";
         classFileOut << "}\n\n";
-        
+
         // string generator
         // if attribute name and type are the same it means it was data
         classFileOut << "// Get String Representation\n";
         classFileOut << "QString " << className(name) << "::toString() const{\n\n";
         classFileOut << "    return toString(\"\");\n";
         classFileOut << "}\n\n";
-        
+
         classFileOut << "// Get String Representation with a lead\n";
         classFileOut << "QString " << className(name) << "::toString(QString lead) const{\n\n";
         classFileOut << "    const static QString endAttr( \"\\n\" );\n";
         classFileOut << "    QString str = lead + \"" << name << "\\n\";\n"; // append attributes
-        
+
         // for attributes
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
             QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to cpp types
-            
+
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR: item assumed to be attribute but is element: " << attr->name().toLatin1().data() << std::endl;
-            }            
-            
+            }
+
             if (!attr->isElement()) {
-                
+
                 // non-qstring items (ints) may give problems, so convert them
                 QString varName = localTypeToString(attr, variableName(attr->name()), false);
                 // check if the attribute exist
@@ -1078,7 +1098,7 @@ void CodeGenQT::classFiles() {
                 }
             }
         }
-        
+
         // for data members
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -1086,8 +1106,8 @@ void CodeGenQT::classFiles() {
 
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR: item assumed to be attribute but is element: " << attr->name().toLatin1().data() << std::endl;
-            }            
-            
+            }
+
             if (attr->isElement()) {
                 // check if the attribute exist
                 if (attr->isScalar() ) {
@@ -1121,7 +1141,7 @@ void CodeGenQT::classFiles() {
                 }
             }
         }
-        
+
         // close up
         classFileOut << "    return str;\n";
         classFileOut << "}\n\n";
@@ -1134,13 +1154,13 @@ void CodeGenQT::classFiles() {
 
         classFileOut << "const QString& " << className(name) <<"::store() const {\n";
         classFileOut << "    return m_store;\n}\n\n";
-        
+
         // round up
         if ( m_namespace ) {
             classFileOut << "\n} //end ns";
         }
         classFileOut << "\n";
-        
+
         // close and flush
         classFileOut.flush();
         classFile.close();
@@ -1152,17 +1172,17 @@ void CodeGenQT::parserFile() {
     //-----------------------------------------------------------------------------------------------
     // now generate the parser
     //-----------------------------------------------------------------------------------------------
-    
+
     // open the header file
     QString name = "Parser";
-    
+
     QFile headerFile(m_outDir + "/include/" + fileBaseName(name) + ".h");
     if (!headerFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
         std::cerr << QString("cannot create file: %1").arg(headerFile.fileName()).toLatin1().data() << std::endl;
         std::exit(3);
     }
     QTextStream headerFileOut(&headerFile);
-    
+
     // and the parser file
     QFile classFile(m_outDir + "/src/" +  fileBaseName(name) + ".cpp");
     if (!classFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -1170,18 +1190,18 @@ void CodeGenQT::parserFile() {
         std::exit(3);
     }
     QTextStream classFileOut(&classFile);
-    
+
     // generate the header
     headerFileOut << writeHeader( className(name) );
     headerFileOut << "#ifndef __" << name.toUpper() << "_H__\n";
     headerFileOut << "#define __" << name.toUpper() << "_H__\n\n";
-    
+
     // include dependend files
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ( !obj->isEmbedded() && (obj->name() != "Schema") && !obj->isSimpleElement()) {
             headerFileOut << "#include \"" << fileBaseName(obj->name()) << ".h\"\n";
-        } 
+        }
     }
     headerFileOut << "class XmlStreamReader;\n";
 
@@ -1191,11 +1211,11 @@ void CodeGenQT::parserFile() {
     headerFileOut << "\n//-----------------------------------------------------------\n";
     headerFileOut << "//! \\brief       Class definition of " << className(name) << "\n";
     headerFileOut << "//!\n";
-    
+
     // define the class
     headerFileOut << "class " << className(name) << " : public QObject { \n";
     headerFileOut << "    Q_OBJECT\n\n";
-    
+
     // public section
     headerFileOut << "public:\n";
     headerFileOut << "    //!constructor\n";
@@ -1204,7 +1224,7 @@ void CodeGenQT::parserFile() {
     headerFileOut << "    //!the actual parse routine\n";
     headerFileOut << "    //!\n";
     headerFileOut << "    bool parseXMLString(QString data, bool cont);\n";
-    
+
     // define the signals
     headerFileOut << "\nsignals:\n";
     headerFileOut << "    //!signals fired by the parser when a new object has been parsed\n";
@@ -1227,12 +1247,12 @@ void CodeGenQT::parserFile() {
 
     // issue 69
     headerFileOut << "    void signalValidationError(const QString& errorStr);\n";
-    
+
     // private section
     headerFileOut << "\nprivate:\n";
     headerFileOut << "    void parse();\n";
     headerFileOut << "    XmlStreamReader* m_xml;\n";
-    
+
     // close the header
     headerFileOut << "\n};\n";
     if ( m_namespace ) {
@@ -1240,16 +1260,16 @@ void CodeGenQT::parserFile() {
     }
 
     headerFileOut << "\n#endif\n";
-    
+
     // close and flush
     headerFileOut.flush();
     headerFile.close();
-    
+
     // The class file
     classFileOut << "#include <QRegExp>\n";
     classFileOut << "\n#include \"" << fileBaseName("Functions") << ".h\"\n\n";
     classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
-    
+
     if ( m_namespace ) {
         classFileOut << "namespace " << nameSpaceName() << " {\n\n";
     }
@@ -1260,12 +1280,12 @@ void CodeGenQT::parserFile() {
     classFileOut << "    connect( m_xml, SIGNAL(signalValidationError(const QString&)),\n";
     classFileOut << "             this,  SIGNAL(signalValidationError(const QString&)) );\n";
     classFileOut << "}\n\n";
-    
+
     // the parseXMLString routine
     classFileOut << "// the actual parsing routine\n";
     classFileOut << "bool " << className(name) << "::parseXMLString(QString data, bool cont) { \n\n";
     classFileOut << "     // add the data to what was left over from a previous parse run\n";
-    
+
     // count the number of messages
     QStringList closeTags, rootObjects;
     for(int i=0; i < m_objects.size(); i++) {
@@ -1275,7 +1295,7 @@ void CodeGenQT::parserFile() {
             closeTags.append("</" + obj->name() + ">");
         }
     }
-    
+
     // Issue 40 start
     // build a regexp for the rootTags
     QString regExp;
@@ -1285,7 +1305,7 @@ void CodeGenQT::parserFile() {
     } else {
         regExp = closeTags.join("|");
     }
-    
+
     // we search the buffer for any close tag that matches our regexp
     classFileOut << "    // search the buffer for the nearest closetag\n";
     classFileOut << "    int index = 0;\n";
@@ -1309,10 +1329,10 @@ void CodeGenQT::parserFile() {
     classFileOut << "    if (!cont) {\n";
     classFileOut << "        m_xml->clear();\n";
     classFileOut << "    }\n";
-    
+
     classFileOut << "    return true;\n";
     classFileOut << "}\n\n"; // close method
-    
+
     classFileOut << "QString composeMessage( const QXmlStreamReader& xml ) {\n";
     classFileOut << "    QString errorstr( xml.errorString() );\n";
     classFileOut << "    errorstr += \" at line \" + QString::number(xml.lineNumber());\n";
@@ -1380,7 +1400,7 @@ void CodeGenQT::parserFile() {
     if ( m_namespace ) {
         classFileOut << "} //end ns\n";
     }
-    
+
     // close and flush
     classFileOut.flush();
     classFile.close();

@@ -349,8 +349,8 @@ void CodeGenJava::go() {
                 // remover
                 classFileOut << "    public boolean " << "remove" << methodName(attr->name()) << "(" << type << " val) {\n";
 
-                if (attr->hasMin()) { 
-                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() <= " << attr->min() << ") {\n";
+                if (attr->hasMinLength()) {
+                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() <= " << attr->minLength() << ") {\n";
                     classFileOut << "              return false; // scalar already at minOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -360,8 +360,8 @@ void CodeGenJava::go() {
                 // setter
                 classFileOut << "    public boolean " << "add" << methodName(attr->name()) << "(" << type << " val) {\n";
 
-                if (attr->hasMax()) { // issue 26
-                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() >= " << attr->max() << ") {\n";
+                if (attr->hasMaxLength()) { // issue 26
+                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() >= " << attr->maxLength() << ") {\n";
                     classFileOut << "              return false; // scalar already at maxOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -396,7 +396,7 @@ void CodeGenJava::go() {
                     }
                     classFileOut <<    ")\n            return false;";
                 }
-		// issue 72
+        // issue 72
                 if (attr->hasMinLength() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
                     classFileOut << "\n        if (" << evaluator << " < " << attr->minLength() << ")\n          return false;";
@@ -405,14 +405,22 @@ void CodeGenJava::go() {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
                     classFileOut << "\n        if (" << evaluator << " > " << attr->maxLength() << ")\n          return false;";
                 }
-		// issue 72 end
-                if (attr->hasMin() && knownType(attr->type()) ) {
+        // issue 72 end
+                if (attr->hasMinExclusive() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-                    classFileOut << "\n        if (" << evaluator << " < " << attr->min() << ")\n          return false;";
+                    classFileOut << "\n        if (" << evaluator << " <= " << attr->minExclusive() << ")\n          return false;";
                 }
-                if (attr->hasMax() && knownType(attr->type()) ) {
+                if (attr->hasMaxExclusive() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
-                    classFileOut << "\n        if (" << evaluator << " > " << attr->max() << ")\n          return false;";
+                    classFileOut << "\n        if (" << evaluator << " >= " << attr->maxExclusive() << ")\n          return false;";
+                }
+                if (attr->hasMinInclusive() && knownType(attr->type()) ) {
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+                    classFileOut << "\n        if (" << evaluator << " < " << attr->minInclusive() << ")\n          return false;";
+                }
+                if (attr->hasMaxInclusive() && knownType(attr->type()) ) {
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+                    classFileOut << "\n        if (" << evaluator << " > " << attr->maxInclusive() << ")\n          return false;";
                 }
                 //if (!attr->required() || obj->isMerged()) {// issue 21
                 classFileOut << "\n        " << variableName(attr->name()) << "Present = true;";
@@ -510,14 +518,14 @@ void CodeGenJava::go() {
                 if (attr->isElement()) { // issue 73
                     // check if the attribute exist
                     if (attr->isScalar()) {
-                        if (attr->hasMin()) { // issue 26
-                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->min() << ") {\n";
+                        if (attr->hasMinLength()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->minLength() << ") {\n";
                             classFileOut << "            return null; // not enough values\n";
                             classFileOut << "        }\n";
                         }
-                        if (attr->hasMin()) { // issue 26
-                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->min() << ") {\n";
-                            classFileOut << "            return null; // not enough values\n";
+                        if (attr->hasMaxLength()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() > " << attr->maxLength() << ") {\n";
+                            classFileOut << "            return null; // too much values\n";
                             classFileOut << "        }\n";
                         }
                         classFileOut << "        for(int i=0; i < " << variableName(attr->name()) << "s.size(); i++ ) {\n";

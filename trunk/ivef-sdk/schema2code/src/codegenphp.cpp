@@ -88,14 +88,14 @@ QString CodeGenPHP::stringConversionForAttribute(XSDAttribute *attr) {
     // dates are stored in strings
     /*if (attrType == "xs:dateTime") {
         varName = "date(\"Y-m-d\\TH:i:sZ\" ," + variableName(attr->name()) + ")";
-    } else */if (type == "double") { 
+    } else */if (type == "double") {
         if (attr->hasDigits()) {
-            varName = "number_format(" + variableName(attr->name()) + ", " + QString::number(attr->digits()) + ")"; 
+            varName = "number_format(" + variableName(attr->name()) + ", " + QString::number(attr->digits()) + ")";
         } else {
             varName = "number_format(" + variableName(attr->name()) + ", 6)"; // default
         }
     }
-                
+
     return varName;
 }
 
@@ -123,7 +123,7 @@ QString CodeGenPHP::variableNameDef(QString name) {
     } else {
         return "$m_" + name.replace(0, 1, name.left(1).toLower());
     }
-} 
+}
 
 QString CodeGenPHP::variableName(QString name) { // reference is different from definition
 
@@ -295,14 +295,14 @@ void CodeGenPHP::go() {
             QString type = localType(attr->type()); // convert to php types
             if (attr->isFixed()) {
                 classFileOut << "        " << variableName(attr->name()) << " = \"" << attr->fixed() << "\";\n";
-                classFileOut << "        " << variableName(attr->name()) << "Present = true;\n"; 
+                classFileOut << "        " << variableName(attr->name()) << "Present = true;\n";
             } else {
-                classFileOut << "        " << variableName(attr->name()) << "Present = false;\n"; 
+                classFileOut << "        " << variableName(attr->name()) << "Present = false;\n";
                 if (attr->isScalar()) { // there more then one
                     classFileOut << "        " << variableName(attr->name()) << "s = array();\n";
                 } else if (attr->isElement()) {
                     classFileOut << "        " << variableName(attr->name()) << " = new "<< type <<"();\n";
-		}
+        }
             }
         }
         classFileOut << "    }\n\n";
@@ -310,18 +310,17 @@ void CodeGenPHP::go() {
         // methods for attributes
         for (int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to php types
             if (attr->isScalar()) { // there more then one
                 // remover issue 70
                 classFileOut << "    public function " << "remove" << methodName(attr->name()) << "(" << type << " $val ) {\n";
 
-                if (attr->hasMax()) { 
-                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) <= " << attr->min() << ") {\n";
+                if (attr->hasMinLength()) {
+                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) <= " << attr->minLength() << ") {\n";
                     classFileOut << "              return false; // scalar already at minOccurs\n";
                     classFileOut << "          }\n";
                 }
-		classFileOut << "          for($i=0; $i< count(" << variableName(attr->name()) << "s); $i++) {\n";
+        classFileOut << "          for($i=0; $i< count(" << variableName(attr->name()) << "s); $i++) {\n";
                 classFileOut << "             if(" << variableName(attr->name()) << "s[i] == $val) {\n";
                 classFileOut << "                 unset(" << variableName(attr->name()) << "s[i]);\n";
                 classFileOut << "             }\n";
@@ -331,8 +330,8 @@ void CodeGenPHP::go() {
                 // setter
                 classFileOut << "    public function " << "add" << methodName(attr->name()) << "(" << type << " $val ) {\n";
 
-                if (attr->hasMax()) { 
-                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) >= " << attr->max() << ") {\n";
+                if (attr->hasMaxLength()) {
+                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) >= " << attr->maxLength() << ") {\n";
                     classFileOut << "              return false; // scalar already at maxOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -366,23 +365,23 @@ void CodeGenPHP::go() {
                     }
                     classFileOut <<    ")\n            return false;";
                 }
-		// issue 72
-                if (attr->hasMinLength() && knownType(attr->type()) ) {
+        // issue 72
+                if (attr->hasMinExclusive() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
-                    classFileOut << "\n        if (" << evaluator << " < " << attr->minLength() << ")\n          return false;";
+                    classFileOut << "\n        if (" << evaluator << " <= " << attr->minExclusive() << ")\n          return false;";
                 }
-                if (attr->hasMaxLength() && knownType(attr->type()) ) {
+                if (attr->hasMaxExclusive() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
-                    classFileOut << "\n        if (" << evaluator << " > " << attr->maxLength() << ")\n          return false;";
+                    classFileOut << "\n        if (" << evaluator << " >= " << attr->maxExclusive() << ")\n          return false;";
                 }
-		// issue 72
-                if (attr->hasMin() && knownType(attr->type()) ) {
+        // issue 72
+                if (attr->hasMinInclusive() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
-                    classFileOut << "\n        if (" << evaluator << " < " << attr->min() << ")\n          return false;";
+                    classFileOut << "\n        if (" << evaluator << " < " << attr->minInclusive() << ")\n          return false;";
                 }
-                if (attr->hasMax() && knownType(attr->type()) ) {
+                if (attr->hasMaxInclusive() && knownType(attr->type()) ) {
                     QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
-                    classFileOut << "\n        if (" << evaluator << " > " << attr->max() << ")\n          return false;";
+                    classFileOut << "\n        if (" << evaluator << " > " << attr->maxInclusive() << ")\n          return false;";
                 }
                 classFileOut << "\n        " << variableName(attr->name()) << "Present = true;";
                 classFileOut << "\n        " << variableName(attr->name()) << " = $val;\n";
@@ -391,7 +390,7 @@ void CodeGenPHP::go() {
                 // getter
                 classFileOut << "    public function get" << methodName(attr->name()) << "() {\n";
                 classFileOut << "\n        return " << variableName(attr->name()) << ";\n    }\n\n";
-                if (!attr->required() || obj->isMerged()) { 
+                if (!attr->required() || obj->isMerged()) {
                     classFileOut << "    public function has" << methodName(attr->name()) << "() {\n";
                     classFileOut << "\n        return " << variableName(attr->name()) << "Present;\n    }\n\n";
                 }
@@ -412,7 +411,7 @@ void CodeGenPHP::go() {
         // xml generator
         // if attribute name and type are the same it means it was data
         classFileOut << "    public function toXML() {\n\n";
-  	classFileOut << "        $xml = new SimpleXMLElement(\"<" << name << "></" << name << ">\");\n";
+    classFileOut << "        $xml = new SimpleXMLElement(\"<" << name << "></" << name << ">\");\n";
         classFileOut << "\n";
 
         // for attributes
@@ -420,19 +419,19 @@ void CodeGenPHP::go() {
         for (int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
 
-            if (!attr->isElement()) { 
+            if (!attr->isElement()) {
 
                 // non-qstring items (ints) may give problems, so convert them
-		QString varName = stringConversionForAttribute(attr);
+        QString varName = stringConversionForAttribute(attr);
 
                 // check if the attribute exist
                 if ((!attr->required() || obj->isMerged()) && !attr->isScalar()) {
                     classFileOut << "        if ( $this->has" << methodName(attr->name()) << "() ) {\n";
-	            classFileOut << "            $xml->addAttribute('"<< attr->name()<<"', " << varName << ");\n";
+                classFileOut << "            $xml->addAttribute('"<< attr->name()<<"', " << varName << ");\n";
                     classFileOut << "        }\n";
-                } else { 
+                } else {
                     classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n";
-	            classFileOut << "            $xml->addAttribute('"<< attr->name()<<"', " << varName << ");\n";
+                classFileOut << "            $xml->addAttribute('"<< attr->name()<<"', " << varName << ");\n";
                     classFileOut << "        } else { \n";
                     classFileOut << "            return \"\"; // not all required attributes have been set \n";
                     classFileOut << "        } \n";
@@ -445,26 +444,25 @@ void CodeGenPHP::go() {
             // for data members
             for (int j=0; j < attributes.size(); j++) {
                 XSDAttribute *attr = attributes.at(j);
-                QString attrType = attr->type();
 
-                if (attr->isElement()) { 
+                if (attr->isElement()) {
                     // check if the attribute exist
                     if (attr->isScalar()) {
-                        if (attr->hasMin()) { 
-                            classFileOut << "        if ( count(" << variableName(attr->name()) << "s) < " << attr->min() << ") {\n";
+                        if (attr->hasMinLength()) {
+                            classFileOut << "        if ( count(" << variableName(attr->name()) << "s) < " << attr->minLength() << ") {\n";
                             classFileOut << "            return \"\"; // not enough values\n";
                             classFileOut << "        }\n";
                         }
-                        if (attr->hasMin()) { 
-                            classFileOut << "        if ( count(" << variableName(attr->name()) << "s) < " << attr->min() << ") {\n";
-                            classFileOut << "            return \"\"; // not enough values\n";
+                        if (attr->hasMaxLength()) {
+                            classFileOut << "        if ( count(" << variableName(attr->name()) << "s) > " << attr->maxLength() << ") {\n";
+                            classFileOut << "            return \"\"; // too much values\n";
                             classFileOut << "        }\n";
                         }
                         classFileOut << "        foreach("<<  variableName(attr->name())<<"s as $attribute) {\n";
 
                         if (attr->isSimpleElement()) {
                             // non-qstring items (ints) may give problems, so convert them
-		            QString varName = stringConversionForAttribute(attr);
+                    QString varName = stringConversionForAttribute(attr);
                             classFileOut << "            $xml->addChild('" << attr->name() << "', " << varName << ");\n";
                         } else {
                             classFileOut << "        $dom = dom_import_simplexml($xml);\n";
@@ -479,7 +477,7 @@ void CodeGenPHP::go() {
                     } else if (!attr->required() || obj->isMerged()) {  // optional test for it
                         classFileOut << "        if ( $this->has" << methodName(attr->name()) << "() ) {\n";
                         if (attr->isSimpleElement()) {
-		            QString varName = stringConversionForAttribute(attr);
+                    QString varName = stringConversionForAttribute(attr);
                             classFileOut << "            $xml->addChild('" << attr->name() << "', " << varName << ");\n";
                         } else {
                             classFileOut << "            $dom = dom_import_simplexml($xml);\n";
@@ -492,7 +490,7 @@ void CodeGenPHP::go() {
                         }
                         classFileOut << "        } \n";
                     } else {  // required
-                        classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n"; 
+                        classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n";
                         classFileOut << "            $dom = dom_import_simplexml($xml);\n";
                         classFileOut << "            $child_as_xml = " << variableName(attr->name()) << "->toXML();\n";
                         classFileOut << "            $child_as_simplexml = new SimpleXMLElement($child_as_xml);\n";
@@ -506,7 +504,7 @@ void CodeGenPHP::go() {
                     }
                 }
             }
-        } 
+        }
         classFileOut << "        return $xml->asXML();\n";
         classFileOut << "    }\n\n";
 
@@ -524,9 +522,9 @@ void CodeGenPHP::go() {
         for (int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
 
-            if (!attr->isElement()) { 
+            if (!attr->isElement()) {
                 // non-qstring items (ints) may give problems, so convert them
-		QString varName = stringConversionForAttribute(attr);
+        QString varName = stringConversionForAttribute(attr);
 
                 // check if the attribute exist
                 if ((!attr->required() || obj->isMerged()) && !attr->isScalar()) {
@@ -570,7 +568,7 @@ void CodeGenPHP::go() {
         classFileOut << "    }\n";
 
         // round up
-        classFileOut << "}\n"; 
+        classFileOut << "}\n";
         classFileOut << "?>\n";
 
         // close and flush
@@ -640,7 +638,7 @@ void CodeGenPHP::go() {
     // main parser routine
     classFileOut << "    public function parseXMLMessage($data) { \n\n";
     classFileOut << "        $tag = $this->messageNameOfXMLString($data);\n\n";
-    
+
     bool first = true;
     for (int i=0; i < rootObjects.size(); i++) {
         if (first) {
@@ -649,7 +647,7 @@ void CodeGenPHP::go() {
         } else {
             classFileOut << " else if";
         }
-	classFileOut << " ($tag == \"" << className(rootObjects.at(i)) << "\") {\n";
+    classFileOut << " ($tag == \"" << className(rootObjects.at(i)) << "\") {\n";
         classFileOut << "            $xml = new SimpleXMLElement($data);\n";
         classFileOut << "            return $this->parse"<< className(rootObjects.at(i)) << "($xml);\n";
         classFileOut << "        } ";
@@ -692,61 +690,61 @@ void CodeGenPHP::go() {
         if (obj->name() != "Schema") { // ignore this object, it will never be sent
            QString scope = "private";
            if (!obj->isEmbedded()) {  // root object
-		scope = "public";
-	   }
+        scope = "public";
+       }
            classFileOut << "    "<< scope <<" function parse" << className(obj->name()) << "( $simplexml ) {\n\n";
            classFileOut << "        $element = new "<< className(obj->name()) << "();\n\n";
 
-	   // parse all attributes of this object
+       // parse all attributes of this object
            QVector<XSDAttribute*>attributes = obj->attributes();
            QMap<QString, QString>fixedValues = obj->fixedValues();
 
-	   // check for the presence of fixed values
-           for (int j=0; j < fixedValues.size(); j++) { 
+       // check for the presence of fixed values
+           for (int j=0; j < fixedValues.size(); j++) {
                 QString name = (fixedValues.keys().at(j));
-		classFileOut << "        $element->set" << name << "((string) $simplexml[\"" << name << "\"]);\n";
+        classFileOut << "        $element->set" << name << "((string) $simplexml[\"" << name << "\"]);\n";
            }
- 
-	   // check for the presence of sub elements and attributes 
+
+       // check for the presence of sub elements and attributes
            for (int j=0; j < attributes.size(); j++) {
                 XSDAttribute *attr = attributes.at(j);
-		QString name = attr->name();
-		if (attr->isElement()) {   // its an embedded subelement
-		   if(attr->isScalar()) {
-			classFileOut << "        for ($i = 0; $i < $this->countOfChild($simplexml, \"" << name << "\"); $i++) { \n";
-                	classFileOut << "            $child = $this->parse"<< name << "($simplexml->"<< name <<"[$i]);\n";
-			classFileOut << "            $element->add" << name << "($child);\n";
+        QString name = attr->name();
+        if (attr->isElement()) {   // its an embedded subelement
+           if(attr->isScalar()) {
+            classFileOut << "        for ($i = 0; $i < $this->countOfChild($simplexml, \"" << name << "\"); $i++) { \n";
+                    classFileOut << "            $child = $this->parse"<< name << "($simplexml->"<< name <<"[$i]);\n";
+            classFileOut << "            $element->add" << name << "($child);\n";
                         classFileOut << "        }\n";
                    } else {
-			classFileOut << "        if ($this->hasChild($simplexml, \"" << name << "\")) { \n";
-                	classFileOut << "            $child = $this->parse"<< name << "($simplexml->"<< name <<");\n";
-			classFileOut << "            $element->set" << name << "($child);\n";
+            classFileOut << "        if ($this->hasChild($simplexml, \"" << name << "\")) { \n";
+                    classFileOut << "            $child = $this->parse"<< name << "($simplexml->"<< name <<");\n";
+            classFileOut << "            $element->set" << name << "($child);\n";
                         classFileOut << "        }";
-			if (attr->required() && !obj->isMerged()) { // merged objects have weak refernces due to merge
+            if (attr->required() && !obj->isMerged()) { // merged objects have weak refernces due to merge
                             classFileOut << " else { \n";
-			    classFileOut << "            // required element is missing\n";
+                classFileOut << "            // required element is missing\n";
                             classFileOut << "        }\n";
                         } else {
                             classFileOut << "\n";
-			}
+            }
                   }
-		} else {                   // its an attribute
-			classFileOut << "        if ($this->hasAttribute($simplexml, \"" << name << "\")) { \n";
-			classFileOut << "            $element->set" << name << "((string) $simplexml[\"" << name << "\"]);\n";
+        } else {                   // its an attribute
+            classFileOut << "        if ($this->hasAttribute($simplexml, \"" << name << "\")) { \n";
+            classFileOut << "            $element->set" << name << "((string) $simplexml[\"" << name << "\"]);\n";
                         classFileOut << "        }";
-			if (attr->required() && !obj->isMerged()) {
+            if (attr->required() && !obj->isMerged()) {
                             classFileOut << " else { \n";
-			    classFileOut << "            // required attribute is missing\n";
+                classFileOut << "            // required attribute is missing\n";
                             classFileOut << "        }\n";
                         } else {
                             classFileOut << "\n";
-			}
-		}	
-	   }
+            }
+        }
+       }
 
            classFileOut << "        return $element;\n";
            classFileOut << "    }\n\n";
-	} // ignore schema
+    } // ignore schema
     }
 
     // round up

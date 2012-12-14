@@ -26,62 +26,88 @@ class XSDAttribute : public QObject {
     Q_OBJECT
 
 public:
-    	XSDAttribute(QString name, QString type, bool required, QString fixed);
-	void setMinOccurs(int min);
-	void setMaxOccurs(int max);
-	void setMaxLength(int length);
-	void setMinLength(int length);
-        void setDigits(int length);
-	void setType(QString type);
-	void setFixed(QString val);
-	void setUnbounded();
-	void setElement(bool req);
-	void setRequired(bool req);
-	void setDocumentation(QString doc);
-	void appendEnumeration(QString enum1);
-	QString name();
-	QString type();
-	QString doc();
-	QString fixed();
-	QVector<QString> enumeration();
-	bool required();
-	bool isFixed();
-	bool isUnbounded();
-	bool isScalar();
-        bool hasDigits();
-	bool isElement();
-    	bool isSimpleElement();
-	bool hasMinLength();
-	bool hasMaxLength();
-	bool hasMin();
-	bool hasMax();
-	int min();
-	int max();
-	int minLength();
-	int maxLength();
-    	int digits();
-    	void dump();
-	
+    XSDAttribute(QString name, QString type, bool required, QString fixed);
+    QString name();
+
+    void setType(QString type);
+    QString type();
+
+    void setFixed(QString val);
+    bool isFixed();
+    QString fixed();
+
+    void setRequired(bool req);
+    bool required();
+
+    void setDocumentation(QString doc);
+    QString doc();
+
+    void setElement(bool req);
+    bool isElement();
+    bool isScalar();
+    bool isSimpleElement();
+
+    void appendEnumeration(QString enum1);
+    QVector<QString> enumeration();
+
+    void setMinOccurs(int min);
+    void setMinLength(int length);
+    bool hasMinLength();
+    int minLength();
+
+    void setMaxOccurs(int max);
+    void setMaxLength(int length);
+    void setUnbounded();
+    bool hasMaxLength();
+    bool isUnbounded();
+    int maxLength();
+
+    void setDigits(int length);
+    int digits();
+    bool hasDigits();
+
+    void setMinExclusive(double min);
+    bool hasMinExclusive();
+    double minExclusive();
+
+    void setMaxExclusive(double max);
+    bool hasMaxExclusive();
+    double maxExclusive();
+
+    void setMinInclusive(double min);
+    bool hasMinInclusive();
+    double minInclusive();
+
+    void setMaxInclusive(double max);
+    bool hasMaxInclusive();
+    double maxInclusive();
+
+    void dump();
+
 private:
-	QVector<QString> m_enums;
-	QString m_name;
-	QString m_type;
-	QString m_fixed;
-	QString m_doc;
-	bool m_element;
-	bool m_required;
-	bool m_unbounded;
-	int m_min;
-	int m_digits;
-	int m_maxLength;
-	int m_minLength;
-	int m_max;
-	bool m_isFixed;
-	bool m_hasMin;
-	bool m_hasMax;
-	bool m_hasMinLength;
-	bool m_hasMaxLength;
+    QString m_name;
+    QString m_type;
+    bool m_isFixed;
+    QString m_fixed;
+    bool m_required;
+    QString m_doc;
+    bool m_element;
+    QVector<QString> m_enums;
+    bool m_hasMinLength;
+    int m_minLength;
+    bool m_hasMaxLength;
+    int m_maxLength;
+    bool m_unbounded;
     bool m_hasDigits;
+    int m_digits;
+    bool m_hasMinExclusive;
+    double m_minExclusive;
+    bool m_hasMaxExclusive;
+    double m_maxExclusive;
+    bool m_hasMinInclusive;
+    double m_minInclusive;
+    bool m_hasMaxInclusive;
+    double m_maxInclusive;
 };
 
 #endif
