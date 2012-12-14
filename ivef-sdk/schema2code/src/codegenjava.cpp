@@ -601,6 +601,7 @@ void CodeGenJava::go() {
         classFileOut << "    public String toString(String lead) {\n\n";
         classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
+        classFileOut << "        df.setTimeZone(TimeZone.getTimeZone(\"UTC\"));\n";
         classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
         classFileOut << "\n";
 
@@ -920,10 +921,14 @@ void CodeGenJava::go() {
                             classFileOut << "                Date val = new Date(); // starts since the epoch\n";
                             classFileOut << "                try { \n";
                             classFileOut << "                    DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS\");\n";
+                            classFileOut << "                    if ( value.charAt(value.length()-1) == 'Z' )";
+                            classFileOut << "                        df.setTimeZone(TimeZone.getTimeZone(\"UTC\"));";
                             classFileOut << "                    val = df.parse( value );\n";
                             classFileOut << "                } catch(Exception e) {\n";
                             classFileOut << "                    try { // if there are no miliseconds they will not be sent\n";
                             classFileOut << "                       DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss\");\n";
+                            classFileOut << "                       if ( value.charAt(value.length()-1) == 'Z' )";
+                            classFileOut << "                          df.setTimeZone(TimeZone.getTimeZone(\"UTC\"));";
                             classFileOut << "                       val = df.parse( value );\n";
                             classFileOut << "                    } catch(Exception e2) {\n";
                             classFileOut << "                        e2.printStackTrace();\n";
