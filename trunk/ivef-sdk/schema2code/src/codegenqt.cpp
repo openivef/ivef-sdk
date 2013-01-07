@@ -790,9 +790,9 @@ void CodeGenQT::classFiles() {
                     classFileOut << "bool " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n\n";
 
                 if (attr->hasMaxOccurs()) { // issue 26
-                    classFileOut << "          if ("<< variableName(attr->name()) << "s.count() >= " << attr->maxOccurs() << ") {\n";
-                    classFileOut << "              return false; // scalar already at maxOccurs\n";
-                    classFileOut << "          }\n";
+                    classFileOut << "    if ("<< variableName(attr->name()) << "s.count() >= " << attr->maxOccurs() << ") {\n";
+                    classFileOut << "        return false; // scalar already at maxOccurs\n";
+                    classFileOut << "    }\n";
                 }
 
                 classFileOut << "    " << variableName(attr->name()) << "s.append(val);\n";
