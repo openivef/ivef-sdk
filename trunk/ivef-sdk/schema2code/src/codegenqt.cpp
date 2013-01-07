@@ -773,8 +773,8 @@ void CodeGenQT::classFiles() {
                 else
                     classFileOut << "bool " << className(name) << "::remove" << methodName(attr->name()) << "(" << type << " val) {\n\n";
 
-                if (attr->hasMinLength()) {
-                    classFileOut << "    if ("<< variableName(attr->name()) << "s.count() <= " << attr->minLength() << ") {\n";
+                if (attr->hasMinOccurs()) {
+                    classFileOut << "    if ("<< variableName(attr->name()) << "s.count() <= " << attr->minOccurs() << ") {\n";
                     classFileOut << "        return false; // scalar already at minOccurs\n";
                     classFileOut << "    }\n";
                 }
@@ -789,8 +789,8 @@ void CodeGenQT::classFiles() {
                 else
                     classFileOut << "bool " << className(name) << "::add" << methodName(attr->name()) << "(" << type << " val) {\n\n";
 
-                if (attr->hasMaxLength()) { // issue 26
-                    classFileOut << "          if ("<< variableName(attr->name()) << "s.count() >= " << attr->maxLength() << ") {\n";
+                if (attr->hasMaxOccurs()) { // issue 26
+                    classFileOut << "          if ("<< variableName(attr->name()) << "s.count() >= " << attr->maxOccurs() << ") {\n";
                     classFileOut << "              return false; // scalar already at maxOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -980,15 +980,15 @@ void CodeGenQT::classFiles() {
                 if (attr->isElement()) {
                     // check if the attribute exist
                     if (attr->isScalar() ) {
-                        if (attr->hasMinLength()) { // issue 26
-                            classFileOut << "        if (" << variableName(attr->name()) << "s.count() < " << attr->minLength() << ") {\n";
+                        if (attr->hasMinOccurs()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.count() < " << attr->minOccurs() << ") {\n";
                             classFileOut << "            m_lastError = \"not enough " << attr->name() << " values\";\n";
                             classFileOut << "            m_store  = QString::null;\n";
                             classFileOut << "            return m_store;\n";
                             classFileOut << "        }\n";
                         }
-                        if (attr->hasMaxLength()) { // issue 26
-                            classFileOut << "        if (" << variableName(attr->name()) << "s.count() > " << attr->maxLength() << ") {\n";
+                        if (attr->hasMaxOccurs()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.count() > " << attr->maxOccurs() << ") {\n";
                             classFileOut << "            m_lastError = \"too much " << attr->name() << " values\";\n";
                             classFileOut << "            m_store  = QString::null;\n";
                             classFileOut << "            return m_store;\n";
