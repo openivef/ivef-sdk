@@ -349,8 +349,8 @@ void CodeGenJava::go() {
                 // remover
                 classFileOut << "    public boolean " << "remove" << methodName(attr->name()) << "(" << type << " val) {\n";
 
-                if (attr->hasMinLength()) {
-                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() <= " << attr->minLength() << ") {\n";
+                if (attr->hasMinOccurs()) {
+                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() <= " << attr->minOccurs() << ") {\n";
                     classFileOut << "              return false; // scalar already at minOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -360,8 +360,8 @@ void CodeGenJava::go() {
                 // setter
                 classFileOut << "    public boolean " << "add" << methodName(attr->name()) << "(" << type << " val) {\n";
 
-                if (attr->hasMaxLength()) { // issue 26
-                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() >= " << attr->maxLength() << ") {\n";
+                if (attr->hasMaxOccurs()) { // issue 26
+                    classFileOut << "          if ("<< variableName(attr->name()) << "s.size() >= " << attr->maxOccurs() << ") {\n";
                     classFileOut << "              return false; // scalar already at maxOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -518,13 +518,13 @@ void CodeGenJava::go() {
                 if (attr->isElement()) { // issue 73
                     // check if the attribute exist
                     if (attr->isScalar()) {
-                        if (attr->hasMinLength()) { // issue 26
-                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->minLength() << ") {\n";
+                        if (attr->hasMinOccurs()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() < " << attr->minOccurs() << ") {\n";
                             classFileOut << "            return null; // not enough values\n";
                             classFileOut << "        }\n";
                         }
-                        if (attr->hasMaxLength()) { // issue 26
-                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() > " << attr->maxLength() << ") {\n";
+                        if (attr->hasMaxOccurs()) { // issue 26
+                            classFileOut << "        if (" << variableName(attr->name()) << "s.size() > " << attr->maxOccurs() << ") {\n";
                             classFileOut << "            return null; // too much values\n";
                             classFileOut << "        }\n";
                         }

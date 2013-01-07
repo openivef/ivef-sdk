@@ -315,8 +315,8 @@ void CodeGenPHP::go() {
                 // remover issue 70
                 classFileOut << "    public function " << "remove" << methodName(attr->name()) << "(" << type << " $val ) {\n";
 
-                if (attr->hasMinLength()) {
-                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) <= " << attr->minLength() << ") {\n";
+                if (attr->hasMinOccurs()) {
+                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) <= " << attr->minOccurs() << ") {\n";
                     classFileOut << "              return false; // scalar already at minOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -330,8 +330,8 @@ void CodeGenPHP::go() {
                 // setter
                 classFileOut << "    public function " << "add" << methodName(attr->name()) << "(" << type << " $val ) {\n";
 
-                if (attr->hasMaxLength()) {
-                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) >= " << attr->maxLength() << ") {\n";
+                if (attr->hasMaxOccurs()) {
+                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) >= " << attr->maxOccurs() << ") {\n";
                     classFileOut << "              return false; // scalar already at maxOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -456,13 +456,13 @@ void CodeGenPHP::go() {
                 if (attr->isElement()) {
                     // check if the attribute exist
                     if (attr->isScalar()) {
-                        if (attr->hasMinLength()) {
-                            classFileOut << "        if ( count(" << variableName(attr->name()) << "s) < " << attr->minLength() << ") {\n";
+                        if (attr->hasMinOccurs()) {
+                            classFileOut << "        if ( count(" << variableName(attr->name()) << "s) < " << attr->minOccurs() << ") {\n";
                             classFileOut << "            return \"\"; // not enough values\n";
                             classFileOut << "        }\n";
                         }
-                        if (attr->hasMaxLength()) {
-                            classFileOut << "        if ( count(" << variableName(attr->name()) << "s) > " << attr->maxLength() << ") {\n";
+                        if (attr->hasMaxOccurs()) {
+                            classFileOut << "        if ( count(" << variableName(attr->name()) << "s) > " << attr->maxOccurs() << ") {\n";
                             classFileOut << "            return \"\"; // too much values\n";
                             classFileOut << "        }\n";
                         }

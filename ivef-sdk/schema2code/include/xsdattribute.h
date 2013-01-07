@@ -51,15 +51,22 @@ public:
     QVector<QString> enumeration();
 
     void setMinOccurs(int min);
+    bool hasMinOccurs();
+    int minOccurs();
+
+    void setMaxOccurs(int max);
+    bool hasMaxOccurs();
+    int maxOccurs();
+
+    void setUnbounded();
+    bool isUnbounded();
+
     void setMinLength(int length);
     bool hasMinLength();
     int minLength();
 
-    void setMaxOccurs(int max);
     void setMaxLength(int length);
-    void setUnbounded();
     bool hasMaxLength();
-    bool isUnbounded();
     int maxLength();
 
     void setDigits(int length);
@@ -93,11 +100,15 @@ private:
     QString m_doc;
     bool m_element;
     QVector<QString> m_enums;
+    bool m_hasMinOccurs;
+    int m_minOccurs;
+    bool m_hasMaxOccurs;
+    int m_maxOccurs;
+    bool m_unbounded;
     bool m_hasMinLength;
     int m_minLength;
     bool m_hasMaxLength;
     int m_maxLength;
-    bool m_unbounded;
     bool m_hasDigits;
     int m_digits;
     bool m_hasMinExclusive;

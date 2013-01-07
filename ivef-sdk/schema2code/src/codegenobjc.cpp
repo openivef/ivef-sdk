@@ -490,8 +490,8 @@ void CodeGenObjC::go() {
                 // remover issue 70
                 classFileOut << "-(BOOL) remove" << methodName(attr->name()) << ":(" << myType << ") val {\n";
 
-                if (attr->hasMinLength()) {
-                    classFileOut << "          if ([" << variableName(attr->name()) << "s count] <= " << attr->minLength() << ") {\n";
+                if (attr->hasMinOccurs()) {
+                    classFileOut << "          if ([" << variableName(attr->name()) << "s count] <= " << attr->minOccurs() << ") {\n";
                     classFileOut << "              return NO; // scalar already at minOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -503,8 +503,8 @@ void CodeGenObjC::go() {
                 // setter
                 classFileOut << "-(BOOL) add" << methodName(attr->name()) << ":(" << myType << ") val {\n";
 
-                if (attr->hasMaxLength()) { // issue 26
-                    classFileOut << "          if ([" << variableName(attr->name()) << "s count] >= " << attr->maxLength() << ") {\n";
+                if (attr->hasMaxOccurs()) { // issue 26
+                    classFileOut << "          if ([" << variableName(attr->name()) << "s count] >= " << attr->maxOccurs() << ") {\n";
                     classFileOut << "              return NO; // scalar already at maxOccurs\n";
                     classFileOut << "          }\n";
                 }
@@ -769,15 +769,15 @@ void CodeGenObjC::go() {
                 if (attr->isElement()) {
                     // check if the attribute exist
                     if (attr->isScalar() ) {
-                        if (attr->hasMinLength()) { // issue 26
-                            classFileOut << "    if ([" << variableName(attr->name()) << "s count] < " << attr->minLength() << ") {\n";
+                        if (attr->hasMinOccurs()) { // issue 26
+                            classFileOut << "    if ([" << variableName(attr->name()) << "s count] < " << attr->minOccurs() << ") {\n";
                             classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: @\"Not enough entries of " +
                             attr->name() +"\" forKey: @\"description\"]];\n";
                             classFileOut << "        return nil;\n";
                             classFileOut << "    }\n";
                         }
-                        if (attr->hasMaxLength()) { // issue 26
-                            classFileOut << "    if ([" << variableName(attr->name()) << "s count] > " << attr->maxLength() << ") {\n";
+                        if (attr->hasMaxOccurs()) { // issue 26
+                            classFileOut << "    if ([" << variableName(attr->name()) << "s count] > " << attr->maxOccurs() << ") {\n";
                             classFileOut << "        [[NSNotificationCenter defaultCenter] postNotificationName:@\"ILValidationError\" object: self userInfo: [NSDictionary dictionaryWithObject: @\"Too much entries of " +
                             attr->name() +"\" forKey: @\"description\"]];\n";
                             classFileOut << "        return nil;\n";
