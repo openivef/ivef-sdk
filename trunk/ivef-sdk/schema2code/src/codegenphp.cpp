@@ -316,24 +316,32 @@ void CodeGenPHP::go() {
                 classFileOut << "    public function " << "remove" << methodName(attr->name()) << "(" << type << " $val ) {\n";
 
                 if (attr->hasMinOccurs()) {
-                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) <= " << attr->minOccurs() << ") {\n";
-                    classFileOut << "              return false; // scalar already at minOccurs\n";
-                    classFileOut << "          }\n";
+                    classFileOut << "        if ( count("<< variableName(attr->name()) << "s) <= " << attr->minOccurs() << ") {\n";
+                    classFileOut << "            return false; // scalar already at minOccurs\n";
+                    classFileOut << "        }\n";
                 }
-        classFileOut << "          for($i=0; $i< count(" << variableName(attr->name()) << "s); $i++) {\n";
-                classFileOut << "             if(" << variableName(attr->name()) << "s[i] == $val) {\n";
-                classFileOut << "                 unset(" << variableName(attr->name()) << "s[i]);\n";
-                classFileOut << "             }\n";
-                classFileOut << "          }\n";
+                classFileOut << "        for($i=0; $i< count(" << variableName(attr->name()) << "s); $i++) {\n";
+                classFileOut << "            if(" << variableName(attr->name()) << "s[i] == $val) {\n";
+                classFileOut << "                unset(" << variableName(attr->name()) << "s[i]);\n";
+                classFileOut << "            }\n";
+                classFileOut << "        }\n";
                 classFileOut << "        return true;\n";
                 classFileOut << "    }\n\n";
                 // setter
                 classFileOut << "    public function " << "add" << methodName(attr->name()) << "(" << type << " $val ) {\n";
 
                 if (attr->hasMaxOccurs()) {
-                    classFileOut << "          if ( count("<< variableName(attr->name()) << "s) >= " << attr->maxOccurs() << ") {\n";
-                    classFileOut << "              return false; // scalar already at maxOccurs\n";
-                    classFileOut << "          }\n";
+                    classFileOut << "        if ( count("<< variableName(attr->name()) << "s) >= " << attr->maxOccurs() << ") {\n";
+                    classFileOut << "            return false; // scalar already at maxOccurs\n";
+                    classFileOut << "        }\n";
+                }
+                if (attr->hasMinLength() && knownType(attr->type())) {
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
+                    classFileOut << "\n        if (" << evaluator << " < " << attr->minLength() << ")\n            return false;";
+                }
+                if (attr->hasMaxLength() && knownType(attr->type())) {
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "$val");
+                    classFileOut << "\n        if (" << evaluator << " > " << attr->maxLength() << ")\n            return false;";
                 }
                 classFileOut << "\n        " << variableName(attr->name()) << "s[] = $val;\n";
                 classFileOut << "        return true;\n";

@@ -127,16 +127,16 @@ void XSDObject::addKeyWithValue(QString key, QString value) {
 
 void XSDObject::addAttribute(XSDAttribute *attr) {
 
-        // merged objects may lead to duplicate attributes
-        for (int i=0; i<m_attributes.size(); i++) {
-            XSDAttribute *existingAttr = m_attributes.at(i);
+    // merged objects may lead to duplicate attributes
+    for (int i=0; i<m_attributes.size(); i++) {
+        XSDAttribute *existingAttr = m_attributes.at(i);
 
 	    if ((existingAttr->name() == attr->name()) &&
-                (existingAttr->type()== attr->type())) {
-                std::cout << QString("WARNING Object %1 reused attribute %2, ignoring second entry").arg(m_name, attr->name()).toLatin1().data() << std::endl;
-		return;
-            }
-        } 
+            (existingAttr->type() == attr->type())) {
+            std::cout << QString("WARNING Object %1 reused attribute %2, ignoring second entry").arg(m_name, attr->name()).toLatin1().data() << std::endl;
+            return;
+        }
+    }
 	m_attributes.append(attr);
 }
 

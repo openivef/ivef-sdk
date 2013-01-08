@@ -482,8 +482,6 @@ void CodeGenQT::classFiles() {
             QString attrName = fixedValues.keys().at(j);
             QString type = "QString"; // always a string
 
-
-
             // getter
             headerFileOut << "    //! gets the " << methodName(attrName) << "\n";
             headerFileOut << "    //!\n";
@@ -794,6 +792,18 @@ void CodeGenQT::classFiles() {
                     classFileOut << "        return false; // scalar already at maxOccurs\n";
                     classFileOut << "    }\n";
                 }
+                if (attr->hasMinLength()) {
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+
+                    classFileOut << "    if (" << evaluator << " < " << attr->minLength() << ") {\n        return false; // value is too small\n";
+                    classFileOut << "    }\n";
+                }
+                if (attr->hasMaxLength()) {
+                    QString evaluator = sizeEvaluatorForType(attr->type(), "val");
+
+                    classFileOut << "    if (" << evaluator << " > " << attr->maxLength() << ") {\n        return false; // value is too long\n";
+                    classFileOut << "    }\n";
+                }
 
                 classFileOut << "    " << variableName(attr->name()) << "s.append(val);\n";
                 classFileOut << "    m_changed = true;\n";
@@ -827,7 +837,7 @@ void CodeGenQT::classFiles() {
                         quote = "\"";
                     }
 
-                    classFileOut << "// check if the new value is an approved value \n";
+                    classFileOut << "\n    // check if the new value is an approved value";
                     classFileOut << "\n    if ( ( val != " << quote << enums.at(0) << quote <<" ) ";
                     for (int h=1; h < enums.size(); h++) {
                         classFileOut << "&&\n         ( val != " << quote << enums.at(h) << quote << " ) ";
@@ -840,7 +850,7 @@ void CodeGenQT::classFiles() {
 
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
-                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    // check if the new value is within min length";
                     classFileOut << "\n    if (" << evaluator << " < " << attr->minLength() << ")\n        return false;";
                 }
                 // check for strings too!
@@ -848,7 +858,7 @@ void CodeGenQT::classFiles() {
 
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
-                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    // check if the new value is within max length";
                     classFileOut << "\n    if (" << evaluator << " > " << attr->maxLength() << ")\n        return false;";
                 }
                 /////////////issue 72 end
@@ -856,28 +866,28 @@ void CodeGenQT::classFiles() {
 
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
-                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    // check if the new value is within min exclusive";
                     classFileOut << "\n    if (" << evaluator << " <= " << attr->minExclusive() << ")\n        return false;";
                 }
                 if (attr->hasMaxExclusive() && knownType(attr->type())) {
 
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
-                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    // check if the new value is within max exclusive";
                     classFileOut << "\n    if (" << evaluator << " >= " << attr->maxExclusive() << ")\n        return false;";
                 }
                 if (attr->hasMinInclusive() && knownType(attr->type())) {
 
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
-                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    // check if the new value is within min inclusive";
                     classFileOut << "\n    if (" << evaluator << " < " << attr->minInclusive() << ")\n        return false;";
                 }
                 if (attr->hasMaxInclusive() && knownType(attr->type())) {
 
                     QString evaluator = sizeEvaluatorForType(attr->type(), "val");
 
-                    classFileOut << "    // check if the new value is within bounds \n";
+                    classFileOut << "\n    // check if the new value is within max inclusive";
                     classFileOut << "\n    if (" << evaluator << " > " << attr->maxInclusive() << ")\n        return false;";
                 }
                 //if (!attr->required() || obj->isMerged()) { // issue 21
