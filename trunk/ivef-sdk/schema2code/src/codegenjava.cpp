@@ -164,7 +164,6 @@ void CodeGenJava::go() {
     // first analyse the objects if they are embedded objects
     // for all objects that could accept such an object
     QString nameSpace = "none";
-    bool useNameSpace = false;
     for (int i=0; i < m_objects.size(); i++) {
         // for all objects
         XSDObject *obj1 = m_objects.at(i);
@@ -200,7 +199,6 @@ void CodeGenJava::go() {
                 if (attrName == "targetNamespace") {
                     nameSpace = obj1->fixedValues().values().at(j);
                     std::cout << "Using namespace: " << nameSpace.toLatin1().data() << std::endl;
-                    useNameSpace = true;
                 }
             }
         }
@@ -292,11 +290,8 @@ void CodeGenJava::go() {
                 classFileOut << "    private Vector<" << className(attr->name()) << "> " << variableName(attr->name()) << "s = new Vector<" << className(attr->name()) << ">();\n";
             } else {
                 classFileOut << "    private " << type << " " << variableName(attr->name()) << "; // default value is uninitialized\n";
+                classFileOut << "    private boolean " << variableName(attr->name()) << "Present;\n";
             }
-
-            //if (!attr->required() || obj->isMerged()) { // issue 21
-            classFileOut << "    private boolean " << variableName(attr->name()) << "Present;\n";
-            //}
         }
 
         //-----------------------------------------------------------------------------------------------
@@ -307,12 +302,13 @@ void CodeGenJava::go() {
         classFileOut << "\n    public " << className(name) << "() {\n\n";
         for (int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString niceVarName  = attr->name().replace(0, 1, attr->name().left(1).toLower());
-            if (attr->isFixed()) {
-                classFileOut << "        " << variableName(attr->name()) << " = \"" << attr->fixed() << "\";\n";
-                classFileOut << "        " << variableName(attr->name()) << "Present = true;\n"; // issue 21
-            } else {
-                classFileOut << "        " << variableName(attr->name()) << "Present = false;\n"; // issue 21
+            if (!attr->isScalar()) { // there more then one
+                if (attr->isFixed()) {
+                    classFileOut << "        " << variableName(attr->name()) << " = \"" << attr->fixed() << "\";\n";
+                    classFileOut << "        " << variableName(attr->name()) << "Present = true;\n"; // issue 21
+                } else {
+                    classFileOut << "        " << variableName(attr->name()) << "Present = false;\n"; // issue 21
+                }
             }
         }
         classFileOut << "    }\n\n";
@@ -321,8 +317,6 @@ void CodeGenJava::go() {
         classFileOut << "    public " << className(name) << "(" << className(name) << " val) {\n\n";
         for (int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
-            QString type = localType(attr->type()); // convert to java types
 
             //if ((!attr->required() || obj->isMerged()) && !attr->unbounded()) { // issue 21
             //    classFileOut << "        " << variableName(attr->name()) << "Present = val.has" << methodName(attr->name()) << "();\n";
@@ -378,7 +372,7 @@ void CodeGenJava::go() {
                 classFileOut << "    }\n\n";
                 // getter
                 classFileOut << "    public " << type << " " << "get" << methodName(attr->name()) << "At(int i) {\n";
-                classFileOut << "\n        return ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n    }\n\n";
+                classFileOut << "\n        return " << variableName(attr->name()) << "s.get(i);\n    }\n\n";
                 // count
                 classFileOut << "    public int countOf" << methodName(attr->name()) << "s() {\n";
                 classFileOut << "\n        return " << variableName(attr->name()) << "s.size();\n    }\n\n";
@@ -461,17 +455,18 @@ void CodeGenJava::go() {
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toXML() {\n\n";
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
-        classFileOut << "        String dataMember;";
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
         classFileOut << "        df.setTimeZone(TimeZone.getTimeZone(\"UTC\"));\n";
-        classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
+        classFileOut << "        DecimalFormat nf = new DecimalFormat();\n"; // issue 63
+        classFileOut << "        nf.setMinimumFractionDigits(6);\n";
+        classFileOut << "        nf.setGroupingSize(0);\n";
+
         classFileOut << "\n";
 
         // for attributes
         bool hasDataMembers = false;
         for (int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
             QString type = localType(attr->type()); // convert to java types
             QString varName = variableName(attr->name());
             QString formatDefinition;
@@ -516,6 +511,7 @@ void CodeGenJava::go() {
         }
 
         if (hasDataMembers) {
+            classFileOut << "        String dataMember;\n";
             classFileOut << "        xml += \">\\n\";\n"; // close the statement
 
             // for data members
@@ -537,7 +533,7 @@ void CodeGenJava::go() {
                             classFileOut << "        }\n";
                         }
                         classFileOut << "        for(int i=0; i < " << variableName(attr->name()) << "s.size(); i++ ) {\n";
-                        classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
+                        classFileOut << "           " << attrType << " attribute = " << variableName(attr->name()) << "s.get(i);\n";
 
                         if (attr->isSimpleElement()) {
                             // non-qstring items (ints) may give problems, so convert them
@@ -610,7 +606,9 @@ void CodeGenJava::go() {
         classFileOut << "        String str = lead + \"" << name << "\\n\";\n"; // append attributes
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
         classFileOut << "        df.setTimeZone(TimeZone.getTimeZone(\"UTC\"));\n";
-        classFileOut << "        DecimalFormat nf = new DecimalFormat(\"0.000000\");\n"; // issue 63
+        classFileOut << "        DecimalFormat nf = new DecimalFormat();\n"; // issue 63
+        classFileOut << "        nf.setMinimumFractionDigits(6);\n";
+        classFileOut << "        nf.setGroupingSize(0);\n";
         classFileOut << "\n";
 
         // for attributes
@@ -680,7 +678,7 @@ void CodeGenJava::go() {
                         }
                         classFileOut << "           str += lead + \"    \" + " << varName << ";\n";
                     } else {
-                        classFileOut << "           " << attrType << " attribute = ("<< className(attr->name()) << ") " << variableName(attr->name()) << "s.get(i);\n";
+                        classFileOut << "           " << attrType << " attribute = " << variableName(attr->name()) << "s.get(i);\n";
                         classFileOut << "           str += attribute.toString(lead + \"    \");\n        }\n";
                     }
                 } else if (!attr->required() || obj->isMerged()) {
@@ -809,7 +807,7 @@ void CodeGenJava::go() {
     classFileOut << "    private String m_dataBuffer = new String();\n";
     classFileOut << "    private String m_characterBuffer = new String();\n"; // issue 73
     classFileOut << "    private " << fileBaseName("ParserListener") << " m_handler =  null;\n";
-    classFileOut << "    private Stack m_objStack = new Stack(); // cannot use a template since it stores different Objects\n";
+    classFileOut << "    private Stack<Object> m_objStack = new Stack<Object>();\n";
     classFileOut << "    private SAXParser m_parser; // init in constructor\n";
     classFileOut << "    private Pattern m_closeTagsPattern; \n";
 
