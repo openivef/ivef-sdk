@@ -1,0 +1,15 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+        Version = String
+    Body
+        Logout
+<MSG_IVEF>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
+<Body>
+<Logout/>
+</Body>
+</MSG_IVEF>
+
+TestApp shutting down

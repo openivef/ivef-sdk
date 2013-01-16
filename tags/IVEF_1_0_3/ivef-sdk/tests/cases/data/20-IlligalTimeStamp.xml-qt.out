@@ -1,0 +1,18 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+        Version = String
+    Body
+        Pong
+            ResponseOn = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+            SourceId = 12345
+            TimeStamp = 
+<MSG_IVEF>
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
+<Body>
+<Pong ResponseOn="6289936C-DFAC-11E0-B7BA-B2E24824019B" SourceId="12345" TimeStamp=""/>
+</Body>
+</MSG_IVEF>
+
+TestApp shutting down

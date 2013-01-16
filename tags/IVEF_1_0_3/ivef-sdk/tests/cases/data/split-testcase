@@ -1,0 +1,19 @@
+if [ "$1" == "" ]
+then
+    echo syntax $0 <testcase number e.g. 06
+    exit 0
+fi
+
+IN=`ls -1 ${1}*in`
+OUT=`ls -1 ${1}*out`
+
+BASE=`echo $IN | cut -d . -f -2`
+
+for ext in qt objc java php
+do
+   echo $BASE to $ext
+   cp $IN ${BASE}-${ext}.in
+   cp $OUT ${BASE}-${ext}.out
+done
+
+mv $IN $OUT ../tmp

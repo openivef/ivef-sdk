@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.mvi.org/XMLSchema/mvi/2.0"
+  targetNamespace="http://www.mvi.org/XMLSchema/mvi/2.0" elementFormDefault="qualified">
+  <xs:element name="MSG_Notification">
+    <xs:annotation>
+      <xs:documentation>MESSAGE sent by the supplier containing event data.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Event" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="Message">
+          <xs:annotation>
+            <xs:documentation>DATA message sent from or to a user</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:annotation>
+                <xs:documentation>Plain text message or a coded message, which uses a code to identify the message and optional arguments to pass along variable</xs:documentation>
+              </xs:annotation>
+              <xs:element name="Argument" minOccurs="0" maxOccurs="10">
+                <xs:annotation>
+                  <xs:documentation>Short description of the text</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:minLength value="1"/>
+                    <xs:maxLength value="1024"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+              <xs:annotation>
+                <xs:documentation>Example of time. Date and time in (subset  of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ).</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Code" use="required">
+              <xs:annotation>
+                <xs:documentation>Example of enumeration</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:integer">
+                  <xs:enumeration value="1"/>
+                  <xs:enumeration value="2"/>
+                  <xs:enumeration value="3"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Version" type="xs:string" use="required" fixed="1.0.0">
+              <xs:annotation>
+                <xs:documentation>Example of fixed field</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Event">
+    <xs:annotation>
+      <xs:documentation>
+        DATA event sent to a user.
+        When event has two vessels involved, two times ObjectData is included.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Description of the line or area regarding the event</xs:documentation>
+        </xs:annotation>
+        <xs:element name="AreaName">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1"/>
+              <xs:maxLength value="36"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:choice>
+      <xs:attribute name="Name" use="optional">
+        <xs:annotation>
+          <xs:documentation>Name of the event</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="36"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="Id">
+        <xs:annotation>
+          <xs:documentation>Example of min/max exclusive</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:integer">
+            <xs:minExclusive value="0"/>
+            <xs:maxExclusive value="10000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="Speed">
+        <xs:annotation>
+          <xs:documentation>Example of min/max inclusive</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0.0"/>
+            <xs:maxInclusive value="1000.1"/>
+            <xs:fractionDigits value="2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
