@@ -24,7 +24,7 @@
 #define XSTRINGIFY(x) #x
 
 MainApp::MainApp( int & argc, char ** argv )
-    :QApplication(argc, argv, false) {
+    :QCoreApplication(argc, argv, false) {
 
     // handle the commandline args
     // add default command line m_options

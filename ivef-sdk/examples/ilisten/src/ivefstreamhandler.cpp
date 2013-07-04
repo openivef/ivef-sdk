@@ -150,7 +150,7 @@ void IVEFStreamHandler::slotConnected() {
 
     // every message has a header
     ivef::Header header;
-    header.setMsgRefId(QUuid::createUuid());
+    header.setMsgRefId(QUuid("{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}").toString());
     //header.setVersion("1.0");
     msg.setHeader(header);
 

@@ -21,11 +21,11 @@
 
 #include <iostream>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 #include "IVEFParser.h"
 
-class testqt : public QApplication {
+class testqt : public QCoreApplication {
     Q_OBJECT
 
 public:

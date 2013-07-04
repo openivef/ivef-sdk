@@ -24,7 +24,7 @@
 #define XSTRINGIFY(x) #x
 
 iListenApplication::iListenApplication( int & argc, char ** argv )
-        :QApplication(argc, argv, false) {
+        :QCoreApplication(argc, argv, false) {
 
     // handle the commandline args
     // add default command line m_options

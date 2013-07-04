@@ -21,7 +21,7 @@
 
 #include <iostream>
 
-#include <QApplication>
+#include <QCoreApplication>
 #include "cmdlineoption.h"
 #include "handler.h"
 #include "codegenqt.h"
@@ -30,7 +30,7 @@
 #include "codegenjava.h"
 #include "codegenobjc.h"
 
-class MainApp : public QApplication {
+class MainApp : public QCoreApplication {
     Q_OBJECT
 
 public:

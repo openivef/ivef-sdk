@@ -21,7 +21,7 @@
 #include "testqt.h"
 
 testqt::testqt( int & argc, char ** argv )
-        :QApplication(argc, argv, false) {
+        :QCoreApplication(argc, argv, false) {
 
     // connect to the events from the parser
     connect( &m_parser, SIGNAL( signalMSG_IVEF(ivef::MSG_IVEF)),         this, SLOT( slotMSG_IVEF(ivef::MSG_IVEF) ));
