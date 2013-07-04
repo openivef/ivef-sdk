@@ -21,14 +21,14 @@
 
 #include <iostream>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 #include "cmdlineoption.h"
 #include "IVEFParser.h"
 #include "ivefstreamhandler.h"
 #include "iveffilehandler.h"
 
-class iListenApplication : public QApplication {
+class iListenApplication : public QCoreApplication {
     Q_OBJECT
 
 public:

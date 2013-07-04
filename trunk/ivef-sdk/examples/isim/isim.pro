@@ -36,9 +36,9 @@ javac {
     QMAKE_CLEAN += $$IVEF_EXAMPLES_DIR/isim.jar
 
 
-     win32:test1.commands += echo "java -classpath $$IVEF_EXAMPLES_DIR/isim.jar;$$TARGET_JAVA_DIR/ivef/ivef.jar
-      unix:test1.commands += echo "java -classpath $$IVEF_EXAMPLES_DIR/isim.jar:$$TARGET_JAVA_DIR/ivef/ivef.jar
-    test1.commands += isim/core/isim -p 8043 -l 5 -s test.xml" > $$IVEF_EXAMPLES_DIR/run_isim
+     win32:test1.commands += echo "java -classpath $$IVEF_EXAMPLES_DIR/isim.jar;$$TARGET_JAVA_DIR/ivef/ivef.jar isim/core/isim -p 8043 -l 5 -s test.xml"
+      unix:test1.commands += echo "java -classpath $$IVEF_EXAMPLES_DIR/isim.jar:$$TARGET_JAVA_DIR/ivef/ivef.jar isim/core/isim -p 8043 -l 5 -s test.xml"
+    test1.commands += > $$IVEF_EXAMPLES_DIR/run_isim
       unix:test1.commands +=; chmod +x $$IVEF_EXAMPLES_DIR/run_isim
 
     QMAKE_EXTRA_TARGETS += test1
