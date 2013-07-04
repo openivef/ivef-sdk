@@ -1,0 +1,58 @@
+/*
+ *  testqt.cpp
+ *
+ *  ivef2kml is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ivef2kml is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  Created by Lukassen on 11/06/08.
+ *  Copyright 2008
+ *
+ */
+ 
+#include <cstdlib>
+
+#include "testqt.h"
+
+testqt::testqt( int & argc, char ** argv )
+        :QCoreApplication(argc, argv, false) {
+
+    // connect to the events from the parser
+    connect( &m_parser, SIGNAL( signalMSG_IVEF(ivef::MSG_IVEF)),         this, SLOT( slotMSG_IVEF(ivef::MSG_IVEF) ));
+    // Issue 24
+    connect( &m_parser, SIGNAL( signalError(QString)), this, SLOT( slotPrintError(QString) ));
+    connect( &m_parser, SIGNAL( signalWarning(QString)), this, SLOT( slotPrintError(QString) ));
+    connect( &m_parser, SIGNAL( signalValidationError(QString)), this, SLOT( slotPrintError(QString) ));
+    // End Issue 24
+
+    // and keep reading from standard in
+    std::cout << "TestApp ready for input" << std::endl;
+    std::string input_line;
+    while(!std::cin.fail()) {
+        getline(std::cin, input_line);
+        input_line += "\n"; // getline eats the new line
+        //std::cout << input_line << std::endl;
+        m_parser.parseXMLString(QString(input_line.c_str()), true);
+    };
+    std::cout << "TestApp shutting down" << std::endl;
+    // QCoreApplication::exit(0);
+}
+
+void testqt::slotMSG_IVEF( ivef::MSG_IVEF obj ) {
+    std::cout << obj.toString("").toUtf8().data();
+    QString xml = obj.toXML();
+    if ( xml == QString::null )
+        std::cout << obj.lastError().toUtf8().data();
+    else
+        std::cout << xml.toUtf8().data();
+    std::cout << std::endl;
+}
+// Issue 24
+void testqt::slotPrintError( QString errorStr ) { std::cout << errorStr.toUtf8().data() << std::endl; }
+// End Issue 24

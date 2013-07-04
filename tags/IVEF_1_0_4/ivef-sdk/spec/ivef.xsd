@@ -1,0 +1,1359 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Prepared by IALA Industrial Members Special Interest Group -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5"
+	targetNamespace="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5"
+	elementFormDefault="qualified">
+	<xs:element name="MSG_IVEF">
+		<xs:annotation>
+			<xs:documentation>Root MESSAGE</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Header"/>
+				<xs:element name="Body">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element ref="LoginRequest">
+								<xs:annotation>
+									<xs:documentation>MESSAGE sent by the user to identify oneselfs and request the default service</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="LoginResponse">
+								<xs:annotation>
+									<xs:documentation>MESSAGE sent by the supplier indicating wether the user login was accepted or not</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="Logout">
+								<xs:annotation>
+									<xs:documentation>MESSAGE sent by the user to announce it will close it's connection</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ObjectDatas">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="ObjectData" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>MESSAGE sent by the supplier containing data regarding objects in its domain</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element ref="Ping">
+								<xs:annotation>
+									<xs:documentation>MESSAGE sent by either the user or the supplier to verify the aliveness of the connection, failure to respond within the timeout will lead to disconnect (default = 3 seconds)</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="Pong">
+								<xs:annotation>
+									<xs:documentation>MESSAGE sent as reply to a MSG_Ping to confirm the aliveness of the connection.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="ServerStatus">
+								<xs:annotation>
+									<xs:documentation>MESSAGE sent by the server in case the server is experienceing / recovering from load problems</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="ServiceRequest">
+								<xs:annotation>
+									<xs:documentation>MESSAGE sent by the user to request a different service than the current service, to stop all services request data from 0 areas or logout</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="ServiceRequestResponse">
+								<xs:annotation>
+									<xs:documentation>MESSAGE sent by the suplier as as a response to a service request</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Area">
+		<xs:annotation>
+			<xs:documentation>Geographical location based on one or more polygons</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Pos" minOccurs="3" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Name" use="optional">
+				<xs:annotation>
+					<xs:documentation>Name of the area</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OtherId">
+		<xs:annotation>
+			<xs:documentation>Other Id's for the track than the world wide international standard Identifiers, e.g. regional indentifiers like ENI</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Id" use="required">
+				<xs:annotation>
+					<xs:documentation>Name of the Identifier</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Value" use="required">
+				<xs:annotation>
+					<xs:documentation>Value of the identifier</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OtherName">
+		<xs:annotation>
+			<xs:documentation>Other names for the track than the English name</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Lang" use="required">
+				<xs:annotation>
+					<xs:documentation>Languange  (ISO 3166-1-alpha2)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="2"/>
+						<xs:maxLength value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Name" use="required">
+				<xs:annotation>
+					<xs:documentation>Name in the foreign language</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Header">
+		<xs:annotation>
+			<xs:documentation>HEADER part of every message with version and uniqueness information</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="MsgRefId" use="required">
+				<xs:annotation>
+					<xs:documentation>Must be an Universally Unique Identifier for each message  (TU-T Rec. X.667 | ISO/IEC 9834-8.) Reply messages refer to this id to identify the message they are replying to. In its canonical form, a UUID consists of 32 hexadecimal digits, displayed in 5 groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters, enclosed by brackets. For example:
+{550e8400-e29b-41d4-a716-446655440000}</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="36"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Version" type="xs:string" use="required" fixed="0.2.5">
+				<xs:annotation>
+					<xs:documentation>Defines the version of the protocol used. Syntax is major.minor.patch patch releases fix only bugs, minor releases may add functionality but are compatible, major releases are not compatible</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LoginRequest">
+		<xs:annotation>
+			<xs:documentation>DATA login message with details of the user</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Encryption" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = plain 2 - 6 the 5 most common encryption 0 = custom</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Name" use="required">
+				<xs:annotation>
+					<xs:documentation>Login name</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Password" use="required">
+				<xs:annotation>
+					<xs:documentation>Password value</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LoginResponse">
+		<xs:annotation>
+			<xs:documentation>DATA login response with acceptance or deny with optional reason</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Reason" use="optional">
+				<xs:annotation>
+					<xs:documentation>String describing reason for declining, only used when result is "Declined"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ResponseOn" use="required">
+				<xs:annotation>
+					<xs:documentation>Corresponds to the original MsgRefId from the Login.xml message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="36"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Result" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = Accepted 2 = Declined</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Logout">
+		<xs:annotation>
+			<xs:documentation>DATA logout message, the server will drop the connection if logout is successfull</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ObjectData">
+		<xs:annotation>
+			<xs:documentation>DATA regarding an object in the supliers domain, contains at least 1 one of the sub elements (TrackData, VesselData, VoyageData)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="TrackData" minOccurs="0"/>
+				<xs:element ref="VesselData" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="VoyageData" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="TaggedItem" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Ping">
+		<xs:annotation>
+			<xs:documentation>DATA alive message</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the time this message is sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Pong">
+		<xs:annotation>
+			<xs:documentation>DATA alive response</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="ResponseOn" use="required">
+				<xs:annotation>
+					<xs:documentation>Corresponds to the original MsgRefId from the Ping.xml message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="36"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceId" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The identification of the node who created this message</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="TimeStamp" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the time this message is sent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Pos">
+		<xs:annotation>
+			<xs:documentation>DATA position measurement of the geometrical centre of the object or location</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Altitude" type="xs:decimal" use="optional">
+				<xs:annotation>
+					<xs:documentation>The altitude of the target above the WGS-84 ellipsoid in meters</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="EstAccAlt" type="xs:decimal" use="optional">
+				<xs:annotation>
+					<xs:documentation>Estimated accuracy
+standard deviation of the calculated position of a target
+expressed in m</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="EstAccLat" type="xs:decimal" use="optional">
+				<xs:annotation>
+					<xs:documentation>Estimated accuracy
+standard deviation of the calculated position of a target
+expressed in m</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="EstAccLong" type="xs:decimal" use="optional">
+				<xs:annotation>
+					<xs:documentation>Estimated accuracy
+standard deviation of the calculated position of a target
+expressed in m</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Lat" use="required">
+				<xs:annotation>
+					<xs:documentation>Latitude (WGS84) in degrees. (+/- 90 degrees;
+North = positive; South = negative) Examples:
+
+-90deg (south) =   -90.0000000
+0deg0min1sec (north) =    0.0000016
+50deg50min (north)  = 50.8333333</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="5"/>
+						<xs:minInclusive value="-90.00000"/>
+						<xs:maxInclusive value="+90.00000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Long" use="required">
+				<xs:annotation>
+					<xs:documentation>Longitude (WGS84) in degrees. (+/- 180 degrees; East = positive; West = negative). Examples:
+
+-180deg (west) =   -180.0000000
+0deg0min1sec (east) =       0.0000016</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="5"/>
+						<xs:maxInclusive value="+180.00000"/>
+						<xs:minExclusive value="-180.00000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ServerStatus">
+		<xs:annotation>
+			<xs:documentation>DATA describing the status of the server (full/available)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="ContactIdentity" use="optional">
+				<xs:annotation>
+					<xs:documentation>reference to the identity associated with this service</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="254"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Details" use="optional">
+				<xs:annotation>
+					<xs:documentation>Details of status</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Status" type="xs:boolean" use="required">
+				<xs:annotation>
+					<xs:documentation>Status of the server (ok /  not ok)</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ServiceRequest">
+		<xs:annotation>
+			<xs:documentation>DATA describing the service a user requests</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Area" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="Transmission">
+					<xs:complexType>
+						<xs:attribute name="Type" use="required">
+							<xs:annotation>
+								<xs:documentation>Type of transmission, possible values are:
+1 = single occurrence (whole image)
+2 = periodic occurence (predicted, whole image)
+3 = a-periodic occurence (synchronous, whenever an object is updated)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+									<xs:enumeration value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Period" type="xs:decimal" use="optional">
+							<xs:annotation>
+								<xs:documentation> Specifies the time between two periodic updates in seconds</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Item" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="DataSelector" use="required">
+							<xs:annotation>
+								<xs:documentation>Describes requested Object data element, possible values:
+1 = TrackData
+2 = VesselData
+3 = VoyageData</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+									<xs:enumeration value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="FieldSelector" use="required">
+							<xs:annotation>
+								<xs:documentation>Selected field. Can be 'all' or one of the items of object data TrackData, VesselData  or VoyageData, to be changed into an enumeration of strings once these have been fixed</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Filter" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="Predicate" use="required">
+							<xs:annotation>
+								<xs:documentation>Filter expression in XPath 1.0 definition (http://www.w3.org/TR/1999/REC-xpath-19991116) 
+A Filter must start with //ObjectData (Filter always on entire objects) and can not go beyond a single objects parameters (next/previous/last etc.) 
+
+Examples:
+
+All objects: //ObjectData
+All objects faster then 10 m/s: //ObjectData[TrackData[@SOG &gt; 10]]
+All objects named "Krieken": //ObjectData[VesselData/Identifier[@Name = "Krieken"]]
+All objects heading for Antwerp, HANSADOK 497 with a max keelheigth of 20m: //ObjectData[VoyageData[@DestCode = BEANR0170100497]]  AND //ObjectData[VesselData/Construction[@MaxKeelHeigth &gt; 20]]
+</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="1024"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ServiceRequestResponse">
+		<xs:annotation>
+			<xs:documentation>DATA detailing the supliers response to the users service request</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Reason" use="optional">
+				<xs:annotation>
+					<xs:documentation>String describing reason for declining, when result is "Declined", or a string describing the restrictions when the result is "Accepted with restrictions"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="256"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ResponseOn" use="required">
+				<xs:annotation>
+					<xs:documentation>Corresponds to the original MsgRefId from the ServiceRequest message. Must be an Universally Unique Identifier (TU-T Rec. X.667 | ISO/IEC 9834-8.)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="36"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Result" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = Accepted, 2 = Declined, 3 = Accepted with restrictions</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TaggedItem">
+		<xs:annotation>
+			<xs:documentation>Generic key/value pairs, can be used to pass information that is not (yet) in the standard, provided server and user agree upon interface. E.g. Blue sign indication for inland waterways, references to voyage or vesseldata (URL)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Key" use="required">
+				<xs:annotation>
+					<xs:documentation>Key for the tagged item</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Value" use="required">
+				<xs:annotation>
+					<xs:documentation>Value of the tagged item, can be of any type</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TrackData">
+		<xs:annotation>
+			<xs:documentation>DATA describing a position report of an object</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Pos" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="NavStatus" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="Value" use="required">
+							<xs:annotation>
+								<xs:documentation>Navigation status of the target
+								0 = under way using engine
+								1 = at anchor
+								2 = not under command
+								3 = restricted manoeuvrability
+								4 = constrained by her draught
+								5 = moored
+								6 = aground
+								7 = engaged in fishing
+								8 = under way sailing
+								9 = engaged in fishing other than trawling  
+								10 = air-cushion vessel in non displacement mode or WIG craft taking off, landing or in flight
+								11 = power driven vessel towing astern
+								12 = power driven vessel pushing ahead or towing alongside
+								13 = in distress or requiring assistance  
+								14 = AIS SART, seeking to attract attention
+								15 = undefined default
+							</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="15"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="COG" use="required">
+				<xs:annotation>
+					<xs:documentation>Course over ground  in degrees. (0-360) </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="1"/>
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="360"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="EstAccSOG" type="xs:decimal" use="optional">
+				<xs:annotation>
+					<xs:documentation>Estimated accuracy
+standard deviation of the calculated value 
+expressed in m/s</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="EstAccCOG" type="xs:decimal" use="optional">
+				<xs:annotation>
+					<xs:documentation>Estimated accuracy
+standard deviation of the calculated value 
+expressed in degrees</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Id" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identification of this track. Valid from first message with TrackStatus!=Terminated to first message with TrackStatus=Terminated</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Length" use="optional">
+				<xs:annotation>
+					<xs:documentation>Measured length of the target in meter</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Heading" use="optional">
+				<xs:annotation>
+					<xs:documentation>Heading of the target in degrees</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="0.0"/>
+						<xs:maxInclusive value="360.0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ROT" use="optional">
+				<xs:annotation>
+					<xs:documentation>Rate of turn in degrees per minute</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="1"/>
+						<xs:minExclusive value="-720"/>
+						<xs:maxInclusive value="720"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SOG" use="required">
+				<xs:annotation>
+					<xs:documentation>Speed over ground in meters per second</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="1"/>
+						<xs:minInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceId" use="optional">
+				<xs:annotation>
+					<xs:documentation>Unique identification of the producer  (UN/LOCODE)  in case multiple producers exist on the same LOCODE, the local competent authority can optionally addended this with a local  code (e.g. BE ANR 01 = Antwerp, 01)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceName" use="required">
+				<xs:annotation>
+					<xs:documentation>Identification of the originator of the data</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="UpdateTime" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in UTC format (YYYY-MM-DDThh:mm:ss.sssZ) (subset of ISO 8601)  this position was measured.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="TrackStatus" use="required">
+				<xs:annotation>
+					<xs:documentation>1 = Updated, (sensors are updating the track)
+2 = Coasted, (no sensor is updating the track)
+3 = Dropped</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Width" use="optional">
+				<xs:annotation>
+					<xs:documentation>Measured Width of the target in meter</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VesselData">
+		<xs:annotation>
+			<xs:documentation>DATA regarding static elements of an object</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element name="Construction" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>attributes of the object regarding the physical construction</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element name="UnType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Object type according to CODES FOR
+						      TYPES OF MEANS OF TRANSPORT Revision 2 (UNECE CEFACT Trade Facilitation
+						      Recommendation No. 28 edition 2007)</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="CodeA" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:pattern value="[0-9A-Z]{2,3}"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="CodeB" use="optional">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:pattern value="[1-9A-Z]"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="Mode" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:enumeration value="1"/>
+												<xs:enumeration value="2"/>
+												<xs:enumeration value="3"/>
+												<xs:enumeration value="4"/>
+												<xs:enumeration value="6"/>
+												<xs:enumeration value="7"/>
+												<xs:enumeration value="8"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="HullColor" use="optional">
+							<xs:annotation>
+								<xs:documentation>Color of Hull (in RGB hex) for SAR operations</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="6"/>
+									<xs:maxLength value="6"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="HullType" use="optional">
+							<xs:annotation>
+								<xs:documentation>Type of hull (1 = single,  2 = double, 3 =  triple)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="1"/>
+									<xs:enumeration value="2"/>
+									<xs:enumeration value="3"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="DeadWeight" use="optional">
+							<xs:annotation>
+								<xs:documentation>Dead weight in tons</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="GrossWeight" use="optional">
+							<xs:annotation>
+								<xs:documentation>Gross weight in tons</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Length" use="optional">
+							<xs:annotation>
+								<xs:documentation>The overall length of the target in meter as confirmed by NCA</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="LloydsShipType" type="xs:integer" use="optional">
+							<xs:annotation>
+								<xs:documentation>Number indicating type of vessel </xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="YearOfBuild" use="optional">
+							<xs:annotation>
+								<xs:documentation>The year the vessel was build in 4 digits e.g. 2010</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:totalDigits value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="MaxAirDraught" use="optional">
+							<xs:annotation>
+								<xs:documentation>Maximum air draught of the object in meters, to be used if voyage data is not available</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="1"/>
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="MaxDraught" use="optional">
+							<xs:annotation>
+								<xs:documentation>Maximum draught of the object in meters, to be used if voyage data is not available</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="1"/>
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="MaxPersonsOnBoard" use="optional">
+							<xs:annotation>
+								<xs:documentation>The maximum number of persons on board of the object (crew, support, passengers, pilots)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="MaxSpeed" use="optional">
+							<xs:annotation>
+								<xs:documentation>The maximum speed the object is able to sustain with normal draft and load</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Width" use="optional">
+							<xs:annotation>
+								<xs:documentation>Overall width of the target in meter as confirmed by the NCA</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Identifier" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>(local) Identification of vessel</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="OtherId" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="OtherName" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+						<xs:attribute name="Callsign" use="optional">
+							<xs:annotation>
+								<xs:documentation>Callsign of the target, in accordance with Article 19, Section III of the ITU Radio Regulations (RR)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="0"/>
+									<xs:maxLength value="9"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="IMO" type="xs:integer" use="optional">
+							<xs:annotation>
+								<xs:documentation>IMO number of the target</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="Name" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name of the target</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="FormerName" use="optional">
+							<xs:annotation>
+								<xs:documentation>Previous name of the target</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Flag" use="optional">
+							<xs:annotation>
+								<xs:documentation>The country flag (ISO 3166-1-alpha2)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="2"/>
+									<xs:maxLength value="2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Owner" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name of owner the target</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="MMSI" type="xs:integer" use="optional">
+							<xs:annotation>
+								<xs:documentation>MMSI number of the target</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="LRIT" use="optional">
+							<xs:annotation>
+								<xs:documentation>LRIT identification</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Class" use="optional">
+				<xs:annotation>
+					<xs:documentation>0 = Unknown
+1 = Vessel
+2 = Aids to Navigate
+
+</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="0"/>
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="BlackListed" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Vessel is blacklisted by a NCA</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="Id" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identification of this vesseldata. Valid from first message with TrackStatus!=Terminated to first message with TrackStatus=Terminated</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SpecialAttention" use="optional">
+				<xs:annotation>
+					<xs:documentation>Vessel is under special attention of the NCA or fairway authorities</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceId" use="optional">
+				<xs:annotation>
+					<xs:documentation>Unique identification of the producer  (UN/LOCODE)  in case multiple producers exist on the same LOCODE, the local competent authority can optionally addended this with a local  code (e.g. BE ANR 01 = Antwerp, 01)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceName" use="required">
+				<xs:annotation>
+					<xs:documentation>Identification of the originator of the data</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceType" use="required">
+				<xs:annotation>
+					<xs:documentation>Source/originator type: 0 = Unknown, 1 = Transponder, 2 = Database (VTS Plan Server), 3 = Manual (VTS Officer), 4 =  Fused,  5 = External Source</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+						<xs:enumeration value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="UpdateTime" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in UTC format (YYYY-MM-DDThh:mm:ss.sssZ)  (subset of ISO 8601) this data was compiled</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VoyageData">
+		<xs:annotation>
+			<xs:documentation>DATA regarding a movement of a vessel servers domain</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Waypoint" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Waypoint belonging to the route of this voyage</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Pos" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="ATA" type="xs:dateTime" use="optional">
+							<xs:annotation>
+								<xs:documentation>Date and time in UTC format (YYYY-MM-DDThh:mmZ) (subset of ISO 8601 ) of the Actual Time Of Arrival of the target.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ETA" type="xs:dateTime" use="optional">
+							<xs:annotation>
+								<xs:documentation>Date and time in UTC format (YYYY-MM-DDThh:mmZ) (subset of ISO 8601) of the Expected Time Of Arrival of the target.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="RTA" type="xs:dateTime" use="optional">
+							<xs:annotation>
+								<xs:documentation>Date and time in UTC format (YYYY-MM-DDThh:mmZ) (subset of ISO 8601) of the Requested Time Of Arrival of the target.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="LoCode" use="optional">
+							<xs:annotation>
+								<xs:documentation>Waypoint name in UN/LOCODE optionally addended with local location code (e.g. BEANR0170100497 = Antwerp, HANSADOK 497)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="5"/>
+									<xs:maxLength value="15"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="Name" use="required">
+							<xs:annotation>
+								<xs:documentation>Name of the waypoint</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="42"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="AirDraught" use="optional">
+				<xs:annotation>
+					<xs:documentation>Actual air draught of the vessel in meters</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="2"/>
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Id" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identification of this voyagedata. Valid from first message with TrackStatus!=Terminated to first message with TrackStatus=Terminated</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="CargoTypeIMO" use="optional">
+				<xs:annotation>
+					<xs:documentation>0 = All ships of this type
+1 = Carrying DG, HS, or MP, IMO hazard or pollutant category A
+2 = Carrying DG, HS, or MP, IMO hazard or pollutant category B
+3 = Carrying DG, HS, or MP, IMO hazard or pollutant category C
+4 = Carrying DG, HS, or MP, IMO hazard or pollutant category D
+5 = Carrying DG, HS, or MP, IMO hazard or pollutant of unknown category</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="0"/>
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+						<xs:enumeration value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ContactIdentity" use="optional">
+				<xs:annotation>
+					<xs:documentation>reference to the identity associated with this objects voyage</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="254"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DestCode" use="optional">
+				<xs:annotation>
+					<xs:documentation>Destination of the target (UN/LOCODE)  optionally addended with local location code (e.g. BEANR0170100497 = Antwerp, HANSADOK 497)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DestName" use="optional">
+				<xs:annotation>
+					<xs:documentation>Destination name of the target e.g. local code for berth/lock/bridge/terminal</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DepartCode" use="optional">
+				<xs:annotation>
+					<xs:documentation>Departure of the target (UN/LOCODE)  optionally addended with local location code (e.g. BEANR0170100497 = Antwerp, HANSADOK 497)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DepartName" use="optional">
+				<xs:annotation>
+					<xs:documentation>Departure name of the target e.g. local code for berth/lock/bridge/terminal</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Draught" use="optional">
+				<xs:annotation>
+					<xs:documentation>Actual draught of the vessel in meters</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="2"/>
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ETA" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the Expected Time Of Arrival of the target at the destination</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ATD" type="xs:dateTime" use="optional">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ) of the Actual Time Of Departure of the target</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ISPSLevel" use="optional">
+				<xs:annotation>
+					<xs:documentation>The ISPS level of the object (1 = normal, 2 = heightended, 3 = exceptional)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OverSizedLength" use="optional">
+				<xs:annotation>
+					<xs:documentation>Length of the target in meter as confirmed by NCA, in case of a convoy of barges</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="1"/>
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OverSizedWidth" use="optional">
+				<xs:annotation>
+					<xs:documentation>Width of the target in meter as confirmed by the NCA, in case of a convoy of barges</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:fractionDigits value="1"/>
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PersonsOnBoard" use="optional">
+				<xs:annotation>
+					<xs:documentation>The number of persons on board of the object, should equal the sum of crew, passengers and support personel if available</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Pilots" use="optional">
+				<xs:annotation>
+					<xs:documentation>Pilot status
+0 = unknown
+1 = pilot on board
+2 = object under remote pilotage
+3 = pilot required</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RouteBound" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>This object is bound to the route of this voyage</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SourceId" use="optional">
+				<xs:annotation>
+					<xs:documentation>Unique identification of the producer  (UN/LOCODE)  in case multiple producers exist on the same LOCODE, the local competent authority can optionally addended this with a local  code (e.g. BE ANR 01 = Antwerp, 01)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceName" use="required">
+				<xs:annotation>
+					<xs:documentation>Identification of the originator of this data</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="42"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SourceType" use="required">
+				<xs:annotation>
+					<xs:documentation>Source/originator type: 0 = Unknown, 1 = Transponder, 2 = Database (VTS Plan Server), 3 = Manual (VTS Officer), 4 =  Fused,  5 = External Source</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+						<xs:enumeration value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TankerStatus" use="optional">
+				<xs:annotation>
+					<xs:documentation>Describes the status of the tanker
+0 = Non gas free
+1 = Gas free
+2 = Inert</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="0"/>
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Tugs" type="xs:boolean" use="optional">
+				<xs:annotation>
+					<xs:documentation>Object uses tugs</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="UpdateTime" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time in (subset of ISO 8601) UTC format (YYYY-MM-DDThh:mm:ss.sssZ)  this data was compiled</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
