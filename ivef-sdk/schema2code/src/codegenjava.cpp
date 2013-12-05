@@ -454,7 +454,17 @@ void CodeGenJava::go() {
         // xml generator
         // if attribute name and type are the same it means it was data
         classFileOut << "    public String toXML() {\n\n";
+        classFileOut << "       return toXML(true);\n\n";
+        classFileOut << "    }\n\n";
+        
+        classFileOut << "    public String toXML(boolean outputNamespace) {\n\n";
         classFileOut << "        String xml = \"<" << name << "\";\n"; // append attributes
+        
+        classFileOut << "        if (outputNamespace) {\n";
+        classFileOut << "            xml += \" xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\"\";\n";
+        classFileOut << "            xml += \" xmlns=\\\"" << nameSpace << "\\\"\";\n";
+        classFileOut << "        };\n\n";
+        
         classFileOut << "        DateFormat df = new SimpleDateFormat(\"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\");\n"; // issue 28, issue 55
         classFileOut << "        df.setTimeZone(TimeZone.getTimeZone(\"UTC\"));\n";
         classFileOut << "        DecimalFormat nf = new DecimalFormat();\n"; // issue 63
@@ -553,7 +563,7 @@ void CodeGenJava::go() {
                             }
                             classFileOut << "            xml += \"<" << attr->name() << ">\" + " << varName << " +  \"</" << attr->name() << ">\";\n";
                         } else {
-                            classFileOut << "            dataMember = attribute.toXML();\n"; // issue 21
+                            classFileOut << "            dataMember = attribute.toXML(false);\n"; // issue 21
                             classFileOut << "            if (dataMember != null) {\n";
                             classFileOut << "               xml += dataMember;\n";
                             classFileOut << "            } else {\n";
@@ -568,7 +578,7 @@ void CodeGenJava::go() {
                             classFileOut << "            xml += " << variableName(attr->name()) << ";\n";
                             classFileOut << "            xml += \"</" << attr->name() << ">\\n\";\n";
                         } else {
-                            classFileOut << "            dataMember = " << " " << variableName(attr->name()) << ".toXML() ;\n";
+                            classFileOut << "            dataMember = " << " " << variableName(attr->name()) << ".toXML(false) ;\n";
                             classFileOut << "            if (dataMember != null) {\n"; // issue 21
                             classFileOut << "               xml += dataMember;\n";
                             classFileOut << "            } else {\n";
@@ -578,7 +588,7 @@ void CodeGenJava::go() {
                         classFileOut << "        } \n";
                     } else {
                         classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n"; // issue 21
-                        classFileOut << "            dataMember = " << " " << variableName(attr->name()) << ".toXML() ;\n";
+                        classFileOut << "            dataMember = " << " " << variableName(attr->name()) << ".toXML(false) ;\n";
                         classFileOut << "            if (dataMember != null) {\n"; // issue 21
                         classFileOut << "               xml += dataMember;\n";
                         classFileOut << "            } else {\n";

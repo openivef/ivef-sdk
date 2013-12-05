@@ -8,7 +8,7 @@ MSG_IVEF
             Reason = String
             ResponseOn = 6289936C-DFAC-11E0-B7BA-B2E24824019B
             Result = 1
-<MSG_IVEF>
+<MSG_IVEF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5">
 <Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="String"/>
 <Body>
 <LoginResponse Reason="String" ResponseOn="6289936C-DFAC-11E0-B7BA-B2E24824019B" Result="1"/>
