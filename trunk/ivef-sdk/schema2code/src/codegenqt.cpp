@@ -495,7 +495,7 @@ void CodeGenQT::classFiles() {
         headerFileOut << "    //! If null returned check lastError() for problem description\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
-        headerFileOut << "    const QString& toXML();\n\n";
+        headerFileOut << "    const QString& toXML(bool outputNamespace = true);\n\n";
 
         headerFileOut << "    //! generates output of this object including attributes and child elements\n";
         headerFileOut << "    //!\n";
@@ -929,17 +929,25 @@ void CodeGenQT::classFiles() {
         // xml generator
         // if attribute name and type are the same it means it was data
         classFileOut << "// Get XML Representation\n";
-        classFileOut << "const QString& " << className(name) << "::toXML() {\n\n";
+        classFileOut << "const QString& " << className(name) << "::toXML(bool outputNamespace) {\n\n";
         classFileOut << "    if ( m_changed ) {\n";
         classFileOut << "        const static QString endAttr( \"\\\"\" );\n";
         classFileOut << "        QString xml = \"<" << name << "\";\n"; // append attributes
+
+        classFileOut << "        if (outputNamespace)\n";
+        classFileOut << "        {\n";
+
+        classFileOut << "            xml.append(\" xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\"\");\n";
+        classFileOut << "            xml.append(\" xmlns=\\\"" << nameSpace << "\\\"\");\n";
+        classFileOut << "        }\n";
+
         classFileOut << "        QString dataMember;\n"; // append attributes
 
         // for attributes
         bool hasDataMembers = false;
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
-            QString attrType = attr->type();
+            // QString attrType = attr->type();
            /*
             if ((attrType != attr->name()) && attr->isElement()) {
                 std::cout << "ERROR: item assumed to be attribute but is element: " << attr->name().toLatin1().data() << std::endl;
@@ -1013,9 +1021,9 @@ void CodeGenQT::classFiles() {
                             QString varName = localTypeToString(attr, "attribute", attr->enumeration().empty() && !attr->isFixed());
                             classFileOut << "            xml.append( \"<" << attr->name() << ">\" + " << varName << " +  \"</" << attr->name() << ">\" );\n";
                         } else {
-                            classFileOut << "            dataMember = attribute.toXML();\n";
+                            classFileOut << "            dataMember = attribute.toXML(false);\n";
                             classFileOut << "            if (dataMember != QString::null) {\n";
-                            classFileOut << "               xml.append( attribute.toXML() );\n";
+                            classFileOut << "               xml.append( dataMember );\n";
                             classFileOut << "            } else {\n";
                             classFileOut << "                m_lastError = \"" << attr->name() << ":\" + attribute.lastError();\n";
                             classFileOut << "                m_store  = QString::null;\n";
@@ -1031,7 +1039,7 @@ void CodeGenQT::classFiles() {
                             classFileOut << "            xml.append( " << variableName(attr->name()) << " );\n";
                             classFileOut << "            xml.append( \"</" << attr->name() << ">\\n\" );\n";
                         } else {
-                            classFileOut << "            dataMember = " << variableName(attr->name()) << ".toXML();\n";
+                            classFileOut << "            dataMember = " << variableName(attr->name()) << ".toXML(false);\n";
                             classFileOut << "            if (dataMember != QString::null) {\n";
                             classFileOut << "                xml.append( dataMember );\n";
                             classFileOut << "            } else {\n";
@@ -1044,7 +1052,7 @@ void CodeGenQT::classFiles() {
                     } else {
                         classFileOut << "        // check for presence of required data member\n";
                         classFileOut << "        if ( " << variableName(attr->name()) << "Present) {\n";
-                        classFileOut << "            dataMember = " << variableName(attr->name()) << ".toXML();\n";
+                        classFileOut << "            dataMember = " << variableName(attr->name()) << ".toXML(false);\n";
                         classFileOut << "            if (dataMember != QString::null) {\n";
                         classFileOut << "                xml.append( dataMember );\n";
                         classFileOut << "            } else {\n";

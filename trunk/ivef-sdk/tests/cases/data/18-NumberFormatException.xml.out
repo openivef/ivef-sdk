@@ -4,22 +4,22 @@ MSG_IVEF
         MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
         Version = 0.1.5
     Body
-	  ObjectDatas
-	      ObjectData
-            	TrackData
-                   COG = 0.0
-                   Id = 2
-                   Length = 10.000000
-                   SOG = 0.0
-		   SourceId = 12345
-                   SourceName = abc
-                   UpdateTime = 2010-04-28T15:26:32.250Z
-		   TrackStatus = 3
-                   Pos
-		       Altitude=10.000000
-                       Lat = 0.00000
-                       Long = 0.00000
-<MSG_IVEF>
+        ObjectDatas
+            ObjectData
+                TrackData
+                    COG = 0.0
+                    Id = 2
+                    Length = 10.000000
+                    SOG = 0.0
+                    SourceId = 12345
+                    SourceName = abc
+                    UpdateTime = 2010-04-28T15:26:32.250Z
+                    TrackStatus = 3
+                    Pos
+                        Altitude = 10.000000
+                        Lat = 0.00000
+                        Long = 0.00000
+<MSG_IVEF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5">
 <Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="0.1.5"/>
 <Body>
 <ObjectDatas>

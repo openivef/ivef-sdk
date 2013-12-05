@@ -1,14 +1,14 @@
 TestApp ready for input
 MSG_IVEF
     Header
-     MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
-     Version = 1.2
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+        Version = 1.2
     Body
         LoginRequest
-		Encryption = 1
-         	Name = John Doe
-         	Password = Very Secret
-<MSG_IVEF>
+            Encryption = 1
+            Name = John Doe
+            Password = Very Secret
+<MSG_IVEF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5">
 <Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="1.2"/>
 <Body>
 <LoginRequest Encryption="1" Name="John Doe" Password="Very Secret"/>

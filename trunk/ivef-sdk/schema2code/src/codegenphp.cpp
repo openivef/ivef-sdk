@@ -426,8 +426,19 @@ void CodeGenPHP::go() {
 
         // xml generator
         // if attribute name and type are the same it means it was data
-        classFileOut << "    public function toXML() {\n\n";
-    classFileOut << "        $xml = new SimpleXMLElement(\"<" << name << "></" << name << ">\");\n";
+        classFileOut << "    public function toXML($outputNamespace = true) {\n\n";
+     
+        classFileOut << "        if ($outputNamespace)\n";
+        classFileOut << "        {\n";
+        classFileOut << "            $rootNodeTag  = \"<" << name << "\";\n";
+        classFileOut << "            $rootNodeTag .= \" xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\"\";\n";
+        classFileOut << "            $rootNodeTag .= \" xmlns=\\\"" << nameSpace << "\\\"\";\n";
+        classFileOut << "            $rootNodeTag .= \"></" << name << ">\";\n";
+        classFileOut << "        }\n";
+        classFileOut << "        else\n";
+        classFileOut << "            $rootNodeTag = \"<" << name << "></" << name << ">\";\n";
+        
+        classFileOut << "        $xml = new SimpleXMLElement($rootNodeTag);\n";
         classFileOut << "\n";
 
         // for attributes
@@ -482,7 +493,7 @@ void CodeGenPHP::go() {
                             classFileOut << "            $xml->addChild('" << attr->name() << "', " << varName << ");\n";
                         } else {
                             classFileOut << "        $dom = dom_import_simplexml($xml);\n";
-                            classFileOut << "        $child_as_xml = $attribute->toXML();\n";
+                            classFileOut << "        $child_as_xml = $attribute->toXML(false);\n";
                             classFileOut << "        $child_as_simplexml = new SimpleXMLElement($child_as_xml);\n";
                             classFileOut << "        $child_as_dom = dom_import_simplexml($child_as_simplexml);\n";
                             classFileOut << "        $child_as_leaf = $dom->ownerDocument->importNode($child_as_dom, true);\n";
@@ -497,7 +508,7 @@ void CodeGenPHP::go() {
                             classFileOut << "            $xml->addChild('" << attr->name() << "', " << varName << ");\n";
                         } else {
                             classFileOut << "            $dom = dom_import_simplexml($xml);\n";
-                            classFileOut << "            $child_as_xml = " << variableName(attr->name()) << "->toXML();\n";
+                            classFileOut << "            $child_as_xml = " << variableName(attr->name()) << "->toXML(false);\n";
                             classFileOut << "            $child_as_simplexml = new SimpleXMLElement($child_as_xml);\n";
                             classFileOut << "            $child_as_dom = dom_import_simplexml($child_as_simplexml);\n";
                             classFileOut << "            $child_as_leaf = $dom->ownerDocument->importNode($child_as_dom, true);\n";
@@ -508,7 +519,7 @@ void CodeGenPHP::go() {
                     } else {  // required
                         classFileOut << "        if ( " << variableName(attr->name()) << "Present ) {\n";
                         classFileOut << "            $dom = dom_import_simplexml($xml);\n";
-                        classFileOut << "            $child_as_xml = " << variableName(attr->name()) << "->toXML();\n";
+                        classFileOut << "            $child_as_xml = " << variableName(attr->name()) << "->toXML(false);\n";
                         classFileOut << "            $child_as_simplexml = new SimpleXMLElement($child_as_xml);\n";
                         classFileOut << "            $child_as_dom = dom_import_simplexml($child_as_simplexml);\n";
                         classFileOut << "            $child_as_leaf = $dom->ownerDocument->importNode($child_as_dom, true);\n";
