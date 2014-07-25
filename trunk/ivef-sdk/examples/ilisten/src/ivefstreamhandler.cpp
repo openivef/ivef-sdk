@@ -230,21 +230,23 @@ void IVEFStreamHandler::slotReadyRead() {
         // which we will ignore and continue with the new chunk
         if ( m_buffer.size() > 0 ) {
             m_strm.avail_in = newData.size();
-            m_strm.next_in = (Bytef*) newData.data();
+            m_strm.next_in = reinterpret_cast<Bytef*> (newData.data());
 
             QByteArray outBuffer = QByteArray(outBufferLen, 0x00);
             m_strm.avail_out = outBuffer.size();
-            m_strm.next_out = (Bytef*) outBuffer.data();
+            m_strm.next_out = reinterpret_cast<Bytef*> (outBuffer.data());
 
             if ( inflate( &m_strm , Z_SYNC_FLUSH ) >= 0 ) {
                 m_buffer.clear();
             }
+            // Reset the state, or the error is preserved.
+            inflateReset( &m_strm );
         }
         m_buffer.append( newData );
 
         // set decompression starting point at begin of m_buffer
         m_strm.avail_in = m_buffer.size();
-        m_strm.next_in = (Bytef*) m_buffer.data();
+        m_strm.next_in = reinterpret_cast<Bytef*> (m_buffer.data());
 
         int ret = 0;
         int prevAvailIn;
@@ -253,8 +255,10 @@ void IVEFStreamHandler::slotReadyRead() {
             // reset output buffer
             QByteArray outBuffer = QByteArray(outBufferLen, 0x00);
             m_strm.avail_out = outBuffer.size();
-            m_strm.next_out = (Bytef*) outBuffer.data();
+            m_strm.next_out = reinterpret_cast<Bytef*> (outBuffer.data());
 
+            // remember avail_in before inflate so that we can keep a chunk that was decompressed without STREAM_END
+            // in m_buffer.
             prevAvailIn = m_strm.avail_in;
 
             // reset decompressor stream
@@ -264,7 +268,8 @@ void IVEFStreamHandler::slotReadyRead() {
             // This function discards any unprocessed input and does not flush any pending output.
             // Does not free and reallocate all the internal decompression state.
             //if ( inflateReset( &zlibStream ) != Z_OK ) //qDebug () << "Inflate reset error";
-            inflateReset( &m_strm );
+            if (ret != Z_OK)
+                inflateReset( &m_strm );
 
             // decompress as much compressed data in m_buffer as possible
             // Note: will stop at end of each concatenated block of compressed data in the buffer
@@ -273,7 +278,10 @@ void IVEFStreamHandler::slotReadyRead() {
             if ( ret < 0 ) {
                 std::cerr << "Inflate error: " << ret << std::endl;
                 m_buffer.clear();
-            }else if (ret > 0 ){
+            } else if ( ret == Z_OK && m_strm.avail_out == 0 ) {
+                // Save the data in the outBuffer
+                outString.append( outBuffer );
+            } else if (ret > 0 ){
                 // append decompressed data to output data if Z_STREAM_END (or Z_NEED_DICT) was returned
                 outBuffer.resize( outBufferLen - m_strm.avail_out );
                 outString.append( QString::fromUtf8(outBuffer) );
@@ -288,6 +296,8 @@ void IVEFStreamHandler::slotReadyRead() {
         }else if ( ret == Z_OK ) { // STREAM_END not reached, keep unfinished chunk for next run
             m_buffer = QByteArray( m_buffer.mid(m_buffer.size() - prevAvailIn) );
         }
+
+        inflateEnd( &m_strm );
     }
     else
 #endif // HAVE_ZLIB
