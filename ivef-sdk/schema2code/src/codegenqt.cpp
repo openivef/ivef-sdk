@@ -1513,13 +1513,14 @@ void CodeGenQT::functionsFile()
     classFileOut << "QString dateToString( const QDateTime& dateTime ) {\n\n";
     classFileOut << "    if ( !dateTime.isValid() ) return QString::null;\n\n";
     classFileOut << "    // make string yyyy-MM-ddTHH:mm:ss.zzzZ\n";
-    classFileOut << "    QString result( QString::number( dateTime.date().year() ) );\n";
-    classFileOut << "    result += '-';\n    result += nrToString( dateTime.date().month(), 2 );\n";
-    classFileOut << "    result += '-';\n    result += nrToString( dateTime.date().day(), 2 );\n";
-    classFileOut << "    result += 'T';\n    result += nrToString( dateTime.time().hour(), 2 );\n";
-    classFileOut << "    result += ':';\n    result += nrToString( dateTime.time().minute(), 2 );\n";
-    classFileOut << "    result += ':';\n    result += nrToString( dateTime.time().second(), 2 );\n";
-    classFileOut << "    result += '.';\n    result += nrToString( dateTime.time().msec(), 3 );\n";
+    classFileOut << "    QDateTime utcDateTime = dateTime.toUTC();\n";
+    classFileOut << "    QString result( QString::number( utcDateTime.date().year() ) );\n";
+    classFileOut << "    result += '-';\n    result += nrToString( utcDateTime.date().month(), 2 );\n";
+    classFileOut << "    result += '-';\n    result += nrToString( utcDateTime.date().day(), 2 );\n";
+    classFileOut << "    result += 'T';\n    result += nrToString( utcDateTime.time().hour(), 2 );\n";
+    classFileOut << "    result += ':';\n    result += nrToString( utcDateTime.time().minute(), 2 );\n";
+    classFileOut << "    result += ':';\n    result += nrToString( utcDateTime.time().second(), 2 );\n";
+    classFileOut << "    result += '.';\n    result += nrToString( utcDateTime.time().msec(), 3 );\n";
     classFileOut << "    result += 'Z';\n    return result;\n";
     classFileOut << "}\n\n";
 
