@@ -17,7 +17,17 @@ then
     COMMAND='java -classpath ../java/target/testjava.jar:../../build/targets/java/ivef/ivef.jar testjava/testjava'
 elif [ "$1" == "php" ]
 then
-    COMMAND='php5 ../php/test.php'
+    # Make it more portable
+    if type php5 >/dev/null 2>&1    
+    then
+        COMMAND='php5 ../php/test.php'
+    elif type php >/dev/null 2>&1    
+    then
+        COMMAND='php ../php/test.php'
+    else
+        echo "php executable not found" >&2
+        exit 1
+    fi
 elif [ "$1" == "all" ]
 then
     # recursive call of ourselfs
