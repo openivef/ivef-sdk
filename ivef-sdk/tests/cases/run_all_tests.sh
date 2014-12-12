@@ -61,20 +61,20 @@ do
    fi
    echo -n running test $TESTCASE $TESTNAME ......
 
-   cat ${INPUTFILE} | $COMMAND > ${TMPDIR}/$OUTNAME 
+   cat ${INPUTFILE} | $COMMAND > ${TMPDIR}/$OUTNAME
 
-      if [ "$(diff -w data/$OUTNAME ${TMPDIR}/$OUTNAME)" == "" ] 
-      then 
-          echo OK
-      else
-          echo NOK
-          echo ---
-          echo Difference: ${TMPDIR}/$OUTNAME data/$OUTNAME
-          echo ---
-          sdiff -W ${TMPDIR}/$OUTNAME data/$OUTNAME
-          echo ---
-          exit 1
-      fi
+   if [ "$(diff -w data/$OUTNAME ${TMPDIR}/$OUTNAME)" == "" ] 
+   then 
+       echo OK
+   else
+       echo NOK
+       echo ---
+       echo Difference: ${TMPDIR}/$OUTNAME data/$OUTNAME
+       echo ---
+       sdiff -W ${TMPDIR}/$OUTNAME data/$OUTNAME
+       echo ---
+       exit 1
+   fi
 done 
 
 # all test ok, clean up
