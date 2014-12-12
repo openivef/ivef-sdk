@@ -13,7 +13,7 @@ MSG_IVEF
                     SOG = 3.1
                     SourceId = sensor1
                     SourceName = vts1
-                    UpdateTime = 2001-12-17T09:30:47.123
+                    UpdateTime = 2001-12-17T09:30:47.123Z
                     TrackStatus = 1
                     Width = 3.100000
                     Pos
@@ -125,8 +125,8 @@ MSG_IVEF
                     DepartCode = lD.XTEPRm
                     DepartName = huMKX99qxFv6fuqZW
                     Draught = 2,003,303,337.46
-                    ETA = 2013-07-04T17:14:46
-                    ATD = 2011-12-04T17:14:46
+                    ETA = 2013-07-04T17:14:46Z
+                    ATD = 2011-12-04T17:14:46Z
                     ISPSLevel = 1.000000
                     OverSizedLength = 1,790,629,738.2
                     OverSizedWidth = 1,637,154,450.0
@@ -138,7 +138,7 @@ MSG_IVEF
                     SourceType = 4
                     TankerStatus = 0
                     Tugs = true
-                    UpdateTime = 2012-07-11T17:14:46
+                    UpdateTime = 2012-07-11T17:14:46Z
                 VoyageData
                     AirDraught = 992,572,601.78
                     Id = -1641240363
@@ -149,8 +149,8 @@ MSG_IVEF
                     DepartCode = lD.XTEPRm
                     DepartName = huMKX99qxFv6fuqZW
                     Draught = 2,003,303,337.46
-                    ETA = 2013-07-04T17:14:46
-                    ATD = 2011-12-04T17:14:46
+                    ETA = 2013-07-04T17:14:46Z
+                    ATD = 2011-12-04T17:14:46Z
                     ISPSLevel = 1.000000
                     OverSizedLength = 1,790,629,738.2
                     OverSizedWidth = 1,637,154,450.0
@@ -162,7 +162,7 @@ MSG_IVEF
                     SourceType = 4
                     TankerStatus = 0
                     Tugs = true
-                    UpdateTime = 2012-07-11T17:14:46
+                    UpdateTime = 2012-07-11T17:14:46Z
                 VoyageData
                     AirDraught = 992,572,601.78
                     Id = -1641240363
@@ -173,8 +173,8 @@ MSG_IVEF
                     DepartCode = lD.XTEPRm
                     DepartName = huMKX99qxFv6fuqZW
                     Draught = 2,003,303,337.46
-                    ETA = 2013-07-04T17:14:46
-                    ATD = 2011-12-04T17:14:46
+                    ETA = 2013-07-04T17:14:46Z
+                    ATD = 2011-12-04T17:14:46Z
                     ISPSLevel = 1.000000
                     OverSizedLength = 1,790,629,738.2
                     OverSizedWidth = 1,637,154,450.0
@@ -186,13 +186,13 @@ MSG_IVEF
                     SourceType = 4
                     TankerStatus = 0
                     Tugs = true
-                    UpdateTime = 2012-07-11T17:14:46
+                    UpdateTime = 2012-07-11T17:14:46Z
 <MSG_IVEF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5">
   <Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="0.2.5"/>
   <Body>
     <ObjectDatas>
       <ObjectData>
-        <TrackData COG="3.1" Id="0" Length="3.100000" SOG="3.1" SourceId="sensor1" SourceName="vts1" UpdateTime="2001-12-17T09:30:47.123" TrackStatus="1" Width="3.100000">
+        <TrackData COG="3.1" Id="0" Length="3.100000" SOG="3.1" SourceId="sensor1" SourceName="vts1" UpdateTime="2001-12-17T09:30:47.123Z" TrackStatus="1" Width="3.100000">
           <Pos Altitude="3.141593" Lat="3.14159" Long="3.14159"/>
           <NavStatus Value="8"/>
         </TrackData>
@@ -208,9 +208,9 @@ MSG_IVEF
           <Construction HullColor="UFSu_U" HullType="3" DeadWeight="1,304,798,128.493000" GrossWeight="709,210,134.979000" Length="323,750,795.934000" LloydsShipType="1427749124" YearOfBuild="2011" MaxAirDraught="713,254,240.8" MaxDraught="2,120,763,853.2" MaxPersonsOnBoard="508512354" MaxSpeed="878,581,722.570000" Width="72,479,462.640000"/>
           <Identifier Callsign="d4CCq4" IMO="-403178342" Name="Y" FormerName="dpgnOSUdEhEx7xhpt" Flag="zX" Owner="LBMtqOaliRZOP23MyISqVo33d" MMSI="740102918" LRIT="PPY5oTVGtVHTCg"/>
         </VesselData>
-        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46" ATD="2011-12-04T17:14:46" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46"/>
-        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46" ATD="2011-12-04T17:14:46" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46"/>
-        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46" ATD="2011-12-04T17:14:46" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46"/>
+        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46Z" ATD="2011-12-04T17:14:46Z" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46Z"/>
+        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46Z" ATD="2011-12-04T17:14:46Z" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46Z"/>
+        <VoyageData AirDraught="992,572,601.78" Id="-1641240363" CargoTypeIMO="5" ContactIdentity="YAlTpgn9Fw" DestCode="adHeF8qKi" DestName="dgWX6nPgylq" DepartCode="lD.XTEPRm" DepartName="huMKX99qxFv6fuqZW" Draught="2,003,303,337.46" ETA="2013-07-04T17:14:46Z" ATD="2011-12-04T17:14:46Z" ISPSLevel="1.000000" OverSizedLength="1,790,629,738.2" OverSizedWidth="1,637,154,450.0" PersonsOnBoard="945279249" Pilots="418,784,089.315000" RouteBound="0" SourceId="s5ZcWVv5.Gnz3g1" SourceName="EdZpkQXa8eq2USZi_DGJsi0KdGkV-299asyeG3WsFB" SourceType="4" TankerStatus="0" Tugs="true" UpdateTime="2012-07-11T17:14:46Z"/>
       </ObjectData>
     </ObjectDatas>
   </Body>
