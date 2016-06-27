@@ -9,3 +9,5 @@ Makes a parser for IVEF XML in a few steps.
 * Step 3: Build the parser library
 
 Examples for how the library can be used to generate XML or read XML are available in the example directory.
+
+Build: Use _qmake_ and then _make_. Results (schema to code executable, libraries and examples) are in build directory.
