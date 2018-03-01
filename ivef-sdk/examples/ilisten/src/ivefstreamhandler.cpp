@@ -302,7 +302,7 @@ void IVEFStreamHandler::slotReadyRead() {
     else
 #endif // HAVE_ZLIB
     {
-       outString = QString::fromUtf8(m_buffer);
+       outString = QString::fromUtf8(newData);
 
        // clear the buffer
        m_buffer.resize(0);
