@@ -146,44 +146,49 @@ int MSG_Notification::countOfMessages() const {
 }
 
 // Get XML Representation
-const QString& MSG_Notification::toXML() {
+const QString& MSG_Notification::toXML(bool outputNamespace) {
 
     if ( m_changed ) {
         const static QString endAttr( "\"" );
         QString xml = "<MSG_Notification";
+        if (outputNamespace)
+        {
+            xml.append(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+            xml.append(" xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"");
+        }
         QString dataMember;
         xml.append(">\n");
         if (m_events.count() < 0) {
             m_lastError = "not enough Event values";
-            m_store  = QString::null;
+            m_store  = QString();
             return m_store;
         }
         // add all included data
         for(int i=0; i < m_events.count(); i++ ) {
             Event attribute = m_events.at(i);
-            dataMember = attribute.toXML();
-            if (dataMember != QString::null) {
-               xml.append( attribute.toXML() );
+            dataMember = attribute.toXML(false);
+            if (dataMember != QString()) {
+               xml.append( dataMember );
             } else {
                 m_lastError = "Event:" + attribute.lastError();
-                m_store  = QString::null;
+                m_store  = QString();
                 return m_store;
             }
         }
         if (m_messages.count() < 0) {
             m_lastError = "not enough Message values";
-            m_store  = QString::null;
+            m_store  = QString();
             return m_store;
         }
         // add all included data
         for(int i=0; i < m_messages.count(); i++ ) {
             Message attribute = m_messages.at(i);
-            dataMember = attribute.toXML();
-            if (dataMember != QString::null) {
-               xml.append( attribute.toXML() );
+            dataMember = attribute.toXML(false);
+            if (dataMember != QString()) {
+               xml.append( dataMember );
             } else {
                 m_lastError = "Message:" + attribute.lastError();
-                m_store  = QString::null;
+                m_store  = QString();
                 return m_store;
             }
         }

@@ -126,9 +126,18 @@ class Event {
         return $this->m_speedPresent;
     }
 
-    public function toXML() {
+    public function toXML($outputNamespace = true) {
 
-        $xml = new SimpleXMLElement("<Event></Event>");
+        if ($outputNamespace)
+        {
+            $rootNodeTag  = "<Event";
+            $rootNodeTag .= " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+            $rootNodeTag .= " xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"";
+            $rootNodeTag .= "></Event>";
+        }
+        else
+            $rootNodeTag = "<Event></Event>";
+        $xml = new SimpleXMLElement($rootNodeTag);
 
         if ( $this->hasName() ) {
             $xml->addAttribute('Name', $this->m_name);

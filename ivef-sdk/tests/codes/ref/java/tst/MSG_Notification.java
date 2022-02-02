@@ -100,7 +100,18 @@ public class MSG_Notification {
 
     public String toXML() {
 
+       return toXML(true);
+
+    }
+
+    public String toXML(boolean outputNamespace) {
+
         String xml = "<MSG_Notification";
+        if (outputNamespace) {
+            xml += " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+            xml += " xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"";
+        };
+
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         DecimalFormat nf = new DecimalFormat();
@@ -114,7 +125,7 @@ public class MSG_Notification {
         }
         for(int i=0; i < m_events.size(); i++ ) {
            Event attribute = m_events.get(i);
-            dataMember = attribute.toXML();
+            dataMember = attribute.toXML(false);
             if (dataMember != null) {
                xml += dataMember;
             } else {
@@ -126,7 +137,7 @@ public class MSG_Notification {
         }
         for(int i=0; i < m_messages.size(); i++ ) {
            Message attribute = m_messages.get(i);
-            dataMember = attribute.toXML();
+            dataMember = attribute.toXML(false);
             if (dataMember != null) {
                xml += dataMember;
             } else {
