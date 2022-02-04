@@ -39,9 +39,18 @@ class Schema {
         return "http://www.mvi.org/XMLSchema/mvi/2.0";
     }
 
-    public function toXML() {
+    public function toXML($outputNamespace = true) {
 
-        $xml = new SimpleXMLElement("<Schema></Schema>");
+        if ($outputNamespace)
+        {
+            $rootNodeTag  = "<Schema";
+            $rootNodeTag .= " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+            $rootNodeTag .= " xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"";
+            $rootNodeTag .= "></Schema>";
+        }
+        else
+            $rootNodeTag = "<Schema></Schema>";
+        $xml = new SimpleXMLElement($rootNodeTag);
 
         return $xml->asXML();
     }

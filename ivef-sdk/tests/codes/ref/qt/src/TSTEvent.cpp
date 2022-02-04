@@ -236,11 +236,16 @@ bool Event::hasSpeed() const {
 }
 
 // Get XML Representation
-const QString& Event::toXML() {
+const QString& Event::toXML(bool outputNamespace) {
 
     if ( m_changed ) {
         const static QString endAttr( "\"" );
         QString xml = "<Event";
+        if (outputNamespace)
+        {
+            xml.append(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+            xml.append(" xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"");
+        }
         QString dataMember;
             // check for presence of optional attribute
             if ( hasName() ) {

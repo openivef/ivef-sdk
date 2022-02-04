@@ -210,18 +210,23 @@ QString Message::getVersion() const {
 }
 
 // Get XML Representation
-const QString& Message::toXML() {
+const QString& Message::toXML(bool outputNamespace) {
 
     if ( m_changed ) {
         const static QString endAttr( "\"" );
         QString xml = "<Message";
+        if (outputNamespace)
+        {
+            xml.append(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+            xml.append(" xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"");
+        }
         QString dataMember;
             // check for presence of required  attribute
         if ( m_timeStampPresent) {
             xml.append(" TimeStamp=\"" + dateToString( m_timeStamp) + endAttr);
         } else { // required attribute not present
             m_lastError = "TimeStamp not set";
-            m_store  = QString::null;
+            m_store  = QString();
             return m_store;
         }
             // check for presence of required  attribute
@@ -229,7 +234,7 @@ const QString& Message::toXML() {
             xml.append(" Code=\"" + QString::number( m_code ) + endAttr);
         } else { // required attribute not present
             m_lastError = "Code not set";
-            m_store  = QString::null;
+            m_store  = QString();
             return m_store;
         }
             // check for presence of required  attribute
@@ -237,18 +242,18 @@ const QString& Message::toXML() {
             xml.append(" Version=\"" + m_version + endAttr);
         } else { // required attribute not present
             m_lastError = "Version not set";
-            m_store  = QString::null;
+            m_store  = QString();
             return m_store;
         }
         xml.append(">\n");
         if (m_arguments.count() < 0) {
             m_lastError = "not enough Argument values";
-            m_store  = QString::null;
+            m_store  = QString();
             return m_store;
         }
         if (m_arguments.count() > 10) {
             m_lastError = "too much Argument values";
-            m_store  = QString::null;
+            m_store  = QString();
             return m_store;
         }
         // add all included data

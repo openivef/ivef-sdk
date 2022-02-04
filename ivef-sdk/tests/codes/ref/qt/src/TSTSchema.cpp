@@ -44,7 +44,7 @@ Schema::Schema(const Schema &val)
 }
 
 // compare
-bool Schema::operator==(const Schema &val) {
+bool Schema::operator==(const Schema &/*val*/) {
 
     return true;
 }
@@ -70,11 +70,16 @@ QString Schema::getTargetNamespace() const {
 }
 
 // Get XML Representation
-const QString& Schema::toXML() {
+const QString& Schema::toXML(bool outputNamespace) {
 
     if ( m_changed ) {
         const static QString endAttr( "\"" );
         QString xml = "<Schema";
+        if (outputNamespace)
+        {
+            xml.append(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+            xml.append(" xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"");
+        }
         QString dataMember;
         xml.append("/>\n");
         m_store = xml;
