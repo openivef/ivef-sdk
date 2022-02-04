@@ -47,7 +47,7 @@ testqt::testqt( int & argc, char ** argv )
 void testqt::slotMSG_IVEF( ivef::MSG_IVEF obj ) {
     std::cout << obj.toString("").toUtf8().data();
     QString xml = obj.toXML();
-    if ( xml == QString::null )
+    if ( xml.isEmpty() )
         std::cout << obj.lastError().toUtf8().data();
     else
         std::cout << xml.toUtf8().data();

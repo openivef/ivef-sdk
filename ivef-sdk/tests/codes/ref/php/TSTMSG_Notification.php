@@ -95,16 +95,25 @@ class MSG_Notification {
         return count($this->m_messages);
     }
 
-    public function toXML() {
+    public function toXML($outputNamespace = true) {
 
-        $xml = new SimpleXMLElement("<MSG_Notification></MSG_Notification>");
+        if ($outputNamespace)
+        {
+            $rootNodeTag  = "<MSG_Notification";
+            $rootNodeTag .= " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+            $rootNodeTag .= " xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"";
+            $rootNodeTag .= "></MSG_Notification>";
+        }
+        else
+            $rootNodeTag = "<MSG_Notification></MSG_Notification>";
+        $xml = new SimpleXMLElement($rootNodeTag);
 
         if ( count($this->m_events) < 0) {
             return ""; // not enough values
         }
         foreach($this->m_events as $attribute) {
         $dom = dom_import_simplexml($xml);
-        $child_as_xml = $attribute->toXML();
+        $child_as_xml = $attribute->toXML(false);
         $child_as_simplexml = new SimpleXMLElement($child_as_xml);
         $child_as_dom = dom_import_simplexml($child_as_simplexml);
         $child_as_leaf = $dom->ownerDocument->importNode($child_as_dom, true);
@@ -116,7 +125,7 @@ class MSG_Notification {
         }
         foreach($this->m_messages as $attribute) {
         $dom = dom_import_simplexml($xml);
-        $child_as_xml = $attribute->toXML();
+        $child_as_xml = $attribute->toXML(false);
         $child_as_simplexml = new SimpleXMLElement($child_as_xml);
         $child_as_dom = dom_import_simplexml($child_as_simplexml);
         $child_as_leaf = $dom->ownerDocument->importNode($child_as_dom, true);

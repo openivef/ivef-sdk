@@ -115,11 +115,11 @@ public:
     bool hasSpeed() const;
 
     //! generates XML of this object including attributes and child elements
-    //! returns QString::null if not all required elements are available
-    //! If null returned check lastError() for problem description
+    //! returns empty string if not all required elements are available
+    //! If empty string returned, check lastError() for problem description
     //!
     //! \return     QString
-    const QString& toXML();
+    const QString& toXML(bool outputNamespace = true);
 
     //! generates output of this object including attributes and child elements
     //!

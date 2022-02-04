@@ -28,22 +28,23 @@ inline QString nrToString( int nr, int width ) {
 
 QString dateToString( const QDateTime& dateTime ) {
 
-    if ( !dateTime.isValid() ) return QString::null;
+    if ( !dateTime.isValid() ) return QString();
 
     // make string yyyy-MM-ddTHH:mm:ss.zzzZ
-    QString result( QString::number( dateTime.date().year() ) );
+    QDateTime utcDateTime = dateTime.toUTC();
+    QString result( QString::number( utcDateTime.date().year() ) );
     result += '-';
-    result += nrToString( dateTime.date().month(), 2 );
+    result += nrToString( utcDateTime.date().month(), 2 );
     result += '-';
-    result += nrToString( dateTime.date().day(), 2 );
+    result += nrToString( utcDateTime.date().day(), 2 );
     result += 'T';
-    result += nrToString( dateTime.time().hour(), 2 );
+    result += nrToString( utcDateTime.time().hour(), 2 );
     result += ':';
-    result += nrToString( dateTime.time().minute(), 2 );
+    result += nrToString( utcDateTime.time().minute(), 2 );
     result += ':';
-    result += nrToString( dateTime.time().second(), 2 );
+    result += nrToString( utcDateTime.time().second(), 2 );
     result += '.';
-    result += nrToString( dateTime.time().msec(), 3 );
+    result += nrToString( utcDateTime.time().msec(), 3 );
     result += 'Z';
     return result;
 }

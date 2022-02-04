@@ -50,7 +50,18 @@ public class Schema {
 
     public String toXML() {
 
+       return toXML(true);
+
+    }
+
+    public String toXML(boolean outputNamespace) {
+
         String xml = "<Schema";
+        if (outputNamespace) {
+            xml += " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+            xml += " xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"";
+        };
+
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         DecimalFormat nf = new DecimalFormat();

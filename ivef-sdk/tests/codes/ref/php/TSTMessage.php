@@ -118,9 +118,18 @@ class Message {
         return $this->m_version;
     }
 
-    public function toXML() {
+    public function toXML($outputNamespace = true) {
 
-        $xml = new SimpleXMLElement("<Message></Message>");
+        if ($outputNamespace)
+        {
+            $rootNodeTag  = "<Message";
+            $rootNodeTag .= " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+            $rootNodeTag .= " xmlns=\"http://www.mvi.org/XMLSchema/mvi/2.0\"";
+            $rootNodeTag .= "></Message>";
+        }
+        else
+            $rootNodeTag = "<Message></Message>";
+        $xml = new SimpleXMLElement($rootNodeTag);
 
         if ( $this->m_timeStampPresent ) {
             $xml->addAttribute('TimeStamp', $this->m_timeStamp);
