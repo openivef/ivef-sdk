@@ -44,7 +44,7 @@ QString Handler::stripNameSpace(QString tag) {
     return tag;
 }
 
-void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool isTypeDef) {
+void Handler::handleStartOfElement (const QString & qName, const QXmlStreamAttributes & atts, bool isTypeDef) {
     //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
 
     XSDObject *parent = 0;
@@ -62,8 +62,8 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
     m_objStack.push(obj); // mus always push, since we will always pop. if it was a reference we will leak here!
     bool hasMax = false, hasMin = false;
     for (int i=0; i < atts.length(); i++) {
-        QString key = atts.localName(i);
-        QString value = atts.value(i);
+        QString key = atts[i].name().toString();
+        QString value = atts[i].value().toString();
         //std::cout << QString("Attr key %1 val %2").arg(key, value).toLatin1().data() << std::endl;
         if (key == "name") {
             // new object (but name could occur multiple times)
@@ -132,13 +132,13 @@ void Handler::handleStartOfElement ( QString qName, QXmlAttributes atts, bool is
 
 }
 
-bool Handler::startElement (const QString & /* namespaceURI */,
-                            const QString & /* localName */,
-                            const QString & qualifiedName,
-                            const QXmlAttributes & atts) {
+bool Handler::startElement (const QStringRef & /* namespaceURI */,
+                            const QStringRef & /* localName */,
+                            const QStringRef &qualifiedName,
+                            const QXmlStreamAttributes & atts) {
 
     // some xsd use the xsd:<token> style
-    QString qName = qualifiedName;
+    QString qName = qualifiedName.toString();
     qName.replace(QString("xsd:"), QString("xs:"));
 
 #if 0
@@ -159,8 +159,8 @@ bool Handler::startElement (const QString & /* namespaceURI */,
         QString name = "unknown", type = "unknown", fixed = "";
         bool required = false;
         for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
+            QString key = atts[i].name().toString();
+            QString value = atts[i].value().toString();
             if (key == "name") {
                 name = value;
             } else if (key == "type") {
@@ -197,8 +197,8 @@ bool Handler::startElement (const QString & /* namespaceURI */,
             std::cout << QString("creating referal type for %1").arg(qName).toLatin1().data() << std::endl;
             QString name = "unknown";
             for (int i=0; i < atts.length(); i++) {
-                QString key = atts.localName(i);
-                QString value = atts.value(i);
+                QString key = atts[i].name().toString();
+                QString value = atts[i].value().toString();
                 if (key == "name") {
                     name = value;
                 }
@@ -213,8 +213,8 @@ bool Handler::startElement (const QString & /* namespaceURI */,
         // baseclass to this class as well
         QString base = "unknown";
         for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
+            QString key = atts[i].name().toString();
+            QString value = atts[i].value().toString();
             if (key == "base") {
                 base = stripNameSpace( value );
             }
@@ -235,40 +235,40 @@ bool Handler::startElement (const QString & /* namespaceURI */,
     } else if (qName == "xs:enumeration") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->appendEnumeration(atts.value(0)); //  has only one attribute "value = xxx"
+        attr->appendEnumeration(atts[0].value().toString()); //  has only one attribute "value = xxx"
     } else if (qName == "xs:maxInclusive") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->setMaxInclusive(atts.value(0).toDouble());
+        attr->setMaxInclusive(atts[0].value().toDouble());
     } else if (qName == "xs:maxExclusive") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->setMaxExclusive(atts.value(0).toDouble());
+        attr->setMaxExclusive(atts[0].value().toDouble());
     } else if (qName == "xs:minInclusive") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->setMinInclusive(atts.value(0).toDouble());
+        attr->setMinInclusive(atts[0].value().toDouble());
     } else if (qName == "xs:minExclusive") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->setMinExclusive(atts.value(0).toDouble());
+        attr->setMinExclusive(atts[0].value().toDouble());
     } else if (qName == "xs:fractionDigits") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->setDigits(atts.value(0).toInt());
+        attr->setDigits(atts[0].value().toInt());
     } else if (qName == "xs:minLength") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->setMinLength(atts.value(0).toInt());
+        attr->setMinLength(atts[0].value().toInt());
     } else if (qName == "xs:maxLength") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->setMaxLength(atts.value(0).toInt());
+        attr->setMaxLength(atts[0].value().toInt());
     } else if (qName == "xs:restriction") {
         // get base class
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         XSDAttribute *attr = m_attrStack.top();
-        attr->setType(atts.value(0));
+        attr->setType(atts[0].value().toString());
     } else if (qName == "xs:schema") {
         //std::cout << QString("processing %1").arg(qName).toLatin1().data() << std::endl;
         // create a schema object
@@ -279,8 +279,8 @@ bool Handler::startElement (const QString & /* namespaceURI */,
         // otherwise we have only one root object.
         //m_objStack.push(obj);
         for (int i=0; i < atts.length(); i++) {
-            QString key = atts.localName(i);
-            QString value = atts.value(i);
+            QString key = atts[i].name().toString();
+            QString value = atts[i].value().toString();
             obj->addKeyWithValue(key, value);
         }
     } else if (qName == "xs:totalDigits") {
@@ -304,19 +304,19 @@ bool Handler::startElement (const QString & /* namespaceURI */,
     return true;
 }
 
-bool Handler::characters ( const QString  & ch ) {
+bool Handler::characters ( const QStringRef &ch ) {
 
     //std::cout << QString("CH:        [%1]").arg(ch.trimmed()).toLatin1().data() << std::endl;
-    m_doc = ch.trimmed();
+    m_doc = ch.trimmed().toString();
     return true;
 }
 
-bool Handler::endElement ( const QString & /* namespaceURI */,
-                          const QString & /* localName */,
-                          const QString & qualifiedName ) {
+bool Handler::endElement ( const QStringRef & /* namespaceURI */,
+                           const QStringRef & /* localName */,
+                           const QStringRef & qualifiedName ) {
 
     // some xsd use the xsd:<token> style
-    QString qName = qualifiedName;
+    QString qName = qualifiedName.toString();
     qName.replace(QString("xsd:"), QString("xs:"));
 
 #if 0
@@ -374,11 +374,5 @@ bool Handler::endElement ( const QString & /* namespaceURI */,
 bool Handler::endDocument () {
 
     //std::cout << "ED" << std::endl;
-    return true;
-}
-
-bool Handler::error ( const QXmlParseException & exception ) {
-
-    std::cout << exception.message().toLatin1().data() << std::endl;
     return true;
 }
