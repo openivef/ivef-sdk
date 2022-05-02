@@ -24,11 +24,6 @@
 #include <QCoreApplication>
 #include "cmdlineoption.h"
 #include "handler.h"
-#include "codegenqt.h"
-#include "codegenpb.h"
-#include "codegenphp.h"
-#include "codegenjava.h"
-#include "codegenobjc.h"
 
 class MainApp : public QCoreApplication {
     Q_OBJECT
@@ -38,7 +33,7 @@ public:
 
 private:
     CmdLineOptions m_options;
-	QXmlSimpleReader *m_reader;
+    QXmlStreamReader *m_reader;
     Handler *m_handler;
 
 private slots:

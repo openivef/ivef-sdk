@@ -24,33 +24,34 @@
 #include <iostream>
 #include "xsdobject.h"
 
-class Handler : public QXmlDefaultHandler {
+class Handler : public QObject {
 
 public:
     Handler() { };
 
-	bool startDocument ();
-        bool startElement (const QString & namespaceURI,
-                       const QString & localName,
-                       const QString & qName,
-                       const QXmlAttributes & atts);
-    
-	bool characters ( const QString & ch  );
-        bool endElement ( const QString & namespaceURI, 
-					  const QString & localName, 
-					  const QString & qName );
-  	bool endDocument ();
-	bool error ( const QXmlParseException & exception );
-	
-	QVector<XSDObject*> objects();
-        void handleStartOfElement ( QString qName, QXmlAttributes atts, bool isTypeDef);
-        QString stripNameSpace(QString tag);
-	
+    bool startDocument ();
+    bool startElement (const QStringRef &namespaceURI,
+                       const QStringRef &localName,
+                       const QStringRef &qName,
+                       const QXmlStreamAttributes &atts);
+
+    bool characters (const QStringRef &ch);
+    bool endElement (const QStringRef &namespaceURI,
+                     const QStringRef &localName,
+                     const QStringRef &qName );
+    bool endDocument ();
+
+    QVector<XSDObject*> objects();
+    void handleStartOfElement (const QString & qName,
+                               const QXmlStreamAttributes & atts,
+                               bool isTypeDef);
+    QString stripNameSpace(QString tag);
+
 private:
-	QStack<XSDObject*> m_objStack;
-	QStack<XSDAttribute*>m_attrStack;
-	QVector<XSDObject*> m_objects;
-	QString m_doc;
+    QStack<XSDObject*> m_objStack;
+    QStack<XSDAttribute*>m_attrStack;
+    QVector<XSDObject*> m_objects;
+    QString m_doc;
 };
 
 #endif

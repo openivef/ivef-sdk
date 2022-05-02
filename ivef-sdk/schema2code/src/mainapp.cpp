@@ -19,6 +19,11 @@
 #include <cstdlib>
 
 #include "mainapp.h"
+#include "codegenqt.h"
+#include "codegenpb.h"
+#include "codegenphp.h"
+#include "codegenjava.h"
+#include "codegenobjc.h"
 
 #define STRINGIFY(x) XSTRINGIFY(x)
 #define XSTRINGIFY(x) #x
@@ -55,19 +60,11 @@ MainApp::MainApp( int & argc, char ** argv )
     }
 
     // setup the file handler
-    m_reader = new QXmlSimpleReader();
+    m_reader = new QXmlStreamReader();
     m_handler = new Handler();
 
-    // setup the parser
-    m_reader->setContentHandler(m_handler);
-    m_reader->setErrorHandler(m_handler);
-
     // startup timer, to allow the event loop to start
-    QTimer *timer = new QTimer( 0 ); // we leak one timer here, is acceptable
-    timer->setInterval( 100 );
-    timer->setSingleShot( true );
-    connect( timer, SIGNAL( timeout() ), this, SLOT( slotStart() ) );
-    timer->start();
+    QTimer::singleShot( 100, this, SLOT( slotStart() ) );
 }
 
 void MainApp::slotStart( void ) {
@@ -85,8 +82,33 @@ void MainApp::slotStart( void ) {
         }
 
         // and the input
-        QXmlInputSource inputXML(file);
-        m_reader->parse(inputXML); // presume we can read the whole file at once
+        m_reader->setDevice(file);
+        while (!m_reader->atEnd()) {
+            QXmlStreamReader::TokenType token = m_reader->readNext();
+            switch ( token )
+            {
+            case QXmlStreamReader::StartDocument:
+                m_handler->startDocument();
+                break;
+            case QXmlStreamReader::StartElement:
+                m_handler->startElement(m_reader->namespaceUri(), m_reader->name(), m_reader->qualifiedName(), m_reader->attributes());
+                break;
+            case QXmlStreamReader::EndElement:
+                m_handler->endElement(m_reader->namespaceUri(), m_reader->name(), m_reader->qualifiedName());
+                break;
+            case QXmlStreamReader::EndDocument:
+                m_handler->endDocument();
+                break;
+            case QXmlStreamReader::Characters:
+                m_handler->characters(m_reader->text());
+                break;
+            case QXmlStreamReader::Invalid:
+                std::cout << m_reader->errorString().toStdString() << std::endl;
+            default:
+                // NoToken, Comment, DTD, EntityReference or ProcessingInstruction
+                break;
+            }
+        }
 
         CodeGen *generator = 0;
         if ( m_options.getBoolean( "java" ) ) {
