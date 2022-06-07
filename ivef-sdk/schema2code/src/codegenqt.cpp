@@ -356,6 +356,17 @@ void CodeGenQT::classFiles() {
                 headerFileOut << "#include \"" << fileBaseName(attr->type()) << ".h\"\n";
             }
         }
+        headerFileOut << "#ifndef SCHEMA" << m_prefix.toUpper() << "_EXPORT\n";
+        headerFileOut << "# ifdef SCHEMA" << m_prefix.toUpper() << "_BUILD_STATIC\n";
+        headerFileOut << "#  define SCHEMA" << m_prefix.toUpper() << "_EXPORT\n";
+        headerFileOut << "# else\n";
+        headerFileOut << "#  ifdef SCHEMA" << m_prefix.toUpper() << "_BUILD\n";
+        headerFileOut << "#   define SCHEMA" << m_prefix.toUpper() << "_EXPORT Q_DECL_EXPORT\n";
+        headerFileOut << "#  else\n";
+        headerFileOut << "#   define SCHEMA" << m_prefix.toUpper() << "_EXPORT Q_DECL_IMPORT\n";
+        headerFileOut << "#  endif\n";
+        headerFileOut << "# endif\n";
+        headerFileOut << "#endif\n";
 
         headerFileOut << "\nclass XmlStreamReader;\n";
 
@@ -380,7 +391,7 @@ void CodeGenQT::classFiles() {
         if (obj->hasBaseClass()) {
             baseClass = obj->baseClass();
         }
-        headerFileOut << "class " << className(name) << " : public " << baseClass << " { \n";
+        headerFileOut << "class SCHEMA" << m_prefix.toUpper() << "_EXPORT " << className(name) << " : public " << baseClass << " { \n";
         headerFileOut << "    Q_OBJECT\n\n";
 
         // public section
@@ -1226,6 +1237,17 @@ void CodeGenQT::parserFile() {
             headerFileOut << "#include \"" << fileBaseName(obj->name()) << ".h\"\n";
         }
     }
+    headerFileOut << "#ifndef SCHEMA" << m_prefix.toUpper() << "_EXPORT\n";
+    headerFileOut << "# ifdef SCHEMA" << m_prefix.toUpper() << "_BUILD_STATIC\n";
+    headerFileOut << "#  define SCHEMA" << m_prefix.toUpper() << "_EXPORT\n";
+    headerFileOut << "# else\n";
+    headerFileOut << "#  ifdef SCHEMA" << m_prefix.toUpper() << "_BUILD\n";
+    headerFileOut << "#   define SCHEMA" << m_prefix.toUpper() << "_EXPORT Q_DECL_EXPORT\n";
+    headerFileOut << "#  else\n";
+    headerFileOut << "#   define SCHEMA" << m_prefix.toUpper() << "_EXPORT Q_DECL_IMPORT\n";
+    headerFileOut << "#  endif\n";
+    headerFileOut << "# endif\n";
+    headerFileOut << "#endif\n";
     headerFileOut << "class XmlStreamReader;\n";
 
     if ( m_namespace ) {
@@ -1236,7 +1258,7 @@ void CodeGenQT::parserFile() {
     headerFileOut << "//!\n";
 
     // define the class
-    headerFileOut << "class " << className(name) << " : public QObject { \n";
+    headerFileOut << "class SCHEMA" << m_prefix.toUpper() << "_EXPORT " << className(name) << " : public QObject { \n";
     headerFileOut << "    Q_OBJECT\n\n";
 
     // public section
