@@ -414,7 +414,7 @@ void CodeGenQT::classFiles() {
 
         headerFileOut << "    //! == operator\n";
         headerFileOut << "    //!\n";
-        headerFileOut << "    bool operator==(const " << className(name) << "& val);\n"; // = operator
+        headerFileOut << "    bool operator==(const " << className(name) << "& val) const;\n"; // = operator
 
         // all attributes
         for(int j=0; j < attributes.size(); j++) {
@@ -651,7 +651,7 @@ void CodeGenQT::classFiles() {
         classFileOut << "        QXmlStreamReader::TokenType token = xml.readNext();\n";
         classFileOut << "        switch ( token )\n        {\n";
         classFileOut << "        case QXmlStreamReader::EndElement:\n";
-        classFileOut << "            if (  xml.name() == \""<< name <<"\" )\n";
+        classFileOut << "            if (  xml.name() == QStringLiteral(\""<< name <<"\") )\n";
         classFileOut << "                stop = true;\n";
         classFileOut << "            break;\n";
 
@@ -664,12 +664,12 @@ void CodeGenQT::classFiles() {
                 if ( !element )
                 {
                     classFileOut << "        case QXmlStreamReader::StartElement:\n";
-                    classFileOut << "            if ( xml.name() == \"" << attr->name() <<"\" )\n";
+                    classFileOut << "            if ( xml.name() == QStringLiteral(\"" << attr->name() <<"\") )\n";
                     element = true;
                 }
                 else
                 {
-                    classFileOut << "            else if ( xml.name() == \"" << attr->name() <<"\" )\n";
+                    classFileOut << "            else if ( xml.name() == QStringLiteral(\"" << attr->name() <<"\") )\n";
                 }
                 classFileOut << "            {\n";
                 if ( attr->isSimpleElement() )
@@ -680,7 +680,7 @@ void CodeGenQT::classFiles() {
                 {
                     classFileOut << "                " << attr->name() << " val( xml );\n";
                 }
-                classFileOut << "                if ( xml.name() != \"" << attr->name() << "\" )\n";
+                classFileOut << "                if ( xml.name() != QStringLiteral(\"" << attr->name() << "\") )\n";
                 classFileOut << "                    xml.raiseError( \"tag mismatch " << attr->name() << "\" );\n";
                 if ( attr->isScalar() )
                 {
@@ -735,9 +735,9 @@ void CodeGenQT::classFiles() {
         classFileOut << "// compare\n";
         classFileOut << "bool " << className(name) << "::operator==(const " << className(name) << " &";
         if (attributes.empty()) { // val is unused variable
-            classFileOut << "/*val*/) {\n\n";
+            classFileOut << "/*val*/) const {\n\n";
         } else {
-            classFileOut << "val) {\n\n";
+            classFileOut << "val) const {\n\n";
         }
         for(int j=0; j < attributes.size(); j++) {
             XSDAttribute *attr = attributes.at(j);
@@ -1401,15 +1401,15 @@ void CodeGenQT::parserFile() {
         if ( !obj->isEmbedded() && (obj->name() != "Schema") && !obj->isSimpleElement()) {
             if ( !element )
             {
-                classFileOut << "            if( m_xml->name()==\"" << className(obj->name()) << "\" )\n";
+                classFileOut << "            if( m_xml->name()==QStringLiteral(\"" << className(obj->name()) << "\") )\n";
                 element = true;
             }
             else
-                classFileOut << "            else if( m_xml->name()==\"" << className(obj->name()) << "\" )\n";
+                classFileOut << "            else if( m_xml->name()==QStringLiteral(\"" << className(obj->name()) << "\") )\n";
 
             classFileOut << "            {\n";
             classFileOut << "                " << className(obj->name()) << " obj( *m_xml );\n";
-            classFileOut << "                if ( m_xml->name() != \"" << className(obj->name()) << "\" )\n";
+            classFileOut << "                if ( m_xml->name() != QStringLiteral(\"" << className(obj->name()) << "\") )\n";
             classFileOut << "                    m_xml->raiseError( \"tag mismatch " << className(obj->name()) << "\" );\n";
             classFileOut << "                else\n";
             classFileOut << "                {\n";
