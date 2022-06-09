@@ -20,6 +20,7 @@
 /ivef-sdk/schema2code/Makefile
 /ivef-sdk/schema2code/tmp/
 /ivef-sdk/tests/Makefile
+/ivef-sdk/tests/cases/tmp/
 /ivef-sdk/tests/codes/tmp/
 /ivef-sdk/tests/java/Makefile
 /ivef-sdk/tests/java/classes/

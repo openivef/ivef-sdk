@@ -170,7 +170,7 @@ QString CodeGenQT::longestCommonPrefix(QStringList strings) {
 QString CodeGenQT::writeHeader(QString fileName) {
 
     QString header;
-    header.append( "/* \n" );
+    header.append( "/*\n" );
     header.append( " *  " + fileName + "\n" );
     header.append( " *\n" );
     header.append( " *  " + fileName + " is free software: you can redistribute it and/or modify\n" );
@@ -391,7 +391,7 @@ void CodeGenQT::classFiles() {
         if (obj->hasBaseClass()) {
             baseClass = obj->baseClass();
         }
-        headerFileOut << "class SCHEMA" << m_prefix.toUpper() << "_EXPORT " << className(name) << " : public " << baseClass << " { \n";
+        headerFileOut << "class SCHEMA" << m_prefix.toUpper() << "_EXPORT " << className(name) << " : public " << baseClass << " {\n";
         headerFileOut << "    Q_OBJECT\n\n";
 
         // public section
@@ -523,12 +523,12 @@ void CodeGenQT::classFiles() {
         headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    const QString& lastError() const;\n\n";
 
-        headerFileOut << "    //! return changed \n";
+        headerFileOut << "    //! return changed\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     bool\n";
         headerFileOut << "    const bool& changed() const;\n\n";
 
-        headerFileOut << "    //! return store \n";
+        headerFileOut << "    //! return store\n";
         headerFileOut << "    //!\n";
         headerFileOut << "    //! \\return     QString\n";
         headerFileOut << "    const QString& store() const;\n\n";
@@ -553,9 +553,9 @@ void CodeGenQT::classFiles() {
         }
 
         // close the header
-        headerFileOut << "    QString m_lastError; \n";
-        headerFileOut << "    bool m_changed; \n";
-        headerFileOut << "    QString m_store;\n}; \n";
+        headerFileOut << "    QString m_lastError;\n";
+        headerFileOut << "    bool m_changed;\n";
+        headerFileOut << "    QString m_store;\n};\n";
 
         if ( m_namespace ) {
             headerFileOut << "} //end ns\n";
@@ -612,7 +612,7 @@ void CodeGenQT::classFiles() {
                     classFileOut << "        if ( !set" << attr->name() << "( attr.value( \"" << attr->name()
                                  << "\" ).toString() ) )\n";
                 } else if (type == "bool") {
-                    classFileOut << "        // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings \n";
+                    classFileOut << "        // booleans are sent as YES/NO, TRUE/FALSE or 1/0 textstrings\n";
                     classFileOut << "        QString value = attr.value( \"" << attr->name() << "\" ).toString().toUpper();\n";
                     classFileOut << "        if ( !set" << attr->name() << "( value == \"YES\" ||\n";
                     classFileOut << "                             value == \"TRUE\" ||\n";
@@ -1258,7 +1258,7 @@ void CodeGenQT::parserFile() {
     headerFileOut << "//!\n";
 
     // define the class
-    headerFileOut << "class SCHEMA" << m_prefix.toUpper() << "_EXPORT " << className(name) << " : public QObject { \n";
+    headerFileOut << "class SCHEMA" << m_prefix.toUpper() << "_EXPORT " << className(name) << " : public QObject {\n";
     headerFileOut << "    Q_OBJECT\n\n";
 
     // public section
@@ -1328,7 +1328,7 @@ void CodeGenQT::parserFile() {
 
     // the parseXMLString routine
     classFileOut << "// the actual parsing routine\n";
-    classFileOut << "bool " << className(name) << "::parseXMLString(QString data, bool cont) { \n\n";
+    classFileOut << "bool " << className(name) << "::parseXMLString(QString data, bool cont) {\n\n";
     classFileOut << "     // add the data to what was left over from a previous parse run\n";
 
     // count the number of messages

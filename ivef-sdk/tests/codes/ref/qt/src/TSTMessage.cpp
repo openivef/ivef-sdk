@@ -53,14 +53,14 @@ Message::Message(XmlStreamReader& xml)
         switch ( token )
         {
         case QXmlStreamReader::EndElement:
-            if (  xml.name() == "Message" )
+            if (  xml.name() == QStringLiteral("Message") )
                 stop = true;
             break;
         case QXmlStreamReader::StartElement:
-            if ( xml.name() == "Argument" )
+            if ( xml.name() == QStringLiteral("Argument") )
             {
                 QString val = xml.readElementText();
-                if ( xml.name() != "Argument" )
+                if ( xml.name() != QStringLiteral("Argument") )
                     xml.raiseError( "tag mismatch Argument" );
                 else if ( !addArgument( val ) )
                     xml.validationError( "error add Argument"  );
@@ -93,7 +93,7 @@ Message::Message(const Message &val)
 }
 
 // compare
-bool Message::operator==(const Message &val) {
+bool Message::operator==(const Message &val) const {
 
     if (!(m_arguments == val.m_arguments)) return false;
     if (!(m_timeStampPresent == val.m_timeStampPresent)) return false;
