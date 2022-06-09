@@ -16,7 +16,7 @@ Parser::Parser() {
 }
 
 // the actual parsing routine
-bool Parser::parseXMLString(QString data, bool cont) { 
+bool Parser::parseXMLString(QString data, bool cont) {
 
      // add the data to what was left over from a previous parse run
     // search the buffer for the nearest closetag
@@ -63,10 +63,10 @@ void Parser::parse() {
         QXmlStreamReader::TokenType token = m_xml->readNext();
         if ( token == QXmlStreamReader::StartElement )
         {
-            if( m_xml->name()=="MSG_Notification" )
+            if( m_xml->name()==QStringLiteral("MSG_Notification") )
             {
                 MSG_Notification obj( *m_xml );
-                if ( m_xml->name() != "MSG_Notification" )
+                if ( m_xml->name() != QStringLiteral("MSG_Notification") )
                     m_xml->raiseError( "tag mismatch MSG_Notification" );
                 else
                 {

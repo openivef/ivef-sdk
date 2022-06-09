@@ -25,22 +25,22 @@ MSG_Notification::MSG_Notification(XmlStreamReader& xml)
         switch ( token )
         {
         case QXmlStreamReader::EndElement:
-            if (  xml.name() == "MSG_Notification" )
+            if (  xml.name() == QStringLiteral("MSG_Notification") )
                 stop = true;
             break;
         case QXmlStreamReader::StartElement:
-            if ( xml.name() == "Event" )
+            if ( xml.name() == QStringLiteral("Event") )
             {
                 Event val( xml );
-                if ( xml.name() != "Event" )
+                if ( xml.name() != QStringLiteral("Event") )
                     xml.raiseError( "tag mismatch Event" );
                 else if ( !addEvent( val ) )
                     xml.validationError( "error add Event"  );
             }
-            else if ( xml.name() == "Message" )
+            else if ( xml.name() == QStringLiteral("Message") )
             {
                 Message val( xml );
-                if ( xml.name() != "Message" )
+                if ( xml.name() != QStringLiteral("Message") )
                     xml.raiseError( "tag mismatch Message" );
                 else if ( !addMessage( val ) )
                     xml.validationError( "error add Message"  );
@@ -68,7 +68,7 @@ MSG_Notification::MSG_Notification(const MSG_Notification &val)
 }
 
 // compare
-bool MSG_Notification::operator==(const MSG_Notification &val) {
+bool MSG_Notification::operator==(const MSG_Notification &val) const {
 
     if (!(m_events == val.m_events)) return false;
     if (!(m_messages == val.m_messages)) return false;

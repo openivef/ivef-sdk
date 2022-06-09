@@ -37,11 +37,11 @@ void XSDObject::dump() {
 		std::cout << "object baseClass         " << QString(m_baseClass).toLatin1().data() << std::endl;
         }
 	std::cout << "object document     " << QString(m_docu).toLatin1().data() << std::endl;
-	std::cout << "object isMerged     " << QString(m_merged).toLatin1().data() << std::endl;
-	std::cout << "object isType       " << QString(m_type).toLatin1().data() << std::endl;
-        std::cout << "object isSimple     " << QString(m_simple).toLatin1().data() << std::endl;
-	std::cout << "object isRoot       " << QString(m_root).toLatin1().data() << std::endl;
-	std::cout << "object isEmbedded   " << QString(m_isEmbedded).toLatin1().data() << std::endl;
+	std::cout << "object isMerged     " << QString::number(m_merged).toLatin1().data() << std::endl;
+	std::cout << "object isType       " << QString::number(m_type).toLatin1().data() << std::endl;
+        std::cout << "object isSimple     " << QString::number(m_simple).toLatin1().data() << std::endl;
+	std::cout << "object isRoot       " << QString::number(m_root).toLatin1().data() << std::endl;
+	std::cout << "object isEmbedded   " << QString::number(m_isEmbedded).toLatin1().data() << std::endl;
         for (int h=0; h < m_attributes.size(); h++) {
 		std::cout << "object attribute    " << QString(m_attributes.at(h)->name()).toLatin1().data() << std::endl;
         }

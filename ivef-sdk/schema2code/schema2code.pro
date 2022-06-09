@@ -16,6 +16,9 @@ DEFINES += VERSION=$$IVEF_VERSION
 
 #CONFIG += warn_on stl qt release console
 QT += network xml
+greaterThan(QT_MAJOR_VERSION, 5) {
+   QT += core5compat
+}
 macx {
    CONFIG -= app_bundle
 }
