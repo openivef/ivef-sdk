@@ -19,6 +19,9 @@ DEFINES += VERSION=$$IVEF_VERSION
 unix:DEFINES += HAVE_ZLIB
 
 QT += network xml
+greaterThan(QT_MAJOR_VERSION, 5) {
+  QT += core5compat
+}
 macx {
    CONFIG -= app_bundle
    LIBS += -F$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
