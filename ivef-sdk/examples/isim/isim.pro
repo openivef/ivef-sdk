@@ -59,5 +59,5 @@ QMAKE_CLEAN += $$IVEF_EXAMPLES_DIR/test.xml
 MOC_DIR = ./tmp/moc
 OBJECTS_DIR = ./tmp/obj
 
-TEMPLATE = lib
+TEMPLATE = aux
 TARGET = dummy
