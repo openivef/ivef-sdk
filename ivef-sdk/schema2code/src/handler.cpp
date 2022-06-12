@@ -132,9 +132,15 @@ void Handler::handleStartOfElement (const QString & qName, const QXmlStreamAttri
 
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 bool Handler::startElement (const QStringRef & /* namespaceURI */,
                             const QStringRef & /* localName */,
                             const QStringRef &qualifiedName,
+#else
+bool Handler::startElement (const QStringView /* namespaceURI */,
+                            const QStringView /* localName */,
+                            const QStringView qualifiedName,
+#endif
                             const QXmlStreamAttributes & atts) {
 
     // some xsd use the xsd:<token> style
@@ -304,17 +310,26 @@ bool Handler::startElement (const QStringRef & /* namespaceURI */,
     return true;
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 bool Handler::characters ( const QStringRef &ch ) {
+#else
+bool Handler::characters ( const QStringView ch ) {
+#endif
 
     //std::cout << QString("CH:        [%1]").arg(ch.trimmed()).toLatin1().data() << std::endl;
     m_doc = ch.trimmed().toString();
     return true;
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 bool Handler::endElement ( const QStringRef & /* namespaceURI */,
                            const QStringRef & /* localName */,
                            const QStringRef & qualifiedName ) {
-
+#else
+bool Handler::endElement ( const QStringView /* namespaceURI */,
+                           const QStringView /* localName */,
+                           const QStringView qualifiedName ) {
+#endif
     // some xsd use the xsd:<token> style
     QString qName = qualifiedName.toString();
     qName.replace(QString("xsd:"), QString("xs:"));

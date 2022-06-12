@@ -30,6 +30,7 @@ public:
     Handler() { };
 
     bool startDocument ();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     bool startElement (const QStringRef &namespaceURI,
                        const QStringRef &localName,
                        const QStringRef &qName,
@@ -39,6 +40,17 @@ public:
     bool endElement (const QStringRef &namespaceURI,
                      const QStringRef &localName,
                      const QStringRef &qName );
+#else
+    bool startElement (QStringView namespaceURI,
+                       QStringView localName,
+                       QStringView qName,
+                       const QXmlStreamAttributes &atts);
+
+    bool characters (QStringView ch);
+    bool endElement (QStringView namespaceURI,
+                     QStringView localName,
+                     QStringView qName );
+#endif
     bool endDocument ();
 
     QVector<XSDObject*> objects();
