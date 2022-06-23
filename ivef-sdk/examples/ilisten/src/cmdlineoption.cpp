@@ -21,6 +21,7 @@
 
 #include <QStringList>
 #include <QStack>
+#include <QRegExp>
 
 #include "cmdlineoption.h"
 
