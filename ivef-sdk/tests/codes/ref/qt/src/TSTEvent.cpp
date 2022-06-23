@@ -57,14 +57,14 @@ Event::Event(XmlStreamReader& xml)
         switch ( token )
         {
         case QXmlStreamReader::EndElement:
-            if (  xml.name() == "Event" )
+            if (  xml.name() == QStringLiteral("Event") )
                 stop = true;
             break;
         case QXmlStreamReader::StartElement:
-            if ( xml.name() == "AreaName" )
+            if ( xml.name() == QStringLiteral("AreaName") )
             {
                 QString val = xml.readElementText();
-                if ( xml.name() != "AreaName" )
+                if ( xml.name() != QStringLiteral("AreaName") )
                     xml.raiseError( "tag mismatch AreaName" );
                 else if ( !setAreaName( val ) )
                     xml.validationError( "error set AreaName"  );
@@ -98,7 +98,7 @@ Event::Event(const Event &val)
 }
 
 // compare
-bool Event::operator==(const Event &val) {
+bool Event::operator==(const Event &val) const {
 
     if (!(m_areaNamePresent == val.m_areaNamePresent)) return false;
     if (!(m_areaName == val.m_areaName)) return false;

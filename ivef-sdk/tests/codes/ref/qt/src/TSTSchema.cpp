@@ -25,7 +25,7 @@ Schema::Schema(XmlStreamReader& xml)
         switch ( token )
         {
         case QXmlStreamReader::EndElement:
-            if (  xml.name() == "Schema" )
+            if (  xml.name() == QStringLiteral("Schema") )
                 stop = true;
             break;
         default:
@@ -44,7 +44,7 @@ Schema::Schema(const Schema &val)
 }
 
 // compare
-bool Schema::operator==(const Schema &/*val*/) {
+bool Schema::operator==(const Schema &/*val*/) const {
 
     return true;
 }

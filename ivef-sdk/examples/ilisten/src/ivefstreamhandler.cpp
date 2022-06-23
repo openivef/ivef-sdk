@@ -148,7 +148,11 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
         }
 
         m_log = new QTextStream(file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         m_log->setCodec("UTF-8");
+#else
+        m_log->setEncoding(QStringConverter::Utf8);
+#endif
         *m_log << "<xml>\n"; // create a start tag
         m_log->flush();
     } else {
