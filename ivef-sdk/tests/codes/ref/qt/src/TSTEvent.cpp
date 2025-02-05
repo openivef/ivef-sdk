@@ -13,7 +13,6 @@ Event::Event()
     m_areaNamePresent( false ),
     m_name(),
     m_namePresent( false ),
-    m_id( 0 ),
     m_idPresent( false ),
     m_speed( 0.0 ),
     m_speedPresent( false ),
@@ -28,7 +27,6 @@ Event::Event(XmlStreamReader& xml)
     m_areaNamePresent( false ),
     m_name(),
     m_namePresent( false ),
-    m_id( 0 ),
     m_idPresent( false ),
     m_speed( 0.0 ),
     m_speedPresent( false ),
@@ -42,7 +40,7 @@ Event::Event(XmlStreamReader& xml)
     }
     if ( attr.hasAttribute( "Id" ) )
     {
-        if ( !setId( attr.value( "Id" ).toString().toInt() ) )
+        if ( !setId( attr.value( "Id" ).toString().toLongLong() ) )
             xml.validationError( "error set Id = " + attr.value( "Id" ).toString() );
     }
     if ( attr.hasAttribute( "Speed" ) )
@@ -182,7 +180,7 @@ bool Event::hasName() const {
 }
 
 // setter for Event
-bool Event::setId(int val) {
+bool Event::setId(long long val) {
 
     // check if the new value is within min exclusive
     if (val <= 0)
@@ -197,7 +195,7 @@ bool Event::setId(int val) {
 }
 
 // getter for Event
-int Event::getId() const {
+long long Event::getId() const {
 
     return m_id;
 }

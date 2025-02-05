@@ -1,0 +1,38 @@
+TestApp ready for input
+MSG_IVEF
+    Header
+        MsgRefId = 6289936C-DFAC-11E0-B7BA-B2E24824019B
+        Version = 0.2.5
+    Body
+        ObjectDatas
+            ObjectData
+                TrackData
+                    COG = 3.1
+                    Id = 446039720191
+                    Length = 3.100000
+                    SOG = 3.1
+                    SourceId = sensor1
+                    SourceName = vts1
+                    UpdateTime = 2001-12-17T09:30:47.123Z
+                    TrackStatus = 1
+                    Width = 3.100000
+                    Pos
+                        Lat = 3.14159
+                        Long = 3.14159
+                    NavStatus
+                        Value = 8
+<MSG_IVEF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.iala-to-be-confirmed.org/XMLSchema/IVEF/0.2.5">
+<Header MsgRefId="6289936C-DFAC-11E0-B7BA-B2E24824019B" Version="0.2.5"/>
+<Body>
+<ObjectDatas>
+<ObjectData>
+<TrackData COG="3.1" Id="446039720191" Length="3.100000" SOG="3.1" SourceId="sensor1" SourceName="vts1" UpdateTime="2001-12-17T09:30:47.123Z" TrackStatus="1" Width="3.100000">
+<Pos Lat="3.14159" Long="3.14159"/>
+<NavStatus Value="8"/>
+</TrackData>
+</ObjectData>
+</ObjectDatas>
+</Body>
+</MSG_IVEF>
+
+TestApp shutting down

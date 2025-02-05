@@ -66,7 +66,7 @@ QString CodeGenQT::localType(QString type) {
     else if (type == "xs:boolean")
         return "bool";
     else if (type == "xs:integer")
-        return "int";
+        return "long long";
     else if (type == "xs:dateTime")
         return "QDateTime";
     else if (type == "unknown") {
@@ -617,9 +617,9 @@ void CodeGenQT::classFiles() {
                     classFileOut << "        if ( !set" << attr->name() << "( value == \"YES\" ||\n";
                     classFileOut << "                             value == \"TRUE\" ||\n";
                     classFileOut << "                             value == \"1\") )\n";
-                } else if (type == "int") {
+                } else if (type == "long long") {
                     classFileOut << "        if ( !set" << attr->name() << "( attr.value( \"" << attr->name()
-                                 << "\" ).toString().toInt() ) )\n";
+                                 << "\" ).toString().toLongLong() ) )\n";
                 } else if (type == "QDateTime") {
                     /* was removed with issue 80
                     // timea may have a leading Z (issue 28)
