@@ -11,7 +11,6 @@ Message::Message()
  :  QObject(),
     m_timeStamp(),
     m_timeStampPresent( false ),
-    m_code( 0 ),
     m_codePresent( false ),
     m_version( "1.0.0" ), // initialize fixed value
     m_versionPresent( true ),
@@ -24,7 +23,6 @@ Message::Message(XmlStreamReader& xml)
  :  QObject(),
     m_timeStamp(),
     m_timeStampPresent( false ),
-    m_code( 0 ),
     m_codePresent( false ),
     m_version( "1.0.0" ), // initialize fixed value
     m_versionPresent( true ),
@@ -38,7 +36,7 @@ Message::Message(XmlStreamReader& xml)
     }
     if ( attr.hasAttribute( "Code" ) )
     {
-        if ( !setCode( attr.value( "Code" ).toString().toInt() ) )
+        if ( !setCode( attr.value( "Code" ).toString().toLongLong() ) )
             xml.validationError( "error set Code = " + attr.value( "Code" ).toString() );
     }
     if ( attr.hasAttribute( "Version" ) )
@@ -175,7 +173,7 @@ QDateTime Message::getTimeStamp() const {
 }
 
 // setter for Message
-bool Message::setCode(int val) {
+bool Message::setCode(long long val) {
 
     // check if the new value is an approved value
     if ( ( val != 1 ) &&
@@ -189,7 +187,7 @@ bool Message::setCode(int val) {
 }
 
 // getter for Message
-int Message::getCode() const {
+long long Message::getCode() const {
 
     return m_code;
 }

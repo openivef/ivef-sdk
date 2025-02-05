@@ -48,7 +48,7 @@ QString CodeGenJava::localType(QString type) {
     else if (type == "xs:boolean")
         return "boolean";
     else if (type == "xs:integer")
-        return "int";
+        return "long";
     else if (type == "xs:dateTime")
         return "Date";
     else if (type == "xs:hexBinary")
@@ -930,8 +930,8 @@ void CodeGenJava::go() {
                             classFileOut << "                " << type << " val = (value.toUpperCase().equals(\"YES\") ||\n";
                             classFileOut << "                               value.toUpperCase().equals(\"TRUE\") ||\n";
                             classFileOut << "                               value.toUpperCase().equals(\"1\"));\n";
-                        } else if (type == "int")
-                            classFileOut << "                " << type << " val = Integer.parseInt(value);\n";
+                        } else if (type == "long")
+                            classFileOut << "                " << type << " val = Long.parseLong(value);\n";
                         else if (type == "Date") {
                             classFileOut << "                // if the time ends on a Z it is UTC, else localtime \n"; // isssue 80
                             classFileOut << "                Date val = new Date(); // starts since the epoch\n";
