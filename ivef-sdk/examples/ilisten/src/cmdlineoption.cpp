@@ -21,7 +21,11 @@
 
 #include <QStringList>
 #include <QStack>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QRegularExpression>
+#else
 #include <QRegExp>
+#endif
 
 #include "cmdlineoption.h"
 
@@ -76,7 +80,11 @@ void CmdLineOptions::parse( int &argc, char **argv ) {
     int i;
     QStringList arglist;
     QString argument;
+#ifdef QREGULAREXPRESSION_H
+    QRegularExpression rx;
+#else
     QRegExp rx;
+#endif
     QStack<int> stack;
 
     // convenience only: put arguments in a list
@@ -89,6 +97,34 @@ void CmdLineOptions::parse( int &argc, char **argv ) {
     for ( int i = 0; i < arglist.count(); i++ ) {
         argument = arglist[i];
 
+#ifdef QREGULAREXPRESSION_H
+        // boolean
+        rx.setPattern( "^--([A-Za-z0-9]+)$" );
+        if ( auto match = rx.match( argument ); match.hasMatch() ) {
+            if ( m_Options.contains( match.captured(1) ) && ( m_Options.value( match.captured(1) ).getType() == CmdLineOption::BOOLEAN ) ) {
+                stack.push( i );
+                m_Options[ match.captured(1) ].setVal( true );
+            }
+        }
+
+        // text
+        rx.setPattern( "^--([A-Za-z0-9]+)=(\\S+)$" );
+        if ( auto match = rx.match( argument ); match.hasMatch() ) {
+            if ( m_Options.contains( match.captured(1) ) && ( m_Options.value( match.captured(1) ).getType() == CmdLineOption::TEXT ) ) {
+                stack.push( i );
+                m_Options[ match.captured(1) ].setVal( match.captured(2) );
+            }
+        }
+
+        // integer
+        rx.setPattern( "^--([A-Za-z0-9]+)=(\\d+)$" );
+        if ( auto match = rx.match( argument ); match.hasMatch() ) {
+            if ( m_Options.contains( match.captured(1) ) && ( m_Options.value( match.captured(1) ).getType() == CmdLineOption::INTEGER ) ) {
+                stack.push( i );
+                m_Options[ match.captured(1) ].setVal( match.captured(2).toInt() );
+            }
+        }
+#else
         // boolean
         rx.setPattern( "^--([A-Za-z0-9]+)$" );
         if ( rx.indexIn( argument ) != -1 ) {
@@ -115,6 +151,7 @@ void CmdLineOptions::parse( int &argc, char **argv ) {
                 m_Options[ rx.cap(1) ].setVal( rx.cap(2).toInt() );
             }
         }
+#endif
     }
 
     // now let's cleanup the list...
