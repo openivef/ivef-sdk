@@ -1311,6 +1311,7 @@ void CodeGenQT::parserFile() {
     headerFile.close();
 
     // The class file
+    classFileOut << "#include <QtGlobal>\n";
     classFileOut << "#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)\n";
     classFileOut << "#include <QRegularExpression>\n";
     classFileOut << "#else\n";
