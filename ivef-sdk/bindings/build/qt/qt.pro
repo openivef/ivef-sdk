@@ -19,11 +19,9 @@ INCLUDEPATH += $$TARGET_QT_DIR/include
 
 DEFINES += SCHEMAIVEF_BUILD
 staticlib:DEFINES += SCHEMAIVEF_BUILD_STATIC
+!staticlib:CONFIG += dll
 
 QT += xml
-greaterThan(QT_MAJOR_VERSION, 5) {
-  QT += core5compat
-}
 VERSION = $$IVEF_VERSION
 
 SOURCES += $$shell_path($$TARGET_QT_DIR/src/*.cpp)

@@ -19,9 +19,7 @@
 #ifndef __HANDLER_H__
 #define __HANDLER_H__
 
-#include <QXmlDefaultHandler>
 #include <QtCore>
-#include <iostream>
 #include "xsdobject.h"
 
 class Handler : public QObject {
