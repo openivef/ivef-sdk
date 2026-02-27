@@ -1312,11 +1312,7 @@ void CodeGenQT::parserFile() {
 
     // The class file
     classFileOut << "#include <QtGlobal>\n";
-    classFileOut << "#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)\n";
     classFileOut << "#include <QRegularExpression>\n";
-    classFileOut << "#else\n";
-    classFileOut << "#include <QRegExp>\n";
-    classFileOut << "#endif\n";
     classFileOut << "\n#include \"" << fileBaseName("Functions") << ".h\"\n\n";
     classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
 
@@ -1359,18 +1355,10 @@ void CodeGenQT::parserFile() {
     // we search the buffer for any close tag that matches our regexp
     classFileOut << "    // search the buffer for the nearest closetag\n";
     classFileOut << "    int index = 0;\n";
-    classFileOut << "#ifdef QREGULAREXPRESSION_H\n";
     classFileOut << "    QRegularExpression rx( \"" + regExp + "\");\n";
-    classFileOut << "#else\n";
-    classFileOut << "    QRegExp rx( \"" + regExp + "\");\n";
-    classFileOut << "#endif\n";
 
     classFileOut << "    m_xml->addData( data );\n";
-    classFileOut << "#ifdef QREGULAREXPRESSION_H\n";
-    classFileOut << "    if ( auto match = rx.match( data ); match.hasMatch() )\n";
-    classFileOut << "#else\n";
-    classFileOut << "    if ( (index = rx.indexIn( data )) != -1 )\n";
-    classFileOut << "#endif\n";
+    classFileOut << "    if ( QRegularExpressionMatch match = rx.match( data ); match.hasMatch() )\n";
     classFileOut << "    {\n";
     classFileOut << "        // end found in last part\n";
     classFileOut << "        QString residu( data );\n";
@@ -1378,20 +1366,12 @@ void CodeGenQT::parserFile() {
     classFileOut << "            parse();\n";
     classFileOut << "            m_xml->clear();\n\n";
     classFileOut << "            // add make residu\n";
-    classFileOut << "#ifdef QREGULAREXPRESSION_H\n";
     classFileOut << "            int len = match.capturedStart() + match.capturedLength();\n";
-    classFileOut << "#else\n";
-    classFileOut << "            int len = index + rx.matchedLength();\n";
-    classFileOut << "#endif\n";
     classFileOut << "            residu = residu.right( residu.length() - len );\n";
     classFileOut << "            m_xml->addData( residu );\n\n";
     classFileOut << "            // loop until no end found in residu\n";
-    classFileOut << "#ifdef QREGULAREXPRESSION_H\n";
     classFileOut << "            match = rx.match( residu );\n";
     classFileOut << "        } while ( match.hasMatch() );\n";
-    classFileOut << "#else\n";
-    classFileOut << "        } while ( (index = rx.indexIn( residu )) != -1 );\n";
-    classFileOut << "#endif\n";
     classFileOut << "    }\n\n";
     classFileOut << "    if (!cont) {\n";
     classFileOut << "        m_xml->clear();\n";

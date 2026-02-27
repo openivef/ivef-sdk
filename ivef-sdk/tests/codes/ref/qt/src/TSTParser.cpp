@@ -1,4 +1,5 @@
-#include <QRegExp>
+#include <QtGlobal>
+#include <QRegularExpression>
 
 #include "TSTFunctions.h"
 
@@ -21,9 +22,9 @@ bool Parser::parseXMLString(QString data, bool cont) {
      // add the data to what was left over from a previous parse run
     // search the buffer for the nearest closetag
     int index = 0;
-    QRegExp rx( "</MSG_Notification>|</Argument>|</AreaName>");
+    QRegularExpression rx( "</MSG_Notification>|</Argument>|</AreaName>");
     m_xml->addData( data );
-    if ( (index = rx.indexIn( data )) != -1 )
+    if ( QRegularExpressionMatch match = rx.match( data ); match.hasMatch() )
     {
         // end found in last part
         QString residu( data );
@@ -33,12 +34,13 @@ bool Parser::parseXMLString(QString data, bool cont) {
             m_xml->clear();
 
             // add make residu
-            int len = index + rx.matchedLength();
+            int len = match.capturedStart() + match.capturedLength();
             residu = residu.right( residu.length() - len );
             m_xml->addData( residu );
 
             // loop until no end found in residu
-        } while ( (index = rx.indexIn( residu )) != -1 );
+            match = rx.match( residu );
+        } while ( match.hasMatch() );
     }
 
     if (!cont) {
