@@ -48,6 +48,7 @@ jobs:
       - name: Install Qt 5 on Linux
         if: runner.os == 'Linux' && matrix.qt == '5'
         run: |
+          ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
           apt-get update
           apt-get install -y build-essential zlib1g-dev
           apt-get install -y qtbase5-dev qttools5-dev-tools qt5-qmake
@@ -104,5 +105,4 @@ jobs:
         if: runner.os == 'Linux'
         working-directory: build
         run: |
-          ls -la targets/ilisten || echo "ilisten example not found"
-          ls -la targets/isim || echo "isim example not found"
+          ls -la examples/ilisten || echo "ilisten example not found"
