@@ -12,15 +12,17 @@ jobs:
   build:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
     
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
         include:
           - os: ubuntu-latest
+            container: 'ubuntu:24.04'
             shell: bash
           - os: windows-latest
+            container: null
             shell: pwsh
 
     defaults:
@@ -34,8 +36,8 @@ jobs:
       - name: Install Qt on Linux
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qt6-base-dev qt6-tools-dev
+          apt-get update
+          apt-get install -y qt6-base-dev qt6-tools-dev build-essential
 
       - name: Install Qt on Windows
         if: runner.os == 'Windows'
