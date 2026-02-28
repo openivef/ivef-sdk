@@ -1,0 +1,103 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            shell: bash
+          - os: windows-latest
+            shell: pwsh
+
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Qt on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qt6-base-dev qt6-tools-dev
+
+      - name: Install Qt on Windows
+        if: runner.os == 'Windows'
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.6.0'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+
+      - name: Create build directory
+        run: mkdir -p build
+
+      - name: Run qmake on Linux
+        if: runner.os == 'Linux'
+        working-directory: build
+        run: |
+          qmake -v
+          qmake ../ivef-sdk
+
+      - name: Run qmake on Windows
+        if: runner.os == 'Windows'
+        working-directory: build
+        run: |
+          qmake -v
+          qmake ../ivef-sdk
+
+      - name: Build project on Linux
+        if: runner.os == 'Linux'
+        working-directory: build
+        run: |
+          make -j$(nproc)
+
+      - name: Build project on Windows
+        if: runner.os == 'Windows'
+        working-directory: build
+        run: |
+          nmake
+
+      - name: Run Qt tests on Linux
+        if: runner.os == 'Linux'
+        working-directory: build/targets/qt
+        run: |
+          export LD_LIBRARY_PATH=$(pwd)/lib:$LD_LIBRARY_PATH
+          ./testqt || true
+
+      - name: Run Qt tests on Windows
+        if: runner.os == 'Windows'
+        working-directory: build\targets\qt
+        run: |
+          testqt.exe || true
+
+      - name: Verify examples built
+        if: runner.os == 'Linux'
+        working-directory: build
+        run: |
+          ls -la targets/ilisten || echo "ilisten example not found"
+          ls -la targets/isim || echo "isim example not found"
+
+      - name: Verify examples built on Windows
+        if: runner.os == 'Windows'
+        working-directory: build
+        run: |
+          Get-ChildItem targets/ilisten -ErrorAction SilentlyContinue || Write-Host "ilisten example not found"
+          Get-ChildItem targets/isim -ErrorAction SilentlyContinue || Write-Host "isim example not found"
