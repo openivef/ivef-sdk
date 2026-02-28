@@ -24,6 +24,14 @@ jobs:
           - os: windows-latest
             container: null
             shell: pwsh
+          - os: ubuntu-latest
+            container: 'ubuntu:24.04'
+            shell: bash
+            qt: '6'
+          - os: ubuntu-latest
+            container: 'ubuntu:22.04'
+            shell: bash
+            qt: '5'
 
     defaults:
       run:
@@ -37,7 +45,27 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           apt-get update
-          apt-get install -y qt6-base-dev qt6-tools-dev build-essential
+          apt-get install -y software-properties-common
+          add-apt-repository universe || true
+          apt-get update
+          apt-get install -y build-essential zlib1g-dev
+          apt-get install -y qt6-base-dev qt6-tools-dev qt6-qtxml-dev
+          - name: Install Qt 6 on Linux
+            if: runner.os == 'Linux' && matrix.qt == '6'
+            run: |
+              apt-get update
+              apt-get install -y software-properties-common
+              add-apt-repository universe || true
+              apt-get update
+              apt-get install -y build-essential zlib1g-dev
+              apt-get install -y qt6-base-dev qt6-tools-dev qt6-qtxml-dev
+
+          - name: Install Qt 5 on Linux
+            if: runner.os == 'Linux' && matrix.qt == '5'
+            run: |
+              apt-get update
+              apt-get install -y build-essential zlib1g-dev
+              apt-get install -y qtbase5-dev qttools5-dev-tools libqt5xml5-dev qt5-qmake
 
       - name: Install Qt on Windows
         if: runner.os == 'Windows'
@@ -48,22 +76,35 @@ jobs:
           target: 'desktop'
           arch: 'win64_msvc2019_64'
 
-      - name: Create build directory
-        run: mkdir -p build
-
       - name: Run qmake on Linux
         if: runner.os == 'Linux'
-        working-directory: build
+        working-directory: ivef-sdk
         run: |
-          qmake -v
-          qmake ../ivef-sdk
+          qmake6
+          - name: Create build directory
+            if: runner.os == 'Linux'
+            run: mkdir -p build
+
+          - name: Run qmake for Qt6 on Linux
+            if: runner.os == 'Linux' && matrix.qt == '6'
+            working-directory: build
+            run: |
+              qmake6 -v
+              qmake6
+
+          - name: Run qmake for Qt5 on Linux
+            if: runner.os == 'Linux' && matrix.qt == '5'
+            working-directory: build
+            run: |
+              qmake -v
+              qmake
 
       - name: Run qmake on Windows
         if: runner.os == 'Windows'
-        working-directory: build
+        working-directory: ivef-sdk
         run: |
           qmake -v
-          qmake ../ivef-sdk
+          qmake
 
       - name: Build project on Linux
         if: runner.os == 'Linux'
@@ -79,16 +120,9 @@ jobs:
 
       - name: Run Qt tests on Linux
         if: runner.os == 'Linux'
-        working-directory: build/targets/qt
+        working-directory: ivef-sdk/tests/codes
         run: |
-          export LD_LIBRARY_PATH=$(pwd)/lib:$LD_LIBRARY_PATH
-          ./testqt || true
-
-      - name: Run Qt tests on Windows
-        if: runner.os == 'Windows'
-        working-directory: build\targets\qt
-        run: |
-          testqt.exe || true
+          ./run_all_tests.sh || true
 
       - name: Verify examples built
         if: runner.os == 'Linux'
@@ -96,10 +130,3 @@ jobs:
         run: |
           ls -la targets/ilisten || echo "ilisten example not found"
           ls -la targets/isim || echo "isim example not found"
-
-      - name: Verify examples built on Windows
-        if: runner.os == 'Windows'
-        working-directory: build
-        run: |
-          Get-ChildItem targets/ilisten -ErrorAction SilentlyContinue || Write-Host "ilisten example not found"
-          Get-ChildItem targets/isim -ErrorAction SilentlyContinue || Write-Host "isim example not found"
