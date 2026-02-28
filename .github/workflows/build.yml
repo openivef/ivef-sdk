@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
+    name: Build on ${{ matrix.os }} - Qt ${{ matrix.qt }} version
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container }}
     
@@ -21,6 +21,7 @@ jobs:
           - os: windows-latest
             container: null
             shell: pwsh
+            qt: '6'
           - os: ubuntu-latest
             container: 'ubuntu:24.04'
             shell: bash
@@ -66,8 +67,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path build
-          $vs = &"$env:ProgramFiles(x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          $vs = &"${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
           if (-not $vs) { Write-Error 'Visual Studio not found'; exit 1 }
           $vcvars = Join-Path $vs 'VC\Auxiliary\Build\vcvarsall.bat'
           cmd /c "\"$vcvars\" x64 && qmake -v && qmake ..\ivef-sdk && nmake"
@@ -95,14 +95,20 @@ jobs:
           qmake -v
           qmake
 
-      - name: Run Qt tests on Linux
+      - name: Run code gen tests on Linux
         if: runner.os == 'Linux'
         working-directory: ivef-sdk/tests/codes
         run: |
-          ./run_all_tests.sh || true
+          ./run_all_tests.sh all
+
+      - name: Run Qt parse tests on Linux
+        if: runner.os == 'Linux'
+        working-directory: ivef-sdk/tests/cases
+        run: |
+          ./run_all_tests.sh qt
 
       - name: Verify example ilisten built
         if: runner.os == 'Linux'
         working-directory: ivef-sdk/build/examples
         run: |
-          ./run_ilisten --help || echo "ilisten cannot run"
+          ./run_ilisten --help
