@@ -101,8 +101,8 @@ jobs:
         run: |
           ./run_all_tests.sh || true
 
-      - name: Verify examples built
+      - name: Verify example ilisten built
         if: runner.os == 'Linux'
-        working-directory: build
+        working-directory: ivef-sdk/build/examples
         run: |
-          ls -la examples/ilisten || echo "ilisten example not found"
+          ./run_ilisten --help || echo "ilisten cannot run"
