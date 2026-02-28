@@ -43,14 +43,14 @@ jobs:
         run: |
           apt-get update
           apt-get install -y build-essential zlib1g-dev
-          apt-get install -y qt6-base-dev qt6-tools-dev libqt6core5compat6
+          apt-get install -y qt6-base-dev qt6-tools-dev qt6-5compat-dev
 
       - name: Install Qt 5 on Linux
         if: runner.os == 'Linux' && matrix.qt == '5'
         run: |
           apt-get update
           apt-get install -y build-essential zlib1g-dev
-          apt-get install -y qtbase5-dev qttools5-dev-tools libqt5xml5-dev qt5-qmake
+          apt-get install -y qtbase5-dev qttools5-dev-tools qt5-qmake
 
       - name: Install Qt on Windows
         if: runner.os == 'Windows'
