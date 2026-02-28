@@ -63,8 +63,21 @@ jobs:
           target: 'desktop'
           arch: 'win64_msvc2019_64'
 
-      - name: Setup MSVC and build (Windows)
+      - name: Set up Visual Studio shell
         if: runner.os == 'Windows'
+        uses: egor-tensin/vs-shell@v2
+        with:
+          arch: x64
+
+      - name: Build on Windows
+        if: runner.os == 'Windows'
+        working-directory: ivef-sdk
+        run: |
+          set PATH=%PATH%;..\Qt\${{ env.QT_VERSION }}\msvc2019_64\bin
+          qmake 
+
+      - name: Setup MSVC and build (Windows)
+        if: false
         shell: pwsh
         run: |
           $vs = &"${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
@@ -111,4 +124,5 @@ jobs:
         if: runner.os == 'Linux'
         working-directory: ivef-sdk/build/examples
         run: |
-          ./run_ilisten --help
+          . ./set_ld_library_path
+          ./ilisten --help
