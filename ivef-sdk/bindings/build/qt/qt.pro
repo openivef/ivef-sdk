@@ -24,5 +24,8 @@ staticlib:DEFINES += SCHEMAIVEF_BUILD_STATIC
 QT += xml
 VERSION = $$IVEF_VERSION
 
+message("TARGET_QT_DIR = $$TARGET_QT_DIR")
+message("SOURCES files = $$files($$TARGET_QT_DIR/src/*.cpp)")
+
 SOURCES += $$files($$TARGET_QT_DIR/src/*.cpp)
 HEADERS += $$files($$TARGET_QT_DIR/include/*.h)

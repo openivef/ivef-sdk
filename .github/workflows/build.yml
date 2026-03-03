@@ -78,15 +78,6 @@ jobs:
           qmake
           nmake
 
-      - name: Setup MSVC and build (Windows)
-        if: false
-        shell: pwsh
-        run: |
-          $vs = &"${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-          if (-not $vs) { Write-Error 'Visual Studio not found'; exit 1 }
-          $vcvars = Join-Path $vs 'VC\Auxiliary\Build\vcvarsall.bat'
-          cmd /c "\"$vcvars\" x64 && qmake -v && qmake ..\ivef-sdk && nmake"
-
       - name: Run qmake and build on Linux (Qt6)
         if: runner.os == 'Linux' && matrix.qt == '6'
         working-directory: ivef-sdk
@@ -102,13 +93,6 @@ jobs:
           qmake -v
           qmake
           make -j$(nproc)
-
-      - name: Run qmake on Windows
-        if: runner.os == 'Windows'
-        working-directory: ivef-sdk
-        run: |
-          qmake -v
-          qmake
 
       - name: Run code gen tests on Linux
         if: runner.os == 'Linux'
