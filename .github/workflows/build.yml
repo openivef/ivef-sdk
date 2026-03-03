@@ -76,6 +76,7 @@ jobs:
           $newDir = '..\Qt\6.6.0\msvc2019_64\bin'
           $env:Path += ';' + $newDir
           qmake
+          nmake
 
       - name: Setup MSVC and build (Windows)
         if: false
