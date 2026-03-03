@@ -73,7 +73,7 @@ jobs:
         if: runner.os == 'Windows'
         working-directory: ivef-sdk
         run: |
-          set PATH=%PATH%;..\Qt\${{ env.QT_VERSION }}\msvc2019_64\bin
+          set PATH=%PATH%;..\Qt\6.6.0\msvc2019_64\bin
           qmake 
 
       - name: Setup MSVC and build (Windows)
