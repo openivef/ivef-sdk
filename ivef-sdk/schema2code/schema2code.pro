@@ -14,7 +14,7 @@ INCLUDEPATH += . include
 
 DEFINES += VERSION=$$IVEF_VERSION
 
-#CONFIG += warn_on stl qt release console
+CONFIG += static
 QT += network xml
 macx {
    CONFIG -= app_bundle
