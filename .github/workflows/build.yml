@@ -69,6 +69,22 @@ jobs:
         with:
           arch: x64
 
+      - name: Build schema2code on Windows
+        if: runner.os == 'Windows'
+        working-directory: ivef-sdk
+        run: |
+          $newDir = '..\Qt\6.6.0\msvc2019_64\bin'
+          $env:Path += ';' + $newDir
+          qmake schema2code/schema2code.pro
+          nmake
+
+      - name: Upload schema2code artifact
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: schema2code-windows
+          path: ivef-sdk/build/bin/schema2code.exe
+
       - name: Build on Windows
         if: runner.os == 'Windows'
         working-directory: ivef-sdk
