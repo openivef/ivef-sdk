@@ -12,7 +12,7 @@ TARGET_QT_DIR = $$IVEF_TARGETS_DIR/qt
 }
 
  unix:gentarget1.commands = $$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN --file=$$IVEF_SCHEMA --qt --out=$$TARGET_QT_DIR --prefix=IVEF
-win32:gentarget1.commands = "$$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN.exe" --file="$$IVEF_SCHEMA" --qt --out="$$TARGET_QT_DIR" --prefix=IVEF
+win32:gentarget1.commands = "$$IVEF_GENERATOR_DIR/$${IVEF_GENERATOR_BIN}.exe" --file="$$IVEF_SCHEMA" --qt --out="$$TARGET_QT_DIR" --prefix=IVEF
 QMAKE_EXTRA_TARGETS += gentarget1
 PRE_TARGETDEPS += gentarget1
 QMAKE_CLEAN += $$TARGET_QT_DIR/*/*
@@ -25,7 +25,7 @@ TARGET_JAVA_DIR = $$IVEF_TARGETS_DIR/java
     mkpath( $$TARGET_JAVA_DIR )
 }
 
-gentarget2.commands = $$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN --file=$$IVEF_SCHEMA --java --out=$$TARGET_JAVA_DIR --prefix=IVEF
+gentarget2.commands = $$quote($$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN) --file=$$IVEF_SCHEMA --java --out=$$TARGET_JAVA_DIR --prefix=IVEF
 QMAKE_EXTRA_TARGETS += gentarget2
 PRE_TARGETDEPS += gentarget2
 QMAKE_CLEAN += $$TARGET_JAVA_DIR/ivef/*
@@ -38,7 +38,7 @@ TARGET_PHP_DIR = $$IVEF_TARGETS_DIR/php
     mkpath( $$TARGET_PHP_DIR )
 }
 
-gentarget3.commands = $$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN --file=$$IVEF_SCHEMA --php --out=$$TARGET_PHP_DIR --prefix=IVEF
+gentarget3.commands = $$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN --file=$$IVEF_SCHEMA --php --out=$$TARGET_PHP_DIR --prefix=IVEF > ivefgen.log 2>&1
 QMAKE_EXTRA_TARGETS += gentarget3
 PRE_TARGETDEPS += gentarget3
 QMAKE_CLEAN += $$TARGET_PHP_DIR/*

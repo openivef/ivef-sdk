@@ -110,7 +110,9 @@ jobs:
           $newDir = '..\Qt\6.6.0\msvc2019_64\bin'
           $env:Path += ';' + $newDir
           qmake
-          nmake
+          nmake || echo "nmake failed"
+          $a = get-childitem . ivefgen.log -File -Recurse
+          echo $a
 
       - name: Run qmake on Linux (Qt6)
         if: runner.os == 'Linux' && matrix.qt == '6'
