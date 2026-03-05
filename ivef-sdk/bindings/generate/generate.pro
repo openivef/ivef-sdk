@@ -11,7 +11,8 @@ TARGET_QT_DIR = $$IVEF_TARGETS_DIR/qt
     mkpath( $$TARGET_QT_DIR )
 }
 
-gentarget1.commands = $$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN --file=$$IVEF_SCHEMA --qt --out=$$TARGET_QT_DIR --prefix=IVEF
+ unix:gentarget1.commands = $$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN --file=$$IVEF_SCHEMA --qt --out=$$TARGET_QT_DIR --prefix=IVEF
+win32:gentarget1.commands = "$$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN.exe" --file="$$IVEF_SCHEMA" --qt --out="$$TARGET_QT_DIR" --prefix=IVEF
 QMAKE_EXTRA_TARGETS += gentarget1
 PRE_TARGETDEPS += gentarget1
 QMAKE_CLEAN += $$TARGET_QT_DIR/*/*

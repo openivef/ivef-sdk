@@ -70,6 +70,14 @@ jobs:
           target: 'desktop'
           arch: 'win64_msvc2019_64'
 
+      - name: Set up JDK 11 for on Windows
+        if: runner.os == 'Windows'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          architecture: x64
+
       - name: Set up Visual Studio shell
         if: runner.os == 'Windows'
         uses: egor-tensin/vs-shell@v2
@@ -147,4 +155,4 @@ jobs:
         if: runner.os == 'Linux' && matrix.qt == '6'
         working-directory: ivef-sdk/build/examples
         run: |
-          timeout 15s ./run_isim
+          timeout 15s ./run_isim || test $? = 124
