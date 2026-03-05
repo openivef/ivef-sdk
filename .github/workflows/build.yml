@@ -39,20 +39,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install c++ compiler on Linux
+        if: runner.os == 'Linux'
+        run: |
+          apt-get update
+          ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
+          apt-get install -y build-essential zlib1g-dev
+
       - name: Install Qt 6 on Linux
         if: runner.os == 'Linux' && matrix.qt == '6'
         run: |
-          apt-get update
-          apt-get install -y build-essential zlib1g-dev
           apt-get install -y qt6-base-dev qt6-tools-dev qt6-5compat-dev
 
       - name: Install Qt 5 on Linux
         if: runner.os == 'Linux' && matrix.qt == '5'
         run: |
-          ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
-          apt-get update
-          apt-get install -y build-essential zlib1g-dev
           apt-get install -y qtbase5-dev qttools5-dev-tools qt5-qmake
+
+      - name: Install java compiler on Linux
+        if: runner.os == 'Linux' && matrix.qt == '6'
+        run: |
+          apt-get install openjdk-21-jdk
 
       - name: Install Qt on Windows
         if: runner.os == 'Windows'
@@ -77,13 +84,11 @@ jobs:
           $env:Path += ';' + $newDir
           qmake schema2code/schema2code.pro
           nmake
-          build/bin/schema2code.exe --version
-          build/bin/schema2code.exe --help
           mkdir -p build/targets/qt
           build/bin/schema2code.exe --file=spec/ivef.xsd --qt --out=build/targets/qt --prefix=IVEF
 
       - name: Upload schema2code artifact
-        if: runner.os == 'Windows'
+        if: false
         uses: actions/upload-artifact@v4
         with:
           name: schema2code-windows
@@ -130,9 +135,15 @@ jobs:
         run: |
           ./run_all_tests.sh qt
 
-      - name: Verify example ilisten built
+      - name: Verify example ilisten
         if: runner.os == 'Linux'
         working-directory: ivef-sdk/build/examples
         run: |
           . ./set_ld_library_path
           ./ilisten --help
+
+      - name: Verify example isim
+        if: runner.os == 'Linux' && matrix.qt == '6'
+        working-directory: ivef-sdk/build/examples
+        run: |
+          timeout 15s ./run_isim
