@@ -77,6 +77,10 @@ jobs:
           $env:Path += ';' + $newDir
           qmake schema2code/schema2code.pro
           nmake
+          build/bin/schema2code.exe --version
+          build/bin/schema2code.exe --help
+          mkdir -p build/targets/qt
+          build/bin/schema2code.exe --file=spec/ivef.xsd --qt --out=build/targets/qt --prefix=IVEF
 
       - name: Upload schema2code artifact
         if: runner.os == 'Windows'
@@ -94,20 +98,24 @@ jobs:
           qmake
           nmake
 
-      - name: Run qmake and build on Linux (Qt6)
+      - name: Run qmake on Linux (Qt6)
         if: runner.os == 'Linux' && matrix.qt == '6'
         working-directory: ivef-sdk
         run: |
           qmake6 -v
           qmake6
-          make -j$(nproc)
 
-      - name: Run qmake and build on Linux (Qt5)
+      - name: Run qmake on Linux (Qt5)
         if: runner.os == 'Linux' && matrix.qt == '5'
         working-directory: ivef-sdk
         run: |
           qmake -v
           qmake
+
+      - name: Build on Linux
+        if: runner.os == 'Linux'
+        working-directory: ivef-sdk
+        run: |
           make -j$(nproc)
 
       - name: Run code gen tests on Linux
