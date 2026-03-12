@@ -3,17 +3,31 @@
 ######################################################################
 include(../bindings.pri)
 
+CONFIG -= silent
 
 TARGET_QT_DIR = $$IVEF_TARGETS_DIR/qt
 
-! exists( $$TARGET_QT_DIR ) {
-    message(Create build target dir: $$TARGET_QT_DIR)
-    mkpath( $$TARGET_QT_DIR )
-}
+mkoutdir1.commands = $$QMAKE_MKDIR $$shell_quote($$TARGET_QT_DIR)
+mkoutdir1.CONFIG  += phony
+QMAKE_EXTRA_TARGETS += mkoutdir1
 
-gentarget1.commands = $$quote($$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN) --file=$$IVEF_SCHEMA \
-                      --qt --out=$$TARGET_QT_DIR --prefix=IVEF
+GEN_EXE   = $$shell_quote($$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN)
+GEN_ARGS  = --file=$$shell_quote($$IVEF_SCHEMA) --qt --out=$$TARGET_QT_DIR --prefix=IVEF
+
+gentarget1.target    = $$TARGET_QT_DIR/.stamp-ivef
+win32 {
+    # On Windows use cmd.exe, echo the command, then run it.
+    # '|| exit /b 1' ensures failure propagates to nmake.
+    gentarget1.commands = \
+        echo Running: $$GEN_EXE $$GEN_ARGS && \
+        if not exist ..\build\bin\schema2code.exe ( echo ERROR: generator not found & exit /b 1 ) && \
+        cmd /c "..\build\bin\schema2code.exe $$GEN_ARGS" || exit /b 1 && \
+        $$QMAKE_TOUCH $$shell_quote($$gentarget4.target)
+} else {
+    gentarget1.commands = $$GEN_EXE $$GEN_ARGS && touch $$shell_quote($$gentarget1.target)
+}
 gentarget1.CONFIG += phony
+gentarget1.depends  += mkoutdir1
 QMAKE_EXTRA_TARGETS += gentarget1
 QMAKE_CLEAN += $$TARGET_QT_DIR/*/*
 
