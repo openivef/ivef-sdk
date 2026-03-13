@@ -5,9 +5,12 @@ include(../examples.pri)
 
 TARGET_JAVA_DIR = $$IVEF_TARGETS_DIR/java
 
-! exists( classes ) {
-    system( mkdir classes )
-}
+mkoutdir.commands = $$QMAKE_MKDIR $$shell_quote($$IVEF_EXAMPLES_DIR)
+mkoutdir.commands += $$QMAKE_MKDIR classes
+
+QMAKE_EXTRA_TARGETS += mkoutdir
+PRE_TARGETDEPS += mkoutdir
+
 
 win32|system( which javac 1>/dev/null 2>&1 ){
    CONFIG += javac
@@ -29,32 +32,32 @@ javac {
      win32:jar.commands += &
       unix:jar.commands += ;
     jar.commands += jar cMf $$IVEF_EXAMPLES_DIR/isim.jar *
+    jar.depends  += mkoutdir
 
     QMAKE_EXTRA_TARGETS += jar
     PRE_TARGETDEPS += jar
     ##QMAKE_CLEAN += classes/*/*
     QMAKE_CLEAN += $$IVEF_EXAMPLES_DIR/isim.jar
 
-
-     win32:test1.commands += echo "java -classpath $$IVEF_EXAMPLES_DIR/isim.jar;$$TARGET_JAVA_DIR/ivef/ivef.jar isim/core/isim -p 8043 -l 5 -s test.xml"
-      unix:test1.commands += echo "java -classpath $$IVEF_EXAMPLES_DIR/isim.jar:$$TARGET_JAVA_DIR/ivef/ivef.jar isim/core/isim -p 8043 -l 5 -s test.xml"
+    win32:test1.commands += echo "java -classpath $$IVEF_EXAMPLES_DIR/isim.jar;$$TARGET_JAVA_DIR/ivef/ivef.jar isim/core/isim -p 8043 -l 5 -s test.xml"
+     unix:test1.commands += echo "java -classpath $$IVEF_EXAMPLES_DIR/isim.jar:$$TARGET_JAVA_DIR/ivef/ivef.jar isim/core/isim -p 8043 -l 5 -s test.xml"
     test1.commands += > $$IVEF_EXAMPLES_DIR/run_isim
-      unix:test1.commands +=; chmod +x $$IVEF_EXAMPLES_DIR/run_isim
+     unix:test1.commands +=; chmod +x $$IVEF_EXAMPLES_DIR/run_isim
 
     QMAKE_EXTRA_TARGETS += test1
-    PRE_TARGETDEPS += test1
+    POST_TARGETDEPS += test1
     QMAKE_CLEAN += $$IVEF_EXAMPLES_DIR/run_isim
+
+     unix:test2.commands += cp scenario/test.xml $$IVEF_EXAMPLES_DIR/test.xml
+    win32:test2.commands += copy scenario\\test.xml ..\\..\\build\\examples\\test.xml
+
+    QMAKE_EXTRA_TARGETS += test2
+    POST_TARGETDEPS += test2
+    QMAKE_CLEAN += $$IVEF_EXAMPLES_DIR/test.xml
 }
 else {
     message( "javac not installed" )
 }
-
-  unix:test2.commands += cp scenario/test.xml $$IVEF_EXAMPLES_DIR/test.xml
- win32:test2.commands += copy scenario\\test.xml ..\\..\\build\\examples\\test.xml
-
-QMAKE_EXTRA_TARGETS += test2
-PRE_TARGETDEPS += test2
-QMAKE_CLEAN += $$IVEF_EXAMPLES_DIR/test.xml
 
 TEMPLATE = aux
 TARGET = dummy

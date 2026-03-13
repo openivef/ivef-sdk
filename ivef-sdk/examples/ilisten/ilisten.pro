@@ -40,6 +40,11 @@ SOURCES += src/cmdlineoption.cpp \
            src/ivefstreamhandler.cpp \
            src/main.cpp
 
+mkoutdir.commands = $$QMAKE_MKDIR $$shell_quote($$IVEF_EXAMPLES_DIR)
+
+QMAKE_EXTRA_TARGETS += mkoutdir
+PRE_TARGETDEPS += mkoutdir
+
 run.commands += echo "export LD_LIBRARY_PATH=$$IVEF_BUILD_DIR/targets/qt/lib" > $$IVEF_EXAMPLES_DIR/set_ld_library_path
  win32:run.commands += &
   unix:run.commands += ;
