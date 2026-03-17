@@ -5,12 +5,6 @@ include(../examples.pri)
 
 TARGET_JAVA_DIR = $$IVEF_TARGETS_DIR/java
 
-mkoutdir.commands = $$QMAKE_MKDIR $$shell_quote($$IVEF_EXAMPLES_DIR)
-mkoutdir.commands += $$QMAKE_MKDIR classes
-
-QMAKE_EXTRA_TARGETS += mkoutdir
-PRE_TARGETDEPS += mkoutdir
-
 
 win32|system( which javac 1>/dev/null 2>&1 ){
    CONFIG += javac
@@ -32,7 +26,6 @@ javac {
      win32:jar.commands += &
       unix:jar.commands += ;
     jar.commands += jar cMf $$IVEF_EXAMPLES_DIR/isim.jar *
-    jar.depends  += mkoutdir
 
     QMAKE_EXTRA_TARGETS += jar
     PRE_TARGETDEPS += jar
