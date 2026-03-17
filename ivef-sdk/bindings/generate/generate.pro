@@ -12,20 +12,15 @@ TARGET_QT_DIR = $$IVEF_TARGETS_DIR/qt
     mkpath( $$TARGET_QT_DIR )
 }
 
-GEN_EXE   = $$shell_quote($$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN)
+win32 {
+    GEN_EXE = 'cmd /c "$$IVEF_GENERATOR_DIR/$${IVEF_GENERATOR_BIN}.exe"'
+} else {
+    GEN_EXE = $$IVEF_GENERATOR_DIR/$${IVEF_GENERATOR_BIN}
+}
 GEN_ARGS  = --file=$$shell_quote($$IVEF_SCHEMA) --qt --out=$$TARGET_QT_DIR --prefix=IVEF
 
-gentarget1.target    = $$TARGET_QT_DIR/include/IVEFMSG_IVEF.h
-win32 {
-    # On Windows use cmd.exe, echo the command, then run it.
-    # '|| exit /b 1' ensures failure propagates to nmake.
-    gentarget1.commands = echo Running: $${GEN_EXE}.exe $$GEN_ARGS &
-    gentarget1.commands += cmd /c "$${GEN_EXE}.exe" --version &
-    gentarget1.commands += cmd /c "$${GEN_EXE}.exe" $$GEN_ARGS || exit /b 1
-} else {
-    gentarget1.commands = $$GEN_EXE --version;
-    gentarget1.commands += $$GEN_EXE $$GEN_ARGS
-}
+gentarget1.target = $$TARGET_QT_DIR/include/IVEFMSG_IVEF.h
+gentarget1.commands = $$GEN_EXE $$GEN_ARGS
 gentarget1.CONFIG += phony
 QMAKE_EXTRA_TARGETS += gentarget1
 QMAKE_CLEAN += $$TARGET_QT_DIR/*/*
