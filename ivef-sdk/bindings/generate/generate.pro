@@ -19,12 +19,12 @@ gentarget1.target    = $$TARGET_QT_DIR/include/IVEFMSG_IVEF.h
 win32 {
     # On Windows use cmd.exe, echo the command, then run it.
     # '|| exit /b 1' ensures failure propagates to nmake.
-    gentarget1.commands = \
-        echo Running: $${GEN_EXE}.exe $$GEN_ARGS && \
-        if not exist $${GEN_EXE}.exe ( echo ERROR: generator not found & exit /b 1 ) && \
-        cmd /c "$${GEN_EXE}.exe" $$GEN_ARGS || exit /b 1
+    gentarget1.commands = echo Running: $${GEN_EXE}.exe $$GEN_ARGS &
+    gentarget1.commands += cmd /c "$${GEN_EXE}.exe" --version &
+    gentarget1.commands += cmd /c "$${GEN_EXE}.exe" $$GEN_ARGS || exit /b 1
 } else {
-    gentarget1.commands = $$GEN_EXE $$GEN_ARGS
+    gentarget1.commands = $$GEN_EXE --version;
+    gentarget1.commands += $$GEN_EXE $$GEN_ARGS
 }
 gentarget1.CONFIG += phony
 QMAKE_EXTRA_TARGETS += gentarget1
