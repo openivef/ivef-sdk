@@ -33,8 +33,8 @@ TARGET_JAVA_DIR = $$IVEF_TARGETS_DIR/java
     mkpath( $$TARGET_JAVA_DIR )
 }
 
-gentarget2.commands = $$quote($$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN) --file=$$IVEF_SCHEMA \
-                      --java --out=$$TARGET_JAVA_DIR --prefix=IVEF
+GEN_ARGS  = --file=$$shell_quote($$IVEF_SCHEMA) --java --out=$$TARGET_JAVA_DIR --prefix=IVEF
+gentarget2.commands = $$GEN_EXE $$GEN_ARGS
 gentarget2.CONFIG += phony
 QMAKE_EXTRA_TARGETS += gentarget2
 QMAKE_CLEAN += $$TARGET_JAVA_DIR/ivef/*
@@ -47,8 +47,8 @@ TARGET_PHP_DIR = $$IVEF_TARGETS_DIR/php
     mkpath( $$TARGET_PHP_DIR )
 }
 
-gentarget3.commands = $$quote($$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN) --file=$$IVEF_SCHEMA \
-                      --php --out=$$TARGET_PHP_DIR --prefix=IVEF
+GEN_ARGS  = --file=$$shell_quote($$IVEF_SCHEMA) --php --out=$$TARGET_PHP_DIR --prefix=IVEF
+gentarget3.commands = $$GEN_EXE $$GEN_ARGS
 gentarget3.CONFIG += phony
 QMAKE_EXTRA_TARGETS += gentarget3
 QMAKE_CLEAN += $$TARGET_PHP_DIR/*
@@ -61,8 +61,8 @@ TARGET_OBJC_DIR = $$IVEF_TARGETS_DIR/objc
     mkpath( $$TARGET_OBJC_DIR )
 }
 
-gentarget4.commands = $$quote($$IVEF_GENERATOR_DIR/$$IVEF_GENERATOR_BIN) --file=$$IVEF_SCHEMA \
-                      --objc --out=$$TARGET_OBJC_DIR --prefix=IL
+GEN_ARGS  = --file=$$shell_quote($$IVEF_SCHEMA) --objc --out=$$TARGET_OBJC_DIR --prefix=IL
+gentarget4.commands = $$GEN_EXE $$GEN_ARGS
 gentarget4.CONFIG += phony
 QMAKE_EXTRA_TARGETS += gentarget4
 QMAKE_CLEAN += $$TARGET_OBJC_DIR/*
