@@ -61,7 +61,7 @@ jobs:
         run: |
           apt-get install -y openjdk-21-jdk
 
-      - name: Install Qt on Windows
+      - name: Install Qt 6.6.0 (MSVC 2019, x64) + Qt5Compat
         if: runner.os == 'Windows'
         uses: jurplel/install-qt-action@v4
         with:
@@ -69,6 +69,7 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
+          modules: 'qt5compat'           # <- Qt 5 Compatibility module
 
       - name: Set up JDK 11 for on Windows
         if: runner.os == 'Windows'

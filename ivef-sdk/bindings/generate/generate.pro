@@ -17,7 +17,7 @@ win32 {
 } else {
     GEN_EXE = $$IVEF_GENERATOR_DIR/$${IVEF_GENERATOR_BIN}
 }
-GEN_ARGS  = --file=$$shell_quote($$IVEF_SCHEMA) --qt --out=$$TARGET_QT_DIR --prefix=IVEF
+GEN_ARGS = --file=$$shell_quote($$IVEF_SCHEMA) --qt --out=$$TARGET_QT_DIR --prefix=IVEF
 
 gentarget1.target = $$TARGET_QT_DIR/include/IVEFMSG_IVEF.h
 gentarget1.commands = $$GEN_EXE $$GEN_ARGS
