@@ -22,11 +22,21 @@ QT += network xml
 greaterThan(QT_MAJOR_VERSION, 5) {
    QT += core5compat
 }
+
+# Read ZLIB_DIR from environment
+ZLIB_DIR = $$(ZLIB_DIR)
+
 macx {
    CONFIG -= app_bundle
    LIBS += -F$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
 } else {
-   LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef1 -lz
+   LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef1
+   win32 {
+      LIBS += -L$$ZLIB_DIR/lib
+      LIBS += -lzlib
+   } else {
+      LIBS += -lz
+   }
 }
 
 # Input

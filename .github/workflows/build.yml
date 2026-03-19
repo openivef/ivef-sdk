@@ -83,6 +83,7 @@ jobs:
       #  run: vcpkg install zlib:x64-windows
 
       - name: vcpkg build (zlib)
+        if: runner.os == 'Windows'
         id: vcpkg
         uses: johnwason/vcpkg-action@v7
         with:
@@ -90,13 +91,18 @@ jobs:
           triplet: x64-windows
           token: ${{ github.token }}
 
-      # Make vcpkg's zlib visible to MSVC/qmake
-      - name: Export zlib include/lib to environment
+      - name: Define ZLIB_DIR for qmake
         if: runner.os == 'Windows'
-        shell: pwsh
         run: |
-          echo "INCLUDE=$env:VCPKG_ROOT\installed\x64-windows\include;$env:INCLUDE" >> $env:GITHUB_ENV
-          echo "LIB=$env:VCPKG_ROOT\installed\x64-windows\lib;$env:LIB" >> $env:GITHUB_ENV
+          echo "ZLIB_DIR=${{ github.workspace }}\vcpkg\installed\x64-windows" >> $env:GITHUB_ENV
+
+      - name: Verify zlib files exist
+        if: runner.os == 'Windows'
+        run: |
+          Write-Host "ZLIB_DIR=$env:ZLIB_DIR"
+          Test-Path "$env:ZLIB_DIR\include\zlib.h" | Out-Host
+          Test-Path "$env:ZLIB_DIR\lib\zlib.lib" | Out-Host
+          Test-Path "$env:ZLIB_DIR\debug\lib\zlibd.lib" | Out-Host
 
       - name: Set up JDK 11 for on Windows
         if: runner.os == 'Windows'
