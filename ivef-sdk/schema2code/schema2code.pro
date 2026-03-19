@@ -12,9 +12,8 @@ TARGET = $$IVEF_GENERATOR_BIN
 DEPENDPATH += . include src
 INCLUDEPATH += . include
 
-DEFINES += VERSION=$$IVEF_VERSION
+DEFINES += IVEF_SDK_VERSION=$$IVEF_SDK_VERSION
 
-#CONFIG += warn_on stl qt release console
 QT += network xml
 macx {
    CONFIG -= app_bundle

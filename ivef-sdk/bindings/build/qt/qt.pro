@@ -22,8 +22,7 @@ staticlib:DEFINES += SCHEMAIVEF_BUILD_STATIC
 !staticlib:CONFIG += dll
 
 QT += xml
-VERSION = $$IVEF_VERSION
+VERSION = $$IVEF_SDK_VERSION
 
-SOURCES += $$shell_path($$TARGET_QT_DIR/src/*.cpp)
-HEADERS += $$shell_path($$TARGET_QT_DIR/include/*.h)
-
+SOURCES += $$files($$TARGET_QT_DIR/src/*.cpp)
+HEADERS += $$files($$TARGET_QT_DIR/include/*.h)

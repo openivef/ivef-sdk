@@ -1,0 +1,154 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }} - Qt ${{ matrix.qt }} version
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            container: null
+            shell: pwsh
+            qt: '6'
+          - os: ubuntu-latest
+            container: 'ubuntu:24.04'
+            shell: bash
+            qt: '6'
+          - os: ubuntu-latest
+            container: 'ubuntu:22.04'
+            shell: bash
+            qt: '5'
+
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install c++ compiler on Linux
+        if: runner.os == 'Linux'
+        run: |
+          apt-get update
+          ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
+          apt-get install -y build-essential zlib1g-dev
+
+      - name: Install Qt 6 on Linux
+        if: runner.os == 'Linux' && matrix.qt == '6'
+        run: |
+          apt-get install -y qt6-base-dev qt6-tools-dev qt6-5compat-dev
+
+      - name: Install Qt 5 on Linux
+        if: runner.os == 'Linux' && matrix.qt == '5'
+        run: |
+          apt-get install -y qtbase5-dev qttools5-dev-tools qt5-qmake
+
+      - name: Install java compiler on Linux
+        if: runner.os == 'Linux' && matrix.qt == '6'
+        run: |
+          apt-get install -y openjdk-21-jdk
+
+      - name: Install Qt 6.6.0 (MSVC 2019, x64) + Qt5Compat
+        if: runner.os == 'Windows'
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.6.0'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+          modules: 'qt5compat'
+
+      - name: vcpkg build (zlib)
+        if: runner.os == 'Windows'
+        id: vcpkg
+        uses: johnwason/vcpkg-action@v7
+        with:
+          pkgs: 'zlib'
+          triplet: 'x64-windows'
+          token: ${{ github.token }}
+
+      - name: Define ZLIB_DIR for qmake
+        if: runner.os == 'Windows'
+        run: |
+          echo "ZLIB_DIR=${{ github.workspace }}\vcpkg\installed\x64-windows" >> $env:GITHUB_ENV
+
+      - name: Set up JDK 11 for on Windows
+        if: runner.os == 'Windows'
+        uses: actions/setup-java@v5
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          architecture: 'x64'
+
+      - name: Set up Visual Studio shell
+        if: runner.os == 'Windows'
+        uses: egor-tensin/vs-shell@v2
+        with:
+          arch: 'x64'
+
+      - name: Build on Windows
+        if: runner.os == 'Windows'
+        working-directory: ivef-sdk
+        run: |
+          $newDir = '..\Qt\6.6.0\msvc2019_64\bin'
+          $env:Path += ';' + $newDir
+          qmake
+          nmake
+
+      - name: Run qmake on Linux (Qt6)
+        if: runner.os == 'Linux' && matrix.qt == '6'
+        working-directory: ivef-sdk
+        run: |
+          qmake6 -v
+          qmake6
+
+      - name: Run qmake on Linux (Qt5)
+        if: runner.os == 'Linux' && matrix.qt == '5'
+        working-directory: ivef-sdk
+        run: |
+          qmake -v
+          qmake
+
+      - name: Build on Linux
+        if: runner.os == 'Linux'
+        working-directory: ivef-sdk
+        run: |
+          make -j$(nproc)
+
+      - name: Run code gen tests on Linux
+        if: runner.os == 'Linux'
+        working-directory: ivef-sdk/tests/codes
+        run: |
+          ./run_all_tests.sh all
+
+      - name: Run Qt parse tests on Linux
+        if: runner.os == 'Linux'
+        working-directory: ivef-sdk/tests/cases
+        run: |
+          ./run_all_tests.sh qt
+
+      - name: Verify example ilisten
+        if: runner.os == 'Linux'
+        working-directory: ivef-sdk/build/examples
+        run: |
+          . ./set_ld_library_path
+          ./ilisten --help
+
+      - name: Verify example isim
+        if: runner.os == 'Linux' && matrix.qt == '6'
+        working-directory: ivef-sdk/build/examples
+        run: |
+          timeout 15s ./run_isim || test $? = 124

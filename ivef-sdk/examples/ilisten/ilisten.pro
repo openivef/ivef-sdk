@@ -15,15 +15,28 @@ INCLUDEPATH += . include
 # include the IVEF Qt library
 INCLUDEPATH += $$IVEF_BUILD_DIR/targets/qt/include
 
-DEFINES += VERSION=$$IVEF_VERSION
+DEFINES += IVEF_SDK_VERSION=$$IVEF_SDK_VERSION
 unix:DEFINES += HAVE_ZLIB
 
 QT += network xml
+greaterThan(QT_MAJOR_VERSION, 5) {
+   QT += core5compat
+}
+
+# Read ZLIB_DIR from environment
+ZLIB_DIR = $$(ZLIB_DIR)
+
 macx {
    CONFIG -= app_bundle
    LIBS += -F$$IVEF_BUILD_DIR/targets/qt/lib -framework ivef
 } else {
-   LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef1 -lz
+   LIBS += -L$$IVEF_BUILD_DIR/targets/qt/lib -livef1
+   win32 {
+      LIBS += -L$$ZLIB_DIR/lib
+      LIBS += -lzlib
+   } else {
+      LIBS += -lz
+   }
 }
 
 # Input
@@ -37,11 +50,9 @@ SOURCES += src/cmdlineoption.cpp \
            src/ivefstreamhandler.cpp \
            src/main.cpp
 
-run.commands += echo "export LD_LIBRARY_PATH=$$IVEF_BUILD_DIR/targets/qt/lib" > $$IVEF_EXAMPLES_DIR/run_ilisten
+run.commands += echo "export LD_LIBRARY_PATH=$$IVEF_BUILD_DIR/targets/qt/lib" > $$IVEF_EXAMPLES_DIR/set_ld_library_path
  win32:run.commands += &
   unix:run.commands += ;
-run.commands += echo "ilisten" >> $$IVEF_EXAMPLES_DIR/run_ilisten
-unix:run.commands += ; chmod +x $$IVEF_EXAMPLES_DIR/run_ilisten
 
 QMAKE_EXTRA_TARGETS += run
 POST_TARGETDEPS += run

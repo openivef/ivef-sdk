@@ -53,7 +53,7 @@ MainApp::MainApp( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n schema2code " << STRINGIFY(VERSION)
+        std::cout << "\n schema2code " << STRINGIFY(IVEF_SDK_VERSION)
                   << "\n----------------------------------------\n\nCopyright "
                   << QDate::currentDate().year() << "\n" << std::endl;
         std::exit(0);
@@ -160,5 +160,5 @@ void MainApp::slotStart( void ) {
 
         // we are finished
         std::exit(0);
-    } 
+    }
 }

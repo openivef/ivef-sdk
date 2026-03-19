@@ -43,8 +43,13 @@ IVEFStreamHandler::IVEFStreamHandler(ivef::Parser *parser) {
             this, SLOT(slotDisconnected()));
     connect(m_tcpSocket, SIGNAL(readyRead()),
             this, SLOT(slotReadyRead()));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     connect(m_tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
+#else
+    connect(m_tcpSocket, SIGNAL(errorOccurred(QAbstractSocket::SocketError)),
+            this, SLOT(displayError(QAbstractSocket::SocketError)));
+#endif
 }
 
 IVEFStreamHandler::~IVEFStreamHandler() {
