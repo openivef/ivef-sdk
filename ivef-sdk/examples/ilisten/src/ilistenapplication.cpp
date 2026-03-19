@@ -47,7 +47,7 @@ iListenApplication::iListenApplication( int & argc, char ** argv )
 
     // is there a request for some version info?
     if ( m_options.getBoolean( "version" ) ) {
-        std::cout << "\n iListen " << STRINGIFY(VERSION) << "\n----------------------------------------\n\n"
+        std::cout << "\n iListen " << STRINGIFY(IVEF_SDK_VERSION) << "\n----------------------------------------\n\n"
                   << " an example implementation for an IVEF Listener (hence iListen).\n"
                   << " Copyright " << QDate::currentDate().year() << ".\n"  << std::endl;
         std::exit(0);
@@ -144,4 +144,3 @@ void iListenApplication::printMsgIvef( ivef::MSG_IVEF obj ) {
 void iListenApplication::printError( QString errorStr ) {
     std::cerr << errorStr.toUtf8().data() << std::endl;
 }
-

@@ -69,26 +69,15 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
-          modules: 'qt5compat'           # <- Qt 5 Compatibility module
-
-      # Install vcpkg (cached) and zlib for MSVC x64
-      #- name: Setup vcpkg
-      #  if: runner.os == 'Windows'
-      #  uses: lukka/run-vcpkg@v11
-      #  with:
-      #    vcpkgGitCommitId: 'stable'   # or pin a specific commit for reproducibility
-
-      #- name: Install zlib via vcpkg (x64-windows)
-      #  if: runner.os == 'Windows'
-      #  run: vcpkg install zlib:x64-windows
+          modules: 'qt5compat'
 
       - name: vcpkg build (zlib)
         if: runner.os == 'Windows'
         id: vcpkg
         uses: johnwason/vcpkg-action@v7
         with:
-          pkgs: zlib
-          triplet: x64-windows
+          pkgs: 'zlib'
+          triplet: 'x64-windows'
           token: ${{ github.token }}
 
       - name: Define ZLIB_DIR for qmake
@@ -96,27 +85,19 @@ jobs:
         run: |
           echo "ZLIB_DIR=${{ github.workspace }}\vcpkg\installed\x64-windows" >> $env:GITHUB_ENV
 
-      - name: Verify zlib files exist
-        if: runner.os == 'Windows'
-        run: |
-          Write-Host "ZLIB_DIR=$env:ZLIB_DIR"
-          Test-Path "$env:ZLIB_DIR\include\zlib.h" | Out-Host
-          Test-Path "$env:ZLIB_DIR\lib\zlib.lib" | Out-Host
-          Test-Path "$env:ZLIB_DIR\debug\lib\zlibd.lib" | Out-Host
-
       - name: Set up JDK 11 for on Windows
         if: runner.os == 'Windows'
         uses: actions/setup-java@v5
         with:
           java-version: '11'
           distribution: 'temurin'
-          architecture: x64
+          architecture: 'x64'
 
       - name: Set up Visual Studio shell
         if: runner.os == 'Windows'
         uses: egor-tensin/vs-shell@v2
         with:
-          arch: x64
+          arch: 'x64'
 
       - name: Build on Windows
         if: runner.os == 'Windows'

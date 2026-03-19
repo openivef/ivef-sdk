@@ -3,7 +3,6 @@
 ######################################################################
 include(../bindings.pri)
 
-CONFIG -= silent
 
 TARGET_QT_DIR = $$IVEF_TARGETS_DIR/qt
 

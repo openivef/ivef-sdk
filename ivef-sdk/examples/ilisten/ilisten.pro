@@ -15,7 +15,7 @@ INCLUDEPATH += . include
 # include the IVEF Qt library
 INCLUDEPATH += $$IVEF_BUILD_DIR/targets/qt/include
 
-DEFINES += VERSION=$$IVEF_VERSION
+DEFINES += IVEF_SDK_VERSION=$$IVEF_SDK_VERSION
 unix:DEFINES += HAVE_ZLIB
 
 QT += network xml
