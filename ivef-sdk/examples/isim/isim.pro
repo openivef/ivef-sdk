@@ -5,9 +5,15 @@ include(../examples.pri)
 
 TARGET_JAVA_DIR = $$IVEF_TARGETS_DIR/java
 
-
-win32|system( which javac 1>/dev/null 2>&1 ){
-   CONFIG += javac
+win32 {
+   system(where javac >nul 2>&1) {
+      CONFIG += javac
+   }
+}
+unix {
+   system(which javac 1>/dev/null 2>&1) {
+      CONFIG += javac
+   }
 }
 
 javac {

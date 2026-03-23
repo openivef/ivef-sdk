@@ -8,7 +8,7 @@ MOC_DIR = ./tmp/moc
 OBJECTS_DIR = ./tmp/obj
 
 TEMPLATE = app
-TARGET = testqt 
+TARGET = testqt
 DEPENDPATH += . include src
 INCLUDEPATH += . include
 

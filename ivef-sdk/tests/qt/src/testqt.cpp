@@ -15,33 +15,21 @@
  *  Copyright 2008
  *
  */
- 
-#include <cstdlib>
+
+#include <iostream>
 
 #include "testqt.h"
 
-testqt::testqt( int & argc, char ** argv )
-        :QCoreApplication(argc, argv, false) {
-
+testqt::testqt() {
     // connect to the events from the parser
-    connect( &m_parser, SIGNAL( signalMSG_IVEF(ivef::MSG_IVEF)),         this, SLOT( slotMSG_IVEF(ivef::MSG_IVEF) ));
-    // Issue 24
+    connect( &m_parser, SIGNAL( signalMSG_IVEF(ivef::MSG_IVEF)), this, SLOT( slotMSG_IVEF(ivef::MSG_IVEF) ));
     connect( &m_parser, SIGNAL( signalError(QString)), this, SLOT( slotPrintError(QString) ));
     connect( &m_parser, SIGNAL( signalWarning(QString)), this, SLOT( slotPrintError(QString) ));
     connect( &m_parser, SIGNAL( signalValidationError(QString)), this, SLOT( slotPrintError(QString) ));
-    // End Issue 24
+}
 
-    // and keep reading from standard in
-    std::cout << "TestApp ready for input" << std::endl;
-    std::string input_line;
-    while(!std::cin.fail()) {
-        getline(std::cin, input_line);
-        input_line += "\n"; // getline eats the new line
-        //std::cout << input_line << std::endl;
-        m_parser.parseXMLString(QString(input_line.c_str()), true);
-    };
-    std::cout << "TestApp shutting down" << std::endl;
-    // QCoreApplication::exit(0);
+void testqt::parseXMLString( QString str ) {
+    m_parser.parseXMLString(str, true);
 }
 
 void testqt::slotMSG_IVEF( ivef::MSG_IVEF obj ) {
@@ -53,6 +41,7 @@ void testqt::slotMSG_IVEF( ivef::MSG_IVEF obj ) {
         std::cout << xml.toUtf8().data();
     std::cout << std::endl;
 }
-// Issue 24
-void testqt::slotPrintError( QString errorStr ) { std::cout << errorStr.toUtf8().data() << std::endl; }
-// End Issue 24
+
+void testqt::slotPrintError( QString errorStr ) {
+     std::cout << errorStr.toUtf8().data() << std::endl;
+}

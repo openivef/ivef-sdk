@@ -134,11 +134,23 @@ jobs:
         run: |
           ./run_all_tests.sh all
 
+      - name: Run code gen tests on Windows
+        if: runner.os == 'Windows'
+        working-directory: ivef-sdk/tests/codes
+        run: |
+          pwsh ./run_all_tests.ps1 all
+
       - name: Run Qt parse tests on Linux
         if: runner.os == 'Linux'
         working-directory: ivef-sdk/tests/cases
         run: |
           ./run_all_tests.sh qt
+
+      - name: Run Qt parse tests on Windows
+        if: runner.os == 'Windows'
+        working-directory: ivef-sdk/tests/cases
+        run: |
+          pwsh ./run_all_tests.ps1 qt
 
       - name: Verify example ilisten
         if: runner.os == 'Linux'
@@ -147,8 +159,31 @@ jobs:
           . ./set_ld_library_path
           ./ilisten --help
 
+      - name: Verify example ilisten on Windows
+        if: runner.os == 'Windows'
+        working-directory: ivef-sdk/build/examples
+        run: |
+          $env:PATH = "$env:GITHUB_WORKSPACE\ivef-sdk\build/targets/qt/lib;$env:PATH"
+          ./ilisten.exe --help
+
       - name: Verify example isim
         if: runner.os == 'Linux' && matrix.qt == '6'
         working-directory: ivef-sdk/build/examples
         run: |
           timeout 15s ./run_isim || test $? = 124
+
+      - name: Verify example isim on Windows (Qt6 only)
+        if: runner.os == 'Windows'
+        working-directory: ivef-sdk/build/examples
+        run: |
+          # Start isim and stop it after 15 seconds like the Linux timeout
+          $isimJar = Join-Path (Get-Location) "isim.jar"
+          $ivefJar = Join-Path (Get-Location) "../targets/java/ivef/ivef.jar"
+          if ((Test-Path $isimJar) -and (Test-Path $ivefJar)) {
+            $p = Start-Process -FilePath java -ArgumentList "-classpath", "$isimJar;$ivefJar", "isim/core/isim", "-p", "8043", "-l", "5", "-s", "test.xml" -PassThru
+            Start-Sleep -Seconds 15
+            Stop-Process -Id $p.Id -Force
+          } else {
+            Write-Error "Required JAR files not found"
+            exit 1
+          }

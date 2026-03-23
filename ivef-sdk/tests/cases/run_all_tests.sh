@@ -18,10 +18,10 @@ then
 elif [ "$1" == "php" ]
 then
     # Make it more portable
-    if type php5 >/dev/null 2>&1    
+    if type php5 >/dev/null 2>&1
     then
         COMMAND='php5 ../php/test.php'
-    elif type php >/dev/null 2>&1    
+    elif type php >/dev/null 2>&1
     then
         COMMAND='php ../php/test.php'
     else
@@ -31,10 +31,10 @@ then
 elif [ "$1" == "all" ]
 then
     # recursive call of ourselfs
-    $0 php
-    $0 qt
-    $0 obj-c
-    $0 java
+    $0 php || exit 1
+    $0 qt || exit 1
+    $0 obj-c || exit 1
+    $0 java || exit 1
     exit 0
 else
     echo "syntax $0 [qt | objc | java | php | all]"
@@ -63,8 +63,8 @@ do
 
    cat ${INPUTFILE} | $COMMAND > ${TMPDIR}/$OUTNAME
 
-   if [ "$(diff -w data/$OUTNAME ${TMPDIR}/$OUTNAME)" == "" ] 
-   then 
+   if [ "$(diff -w data/$OUTNAME ${TMPDIR}/$OUTNAME)" == "" ]
+   then
        echo OK
    else
        echo NOK
@@ -75,7 +75,7 @@ do
        echo ---
        exit 1
    fi
-done 
+done
 
 # all test ok, clean up
 rm -Rf $TMPDIR

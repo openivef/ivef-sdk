@@ -16,11 +16,24 @@
  *
  */
 
+#include <iostream>
+#include <QCoreApplication>
 #include "testqt.h"
+
 
 int main(int argc, char *argv[]) {
 
-    testqt app(argc, argv);
+    QCoreApplication app(argc, argv);
+    testqt parser;
 
-    // return app.exec();
+    std::cout << "TestApp ready for input" << std::endl;
+
+    std::string input_line;
+    while (std::getline(std::cin, input_line)) {
+        input_line += "\n";
+        parser.parseXMLString(QString::fromStdString(input_line));
+    }
+
+    std::cout << "TestApp shutting down" << std::endl;
+    return 0;
 }

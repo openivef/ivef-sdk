@@ -19,17 +19,14 @@
 #ifndef __ILISTENAPP_H__
 #define __ILISTENAPP_H__
 
-#include <iostream>
-
-#include <QCoreApplication>
-
 #include "IVEFParser.h"
 
-class testqt : public QCoreApplication {
+class testqt : public QObject {
     Q_OBJECT
 
 public:
-    testqt( int & argc, char ** argv );
+    testqt();
+    void parseXMLString( QString str );
 
 private:
     ivef::Parser m_parser;
