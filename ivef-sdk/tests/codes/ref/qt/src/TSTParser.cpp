@@ -1,5 +1,5 @@
 #include <QtGlobal>
-#include <QRegularExpression>
+#include <QStringList>
 
 #include "TSTFunctions.h"
 
@@ -12,6 +12,7 @@ namespace tst {
 Parser::Parser() {
 
     m_xml = new XmlStreamReader;
+    m_searchFrom = 0;
     connect( m_xml, SIGNAL(signalValidationError(const QString&)),
              this,  SIGNAL(signalValidationError(const QString&)) );
 }
@@ -19,32 +20,49 @@ Parser::Parser() {
 // the actual parsing routine
 bool Parser::parseXMLString(QString data, bool cont) {
 
-     // add the data to what was left over from a previous parse run
-    // search the buffer for the nearest closetag
-    int index = 0;
-    QRegularExpression rx( "</MSG_Notification>|</Argument>|</AreaName>");
-    m_xml->addData( data );
-    if ( QRegularExpressionMatch match = rx.match( data ); match.hasMatch() )
+    // add the data to what was left over from a previous parse run
+    static const QStringList closeTags = QStringList() << "</MSG_Notification>" << "</Argument>" << "</AreaName>";
+    m_dataBuffer.append( data );
+    int consumed = 0;
+    while ( true )
     {
-        // end found in last part
-        QString residu( data );
-        do
+        // Regex matching can validate the entire subject again at every offset.
+        const int index = m_dataBuffer.indexOf( "</", m_searchFrom );
+        if ( index < 0 )
         {
-            parse();
-            m_xml->clear();
-
-            // add make residu
-            int len = match.capturedStart() + match.capturedLength();
-            residu = residu.right( residu.length() - len );
-            m_xml->addData( residu );
-
-            // loop until no end found in residu
-            match = rx.match( residu );
-        } while ( match.hasMatch() );
+            // Revisit only the possible split tag, not the entire incomplete message.
+            m_searchFrom = qMax(consumed, int(m_dataBuffer.size()) - 19 + 1);
+            break;
+        }
+        int end = -1;
+        for (const QString& tag : closeTags)
+        {
+            if ( m_dataBuffer.mid(index, tag.size()) == tag )
+            {
+                end = index + tag.size();
+                break;
+            }
+        }
+        if ( end < 0 )
+        {
+            m_searchFrom = index + 2;
+            continue;
+        }
+        // Feed only this message: copying/re-feeding the remaining batch is quadratic.
+        m_xml->clear();
+        m_xml->addData( m_dataBuffer.mid(consumed, end - consumed) );
+        parse();
+        consumed = end;
+        m_searchFrom = end;
     }
+    // Compact once per call, never once per message in a burst.
+    m_dataBuffer.remove( 0, consumed );
+    m_searchFrom -= consumed;
 
     if (!cont) {
         m_xml->clear();
+        m_dataBuffer.clear();
+        m_searchFrom = 0;
     }
     return true;
 }

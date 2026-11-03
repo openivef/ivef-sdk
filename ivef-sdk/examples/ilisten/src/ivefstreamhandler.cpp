@@ -22,6 +22,11 @@
 
 #define TIMER_INTERVAL 10
 
+// Limit socket buffering and work per event-loop turn, not the size of an XML message.
+const int RECEIVE_CHUNK_BYTES = 64 * 1024;
+const int RECEIVE_BUFFER_BYTES = 256 * 1024;
+const int RECEIVE_TIME_PER_TURN_MS = 10;
+
 IVEFStreamHandler::IVEFStreamHandler(ivef::Parser *parser) {
 
     // clear user/password
@@ -33,14 +38,27 @@ IVEFStreamHandler::IVEFStreamHandler(ivef::Parser *parser) {
     m_statistics = false;
     m_bytesIn = 0;
     m_bytesOut = 0;
+    m_inputClosed = false;
+    m_receiveStopped = true;
+#ifdef HAVE_ZLIB
+    m_strm = {};
+    m_inputOffset = 0;
+    m_inflatePending = false;
+    m_inflateInitialized = false;
+#endif
+    m_receiveTimer.setSingleShot(true);
+    m_receiveTimer.setInterval(1);
+    connect(&m_receiveTimer, SIGNAL(timeout()), this, SLOT(processReceive()));
+    connect(this, SIGNAL(signalInputDrained()), this, SLOT(slotDisconnected()));
 
     // create a new socket
     m_tcpSocket = new QTcpSocket(this);
+    m_tcpSocket->setReadBufferSize(RECEIVE_BUFFER_BYTES);
 
     connect(m_tcpSocket, SIGNAL(connected()),
             this, SLOT(slotConnected()));
     connect(m_tcpSocket, SIGNAL(disconnected()),
-            this, SLOT(slotDisconnected()));
+            this, SLOT(finishReceive()));
     connect(m_tcpSocket, SIGNAL(readyRead()),
             this, SLOT(slotReadyRead()));
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -54,17 +72,11 @@ IVEFStreamHandler::IVEFStreamHandler(ivef::Parser *parser) {
 
 IVEFStreamHandler::~IVEFStreamHandler() {
     qDebug() << "IVEFStreamHandler in destructor";
+    stopReceive();
     if (m_tcpSocket != NULL)
         delete(m_tcpSocket);
     if (m_log != NULL)
         delete(m_log);
-
-#ifdef HAVE_ZLIB
-    // cleanup compression
-    if ( m_slipstream ) {
-        inflateEnd(&m_strm);
-    }
-#endif
 }
 
 void IVEFStreamHandler::displayError(QAbstractSocket::SocketError socketError) {
@@ -102,6 +114,14 @@ void IVEFStreamHandler::displayError(QAbstractSocket::SocketError socketError) {
 
 void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QString password, QString logFileName, bool slipstream, bool statistics) {
 
+    stopReceive();
+    m_receiveStopped = false;
+    m_inputClosed = false;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    m_decoder.reset(QTextCodec::codecForName("UTF-8")->makeDecoder());
+#else
+    m_decoder = QStringDecoder(QStringDecoder::Utf8);
+#endif
 
     QString portString;
     portString.setNum(port);
@@ -113,9 +133,6 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
     // should we use compression
     m_slipstream = slipstream;
 
-    // setup the socket
-    m_tcpSocket->connectToHost(host, port);
-
     // store some info for the login
     m_user = user;
     m_password = password;
@@ -124,14 +141,17 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
     // setup decompression mechanism
     // we cannot use Qt for decompression since we do not know where the chunk starts or ends.
     if ( m_slipstream ) {
-        m_strm.zalloc = Z_NULL;
-        m_strm.zfree = Z_NULL;
-        m_strm.opaque = Z_NULL;
-        m_strm.avail_in = 0;
-        m_strm.next_in = Z_NULL;
-        if (inflateInit(&m_strm) != Z_OK) {
-            std::cout << "iListen error initiating zlib stream" << std::endl;
+        m_strm = {};
+        m_inflateInitialized = inflateInit(&m_strm) == Z_OK;
+        if (!m_inflateInitialized) {
+            failReceive("Error initiating zlib stream");
+            return;
         }
+    }
+#else
+    if (m_slipstream) {
+        failReceive("Compression support is unavailable");
+        return;
     }
 #endif
 
@@ -163,6 +183,8 @@ void IVEFStreamHandler::connectToServer(QString host, int port, QString user, QS
     } else {
         m_log = NULL;
     }
+    // setup the socket
+    m_tcpSocket->connectToHost(host, port);
 }
 
 void IVEFStreamHandler::slotConnected() {
@@ -221,102 +243,123 @@ void IVEFStreamHandler::slotDisconnected() {
 
 void IVEFStreamHandler::slotReadyRead() {
 
-    // read data
-    QByteArray newData = m_tcpSocket->readAll();
-    m_bytesIn += newData.size();
-    QString outString;
-    uint outBufferLen = 32768;
+    if (!m_receiveStopped && !m_receiveTimer.isActive())
+        m_receiveTimer.start();
+}
 
+void IVEFStreamHandler::finishReceive() {
+
+    if (m_receiveStopped)
+        return;
+    m_inputClosed = true;
+    slotReadyRead();
+}
+
+void IVEFStreamHandler::stopReceive() {
+
+    m_receiveStopped = true;
+    m_receiveTimer.stop();
+    m_inputClosed = false;
+    m_parser->parseXMLString("", false);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    m_decoder.reset();
+#else
+    m_decoder = QStringDecoder();
+#endif
 #ifdef HAVE_ZLIB
-    if ( m_slipstream ) {
-        if (inflateInit(&m_strm) != Z_OK) {
-            std::cerr <<  "error initiating zlib stream" << std::endl;
-        }
-
-        // When there is still some left in the buffer from the previous message,
-        // check if the new chunk is decompressible by itself.
-        // If it is decompressible, we missed the complementary part of the left over
-        // which we will ignore and continue with the new chunk
-        if ( m_buffer.size() > 0 ) {
-            m_strm.avail_in = newData.size();
-            m_strm.next_in = reinterpret_cast<Bytef*> (newData.data());
-
-            QByteArray outBuffer = QByteArray(outBufferLen, 0x00);
-            m_strm.avail_out = outBuffer.size();
-            m_strm.next_out = reinterpret_cast<Bytef*> (outBuffer.data());
-
-            if ( inflate( &m_strm , Z_SYNC_FLUSH ) >= 0 ) {
-                m_buffer.clear();
-            }
-            // Reset the state, or the error is preserved.
-            inflateReset( &m_strm );
-        }
-        m_buffer.append( newData );
-
-        // set decompression starting point at begin of m_buffer
-        m_strm.avail_in = m_buffer.size();
-        m_strm.next_in = reinterpret_cast<Bytef*> (m_buffer.data());
-
-        int ret = 0;
-        int prevAvailIn;
-
-        do {
-            // reset output buffer
-            QByteArray outBuffer = QByteArray(outBufferLen, 0x00);
-            m_strm.avail_out = outBuffer.size();
-            m_strm.next_out = reinterpret_cast<Bytef*> (outBuffer.data());
-
-            // remember avail_in before inflate so that we can keep a chunk that was decompressed without STREAM_END
-            // in m_buffer.
-            prevAvailIn = m_strm.avail_in;
-
-            // reset decompressor stream
-            // From zlib.h:
-            // Initializes the internal stream state for decompression. [...]
-            // All dynamically allocated data structures for this stream are freed.
-            // This function discards any unprocessed input and does not flush any pending output.
-            // Does not free and reallocate all the internal decompression state.
-            //if ( inflateReset( &zlibStream ) != Z_OK ) //qDebug () << "Inflate reset error";
-            if (ret != Z_OK)
-                inflateReset( &m_strm );
-
-            // decompress as much compressed data in m_buffer as possible
-            // Note: will stop at end of each concatenated block of compressed data in the buffer
-            ret = inflate( &m_strm, Z_SYNC_FLUSH );
-
-            if ( ret < 0 ) {
-                std::cerr << "Inflate error: " << ret << std::endl;
-                m_buffer.clear();
-            } else if ( ret == Z_OK && m_strm.avail_out == 0 ) {
-                // Save the data in the outBuffer
-                outString.append( outBuffer );
-            } else if (ret > 0 ){
-                // append decompressed data to output data if Z_STREAM_END (or Z_NEED_DICT) was returned
-                outBuffer.resize( outBufferLen - m_strm.avail_out );
-                outString.append( QString::fromUtf8(outBuffer) );
-            }
-        // repeat while (STREAM_END was not reached and out_buffer is full) or
-        // (STREAM_END was reached, but there is still data in the in_buffer)
-        } while ( ( ret == Z_OK && m_strm.avail_out == 0 ) || ( m_strm.avail_in > 0 && ret == Z_STREAM_END ) );
-
-        // if decompressor processed all input, clear the buffer, otherwise keep what is left for the next run
-        if ( m_strm.avail_in == 0 && ret == Z_STREAM_END ) {
-            m_buffer.clear();
-        }else if ( ret == Z_OK ) { // STREAM_END not reached, keep unfinished chunk for next run
-            m_buffer = QByteArray( m_buffer.mid(m_buffer.size() - prevAvailIn) );
-        }
-
+    if (m_inflateInitialized)
         inflateEnd( &m_strm );
-    }
-    else
-#endif // HAVE_ZLIB
-    {
-       outString = QString::fromUtf8(newData);
+    m_inflateInitialized = false;
+    m_inflatePending = false;
+    m_input.clear();
+    m_inputOffset = 0;
+#endif
+}
 
-       // clear the buffer
-       m_buffer.resize(0);
-    }
+void IVEFStreamHandler::failReceive(const QString &reason) {
 
+    stopReceive();
+    std::cerr << reason.toUtf8().constData() << std::endl;
+    emit signalReceiveError(reason);
+    m_tcpSocket->abort();
+}
+
+void IVEFStreamHandler::processReceive() {
+
+    if (m_receiveStopped)
+        return;
+    QElapsedTimer elapsed;
+    elapsed.start();
+    int bytesRead = 0;
+    int bytesFed = 0;
+    while (!m_receiveStopped && bytesFed < RECEIVE_BUFFER_BYTES
+           && elapsed.elapsed() < RECEIVE_TIME_PER_TURN_MS) {
+#ifdef HAVE_ZLIB
+        if ( m_inflatePending ) {
+            QByteArray output(RECEIVE_CHUNK_BYTES, 0);
+            m_strm.next_in = reinterpret_cast<Bytef*> (m_input.data() + m_inputOffset);
+            m_strm.avail_in = m_input.size() - m_inputOffset;
+            m_strm.next_out = reinterpret_cast<Bytef*> (output.data());
+            m_strm.avail_out = output.size();
+            const int result = inflate( &m_strm, Z_NO_FLUSH );
+            m_inputOffset = m_input.size() - m_strm.avail_in;
+            output.resize(output.size() - m_strm.avail_out);
+            m_inflatePending = m_strm.avail_in > 0 || m_strm.avail_out == 0;
+            if ( result == Z_STREAM_END ) {
+                m_inflatePending = m_strm.avail_in > 0;
+                if ( inflateReset( &m_strm ) != Z_OK ) {
+                    failReceive("Invalid compressed stream");
+                    return;
+                }
+            } else if ( result != Z_OK && !(result == Z_BUF_ERROR && !m_inflatePending) ) {
+                failReceive("Invalid compressed stream");
+                return;
+            }
+            bytesFed += output.size();
+            feedBytes(output);
+            continue;
+        }
+#endif
+        if (m_tcpSocket->bytesAvailable() == 0 || bytesRead >= RECEIVE_BUFFER_BYTES)
+            break;
+        const QByteArray input = m_tcpSocket->read(RECEIVE_CHUNK_BYTES);
+        if (input.isEmpty())
+            break;
+        bytesRead += input.size();
+        m_bytesIn += input.size();
+#ifdef HAVE_ZLIB
+        if ( m_slipstream ) {
+            m_input = input;
+            m_inputOffset = 0;
+            m_inflatePending = true;
+            continue;
+        }
+#endif
+        bytesFed += input.size();
+        feedBytes(input);
+    }
+    if (m_receiveStopped)
+        return;
+    bool pending = m_tcpSocket->bytesAvailable() > 0;
+#ifdef HAVE_ZLIB
+    pending = pending || m_inflatePending;
+#endif
+    if (pending) {
+        // Continue buffered work even when the peer sends no more bytes.
+        slotReadyRead();
+    } else if (m_inputClosed) {
+        stopReceive();
+        emit signalInputDrained();
+    }
+}
+
+void IVEFStreamHandler::feedBytes(const QByteArray &data) {
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QString outString = m_decoder->toUnicode(data);
+#else
+    QString outString = m_decoder(data);
+#endif
     m_parser->parseXMLString(outString, true);
 
     if (m_log != NULL) {
