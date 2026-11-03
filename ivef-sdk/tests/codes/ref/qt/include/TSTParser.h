@@ -49,7 +49,10 @@ public:
     //!
     Parser();
     //!the actual parse routine
-    //!
+    //! Buffer incomplete messages across calls when cont is true; otherwise discard the tail.
+    //! Search incrementally and copy only complete messages; compact once per call.
+    //! For a fixed schema, total searching is O(N + C) for N characters and C calls.
+    //! Appending/compacting costs O(B + A) worst case for buffered B and appended A characters.
     bool parseXMLString(QString data, bool cont);
 
 signals:
@@ -65,6 +68,10 @@ signals:
 private:
     void parse();
     XmlStreamReader* m_xml;
+    // Unparsed text, retained until a complete root closing tag arrives.
+    QString m_dataBuffer;
+    // Resume searches here, retaining overlap for a closing tag split across calls.
+    int m_searchFrom;
 
 };
 } //end ns

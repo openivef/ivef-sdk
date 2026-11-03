@@ -1267,7 +1267,10 @@ void CodeGenQT::parserFile() {
     headerFileOut << "    //!\n";
     headerFileOut << "    " << className(name) << "();\n";
     headerFileOut << "    //!the actual parse routine\n";
-    headerFileOut << "    //!\n";
+    headerFileOut << "    //! Buffer incomplete messages across calls when cont is true; otherwise discard the tail.\n";
+    headerFileOut << "    //! Search incrementally and copy only complete messages; compact once per call.\n";
+    headerFileOut << "    //! For a fixed schema, total searching is O(N + C) for N characters and C calls.\n";
+    headerFileOut << "    //! Appending/compacting costs O(B + A) worst case for buffered B and appended A characters.\n";
     headerFileOut << "    bool parseXMLString(QString data, bool cont);\n";
 
     // define the signals
@@ -1297,6 +1300,10 @@ void CodeGenQT::parserFile() {
     headerFileOut << "\nprivate:\n";
     headerFileOut << "    void parse();\n";
     headerFileOut << "    XmlStreamReader* m_xml;\n";
+    headerFileOut << "    // Unparsed text, retained until a complete root closing tag arrives.\n";
+    headerFileOut << "    QString m_dataBuffer;\n";
+    headerFileOut << "    // Resume searches here, retaining overlap for a closing tag split across calls.\n";
+    headerFileOut << "    int m_searchFrom;\n";
 
     // close the header
     headerFileOut << "\n};\n";
@@ -1312,7 +1319,7 @@ void CodeGenQT::parserFile() {
 
     // The class file
     classFileOut << "#include <QtGlobal>\n";
-    classFileOut << "#include <QRegularExpression>\n";
+    classFileOut << "#include <QStringList>\n";
     classFileOut << "\n#include \"" << fileBaseName("Functions") << ".h\"\n\n";
     classFileOut << "\n#include \"" << fileBaseName(name) << ".h\"\n\n";
 
@@ -1323,6 +1330,7 @@ void CodeGenQT::parserFile() {
     classFileOut << "// Constructor\n";
     classFileOut << className(name) << "::" << className(name) << "() {\n\n";
     classFileOut << "    m_xml = new XmlStreamReader;\n";
+    classFileOut << "    m_searchFrom = 0;\n";
     classFileOut << "    connect( m_xml, SIGNAL(signalValidationError(const QString&)),\n";
     classFileOut << "             this,  SIGNAL(signalValidationError(const QString&)) );\n";
     classFileOut << "}\n\n";
@@ -1330,51 +1338,61 @@ void CodeGenQT::parserFile() {
     // the parseXMLString routine
     classFileOut << "// the actual parsing routine\n";
     classFileOut << "bool " << className(name) << "::parseXMLString(QString data, bool cont) {\n\n";
-    classFileOut << "     // add the data to what was left over from a previous parse run\n";
+    classFileOut << "    // add the data to what was left over from a previous parse run\n";
 
-    // count the number of messages
-    QStringList closeTags, rootObjects;
+    // Match exact root closing tags so the overlap retained between calls is bounded.
+    QStringList closeTags;
+    int longestCloseTag = 0;
     for(int i=0; i < m_objects.size(); i++) {
         XSDObject *obj = m_objects.at(i);
         if ((!obj->isEmbedded()) && (obj->name() != "Schema") ) {
-            rootObjects.append(obj->name());
-            closeTags.append("</" + obj->name() + ">");
+            QString tag = "</" + obj->name() + ">";
+            closeTags.append(tag);
+            longestCloseTag = qMax(longestCloseTag, int(tag.size()));
         }
     }
 
-    // Issue 40 start
-    // build a regexp for the rootTags
-    QString regExp;
-    QString commonPrefix = longestCommonPrefix(rootObjects);
-    if (commonPrefix.size() > 0) {
-        regExp = "</" + commonPrefix +  "([A-Za-z0-9]*)>";
-    } else {
-        regExp = closeTags.join("|");
+    classFileOut << "    static const QStringList closeTags = QStringList()";
+    for (QString tag : closeTags) {
+        tag.replace("\\", "\\\\").replace("\"", "\\\"");
+        classFileOut << " << \"" << tag << "\"";
     }
-
-    // we search the buffer for any close tag that matches our regexp
-    classFileOut << "    // search the buffer for the nearest closetag\n";
-    classFileOut << "    int index = 0;\n";
-    classFileOut << "    QRegularExpression rx( \"" + regExp + "\");\n";
-
-    classFileOut << "    m_xml->addData( data );\n";
-    classFileOut << "    if ( QRegularExpressionMatch match = rx.match( data ); match.hasMatch() )\n";
-    classFileOut << "    {\n";
-    classFileOut << "        // end found in last part\n";
-    classFileOut << "        QString residu( data );\n";
-    classFileOut << "        do\n        {\n";
-    classFileOut << "            parse();\n";
-    classFileOut << "            m_xml->clear();\n\n";
-    classFileOut << "            // add make residu\n";
-    classFileOut << "            int len = match.capturedStart() + match.capturedLength();\n";
-    classFileOut << "            residu = residu.right( residu.length() - len );\n";
-    classFileOut << "            m_xml->addData( residu );\n\n";
-    classFileOut << "            // loop until no end found in residu\n";
-    classFileOut << "            match = rx.match( residu );\n";
-    classFileOut << "        } while ( match.hasMatch() );\n";
-    classFileOut << "    }\n\n";
+    classFileOut << ";\n";
+    classFileOut << "    m_dataBuffer.append( data );\n";
+    classFileOut << "    int consumed = 0;\n";
+    classFileOut << "    while ( true )\n    {\n";
+    classFileOut << "        // Regex matching can validate the entire subject again at every offset.\n";
+    classFileOut << "        const int index = m_dataBuffer.indexOf( \"</\", m_searchFrom );\n";
+    classFileOut << "        if ( index < 0 )\n        {\n";
+    classFileOut << "            // Revisit only the possible split tag, not the entire incomplete message.\n";
+    classFileOut << "            m_searchFrom = qMax(consumed, int(m_dataBuffer.size()) - " << qMax(1, longestCloseTag) << " + 1);\n";
+    classFileOut << "            break;\n";
+    classFileOut << "        }\n";
+    classFileOut << "        int end = -1;\n";
+    classFileOut << "        for (const QString& tag : closeTags)\n        {\n";
+    classFileOut << "            if ( m_dataBuffer.mid(index, tag.size()) == tag )\n            {\n";
+    classFileOut << "                end = index + tag.size();\n";
+    classFileOut << "                break;\n";
+    classFileOut << "            }\n";
+    classFileOut << "        }\n";
+    classFileOut << "        if ( end < 0 )\n        {\n";
+    classFileOut << "            m_searchFrom = index + 2;\n";
+    classFileOut << "            continue;\n";
+    classFileOut << "        }\n";
+    classFileOut << "        // Feed only this message: copying/re-feeding the remaining batch is quadratic.\n";
+    classFileOut << "        m_xml->clear();\n";
+    classFileOut << "        m_xml->addData( m_dataBuffer.mid(consumed, end - consumed) );\n";
+    classFileOut << "        parse();\n";
+    classFileOut << "        consumed = end;\n";
+    classFileOut << "        m_searchFrom = end;\n";
+    classFileOut << "    }\n";
+    classFileOut << "    // Compact once per call, never once per message in a burst.\n";
+    classFileOut << "    m_dataBuffer.remove( 0, consumed );\n";
+    classFileOut << "    m_searchFrom -= consumed;\n\n";
     classFileOut << "    if (!cont) {\n";
     classFileOut << "        m_xml->clear();\n";
+    classFileOut << "        m_dataBuffer.clear();\n";
+    classFileOut << "        m_searchFrom = 0;\n";
     classFileOut << "    }\n";
 
     classFileOut << "    return true;\n";
